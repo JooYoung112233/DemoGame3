@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "status": "background-selection-pending; assets-separated; game-host-not-connected",
+  "backgrounds": [
+    {"id":"a","file":"art/title/background-a-v2.png","width":1672,"height":941,"textBakedIn":false},
+    {"id":"b","file":"art/title/background-b-v2.png","width":1672,"height":941,"textBakedIn":false},
+    {"id":"c","file":"art/title/background-c-v2.png","width":1672,"height":941,"textBakedIn":false}
+  ],
+  "logo": {"svg":"art/title/logo-v1.svg","png":"art/title/logo-v1.png","width":2560,"height":976,"alpha":true,"source":"art/title/logo-source.json"},
+  "menu": {"font":"art/title/fonts/Live49MenuSerif-Regular.ttf","webfont":"art/title/fonts/Live49MenuSerif-Regular.woff2","labels":{"start":"시작","continue":"이어하기","settings":"설정","quit":"종료"}},
+  "layers": ["background","readability-shade","logo","menu-text","settings-dialog","transition-fade"],
+  "referenceAspectRatio":"16:9",
+  "runtime":"design/title/title-screen.js",
+  "stylesheet":"design/title/title.css",
+  "review":"design/title/review.html"
+}
