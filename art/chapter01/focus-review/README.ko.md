@@ -1,8 +1,10 @@
 # 배경·인물 선명도와 배치 재검수
 
+이 문서는 v2 보정의 이력이다. 현재 합성에는 [장면 수정 v3](../revision-v3/README.ko.md)를 이어서 적용한다. 편의점의 앞 창틀 가림은 제거했고, 별똥이·편지는 전용 자세로 교체했다. 최신 값은 `design/chapter01/gallery-scenes.json`을 따른다.
+
 ## 전체 장면 적용 · v2
 
-사용자가 주방 보정을 승인한 뒤 동일 기준을 6개 장면·33개 상태에 적용했다. 최신 값은 `design/chapter01/visual-integration-v2.json`, 이를 원래 배치에 적용한 전체 소비 데이터는 `design/chapter01/gallery-scenes.json`이다. 개별 `kitchen.json`, `store.json` 등은 원래 배치 생성값이며 통합 보정 프로필을 함께 적용해야 한다.
+사용자가 주방 보정을 승인한 뒤 동일 기준을 6개 장면·33개 상태에 적용했다. v2 보정 값은 `design/chapter01/visual-integration-v2.json`에 보존한다. 개별 `kitchen.json`, `store.json` 등은 원래 배치 생성값이며, 최신 통합 배치는 v2와 v3 프로필을 모두 적용해야 한다.
 
 | 장면 | 적용 사항 |
 | --- | --- |

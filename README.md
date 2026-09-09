@@ -12,6 +12,8 @@
 
 ## 시각 기준
 
+현재 합성 배경과 행동 자세는 [챕터 1 장면 수정 v3](art/chapter01/revision-v3/README.ko.md)를 기준으로 합니다. 아래 캠핑카 v1~v3는 별도로 보존한 초기 콘셉트 버전입니다.
+
 높은 시점에서 가로로 보이는 아담한 캠핑카, 따뜻한 실내와 차가운 폐허의 대비를 유지합니다. 원본의 생활감과 은은한 입체감을 살리면서 불규칙한 잔질감을 줄입니다.
 
 ![캠핑카 분위기 기준](art/concepts/camper-interior-v2.png)
@@ -25,6 +27,7 @@
 ## 제작 문서
 
 - [챕터 1 연속 제작 현황](docs/CHAPTER01-PRODUCTION.ko.md)
+- [챕터 1 전체 점검 결과](docs/CHAPTER01-REVIEW.ko.md)
 - [챕터 1 통합 리소스·미리보기 사용법](art/chapter01/README.ko.md)
 - [챕터 1 사건별 리소스 연결표](design/chapter01/RESOURCE-CUES.ko.md)
 - [챕터 1 고정 베이스·교체 레이어 제작](art/chapter01/layers/README.ko.md)

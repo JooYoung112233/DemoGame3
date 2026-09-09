@@ -53,6 +53,16 @@
     function state(){return scene().presets[stateIndex]}
     function layers(){return [...scene().slots,...(scene().actors||[]),...(scene().pages||[]),...(scene().foreground?[scene().foreground]:[])]}
     function image(src,cls){const i=document.createElement('img');i.src=assets[src];i.alt='';i.className=cls;return i}
+    function fitHotspotLabels(){
+      const frame=hotspots.getBoundingClientRect();if(!frame.height)return;
+      for(const b of hotspots.children){
+        const label=b.querySelector('span');
+        const place=below=>{label.style.bottom=below?'auto':'calc(100% + 6px)';label.style.top=below?'calc(100% + 6px)':'auto'};
+        place(b.dataset.labelPlacement==='below');
+        const r=label.getBoundingClientRect();
+        if(r.top<frame.top+4)place(true);else if(r.bottom>frame.bottom-4)place(false);
+      }
+    }
     function changeScene(){
       sceneIndex=Number(select.value);stateIndex=0;wide=false;letterPage=0;world.replaceChildren();
       const b=image(scene().base,'base');b.alt=scene().title;world.append(b);
@@ -109,14 +119,16 @@
         if(x<.05||x>.95||y<.16||y>.92)continue;
         const b=document.createElement('button');b.type='button';b.className='hotspot';b.style.left=x*100+'%';b.style.top=y*100+'%';b.setAttribute('aria-label',t.name);
         const label=document.createElement('span');label.textContent=t.name;b.append(label);
-        if(t.labelPlacement==='below'){label.style.bottom='auto';label.style.top='calc(100% + 6px)';}
+        b.dataset.labelPlacement=t.labelPlacement||'above';
         b.onclick=()=>{const next=sc.id==='store'?(id==='fridge'?'fridge':id==='stationery'?'stationery':id==='pencils'?'pencils-taken':'recovered'):(sc.id==='evening'&&id==='journal'?'journal':null);
           stateIndex=next?sc.presets.findIndex(p=>p.id===next):Math.min(stateIndex+1,sc.presets.length-1);wide=false;render()};hotspots.append(b);
       }
+      fitHotspotLabels();
     }
     $('.previous').onclick=()=>{if(scene().id==='letter'&&state().id==='read'&&letterPage>0)letterPage--;else stateIndex=Math.max(0,stateIndex-1);wide=false;render()};
     $('.next').onclick=()=>{if(scene().id==='letter'&&state().id==='read'&&letterPage<letterPages.length-1)letterPage++;else stateIndex=Math.min(scene().presets.length-1,stateIndex+1);wide=false;render()};
     $('.zoom').onclick=()=>{wide=!wide;render()};select.onchange=changeScene;changeScene();
+    new ResizeObserver(fitHotspotLabels).observe($('.viewport'));
   })();
   </script>
 </div>

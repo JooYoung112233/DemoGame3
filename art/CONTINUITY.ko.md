@@ -4,13 +4,13 @@
 
 ## 기준 배경
 
-챕터 1의 현재 합성 베이스는 캠핑카 `chapter01/layers/camper-clean-base-v1.png`, 편의점 `chapter01/store/store-clean-base-v1.png`, 낡은 집 `chapter01/letter/old-house-clean-base-v1.png`다. 편의점은 물건 제거를 한 번 적용한 새 공통 베이스이며, 이후 물건 유무는 추출 레이어로만 바꾼다. 낡은 집은 첫 편지 장소를 위한 새 배치 시안이다.
+챕터 1의 현재 합성 베이스는 `chapter01/revision-v3/`의 `camper-clean-base-v3.png`, `store-clean-base-v3.png`, `house-clean-base-v3.png`다. 사용자 피드백에 따라 건물 앞벽을 제거하고 캠핑카 외부를 정리한 수정본이다. 실내 가구·소품 배치 영역은 기존 원본 픽셀로 보존했다. 물건 유무는 추출 레이어로만 바꾸며, 최신 배치는 `design/chapter01/gallery-scenes.json`을 따른다.
 
-캠핑카의 현 작업 기준은 scenes/01-camper/camper-mood-v1.png다. 분위기 기준인 concepts/camper-interior-v2.png의 구도를 계승한다. 앞으로 배경 수정본이 채택되면 기준 파일을 명시적으로 갱신하고 모든 파생 컷을 함께 확인한다.
+캠핑카의 분위기 원본은 scenes/01-camper/camper-mood-v1.png다. 분위기 기준인 concepts/camper-interior-v2.png의 구도를 계승한다. 이후 수정본은 이 원본을 보존하며, 실제 합성에는 위 v3 베이스를 사용한다. 앞으로 배경 수정본이 채택되면 기준 파일을 명시적으로 갱신하고 모든 파생 컷을 함께 확인한다.
 
 ## 제작 순서
 
-최신 제작 규칙: [고정 베이스와 교체 레이어](chapter01/layers/README.ko.md)를 따른다. 소품을 제거한 베이스를 한 번 준비한 뒤 인물·소품·그림만 별도 합성한다. 날짜나 행동 상태마다 전체 장면을 재생성하지 않는다. `chapter01/layers/camper-clean-base-v1.png`는 새 베이스 후보이며 기존 기준 원화는 보존한다.
+최신 제작 규칙: [고정 베이스와 교체 레이어](chapter01/layers/README.ko.md)와 [장면 수정 v3](chapter01/revision-v3/README.ko.md)를 따른다. 소품을 제거한 베이스를 한 번 준비한 뒤 인물·소품·그림만 별도 합성한다. 날짜나 행동 상태마다 전체 장면을 재생성하지 않는다. v1/v2 자료는 이전 배치와 비교하기 위한 기록으로 보존한다.
 
 1. 기준 배경에서 사용할 화면 영역과 인물 위치를 먼저 정한다.
 2. 같은 시점의 확대 컷은 기존 배경을 그대로 잘라 사용한다. 생성 도구에 배경 전체를 새로 그리게 맡기지 않는다.
