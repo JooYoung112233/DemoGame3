@@ -1,0 +1,18 @@
+@font-face{font-family:Live49Serif;src:url('../../art/title/fonts/Live49MenuSerif-Regular.woff2') format('woff2');font-weight:400;font-display:swap}
+:root{color-scheme:dark;font-family:Live49Serif,serif;background:#10100d;color:#eee3c9}*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #dfc491;outline-offset:5px}button:disabled{cursor:default;opacity:.32}[hidden]{display:none!important}
+.title-stage{width:100%;height:100%;position:relative;overflow:hidden;container-type:size;background:#18180f;isolation:isolate}
+.title-background{position:absolute;width:100%;height:100%;object-fit:cover;inset:0;z-index:-3}
+.title-shade{position:absolute;inset:0;z-index:-2;background:linear-gradient(90deg,rgba(11,14,10,.4),transparent 48%);pointer-events:none}
+.title-menu{position:absolute;left:7.5%;top:19%;width:30%;height:65%;display:flex;flex-direction:column;align-items:center}
+.title-logo{width:100%;height:auto;display:block;filter:drop-shadow(0 2px 16px #0a0a0860)}
+.menu-options{display:flex;flex-direction:column;gap:1.5cqh;margin-top:5.5cqh;width:68%}
+.menu-item{position:relative;min-height:5.5cqh;border:0;background:none;color:#c7bba0;text-align:center;font-size:clamp(13px,2.65cqh,32px);letter-spacing:.25em;padding:.5cqh 1cqw;transition:color .18s,background .18s}
+.menu-item::before{position:absolute;content:'';height:1px;left:6%;right:6%;bottom:0;background:linear-gradient(90deg,transparent,#c4a06b,transparent);opacity:0;transition:opacity .18s}
+.menu-item:hover,.menu-item:focus-visible{color:#fff0cb;background:linear-gradient(90deg,transparent,#c9a26512,transparent)}
+.menu-item:hover::before,.menu-item:focus-visible::before{opacity:.85}.menu-item:focus-visible{outline:0}.menu-item:focus-visible::after{content:'◆';position:absolute;left:-3%;top:50%;transform:translateY(-50%);font-size:.45em;color:#ddbd80}
+.title-footer{position:absolute;bottom:4.5%;left:9%;font-size:clamp(10px,1.35cqh,16px);color:#a99d82;letter-spacing:.08em}.title-screenfade{position:absolute;inset:0;pointer-events:none;z-index:5;background:#000;opacity:0;transition:opacity .6s}.title-stage.leaving .title-screenfade{opacity:1}
+.settings-dialog{border:1px solid #74654b;background:#201f18;color:#eee3c9;width:min(470px,90vw);max-height:90vh;padding:32px;box-shadow:0 20px 100px #0008}.settings-dialog::backdrop{background:#060806ae}.settings-dialog h2{font-size:24px;font-weight:400;margin:0 0 26px;letter-spacing:.15em}.settings-dialog label{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:24px 0;font-size:16px}.settings-dialog select{background:#302d22;color:#f0e4c8;padding:8px;border:1px solid #6f614a}.settings-dialog input{accent-color:#d6b37b}.dialog-close{padding:10px 22px;background:transparent;border:1px solid #796b50;color:#e9d9b8;display:block;margin:28px 0 0 auto}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+.title-stage[data-reduced-motion=true] *{transition:none!important}
+.title-stage[data-large-text=true] .menu-item{font-size:clamp(15px,3.2cqh,38px)}
+@media(max-width:650px) and (orientation:portrait){.title-menu{left:5%;width:45%;top:12%}.menu-options{width:90%;gap:2cqh;margin-top:4cqh}.menu-item{min-height:8cqh;font-size:15px}.title-footer{display:none}.title-shade{background:linear-gradient(90deg,#0a0d09a8,transparent 70%)}}
