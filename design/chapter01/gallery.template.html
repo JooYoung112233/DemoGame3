@@ -76,8 +76,16 @@
         const ctx=world.querySelector('canvas').getContext('2d');ctx.clearRect(0,0,1672,941);ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
         ctx.drawImage(images[0],0,0,1672,941);
         for(const l of layers().sort((a,b)=>a.order-b.order)){
-          const i=world.querySelector('[data-layer="'+l.id+'"]');if(!i.hidden)ctx.drawImage(i,...l.rect);
+          const i=world.querySelector('[data-layer="'+l.id+'"]');if(i.hidden)continue;
+          if(l.contactShadow){
+            const [x,y,rx,ry,alpha]=l.contactShadow;ctx.save();ctx.translate(x,y);ctx.scale(rx,ry);
+            const gradient=ctx.createRadialGradient(0,0,0,0,0,1);gradient.addColorStop(0,`rgba(29,22,18,${alpha})`);gradient.addColorStop(1,'rgba(29,22,18,0)');
+            ctx.fillStyle=gradient;ctx.fillRect(-1,-1,2,2);ctx.restore();
+          }
+          ctx.save();if(l.tone){const [brightness,saturation,contrast]=l.tone;ctx.filter=`brightness(${brightness}) saturate(${saturation}) contrast(${contrast})`;}
+          ctx.drawImage(i,...l.rect);ctx.restore();
         }
+        for(const o of sc.occluders||[]){if(!o.states||o.states.includes(s.id))ctx.drawImage(images[0],...o.rect,...o.rect);}
         root.dataset.rendered=sc.id+'/'+s.id;
       }).catch(()=>{root.dataset.rendered='error'});
       const f=[...(wide?[.5,.5,1]:(s.focus||[sc.zoom.originX/100,sc.zoom.originY/100,sc.zoom.scale]))];
@@ -101,6 +109,7 @@
         if(x<.05||x>.95||y<.16||y>.92)continue;
         const b=document.createElement('button');b.type='button';b.className='hotspot';b.style.left=x*100+'%';b.style.top=y*100+'%';b.setAttribute('aria-label',t.name);
         const label=document.createElement('span');label.textContent=t.name;b.append(label);
+        if(t.labelPlacement==='below'){label.style.bottom='auto';label.style.top='calc(100% + 6px)';}
         b.onclick=()=>{const next=sc.id==='store'?(id==='fridge'?'fridge':id==='stationery'?'stationery':id==='pencils'?'pencils-taken':'recovered'):(sc.id==='evening'&&id==='journal'?'journal':null);
           stateIndex=next?sc.presets.findIndex(p=>p.id===next):Math.min(stateIndex+1,sc.presets.length-1);wide=false;render()};hotspots.append(b);
       }

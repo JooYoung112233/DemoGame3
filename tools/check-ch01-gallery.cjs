@@ -17,12 +17,24 @@ for(const width of [736,360]){
   for(const state of sc.presets){
    await page.locator(`button[data-state="${state.id}"]`).click();assert.equal(await root.getAttribute('data-state'),state.id);
    await page.waitForFunction(expected=>document.getElementById('live49-chapter-one').dataset.rendered===expected,sc.id+'/'+state.id);
+   if(width===736){
+    const png=await page.locator('.world canvas').evaluate(c=>c.toDataURL('image/png').split(',')[1]);
+    fs.mkdirSync('art/chapter01/scene-qa',{recursive:true});fs.writeFileSync(`art/chapter01/scene-qa/${sc.id}-${state.id}.png`,Buffer.from(png,'base64'));
+   }
    assert.equal(await page.locator('.base').getAttribute('src'),base);
    for(const l of [...sc.slots,...(sc.actors||[]),...(sc.pages||[]),...(sc.foreground?[sc.foreground]:[])]){
     assert.equal(await page.locator(`img[data-layer="${l.id}"]`).evaluate(i=>i.hidden),!(l.alwaysVisible||state.visible.includes(l.id)),sc.id+'/'+state.id+'/'+l.id);
    }
    assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),sc.id+'/'+state.id+' overflow');
-   if(['cook','meal','approach','fridge','stationery','reach','read','promise','journal','next'].includes(state.id))await page.screenshot({path:path.join(qa,`${width}-${sc.id}-${state.id}.png`),fullPage:true});
+   if(['cook','meal','approach','fridge','stationery','reach','read','promise','journal','next','sit','alert','rest','medicine','memory'].includes(state.id)){
+    await page.screenshot({path:path.join(qa,`${width}-${sc.id}-${state.id}.png`),fullPage:true});
+    if(state.id!=='read')await page.locator('.viewport').screenshot({path:path.join(qa,`${width}-${sc.id}-${state.id}-photo.png`)});
+    if(width===736&&state.id!=='read'){
+     await page.getByRole('button',{name:'전체 보기',exact:true}).click();
+     await page.waitForFunction(expected=>document.getElementById('live49-chapter-one').dataset.rendered===expected,sc.id+'/'+state.id);
+     await page.locator('.viewport').screenshot({path:path.join(qa,`${width}-${sc.id}-${state.id}-wide.png`)});
+    }
+   }
   }
   if(sc.id==='letter'){
    let collected=[];
@@ -44,6 +56,6 @@ for(const width of [736,360]){
  assert.equal(await page.locator('.hotspot').count(),0);
  await page.getByRole('button',{name:'전체 보기',exact:true}).click();assert.equal(await page.getByRole('button',{name:'가까이 보기',exact:true}).count(),1);
 }
-assert.deepEqual(errors,[]);fs.writeFileSync(path.join(qa,'report.json'),JSON.stringify({widths:[736,360],scenes:data.scenes.length,states:data.scenes.reduce((n,s)=>n+s.presets.length,0),checks:['all images decode','layer states','fixed base','original 8 letter paragraphs','dynamic hotspots','zoom','no horizontal overflow','no script errors'],errors},null,2));
+assert.deepEqual(errors,[]);fs.writeFileSync(path.join(qa,'report.json'),JSON.stringify({widths:[736,360],scenes:data.scenes.length,states:data.scenes.reduce((n,s)=>n+s.presets.length,0),checks:['all images decode','native composite render','layer states','fixed base','original 8 letter paragraphs','dynamic hotspots','close and wide views','no horizontal overflow','no script errors'],errors},null,2));
 console.log('736/360px: every scene/state, alpha-layer visibility, fixed base, 8 original letter paragraphs, dynamic hotspots, zoom, no overflow/script errors.');
 }finally{await browser.close()}})().catch(e=>{console.error(e);process.exitCode=1});

@@ -8,7 +8,7 @@
   "sceneCount": 6,
   "stateCount": 33,
   "fixedBaseCount": 3,
-  "spriteCount": 31,
+  "spriteCount": 32,
   "assets": [
     {
       "asset": "art/chapter01/dog/byeolddongi-alert-v1.png",
@@ -176,11 +176,7 @@
       ],
       "mode": "RGBA",
       "sha256": "93890106000ed9d76a402cb01eb44c8cbd3972d06e424f20b913c028f735f1e2",
-      "usedIn": [
-        "byeolddongi",
-        "letter",
-        "store"
-      ],
+      "usedIn": [],
       "role": "sprite",
       "alphaRange": [
         0,
@@ -209,6 +205,32 @@
         "source": "art/characters/static-action-poses-v1.png",
         "status": "isolated pose; placement-specific QA required"
       }
+    },
+    {
+      "asset": "art/chapter01/extra-poses/suhyeok-investigate-v2.png",
+      "size": [
+        327,
+        417
+      ],
+      "mode": "RGBA",
+      "sha256": "7d3e4a7ffbde2d458b6481fdae792456cb73df3bbf12e8b5a4dc1e16551c47fc",
+      "usedIn": [
+        "byeolddongi",
+        "letter",
+        "store"
+      ],
+      "role": "sprite",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        6,
+        9,
+        317,
+        412
+      ],
+      "transparentPixels": 72375
     },
     {
       "asset": "art/chapter01/extra-poses/suhyeok-rest-seated-v1.png",

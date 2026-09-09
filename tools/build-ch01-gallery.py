@@ -13,6 +13,12 @@ for i,b in enumerate(story['beats']):
     if b['page']!='blank':visible+=['sea-'+b['page']]
     drawing['presets'].append(dict(id=b['id'],label=str(i+1),visible=visible,focus=[.575,.44,2.9] if b['camera']=='pair' else [.572,.525,5],line=b['text'],speaker=b['speaker'],active=[]))
 scenes.insert(1,drawing)
+profile=json.loads((ROOT/'design/chapter01/visual-integration-v2.json').read_text(encoding='utf-8'))
+for sc in scenes:
+    adjustments=profile['scenes'].get(sc['id'],{})
+    for l in sc['slots']+sc.get('actors',[]):l.update(adjustments.get('layers',{}).get(l['id'],{}))
+    for s in sc['presets']:s.update(adjustments.get('presets',{}).get(s['id'],{}))
+    sc['occluders']=adjustments.get('occluders',[])
 stationery='art/chapter01/letter/pink-stationery-v1.png'
 data=dict(scenes=scenes,letter=json.loads((ROOT/'design/chapter01/first-letter-text.json').read_text(encoding='utf-8')),stationery=stationery)
 specs={stationery:(300,400)}
@@ -20,7 +26,7 @@ bases=set()
 for sc in scenes:
     specs[sc['base']]=(1672,941);bases.add(sc['base'])
     for l in sc['slots']+sc.get('actors',[])+sc.get('pages',[])+([sc['foreground']] if sc.get('foreground') else []):
-        specs[l['asset']]=(max(specs.get(l['asset'],(0,0))[0],min(256,l['rect'][2]*2)),max(specs.get(l['asset'],(0,0))[1],min(280,l['rect'][3]*2)))
+        specs[l['asset']]=(max(specs.get(l['asset'],(0,0))[0],min(360,l['rect'][2]*2)),max(specs.get(l['asset'],(0,0))[1],min(440,l['rect'][3]*2)))
 assets={}
 for file,size in specs.items():
     im=Image.open(ROOT/file);im.thumbnail(size,Image.Resampling.LANCZOS);buff=io.BytesIO()
