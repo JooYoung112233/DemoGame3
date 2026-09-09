@@ -1,0 +1,251 @@
+{
+  "id": "store",
+  "title": "편의점에서",
+  "canvas": {
+    "width": 1672,
+    "height": 941
+  },
+  "base": "art/chapter01/store/store-clean-base-v1.png",
+  "slots": [
+    {
+      "id": "can-a",
+      "name": "통조림",
+      "asset": "art/chapter01/store/food-can-v1.png",
+      "rect": [
+        565,
+        132,
+        29,
+        44
+      ],
+      "order": 30
+    },
+    {
+      "id": "can-b",
+      "name": "통조림",
+      "asset": "art/chapter01/store/food-can-v1.png",
+      "rect": [
+        608,
+        192,
+        29,
+        44
+      ],
+      "order": 30
+    },
+    {
+      "id": "medicine",
+      "name": "갈색 약병",
+      "asset": "art/chapter01/store/medicine-v1.png",
+      "rect": [
+        1096,
+        207,
+        26,
+        44
+      ],
+      "order": 30
+    },
+    {
+      "id": "pencils",
+      "name": "색연필 상자",
+      "asset": "art/chapter01/store/pencil-tin-v1.png",
+      "rect": [
+        1266,
+        460,
+        89,
+        49
+      ],
+      "order": 30
+    },
+    {
+      "id": "drink-a",
+      "name": "음료 병",
+      "asset": "art/chapter01/store/drink-bottle-v1.png",
+      "rect": [
+        795,
+        168,
+        17,
+        32
+      ],
+      "order": 30
+    },
+    {
+      "id": "drink-b",
+      "name": "음료 병",
+      "asset": "art/chapter01/store/drink-bottle-v1.png",
+      "rect": [
+        872,
+        168,
+        17,
+        32
+      ],
+      "order": 30
+    },
+    {
+      "id": "investigate",
+      "name": "수혁 · 조사",
+      "asset": "art/chapter01/extra-poses/suhyeok-investigate-v1.png",
+      "rect": [
+        1055,
+        325,
+        220,
+        281
+      ],
+      "order": 40
+    }
+  ],
+  "actors": [],
+  "presets": [
+    {
+      "id": "enter",
+      "label": "들어가기",
+      "visible": [
+        "can-a",
+        "can-b",
+        "medicine",
+        "pencils",
+        "drink-a",
+        "drink-b"
+      ],
+      "focus": [
+        0.5,
+        0.5,
+        1
+      ],
+      "line": "아직 남아 있는 게 있을까.",
+      "speaker": "수혁",
+      "active": [
+        "fridge",
+        "stationery"
+      ]
+    },
+    {
+      "id": "fridge",
+      "label": "냉장고",
+      "visible": [
+        "can-a",
+        "can-b",
+        "medicine",
+        "pencils",
+        "drink-a",
+        "drink-b"
+      ],
+      "focus": [
+        0.515,
+        0.225,
+        3.1
+      ],
+      "line": "유리 너머, 몇 병이 보인다.",
+      "speaker": "",
+      "active": [
+        "drink-a"
+      ]
+    },
+    {
+      "id": "recovered",
+      "label": "한 병 꺼낸 뒤",
+      "visible": [
+        "can-a",
+        "can-b",
+        "medicine",
+        "pencils",
+        "drink-b"
+      ],
+      "focus": [
+        0.515,
+        0.225,
+        3.1
+      ],
+      "line": "덜컥. 선반이 생각보다 크게 울렸다.",
+      "speaker": "",
+      "active": []
+    },
+    {
+      "id": "noise",
+      "label": "입구의 인기척",
+      "visible": [
+        "can-a",
+        "can-b",
+        "medicine",
+        "pencils",
+        "drink-b"
+      ],
+      "focus": [
+        0.5,
+        0.75,
+        2.4
+      ],
+      "line": "…밖에서 난 소리인가.",
+      "speaker": "수혁",
+      "active": []
+    },
+    {
+      "id": "stationery",
+      "label": "문구 선반",
+      "visible": [
+        "can-a",
+        "can-b",
+        "medicine",
+        "pencils",
+        "drink-a",
+        "drink-b",
+        "investigate"
+      ],
+      "focus": [
+        0.7,
+        0.5,
+        2.3
+      ],
+      "line": "색연필. 소이가 좋아하겠지.",
+      "speaker": "수혁",
+      "active": [
+        "pencils"
+      ]
+    },
+    {
+      "id": "pencils-taken",
+      "label": "상자를 챙긴 뒤",
+      "visible": [
+        "can-a",
+        "can-b",
+        "medicine",
+        "drink-a",
+        "drink-b",
+        "investigate"
+      ],
+      "focus": [
+        0.7,
+        0.5,
+        2.3
+      ],
+      "line": "이제 돌아가자.",
+      "speaker": "수혁",
+      "active": []
+    }
+  ],
+  "hotspots": [
+    {
+      "id": "fridge",
+      "name": "냉장고",
+      "rect": [
+        778,
+        143,
+        161,
+        148
+      ]
+    },
+    {
+      "id": "stationery",
+      "name": "문구 선반",
+      "rect": [
+        1247,
+        443,
+        117,
+        81
+      ]
+    }
+  ],
+  "notes": [
+    "상태 선택용 원화 시안. 실제 획득 판정·재고·소음 확률은 연결하지 않았다.",
+    "회수용 병은 기존 원화 크기 그대로 추출했다.",
+    "약품 종류·용량은 원문에 없으므로 시각적 소품으로만 둔다."
+  ]
+}

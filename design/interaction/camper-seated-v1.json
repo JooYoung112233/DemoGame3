@@ -1,0 +1,214 @@
+{
+  "version": 2,
+  "status": "placement-prototype",
+  "coordinateOrigin": "top-left",
+  "canvas": {
+    "width": 1672,
+    "height": 941
+  },
+  "base": "art/chapter01/layers/camper-clean-base-v1.png",
+  "source": "art/scenes/01-camper/camper-mood-v1.png",
+  "slots": [
+    {
+      "id": "pencil-cup",
+      "name": "연필통",
+      "asset": "art/chapter01/layers/sprites/pencil-cup-source-v1.png",
+      "rect": [
+        849,
+        440,
+        46,
+        68
+      ],
+      "order": 40,
+      "interactive": false,
+      "status": "manual-cutout-prototype"
+    },
+    {
+      "id": "sketchbook",
+      "name": "소이의 스케치북",
+      "asset": "art/chapter01/layers/sprites/sketchbook-source-v1.png",
+      "rect": [
+        904,
+        454,
+        102,
+        73
+      ],
+      "order": 40,
+      "interactive": true,
+      "status": "manual-cutout-prototype"
+    },
+    {
+      "id": "mug",
+      "name": "머그컵",
+      "asset": "art/chapter01/layers/sprites/mug-source-v1.png",
+      "rect": [
+        1010,
+        480,
+        53,
+        52
+      ],
+      "order": 40,
+      "interactive": false,
+      "status": "manual-cutout-prototype"
+    }
+  ],
+  "presets": [
+    {
+      "id": "empty",
+      "label": "인물 숨기기",
+      "visible": [
+        "pencil-cup",
+        "sketchbook",
+        "mug"
+      ],
+      "active": [],
+      "description": "배경과 소품만 남긴 상태"
+    },
+    {
+      "id": "seated",
+      "label": "함께 앉기",
+      "visible": [
+        "pencil-cup",
+        "sketchbook",
+        "mug",
+        "suhyeok-seated-body",
+        "suhyeok-seated-hands",
+        "soi-seated-body",
+        "soi-seated-hands"
+      ],
+      "active": [],
+      "description": "같은 벤치에 앉은 수혁과 소이"
+    },
+    {
+      "id": "drawing",
+      "label": "그리기 자세",
+      "visible": [
+        "pencil-cup",
+        "sketchbook",
+        "mug",
+        "suhyeok-seated-body",
+        "suhyeok-seated-hands",
+        "soi-drawing-body",
+        "soi-drawing-hands"
+      ],
+      "active": [],
+      "description": "소이의 자세만 교체 · 페이지 그림은 기존 상태"
+    }
+  ],
+  "notes": [
+    "원화의 보이는 인물 부분만 추출했다. 가려진 하체가 있는 전신 스프라이트가 아니다.",
+    "몸 → 식탁 전경 → 소품 → 팔·손 순서로 합성한다.",
+    "확대 선명도 보정은 사용자 요청에 따라 후속 작업으로 둔다.",
+    "페이지 그림 변화와 실제 사건·대화는 아직 연결하지 않았다."
+  ],
+  "foreground": {
+    "asset": "art/chapter01/layers/sprites/table-foreground-v1.png",
+    "rect": [
+      835,
+      432,
+      257,
+      201
+    ],
+    "order": 30,
+    "status": "seated-pose composite inspected; other poses untested",
+    "id": "table-foreground",
+    "alwaysVisible": true
+  },
+  "zoom": {
+    "scale": 2.9,
+    "originX": 57.5,
+    "originY": 44
+  },
+  "actors": [
+    {
+      "id": "suhyeok-seated-body",
+      "name": "수혁 · 앉기",
+      "asset": "art/chapter01/layers/characters/suhyeok-seated-body-v1.png",
+      "rect": [
+        840,
+        289,
+        109,
+        155
+      ],
+      "order": 20,
+      "interactive": false,
+      "pose": "suhyeok-seated",
+      "part": "body"
+    },
+    {
+      "id": "suhyeok-seated-hands",
+      "name": "수혁 · 앉기",
+      "asset": "art/chapter01/layers/characters/suhyeok-seated-hands-v1.png",
+      "rect": [
+        840,
+        289,
+        109,
+        155
+      ],
+      "order": 50,
+      "interactive": false,
+      "pose": "suhyeok-seated",
+      "part": "hands"
+    },
+    {
+      "id": "soi-seated-body",
+      "name": "소이 · 앉기",
+      "asset": "art/chapter01/layers/characters/soi-seated-body-v1.png",
+      "rect": [
+        938,
+        330,
+        112,
+        132
+      ],
+      "order": 20,
+      "interactive": false,
+      "pose": "soi-seated",
+      "part": "body"
+    },
+    {
+      "id": "soi-seated-hands",
+      "name": "소이 · 앉기",
+      "asset": "art/chapter01/layers/characters/soi-seated-hands-v1.png",
+      "rect": [
+        938,
+        330,
+        112,
+        132
+      ],
+      "order": 50,
+      "interactive": false,
+      "pose": "soi-seated",
+      "part": "hands"
+    },
+    {
+      "id": "soi-drawing-body",
+      "name": "소이 · 그리기",
+      "asset": "art/chapter01/layers/characters/soi-drawing-body-v1.png",
+      "rect": [
+        938,
+        330,
+        112,
+        132
+      ],
+      "order": 20,
+      "interactive": false,
+      "pose": "soi-drawing",
+      "part": "body"
+    },
+    {
+      "id": "soi-drawing-hands",
+      "name": "소이 · 그리기",
+      "asset": "art/chapter01/layers/characters/soi-drawing-hands-v1.png",
+      "rect": [
+        938,
+        330,
+        112,
+        132
+      ],
+      "order": 50,
+      "interactive": false,
+      "pose": "soi-drawing",
+      "part": "hands"
+    }
+  ]
+}

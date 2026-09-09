@@ -1,0 +1,1054 @@
+{
+  "version": 1,
+  "status": "first-pass visual resource pack; not final game",
+  "canvas": {
+    "width": 1672,
+    "height": 941
+  },
+  "sceneCount": 6,
+  "stateCount": 33,
+  "fixedBaseCount": 3,
+  "spriteCount": 31,
+  "assets": [
+    {
+      "asset": "art/chapter01/dog/byeolddongi-alert-v1.png",
+      "size": [
+        366,
+        446
+      ],
+      "mode": "RGBA",
+      "sha256": "9bbc63af4999c6bd2b58e59f6ec2d4d3bbfeb3491a3b9564e7b72f64852ff2cc",
+      "usedIn": [
+        "byeolddongi"
+      ],
+      "role": "sprite",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        366,
+        446
+      ],
+      "transparentPixels": 64940,
+      "extraction": {
+        "id": "dog-alert",
+        "asset": "art/chapter01/dog/byeolddongi-alert-v1.png",
+        "sourceRect": [
+          706,
+          229,
+          366,
+          446
+        ],
+        "size": [
+          366,
+          446
+        ],
+        "method": "gray exterior flood; eye highlights retained"
+      }
+    },
+    {
+      "asset": "art/chapter01/dog/byeolddongi-rest-v1.png",
+      "size": [
+        396,
+        233
+      ],
+      "mode": "RGBA",
+      "sha256": "372559dad99a30e99da6208815ef1393449d2343876c15cf9054cd9eeabfec67",
+      "usedIn": [
+        "byeolddongi",
+        "evening"
+      ],
+      "role": "sprite",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        396,
+        233
+      ],
+      "transparentPixels": 23830,
+      "extraction": {
+        "id": "dog-rest",
+        "asset": "art/chapter01/dog/byeolddongi-rest-v1.png",
+        "sourceRect": [
+          1245,
+          445,
+          396,
+          233
+        ],
+        "size": [
+          396,
+          233
+        ],
+        "method": "gray exterior flood; eye highlights retained"
+      }
+    },
+    {
+      "asset": "art/chapter01/dog/byeolddongi-sit-v1.png",
+      "size": [
+        326,
+        439
+      ],
+      "mode": "RGBA",
+      "sha256": "5517f895cdb0666108c8bd287f2e34d79a65cac471fdb7a6d5afe7feabcf7ad8",
+      "usedIn": [
+        "byeolddongi"
+      ],
+      "role": "sprite",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        326,
+        439
+      ],
+      "transparentPixels": 60995,
+      "extraction": {
+        "id": "dog-sit",
+        "asset": "art/chapter01/dog/byeolddongi-sit-v1.png",
+        "sourceRect": [
+          205,
+          224,
+          326,
+          439
+        ],
+        "size": [
+          326,
+          439
+        ],
+        "method": "gray exterior flood; eye highlights retained"
+      }
+    },
+    {
+      "asset": "art/chapter01/extra-poses/suhyeok-cook-v1.png",
+      "size": [
+        273,
+        550
+      ],
+      "mode": "RGBA",
+      "sha256": "d7b0733ea95c051a82136fbe766543b4ea9a6eb7f39ad1ddedd82e6fdc4ab4ad",
+      "usedIn": [
+        "kitchen"
+      ],
+      "role": "sprite",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        2,
+        5,
+        266,
+        544
+      ],
+      "transparentPixels": 79172,
+      "extraction": {
+        "id": "suhyeok-cook",
+        "asset": "art/chapter01/extra-poses/suhyeok-cook-v1.png",
+        "sourceRect": [
+          138,
+          25,
+          273,
+          550
+        ],
+        "size": [
+          273,
+          550
+        ],
+        "source": "art/characters/static-action-poses-v1.png",
+        "status": "isolated pose; placement-specific QA required"
+      }
+    },
+    {
+      "asset": "art/chapter01/extra-poses/suhyeok-investigate-v1.png",
+      "size": [
+        327,
+        417
+      ],
+      "mode": "RGBA",
+      "sha256": "93890106000ed9d76a402cb01eb44c8cbd3972d06e424f20b913c028f735f1e2",
+      "usedIn": [
+        "byeolddongi",
+        "letter",
+        "store"
+      ],
+      "role": "sprite",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        6,
+        9,
+        317,
+        412
+      ],
+      "transparentPixels": 71874,
+      "extraction": {
+        "id": "suhyeok-investigate",
+        "asset": "art/chapter01/extra-poses/suhyeok-investigate-v1.png",
+        "sourceRect": [
+          632,
+          109,
+          327,
+          417
+        ],
+        "size": [
+          327,
+          417
+        ],
+        "source": "art/characters/static-action-poses-v1.png",
+        "status": "isolated pose; placement-specific QA required"
+      }
+    },
+    {
+      "asset": "art/chapter01/extra-poses/suhyeok-rest-seated-v1.png",
+      "size": [
+        267,
+        510
+      ],
+      "mode": "RGBA",
+      "sha256": "4aa334c7002f9411bcc0d419fa8dc72b87b4cf5fc62f918d8e92c0a8a803654d",
+      "usedIn": [],
+      "role": "sprite",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        8,
+        7,
+        259,
+        504
+      ],
+      "transparentPixels": 67154,
+      "extraction": {
+        "id": "suhyeok-rest-seated",
+        "asset": "art/chapter01/extra-poses/suhyeok-rest-seated-v1.png",
+        "sourceRect": [
+          1125,
+          55,
+          267,
+          510
+        ],
+        "size": [
+          267,
+          510
+        ],
+        "source": "art/characters/static-action-poses-v1.png",
+        "status": "isolated pose; placement-specific QA required"
+      }
+    },
+    {
+      "asset": "art/chapter01/kitchen/soup-pot-v1.png",
+      "size": [
+        714,
+        523
+      ],
+      "mode": "RGBA",
+      "sha256": "2de2c15a94421986bfd9dc402e75d9f9b520291b212c12bc99f1edcbdaefba97",
+      "usedIn": [
+        "kitchen"
+      ],
+      "role": "sprite",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        714,
+        523
+      ],
+      "transparentPixels": 110860,
+      "extraction": {
+        "id": "soup-pot",
+        "asset": "art/chapter01/kitchen/soup-pot-v1.png",
+        "sourceRect": [
+          406,
+          223,
+          714,
+          523
+        ],
+        "size": [
+          714,
+          523
+        ],
+        "method": "gray exterior flood and handle holes; RGB preserved"
+      }
+    },
+    {
+      "asset": "art/chapter01/layers/camper-clean-base-v1.png",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "sha256": "1ba989de470f1fafecca1b6d508d9d38d8cfb7e3a96979b3c0036644001b0b5f",
+      "usedIn": [
+        "byeolddongi",
+        "drawing",
+        "evening",
+        "kitchen"
+      ],
+      "role": "fixed-base"
+    },
+    {
+      "asset": "art/chapter01/layers/characters/soi-drawing-body-v1.png",
+      "size": [
+        112,
+        132
+      ],
+      "mode": "RGBA",
+      "sha256": "9c98041ff6f6a45d550e147d10f46342abfbe4ba4fee4073ee18d8966e62f6b4",
+      "usedIn": [
+        "byeolddongi",
+        "drawing",
+        "evening",
+        "kitchen"
+      ],
+      "role": "sprite",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        0,
+        1,
+        112,
+        102
+      ],
+      "transparentPixels": 6440
+    },
+    {
+      "asset": "art/chapter01/layers/characters/soi-drawing-hands-v1.png",
+      "size": [
+        112,
+        132
+      ],
+      "mode": "RGBA",
+      "sha256": "d6bb39db1b2e7520025691f3609a8ad8656e747052532cf0a4e1ec45e6623fa8",
+      "usedIn": [
+        "byeolddongi",
+        "drawing",
+        "evening",
+        "kitchen"
+      ],
+      "role": "sprite",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        0,
+        102,
+        111,
+        132
+      ],
+      "transparentPixels": 13310
+    },
+    {
+      "asset": "art/chapter01/layers/characters/soi-seated-body-v1.png",
+      "size": [
+        112,
+        132
+      ],
+      "mode": "RGBA",
+      "sha256": "52564697894ac4f7458a12e8a10f66b6c15424ad8cf3dd8270926386644741e3",
+      "usedIn": [
+        "byeolddongi",
+        "drawing",
+        "evening",
+        "kitchen"
+      ],
+      "role": "sprite",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        11,
+        0,
+        111,
+        102
+      ],
+      "transparentPixels": 6847
+    },
+    {
+      "asset": "art/chapter01/layers/characters/soi-seated-hands-v1.png",
+      "size": [
+        112,
+        132
+      ],
+      "mode": "RGBA",
+      "sha256": "7f192cd00142f7a2e9759441a09608aa148be9f06f9161fb1c29f57e4b0b1652",
+      "usedIn": [
+        "byeolddongi",
+        "drawing",
+        "evening",
+        "kitchen"
+      ],
+      "role": "sprite",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        11,
+        102,
+        103,
+        117
+      ],
+      "transparentPixels": 13905
+    },
+    {
+      "asset": "art/chapter01/layers/characters/suhyeok-seated-body-v1.png",
+      "size": [
+        109,
+        155
+      ],
+      "mode": "RGBA",
+      "sha256": "e7b01a123405e3ae9c4c40b01d8cf51ce1e36a198343db0f7c8df093ca8901f8",
+      "usedIn": [
+        "byeolddongi",
+        "drawing",
+        "evening",
+        "kitchen"
+      ],
+      "role": "sprite",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        109,
+        143
+      ],
+      "transparentPixels": 4424
+    },
+    {
+      "asset": "art/chapter01/layers/characters/suhyeok-seated-hands-v1.png",
+      "size": [
+        109,
+        155
+      ],
+      "mode": "RGBA",
+      "sha256": "8b2c3a33fef1739fb38cd20d19e83e5dce486c51c019c425b5c345b55dc51dc3",
+      "usedIn": [
+        "byeolddongi",
+        "drawing",
+        "evening",
+        "kitchen"
+      ],
+      "role": "sprite",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        4,
+        143,
+        106,
+        155
+      ],
+      "transparentPixels": 16274
+    },
+    {
+      "asset": "art/chapter01/layers/pages/sea-complete-overlay-v1.png",
+      "size": [
+        102,
+        73
+      ],
+      "mode": "RGBA",
+      "sha256": "dad6ea20311a381a582d1fa28a78236b8ecf0569e2bca147862272f2216f33f2",
+      "usedIn": [
+        "drawing"
+      ],
+      "role": "sprite",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        5,
+        4,
+        97,
+        66
+      ],
+      "transparentPixels": 2530
+    },
+    {
+      "asset": "art/chapter01/layers/pages/sea-started-overlay-v1.png",
+      "size": [
+        102,
+        73
+      ],
+      "mode": "RGBA",
+      "sha256": "cb1964e96fb51e7856bb7063a64dd17e98f1b6b082203a03a4ef484ae1e1c39e",
+      "usedIn": [
+        "drawing"
+      ],
+      "role": "sprite",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        8,
+        23,
+        48,
+        40
+      ],
+      "transparentPixels": 6766
+    },
+    {
+      "asset": "art/chapter01/layers/pages/sketchbook-blank-v1.png",
+      "size": [
+        102,
+        73
+      ],
+      "mode": "RGBA",
+      "sha256": "709736752c8a7cc1b6248fead0dab0de4d119324f17c2c83e685fc61850a807c",
+      "usedIn": [
+        "drawing",
+        "evening"
+      ],
+      "role": "sprite",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        102,
+        72
+      ],
+      "transparentPixels": 832
+    },
+    {
+      "asset": "art/chapter01/layers/sprites/mug-source-v1.png",
+      "size": [
+        53,
+        52
+      ],
+      "mode": "RGBA",
+      "sha256": "54a0eeb7710474c46b19b3bea0f5ac7f78c2c80b6986fef1987d03ad9bef6cc8",
+      "usedIn": [
+        "drawing",
+        "evening"
+      ],
+      "role": "sprite",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        0,
+        2,
+        51,
+        50
+      ],
+      "transparentPixels": 1116
+    },
+    {
+      "asset": "art/chapter01/layers/sprites/pencil-cup-source-v1.png",
+      "size": [
+        46,
+        68
+      ],
+      "mode": "RGBA",
+      "sha256": "31398ee750d3a5572f6232c405ec28bb3595177ed3f477195e8837f97c4f175e",
+      "usedIn": [
+        "drawing"
+      ],
+      "role": "sprite",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        2,
+        2,
+        45,
+        68
+      ],
+      "transparentPixels": 1022
+    },
+    {
+      "asset": "art/chapter01/layers/sprites/table-foreground-v1.png",
+      "size": [
+        257,
+        201
+      ],
+      "mode": "RGBA",
+      "sha256": "cbf4dadec029c80ccfcf2fcf37d2f10cd9ebf64388deb957baaae99c78aa1ed6",
+      "usedIn": [
+        "byeolddongi",
+        "drawing",
+        "evening",
+        "kitchen"
+      ],
+      "role": "sprite",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        0,
+        1,
+        257,
+        200
+      ],
+      "transparentPixels": 16268
+    },
+    {
+      "asset": "art/chapter01/letter/old-house-clean-base-v1.png",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "sha256": "5f66efdb90db99cd693eca1603986695b55a1483aa1f7c4cafad8c8e82d2acf8",
+      "usedIn": [
+        "letter"
+      ],
+      "role": "fixed-base"
+    },
+    {
+      "asset": "art/chapter01/letter/pink-envelope-v1.png",
+      "size": [
+        546,
+        326
+      ],
+      "mode": "RGBA",
+      "sha256": "d94380c77430965eedb06b37297d64ecdb60947a66e613c43172d77c7022d078",
+      "usedIn": [
+        "letter"
+      ],
+      "role": "sprite",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        546,
+        326
+      ],
+      "transparentPixels": 10262,
+      "extraction": {
+        "id": "pink-envelope",
+        "asset": "art/chapter01/letter/pink-envelope-v1.png",
+        "source": "art/chapter01/letter/letter-props-source-v1.png",
+        "sourceRect": [
+          219,
+          299,
+          546,
+          326
+        ],
+        "size": [
+          546,
+          326
+        ]
+      }
+    },
+    {
+      "asset": "art/chapter01/letter/pink-stationery-v1.png",
+      "size": [
+        552,
+        734
+      ],
+      "mode": "RGBA",
+      "sha256": "4705eb3bf0059d28365080a5e75ec5e85f9caf830b90d72bfbd1e9abc6150ba0",
+      "usedIn": [
+        "letter-reader"
+      ],
+      "role": "sprite",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        552,
+        734
+      ],
+      "transparentPixels": 21745,
+      "extraction": {
+        "id": "pink-stationery",
+        "asset": "art/chapter01/letter/pink-stationery-v1.png",
+        "source": "art/chapter01/letter/letter-props-source-v1.png",
+        "sourceRect": [
+          917,
+          98,
+          552,
+          734
+        ],
+        "size": [
+          552,
+          734
+        ]
+      }
+    },
+    {
+      "asset": "art/chapter01/shared-props/black-journal-v1.png",
+      "size": [
+        327,
+        290
+      ],
+      "mode": "RGBA",
+      "sha256": "49eb182169ec6687162eb80a88d45fae7e2af054907d9272356c3db64995b86c",
+      "usedIn": [
+        "evening"
+      ],
+      "role": "sprite",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        327,
+        290
+      ],
+      "transparentPixels": 27665,
+      "extraction": {
+        "id": "black-journal",
+        "asset": "art/chapter01/shared-props/black-journal-v1.png",
+        "source": "art/props/chapter01-props-v1.png",
+        "sourceRect": [
+          1318,
+          189,
+          327,
+          290
+        ],
+        "size": [
+          327,
+          290
+        ],
+        "method": "connected gray/checker exterior removal; source RGB preserved"
+      }
+    },
+    {
+      "asset": "art/chapter01/shared-props/food-can-v1.png",
+      "size": [
+        249,
+        264
+      ],
+      "mode": "RGBA",
+      "sha256": "500c574d4ec94304d1462e05645bc9e2865395df0161fcde266e5f19ac6ef51f",
+      "usedIn": [
+        "kitchen"
+      ],
+      "role": "sprite",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        249,
+        264
+      ],
+      "transparentPixels": 7303,
+      "extraction": {
+        "id": "food-can",
+        "asset": "art/chapter01/shared-props/food-can-v1.png",
+        "source": "art/props/chapter01-props-v1.png",
+        "sourceRect": [
+          434,
+          573,
+          249,
+          264
+        ],
+        "size": [
+          249,
+          264
+        ],
+        "method": "connected gray/checker exterior removal; source RGB preserved"
+      }
+    },
+    {
+      "asset": "art/chapter01/shared-props/medicine-bottle-v1.png",
+      "size": [
+        159,
+        273
+      ],
+      "mode": "RGBA",
+      "sha256": "af5798eeff6ed8e6fa1b239cfd8387888c348cba0eabfabbd4d359caa934e9c6",
+      "usedIn": [
+        "evening"
+      ],
+      "role": "sprite",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        159,
+        273
+      ],
+      "transparentPixels": 4095,
+      "extraction": {
+        "id": "medicine-bottle",
+        "asset": "art/chapter01/shared-props/medicine-bottle-v1.png",
+        "source": "art/props/chapter01-props-v1.png",
+        "sourceRect": [
+          102,
+          572,
+          159,
+          273
+        ],
+        "size": [
+          159,
+          273
+        ],
+        "method": "connected gray/checker exterior removal; source RGB preserved"
+      }
+    },
+    {
+      "asset": "art/chapter01/shared-props/pencil-tin-closed-v1.png",
+      "size": [
+        389,
+        293
+      ],
+      "mode": "RGBA",
+      "sha256": "05cf2e0241f39a5753059f774d14230e1f9b6f08c3dc21e918f1bd6970ed1cbf",
+      "usedIn": [],
+      "role": "sprite",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        389,
+        293
+      ],
+      "transparentPixels": 34166,
+      "extraction": {
+        "id": "pencil-tin-closed",
+        "asset": "art/chapter01/shared-props/pencil-tin-closed-v1.png",
+        "source": "art/props/chapter01-props-v1.png",
+        "sourceRect": [
+          32,
+          187,
+          389,
+          293
+        ],
+        "size": [
+          389,
+          293
+        ],
+        "method": "connected gray/checker exterior removal; source RGB preserved"
+      }
+    },
+    {
+      "asset": "art/chapter01/shared-props/pencil-tin-open-v1.png",
+      "size": [
+        377,
+        432
+      ],
+      "mode": "RGBA",
+      "sha256": "7937ad57f2c799857fc06142ba8fafdf6b967e0885596cfa25270253a50cfa3e",
+      "usedIn": [],
+      "role": "sprite",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        377,
+        432
+      ],
+      "transparentPixels": 44486,
+      "extraction": {
+        "id": "pencil-tin-open",
+        "asset": "art/chapter01/shared-props/pencil-tin-open-v1.png",
+        "source": "art/props/chapter01-props-v1.png",
+        "sourceRect": [
+          449,
+          64,
+          377,
+          432
+        ],
+        "size": [
+          377,
+          432
+        ],
+        "method": "connected gray/checker exterior removal; source RGB preserved"
+      }
+    },
+    {
+      "asset": "art/chapter01/shared-props/soup-bowl-v1.png",
+      "size": [
+        347,
+        275
+      ],
+      "mode": "RGBA",
+      "sha256": "34bfb98b5156a975b1186892eb5a6534993fa66d83a1bc66cabc81b68167fcfe",
+      "usedIn": [
+        "kitchen"
+      ],
+      "role": "sprite",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        347,
+        275
+      ],
+      "transparentPixels": 21917,
+      "extraction": {
+        "id": "soup-bowl",
+        "asset": "art/chapter01/shared-props/soup-bowl-v1.png",
+        "source": "art/props/chapter01-props-v1.png",
+        "sourceRect": [
+          1268,
+          577,
+          347,
+          275
+        ],
+        "size": [
+          347,
+          275
+        ],
+        "method": "connected gray/checker exterior removal; source RGB preserved"
+      }
+    },
+    {
+      "asset": "art/chapter01/store/drink-bottle-v1.png",
+      "size": [
+        17,
+        32
+      ],
+      "mode": "RGBA",
+      "sha256": "9b086e016e9bc24a01db1736f3855455e3c4f1ad4e5d25fd18270d4b781dc590",
+      "usedIn": [
+        "store"
+      ],
+      "role": "sprite",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        17,
+        32
+      ],
+      "transparentPixels": 66
+    },
+    {
+      "asset": "art/chapter01/store/food-can-v1.png",
+      "size": [
+        29,
+        44
+      ],
+      "mode": "RGBA",
+      "sha256": "f0addbbe002978113939c5f32115de018e15dc243791808661208f049f6addfe",
+      "usedIn": [
+        "store"
+      ],
+      "role": "sprite",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        29,
+        44
+      ],
+      "transparentPixels": 161
+    },
+    {
+      "asset": "art/chapter01/store/medicine-v1.png",
+      "size": [
+        26,
+        44
+      ],
+      "mode": "RGBA",
+      "sha256": "d2f767a3c08597aac8422b38c99d893555d52e32f84708f513027d6907f145b9",
+      "usedIn": [
+        "store"
+      ],
+      "role": "sprite",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        26,
+        44
+      ],
+      "transparentPixels": 240
+    },
+    {
+      "asset": "art/chapter01/store/pencil-tin-v1.png",
+      "size": [
+        89,
+        49
+      ],
+      "mode": "RGBA",
+      "sha256": "4f63d4b7112b910a79ebff6151de48f6c325cbdd6ac243b072767327cdb8b5e1",
+      "usedIn": [
+        "store"
+      ],
+      "role": "sprite",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        89,
+        49
+      ],
+      "transparentPixels": 551
+    },
+    {
+      "asset": "art/chapter01/store/store-clean-base-v1.png",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "sha256": "2976537cf714f67ac00976a3d17c715ce294c33df6ec753a533436819090f93f",
+      "usedIn": [
+        "store"
+      ],
+      "role": "fixed-base"
+    }
+  ]
+}

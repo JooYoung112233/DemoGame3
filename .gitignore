@@ -24,3 +24,11 @@
 *.log
 Thumbs.db
 .DS_Store
+__pycache__/
+*.py[cod]
+
+# Reproducible local visual QA (source art and JSON reports stay tracked)
+art/**/qa/*.png
+art/**/scene-qa/*.png
+art/**/gallery-qa/*.png
+preview-output/

@@ -1,0 +1,273 @@
+{
+  "id": "byeolddongi",
+  "title": "별똥이의 캠핑카 자리",
+  "canvas": {
+    "width": 1672,
+    "height": 941
+  },
+  "base": "art/chapter01/layers/camper-clean-base-v1.png",
+  "slots": [
+    {
+      "id": "dog-sit",
+      "name": "별똥이",
+      "asset": "art/chapter01/dog/byeolddongi-sit-v1.png",
+      "rect": [
+        735,
+        610,
+        52,
+        70
+      ],
+      "order": 45,
+      "interactive": false
+    },
+    {
+      "id": "dog-alert",
+      "name": "별똥이 · 인기척",
+      "asset": "art/chapter01/dog/byeolddongi-alert-v1.png",
+      "rect": [
+        730,
+        610,
+        57,
+        70
+      ],
+      "order": 45,
+      "interactive": false
+    },
+    {
+      "id": "dog-rest",
+      "name": "별똥이 · 쉬기",
+      "asset": "art/chapter01/dog/byeolddongi-rest-v1.png",
+      "rect": [
+        722,
+        643,
+        63,
+        37
+      ],
+      "order": 45,
+      "interactive": false
+    },
+    {
+      "id": "dog-outside",
+      "name": "처음 만난 강아지",
+      "asset": "art/chapter01/dog/byeolddongi-sit-v1.png",
+      "rect": [
+        810,
+        805,
+        52,
+        70
+      ],
+      "order": 45,
+      "interactive": false
+    },
+    {
+      "id": "meet-dog",
+      "name": "수혁 · 손 내밀기",
+      "asset": "art/chapter01/extra-poses/suhyeok-investigate-v1.png",
+      "rect": [
+        701,
+        736,
+        120,
+        153
+      ],
+      "order": 45,
+      "interactive": false
+    }
+  ],
+  "actors": [
+    {
+      "id": "suhyeok-seated-body",
+      "name": "수혁 · 앉기",
+      "asset": "art/chapter01/layers/characters/suhyeok-seated-body-v1.png",
+      "rect": [
+        840,
+        289,
+        109,
+        155
+      ],
+      "order": 20,
+      "interactive": false,
+      "pose": "suhyeok-seated",
+      "part": "body"
+    },
+    {
+      "id": "suhyeok-seated-hands",
+      "name": "수혁 · 앉기",
+      "asset": "art/chapter01/layers/characters/suhyeok-seated-hands-v1.png",
+      "rect": [
+        840,
+        289,
+        109,
+        155
+      ],
+      "order": 50,
+      "interactive": false,
+      "pose": "suhyeok-seated",
+      "part": "hands"
+    },
+    {
+      "id": "soi-seated-body",
+      "name": "소이 · 앉기",
+      "asset": "art/chapter01/layers/characters/soi-seated-body-v1.png",
+      "rect": [
+        938,
+        330,
+        112,
+        132
+      ],
+      "order": 20,
+      "interactive": false,
+      "pose": "soi-seated",
+      "part": "body"
+    },
+    {
+      "id": "soi-seated-hands",
+      "name": "소이 · 앉기",
+      "asset": "art/chapter01/layers/characters/soi-seated-hands-v1.png",
+      "rect": [
+        938,
+        330,
+        112,
+        132
+      ],
+      "order": 50,
+      "interactive": false,
+      "pose": "soi-seated",
+      "part": "hands"
+    },
+    {
+      "id": "soi-drawing-body",
+      "name": "소이 · 그리기",
+      "asset": "art/chapter01/layers/characters/soi-drawing-body-v1.png",
+      "rect": [
+        938,
+        330,
+        112,
+        132
+      ],
+      "order": 20,
+      "interactive": false,
+      "pose": "soi-drawing",
+      "part": "body"
+    },
+    {
+      "id": "soi-drawing-hands",
+      "name": "소이 · 그리기",
+      "asset": "art/chapter01/layers/characters/soi-drawing-hands-v1.png",
+      "rect": [
+        938,
+        330,
+        112,
+        132
+      ],
+      "order": 50,
+      "interactive": false,
+      "pose": "soi-drawing",
+      "part": "hands"
+    }
+  ],
+  "foreground": {
+    "asset": "art/chapter01/layers/sprites/table-foreground-v1.png",
+    "rect": [
+      835,
+      432,
+      257,
+      201
+    ],
+    "order": 30,
+    "status": "seated-pose composite inspected; other poses untested",
+    "id": "table-foreground",
+    "alwaysVisible": true
+  },
+  "presets": [
+    {
+      "id": "meet",
+      "label": "첫 만남",
+      "visible": [
+        "dog-outside",
+        "soi-seated-body",
+        "soi-seated-hands"
+      ],
+      "active": [
+        "dog-outside"
+      ],
+      "focus": [
+        0.49,
+        0.83,
+        2.5
+      ],
+      "line": "아빠, 저기. 혼자 있나 봐.",
+      "speaker": "소이",
+      "description": "캠핑카 계단 밖에서 마주치는 작은 유기견"
+    },
+    {
+      "id": "approach",
+      "label": "손 내밀기",
+      "visible": [
+        "dog-outside",
+        "meet-dog",
+        "soi-seated-body",
+        "soi-seated-hands"
+      ],
+      "active": [],
+      "focus": [
+        0.48,
+        0.84,
+        2.5
+      ],
+      "line": "괜찮아. 천천히 와.",
+      "speaker": "수혁",
+      "description": "걷기 없이 고정 조사 포즈를 재사용한 첫 교감"
+    },
+    {
+      "id": "sit",
+      "label": "기다리기",
+      "visible": [
+        "dog-sit",
+        "suhyeok-seated-body",
+        "suhyeok-seated-hands",
+        "soi-seated-body",
+        "soi-seated-hands"
+      ],
+      "active": [],
+      "line": "이제 네 자리도 생겼네.",
+      "speaker": "소이",
+      "description": "합류 후 러그에서 두 사람을 바라보는 별똥이"
+    },
+    {
+      "id": "alert",
+      "label": "인기척",
+      "visible": [
+        "dog-alert",
+        "suhyeok-seated-body",
+        "suhyeok-seated-hands",
+        "soi-seated-body",
+        "soi-seated-hands"
+      ],
+      "active": [],
+      "line": "왜 그래, 별똥아?",
+      "speaker": "수혁",
+      "description": "별똥이의 반응이 주변을 살펴볼 계기가 된다"
+    },
+    {
+      "id": "rest",
+      "label": "쉬기",
+      "visible": [
+        "dog-rest",
+        "suhyeok-seated-body",
+        "suhyeok-seated-hands",
+        "soi-seated-body",
+        "soi-seated-hands"
+      ],
+      "active": [],
+      "line": "작은 발소리도 조용해졌다.",
+      "speaker": "",
+      "description": "같은 자리에서 편하게 쉬는 자세"
+    }
+  ],
+  "zoom": {
+    "scale": 2.2,
+    "originX": 47,
+    "originY": 67
+  },
+  "status": "resource placement prototype; no minigame or date rules"
+}

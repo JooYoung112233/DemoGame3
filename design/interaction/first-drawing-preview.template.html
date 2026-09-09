@@ -1,0 +1,81 @@
+<div id="live49-first-drawing">
+  <style>
+    #live49-first-drawing{font-family:system-ui,sans-serif;background:#252d29;color:#eee4cf;padding:20px;border-radius:12px;overflow:hidden}
+    #live49-first-drawing *{box-sizing:border-box}
+    #live49-first-drawing .heading{display:flex;justify-content:space-between;gap:12px;align-items:center;margin:0 0 16px;font-size:13px;color:#c6bdab}
+    #live49-first-drawing .heading strong{font-weight:500;letter-spacing:.06em;color:#e4d4ac}
+    #live49-first-drawing .photo{position:relative;background:#e8dfcc;padding:10px 10px 0;box-shadow:0 9px 25px #1118;margin:0}
+    #live49-first-drawing .photo.new-photo{animation:live49-photo-in .28s ease-out}
+    #live49-first-drawing .viewport{position:relative;aspect-ratio:1672/941;overflow:hidden;background:#252820}
+    #live49-first-drawing .world{position:absolute;inset:0;transform-origin:57.5% 44%;transform:scale(1);transition:transform .4s ease,transform-origin .4s ease}
+    #live49-first-drawing .world img{position:absolute;display:block;pointer-events:none}
+    #live49-first-drawing .base{inset:0;width:100%;height:100%}
+    #live49-first-drawing figcaption{display:flex;justify-content:space-between;gap:12px;padding:12px 4px 14px;color:#595244;font-size:13px;min-height:44px}
+    #live49-first-drawing button{font:inherit;min-height:44px;border:1px solid #8e8f74;border-radius:5px;padding:8px 14px;cursor:pointer;color:#efe2c6;background:#3a4235}
+    #live49-first-drawing button:hover{background:#47503e}
+    #live49-first-drawing button:disabled{opacity:.4;cursor:default}
+    #live49-first-drawing .hotspot{position:absolute;left:57%;top:51%;transform:translate(-50%,-50%);font-size:13px;background:#313326ef;border-color:#ebd49b;box-shadow:0 0 0 3px #f6d68a22;z-index:90;white-space:nowrap}
+    #live49-first-drawing .dialogue{padding:20px 2px 0}
+    #live49-first-drawing .speaker{margin:0 0 9px;color:#d6bc80;font-size:14px;min-height:20px}
+    #live49-first-drawing .line{font-size:18px;line-height:1.65;margin:0;min-height:64px;word-break:keep-all;overflow-wrap:anywhere}
+    #live49-first-drawing .actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:18px}
+    #live49-first-drawing .next{margin-left:auto;background:#d8c392;color:#2c3228;border-color:#d8c392}
+    #live49-first-drawing .next:hover{background:#e7d4a9;color:#242c20}
+    #live49-first-drawing .replay{font-size:13px;background:transparent;border-color:transparent;color:#c7bea8}
+    #live49-first-drawing .hub-note{margin:17px 0 0;font-size:14px;line-height:1.6;min-height:44px;color:#dbcfb6}
+    #live49-first-drawing [hidden]{display:none!important}
+    @keyframes live49-photo-in{from{opacity:.6;transform:translateY(8px) rotate(-.6deg)}to{opacity:1;transform:translateY(0) rotate(0)}}
+    @media(max-width:480px){#live49-first-drawing{padding:12px}#live49-first-drawing .photo{padding:7px 7px 0}#live49-first-drawing .line{font-size:16px;min-height:80px}#live49-first-drawing .dialogue{padding-top:15px}#live49-first-drawing button{padding:8px 10px}#live49-first-drawing .heading{font-size:12px}}
+    @media(prefers-reduced-motion:reduce){#live49-first-drawing .world{transition:none}#live49-first-drawing .photo.new-photo{animation:none}}
+  </style>
+  <div class="heading"><strong>CHAPTER 01 · 연출 시안</strong><span>그날 저녁</span></div>
+  <figure class="photo">
+    <div class="viewport" role="img" aria-label="캠핑카 식탁에 앉은 수혁과 소이"><div class="world"></div><button type="button" class="hotspot">소이의 스케치북</button></div>
+    <figcaption><span class="caption">아직 비어 있는 페이지</span><span class="count"></span></figcaption>
+  </figure>
+  <div class="dialogue" hidden>
+    <p class="speaker"></p><p class="line" aria-live="polite"></p>
+    <div class="actions"><button type="button" class="prev">이전</button><button type="button" class="replay">처음부터</button><button type="button" class="next">다음</button></div>
+  </div>
+  <p class="hub-note" aria-live="polite">소이가 스케치북을 펼쳐 놓았다.</p>
+  <script>
+  (()=>{
+    const root=document.getElementById('live49-first-drawing');
+    const config=__CONFIG__,story=__STORY__,assets=__ASSETS__;
+    const world=root.querySelector('.world'),photo=root.querySelector('.photo'),hotspot=root.querySelector('.hotspot');
+    const all=[...config.slots,...config.actors,config.foreground,...config.pages];
+    const base=document.createElement('img');base.className='base';base.src=assets.base;base.alt='';world.append(base);
+    const nodes=new Map();
+    for(const layer of all){const img=document.createElement('img');img.src=assets[layer.id];img.alt='';img.dataset.layer=layer.id;
+      const[x,y,w,h]=layer.rect;Object.assign(img.style,{left:x/1672*100+'%',top:y/941*100+'%',width:w/1672*100+'%',height:h/941*100+'%',zIndex:String(layer.order)});world.append(img);nodes.set(layer.id,img);}
+    let index=-1,completed=false,photoId='hub';
+    function layers(pose,page){
+      for(const layer of all){let visible=true;
+        if(layer.pose)visible=layer.pose==='suhyeok-seated'||layer.pose===(pose==='drawing'?'soi-drawing':'soi-seated');
+        if(layer.pageState)visible=layer.pageState===page;
+        nodes.get(layer.id).hidden=!visible;
+      }
+      root.dataset.page=page;root.dataset.pose=pose;
+    }
+    function camera(name){const c=name==='book'?{scale:6,x:57.5,y:54}:name==='pair'?{scale:2.9,x:57.5,y:44}:{scale:1,x:50,y:50};
+      world.style.transformOrigin=c.x+'% '+c.y+'%';world.style.transform='scale('+c.scale+')';root.dataset.camera=name;}
+    function show(nextIndex){index=nextIndex;const beat=story.beats[index];
+      root.dataset.beat=beat.id;root.dataset.mode='dialogue';hotspot.hidden=true;root.querySelector('.hub-note').hidden=true;root.querySelector('.dialogue').hidden=false;
+      layers(beat.pose,beat.page);camera(beat.camera);
+      root.querySelector('.speaker').textContent=beat.speaker;root.querySelector('.line').textContent=beat.text;
+      root.querySelector('.caption').textContent=beat.caption;root.querySelector('.count').textContent=(index+1)+' / '+story.beats.length;
+      root.querySelector('.prev').disabled=index===0;root.querySelector('.next').textContent=index===story.beats.length-1?'그림 남기기':'다음';
+      if(photoId!==beat.photo){photo.classList.remove('new-photo');void photo.offsetWidth;photo.classList.add('new-photo');photoId=beat.photo;}
+    }
+    function hub(){index=-1;root.dataset.mode='hub';root.dataset.beat='';root.dataset.completed=String(completed);layers('seated',completed?'complete':'blank');camera('wide');
+      hotspot.hidden=false;hotspot.textContent=completed?'바다 그림':'소이의 스케치북';root.querySelector('.dialogue').hidden=true;
+      root.querySelector('.hub-note').hidden=false;root.querySelector('.hub-note').textContent=completed?'스케치북에 남은 첫 바다 · 다음 바람: 소이와 바다에 가기':'소이가 스케치북을 펼쳐 놓았다.';
+      root.querySelector('.caption').textContent=completed?'처음 그린 바다':'아직 비어 있는 페이지';root.querySelector('.count').textContent='';photoId='hub';}
+    hotspot.addEventListener('click',()=>show(completed?story.beats.length-1:0));
+    root.querySelector('.next').addEventListener('click',()=>{if(index<story.beats.length-1)show(index+1);else{completed=true;hub();hotspot.focus();}});
+    root.querySelector('.prev').addEventListener('click',()=>{if(index>0)show(index-1);});
+    root.querySelector('.replay').addEventListener('click',()=>show(0));
+    hub();
+  })();
+  </script>
+</div>

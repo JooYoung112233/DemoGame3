@@ -1,0 +1,105 @@
+{
+  "id": "letter",
+  "title": "서랍에 남은 편지",
+  "canvas": {
+    "width": 1672,
+    "height": 941
+  },
+  "base": "art/chapter01/letter/old-house-clean-base-v1.png",
+  "slots": [
+    {
+      "id": "envelope",
+      "name": "분홍색 봉투",
+      "asset": "art/chapter01/letter/pink-envelope-v1.png",
+      "rect": [
+        1049,
+        396,
+        85,
+        28
+      ],
+      "order": 30
+    },
+    {
+      "id": "investigate",
+      "name": "수혁 · 발견",
+      "asset": "art/chapter01/extra-poses/suhyeok-investigate-v1.png",
+      "rect": [
+        936,
+        316,
+        144,
+        184
+      ],
+      "order": 40
+    }
+  ],
+  "actors": [],
+  "presets": [
+    {
+      "id": "discover",
+      "label": "발견 전",
+      "visible": [
+        "envelope"
+      ],
+      "focus": [
+        0.5,
+        0.5,
+        1
+      ],
+      "line": "서랍 안에, 익숙한 색이 남아 있었다.",
+      "speaker": "",
+      "active": [
+        "envelope"
+      ]
+    },
+    {
+      "id": "reach",
+      "label": "서랍 앞에서",
+      "visible": [
+        "envelope",
+        "investigate"
+      ],
+      "focus": [
+        0.635,
+        0.445,
+        2.7
+      ],
+      "line": "…서연아.",
+      "speaker": "수혁",
+      "active": [
+        "envelope"
+      ]
+    },
+    {
+      "id": "taken",
+      "label": "꺼낸 뒤",
+      "visible": [
+        "investigate"
+      ],
+      "focus": [
+        0.635,
+        0.445,
+        2.7
+      ],
+      "line": "빛바랜 분홍색 편지지. 익숙하고 따뜻한 향기가 희미하게 남아있다.",
+      "speaker": "",
+      "active": []
+    },
+    {
+      "id": "read",
+      "label": "첫 편지 읽기",
+      "visible": [],
+      "focus": [
+        0.635,
+        0.445,
+        2.7
+      ],
+      "line": "내 사랑하는 수혁 씨에게.",
+      "speaker": "서연",
+      "active": []
+    }
+  ],
+  "notes": [
+    "낡은 집 내부는 원문에 배치가 없어 새로 제안한 고정 베이스다.",
+    "발견·수혁의 짧은 반응은 새 대본 초안. 편지 본문은 사용자 최초 기획서 원문."
+  ]
+}

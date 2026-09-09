@@ -1,0 +1,102 @@
+{
+  "version": 1,
+  "status": "placement-prototype",
+  "coordinateOrigin": "top-left",
+  "canvas": {
+    "width": 1672,
+    "height": 941
+  },
+  "base": "art/chapter01/layers/camper-clean-base-v1.png",
+  "source": "art/scenes/01-camper/camper-mood-v1.png",
+  "slots": [
+    {
+      "id": "pencil-cup",
+      "name": "연필통",
+      "asset": "art/chapter01/layers/sprites/pencil-cup-source-v1.png",
+      "rect": [
+        849,
+        440,
+        46,
+        68
+      ],
+      "order": 40,
+      "interactive": false,
+      "status": "manual-cutout-prototype"
+    },
+    {
+      "id": "sketchbook",
+      "name": "소이의 스케치북",
+      "asset": "art/chapter01/layers/sprites/sketchbook-source-v1.png",
+      "rect": [
+        904,
+        454,
+        102,
+        73
+      ],
+      "order": 40,
+      "interactive": true,
+      "status": "manual-cutout-prototype"
+    },
+    {
+      "id": "mug",
+      "name": "머그컵",
+      "asset": "art/chapter01/layers/sprites/mug-source-v1.png",
+      "rect": [
+        1010,
+        480,
+        53,
+        52
+      ],
+      "order": 40,
+      "interactive": false,
+      "status": "manual-cutout-prototype"
+    }
+  ],
+  "presets": [
+    {
+      "id": "base",
+      "label": "베이스만",
+      "visible": [],
+      "active": []
+    },
+    {
+      "id": "table",
+      "label": "소품 배치",
+      "visible": [
+        "pencil-cup",
+        "sketchbook",
+        "mug"
+      ],
+      "active": []
+    },
+    {
+      "id": "story",
+      "label": "스케치북 사건",
+      "visible": [
+        "pencil-cup",
+        "sketchbook",
+        "mug"
+      ],
+      "active": [
+        "sketchbook"
+      ]
+    }
+  ],
+  "notes": [
+    "사용자가 기존 원화의 로컬 분리를 허용한 뒤 수동 윤곽으로 RGB 픽셀을 보존해 추출했다.",
+    "검수용 상태이며 날짜별 사건이나 행동력 구현이 아니다.",
+    "슬롯 위치와 크기는 모든 상태에서 공유한다.",
+    "인물과 손 레이어는 아직 없다."
+  ],
+  "foreground": {
+    "asset": "art/chapter01/layers/sprites/table-foreground-v1.png",
+    "rect": [
+      835,
+      432,
+      257,
+      201
+    ],
+    "order": 30,
+    "status": "manual-cutout-prototype; character occlusion not yet tested"
+  }
+}

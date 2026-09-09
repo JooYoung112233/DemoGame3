@@ -1,0 +1,235 @@
+{
+  "id": "kitchen",
+  "title": "주방과 저녁 식사",
+  "canvas": {
+    "width": 1672,
+    "height": 941
+  },
+  "base": "art/chapter01/layers/camper-clean-base-v1.png",
+  "slots": [
+    {
+      "id": "pot",
+      "name": "수프 냄비",
+      "asset": "art/chapter01/kitchen/soup-pot-v1.png",
+      "rect": [
+        723,
+        306,
+        75,
+        55
+      ],
+      "order": 35,
+      "interactive": false
+    },
+    {
+      "id": "can",
+      "name": "통조림",
+      "asset": "art/chapter01/shared-props/food-can-v1.png",
+      "rect": [
+        621,
+        328,
+        25,
+        27
+      ],
+      "order": 35,
+      "interactive": false
+    },
+    {
+      "id": "cook",
+      "name": "수혁 · 요리",
+      "asset": "art/chapter01/extra-poses/suhyeok-cook-v1.png",
+      "rect": [
+        740,
+        245,
+        130,
+        262
+      ],
+      "order": 40,
+      "interactive": false
+    },
+    {
+      "id": "soup-father",
+      "name": "수혁의 수프",
+      "asset": "art/chapter01/shared-props/soup-bowl-v1.png",
+      "rect": [
+        872,
+        469,
+        58,
+        46
+      ],
+      "order": 46,
+      "interactive": false
+    },
+    {
+      "id": "soup-soi",
+      "name": "소이의 수프",
+      "asset": "art/chapter01/shared-props/soup-bowl-v1.png",
+      "rect": [
+        988,
+        469,
+        50,
+        40
+      ],
+      "order": 46,
+      "interactive": false
+    }
+  ],
+  "actors": [
+    {
+      "id": "suhyeok-seated-body",
+      "name": "수혁 · 앉기",
+      "asset": "art/chapter01/layers/characters/suhyeok-seated-body-v1.png",
+      "rect": [
+        840,
+        289,
+        109,
+        155
+      ],
+      "order": 20,
+      "interactive": false,
+      "pose": "suhyeok-seated",
+      "part": "body"
+    },
+    {
+      "id": "suhyeok-seated-hands",
+      "name": "수혁 · 앉기",
+      "asset": "art/chapter01/layers/characters/suhyeok-seated-hands-v1.png",
+      "rect": [
+        840,
+        289,
+        109,
+        155
+      ],
+      "order": 50,
+      "interactive": false,
+      "pose": "suhyeok-seated",
+      "part": "hands"
+    },
+    {
+      "id": "soi-seated-body",
+      "name": "소이 · 앉기",
+      "asset": "art/chapter01/layers/characters/soi-seated-body-v1.png",
+      "rect": [
+        938,
+        330,
+        112,
+        132
+      ],
+      "order": 20,
+      "interactive": false,
+      "pose": "soi-seated",
+      "part": "body"
+    },
+    {
+      "id": "soi-seated-hands",
+      "name": "소이 · 앉기",
+      "asset": "art/chapter01/layers/characters/soi-seated-hands-v1.png",
+      "rect": [
+        938,
+        330,
+        112,
+        132
+      ],
+      "order": 50,
+      "interactive": false,
+      "pose": "soi-seated",
+      "part": "hands"
+    },
+    {
+      "id": "soi-drawing-body",
+      "name": "소이 · 그리기",
+      "asset": "art/chapter01/layers/characters/soi-drawing-body-v1.png",
+      "rect": [
+        938,
+        330,
+        112,
+        132
+      ],
+      "order": 20,
+      "interactive": false,
+      "pose": "soi-drawing",
+      "part": "body"
+    },
+    {
+      "id": "soi-drawing-hands",
+      "name": "소이 · 그리기",
+      "asset": "art/chapter01/layers/characters/soi-drawing-hands-v1.png",
+      "rect": [
+        938,
+        330,
+        112,
+        132
+      ],
+      "order": 50,
+      "interactive": false,
+      "pose": "soi-drawing",
+      "part": "hands"
+    }
+  ],
+  "foreground": {
+    "asset": "art/chapter01/layers/sprites/table-foreground-v1.png",
+    "rect": [
+      835,
+      432,
+      257,
+      201
+    ],
+    "order": 44,
+    "status": "seated-pose composite inspected; other poses untested",
+    "id": "table-foreground",
+    "alwaysVisible": true
+  },
+  "presets": [
+    {
+      "id": "prepare",
+      "label": "준비",
+      "visible": [
+        "can",
+        "soi-seated-body",
+        "soi-seated-hands"
+      ],
+      "active": [
+        "can"
+      ],
+      "line": "남은 걸로 따뜻하게 해 보자.",
+      "speaker": "수혁",
+      "description": "식재료를 꺼내 놓은 주방"
+    },
+    {
+      "id": "cook",
+      "label": "요리 자세",
+      "visible": [
+        "can",
+        "pot",
+        "cook",
+        "soi-seated-body",
+        "soi-seated-hands"
+      ],
+      "active": [],
+      "line": "냄새 좋다.",
+      "speaker": "소이",
+      "description": "고정 주방 자리의 요리 포즈 · 미니게임 규칙은 보류"
+    },
+    {
+      "id": "meal",
+      "label": "식사",
+      "visible": [
+        "soup-father",
+        "soup-soi",
+        "suhyeok-seated-body",
+        "suhyeok-seated-hands",
+        "soi-seated-body",
+        "soi-seated-hands"
+      ],
+      "active": [],
+      "line": "아빠 것도 식기 전에 먹어.",
+      "speaker": "소이",
+      "description": "같은 식탁에서 함께 먹는 저녁"
+    }
+  ],
+  "zoom": {
+    "scale": 2,
+    "originX": 47,
+    "originY": 45
+  },
+  "status": "resource placement prototype; no minigame or date rules"
+}

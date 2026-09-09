@@ -1,0 +1,43 @@
+{
+  "assets": [
+    {
+      "id": "pencil-cup",
+      "file": "art/chapter01/layers/sprites/pencil-cup-source-v1.png",
+      "size": [
+        46,
+        68
+      ],
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "sourceRgbPreserved": true
+    },
+    {
+      "id": "sketchbook",
+      "file": "art/chapter01/layers/sprites/sketchbook-source-v1.png",
+      "size": [
+        102,
+        73
+      ],
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "sourceRgbPreserved": true
+    },
+    {
+      "id": "mug",
+      "file": "art/chapter01/layers/sprites/mug-source-v1.png",
+      "size": [
+        53,
+        52
+      ],
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "sourceRgbPreserved": true
+    }
+  ],
+  "source": "art/scenes/01-camper/camper-mood-v1.png",
+  "method": "manual polygon alpha; unmodified source RGB",
+  "limitations": [
+    "Native source props are small; large Polaroid closeups require later detail work.",
+    "Pencil cup keeps existing colors, including blue; narrative state not finalized."
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "id":"ch01-first-drawing",
+  "status":"dialogue-draft; local preview only",
+  "condition":"색연필을 가져온 저녁을 가정. 실제 인벤토리·날짜 연결은 후속.",
+  "title":"처음 그린 바다",
+  "beats":[
+    {"id":"ask","speaker":"소이","text":"아빠, 이 파란색 써도 돼?","pose":"seated","page":"blank","camera":"pair","photo":"evening","caption":"그날 저녁"},
+    {"id":"answer","speaker":"수혁","text":"응. 네가 그리고 싶은 거 그려.","pose":"seated","page":"blank","camera":"pair","photo":"evening","caption":"그날 저녁"},
+    {"id":"first-line","speaker":"소이","text":"바다는… 여기서부터 하면 되겠다.","pose":"drawing","page":"started","camera":"book","photo":"drawing","caption":"작은 파란 선"},
+    {"id":"wide","speaker":"수혁","text":"생각보다 넓네.","pose":"drawing","page":"started","camera":"book","photo":"drawing","caption":"작은 파란 선"},
+    {"id":"together","speaker":"소이","text":"둘이 들어가야 하니까.","pose":"seated","page":"complete","camera":"book","photo":"drawing","caption":"우리 둘이 있는 바다"},
+    {"id":"point","speaker":"소이","text":"큰 사람은 아빠야. 옆에는 나.","pose":"seated","page":"complete","camera":"pair","photo":"promise","caption":"아직 가 보지 못한 곳"},
+    {"id":"promise","speaker":"수혁","text":"그럼, 같이 보러 가자. 진짜 바다.","pose":"seated","page":"complete","camera":"pair","photo":"promise","caption":"아직 가 보지 못한 곳"},
+    {"id":"hold","speaker":"소이","text":"거기서도 손잡고 있어야 해.","pose":"seated","page":"complete","camera":"pair","photo":"promise","caption":"아직 가 보지 못한 곳"},
+    {"id":"memory","speaker":"","text":"그림 속 두 사람은, 같은 바다를 보고 있었다.","pose":"seated","page":"complete","camera":"book","photo":"memory","caption":"처음 그린 바다"}
+  ],
+  "onComplete":{"memoryId":"first-sea-drawing","objective":"소이와 바다에 가기"},
+  "notes":["새 대사 초안이며 원문 인용이나 확정 대본이 아니다.","기존 원화의 바다 그림을 재사용한다.","실제 기억 저장과 다음 목적지 시스템은 아직 없다."]
+}

@@ -1,0 +1,70 @@
+<div id="live49-layers">
+  <style>
+    #live49-layers{font-family:system-ui,sans-serif;color:#f1e6d6;background:#242b2a;padding:16px;border-radius:12px}
+    #live49-layers *{box-sizing:border-box}
+    #live49-layers .controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+    #live49-layers button{font:inherit;color:#f1e6d6;background:#35403c;border:1px solid #778176;border-radius:6px;min-height:44px;padding:8px 12px;cursor:pointer}
+    #live49-layers button[aria-pressed=true]{background:#725d3e;border-color:#ecd19b}
+    #live49-layers .scene{position:relative;aspect-ratio:1672/941;overflow:hidden;background:#1b211f}
+    #live49-layers .world{position:absolute;inset:0;transform-origin:var(--layer-origin-x,57.5%) var(--layer-origin-y,52%)}
+    #live49-layers .scene.zoom .world{transform:scale(var(--layer-zoom,3.8))}
+    #live49-layers .scene img{position:absolute;display:block;pointer-events:none}
+    #live49-layers .base{width:100%;height:100%;inset:0}
+    #live49-layers .focus-box{position:absolute;border:2px solid #f4cf7f;box-shadow:0 0 10px #e3bf6577;border-radius:5px;pointer-events:none}
+    #live49-layers .name{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);white-space:nowrap;background:#292b25;color:#ffeac0;padding:5px 8px;border-radius:4px;font-size:13px}
+    #live49-layers .status{margin:12px 0 0;min-height:24px;font-size:14px}
+    #live49-layers [hidden]{display:none!important}
+    @media(max-width:480px){#live49-layers{padding:10px}#live49-layers button{padding:8px;font-size:14px}}
+  </style>
+  <div class="controls" aria-label="레이어 검수 상태"></div>
+  <div class="scene" role="img" aria-label="같은 캠핑카 배경 위에서 소품과 스케치북 활성 표시를 바꾸는 검수 화면"><div class="world"></div></div>
+  <p class="status" aria-live="polite"></p>
+  <script>
+  (()=>{
+    const root=document.getElementById('live49-layers');
+    const config=__CONFIG__;
+    const assets=__ASSETS__;
+    const zoomConfig=config.zoom||{scale:3.8,originX:57.5,originY:52};
+    root.style.setProperty('--layer-origin-x',zoomConfig.originX+'%');
+    root.style.setProperty('--layer-origin-y',zoomConfig.originY+'%');
+    root.style.setProperty('--layer-zoom',String(zoomConfig.scale));
+    const renderLayers=[...config.slots,...(config.actors||[]),...(config.actors&&config.foreground?[config.foreground]:[])];
+    const scene=root.querySelector('.scene');
+    const world=root.querySelector('.world');
+    const base=document.createElement('img');base.src=assets.base;base.className='base';base.alt='';world.append(base);
+    const layers=new Map();
+    for(const slot of renderLayers){
+      if(!assets[slot.id])continue;
+      const el=document.createElement('img');el.src=assets[slot.id];el.alt='';el.dataset.slot=slot.id;
+      if(slot.pose)el.dataset.pose=slot.pose;
+      if(slot.part)el.dataset.part=slot.part;
+      const [x,y,w,h]=slot.rect;
+      Object.assign(el.style,{left:x/config.canvas.width*100+'%',top:y/config.canvas.height*100+'%',width:w/config.canvas.width*100+'%',height:h/config.canvas.height*100+'%',zIndex:String(slot.order)});
+      world.append(el);layers.set(slot.id,el);
+    }
+    const focus=document.createElement('div');focus.className='focus-box';focus.style.zIndex='80';focus.hidden=true;
+    const name=document.createElement('span');name.className='name';focus.append(name);scene.append(focus);
+    let selectedSlot=null;
+    function placeFocus(){
+      focus.hidden=!selectedSlot;
+      if(!selectedSlot)return;
+      const[x,y,w,h]=selectedSlot.rect;
+      const scale=scene.classList.contains('zoom')?zoomConfig.scale:1;
+      Object.assign(focus.style,{left:(zoomConfig.originX+(x/config.canvas.width*100-zoomConfig.originX)*scale)+'%',top:(zoomConfig.originY+(y/config.canvas.height*100-zoomConfig.originY)*scale)+'%',width:w/config.canvas.width*100*scale+'%',height:h/config.canvas.height*100*scale+'%'});
+      name.textContent=selectedSlot.name;
+    }
+    const buttons=[];
+    function render(preset){
+      for(const slot of renderLayers){const el=layers.get(slot.id);if(el)el.hidden=!(slot.alwaysVisible||preset.visible.includes(slot.id));}
+      selectedSlot=config.slots.find(s=>preset.active.includes(s.id)&&preset.visible.includes(s.id)&&layers.has(s.id));
+      placeFocus();
+      for(const [button,id] of buttons)button.setAttribute('aria-pressed',String(id===preset.id));
+      root.querySelector('.status').textContent=preset.description||(preset.id==='base'?'소품을 끈 상태':preset.id==='table'?'소품은 놓여 있고, 활성 사건은 없는 상태':'같은 소품 배치에서 스케치북 사건만 활성화');
+      root.dataset.preset=preset.id;
+    }
+    for(const preset of config.presets){const b=document.createElement('button');b.type='button';b.textContent=preset.label;b.addEventListener('click',()=>render(preset));root.querySelector('.controls').append(b);buttons.push([b,preset.id]);}
+    const zoom=document.createElement('button');zoom.type='button';zoom.textContent='식탁 확대';zoom.setAttribute('aria-pressed','false');zoom.addEventListener('click',()=>{const enabled=scene.classList.toggle('zoom');zoom.setAttribute('aria-pressed',String(enabled));placeFocus();});root.querySelector('.controls').append(zoom);
+    render(config.presets[1]);
+  })();
+  </script>
+</div>

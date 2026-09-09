@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "coordinateOrigin": "top-left",
+  "status": "prototype, manually traced against supplied scene images",
+  "scenes": {
+    "mart": {
+      "image": "art/scenes/02-mart/mart-interior-v1.png",
+      "width": 1672,
+      "height": 941,
+      "objective": "먹을 것과 약을 찾자. 소이가 기다리고 있다.",
+      "hotspots": [
+        {"id":"drawer","name":"걸린 서랍","foundName":"성냥갑","reward":"성냥","minigame":"search","pose":"suhyeok-investigate","label":[539,468],"hit":[440,478,195,89],"polygon":[[450,495],[625,493],[625,544],[451,543]],"description":"손잡이가 걸려 있다. 힘을 줄 순간을 맞추면 조용히 열 수 있겠다."},
+        {"id":"food","name":"식품 선반","foundName":"남은 통조림","reward":"통조림","minigame":null,"pose":"suhyeok-investigate","label":[596,83],"hit":[466,94,270,228],"polygon":[[474,94],[732,92],[727,317],[461,319]],"description":"아직 밀봉된 통조림이 하나 남아 있다."},
+        {"id":"medicine","name":"구급 물품장","foundName":"진통제","reward":"진통제","minigame":null,"pose":"suhyeok-investigate","label":[1055,116],"hit":[955,129,196,202],"polygon":[[963,130],[1147,129],[1140,326],[954,328]],"description":"라벨을 확인했다. 수혁이 찾던 진통제다."},
+        {"id":"pencils","name":"문구 선반","foundName":"색연필 상자","reward":"색연필","minigame":"search","pose":"suhyeok-investigate","label":[1250,407],"hit":[1080,415,340,185],"polygon":[[1084,419],[1412,416],[1417,594],[1082,596]],"description":"뒤쪽에 초록색 상자가 끼어 있다. 선반을 흔들지 않고 꺼내 보자."}
+      ]
+    },
+    "camper": {
+      "image": "art/scenes/01-camper/camper-mood-v1.png",
+      "width": 1672,
+      "height": 941,
+      "objective": "가져온 재료로 따뜻한 한 끼를 준비하자.",
+      "hotspots": [
+        {"id":"stove","name":"작은 주방","foundName":"오늘의 요리","reward":null,"minigame":"cook","pose":"suhyeok-cook","label":[667,247],"hit":[472,267,359,123],"polygon":[[479,263],[823,262],[828,382],[474,382]],"description":"편의점에서 가져온 통조림을 데운다. 따뜻해지는 순간에 불을 줄이자."},
+        {"id":"sketchbook","name":"소이의 스케치북","foundName":"바다 그림","reward":null,"minigame":null,"pose":"soi-draw","label":[948,421],"hit":[894,447,124,85],"polygon":[[910,456],[990,457],[1003,512],[917,516]],"description":"색연필을 가져왔다면 새 그림이 추가되는 자리다."}
+      ]
+    }
+  }
+}

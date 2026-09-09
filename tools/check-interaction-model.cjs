@@ -1,0 +1,18 @@
+const assert=require('node:assert/strict');
+const {createLive49InteractionModel}=require('../design/interaction/interaction-model.js');
+const m=createLive49InteractionModel();
+assert.equal(m.select('invalid'),false);
+m.select('stove');assert.equal(m.start(),false);
+m.select('drawer');assert(m.start());assert.equal(m.select('food'),false);
+assert.equal(m.resolve(NaN),false);assert.equal(m.resolve(101),false);
+m.resolve(20);assert.equal(m.state.noise,1);assert.equal(m.take(),false);
+assert(m.start());m.resolve(52);assert(m.take());assert.equal(m.take(),false);
+m.select('food');assert(m.take());m.select('medicine');assert(m.take());
+m.select('pencils');m.start();m.resolve(39);m.cancel();m.select('pencils');assert.equal(m.state.phase,'found');assert(m.take());
+assert.equal(m.state.inventory.length,4);
+m.select('stove');assert(m.start());m.resolve(52);
+assert.equal(m.state.inventory.length,4);assert(m.state.inventory.includes('따뜻한 수프'));assert(!m.state.inventory.includes('통조림'));assert.equal(m.start(),false);
+const n=createLive49InteractionModel();n.select('food');n.take();n.select('stove');n.start();n.resolve(1);assert(n.state.inventory.includes('조금 탄 수프'));assert.equal(n.state.inventory.length,1);
+const c=createLive49InteractionModel();c.select('drawer');c.start();c.cancel();assert.equal(c.state.minutes,1);assert.equal(c.state.noise,1);assert.equal(c.state.phase,'idle');
+const edge=createLive49InteractionModel();edge.select('drawer');edge.start();edge.resolve(65);assert.equal(edge.state.phase,'found');
+console.log('PASS: invalid input, cooking ingredient gate, success boundaries, failed search/retry, duplicate loot prevention, cancel cost, four-slot inventory and cooking outcomes.');

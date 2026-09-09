@@ -1,0 +1,100 @@
+<div id="live49-chapter-one">
+  <style>
+    #live49-chapter-one{--l49-ink:#ece2cc;--l49-dim:#b9b7a2;--l49-bg:#202821;--l49-gold:#e7bc75;color:var(--l49-ink);background:var(--l49-bg);font:15px/1.6 'Malgun Gothic',sans-serif;padding:20px;border-radius:12px;box-sizing:border-box}
+    #live49-chapter-one *{box-sizing:border-box}#live49-chapter-one [hidden]{display:none!important}
+    #live49-chapter-one .top{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+    #live49-chapter-one .eyebrow{font-size:12px;color:var(--l49-dim);letter-spacing:.16em}
+    #live49-chapter-one select,#live49-chapter-one button{font:inherit;color:var(--l49-ink);background:#303b30;border:1px solid #52604c;border-radius:5px;padding:8px 12px;cursor:pointer;max-width:100%}
+    #live49-chapter-one select{font-size:16px}#live49-chapter-one button[aria-pressed=true]{background:#e1c397;color:#302b22;border-color:#e1c397}
+    #live49-chapter-one button:disabled{opacity:.45;cursor:default}
+    #live49-chapter-one .state-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+    #live49-chapter-one .state-row button{font-size:12px;padding:7px 10px}
+    #live49-chapter-one .photo{background:#e8ddc6;padding:10px 10px 0;color:#514c40;box-shadow:0 6px 18px #1118}
+    #live49-chapter-one .viewport{position:relative;aspect-ratio:1672/941;overflow:hidden;background:#30372e}
+    #live49-chapter-one .world{position:absolute;inset:0;transform-origin:50% 50%;transition:transform .65s ease;will-change:transform}
+    #live49-chapter-one .world img{position:absolute;pointer-events:none;user-select:none}#live49-chapter-one .base{inset:0;width:100%;height:100%}
+    #live49-chapter-one .hotspots{position:absolute;inset:0;pointer-events:none}
+    #live49-chapter-one .hotspot{position:absolute;min-width:36px;min-height:36px;transform:translate(-50%,-50%);border:1px solid #f0d08e;background:#e7bc7526;box-shadow:0 0 10px #e7bc7566;pointer-events:auto;padding:0;border-radius:5px}
+    #live49-chapter-one .hotspot span{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);white-space:nowrap;background:#202821ee;color:#f8edce;padding:2px 8px;border-radius:3px;font-size:12px;pointer-events:none}
+    #live49-chapter-one .caption{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:42px;font-size:13px;padding:7px 3px}
+    #live49-chapter-one .caption button{font-size:12px;background:transparent;color:#514c40;border-color:#b5a992;padding:3px 8px}
+    #live49-chapter-one .dialogue{padding:20px 4px 4px;min-height:112px}
+    #live49-chapter-one .speaker{color:var(--l49-gold);font-size:13px;min-height:20px}
+    #live49-chapter-one .line{margin:5px 0 14px;white-space:pre-wrap;word-break:keep-all;overflow-wrap:anywhere}
+    #live49-chapter-one .actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:flex-end}
+    #live49-chapter-one .counter{font-size:12px;color:var(--l49-dim);margin-right:auto}
+    #live49-chapter-one .reader{background:#1b231e;padding:15px;min-height:300px}
+    #live49-chapter-one .letter-paper{max-width:430px;min-height:430px;margin:auto;padding:46px 35px;color:#543d34;background-size:100% 100%;background-repeat:no-repeat;display:flex;flex-direction:column;justify-content:center}
+    #live49-chapter-one .letter-paper p{font-size:15px;line-height:1.9;word-break:keep-all;overflow-wrap:anywhere;margin:0 0 18px}
+    #live49-chapter-one .route{border-top:1px solid #52604c;padding:14px 0;margin-top:12px}
+    #live49-chapter-one .route strong{font-weight:500;color:var(--l49-gold)}
+    @media(max-width:480px){#live49-chapter-one{padding:12px}#live49-chapter-one .top{align-items:flex-start}#live49-chapter-one select{width:100%}#live49-chapter-one .photo{padding:6px 6px 0}#live49-chapter-one .reader{padding:4px}#live49-chapter-one .letter-paper{padding:35px 25px;min-height:405px}#live49-chapter-one .hotspot{min-width:44px;min-height:44px}#live49-chapter-one .state-row button{min-height:44px}#live49-chapter-one .actions button{min-height:44px}}
+    @media(prefers-reduced-motion:reduce){#live49-chapter-one .world{transition:none}}
+  </style>
+  <div class="top"><div class="eyebrow">LIVE49 · CHAPTER 01</div><select aria-label="장면 선택"></select></div>
+  <div class="state-row" role="group" aria-label="장면 상태"></div>
+  <div class="photo">
+    <div class="viewport"><div class="world"></div><div class="hotspots"></div></div>
+    <div class="reader" hidden><div class="letter-paper"></div></div>
+    <div class="caption"><span></span><button type="button" class="zoom">전체 보기</button></div>
+  </div>
+  <div class="dialogue" aria-live="polite"><div class="speaker"></div><p class="line"></p></div>
+  <div class="route" hidden><strong>다음 약속 · 소이와 바다에 가기</strong><div>떠나기 전에 물자와 수혁의 상태를 살펴본다.</div></div>
+  <div class="actions"><span class="counter"></span><button type="button" class="previous">이전</button><button type="button" class="next">다음</button></div>
+  <script>
+  (()=>{
+    const root=document.getElementById('live49-chapter-one'),data=__DATA__,assets=__ASSETS__;
+    const $=s=>root.querySelector(s),select=$('select'),row=$('.state-row'),world=$('.world'),hotspots=$('.hotspots');
+    let sceneIndex=0,stateIndex=0,wide=false,letterPage=0;
+    const letterPages=[[0,1],[2,3],[4],[5,6,7]];
+    data.scenes.forEach((s,i)=>{const o=document.createElement('option');o.value=i;o.textContent=s.title;select.append(o)});
+    function scene(){return data.scenes[sceneIndex]}
+    function state(){return scene().presets[stateIndex]}
+    function layers(){return [...scene().slots,...(scene().actors||[]),...(scene().pages||[]),...(scene().foreground?[scene().foreground]:[])]}
+    function image(src,cls){const i=document.createElement('img');i.src=assets[src];i.alt='';i.className=cls;return i}
+    function changeScene(){
+      sceneIndex=Number(select.value);stateIndex=0;wide=false;letterPage=0;world.replaceChildren();
+      const b=image(scene().base,'base');b.alt=scene().title;world.append(b);
+      for(const l of layers()){
+        const i=image(l.asset,'layer');i.dataset.layer=l.id;i.style.left=l.rect[0]/1672*100+'%';i.style.top=l.rect[1]/941*100+'%';
+        i.style.width=l.rect[2]/1672*100+'%';i.style.height=l.rect[3]/941*100+'%';i.style.zIndex=l.order;world.append(i);
+      }
+      row.replaceChildren();scene().presets.forEach((s,i)=>{const b=document.createElement('button');b.type='button';b.textContent=s.label;b.dataset.state=s.id;b.onclick=()=>{stateIndex=i;letterPage=0;wide=false;render()};row.append(b)});
+      render();
+    }
+    function render(){
+      const s=state(),sc=scene(),reading=sc.id==='letter'&&s.id==='read';
+      root.dataset.scene=sc.id;root.dataset.state=s.id;root.dataset.letterPage=letterPage;
+      [...row.children].forEach((b,i)=>b.setAttribute('aria-pressed',String(i===stateIndex)));
+      for(const l of layers())world.querySelector('[data-layer="'+l.id+'"]').hidden=!(l.alwaysVisible||s.visible.includes(l.id));
+      const f=[...(wide?[.5,.5,1]:(s.focus||[sc.zoom.originX/100,sc.zoom.originY/100,sc.zoom.scale]))];
+      const edge=.5/f[2];f[0]=Math.max(edge,Math.min(1-edge,f[0]));f[1]=Math.max(edge,Math.min(1-edge,f[1]));
+      // Translate after scaling: put the requested crop center at photo center.
+      world.style.transform=`translate(${(0.5-f[0])*f[2]*100}%,${(0.5-f[1])*f[2]*100}%) scale(${f[2]})`;
+      $('.viewport').hidden=reading;$('.reader').hidden=!reading;$('.zoom').hidden=reading;
+      $('.zoom').textContent=wide?'가까이 보기':'전체 보기';$('.caption span').textContent=sc.title+' · '+s.label;
+      $('.speaker').textContent=reading?'서연':s.speaker||'';
+      $('.line').textContent=reading?'':s.line||s.description||'';
+      $('.route').hidden=!(sc.id==='evening'&&s.id==='next');
+      if(reading){const paper=$('.letter-paper');paper.style.backgroundImage='url("'+assets[data.stationery]+'")';paper.replaceChildren();letterPages[letterPage].forEach(n=>{const p=document.createElement('p');p.textContent=data.letter.paragraphs[n];paper.append(p)})}
+      $('.counter').textContent=reading?`${letterPage+1} / ${letterPages.length}`:`${stateIndex+1} / ${sc.presets.length}`;
+      $('.previous').disabled=stateIndex===0;
+      $('.next').disabled=stateIndex===sc.presets.length-1&&(!reading||letterPage===letterPages.length-1);
+      hotspots.replaceChildren();if(reading)return;
+      const targets=[...layers(),...(sc.hotspots||[])];
+      for(const id of s.active||[]){
+        const t=targets.find(t=>t.id===id);if(!t)continue;
+        const x=((t.rect[0]+t.rect[2]/2)/1672-f[0])*f[2]+.5,y=((t.rect[1]+t.rect[3]/2)/941-f[1])*f[2]+.5;
+        if(x<.05||x>.95||y<.16||y>.92)continue;
+        const b=document.createElement('button');b.type='button';b.className='hotspot';b.style.left=x*100+'%';b.style.top=y*100+'%';b.setAttribute('aria-label',t.name);
+        const label=document.createElement('span');label.textContent=t.name;b.append(label);
+        b.onclick=()=>{const next=sc.id==='store'?(id==='fridge'?'fridge':id==='stationery'?'stationery':id==='pencils'?'pencils-taken':'recovered'):(sc.id==='evening'&&id==='journal'?'journal':null);
+          stateIndex=next?sc.presets.findIndex(p=>p.id===next):Math.min(stateIndex+1,sc.presets.length-1);wide=false;render()};hotspots.append(b);
+      }
+    }
+    $('.previous').onclick=()=>{if(scene().id==='letter'&&state().id==='read'&&letterPage>0)letterPage--;else stateIndex=Math.max(0,stateIndex-1);wide=false;render()};
+    $('.next').onclick=()=>{if(scene().id==='letter'&&state().id==='read'&&letterPage<letterPages.length-1)letterPage++;else stateIndex=Math.min(scene().presets.length-1,stateIndex+1);wide=false;render()};
+    $('.zoom').onclick=()=>{wide=!wide;render()};select.onchange=changeScene;changeScene();
+  })();
+  </script>
+</div>
