@@ -8,7 +8,7 @@
   "sceneCount": 6,
   "stateCount": 33,
   "fixedBaseCount": 3,
-  "spriteCount": 32,
+  "spriteCount": 35,
   "assets": [
     {
       "asset": "art/chapter01/dog/byeolddongi-alert-v1.png",
@@ -215,8 +215,6 @@
       "mode": "RGBA",
       "sha256": "7d3e4a7ffbde2d458b6481fdae792456cb73df3bbf12e8b5a4dc1e16551c47fc",
       "usedIn": [
-        "byeolddongi",
-        "letter",
         "store"
       ],
       "role": "sprite",
@@ -308,22 +306,6 @@
         ],
         "method": "gray exterior flood and handle holes; RGB preserved"
       }
-    },
-    {
-      "asset": "art/chapter01/layers/camper-clean-base-v1.png",
-      "size": [
-        1672,
-        941
-      ],
-      "mode": "RGB",
-      "sha256": "1ba989de470f1fafecca1b6d508d9d38d8cfb7e3a96979b3c0036644001b0b5f",
-      "usedIn": [
-        "byeolddongi",
-        "drawing",
-        "evening",
-        "kitchen"
-      ],
-      "role": "fixed-base"
     },
     {
       "asset": "art/chapter01/layers/characters/soi-drawing-body-v1.png",
@@ -637,19 +619,6 @@
       "transparentPixels": 16268
     },
     {
-      "asset": "art/chapter01/letter/old-house-clean-base-v1.png",
-      "size": [
-        1672,
-        941
-      ],
-      "mode": "RGB",
-      "sha256": "5f66efdb90db99cd693eca1603986695b55a1483aa1f7c4cafad8c8e82d2acf8",
-      "usedIn": [
-        "letter"
-      ],
-      "role": "fixed-base"
-    },
-    {
       "asset": "art/chapter01/letter/pink-envelope-v1.png",
       "size": [
         546,
@@ -726,6 +695,120 @@
           734
         ]
       }
+    },
+    {
+      "asset": "art/chapter01/revision-v3/camper-clean-base-v3.png",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "sha256": "7acbf901342b7854170c4388ece659a1fa4ba0446d60f78dc1b8bb7c6847ea9f",
+      "usedIn": [
+        "byeolddongi",
+        "drawing",
+        "evening",
+        "kitchen"
+      ],
+      "role": "fixed-base"
+    },
+    {
+      "asset": "art/chapter01/revision-v3/house-clean-base-v3.png",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "sha256": "2c9efbb70110bc34073df066a28b8ec1d0325e904719e0697ce43eb8a1221ead",
+      "usedIn": [
+        "letter"
+      ],
+      "role": "fixed-base"
+    },
+    {
+      "asset": "art/chapter01/revision-v3/store-clean-base-v3.png",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "sha256": "9cda7b9842f7e041b81046a1a8bfed4f3748f9cd4a181c432dfb7a3b9f561844",
+      "usedIn": [
+        "store"
+      ],
+      "role": "fixed-base"
+    },
+    {
+      "asset": "art/chapter01/revision-v3/suhyeok-befriend-v3.png",
+      "size": [
+        453,
+        467
+      ],
+      "mode": "RGBA",
+      "sha256": "9ac5c7a16d7d3ae626b1ae2e7699eda6c8886382afe7855b3afd3d70c1e824e5",
+      "usedIn": [
+        "byeolddongi"
+      ],
+      "role": "sprite",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        453,
+        467
+      ],
+      "transparentPixels": 102604
+    },
+    {
+      "asset": "art/chapter01/revision-v3/suhyeok-drawer-v3.png",
+      "size": [
+        396,
+        774
+      ],
+      "mode": "RGBA",
+      "sha256": "51c30cb68b2ecaf97ecd327894146b664270c911d92c16cacc18b8526b2dc059",
+      "usedIn": [
+        "letter"
+      ],
+      "role": "sprite",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        396,
+        774
+      ],
+      "transparentPixels": 174430
+    },
+    {
+      "asset": "art/chapter01/revision-v3/suhyeok-read-letter-v3.png",
+      "size": [
+        264,
+        775
+      ],
+      "mode": "RGBA",
+      "sha256": "a3bbb8b96d32e73fbaff5e838e9075f3ff25d7b8b90277a6906ce5105152c50a",
+      "usedIn": [
+        "letter"
+      ],
+      "role": "sprite",
+      "alphaRange": [
+        0,
+        255
+      ],
+      "alphaBounds": [
+        0,
+        0,
+        264,
+        775
+      ],
+      "transparentPixels": 80717
     },
     {
       "asset": "art/chapter01/shared-props/black-journal-v1.png",
@@ -1058,19 +1141,6 @@
         49
       ],
       "transparentPixels": 551
-    },
-    {
-      "asset": "art/chapter01/store/store-clean-base-v1.png",
-      "size": [
-        1672,
-        941
-      ],
-      "mode": "RGB",
-      "sha256": "2976537cf714f67ac00976a3d17c715ce294c33df6ec753a533436819090f93f",
-      "usedIn": [
-        "store"
-      ],
-      "role": "fixed-base"
     }
   ]
 }

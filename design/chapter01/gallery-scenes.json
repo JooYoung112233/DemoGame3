@@ -7,7 +7,7 @@
         "width": 1672,
         "height": 941
       },
-      "base": "art/chapter01/layers/camper-clean-base-v1.png",
+      "base": "art/chapter01/revision-v3/camper-clean-base-v3.png",
       "slots": [
         {
           "id": "pot",
@@ -271,7 +271,7 @@
         "width": 1672,
         "height": 941
       },
-      "base": "art/chapter01/layers/camper-clean-base-v1.png",
+      "base": "art/chapter01/revision-v3/camper-clean-base-v3.png",
       "source": "art/scenes/01-camper/camper-mood-v1.png",
       "slots": [
         {
@@ -668,7 +668,7 @@
         "width": 1672,
         "height": 941
       },
-      "base": "art/chapter01/store/store-clean-base-v1.png",
+      "base": "art/chapter01/revision-v3/store-clean-base-v3.png",
       "slots": [
         {
           "id": "can-a",
@@ -747,21 +747,21 @@
           "name": "수혁 · 조사",
           "asset": "art/chapter01/extra-poses/suhyeok-investigate-v2.png",
           "rect": [
-            1032,
-            319,
-            240,
-            306
+            1075,
+            372,
+            195,
+            249
           ],
           "order": 40,
           "tone": [
-            0.94,
-            0.9,
-            0.95
+            0.88,
+            0.79,
+            0.94
           ],
           "contactShadow": [
-            1138,
-            618,
-            68,
+            1161,
+            616,
+            56,
             9,
             0.2
           ]
@@ -923,21 +923,7 @@
         "회수용 병은 기존 원화 크기 그대로 추출했다.",
         "약품 종류·용량은 원문에 없으므로 시각적 소품으로만 둔다."
       ],
-      "occluders": [
-        {
-          "id": "front-window-beam",
-          "rect": [
-            959,
-            610,
-            584,
-            54
-          ],
-          "states": [
-            "stationery",
-            "pencils-taken"
-          ]
-        }
-      ]
+      "occluders": []
     },
     {
       "id": "byeolddongi",
@@ -946,7 +932,7 @@
         "width": 1672,
         "height": 941
       },
-      "base": "art/chapter01/layers/camper-clean-base-v1.png",
+      "base": "art/chapter01/revision-v3/camper-clean-base-v3.png",
       "slots": [
         {
           "id": "dog-sit",
@@ -1050,25 +1036,25 @@
         },
         {
           "id": "meet-dog",
-          "name": "수혁 · 손 내밀기",
-          "asset": "art/chapter01/extra-poses/suhyeok-investigate-v2.png",
+          "name": "수혁 · 바닥에 앉아 손 내밀기",
+          "asset": "art/chapter01/revision-v3/suhyeok-befriend-v3.png",
           "rect": [
-            634,
-            686,
-            178,
-            227
+            628,
+            714,
+            190,
+            196
           ],
           "order": 45,
           "interactive": false,
           "tone": [
-            0.88,
             0.83,
-            0.95
+            0.74,
+            0.94
           ],
           "contactShadow": [
-            713,
-            907,
-            53,
+            718,
+            901,
+            91,
             9,
             0.23
           ]
@@ -1211,13 +1197,13 @@
           ],
           "active": [],
           "focus": [
-            0.45,
-            0.825,
-            2.5
+            0.445,
+            0.81,
+            2.7
           ],
           "line": "괜찮아. 천천히 와.",
           "speaker": "수혁",
-          "description": "걷기 없이 고정 조사 포즈를 재사용한 첫 교감"
+          "description": "바닥에 편하게 앉아 별똥이에게 손을 내미는 전용 자세"
         },
         {
           "id": "sit",
@@ -1280,7 +1266,7 @@
         "width": 1672,
         "height": 941
       },
-      "base": "art/chapter01/letter/old-house-clean-base-v1.png",
+      "base": "art/chapter01/revision-v3/house-clean-base-v3.png",
       "slots": [
         {
           "id": "envelope",
@@ -1302,26 +1288,51 @@
         },
         {
           "id": "investigate",
-          "name": "수혁 · 발견",
-          "asset": "art/chapter01/extra-poses/suhyeok-investigate-v2.png",
+          "name": "수혁 · 서랍 확인",
+          "asset": "art/chapter01/revision-v3/suhyeok-drawer-v3.png",
           "rect": [
-            884,
-            278,
-            203,
-            259
+            914,
+            250,
+            179,
+            350
           ],
           "order": 40,
           "tone": [
-            0.95,
-            0.91,
-            0.96
+            0.88,
+            0.79,
+            0.94
           ],
           "contactShadow": [
-            953,
-            535,
-            67,
-            10,
-            0.2
+            970,
+            596,
+            47,
+            9,
+            0.22
+          ]
+        },
+        {
+          "id": "read-letter",
+          "name": "수혁 · 편지 읽기",
+          "asset": "art/chapter01/revision-v3/suhyeok-read-letter-v3.png",
+          "rect": [
+            973,
+            270,
+            120,
+            352
+          ],
+          "order": 40,
+          "interactive": false,
+          "tone": [
+            0.88,
+            0.79,
+            0.94
+          ],
+          "contactShadow": [
+            1030,
+            618,
+            44,
+            9,
+            0.22
           ]
         }
       ],
@@ -1353,8 +1364,8 @@
           ],
           "focus": [
             0.61,
-            0.445,
-            2.7
+            0.46,
+            2.5
           ],
           "line": "…서연아.",
           "speaker": "수혁",
@@ -1366,12 +1377,12 @@
           "id": "taken",
           "label": "꺼낸 뒤",
           "visible": [
-            "investigate"
+            "read-letter"
           ],
           "focus": [
             0.61,
-            0.445,
-            2.7
+            0.46,
+            2.5
           ],
           "line": "빛바랜 분홍색 편지지. 익숙하고 따뜻한 향기가 희미하게 남아있다.",
           "speaker": "",
@@ -1404,7 +1415,7 @@
         "width": 1672,
         "height": 941
       },
-      "base": "art/chapter01/layers/camper-clean-base-v1.png",
+      "base": "art/chapter01/revision-v3/camper-clean-base-v3.png",
       "slots": [
         {
           "id": "book",

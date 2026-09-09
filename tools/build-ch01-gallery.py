@@ -19,6 +19,14 @@ for sc in scenes:
     for l in sc['slots']+sc.get('actors',[]):l.update(adjustments.get('layers',{}).get(l['id'],{}))
     for s in sc['presets']:s.update(adjustments.get('presets',{}).get(s['id'],{}))
     sc['occluders']=adjustments.get('occluders',[])
+revision=json.loads((ROOT/'design/chapter01/visual-revision-v3.json').read_text(encoding='utf-8'))
+for sc in scenes:
+    adjustments=revision['scenes'].get(sc['id'],{})
+    if 'base' in adjustments:sc['base']=adjustments['base']
+    sc['slots'].extend(adjustments.get('addSlots',[]))
+    for l in sc['slots']+sc.get('actors',[]):l.update(adjustments.get('layers',{}).get(l['id'],{}))
+    for s in sc['presets']:s.update(adjustments.get('presets',{}).get(s['id'],{}))
+    if 'occluders' in adjustments:sc['occluders']=adjustments['occluders']
 stationery='art/chapter01/letter/pink-stationery-v1.png'
 data=dict(scenes=scenes,letter=json.loads((ROOT/'design/chapter01/first-letter-text.json').read_text(encoding='utf-8')),stationery=stationery)
 specs={stationery:(300,400)}
