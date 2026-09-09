@@ -1,6 +1,7 @@
 @font-face{font-family:Live49Serif;src:url('../../art/title/fonts/Live49MenuSerif-Regular.woff2') format('woff2');font-weight:400;font-display:swap}
 :root{color-scheme:dark;font-family:Live49Serif,serif;background:#10100d;color:#eee3c9}*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #dfc491;outline-offset:5px}button:disabled{cursor:default;opacity:.32}[hidden]{display:none!important}
 .title-stage{width:100%;height:100%;position:relative;overflow:hidden;container-type:size;background:#18180f;isolation:isolate}
+#title.title-stage{height:auto;aspect-ratio:16/9;align-self:center}
 .title-background{position:absolute;width:100%;height:100%;object-fit:cover;inset:0;z-index:-3}
 .title-shade{position:absolute;inset:0;z-index:-2;background:linear-gradient(90deg,rgba(11,14,10,.4),transparent 48%);pointer-events:none}
 .title-menu{position:absolute;left:7.5%;top:19%;width:30%;height:65%;display:flex;flex-direction:column;align-items:center}
