@@ -25,7 +25,7 @@ def pack(id,title,layers,presets,zoom,foreground_order=30):
 props=[
  layer('pot','art/chapter01/kitchen/soup-pot-v1.png',[723,306,75,55],35,'수프 냄비'),
  layer('can','art/chapter01/shared-props/food-can-v1.png',[621,328,25,27],35,'통조림'),
- layer('cook','art/chapter01/extra-poses/suhyeok-cook-v1.png',[740,245,130,262],40,'수혁 · 요리'),
+ layer('cook','art/chapter01/extra-poses/suhyeok-cook-v1.png',[725,230,156,314],40,'수혁 · 요리'),
  layer('soup-father','art/chapter01/shared-props/soup-bowl-v1.png',[872,469,58,46],46,'수혁의 수프'),
  layer('soup-soi','art/chapter01/shared-props/soup-bowl-v1.png',[988,469,50,40],46,'소이의 수프')]
 pack('kitchen','주방과 저녁 식사',props,[

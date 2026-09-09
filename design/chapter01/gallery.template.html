@@ -12,7 +12,8 @@
     #live49-chapter-one .photo{background:#e8ddc6;padding:10px 10px 0;color:#514c40;box-shadow:0 6px 18px #1118}
     #live49-chapter-one .viewport{position:relative;aspect-ratio:1672/941;overflow:hidden;background:#30372e}
     #live49-chapter-one .world{position:absolute;inset:0;transform-origin:50% 50%;transition:transform .65s ease;will-change:transform}
-    #live49-chapter-one .world img{position:absolute;pointer-events:none;user-select:none}#live49-chapter-one .base{inset:0;width:100%;height:100%}
+    #live49-chapter-one .world img{position:absolute;pointer-events:none;user-select:none;visibility:hidden}#live49-chapter-one .base{inset:0;width:100%;height:100%}
+    #live49-chapter-one .world canvas{position:absolute;inset:0;width:100%;height:100%}
     #live49-chapter-one .hotspots{position:absolute;inset:0;pointer-events:none}
     #live49-chapter-one .hotspot{position:absolute;min-width:36px;min-height:36px;transform:translate(-50%,-50%);border:1px solid #f0d08e;background:#e7bc7526;box-shadow:0 0 10px #e7bc7566;pointer-events:auto;padding:0;border-radius:5px}
     #live49-chapter-one .hotspot span{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);white-space:nowrap;background:#202821ee;color:#f8edce;padding:2px 8px;border-radius:3px;font-size:12px;pointer-events:none}
@@ -45,7 +46,7 @@
   (()=>{
     const root=document.getElementById('live49-chapter-one'),data=__DATA__,assets=__ASSETS__;
     const $=s=>root.querySelector(s),select=$('select'),row=$('.state-row'),world=$('.world'),hotspots=$('.hotspots');
-    let sceneIndex=0,stateIndex=0,wide=false,letterPage=0;
+    let sceneIndex=0,stateIndex=0,wide=false,letterPage=0,paintVersion=0;
     const letterPages=[[0,1],[2,3],[4],[5,6,7]];
     data.scenes.forEach((s,i)=>{const o=document.createElement('option');o.value=i;o.textContent=s.title;select.append(o)});
     function scene(){return data.scenes[sceneIndex]}
@@ -59,6 +60,7 @@
         const i=image(l.asset,'layer');i.dataset.layer=l.id;i.style.left=l.rect[0]/1672*100+'%';i.style.top=l.rect[1]/941*100+'%';
         i.style.width=l.rect[2]/1672*100+'%';i.style.height=l.rect[3]/941*100+'%';i.style.zIndex=l.order;world.append(i);
       }
+      const canvas=document.createElement('canvas');canvas.width=1672;canvas.height=941;canvas.setAttribute('role','img');canvas.setAttribute('aria-label',scene().title);world.append(canvas);
       row.replaceChildren();scene().presets.forEach((s,i)=>{const b=document.createElement('button');b.type='button';b.textContent=s.label;b.dataset.state=s.id;b.onclick=()=>{stateIndex=i;letterPage=0;wide=false;render()};row.append(b)});
       render();
     }
@@ -67,6 +69,17 @@
       root.dataset.scene=sc.id;root.dataset.state=s.id;root.dataset.letterPage=letterPage;
       [...row.children].forEach((b,i)=>b.setAttribute('aria-pressed',String(i===stateIndex)));
       for(const l of layers())world.querySelector('[data-layer="'+l.id+'"]').hidden=!(l.alwaysVisible||s.visible.includes(l.id));
+      const version=++paintVersion,images=[...world.querySelectorAll('img')];
+      root.dataset.rendered='loading';
+      Promise.all(images.map(i=>i.decode())).then(()=>{
+        if(version!==paintVersion)return;
+        const ctx=world.querySelector('canvas').getContext('2d');ctx.clearRect(0,0,1672,941);ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
+        ctx.drawImage(images[0],0,0,1672,941);
+        for(const l of layers().sort((a,b)=>a.order-b.order)){
+          const i=world.querySelector('[data-layer="'+l.id+'"]');if(!i.hidden)ctx.drawImage(i,...l.rect);
+        }
+        root.dataset.rendered=sc.id+'/'+s.id;
+      }).catch(()=>{root.dataset.rendered='error'});
       const f=[...(wide?[.5,.5,1]:(s.focus||[sc.zoom.originX/100,sc.zoom.originY/100,sc.zoom.scale]))];
       const edge=.5/f[2];f[0]=Math.max(edge,Math.min(1-edge,f[0]));f[1]=Math.max(edge,Math.min(1-edge,f[1]));
       // Translate after scaling: put the requested crop center at photo center.

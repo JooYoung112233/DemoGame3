@@ -8,7 +8,7 @@ const qa=path.resolve('art/chapter01/gallery-qa');fs.mkdirSync(qa,{recursive:tru
 (async()=>{const browser=await chromium.launch({channel:'msedge',headless:true});try{
 const page=await browser.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
 for(const width of [736,360]){
- await page.setViewportSize({width,height:900});await page.emulateMedia({reducedMotion:'reduce'});await page.goto('http://127.0.0.1:8775');
+ await page.setViewportSize({width,height:900});await page.emulateMedia({reducedMotion:'reduce'});await page.setContent('<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"></head><body style="margin:0;background:#171c1a">'+fragment+'</body></html>');
  const root=page.locator('#live49-chapter-one');
  for(let n=0;n<data.scenes.length;n++){
   const sc=data.scenes[n];await page.getByLabel('장면 선택',{exact:true}).selectOption(String(n));
@@ -16,6 +16,7 @@ for(const width of [736,360]){
   const base=await page.locator('.base').getAttribute('src');
   for(const state of sc.presets){
    await page.locator(`button[data-state="${state.id}"]`).click();assert.equal(await root.getAttribute('data-state'),state.id);
+   await page.waitForFunction(expected=>document.getElementById('live49-chapter-one').dataset.rendered===expected,sc.id+'/'+state.id);
    assert.equal(await page.locator('.base').getAttribute('src'),base);
    for(const l of [...sc.slots,...(sc.actors||[]),...(sc.pages||[]),...(sc.foreground?[sc.foreground]:[])]){
     assert.equal(await page.locator(`img[data-layer="${l.id}"]`).evaluate(i=>i.hidden),!(l.alwaysVisible||state.visible.includes(l.id)),sc.id+'/'+state.id+'/'+l.id);

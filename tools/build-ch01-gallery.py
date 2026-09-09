@@ -18,13 +18,13 @@ data=dict(scenes=scenes,letter=json.loads((ROOT/'design/chapter01/first-letter-t
 specs={stationery:(300,400)}
 bases=set()
 for sc in scenes:
-    specs[sc['base']]=(1000,563);bases.add(sc['base'])
+    specs[sc['base']]=(1672,941);bases.add(sc['base'])
     for l in sc['slots']+sc.get('actors',[])+sc.get('pages',[])+([sc['foreground']] if sc.get('foreground') else []):
         specs[l['asset']]=(max(specs.get(l['asset'],(0,0))[0],min(256,l['rect'][2]*2)),max(specs.get(l['asset'],(0,0))[1],min(280,l['rect'][3]*2)))
 assets={}
 for file,size in specs.items():
     im=Image.open(ROOT/file);im.thumbnail(size,Image.Resampling.LANCZOS);buff=io.BytesIO()
-    if file in bases:im.convert('RGB').save(buff,format='JPEG',quality=73,optimize=True);mime='jpeg'
+    if file in bases:im.convert('RGB').save(buff,format='WEBP',quality=86,method=6);mime='webp'
     else:im.save(buff,format='WEBP',quality=88,method=6);mime='webp'
     assets[file]='data:image/'+mime+';base64,'+base64.b64encode(buff.getvalue()).decode('ascii')
 html=(ROOT/'design/chapter01/gallery.template.html').read_text(encoding='utf-8').replace('__DATA__',json.dumps(data,ensure_ascii=False,separators=(',',':'))).replace('__ASSETS__',json.dumps(assets,separators=(',',':')))

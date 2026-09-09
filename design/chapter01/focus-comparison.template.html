@@ -1,0 +1,19 @@
+<div id="live49-focus-review">
+  <style>#live49-focus-review .focus-photo{display:block;width:100%;height:auto;margin-top:12px}#live49-focus-review .focus-label{margin-top:8px}</style>
+  <div class="viz-controls" role="group" aria-label="주방 장면 비교">
+    <button class="btn" type="button" data-version="before" aria-pressed="false">기존</button>
+    <button class="btn" type="button" data-version="after" aria-pressed="true">초점·배치 보정</button>
+  </div>
+  <img class="focus-photo" alt="배경과 캐릭터의 해상도를 맞추고 수혁의 발 위치를 조정한 주방 장면">
+  <div class="focus-label text-small" aria-live="polite">초점·배치 보정 · 화풍 최종안 아님</div>
+  <script>
+  (()=>{const root=document.getElementById('live49-focus-review'),images=__IMAGES__,photo=root.querySelector('img'),label=root.querySelector('.focus-label');
+    photo.src=images.after;
+    for(const button of root.querySelectorAll('button'))button.onclick=()=>{
+      const key=button.dataset.version;photo.src=images[key];photo.alt=key==='before'?'기존 주방 합성':'초점과 발 위치를 조정한 주방 합성';
+      for(const b of root.querySelectorAll('button'))b.setAttribute('aria-pressed',String(b===button));
+      label.textContent=key==='before'?'기존 · 배경과 인물의 선명도 차이':'초점·배치 보정 · 화풍 최종안 아님';
+    };
+  })();
+  </script>
+</div>
