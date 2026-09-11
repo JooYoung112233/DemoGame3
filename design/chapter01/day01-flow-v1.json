@@ -1,0 +1,226 @@
+{
+  "id": "chapter01-day01-noon-v1",
+  "status": "storyboard-review-draft-not-runtime",
+  "rules_source": "docs/03-콘티/챕터1/CH01-DAY01-NOON-STORYBOARD.ko.md",
+  "ui_manifest": "design/ui/day01-v1/manifest.json",
+  "resolution": [
+    1920,
+    1080
+  ],
+  "art_coordinates": [
+    1672,
+    941
+  ],
+  "approved_direction": {
+    "sketchbook": "Use the existing book collected in Chapter 0",
+    "new_quest_items": [
+      "colored_pencils"
+    ],
+    "cooking_station": "broken; hint only before a later repair",
+    "return_location": "camper parked directly outside the store",
+    "day01_noon_endpoint": "Soi request creates the colored-pencil quest"
+  },
+  "draft_parameters": {
+    "travel_minutes": 20,
+    "quick_search_minutes": 5,
+    "focused_search_total_minutes": 15,
+    "success_bonus_percentage_points": 20,
+    "failure_bonus_percentage_points": 0,
+    "probability_rule": "Independent roll per row; clamp base + bonus to 100. Not weighted choice. Quantity is fixed on success.",
+    "first_tutorial_guarantees": "Visible water 2 and packaged food 2 displayed as 100%, included in normal node search, never silently alter probabilities.",
+    "noise": "Potential consequence after committed search; no final rate or mini-game failure penalty fixed yet.",
+    "recipe": "Not defined. Collectable repair materials do not imply an approved repair recipe."
+  },
+  "search_nodes": [
+    {
+      "id": "fridge",
+      "label": "냉장고",
+      "rect": [
+        765,
+        128,
+        190,
+        204
+      ],
+      "loot": [
+        {
+          "item": "water",
+          "label": "생수 · 눈에 보이는 확보분",
+          "quantity": 2,
+          "chance": 100
+        },
+        {
+          "item": "water",
+          "label": "추가 생수",
+          "quantity": 1,
+          "chance": 45
+        },
+        {
+          "item": "sealed_drink",
+          "label": "밀봉 음료",
+          "quantity": 1,
+          "chance": 30
+        }
+      ]
+    },
+    {
+      "id": "food_shelf",
+      "label": "식품 선반",
+      "rect": [
+        460,
+        72,
+        270,
+        263
+      ],
+      "loot": [
+        {
+          "item": "packaged_food",
+          "label": "포장 식량 · 눈에 보이는 확보분",
+          "quantity": 2,
+          "chance": 100
+        },
+        {
+          "item": "canned_food",
+          "label": "통조림",
+          "quantity": 1,
+          "chance": 50
+        }
+      ]
+    },
+    {
+      "id": "supply_box",
+      "label": "생활용품 상자",
+      "rect": [
+        1175,
+        224,
+        85,
+        110
+      ],
+      "loot": [
+        {
+          "item": "scrap_part",
+          "label": "쓸 만한 부품",
+          "quantity": 1,
+          "chance": 55
+        },
+        {
+          "item": "cloth",
+          "label": "천 조각",
+          "quantity": 1,
+          "chance": 65
+        },
+        {
+          "item": "tape",
+          "label": "테이프",
+          "quantity": 1,
+          "chance": 35
+        }
+      ]
+    },
+    {
+      "id": "stationery",
+      "label": "문구대",
+      "rect": [
+        1080,
+        418,
+        342,
+        190
+      ],
+      "loot": [
+        {
+          "item": "colored_pencils",
+          "label": "색연필",
+          "quantity": 1,
+          "chance": 40
+        },
+        {
+          "item": "cloth",
+          "label": "천 조각",
+          "quantity": 1,
+          "chance": 40
+        }
+      ]
+    }
+  ],
+  "story_hotspots": [
+    {
+      "id": "notice",
+      "label": "계산대 쪽지",
+      "rect": [
+        472,
+        418,
+        110,
+        60
+      ],
+      "required": false,
+      "repeat": "reread without extra reward"
+    },
+    {
+      "id": "exit",
+      "label": "출입문 · 바로 앞 캠핑카로",
+      "rect": [
+        302,
+        95,
+        137,
+        210
+      ],
+      "repeat": "local return, no second map travel charge"
+    }
+  ],
+  "notice": {
+    "paper": "art/chapter01/day01-v1/evacuation-notice-paper-clean.png",
+    "legible_lines": [
+      "대피 안내",
+      "감염자",
+      "대피구역 → 주민센터",
+      "안내를 따라 이동하십시오."
+    ],
+    "destination_label_status": "주민센터 is a provisional label, not an approved location name",
+    "erased_text": "Undefined. No full hidden infection statement is authored.",
+    "effect": "Record an uncertain lead only; do not guarantee safe or occupied shelter."
+  },
+  "state_contract": {
+    "book_collected": "Carried from C0; do not grant a second book",
+    "camper_location": "Storefront after map travel commits",
+    "node_status": "unsearched -> committed -> resolved; no unlimited reroll",
+    "committed_search": "Persist method, time cost and RNG token atomically; resume same attempt after interruption",
+    "inventory": "Apply each result once; retain counts on revisits",
+    "notice_read": "Idempotent; conditions only the shelter-specific monologue",
+    "ration_tutorial": "Preview allocations without spending. On confirm, validate stock and debit both totals once. Both persons get water and food in the draft first tutorial.",
+    "kitchen_repair_known": "Set after hint; no instant cooking unlock",
+    "soi_request_available": "Return monologue + ration tutorial + kitchen hint completed",
+    "colored_pencil_quest": "inactive -> ready_to_deliver if owned, otherwise searching; no new sketchbook objective",
+    "day01_noon_complete": "Request dialogue confirmed and quest state stored, not drawing completion",
+    "wants_new_photos": "Carry the Chapter 0 wish to take new travel photos. Do not unlock camera/film/album or interrupt Day 1 water/food/pencil goals. Later, Suhyeok notices photographer Sejin's camera; this wish motivates asking about photography. Absence in old saves must not gate the first photo tutorial."
+  },
+  "failure_and_optional_paths": [
+    "Closing a loot list before commitment consumes nothing.",
+    "Leaving a committed mini-game does not refund time or grant a reroll; resume it or settle at base probability.",
+    "Resolved nodes stay depleted; failed rolls do not become new stock.",
+    "Return is always permitted. Without enough water/food, defer ration confirmation and guide back to the unsearched guaranteed nodes; never destroy collected supplies.",
+    "Only water and food nodes are needed for the first ration. Materials, stationery and notice remain optional.",
+    "If pencils fail or the stationery node is skipped, the later guided drawing quest must provide a deterministic acquisition route; that next segment is pending storyboard.",
+    "No combat or external proof of Soi is added through sound consequences or ration animation."
+  ],
+  "event_catalog": "design/chapter01/event-quest-catalog-v2.json",
+  "event_scope": {
+    "core": [
+      "E01",
+      "E03",
+      "E05"
+    ],
+    "optional": [
+      "E02"
+    ],
+    "hint_only": [
+      "E04"
+    ],
+    "note": "기존 첫날 낮 시안과 최신 사건 ID 연결. E04 수리 완료와 E05 전달 이후는 다음 구간."
+  },
+  "art_polish": {
+    "manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json",
+    "native_manifest": "art/chapter00-01/art-polish-v1/native-manifest.json",
+    "guide": "docs/05-원화/ART-POLISH-2026-09-11.ko.md",
+    "objective_variants": "ending-only",
+    "note": "Clean art updated; baked UI screenshot studies remain historical."
+  }
+}

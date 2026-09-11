@@ -1,0 +1,1132 @@
+{
+  "id": "ch00-01-narrative-art-v1",
+  "assets": [
+    {
+      "id": "suhyeok-seated",
+      "source": "art/chapter00-01/narrative-art-v1/sources/suhyeok-seated.png",
+      "prompt": "art/chapter00-01/narrative-art-v1/sources/suhyeok-seated.prompt.txt",
+      "native": "art/chapter00-01/narrative-art-v1/layers/suhyeok-seated-native.png",
+      "forearm_copy": "art/chapter00-01/narrative-art-v1/layers/suhyeok-seated-forearms-native.png",
+      "psd": "art/chapter00-01/narrative-art-v1/psd/suhyeok-seated-native.psd",
+      "size": [
+        1086,
+        1448
+      ],
+      "alpha_bounds": [
+        6,
+        16,
+        1079,
+        1442
+      ],
+      "visible_height": 1426,
+      "target_met": false,
+      "method": "built-in image_gen; exterior neutral matte cut with original RGB retained",
+      "source_sha256": "12240bf071816907d0a032cf20b66489e109783aea95cc6e06ed4bb8319519f0"
+    },
+    {
+      "id": "soi-seated",
+      "source": "art/chapter00-01/narrative-art-v1/sources/soi-seated.png",
+      "prompt": "art/chapter00-01/narrative-art-v1/sources/soi-seated.prompt.txt",
+      "native": "art/chapter00-01/narrative-art-v1/layers/soi-seated-native.png",
+      "forearm_copy": "art/chapter00-01/narrative-art-v1/layers/soi-seated-forearms-native.png",
+      "psd": "art/chapter00-01/narrative-art-v1/psd/soi-seated-native.psd",
+      "size": [
+        1159,
+        1356
+      ],
+      "alpha_bounds": [
+        50,
+        19,
+        1131,
+        1327
+      ],
+      "visible_height": 1308,
+      "target_met": false,
+      "method": "built-in image_gen; exterior neutral matte cut with original RGB retained",
+      "source_sha256": "f001e824cdbb6099b84a9f6654e55d6164379707e82f42c7fb6eb0174bfcf5ff"
+    },
+    {
+      "id": "suhyeok-drawing",
+      "source": "art/chapter00-01/narrative-art-v1/sources/suhyeok-drawing.png",
+      "prompt": "art/chapter00-01/narrative-art-v1/sources/suhyeok-drawing.prompt.txt",
+      "native": "art/chapter00-01/narrative-art-v1/layers/suhyeok-drawing-native.png",
+      "forearm_copy": "art/chapter00-01/narrative-art-v1/layers/suhyeok-drawing-forearms-native.png",
+      "psd": "art/chapter00-01/narrative-art-v1/psd/suhyeok-drawing-native.psd",
+      "size": [
+        1159,
+        1356
+      ],
+      "alpha_bounds": [
+        27,
+        13,
+        1154,
+        1306
+      ],
+      "visible_height": 1293,
+      "target_met": false,
+      "method": "built-in image_gen; exterior neutral matte cut with original RGB retained",
+      "source_sha256": "0c69ffb321c63133a85d280bc2e4178f5039f5ee0a848d60df3fdc6b9ab9f521"
+    }
+  ],
+  "states": [
+    {
+      "id": "C0-current",
+      "preview": "art/chapter00-01/narrative-art-v1/review/C0-current.png",
+      "psd": "art/chapter00-01/narrative-art-v1/psd/C0-current.psd",
+      "context": "present-subjective",
+      "early_game_allowed": true,
+      "layers": [
+        {
+          "id": "preserved_scene_without_seated_actors",
+          "path": "art/chapter00-01/narrative-art-v1/layers/C0-current-preserved_scene_without_seated_actors.png",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ],
+          "visible": true
+        },
+        {
+          "id": "suhyeok-seated",
+          "path": "art/chapter00-01/narrative-art-v1/layers/C0-current-suhyeok-seated.png",
+          "rect": [
+            836,
+            289,
+            117,
+            155
+          ],
+          "visible": true
+        },
+        {
+          "id": "soi-seated",
+          "path": "art/chapter00-01/narrative-art-v1/layers/C0-current-soi-seated.png",
+          "rect": [
+            947,
+            330,
+            94,
+            114
+          ],
+          "visible": true
+        }
+      ]
+    },
+    {
+      "id": "C0-packed",
+      "preview": "art/chapter00-01/narrative-art-v1/review/C0-packed.png",
+      "psd": "art/chapter00-01/narrative-art-v1/psd/C0-packed.psd",
+      "context": "present-subjective",
+      "early_game_allowed": true,
+      "layers": [
+        {
+          "id": "preserved_scene_without_seated_actors",
+          "path": "art/chapter00-01/narrative-art-v1/layers/C0-packed-preserved_scene_without_seated_actors.png",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ],
+          "visible": true
+        },
+        {
+          "id": "suhyeok-seated",
+          "path": "art/chapter00-01/narrative-art-v1/layers/C0-packed-suhyeok-seated.png",
+          "rect": [
+            836,
+            289,
+            117,
+            155
+          ],
+          "visible": true
+        },
+        {
+          "id": "soi-seated",
+          "path": "art/chapter00-01/narrative-art-v1/layers/C0-packed-soi-seated.png",
+          "rect": [
+            947,
+            330,
+            94,
+            114
+          ],
+          "visible": true
+        }
+      ]
+    },
+    {
+      "id": "C0-outage",
+      "preview": "art/chapter00-01/narrative-art-v1/review/C0-outage.png",
+      "psd": "art/chapter00-01/narrative-art-v1/psd/C0-outage.psd",
+      "context": "present-subjective",
+      "early_game_allowed": true,
+      "layers": [
+        {
+          "id": "preserved_scene_without_seated_actors",
+          "path": "art/chapter00-01/narrative-art-v1/layers/C0-outage-preserved_scene_without_seated_actors.png",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ],
+          "visible": true
+        },
+        {
+          "id": "suhyeok-seated",
+          "path": "art/chapter00-01/narrative-art-v1/layers/C0-outage-suhyeok-seated.png",
+          "rect": [
+            836,
+            289,
+            117,
+            155
+          ],
+          "visible": true
+        },
+        {
+          "id": "soi-seated",
+          "path": "art/chapter00-01/narrative-art-v1/layers/C0-outage-soi-seated.png",
+          "rect": [
+            947,
+            330,
+            94,
+            114
+          ],
+          "visible": true
+        }
+      ]
+    },
+    {
+      "id": "C0-investigation",
+      "preview": "art/chapter00-01/narrative-art-v1/review/C0-investigation.png",
+      "psd": "art/chapter00-01/narrative-art-v1/psd/C0-investigation.psd",
+      "context": "present-subjective",
+      "early_game_allowed": true,
+      "layers": [
+        {
+          "id": "preserved_scene_without_seated_actors",
+          "path": "art/chapter00-01/narrative-art-v1/layers/C0-investigation-preserved_scene_without_seated_actors.png",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ],
+          "visible": true
+        },
+        {
+          "id": "soi-seated",
+          "path": "art/chapter00-01/narrative-art-v1/layers/C0-investigation-soi-seated.png",
+          "rect": [
+            947,
+            330,
+            94,
+            114
+          ],
+          "visible": true
+        }
+      ]
+    },
+    {
+      "id": "C0-secured",
+      "preview": "art/chapter00-01/narrative-art-v1/review/C0-secured.png",
+      "psd": "art/chapter00-01/narrative-art-v1/psd/C0-secured.psd",
+      "context": "present-subjective",
+      "early_game_allowed": true,
+      "layers": [
+        {
+          "id": "preserved_scene_without_seated_actors",
+          "path": "art/chapter00-01/narrative-art-v1/layers/C0-secured-preserved_scene_without_seated_actors.png",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ],
+          "visible": true
+        },
+        {
+          "id": "soi-seated",
+          "path": "art/chapter00-01/narrative-art-v1/layers/C0-secured-soi-seated.png",
+          "rect": [
+            947,
+            330,
+            94,
+            114
+          ],
+          "visible": true
+        }
+      ]
+    },
+    {
+      "id": "C0-restored",
+      "preview": "art/chapter00-01/narrative-art-v1/review/C0-restored.png",
+      "psd": "art/chapter00-01/narrative-art-v1/psd/C0-restored.psd",
+      "context": "present-subjective",
+      "early_game_allowed": true,
+      "layers": [
+        {
+          "id": "preserved_scene_without_seated_actors",
+          "path": "art/chapter00-01/narrative-art-v1/layers/C0-restored-preserved_scene_without_seated_actors.png",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ],
+          "visible": true
+        },
+        {
+          "id": "suhyeok-seated",
+          "path": "art/chapter00-01/narrative-art-v1/layers/C0-restored-suhyeok-seated.png",
+          "rect": [
+            836,
+            289,
+            117,
+            155
+          ],
+          "visible": true
+        },
+        {
+          "id": "soi-seated",
+          "path": "art/chapter00-01/narrative-art-v1/layers/C0-restored-soi-seated.png",
+          "rect": [
+            947,
+            330,
+            94,
+            114
+          ],
+          "visible": true
+        }
+      ]
+    },
+    {
+      "id": "C0-journal",
+      "preview": "art/chapter00-01/narrative-art-v1/review/C0-journal.png",
+      "psd": "art/chapter00-01/narrative-art-v1/psd/C0-journal.psd",
+      "context": "present-subjective",
+      "early_game_allowed": true,
+      "layers": [
+        {
+          "id": "preserved_scene_without_seated_actors",
+          "path": "art/chapter00-01/narrative-art-v1/layers/C0-journal-preserved_scene_without_seated_actors.png",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ],
+          "visible": true
+        },
+        {
+          "id": "suhyeok-seated",
+          "path": "art/chapter00-01/narrative-art-v1/layers/C0-journal-suhyeok-seated.png",
+          "rect": [
+            836,
+            289,
+            117,
+            155
+          ],
+          "visible": true
+        },
+        {
+          "id": "soi-seated",
+          "path": "art/chapter00-01/narrative-art-v1/layers/C0-journal-soi-seated.png",
+          "rect": [
+            947,
+            330,
+            94,
+            114
+          ],
+          "visible": true
+        }
+      ]
+    },
+    {
+      "id": "C0-night",
+      "preview": "art/chapter00-01/narrative-art-v1/review/C0-night.png",
+      "psd": "art/chapter00-01/narrative-art-v1/psd/C0-night.psd",
+      "context": "present-subjective",
+      "early_game_allowed": true,
+      "layers": [
+        {
+          "id": "preserved_scene_without_seated_actors",
+          "path": "art/chapter00-01/narrative-art-v1/layers/C0-night-preserved_scene_without_seated_actors.png",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ],
+          "visible": true
+        },
+        {
+          "id": "suhyeok-seated",
+          "path": "art/chapter00-01/narrative-art-v1/layers/C0-night-suhyeok-seated.png",
+          "rect": [
+            836,
+            289,
+            117,
+            155
+          ],
+          "visible": true
+        },
+        {
+          "id": "soi-seated",
+          "path": "art/chapter00-01/narrative-art-v1/layers/C0-night-soi-seated.png",
+          "rect": [
+            947,
+            330,
+            94,
+            114
+          ],
+          "visible": true
+        }
+      ]
+    },
+    {
+      "id": "C0-water_only",
+      "preview": "art/chapter00-01/narrative-art-v1/review/C0-water_only.png",
+      "psd": "art/chapter00-01/narrative-art-v1/psd/C0-water_only.psd",
+      "context": "present-subjective",
+      "early_game_allowed": true,
+      "layers": [
+        {
+          "id": "preserved_scene_without_seated_actors",
+          "path": "art/chapter00-01/narrative-art-v1/layers/C0-water_only-preserved_scene_without_seated_actors.png",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ],
+          "visible": true
+        },
+        {
+          "id": "suhyeok-seated",
+          "path": "art/chapter00-01/narrative-art-v1/layers/C0-water_only-suhyeok-seated.png",
+          "rect": [
+            836,
+            289,
+            117,
+            155
+          ],
+          "visible": true
+        },
+        {
+          "id": "soi-seated",
+          "path": "art/chapter00-01/narrative-art-v1/layers/C0-water_only-soi-seated.png",
+          "rect": [
+            947,
+            330,
+            94,
+            114
+          ],
+          "visible": true
+        }
+      ]
+    },
+    {
+      "id": "C0-blanket_only",
+      "preview": "art/chapter00-01/narrative-art-v1/review/C0-blanket_only.png",
+      "psd": "art/chapter00-01/narrative-art-v1/psd/C0-blanket_only.psd",
+      "context": "present-subjective",
+      "early_game_allowed": true,
+      "layers": [
+        {
+          "id": "preserved_scene_without_seated_actors",
+          "path": "art/chapter00-01/narrative-art-v1/layers/C0-blanket_only-preserved_scene_without_seated_actors.png",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ],
+          "visible": true
+        },
+        {
+          "id": "suhyeok-seated",
+          "path": "art/chapter00-01/narrative-art-v1/layers/C0-blanket_only-suhyeok-seated.png",
+          "rect": [
+            836,
+            289,
+            117,
+            155
+          ],
+          "visible": true
+        },
+        {
+          "id": "soi-seated",
+          "path": "art/chapter00-01/narrative-art-v1/layers/C0-blanket_only-soi-seated.png",
+          "rect": [
+            947,
+            330,
+            94,
+            114
+          ],
+          "visible": true
+        }
+      ]
+    },
+    {
+      "id": "C0-current-truth",
+      "preview": "art/chapter00-01/narrative-art-v1/review/C0-current-truth.png",
+      "psd": "art/chapter00-01/narrative-art-v1/psd/C0-current-truth.psd",
+      "context": "ending-objective",
+      "early_game_allowed": false,
+      "layers": [
+        {
+          "id": "preserved_scene_without_seated_actors",
+          "path": "art/chapter00-01/narrative-art-v1/layers/C0-current-truth-preserved_scene_without_seated_actors.png",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ],
+          "visible": true
+        },
+        {
+          "id": "suhyeok-seated",
+          "path": "art/chapter00-01/narrative-art-v1/layers/C0-current-truth-suhyeok-seated.png",
+          "rect": [
+            836,
+            289,
+            117,
+            155
+          ],
+          "visible": true
+        }
+      ]
+    },
+    {
+      "id": "E03-rations",
+      "preview": "art/chapter00-01/narrative-art-v1/review/E03-rations.png",
+      "psd": "art/chapter00-01/narrative-art-v1/psd/E03-rations.psd",
+      "context": "present-subjective",
+      "early_game_allowed": true,
+      "layers": [
+        {
+          "id": "preserved_scene_without_seated_actors",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E03-rations-preserved_scene_without_seated_actors.png",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ],
+          "visible": true
+        },
+        {
+          "id": "suhyeok-seated",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E03-rations-suhyeok-seated.png",
+          "rect": [
+            836,
+            289,
+            117,
+            155
+          ],
+          "visible": true
+        },
+        {
+          "id": "soi-seated",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E03-rations-soi-seated.png",
+          "rect": [
+            947,
+            330,
+            94,
+            114
+          ],
+          "visible": true
+        }
+      ]
+    },
+    {
+      "id": "E05-delivery",
+      "preview": "art/chapter00-01/narrative-art-v1/review/E05-delivery.png",
+      "psd": "art/chapter00-01/narrative-art-v1/psd/E05-delivery.psd",
+      "context": "present-subjective",
+      "early_game_allowed": true,
+      "layers": [
+        {
+          "id": "fixed_packed_camper_without_actors",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E05-delivery-fixed_packed_camper_without_actors.png",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ],
+          "visible": true
+        },
+        {
+          "id": "existing_delivery_pose",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E05-delivery-existing_delivery_pose.png",
+          "rect": [
+            823,
+            292,
+            144,
+            192
+          ],
+          "visible": true
+        },
+        {
+          "id": "soi-seated",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E05-delivery-soi-seated.png",
+          "rect": [
+            947,
+            330,
+            94,
+            114
+          ],
+          "visible": true
+        },
+        {
+          "id": "existing_table",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E05-delivery-existing_table.png",
+          "rect": [
+            835,
+            432,
+            257,
+            201
+          ],
+          "visible": true
+        },
+        {
+          "id": "existing_book_blank",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E05-delivery-existing_book_blank.png",
+          "rect": [
+            904,
+            454,
+            102,
+            54
+          ],
+          "visible": true
+        },
+        {
+          "id": "existing_mug",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E05-delivery-existing_mug.png",
+          "rect": [
+            1010,
+            480,
+            53,
+            52
+          ],
+          "visible": true
+        },
+        {
+          "id": "existing_pencils_shadow",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E05-delivery-existing_pencils_shadow.png",
+          "rect": [
+            841,
+            474,
+            64,
+            27
+          ],
+          "visible": true
+        },
+        {
+          "id": "existing_pencils",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E05-delivery-existing_pencils.png",
+          "rect": [
+            845,
+            478,
+            56,
+            19
+          ],
+          "visible": true
+        },
+        {
+          "id": "existing_delivery_pose_foreground_copy",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E05-delivery-existing_delivery_pose_foreground_copy.png",
+          "rect": [
+            823,
+            292,
+            144,
+            192
+          ],
+          "visible": true
+        },
+        {
+          "id": "soi-seated_foreground_copy",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E05-delivery-soi-seated_foreground_copy.png",
+          "rect": [
+            947,
+            330,
+            94,
+            114
+          ],
+          "visible": true
+        }
+      ]
+    },
+    {
+      "id": "E06-ready",
+      "preview": "art/chapter00-01/narrative-art-v1/review/E06-ready.png",
+      "psd": "art/chapter00-01/narrative-art-v1/psd/E06-ready.psd",
+      "context": "present-subjective",
+      "early_game_allowed": true,
+      "layers": [
+        {
+          "id": "fixed_packed_camper_without_actors",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-ready-fixed_packed_camper_without_actors.png",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ],
+          "visible": true
+        },
+        {
+          "id": "suhyeok-seated",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-ready-suhyeok-seated.png",
+          "rect": [
+            836,
+            289,
+            117,
+            155
+          ],
+          "visible": true
+        },
+        {
+          "id": "soi-seated",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-ready-soi-seated.png",
+          "rect": [
+            947,
+            330,
+            94,
+            114
+          ],
+          "visible": true
+        },
+        {
+          "id": "existing_table",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-ready-existing_table.png",
+          "rect": [
+            835,
+            432,
+            257,
+            201
+          ],
+          "visible": true
+        },
+        {
+          "id": "existing_book_blank",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-ready-existing_book_blank.png",
+          "rect": [
+            904,
+            454,
+            102,
+            54
+          ],
+          "visible": true
+        },
+        {
+          "id": "existing_mug",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-ready-existing_mug.png",
+          "rect": [
+            1010,
+            480,
+            53,
+            52
+          ],
+          "visible": true
+        },
+        {
+          "id": "existing_pencils_shadow",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-ready-existing_pencils_shadow.png",
+          "rect": [
+            841,
+            474,
+            64,
+            27
+          ],
+          "visible": true
+        },
+        {
+          "id": "existing_pencils",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-ready-existing_pencils.png",
+          "rect": [
+            845,
+            478,
+            56,
+            19
+          ],
+          "visible": true
+        },
+        {
+          "id": "suhyeok-seated_foreground_copy",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-ready-suhyeok-seated_foreground_copy.png",
+          "rect": [
+            836,
+            289,
+            117,
+            155
+          ],
+          "visible": true
+        },
+        {
+          "id": "soi-seated_foreground_copy",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-ready-soi-seated_foreground_copy.png",
+          "rect": [
+            947,
+            330,
+            94,
+            114
+          ],
+          "visible": true
+        }
+      ]
+    },
+    {
+      "id": "E06-drawing",
+      "preview": "art/chapter00-01/narrative-art-v1/review/E06-drawing.png",
+      "psd": "art/chapter00-01/narrative-art-v1/psd/E06-drawing.psd",
+      "context": "present-subjective",
+      "early_game_allowed": true,
+      "layers": [
+        {
+          "id": "fixed_packed_camper_without_actors",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-drawing-fixed_packed_camper_without_actors.png",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ],
+          "visible": true
+        },
+        {
+          "id": "suhyeok_drawing",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-drawing-suhyeok_drawing.png",
+          "rect": [
+            852,
+            310,
+            149,
+            171
+          ],
+          "visible": true
+        },
+        {
+          "id": "soi-seated",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-drawing-soi-seated.png",
+          "rect": [
+            947,
+            330,
+            94,
+            114
+          ],
+          "visible": true
+        },
+        {
+          "id": "existing_table",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-drawing-existing_table.png",
+          "rect": [
+            835,
+            432,
+            257,
+            201
+          ],
+          "visible": true
+        },
+        {
+          "id": "existing_book_started",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-drawing-existing_book_started.png",
+          "rect": [
+            904,
+            454,
+            102,
+            54
+          ],
+          "visible": true
+        },
+        {
+          "id": "existing_mug",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-drawing-existing_mug.png",
+          "rect": [
+            1010,
+            480,
+            53,
+            52
+          ],
+          "visible": true
+        },
+        {
+          "id": "existing_pencils_shadow",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-drawing-existing_pencils_shadow.png",
+          "rect": [
+            841,
+            474,
+            64,
+            27
+          ],
+          "visible": true
+        },
+        {
+          "id": "existing_pencils",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-drawing-existing_pencils.png",
+          "rect": [
+            845,
+            478,
+            56,
+            19
+          ],
+          "visible": true
+        },
+        {
+          "id": "suhyeok_drawing_foreground_copy",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-drawing-suhyeok_drawing_foreground_copy.png",
+          "rect": [
+            852,
+            310,
+            149,
+            171
+          ],
+          "visible": true
+        },
+        {
+          "id": "soi-seated_foreground_copy",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-drawing-soi-seated_foreground_copy.png",
+          "rect": [
+            947,
+            330,
+            94,
+            114
+          ],
+          "visible": true
+        }
+      ]
+    },
+    {
+      "id": "E06-complete",
+      "preview": "art/chapter00-01/narrative-art-v1/review/E06-complete.png",
+      "psd": "art/chapter00-01/narrative-art-v1/psd/E06-complete.psd",
+      "context": "present-subjective",
+      "early_game_allowed": true,
+      "layers": [
+        {
+          "id": "fixed_packed_camper_without_actors",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-complete-fixed_packed_camper_without_actors.png",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ],
+          "visible": true
+        },
+        {
+          "id": "suhyeok-seated",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-complete-suhyeok-seated.png",
+          "rect": [
+            836,
+            289,
+            117,
+            155
+          ],
+          "visible": true
+        },
+        {
+          "id": "soi-seated",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-complete-soi-seated.png",
+          "rect": [
+            947,
+            330,
+            94,
+            114
+          ],
+          "visible": true
+        },
+        {
+          "id": "existing_table",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-complete-existing_table.png",
+          "rect": [
+            835,
+            432,
+            257,
+            201
+          ],
+          "visible": true
+        },
+        {
+          "id": "existing_book_complete",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-complete-existing_book_complete.png",
+          "rect": [
+            904,
+            454,
+            102,
+            54
+          ],
+          "visible": true
+        },
+        {
+          "id": "existing_mug",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-complete-existing_mug.png",
+          "rect": [
+            1010,
+            480,
+            53,
+            52
+          ],
+          "visible": true
+        },
+        {
+          "id": "existing_pencils_shadow",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-complete-existing_pencils_shadow.png",
+          "rect": [
+            841,
+            474,
+            64,
+            27
+          ],
+          "visible": true
+        },
+        {
+          "id": "existing_pencils",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-complete-existing_pencils.png",
+          "rect": [
+            845,
+            478,
+            56,
+            19
+          ],
+          "visible": true
+        },
+        {
+          "id": "suhyeok-seated_foreground_copy",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-complete-suhyeok-seated_foreground_copy.png",
+          "rect": [
+            836,
+            289,
+            117,
+            155
+          ],
+          "visible": true
+        },
+        {
+          "id": "soi-seated_foreground_copy",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-complete-soi-seated_foreground_copy.png",
+          "rect": [
+            947,
+            330,
+            94,
+            114
+          ],
+          "visible": true
+        }
+      ]
+    },
+    {
+      "id": "E06-drawing-truth",
+      "preview": "art/chapter00-01/narrative-art-v1/review/E06-drawing-truth.png",
+      "psd": "art/chapter00-01/narrative-art-v1/psd/E06-drawing-truth.psd",
+      "context": "ending-objective",
+      "early_game_allowed": false,
+      "layers": [
+        {
+          "id": "fixed_packed_camper_without_actors",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-drawing-truth-fixed_packed_camper_without_actors.png",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ],
+          "visible": true
+        },
+        {
+          "id": "suhyeok_drawing",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-drawing-truth-suhyeok_drawing.png",
+          "rect": [
+            852,
+            310,
+            149,
+            171
+          ],
+          "visible": true
+        },
+        {
+          "id": "existing_table",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-drawing-truth-existing_table.png",
+          "rect": [
+            835,
+            432,
+            257,
+            201
+          ],
+          "visible": true
+        },
+        {
+          "id": "existing_book_started",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-drawing-truth-existing_book_started.png",
+          "rect": [
+            904,
+            454,
+            102,
+            54
+          ],
+          "visible": true
+        },
+        {
+          "id": "existing_mug",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-drawing-truth-existing_mug.png",
+          "rect": [
+            1010,
+            480,
+            53,
+            52
+          ],
+          "visible": true
+        },
+        {
+          "id": "existing_pencils_shadow",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-drawing-truth-existing_pencils_shadow.png",
+          "rect": [
+            841,
+            474,
+            64,
+            27
+          ],
+          "visible": true
+        },
+        {
+          "id": "existing_pencils",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-drawing-truth-existing_pencils.png",
+          "rect": [
+            845,
+            478,
+            56,
+            19
+          ],
+          "visible": true
+        },
+        {
+          "id": "suhyeok_drawing_foreground_copy",
+          "path": "art/chapter00-01/narrative-art-v1/layers/E06-drawing-truth-suhyeok_drawing_foreground_copy.png",
+          "rect": [
+            852,
+            310,
+            149,
+            171
+          ],
+          "visible": true
+        }
+      ]
+    }
+  ],
+  "canvas": [
+    1672,
+    941
+  ],
+  "native_background_regenerated": false,
+  "dialogue_modified": false,
+  "source_scene_baseline": "art/chapter00-01/narrative-art-v1/scene-baseline.json",
+  "limitations": [
+    "Generated visible character heights remain below 1536px target; no upscaling claimed.",
+    "Generated RGB checker backdrops removed by local extraction explicitly permitted by user; hidden RGB preserved.",
+    "Scene PSD layers are placement-sized; separate native PSD/PNG masters supplied.",
+    "Forearms are occlusion copies, not rigged articulated hands.",
+    "Objective reveal variants must not be shown in early gameplay.",
+    "Final dialogue, Unity and Photoshop application validation not performed."
+  ]
+}

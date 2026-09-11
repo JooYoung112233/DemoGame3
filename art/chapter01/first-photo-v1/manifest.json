@@ -1,0 +1,147 @@
+{
+  "id": "first-photo-v1",
+  "status": "provisional-first-photo-composition-review",
+  "events": [
+    "E11"
+  ],
+  "quests": [
+    "Q10"
+  ],
+  "generator": "built-in image_gen; local alpha extraction and composition",
+  "assets": [
+    {
+      "id": "suhyeok-shoot",
+      "source": "art/chapter01/first-photo-v1/sources/suhyeok-shoot-source.png",
+      "native": "art/chapter01/first-photo-v1/layers/suhyeok-shoot-native.png",
+      "native_size": [
+        1086,
+        1448
+      ],
+      "visible_bounds_alpha16": [
+        292,
+        28,
+        821,
+        1426
+      ],
+      "visible_size": [
+        529,
+        1398
+      ],
+      "extraction": "neutral exterior alpha-only cut; RGB unchanged",
+      "psd": "art/chapter01/first-photo-v1/psd/suhyeok-shoot-native.psd"
+    },
+    {
+      "id": "album-blank",
+      "source": "art/chapter01/first-photo-v1/sources/album-blank-source.png",
+      "native": "art/chapter01/first-photo-v1/layers/album-blank-native.png",
+      "native_size": [
+        1448,
+        1086
+      ],
+      "visible_bounds_alpha16": [
+        35,
+        122,
+        1413,
+        948
+      ],
+      "visible_size": [
+        1378,
+        826
+      ],
+      "extraction": "neutral exterior alpha-only cut; RGB unchanged",
+      "psd": "art/chapter01/first-photo-v1/psd/album-blank-native.psd"
+    },
+    {
+      "id": "riverside-photo",
+      "source": "art/chapter01/first-photo-v1/sources/riverside-photo-style-source-v2.png",
+      "native": "art/chapter01/first-photo-v1/layers/riverside-photo-native.png",
+      "native_size": [
+        1448,
+        1086
+      ],
+      "visible_bounds_alpha16": [
+        0,
+        0,
+        1448,
+        1086
+      ],
+      "visible_size": [
+        1448,
+        1086
+      ],
+      "extraction": "original pixels and alpha preserved",
+      "psd": "art/chapter01/first-photo-v1/psd/riverside-photo-native.psd",
+      "style_revision": "style-v2"
+    }
+  ],
+  "scene": {
+    "id": "L6-first-shoot",
+    "background": "art/chapter01/riverside-v1/riverside-clean-base-source-v1.png",
+    "canvas": [
+      1672,
+      941
+    ],
+    "layers": [
+      {
+        "id": "left_foot_contact_shadow",
+        "path": "art/chapter01/first-photo-v1/layers/L6-first-shoot-left_foot_contact_shadow.png",
+        "rect": [
+          759,
+          641,
+          33,
+          9
+        ]
+      },
+      {
+        "id": "right_foot_contact_shadow",
+        "path": "art/chapter01/first-photo-v1/layers/L6-first-shoot-right_foot_contact_shadow.png",
+        "rect": [
+          792,
+          619,
+          26,
+          8
+        ]
+      },
+      {
+        "id": "suhyeok_shoot",
+        "path": "art/chapter01/first-photo-v1/layers/L6-first-shoot-suhyeok_shoot.png",
+        "rect": [
+          744,
+          458,
+          72,
+          190
+        ]
+      }
+    ],
+    "review": "art/chapter01/first-photo-v1/review/L6-first-shoot.png",
+    "psd": "art/chapter01/first-photo-v1/psd/L6-first-shoot.psd"
+  },
+  "album": {
+    "before": "art/chapter01/first-photo-v1/review/album-before-first-photo.png",
+    "after": "art/chapter01/first-photo-v1/review/album-first-photo.png",
+    "psd": "art/chapter01/first-photo-v1/psd/album-states-native.psd",
+    "photo_rect": [
+      810,
+      340,
+      506,
+      406
+    ],
+    "photo_content_preview_size": [
+      474,
+      356
+    ],
+    "native_content_kept": "art/chapter01/first-photo-v1/layers/riverside-photo-native.png"
+  },
+  "limitations": [
+    "Originals remain at native generated resolution; no upscaling claimed as restored detail.",
+    "Scene bases remain 1672x941; not final 4K backgrounds.",
+    "PSD validated by file readers, not Photoshop app or Unity.",
+    "Landscape-only first photo is a proposed composition, not user-approved story canon.",
+    "Album is blank reusable art backing; no new acquisition quest or physical possession fact implied. UI remains deferred.",
+    "Camera and hands in shooting pose are painted together; copy layer supports occlusion only, not independent articulation.",
+    "First print border is a simple local compositing layer, not generated paper detail.",
+    "Separate expression, receiving-camera pose, audio and Unity photo/save behavior are not implemented."
+  ],
+  "supplement_manifest": "art/chapter01/completion-v1/manifest.json",
+  "supplement_note": "This original bundle remains intact; later handover, care, repair, portrait and living-state assets are listed in completion-v1 and the week01 coverage index."
+}

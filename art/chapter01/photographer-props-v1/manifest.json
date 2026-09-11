@@ -1,0 +1,91 @@
+{
+  "id": "photographer-props-v1",
+  "status": "art-review-not-runtime",
+  "generator": "built-in image_gen",
+  "events": [
+    "E08",
+    "E09",
+    "E11"
+  ],
+  "quests": [
+    "Q08",
+    "Q10"
+  ],
+  "assets": [
+    {
+      "id": "toolbag",
+      "source": "art/chapter01/photographer-props-v1/sources/toolbag-source.png",
+      "native": "art/chapter01/photographer-props-v1/layers/toolbag-native.png",
+      "native_size": [
+        1774,
+        887
+      ],
+      "visible_bounds": [
+        0,
+        0,
+        1760,
+        887
+      ],
+      "alpha_method": "original alpha preserved"
+    },
+    {
+      "id": "camera",
+      "source": "art/chapter01/photographer-props-v1/sources/camera-source.png",
+      "native": "art/chapter01/photographer-props-v1/layers/camera-native.png",
+      "native_size": [
+        1254,
+        1254
+      ],
+      "visible_bounds": [
+        0,
+        0,
+        1238,
+        1236
+      ],
+      "alpha_method": "original alpha preserved"
+    },
+    {
+      "id": "film",
+      "source": "art/chapter01/photographer-props-v1/sources/film-source.png",
+      "native": "art/chapter01/photographer-props-v1/layers/film-native.png",
+      "native_size": [
+        1536,
+        1024
+      ],
+      "visible_bounds": [
+        45,
+        192,
+        1501,
+        916
+      ],
+      "alpha_method": "polygon alpha trim to remove background glow; RGB preserved"
+    }
+  ],
+  "native_psd": "art/chapter01/photographer-props-v1/psd/photographer-props-native.psd",
+  "native_psd_note": "Each prop retains its full native canvas/pixels as an independent raster layer; no downscaled sheet used as master. Internal parts are not separate.",
+  "pickup": {
+    "background": "art/chapter01/repair-shop-v1/repair-shop-clean-base-source-v1.png",
+    "prop_rect": [
+      742,
+      306,
+      130,
+      49
+    ],
+    "shadow_rect": [
+      737,
+      348,
+      140,
+      14
+    ],
+    "available": "art/chapter01/photographer-props-v1/review/L4-toolbag-available.png",
+    "collected": "art/chapter01/photographer-props-v1/review/L4-toolbag-collected.png"
+  },
+  "limitations": [
+    "Film is visually blank packaging; labeling remains Unity text, not baked art.",
+    "No Sejin portrait/vehicle, handover animation, camera-held pose, album picture, audio or Unity runtime yet.",
+    "Placement PSD is a scene-size review, native prop originals preserved separately.",
+    "File-reader PSD checks done; Photoshop application not tested."
+  ],
+  "supplement_manifest": "art/chapter01/completion-v1/manifest.json",
+  "supplement_note": "This original bundle remains intact; later handover, care, repair, portrait and living-state assets are listed in completion-v1 and the week01 coverage index."
+}

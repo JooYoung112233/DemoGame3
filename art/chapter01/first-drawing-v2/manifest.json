@@ -1,0 +1,98 @@
+{
+  "id": "E05-E06-first-drawing-v2",
+  "status": "art-and-storyboard-review",
+  "events": [
+    "E05",
+    "E06"
+  ],
+  "quests": [
+    "Q05",
+    "Q06",
+    "Q07"
+  ],
+  "generator": "built-in image_gen",
+  "native_actor_size": [
+    1086,
+    1448
+  ],
+  "native_ink_size": [
+    1254,
+    1254
+  ],
+  "book_native_size": [
+    1536,
+    1024
+  ],
+  "scene_size": [
+    1672,
+    941
+  ],
+  "actor_placement": [
+    823,
+    292,
+    144,
+    192
+  ],
+  "pencil_placement": [
+    845,
+    478,
+    56,
+    19
+  ],
+  "book_placement": [
+    904,
+    454,
+    102,
+    54
+  ],
+  "states": [
+    {
+      "id": "01-delivery",
+      "page_state": "blank",
+      "preview": "art/chapter01/first-drawing-v2/review/01-delivery.png",
+      "psd": "art/chapter01/first-drawing-v2/psd/01-delivery-placement.psd",
+      "new_father_pose": true,
+      "soi_pose": "existing seated pose"
+    },
+    {
+      "id": "02-ready",
+      "page_state": "blank",
+      "preview": "art/chapter01/first-drawing-v2/review/02-ready.png",
+      "psd": "art/chapter01/first-drawing-v2/psd/02-ready-placement.psd",
+      "new_father_pose": false,
+      "soi_pose": "existing seated pose"
+    },
+    {
+      "id": "03-started",
+      "page_state": "started",
+      "preview": "art/chapter01/first-drawing-v2/review/03-started.png",
+      "psd": "art/chapter01/first-drawing-v2/psd/03-started-placement.psd",
+      "new_father_pose": false,
+      "soi_pose": "existing subjective drawing pose"
+    },
+    {
+      "id": "04-complete",
+      "page_state": "complete",
+      "preview": "art/chapter01/first-drawing-v2/review/04-complete.png",
+      "psd": "art/chapter01/first-drawing-v2/psd/04-complete-placement.psd",
+      "new_father_pose": false,
+      "soi_pose": "existing seated pose"
+    }
+  ],
+  "resource_sources": [
+    "art/chapter01/first-drawing-v2/sources/suhyeok-place-pencils-source.png",
+    "art/chapter01/first-drawing-v2/sources/first-sea-drawing-source.png"
+  ],
+  "limitations": [
+    "Actor native 1086x1448 is below requested 1536-2048px visible height.",
+    "Sea subject is a draft imagined destination; no visited seashore or family portrait is established.",
+    "Book pages use the same original blank book and overlaid marks; individual bound pages are not independent movable meshes.",
+    "Quiet seated poses are reused; only delivery father pose is newly painted.",
+    "Soi drawing pose is an existing subjective scene, not a third-party confirmation.",
+    "Placement PSDs contain downscaled sprites; large sources and native PSDs are preserved separately.",
+    "Camper remains 1672x941; no high-resolution background reconstruction.",
+    "No final dialogue, motion, sound, Unity or Photoshop application validation."
+  ],
+  "current_revision_manifest": "art/chapter00-01/narrative-art-v1/manifest.json",
+  "current_revision_note": "Originals preserved. E05/E06 current scene references are in narrative-art-v1; Suhyeok draws, Soi watches. Objective reveal variant is ending-only."
+}

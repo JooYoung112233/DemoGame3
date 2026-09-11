@@ -1,0 +1,1020 @@
+{
+  "id": "background-harmony-v2",
+  "status": "remaining-six-locations-art-review",
+  "previous_batch": "art/chapter00-01/background-harmony-v1/manifest.json",
+  "backgrounds": [
+    {
+      "id": "L2",
+      "name": "주유소",
+      "source": "art/chapter00-01/background-harmony-v2/sources/gas-station.png",
+      "previous": "art/chapter01/gas-station-v1/gas-station-clean-base-source-v1.png",
+      "prompt": "art/chapter00-01/background-harmony-v2/sources/gas-station.prompt.txt",
+      "generator": "built-in image_gen",
+      "sha256": "8faad21ab76d472c9f03adea2d7b9c61eef08c9be62f392edc6cb3f967d506ec",
+      "native_size": [
+        1672,
+        941
+      ],
+      "target_size": [
+        3840,
+        2160
+      ],
+      "target_met": false,
+      "coordinate_scale": [
+        1,
+        1
+      ],
+      "psd": "art/chapter00-01/background-harmony-v2/psd/gas-station-native.psd",
+      "foreground_copies": [
+        {
+          "id": "pump_fronts",
+          "path": "art/chapter00-01/background-harmony-v2/layers/gas-station-pump_fronts.png",
+          "rect": [
+            1122,
+            194,
+            316,
+            165
+          ],
+          "visible": false,
+          "alpha_source": "art/chapter01/gas-station-v1/layers/pump_fronts.png",
+          "scope": "same-position foreground copy; no background reconstruction"
+        }
+      ]
+    },
+    {
+      "id": "L3",
+      "name": "잡화점",
+      "source": "art/chapter00-01/background-harmony-v2/sources/general-store.png",
+      "previous": "art/chapter01/general-store-v1/general-store-clean-base-source-v1.png",
+      "prompt": "art/chapter00-01/background-harmony-v2/sources/general-store.prompt.txt",
+      "generator": "built-in image_gen",
+      "sha256": "002dd1b8bbd2de1301b08c72ebdab8c74e079dbc1763b37846acbaddd442a082",
+      "native_size": [
+        1672,
+        941
+      ],
+      "target_size": [
+        3840,
+        2160
+      ],
+      "target_met": false,
+      "coordinate_scale": [
+        1,
+        1
+      ],
+      "psd": "art/chapter00-01/background-harmony-v2/psd/general-store-native.psd",
+      "foreground_copies": [
+        {
+          "id": "left_counter_occlusion",
+          "path": "art/chapter00-01/background-harmony-v2/layers/general-store-left_counter_occlusion.png",
+          "rect": [
+            211,
+            369,
+            451,
+            196
+          ],
+          "visible": false,
+          "alpha_source": "art/chapter01/general-store-v1/layers/left_counter_occlusion.png",
+          "scope": "same-position foreground copy; no background reconstruction"
+        },
+        {
+          "id": "right_display_occlusion",
+          "path": "art/chapter00-01/background-harmony-v2/layers/general-store-right_display_occlusion.png",
+          "rect": [
+            1069,
+            396,
+            370,
+            196
+          ],
+          "visible": false,
+          "alpha_source": "art/chapter01/general-store-v1/layers/right_display_occlusion.png",
+          "scope": "same-position foreground copy; no background reconstruction"
+        }
+      ]
+    },
+    {
+      "id": "L4",
+      "name": "수리점",
+      "source": "art/chapter00-01/background-harmony-v2/sources/repair-shop.png",
+      "previous": "art/chapter01/repair-shop-v1/repair-shop-clean-base-source-v1.png",
+      "prompt": "art/chapter00-01/background-harmony-v2/sources/repair-shop.prompt.txt",
+      "generator": "built-in image_gen",
+      "sha256": "660f0b1f5a33140ad517b211fc5b48226e60cd078ca2098e28989672e712337e",
+      "native_size": [
+        1672,
+        941
+      ],
+      "target_size": [
+        3840,
+        2160
+      ],
+      "target_met": false,
+      "coordinate_scale": [
+        1,
+        1
+      ],
+      "psd": "art/chapter00-01/background-harmony-v2/psd/repair-shop-native.psd",
+      "foreground_copies": [
+        {
+          "id": "workbench_front",
+          "path": "art/chapter00-01/background-harmony-v2/layers/repair-shop-workbench_front.png",
+          "rect": [
+            620,
+            211,
+            435,
+            181
+          ],
+          "visible": false,
+          "alpha_source": "art/chapter01/repair-shop-v1/layers/workbench_front.png",
+          "scope": "same-position foreground copy; no background reconstruction"
+        },
+        {
+          "id": "side_table_front",
+          "path": "art/chapter00-01/background-harmony-v2/layers/repair-shop-side_table_front.png",
+          "rect": [
+            1337,
+            373,
+            162,
+            324
+          ],
+          "visible": false,
+          "alpha_source": "art/chapter01/repair-shop-v1/layers/side_table_front.png",
+          "scope": "same-position foreground copy; no background reconstruction"
+        }
+      ]
+    },
+    {
+      "id": "L5",
+      "name": "주택",
+      "source": "art/chapter00-01/background-harmony-v2/sources/house.png",
+      "previous": "art/chapter01/revision-v3/house-clean-base-v3.png",
+      "prompt": "art/chapter00-01/background-harmony-v2/sources/house.prompt.txt",
+      "generator": "built-in image_gen",
+      "sha256": "42737e8b2a587b7761e9aff73315f8f5ef6d0f12253b9eef8a00996bd936eec8",
+      "native_size": [
+        1672,
+        941
+      ],
+      "target_size": [
+        3840,
+        2160
+      ],
+      "target_met": false,
+      "coordinate_scale": [
+        1,
+        1
+      ],
+      "psd": "art/chapter00-01/background-harmony-v2/psd/house-native.psd",
+      "foreground_copies": []
+    },
+    {
+      "id": "L6",
+      "name": "강변",
+      "source": "art/chapter00-01/background-harmony-v2/sources/riverside.png",
+      "previous": "art/chapter01/riverside-v1/riverside-clean-base-source-v1.png",
+      "prompt": "art/chapter00-01/background-harmony-v2/sources/riverside.prompt.txt",
+      "generator": "built-in image_gen",
+      "sha256": "805d77d28f1484fc3854644ee7bbd4364f0af79001c61725537eaa7eee0f4c2e",
+      "native_size": [
+        1672,
+        941
+      ],
+      "target_size": [
+        3840,
+        2160
+      ],
+      "target_met": false,
+      "coordinate_scale": [
+        1,
+        1
+      ],
+      "psd": "art/chapter00-01/background-harmony-v2/psd/riverside-native.psd",
+      "foreground_copies": [
+        {
+          "id": "bench_front",
+          "path": "art/chapter00-01/background-harmony-v2/layers/riverside-bench_front.png",
+          "rect": [
+            1061,
+            406,
+            379,
+            103
+          ],
+          "visible": false,
+          "alpha_source": "art/chapter01/riverside-v1/layers/bench_front.png",
+          "scope": "same-position foreground copy; no background reconstruction"
+        }
+      ]
+    },
+    {
+      "id": "L7",
+      "name": "언덕길",
+      "source": "art/chapter00-01/background-harmony-v2/sources/hill-road.png",
+      "previous": "art/chapter01/hill-road-v1/hill-road-clean-base-source-v1.png",
+      "prompt": "art/chapter00-01/background-harmony-v2/sources/hill-road.prompt.txt",
+      "generator": "built-in image_gen",
+      "sha256": "63b600c32d8fc2bbb4de1940a65c4568099c383cf7e5010efdebc5387f29e64b",
+      "native_size": [
+        1672,
+        941
+      ],
+      "target_size": [
+        3840,
+        2160
+      ],
+      "target_met": false,
+      "coordinate_scale": [
+        1,
+        1
+      ],
+      "psd": "art/chapter00-01/background-harmony-v2/psd/hill-road-native.psd",
+      "foreground_copies": [
+        {
+          "id": "blank_board_face",
+          "path": "art/chapter00-01/background-harmony-v2/layers/hill-road-blank_board_face.png",
+          "rect": [
+            1413,
+            168,
+            191,
+            122
+          ],
+          "visible": false,
+          "alpha_source": "art/chapter01/hill-road-v1/layers/blank_board_face.png",
+          "scope": "same-position foreground copy; no background reconstruction"
+        }
+      ]
+    }
+  ],
+  "scenes": [
+    {
+      "id": "E08-L4-retrieve",
+      "location": "L4",
+      "background": "art/chapter00-01/background-harmony-v2/sources/repair-shop.png",
+      "canvas": [
+        1672,
+        941
+      ],
+      "review": "art/chapter00-01/background-harmony-v2/review/E08-L4-retrieve.png",
+      "psd": "art/chapter00-01/background-harmony-v2/psd/E08-L4-retrieve.psd",
+      "previous_review": "art/chapter01/completion-v1/review/E08-L4-retrieve.png",
+      "layers": [
+        {
+          "id": "feet_contact",
+          "path": "art/chapter01/completion-v1/layers/E08-L4-retrieve-feet_contact.png",
+          "rect": [
+            855,
+            551,
+            100,
+            13
+          ]
+        },
+        {
+          "id": "suhyeok_with_bag",
+          "path": "art/chapter01/completion-v1/layers/E08-L4-retrieve-suhyeok_with_bag.png",
+          "rect": [
+            775,
+            398,
+            131,
+            167
+          ]
+        }
+      ],
+      "note": "Original separate characters/props/shadows and placements retained; only background changed."
+    },
+    {
+      "id": "E10-L4-tool-available",
+      "location": "L4",
+      "background": "art/chapter00-01/background-harmony-v2/sources/repair-shop.png",
+      "canvas": [
+        1672,
+        941
+      ],
+      "review": "art/chapter00-01/background-harmony-v2/review/E10-L4-tool-available.png",
+      "psd": "art/chapter00-01/background-harmony-v2/psd/E10-L4-tool-available.psd",
+      "previous_review": "art/chapter01/completion-v1/review/E10-L4-tool-available.png",
+      "layers": [
+        {
+          "id": "wrench_contact",
+          "path": "art/chapter01/completion-v1/layers/E10-L4-tool-available-wrench_contact.png",
+          "rect": [
+            748,
+            355,
+            79,
+            8
+          ]
+        },
+        {
+          "id": "wrench",
+          "path": "art/chapter01/completion-v1/layers/E10-L4-tool-available-wrench.png",
+          "rect": [
+            745,
+            333,
+            85,
+            28
+          ]
+        }
+      ],
+      "note": "Original separate characters/props/shadows and placements retained; only background changed."
+    },
+    {
+      "id": "E10-L4-tool-collected",
+      "location": "L4",
+      "background": "art/chapter00-01/background-harmony-v2/sources/repair-shop.png",
+      "canvas": [
+        1672,
+        941
+      ],
+      "review": "art/chapter00-01/background-harmony-v2/review/E10-L4-tool-collected.png",
+      "psd": "art/chapter00-01/background-harmony-v2/psd/E10-L4-tool-collected.psd",
+      "previous_review": "art/chapter01/completion-v1/review/E10-L4-tool-collected.png",
+      "layers": [],
+      "note": "Original separate characters/props/shadows and placements retained; only background changed."
+    },
+    {
+      "id": "E09-L2-camera-handover",
+      "location": "L2",
+      "background": "art/chapter00-01/background-harmony-v2/sources/gas-station.png",
+      "canvas": [
+        1672,
+        941
+      ],
+      "review": "art/chapter00-01/background-harmony-v2/review/E09-L2-camera-handover.png",
+      "psd": "art/chapter00-01/background-harmony-v2/psd/E09-L2-camera-handover.psd",
+      "previous_review": "art/chapter01/completion-v1/review/E09-L2-camera-handover.png",
+      "layers": [
+        {
+          "id": "camera_handover_close_cut",
+          "path": "art/chapter01/completion-v1/layers/E09-L2-camera-handover-camera_handover_close_cut.png",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ]
+        }
+      ],
+      "note": "Original separate characters/props/shadows and placements retained; only background changed."
+    },
+    {
+      "id": "E07-L2-sejin-repair",
+      "location": "L2",
+      "background": "art/chapter00-01/background-harmony-v2/sources/gas-station.png",
+      "canvas": [
+        1672,
+        941
+      ],
+      "review": "art/chapter00-01/background-harmony-v2/review/E07-L2-sejin-repair.png",
+      "psd": "art/chapter00-01/background-harmony-v2/psd/E07-L2-sejin-repair.psd",
+      "previous_review": "art/chapter01/completion-v1/review/E07-L2-sejin-repair.png",
+      "layers": [
+        {
+          "id": "van_contact_shadow",
+          "path": "art/chapter01/completion-v1/layers/E07-L2-sejin-repair-van_contact_shadow.png",
+          "rect": [
+            312,
+            513,
+            465,
+            130
+          ]
+        },
+        {
+          "id": "front_tire_shadow",
+          "path": "art/chapter01/completion-v1/layers/E07-L2-sejin-repair-front_tire_shadow.png",
+          "rect": [
+            448,
+            628,
+            58,
+            11
+          ]
+        },
+        {
+          "id": "rear_tire_shadow",
+          "path": "art/chapter01/completion-v1/layers/E07-L2-sejin-repair-rear_tire_shadow.png",
+          "rect": [
+            711,
+            552,
+            44,
+            10
+          ]
+        },
+        {
+          "id": "van",
+          "path": "art/chapter01/completion-v1/layers/E07-L2-sejin-repair-van.png",
+          "rect": [
+            299,
+            309,
+            470,
+            326
+          ]
+        },
+        {
+          "id": "repair_feet_contact",
+          "path": "art/chapter01/completion-v1/layers/E07-L2-sejin-repair-repair_feet_contact.png",
+          "rect": [
+            281,
+            619,
+            62,
+            11
+          ]
+        },
+        {
+          "id": "sejin_repair",
+          "path": "art/chapter01/completion-v1/layers/E07-L2-sejin-repair-sejin_repair.png",
+          "rect": [
+            264,
+            420,
+            119,
+            210
+          ]
+        }
+      ],
+      "note": "Original separate characters/props/shadows and placements retained; only background changed."
+    },
+    {
+      "id": "E12-L5-place-water",
+      "location": "L5",
+      "background": "art/chapter00-01/background-harmony-v2/sources/house.png",
+      "canvas": [
+        1672,
+        941
+      ],
+      "review": "art/chapter00-01/background-harmony-v2/review/E12-L5-place-water.png",
+      "psd": "art/chapter00-01/background-harmony-v2/psd/E12-L5-place-water.psd",
+      "previous_review": "art/chapter01/completion-v1/review/E12-L5-place-water.png",
+      "layers": [
+        {
+          "id": "dog_contact",
+          "path": "art/chapter01/completion-v1/layers/E12-L5-place-water-dog_contact.png",
+          "rect": [
+            390,
+            544,
+            67,
+            9
+          ]
+        },
+        {
+          "id": "dog_wary",
+          "path": "art/chapter01/completion-v1/layers/E12-L5-place-water-dog_wary.png",
+          "rect": [
+            385,
+            465,
+            76,
+            86
+          ]
+        },
+        {
+          "id": "water_bowl_contact",
+          "path": "art/chapter01/completion-v1/layers/E12-L5-place-water-water_bowl_contact.png",
+          "rect": [
+            522,
+            579,
+            33,
+            5
+          ]
+        },
+        {
+          "id": "water_bowl",
+          "path": "art/chapter01/completion-v1/layers/E12-L5-place-water-water_bowl.png",
+          "rect": [
+            519,
+            560,
+            39,
+            23
+          ]
+        },
+        {
+          "id": "care_contact",
+          "path": "art/chapter01/completion-v1/layers/E12-L5-place-water-care_contact.png",
+          "rect": [
+            523,
+            574,
+            100,
+            12
+          ]
+        },
+        {
+          "id": "suhyeok_release_bowl",
+          "path": "art/chapter01/completion-v1/layers/E12-L5-place-water-suhyeok_release_bowl.png",
+          "rect": [
+            502,
+            428,
+            117,
+            159
+          ]
+        }
+      ],
+      "note": "Original separate characters/props/shadows and placements retained; only background changed."
+    },
+    {
+      "id": "E12-L5-food-alternative",
+      "location": "L5",
+      "background": "art/chapter00-01/background-harmony-v2/sources/house.png",
+      "canvas": [
+        1672,
+        941
+      ],
+      "review": "art/chapter00-01/background-harmony-v2/review/E12-L5-food-alternative.png",
+      "psd": "art/chapter00-01/background-harmony-v2/psd/E12-L5-food-alternative.psd",
+      "previous_review": "art/chapter01/completion-v1/review/E12-L5-food-alternative.png",
+      "layers": [
+        {
+          "id": "dog_contact",
+          "path": "art/chapter01/completion-v1/layers/E12-L5-food-alternative-dog_contact.png",
+          "rect": [
+            390,
+            544,
+            67,
+            9
+          ]
+        },
+        {
+          "id": "dog_wary",
+          "path": "art/chapter01/completion-v1/layers/E12-L5-food-alternative-dog_wary.png",
+          "rect": [
+            385,
+            465,
+            76,
+            86
+          ]
+        },
+        {
+          "id": "food_bowl_contact",
+          "path": "art/chapter01/completion-v1/layers/E12-L5-food-alternative-food_bowl_contact.png",
+          "rect": [
+            522,
+            579,
+            33,
+            5
+          ]
+        },
+        {
+          "id": "food_bowl",
+          "path": "art/chapter01/completion-v1/layers/E12-L5-food-alternative-food_bowl.png",
+          "rect": [
+            519,
+            560,
+            39,
+            23
+          ]
+        }
+      ],
+      "note": "Original separate characters/props/shadows and placements retained; only background changed."
+    },
+    {
+      "id": "E16-L6-drying",
+      "location": "L6",
+      "background": "art/chapter00-01/background-harmony-v2/sources/riverside.png",
+      "canvas": [
+        1672,
+        941
+      ],
+      "review": "art/chapter00-01/background-harmony-v2/review/E16-L6-drying.png",
+      "psd": "art/chapter00-01/background-harmony-v2/psd/E16-L6-drying.psd",
+      "previous_review": "art/chapter01/completion-v1/review/E16-L6-drying.png",
+      "layers": [
+        {
+          "id": "drying_cloth",
+          "path": "art/chapter01/completion-v1/layers/E16-L6-drying-drying_cloth.png",
+          "rect": [
+            1100,
+            405,
+            275,
+            107
+          ]
+        }
+      ],
+      "note": "Original separate characters/props/shadows and placements retained; only background changed."
+    },
+    {
+      "id": "E19-L3-owned-goods",
+      "location": "L3",
+      "background": "art/chapter00-01/background-harmony-v2/sources/general-store.png",
+      "canvas": [
+        1672,
+        941
+      ],
+      "review": "art/chapter00-01/background-harmony-v2/review/E19-L3-owned-goods.png",
+      "psd": "art/chapter00-01/background-harmony-v2/psd/E19-L3-owned-goods.psd",
+      "previous_review": "art/chapter01/completion-v1/review/E19-L3-owned-goods.png",
+      "layers": [
+        {
+          "id": "owned_cloth_contact",
+          "path": "art/chapter01/completion-v1/layers/E19-L3-owned-goods-owned_cloth_contact.png",
+          "rect": [
+            1113,
+            429,
+            85,
+            9
+          ]
+        },
+        {
+          "id": "owned_cloth",
+          "path": "art/chapter01/completion-v1/layers/E19-L3-owned-goods-owned_cloth.png",
+          "rect": [
+            1110,
+            409,
+            91,
+            26
+          ]
+        },
+        {
+          "id": "note_contact",
+          "path": "art/chapter01/completion-v1/layers/E19-L3-owned-goods-note_contact.png",
+          "rect": [
+            1157,
+            444,
+            44,
+            7
+          ]
+        },
+        {
+          "id": "owner_note_blank",
+          "path": "art/chapter01/completion-v1/layers/E19-L3-owned-goods-owner_note_blank.png",
+          "rect": [
+            1157,
+            422,
+            44,
+            25
+          ]
+        }
+      ],
+      "note": "Original separate characters/props/shadows and placements retained; only background changed."
+    },
+    {
+      "id": "E20-L2-exchange",
+      "location": "L2",
+      "background": "art/chapter00-01/background-harmony-v2/sources/gas-station.png",
+      "canvas": [
+        1672,
+        941
+      ],
+      "review": "art/chapter00-01/background-harmony-v2/review/E20-L2-exchange.png",
+      "psd": "art/chapter00-01/background-harmony-v2/psd/E20-L2-exchange.psd",
+      "previous_review": "art/chapter01/completion-v1/review/E20-L2-exchange.png",
+      "layers": [
+        {
+          "id": "trader_contact",
+          "path": "art/chapter01/completion-v1/layers/E20-L2-exchange-trader_contact.png",
+          "rect": [
+            928,
+            558,
+            48,
+            9
+          ]
+        },
+        {
+          "id": "unnamed_exchange_npc",
+          "path": "art/chapter01/completion-v1/layers/E20-L2-exchange-unnamed_exchange_npc.png",
+          "rect": [
+            916,
+            380,
+            61,
+            187
+          ]
+        },
+        {
+          "id": "parcel_contact",
+          "path": "art/chapter01/completion-v1/layers/E20-L2-exchange-parcel_contact.png",
+          "rect": [
+            843,
+            577,
+            61,
+            7
+          ]
+        },
+        {
+          "id": "parcel",
+          "path": "art/chapter01/completion-v1/layers/E20-L2-exchange-parcel.png",
+          "rect": [
+            840,
+            540,
+            67,
+            42
+          ]
+        }
+      ],
+      "note": "Original separate characters/props/shadows and placements retained; only background changed."
+    },
+    {
+      "id": "E20-L5-empty-crate",
+      "location": "L5",
+      "background": "art/chapter00-01/background-harmony-v2/sources/house.png",
+      "canvas": [
+        1672,
+        941
+      ],
+      "review": "art/chapter00-01/background-harmony-v2/review/E20-L5-empty-crate.png",
+      "psd": "art/chapter00-01/background-harmony-v2/psd/E20-L5-empty-crate.psd",
+      "previous_review": "art/chapter01/completion-v1/review/E20-L5-empty-crate.png",
+      "layers": [
+        {
+          "id": "crate_contact",
+          "path": "art/chapter01/completion-v1/layers/E20-L5-empty-crate-crate_contact.png",
+          "rect": [
+            976,
+            643,
+            110,
+            12
+          ]
+        },
+        {
+          "id": "crate",
+          "path": "art/chapter01/completion-v1/layers/E20-L5-empty-crate-crate.png",
+          "rect": [
+            973,
+            564,
+            116,
+            87
+          ]
+        }
+      ],
+      "note": "Original separate characters/props/shadows and placements retained; only background changed."
+    },
+    {
+      "id": "E20-L5-delivered",
+      "location": "L5",
+      "background": "art/chapter00-01/background-harmony-v2/sources/house.png",
+      "canvas": [
+        1672,
+        941
+      ],
+      "review": "art/chapter00-01/background-harmony-v2/review/E20-L5-delivered.png",
+      "psd": "art/chapter00-01/background-harmony-v2/psd/E20-L5-delivered.psd",
+      "previous_review": "art/chapter01/completion-v1/review/E20-L5-delivered.png",
+      "layers": [
+        {
+          "id": "crate_contact",
+          "path": "art/chapter01/completion-v1/layers/E20-L5-delivered-crate_contact.png",
+          "rect": [
+            976,
+            643,
+            110,
+            12
+          ]
+        },
+        {
+          "id": "crate",
+          "path": "art/chapter01/completion-v1/layers/E20-L5-delivered-crate.png",
+          "rect": [
+            973,
+            564,
+            116,
+            87
+          ]
+        },
+        {
+          "id": "parcel_in_crate",
+          "path": "art/chapter01/completion-v1/layers/E20-L5-delivered-parcel_in_crate.png",
+          "rect": [
+            1004,
+            589,
+            66,
+            42
+          ]
+        },
+        {
+          "id": "crate_front_wall_copy",
+          "path": "art/chapter01/completion-v1/layers/E20-L5-delivered-crate_front_wall_copy.png",
+          "rect": [
+            973,
+            564,
+            116,
+            87
+          ]
+        }
+      ],
+      "note": "Original separate characters/props/shadows and placements retained; only background changed."
+    },
+    {
+      "id": "E23-L2-fuel-option",
+      "location": "L2",
+      "background": "art/chapter00-01/background-harmony-v2/sources/gas-station.png",
+      "canvas": [
+        1672,
+        941
+      ],
+      "review": "art/chapter00-01/background-harmony-v2/review/E23-L2-fuel-option.png",
+      "psd": "art/chapter00-01/background-harmony-v2/psd/E23-L2-fuel-option.psd",
+      "previous_review": "art/chapter01/completion-v1/review/E23-L2-fuel-option.png",
+      "layers": [
+        {
+          "id": "fuel_can_contact",
+          "path": "art/chapter01/completion-v1/layers/E23-L2-fuel-option-fuel_can_contact.png",
+          "rect": [
+            1222,
+            382,
+            39,
+            5
+          ]
+        },
+        {
+          "id": "fuel_can",
+          "path": "art/chapter01/completion-v1/layers/E23-L2-fuel-option-fuel_can.png",
+          "rect": [
+            1219,
+            325,
+            45,
+            61
+          ]
+        }
+      ],
+      "note": "Original separate characters/props/shadows and placements retained; only background changed."
+    },
+    {
+      "id": "E23-L2-fuel-collected",
+      "location": "L2",
+      "background": "art/chapter00-01/background-harmony-v2/sources/gas-station.png",
+      "canvas": [
+        1672,
+        941
+      ],
+      "review": "art/chapter00-01/background-harmony-v2/review/E23-L2-fuel-collected.png",
+      "psd": "art/chapter00-01/background-harmony-v2/psd/E23-L2-fuel-collected.psd",
+      "previous_review": "art/chapter01/completion-v1/review/E23-L2-fuel-collected.png",
+      "layers": [],
+      "note": "Original separate characters/props/shadows and placements retained; only background changed."
+    },
+    {
+      "id": "E25-L7-road-choice",
+      "location": "L7",
+      "background": "art/chapter00-01/background-harmony-v2/sources/hill-road.png",
+      "canvas": [
+        1672,
+        941
+      ],
+      "review": "art/chapter00-01/background-harmony-v2/review/E25-L7-road-choice.png",
+      "psd": "art/chapter00-01/background-harmony-v2/psd/E25-L7-road-choice.psd",
+      "previous_review": "art/chapter01/completion-v1/review/E25-L7-road-choice.png",
+      "layers": [
+        {
+          "id": "road_barrier_contact",
+          "path": "art/chapter01/completion-v1/layers/E25-L7-road-choice-road_barrier_contact.png",
+          "rect": [
+            1013,
+            449,
+            254,
+            26
+          ]
+        },
+        {
+          "id": "road_barrier",
+          "path": "art/chapter01/completion-v1/layers/E25-L7-road-choice-road_barrier.png",
+          "rect": [
+            1010,
+            274,
+            260,
+            193
+          ]
+        }
+      ],
+      "note": "Original separate characters/props/shadows and placements retained; only background changed."
+    },
+    {
+      "id": "L2-sejin-meeting",
+      "location": "L2",
+      "background": "art/chapter00-01/background-harmony-v2/sources/gas-station.png",
+      "canvas": [
+        1672,
+        941
+      ],
+      "review": "art/chapter00-01/background-harmony-v2/review/L2-sejin-meeting.png",
+      "psd": "art/chapter00-01/background-harmony-v2/psd/L2-sejin-meeting.psd",
+      "previous_review": "art/chapter01/sejin-v1/review/L2-sejin-meeting.png",
+      "layers": [
+        {
+          "id": "van_contact_shadow",
+          "path": "art/chapter01/sejin-v1/layers/L2-sejin-meeting-van_contact_shadow.png",
+          "rect": [
+            312,
+            513,
+            465,
+            130
+          ]
+        },
+        {
+          "id": "front_tire_shadow",
+          "path": "art/chapter01/sejin-v1/layers/L2-sejin-meeting-front_tire_shadow.png",
+          "rect": [
+            448,
+            628,
+            58,
+            11
+          ]
+        },
+        {
+          "id": "rear_tire_shadow",
+          "path": "art/chapter01/sejin-v1/layers/L2-sejin-meeting-rear_tire_shadow.png",
+          "rect": [
+            711,
+            552,
+            44,
+            10
+          ]
+        },
+        {
+          "id": "van",
+          "path": "art/chapter01/sejin-v1/layers/L2-sejin-meeting-van.png",
+          "rect": [
+            299,
+            309,
+            470,
+            326
+          ]
+        },
+        {
+          "id": "camera_bench_shadow",
+          "path": "art/chapter01/sejin-v1/layers/L2-sejin-meeting-camera_bench_shadow.png",
+          "rect": [
+            570,
+            213,
+            28,
+            6
+          ]
+        },
+        {
+          "id": "camera_on_bench",
+          "path": "art/chapter01/sejin-v1/layers/L2-sejin-meeting-camera_on_bench.png",
+          "rect": [
+            570,
+            194,
+            27,
+            23
+          ]
+        },
+        {
+          "id": "sejin_contact_shadow",
+          "path": "art/chapter01/sejin-v1/layers/L2-sejin-meeting-sejin_contact_shadow.png",
+          "rect": [
+            804,
+            605,
+            67,
+            12
+          ]
+        },
+        {
+          "id": "sejin_standing",
+          "path": "art/chapter01/sejin-v1/layers/L2-sejin-meeting-sejin_standing.png",
+          "rect": [
+            800,
+            426,
+            75,
+            188
+          ]
+        }
+      ],
+      "note": "Original separate characters/props/shadows and placements retained; only background changed."
+    },
+    {
+      "id": "L6-first-shoot",
+      "location": "L6",
+      "background": "art/chapter00-01/background-harmony-v2/sources/riverside.png",
+      "canvas": [
+        1672,
+        941
+      ],
+      "review": "art/chapter00-01/background-harmony-v2/review/L6-first-shoot.png",
+      "psd": "art/chapter00-01/background-harmony-v2/psd/L6-first-shoot.psd",
+      "previous_review": "art/chapter01/first-photo-v1/review/L6-first-shoot.png",
+      "layers": [
+        {
+          "id": "left_foot_contact_shadow",
+          "path": "art/chapter01/first-photo-v1/layers/L6-first-shoot-left_foot_contact_shadow.png",
+          "rect": [
+            759,
+            641,
+            33,
+            9
+          ]
+        },
+        {
+          "id": "right_foot_contact_shadow",
+          "path": "art/chapter01/first-photo-v1/layers/L6-first-shoot-right_foot_contact_shadow.png",
+          "rect": [
+            792,
+            619,
+            26,
+            8
+          ]
+        },
+        {
+          "id": "suhyeok_shoot",
+          "path": "art/chapter01/first-photo-v1/layers/L6-first-shoot-suhyeok_shoot.png",
+          "rect": [
+            744,
+            458,
+            72,
+            190
+          ]
+        }
+      ],
+      "note": "Original separate characters/props/shadows and placements retained; only background changed."
+    }
+  ],
+  "limitations": [
+    "All six native outputs remain1672x941, below3840x2160 target; no upscale claimed.",
+    "Generated compositions visually preserve layout, not pixel-identical original contours.",
+    "Only listed foreground copies are isolated; background furniture remains baked in native painting.",
+    "Scene PSD characters and props are placement-size; native source masters remain in original bundles.",
+    "Active runtime/storyboard references are not globally replaced; this manifest records review-ready versions.",
+    "Unity and Photoshop application testing not performed."
+  ]
+}

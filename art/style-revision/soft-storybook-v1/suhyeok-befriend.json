@@ -1,0 +1,66 @@
+{
+  "id": "suhyeok-befriend",
+  "source": "sources/suhyeok-befriend.png",
+  "previous": "art/chapter01/revision-v3/suhyeok-befriend-v3.png",
+  "category": "action",
+  "status": "art-revision",
+  "holes": [
+    [
+      632,
+      642
+    ]
+  ],
+  "native_size": [
+    1254,
+    1254
+  ],
+  "alpha_bounds": [
+    19,
+    14,
+    1240,
+    1237
+  ],
+  "subject_height": 1223,
+  "sprite": "sprites/suhyeok-befriend.png",
+  "psd": "psd/suhyeok-befriend.psd",
+  "alpha_method": "exterior-connected neutral backdrop cut, 1px fringe trim; RGB untouched",
+  "native_unscaled": true,
+  "sha256": "cff70383a79fb0e719d91d9ffd723775b587b52eaf103dcaa44b7da301b8f95d",
+  "qa": [
+    {
+      "name": "native-size",
+      "pass": true
+    },
+    {
+      "name": "transparent-border",
+      "pass": true
+    },
+    {
+      "name": "visible-subject",
+      "pass": true
+    },
+    {
+      "name": "foreground-RGB-preserved",
+      "pass": true
+    },
+    {
+      "name": "suhyeok-befriend:merged_rgba",
+      "pass": true
+    },
+    {
+      "name": "suhyeok-befriend:layer_names",
+      "pass": true
+    },
+    {
+      "name": "suhyeok-befriend:layer:isolated_character",
+      "pass": true
+    },
+    {
+      "name": "suhyeok-befriend:layer:generated_source_hidden",
+      "pass": true
+    }
+  ],
+  "psd_scope": "2 actual layers: hidden native source + visible isolated character; body parts not independently layered",
+  "resolution_target_met": false,
+  "unity_tested": false
+}

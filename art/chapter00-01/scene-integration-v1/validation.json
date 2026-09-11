@@ -1,0 +1,53 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "name": "native_canvas",
+      "pass": true
+    },
+    {
+      "name": "outside_context_region_exact_original_background",
+      "pass": true
+    },
+    {
+      "name": "patch_is_feathered_region_not_character_alpha",
+      "pass": true
+    },
+    {
+      "name": "opaque_composite",
+      "pass": true
+    },
+    {
+      "name": "house-integration-review:merged_rgba",
+      "pass": true
+    },
+    {
+      "name": "house-integration-review:layer_names",
+      "pass": true
+    },
+    {
+      "name": "house-integration-review:layer:context_paint_includes_floor",
+      "pass": true
+    },
+    {
+      "name": "house-integration-review:layer:fixed_empty_house",
+      "pass": true
+    },
+    {
+      "name": "house-integration-review:layer:previous_scene_hidden",
+      "pass": true
+    },
+    {
+      "name": "house-context-generated-native:merged_rgba",
+      "pass": true
+    },
+    {
+      "name": "house-context-generated-native:layer_names",
+      "pass": true
+    },
+    {
+      "name": "house-context-generated-native:layer:generated_flat_native",
+      "pass": true
+    }
+  ]
+}

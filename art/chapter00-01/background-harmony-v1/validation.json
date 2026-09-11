@@ -1,0 +1,461 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "name": "camper:native_canvas_matches_placement",
+      "pass": true
+    },
+    {
+      "name": "camper-soft-base-v1:merged_rgba",
+      "pass": true
+    },
+    {
+      "name": "camper-soft-base-v1:layer_names",
+      "pass": true
+    },
+    {
+      "name": "camper-soft-base-v1:layer:repainted_background",
+      "pass": true
+    },
+    {
+      "name": "camper-soft-base-v1:layer:previous_base_hidden",
+      "pass": true
+    },
+    {
+      "name": "store:native_canvas_matches_placement",
+      "pass": true
+    },
+    {
+      "name": "store-soft-base-v2:merged_rgba",
+      "pass": true
+    },
+    {
+      "name": "store-soft-base-v2:layer_names",
+      "pass": true
+    },
+    {
+      "name": "store-soft-base-v2:layer:repainted_background",
+      "pass": true
+    },
+    {
+      "name": "store-soft-base-v2:layer:previous_base_hidden",
+      "pass": true
+    },
+    {
+      "name": "C0-current:merged_rgba",
+      "pass": true
+    },
+    {
+      "name": "C0-current:layer_names",
+      "pass": true
+    },
+    {
+      "name": "C0-current:layer:flashlight-stored",
+      "pass": true
+    },
+    {
+      "name": "C0-current:layer:panel-loose",
+      "pass": true
+    },
+    {
+      "name": "C0-current:layer:blanket-before",
+      "pass": true
+    },
+    {
+      "name": "C0-current:layer:water-before",
+      "pass": true
+    },
+    {
+      "name": "C0-current:layer:soi-seated_forearms_copy",
+      "pass": true
+    },
+    {
+      "name": "C0-current:layer:suhyeok-seated_forearms_copy",
+      "pass": true
+    },
+    {
+      "name": "C0-current:layer:mug",
+      "pass": true
+    },
+    {
+      "name": "C0-current:layer:book",
+      "pass": true
+    },
+    {
+      "name": "C0-current:layer:matching_table_occlusion",
+      "pass": true
+    },
+    {
+      "name": "C0-current:layer:soi-seated",
+      "pass": true
+    },
+    {
+      "name": "C0-current:layer:suhyeok-seated",
+      "pass": true
+    },
+    {
+      "name": "C0-current:layer:soft_background",
+      "pass": true
+    },
+    {
+      "name": "C0-current:opaque_scene",
+      "pass": true
+    },
+    {
+      "name": "C0-outage:merged_rgba",
+      "pass": true
+    },
+    {
+      "name": "C0-outage:layer_names",
+      "pass": true
+    },
+    {
+      "name": "C0-outage:layer:flashlight-stored",
+      "pass": true
+    },
+    {
+      "name": "C0-outage:layer:panel-loose",
+      "pass": true
+    },
+    {
+      "name": "C0-outage:layer:blanket-packed",
+      "pass": true
+    },
+    {
+      "name": "C0-outage:layer:water-packed",
+      "pass": true
+    },
+    {
+      "name": "C0-outage:layer:soi-seated_forearms_copy",
+      "pass": true
+    },
+    {
+      "name": "C0-outage:layer:suhyeok-seated_forearms_copy",
+      "pass": true
+    },
+    {
+      "name": "C0-outage:layer:mug",
+      "pass": true
+    },
+    {
+      "name": "C0-outage:layer:book",
+      "pass": true
+    },
+    {
+      "name": "C0-outage:layer:matching_table_occlusion",
+      "pass": true
+    },
+    {
+      "name": "C0-outage:layer:soi-seated",
+      "pass": true
+    },
+    {
+      "name": "C0-outage:layer:suhyeok-seated",
+      "pass": true
+    },
+    {
+      "name": "C0-outage:layer:soft_background",
+      "pass": true
+    },
+    {
+      "name": "C0-outage:opaque_scene",
+      "pass": true
+    },
+    {
+      "name": "E06-drawing:merged_rgba",
+      "pass": true
+    },
+    {
+      "name": "E06-drawing:layer_names",
+      "pass": true
+    },
+    {
+      "name": "E06-drawing:layer:soi-seated_foreground_copy",
+      "pass": true
+    },
+    {
+      "name": "E06-drawing:layer:suhyeok_drawing_foreground_copy",
+      "pass": true
+    },
+    {
+      "name": "E06-drawing:layer:existing_pencils",
+      "pass": true
+    },
+    {
+      "name": "E06-drawing:layer:existing_pencils_shadow",
+      "pass": true
+    },
+    {
+      "name": "E06-drawing:layer:existing_mug",
+      "pass": true
+    },
+    {
+      "name": "E06-drawing:layer:existing_book_started",
+      "pass": true
+    },
+    {
+      "name": "E06-drawing:layer:matching_table_occlusion",
+      "pass": true
+    },
+    {
+      "name": "E06-drawing:layer:soi-seated",
+      "pass": true
+    },
+    {
+      "name": "E06-drawing:layer:suhyeok_drawing",
+      "pass": true
+    },
+    {
+      "name": "E06-drawing:layer:flashlight-stored",
+      "pass": true
+    },
+    {
+      "name": "E06-drawing:layer:panel-fixed",
+      "pass": true
+    },
+    {
+      "name": "E06-drawing:layer:blanket-packed",
+      "pass": true
+    },
+    {
+      "name": "E06-drawing:layer:water-packed",
+      "pass": true
+    },
+    {
+      "name": "E06-drawing:layer:soft_background",
+      "pass": true
+    },
+    {
+      "name": "E06-drawing:opaque_scene",
+      "pass": true
+    },
+    {
+      "name": "E06-drawing-truth:merged_rgba",
+      "pass": true
+    },
+    {
+      "name": "E06-drawing-truth:layer_names",
+      "pass": true
+    },
+    {
+      "name": "E06-drawing-truth:layer:suhyeok_drawing_foreground_copy",
+      "pass": true
+    },
+    {
+      "name": "E06-drawing-truth:layer:existing_pencils",
+      "pass": true
+    },
+    {
+      "name": "E06-drawing-truth:layer:existing_pencils_shadow",
+      "pass": true
+    },
+    {
+      "name": "E06-drawing-truth:layer:existing_mug",
+      "pass": true
+    },
+    {
+      "name": "E06-drawing-truth:layer:existing_book_started",
+      "pass": true
+    },
+    {
+      "name": "E06-drawing-truth:layer:matching_table_occlusion",
+      "pass": true
+    },
+    {
+      "name": "E06-drawing-truth:layer:suhyeok_drawing",
+      "pass": true
+    },
+    {
+      "name": "E06-drawing-truth:layer:flashlight-stored",
+      "pass": true
+    },
+    {
+      "name": "E06-drawing-truth:layer:panel-fixed",
+      "pass": true
+    },
+    {
+      "name": "E06-drawing-truth:layer:blanket-packed",
+      "pass": true
+    },
+    {
+      "name": "E06-drawing-truth:layer:water-packed",
+      "pass": true
+    },
+    {
+      "name": "E06-drawing-truth:layer:soft_background",
+      "pass": true
+    },
+    {
+      "name": "E06-drawing-truth:opaque_scene",
+      "pass": true
+    },
+    {
+      "name": "L1-stationery:merged_rgba",
+      "pass": true
+    },
+    {
+      "name": "L1-stationery:layer_names",
+      "pass": true
+    },
+    {
+      "name": "L1-stationery:layer:investigate",
+      "pass": true
+    },
+    {
+      "name": "L1-stationery:layer:investigate_contact_shadow",
+      "pass": true
+    },
+    {
+      "name": "L1-stationery:layer:drink-b",
+      "pass": true
+    },
+    {
+      "name": "L1-stationery:layer:drink-a",
+      "pass": true
+    },
+    {
+      "name": "L1-stationery:layer:pencils",
+      "pass": true
+    },
+    {
+      "name": "L1-stationery:layer:medicine",
+      "pass": true
+    },
+    {
+      "name": "L1-stationery:layer:can-b",
+      "pass": true
+    },
+    {
+      "name": "L1-stationery:layer:can-a",
+      "pass": true
+    },
+    {
+      "name": "L1-stationery:layer:soft_background",
+      "pass": true
+    },
+    {
+      "name": "L1-stationery:opaque_scene",
+      "pass": true
+    },
+    {
+      "name": "L1-pencils-taken:merged_rgba",
+      "pass": true
+    },
+    {
+      "name": "L1-pencils-taken:layer_names",
+      "pass": true
+    },
+    {
+      "name": "L1-pencils-taken:layer:investigate",
+      "pass": true
+    },
+    {
+      "name": "L1-pencils-taken:layer:investigate_contact_shadow",
+      "pass": true
+    },
+    {
+      "name": "L1-pencils-taken:layer:drink-b",
+      "pass": true
+    },
+    {
+      "name": "L1-pencils-taken:layer:drink-a",
+      "pass": true
+    },
+    {
+      "name": "L1-pencils-taken:layer:medicine",
+      "pass": true
+    },
+    {
+      "name": "L1-pencils-taken:layer:can-b",
+      "pass": true
+    },
+    {
+      "name": "L1-pencils-taken:layer:can-a",
+      "pass": true
+    },
+    {
+      "name": "L1-pencils-taken:layer:soft_background",
+      "pass": true
+    },
+    {
+      "name": "L1-pencils-taken:opaque_scene",
+      "pass": true
+    },
+    {
+      "name": "truth_pair_only_soi_changes",
+      "pass": true
+    },
+    {
+      "name": "source_preserved:art/chapter00/camper/layers/folded-blanket-v1.png",
+      "pass": true
+    },
+    {
+      "name": "source_preserved:art/style-revision/soft-storybook-v1/sprites/suhyeok-repair-trim.png",
+      "pass": true
+    },
+    {
+      "name": "source_preserved:art/chapter01/store/pencil-tin-v1.png",
+      "pass": true
+    },
+    {
+      "name": "source_preserved:art/chapter00/camper/layers/water-jug-held-v1.png",
+      "pass": true
+    },
+    {
+      "name": "source_preserved:art/chapter00/camper/layers/power-panel-fixed-v1.png",
+      "pass": true
+    },
+    {
+      "name": "source_preserved:art/chapter00/camper/layers/flashlight-off-v1.png",
+      "pass": true
+    },
+    {
+      "name": "source_preserved:art/chapter01/store/drink-bottle-v1.png",
+      "pass": true
+    },
+    {
+      "name": "source_preserved:art/chapter00-01/narrative-art-v1/layers/suhyeok-drawing-native.png",
+      "pass": true
+    },
+    {
+      "name": "source_preserved:art/chapter00/camper/layers/power-panel-loose-v1.png",
+      "pass": true
+    },
+    {
+      "name": "source_preserved:art/chapter00-01/narrative-art-v1/layers/soi-seated-native.png",
+      "pass": true
+    },
+    {
+      "name": "source_preserved:art/chapter01/store/food-can-v1.png",
+      "pass": true
+    },
+    {
+      "name": "source_preserved:art/style-revision/soft-storybook-v1/sprites/suhyeok-investigate-trim.png",
+      "pass": true
+    },
+    {
+      "name": "source_preserved:art/chapter00-01/narrative-art-v1/layers/suhyeok-seated-native.png",
+      "pass": true
+    },
+    {
+      "name": "source_preserved:art/chapter00/camper/layers/water-jug-v1.png",
+      "pass": true
+    },
+    {
+      "name": "source_preserved:art/chapter01/store/medicine-v1.png",
+      "pass": true
+    },
+    {
+      "name": "source_preserved:art/chapter01/revision-v3/camper-clean-base-v3.png",
+      "pass": true
+    },
+    {
+      "name": "source_preserved:art/chapter00/camper/layers/journal-open-v1.png",
+      "pass": true
+    },
+    {
+      "name": "source_preserved:art/chapter01/revision-v3/store-clean-base-v3.png",
+      "pass": true
+    }
+  ]
+}

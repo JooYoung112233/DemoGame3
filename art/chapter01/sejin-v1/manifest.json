@@ -1,0 +1,157 @@
+{
+  "id": "sejin-v1",
+  "status": "provisional-character-and-vehicle-review-not-approved-design",
+  "events": [
+    "E07",
+    "E09",
+    "E10"
+  ],
+  "generator": "built-in image_gen",
+  "assets": [
+    {
+      "id": "sejin-standing",
+      "source": "art/chapter01/sejin-v1/sources/sejin-standing-source-v2.png",
+      "native": "art/chapter01/sejin-v1/layers/sejin-standing-native.png",
+      "native_size": [
+        1086,
+        1448
+      ],
+      "visible_bounds_alpha16": [
+        270,
+        31,
+        823,
+        1415
+      ],
+      "visible_size": [
+        553,
+        1384
+      ],
+      "extraction": "neutral exterior alpha-only cut; RGB unchanged",
+      "psd": "art/chapter01/sejin-v1/psd/sejin-standing-native.psd"
+    },
+    {
+      "id": "van",
+      "source": "art/chapter01/sejin-v1/sources/van-source-v1.png",
+      "native": "art/chapter01/sejin-v1/layers/van-native.png",
+      "native_size": [
+        1448,
+        1086
+      ],
+      "visible_bounds_alpha16": [
+        32,
+        67,
+        1431,
+        1037
+      ],
+      "visible_size": [
+        1399,
+        970
+      ],
+      "extraction": "original pixels and alpha preserved",
+      "psd": "art/chapter01/sejin-v1/psd/van-native.psd"
+    }
+  ],
+  "scene": {
+    "id": "L2-sejin-meeting",
+    "background": "art/chapter01/gas-station-v1/gas-station-clean-base-source-v1.png",
+    "canvas": [
+      1672,
+      941
+    ],
+    "layers": [
+      {
+        "id": "van_contact_shadow",
+        "path": "art/chapter01/sejin-v1/layers/L2-sejin-meeting-van_contact_shadow.png",
+        "rect": [
+          312,
+          513,
+          465,
+          130
+        ]
+      },
+      {
+        "id": "front_tire_shadow",
+        "path": "art/chapter01/sejin-v1/layers/L2-sejin-meeting-front_tire_shadow.png",
+        "rect": [
+          448,
+          628,
+          58,
+          11
+        ]
+      },
+      {
+        "id": "rear_tire_shadow",
+        "path": "art/chapter01/sejin-v1/layers/L2-sejin-meeting-rear_tire_shadow.png",
+        "rect": [
+          711,
+          552,
+          44,
+          10
+        ]
+      },
+      {
+        "id": "van",
+        "path": "art/chapter01/sejin-v1/layers/L2-sejin-meeting-van.png",
+        "rect": [
+          299,
+          309,
+          470,
+          326
+        ]
+      },
+      {
+        "id": "camera_bench_shadow",
+        "path": "art/chapter01/sejin-v1/layers/L2-sejin-meeting-camera_bench_shadow.png",
+        "rect": [
+          570,
+          213,
+          28,
+          6
+        ]
+      },
+      {
+        "id": "camera_on_bench",
+        "path": "art/chapter01/sejin-v1/layers/L2-sejin-meeting-camera_on_bench.png",
+        "rect": [
+          570,
+          194,
+          27,
+          23
+        ]
+      },
+      {
+        "id": "sejin_contact_shadow",
+        "path": "art/chapter01/sejin-v1/layers/L2-sejin-meeting-sejin_contact_shadow.png",
+        "rect": [
+          804,
+          605,
+          67,
+          12
+        ]
+      },
+      {
+        "id": "sejin_standing",
+        "path": "art/chapter01/sejin-v1/layers/L2-sejin-meeting-sejin_standing.png",
+        "rect": [
+          800,
+          426,
+          75,
+          188
+        ]
+      }
+    ],
+    "review": "art/chapter01/sejin-v1/review/L2-sejin-meeting.png",
+    "psd": "art/chapter01/sejin-v1/psd/L2-sejin-meeting.psd"
+  },
+  "design_candidate": "Short dark greying hair, broad adult face, olive overshirt. Age and vehicle model are visual proposals, not established biography.",
+  "limitations": [
+    "Originals remain at native generated resolution; no upscaling claimed as restored detail.",
+    "Scene bases remain 1672x941; not final 4K backgrounds.",
+    "PSD validated by file readers, not Photoshop app or Unity.",
+    "No full expression set, separate dialogue portrait master, repair or handover action pose.",
+    "Van is one cutout: hood/wheels/engine cannot be independently animated.",
+    "First candidate v1 preserved but not used because it resembled Suhyeok too closely."
+  ],
+  "supplement_manifest": "art/chapter01/completion-v1/manifest.json",
+  "supplement_note": "This original bundle remains intact; later handover, care, repair, portrait and living-state assets are listed in completion-v1 and the week01 coverage index."
+}

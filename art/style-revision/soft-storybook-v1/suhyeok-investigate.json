@@ -1,0 +1,66 @@
+{
+  "id": "suhyeok-investigate",
+  "source": "sources/suhyeok-investigate.png",
+  "previous": "art/chapter01/extra-poses/suhyeok-investigate-v2.png",
+  "category": "action",
+  "status": "art-revision",
+  "holes": [
+    [
+      550,
+      700
+    ]
+  ],
+  "native_size": [
+    1122,
+    1402
+  ],
+  "alpha_bounds": [
+    25,
+    48,
+    1111,
+    1329
+  ],
+  "subject_height": 1281,
+  "sprite": "sprites/suhyeok-investigate.png",
+  "psd": "psd/suhyeok-investigate.psd",
+  "alpha_method": "exterior-connected neutral backdrop cut, 1px fringe trim; RGB untouched",
+  "native_unscaled": true,
+  "sha256": "a0c8ebede175e44457f28fe9fd540898bf5da13030a75973dbf704fec3306073",
+  "qa": [
+    {
+      "name": "native-size",
+      "pass": true
+    },
+    {
+      "name": "transparent-border",
+      "pass": true
+    },
+    {
+      "name": "visible-subject",
+      "pass": true
+    },
+    {
+      "name": "foreground-RGB-preserved",
+      "pass": true
+    },
+    {
+      "name": "suhyeok-investigate:merged_rgba",
+      "pass": true
+    },
+    {
+      "name": "suhyeok-investigate:layer_names",
+      "pass": true
+    },
+    {
+      "name": "suhyeok-investigate:layer:isolated_character",
+      "pass": true
+    },
+    {
+      "name": "suhyeok-investigate:layer:generated_source_hidden",
+      "pass": true
+    }
+  ],
+  "psd_scope": "2 actual layers: hidden native source + visible isolated character; body parts not independently layered",
+  "resolution_target_met": false,
+  "unity_tested": false
+}

@@ -1,0 +1,189 @@
+{
+  "id": "L4-base-v1",
+  "status": "composition-review-below-resolution-target",
+  "source": "art/chapter01/repair-shop-v1/repair-shop-clean-base-source-v1.png",
+  "native_size": [
+    1672,
+    941
+  ],
+  "target_size": [
+    3840,
+    2160
+  ],
+  "source_sha256": "dfd8fd2d404837a14066226a1bfb5beccc235bf1c359ac2fca9e2a978b4e5870",
+  "generator": "built-in image_gen",
+  "prompt": "art/chapter01/repair-shop-v1/repair-shop-v1.prompt.txt",
+  "psd": "art/chapter01/repair-shop-v1/repair-shop-native-layers-v1.psd",
+  "layers": [
+    {
+      "id": "workbench_front",
+      "path": "art/chapter01/repair-shop-v1/layers/workbench_front.png",
+      "rect": [
+        620,
+        211,
+        435,
+        181
+      ],
+      "polygons": [
+        [
+          [
+            629,
+            211
+          ],
+          [
+            1040,
+            211
+          ],
+          [
+            1054,
+            277
+          ],
+          [
+            620,
+            277
+          ]
+        ],
+        [
+          [
+            628,
+            278
+          ],
+          [
+            654,
+            278
+          ],
+          [
+            653,
+            391
+          ],
+          [
+            631,
+            391
+          ]
+        ],
+        [
+          [
+            1018,
+            278
+          ],
+          [
+            1044,
+            278
+          ],
+          [
+            1041,
+            390
+          ],
+          [
+            1018,
+            390
+          ]
+        ]
+      ],
+      "type": "same-position occlusion/editing copy; native background remains underneath"
+    },
+    {
+      "id": "side_table_front",
+      "path": "art/chapter01/repair-shop-v1/layers/side_table_front.png",
+      "rect": [
+        1337,
+        373,
+        162,
+        324
+      ],
+      "polygons": [
+        [
+          [
+            1337,
+            374
+          ],
+          [
+            1434,
+            373
+          ],
+          [
+            1498,
+            567
+          ],
+          [
+            1389,
+            569
+          ]
+        ],
+        [
+          [
+            1386,
+            570
+          ],
+          [
+            1400,
+            570
+          ],
+          [
+            1401,
+            695
+          ],
+          [
+            1387,
+            695
+          ]
+        ],
+        [
+          [
+            1478,
+            570
+          ],
+          [
+            1496,
+            570
+          ],
+          [
+            1492,
+            696
+          ],
+          [
+            1478,
+            696
+          ]
+        ]
+      ],
+      "type": "same-position occlusion/editing copy; native background remains underneath"
+    }
+  ],
+  "slots": [
+    {
+      "id": "toolbag_shelf",
+      "rect": [
+        742,
+        306,
+        130,
+        49
+      ],
+      "note": "작업대 아래 선반. 낮고 넓은 가방을 바닥에 붙여 배치. 회수 후 빈 선반 유지."
+    },
+    {
+      "id": "parts_drawers",
+      "rect": [
+        476,
+        129,
+        111,
+        222
+      ],
+      "note": "부품 탐색 후보. 고정 서랍을 여는 상태는 별도 원화 후속."
+    }
+  ],
+  "events": [
+    "E04",
+    "E08",
+    "E10",
+    "E15",
+    "E22"
+  ],
+  "remaining": "공구 가방·회수 전후 합성은 art/chapter01/photographer-props-v1/manifest.json 참조. 추가 공구·수리 재료·서랍 상태 미제작. 가림 마스크는 원본 복사이며 가구 이동 후 바닥 복원 없음.",
+  "limitations": [
+    "No 4K source was produced; no upscaling claimed as restored detail.",
+    "Painting is one fixed native base; only listed foreground copies are separately editable.",
+    "Character/prop contact, foreground edge masks and vehicle perspective require composition review when assets arrive.",
+    "No Photoshop app or Unity validation."
+  ]
+}

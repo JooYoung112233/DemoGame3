@@ -1,0 +1,223 @@
+{
+  "id": "L3-general-store-v1",
+  "status": "composition-review-native-resolution-below-target",
+  "location": "L3",
+  "source": "art/chapter01/general-store-v1/general-store-clean-base-source-v1.png",
+  "native_size": [
+    1672,
+    941
+  ],
+  "requested_target": [
+    3840,
+    2160
+  ],
+  "source_sha256": "4f360ac7dddf43ea213045465c970ff3867fdc4c689ac819c67182f9c300b72b",
+  "generator": "built-in image_gen",
+  "prompt": "art/chapter01/general-store-v1/general-store-clean-base-v1.prompt.txt",
+  "style_references": [
+    "art/chapter01/revision-v3/store-clean-base-v3.png",
+    "art/chapter01/revision-v3/house-clean-base-v3.png"
+  ],
+  "psd": "art/chapter01/general-store-v1/general-store-native-occlusion-v1.psd",
+  "psd_layers": 3,
+  "foreground_layers": [
+    {
+      "id": "left_counter_occlusion",
+      "path": "art/chapter01/general-store-v1/layers/left_counter_occlusion.png",
+      "rect": [
+        211,
+        369,
+        451,
+        196
+      ],
+      "polygon_native": [
+        [
+          211,
+          401
+        ],
+        [
+          230,
+          370
+        ],
+        [
+          661,
+          369
+        ],
+        [
+          654,
+          432
+        ],
+        [
+          655,
+          543
+        ],
+        [
+          633,
+          563
+        ],
+        [
+          218,
+          564
+        ],
+        [
+          211,
+          440
+        ]
+      ],
+      "role": "Foreground occlusion COPY; source furniture remains in base. Edge mask is a placement draft."
+    },
+    {
+      "id": "right_display_occlusion",
+      "path": "art/chapter01/general-store-v1/layers/right_display_occlusion.png",
+      "rect": [
+        1069,
+        396,
+        370,
+        196
+      ],
+      "polygon_native": [
+        [
+          1069,
+          400
+        ],
+        [
+          1080,
+          396
+        ],
+        [
+          1417,
+          398
+        ],
+        [
+          1438,
+          471
+        ],
+        [
+          1432,
+          583
+        ],
+        [
+          1077,
+          591
+        ],
+        [
+          1069,
+          474
+        ]
+      ],
+      "role": "Foreground occlusion COPY; source furniture remains in base. Edge mask is a placement draft."
+    }
+  ],
+  "logical_canvas": [
+    1920,
+    1080
+  ],
+  "logical_scale_xy": [
+    1.1483253588516746,
+    1.1477151965993624
+  ],
+  "aspect_note": "Native 1672:941 is near 16:9, not exact. For unwarped full-width display use uniform 1920/1672 scale and center crop about 0.574 logical pixels from height; native is preserved.",
+  "placement_planes": [
+    {
+      "id": "stationery_table_top",
+      "polygon_native": [
+        [
+          1083,
+          400
+        ],
+        [
+          1414,
+          403
+        ],
+        [
+          1428,
+          467
+        ],
+        [
+          1078,
+          466
+        ]
+      ],
+      "events": [
+        "E05"
+      ],
+      "planned_props": [
+        "colored_pencils"
+      ],
+      "note": "확정 확보 색연필은 이 상판에 별도 배치. 지금 비어 있음."
+    },
+    {
+      "id": "left_counter_top",
+      "polygon_native": [
+        [
+          238,
+          375
+        ],
+        [
+          653,
+          374
+        ],
+        [
+          646,
+          429
+        ],
+        [
+          218,
+          434
+        ]
+      ],
+      "events": [
+        "E19"
+      ],
+      "planned_props": [
+        "ownership_note",
+        "optional_household_item"
+      ],
+      "note": "색연필과 분리한 주인 있는 선택 물품 자리."
+    },
+    {
+      "id": "right_rear_shelf",
+      "rect_native": [
+        1014,
+        106,
+        229,
+        187
+      ],
+      "events": [
+        "E14",
+        "E15",
+        "E18",
+        "E21"
+      ],
+      "planned_props": [
+        "cloth",
+        "small_mat",
+        "cover"
+      ],
+      "note": "각 선반 실제 접촉면에 맞춘 배치가 후속. 구역 전체를 한 소품으로 채우지 않음."
+    }
+  ],
+  "render_order_proposal": [
+    "fixed_base",
+    "standing_body_behind_furniture",
+    "foreground_occlusion_copy",
+    "props_on_top",
+    "hand_over_prop"
+  ],
+  "events": [
+    "E05",
+    "E14",
+    "E15",
+    "E18",
+    "E19",
+    "E21",
+    "E22"
+  ],
+  "limitations": [
+    "No new detail from upscaling; no 4K master delivered.",
+    "Three real raster layers: fixed painting plus two foreground occlusion copies. Architecture and shelves are not independently movable.",
+    "Foreground masks are draft; character and prop contact must be checked in actual composite.",
+    "Props, characters, shadows for added props, Unity UI and runtime integration not delivered.",
+    "PSD channels, offsets and composite checked by file readers; Photoshop app not tested."
+  ]
+}

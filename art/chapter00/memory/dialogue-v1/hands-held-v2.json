@@ -1,0 +1,62 @@
+{
+  "id": "C0-handhold-v2",
+  "reason": "User said three stacked hands looked like a team cheer. Show only father and daughter holding hands after mother releases.",
+  "source": "art/chapter00/memory/dialogue-v1/hands-held-source-v2.png",
+  "foreground": "art/chapter00/memory/dialogue-v1/hands-held-v2.png",
+  "review": "art/chapter00/memory/dialogue-v1/hands-held-review-v2.png",
+  "psd": "art/chapter00/memory/dialogue-v1/hands-held-layers-v2.psd",
+  "native_size": [
+    1672,
+    941
+  ],
+  "alpha_bounds": [
+    43,
+    0,
+    1672,
+    941
+  ],
+  "background": "art/chapter00/memory/dialogue-v1/path-closeup-review-v1.png",
+  "implementation": "After Suhyeok responds, show the completed two-person handhold; mother handing over is implied, no three-hand intermediate frame.",
+  "limitations": [
+    "Native 1672x941 below 3840 target; no detail-restoring upscaling.",
+    "Two contacting hands are one foreground group, not individually movable fingers.",
+    "Ground is the unchanged prior crop preview.",
+    "No Photoshop application or Unity testing."
+  ],
+  "processing": "Built-in imagegen, then neutral checkerboard removal under prior user permission; original retained.",
+  "qa": {
+    "checks": [
+      {
+        "name": "alpha-background",
+        "pass": true
+      },
+      {
+        "name": "central-grip-opaque",
+        "pass": true
+      },
+      {
+        "name": "hands-held-layers-v2:merged_rgba",
+        "pass": true
+      },
+      {
+        "name": "hands-held-layers-v2:layer_names",
+        "pass": true
+      },
+      {
+        "name": "hands-held-layers-v2:layer:father_and_child_holding",
+        "pass": true
+      },
+      {
+        "name": "hands-held-layers-v2:layer:existing_ground_preview",
+        "pass": true
+      },
+      {
+        "name": "hands-held-layers-v2:layer:generated_source_hidden",
+        "pass": true
+      }
+    ],
+    "passed": 7,
+    "failed": 0
+  },
+  "status": "corrected pose draft awaiting visual feedback"
+}

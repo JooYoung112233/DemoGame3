@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Live49 · 붙잡히지 않는 얼굴</title>
+<link rel="stylesheet" href="opening-motion.css">
+</head>
+<body>
+<header class="review-head">
+ <div class="heading"><span class="eyebrow">LIVE49 · 연출 검토</span><h1>07. 다시, 소이의 목소리</h1></div>
+ <div class="accepted">얼굴 없는 회상 → 사진 → 현재 대화</div>
+</header>
+<main>
+ <div class="viewport">
+  <section id="stage" tabindex="-1" aria-label="1920×1080 게임 화면 미리보기" data-status="loading">
+   <img id="background" src="/art/title/title-background-v1.png" alt="나무 식탁 위 책에 손을 올려놓은 임시 배경">
+   <div id="ui-layers" aria-hidden="true"></div>
+   <img id="call-dim" src="/design/ui/ch00-01/runtime/1920x1080/C0-01/01_bottom_readability_gradient.png" alt="">
+   <div id="call-text" aria-hidden="true"></div>
+   <span id="call-accessible" class="sr-only" aria-live="polite"></span>
+   <div id="advance-ui" aria-hidden="true"><img src="runtime/1920x1080/C0-01/03_advance_cue.png" alt=""><span>클릭 또는 Space로 계속</span></div>
+   <div id="memory" hidden><img id="memory-ground" alt="노을빛 산책길 바닥"><img id="memory-feet" alt="걸음을 멈춘 서연과 소이의 발"><img id="memory-present" alt="현재 캠핑카 식탁에 앉은 수혁과 소이" hidden><img id="memory-held" alt="수혁과 소이가 맞잡은 손" hidden></div>
+   <div id="memory-dialogue" hidden>
+    <img id="portrait-seoyeon" hidden class="dialogue-portrait" alt="서연 대화 일러스트 시안">
+    <img id="portrait-suhyeok" class="dialogue-portrait" alt="수혁 대화 일러스트 시안">
+    <img id="portrait-soi" class="dialogue-portrait" alt="소이 대화 일러스트 시안">
+    <div id="dialogue-panel"><img class="panel-image" src="runtime/1920x1080/C0-02/01_dialogue_panel.png" alt="">
+     <div id="dialogue-nameplate"><img src="runtime/1920x1080/C0-02/02_nameplate.png" alt=""><span id="dialogue-name"></span></div>
+     <div id="dialogue-text" aria-hidden="true"></div>
+     <img id="dialogue-cue" src="runtime/1920x1080/C0-02/05_advance_cue.png" alt="">
+    </div>
+    <span id="dialogue-accessible" class="sr-only" aria-live="polite"></span>
+   </div>
+   <img id="handoff" alt="서연이 손을 놓은 뒤 수혁과 소이가 손을 맞잡은 수정 컷" hidden>
+   <div id="photo-scene" hidden><canvas id="photo-canvas" width="1920" height="1080" aria-label="캠핑카의 가족사진. 서연 얼굴만 불분명하게 남습니다."></canvas><img id="photo-dim" src="runtime/1920x1080/C0-01/01_bottom_readability_gradient.png" alt=""><div id="photo-call" aria-live="polite"></div><div id="photo-cue" hidden>클릭 또는 Space로 계속</div><div id="photo-black"></div></div>
+   <div id="transition-black" aria-hidden="true"></div>
+   <button id="start" aria-label="시작" disabled></button>
+  </section>
+ </div>
+ <section class="review-controls" aria-label="연출 검토 도구">
+  <div class="transport"><button id="jump-handhold" disabled>손잡기부터</button><button id="jump-photo" disabled>사진 복귀 보기</button><button id="jump-present" disabled>현재 대화 보기</button><button id="replay" disabled>다시 재생</button><button id="pause" disabled>일시정지</button><button id="reset" disabled>처음으로</button></div>
+  <label class="timeline">진행 <input id="scrub" type="range" min="0" max="1350" step="1" value="0" disabled><output id="time">0.00 / 1.35초</output></label>
+  <label><input id="sound-preview" type="checkbox" checked> 잡음 시안</label><button id="export" disabled>현재 연출값 저장</button>
+ </section>
+ <div class="caption"><p id="status" role="status">시안 파일을 불러오고 있어요.</p><p class="note">Unity 연출 참고용. 클릭/Space: 출력 중에는 문장 완성, 완료 후에는 다음 대사. 원화와 문구는 분리되어 있습니다. 음성 미제작 · 인물 외형과 세부 배치는 시안입니다. <a href="chapter0-continuation.html">첫 응답부터 취침까지 이어 보기</a></p></div>
+</main>
+<script type="module" src="opening-motion.mjs"></script>
+</body></html>

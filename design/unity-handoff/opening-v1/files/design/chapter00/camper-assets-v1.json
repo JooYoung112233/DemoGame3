@@ -1,0 +1,427 @@
+{
+  "canvas": [
+    1672,
+    941
+  ],
+  "base": "art/chapter01/revision-v3/camper-clean-base-v3.png",
+  "assets": {
+    "water-jug-v1": {
+      "path": "art/chapter00/camper/layers/water-jug-v1.png",
+      "source_size": [
+        1122,
+        1402
+      ],
+      "crop": [
+        65,
+        19,
+        1074,
+        1340
+      ],
+      "size": [
+        1009,
+        1321
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "transparent_pixels": 462433,
+      "method": "native-alpha-preserved"
+    },
+    "water-jug-held-v1": {
+      "path": "art/chapter00/camper/layers/water-jug-held-v1.png",
+      "source_size": [
+        1122,
+        1402
+      ],
+      "crop": [
+        0,
+        0,
+        1122,
+        1392
+      ],
+      "size": [
+        1122,
+        1392
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "transparent_pixels": 790728,
+      "method": "native-alpha-preserved"
+    },
+    "folded-blanket-v1": {
+      "path": "art/chapter00/camper/layers/folded-blanket-v1.png",
+      "source_size": [
+        1448,
+        1086
+      ],
+      "crop": [
+        59,
+        92,
+        1407,
+        1000
+      ],
+      "size": [
+        1348,
+        908
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "transparent_pixels": 407316,
+      "method": "neutral-backdrop-flood-cut-no-resize"
+    },
+    "flashlight-off-v1": {
+      "path": "art/chapter00/camper/layers/flashlight-off-v1.png",
+      "source_size": [
+        1536,
+        1024
+      ],
+      "crop": [
+        0,
+        21,
+        1502,
+        1006
+      ],
+      "size": [
+        1502,
+        985
+      ],
+      "alpha_range": [
+        0,
+        254
+      ],
+      "transparent_pixels": 807176,
+      "method": "native-alpha-preserved"
+    },
+    "power-panel-loose-v1": {
+      "path": "art/chapter00/camper/layers/power-panel-loose-v1.png",
+      "source_size": [
+        1374,
+        1145
+      ],
+      "crop": [
+        48,
+        110,
+        1325,
+        1020
+      ],
+      "size": [
+        1277,
+        910
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "transparent_pixels": 35898,
+      "method": "neutral-backdrop-flood-cut-no-resize"
+    },
+    "power-panel-fixed-v1": {
+      "path": "art/chapter00/camper/layers/power-panel-fixed-v1.png",
+      "source_size": [
+        1374,
+        1145
+      ],
+      "crop": [
+        48,
+        110,
+        1325,
+        1020
+      ],
+      "size": [
+        1277,
+        910
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "transparent_pixels": 35898,
+      "method": "neutral-backdrop-flood-cut-no-resize",
+      "replacement_region": [
+        155,
+        415,
+        1150,
+        680
+      ]
+    },
+    "journal-open-v1": {
+      "path": "art/chapter00/camper/layers/journal-open-v1.png",
+      "source_size": [
+        1448,
+        1086
+      ],
+      "crop": [
+        3,
+        18,
+        1447,
+        1004
+      ],
+      "size": [
+        1444,
+        986
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "transparent_pixels": 415497,
+      "method": "neutral-backdrop-flood-cut-no-resize"
+    },
+    "suhyeok-flashlight-repair-v2": {
+      "path": "art/chapter00/camper/layers/suhyeok-flashlight-repair-v2.png",
+      "source_size": [
+        1024,
+        1536
+      ],
+      "crop": [
+        125,
+        126,
+        976,
+        1441
+      ],
+      "size": [
+        851,
+        1315
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "transparent_pixels": 502293,
+      "method": "neutral-backdrop-flood-cut-no-resize"
+    }
+  },
+  "states": [
+    {
+      "id": "01-current-conversation",
+      "review": "art/chapter00/camper/review/01-current-conversation.png",
+      "packed": false,
+      "water_packed": false,
+      "blanket_packed": false,
+      "light": "warm",
+      "repair_pose": false,
+      "connection_secured": false,
+      "book_packed": false,
+      "journal_open": false
+    },
+    {
+      "id": "02-preparation-complete",
+      "review": "art/chapter00/camper/review/02-preparation-complete.png",
+      "packed": true,
+      "water_packed": true,
+      "blanket_packed": true,
+      "light": "warm",
+      "repair_pose": false,
+      "connection_secured": false,
+      "book_packed": false,
+      "journal_open": false
+    },
+    {
+      "id": "03-outage-answer-soi",
+      "review": "art/chapter00/camper/review/03-outage-answer-soi.png",
+      "packed": true,
+      "water_packed": true,
+      "blanket_packed": true,
+      "light": "off",
+      "repair_pose": false,
+      "connection_secured": false,
+      "book_packed": false,
+      "journal_open": false
+    },
+    {
+      "id": "04-flashlight-investigation",
+      "review": "art/chapter00/camper/review/04-flashlight-investigation.png",
+      "packed": true,
+      "water_packed": true,
+      "blanket_packed": true,
+      "light": "off",
+      "repair_pose": true,
+      "connection_secured": false,
+      "book_packed": false,
+      "journal_open": false
+    },
+    {
+      "id": "05-connection-secured",
+      "review": "art/chapter00/camper/review/05-connection-secured.png",
+      "packed": true,
+      "water_packed": true,
+      "blanket_packed": true,
+      "light": "off",
+      "repair_pose": true,
+      "connection_secured": true,
+      "book_packed": false,
+      "journal_open": false
+    },
+    {
+      "id": "06-light-restored",
+      "review": "art/chapter00/camper/review/06-light-restored.png",
+      "packed": true,
+      "water_packed": true,
+      "blanket_packed": true,
+      "light": "warm",
+      "repair_pose": false,
+      "connection_secured": true,
+      "book_packed": false,
+      "journal_open": false
+    },
+    {
+      "id": "07-book-packed-journal-open",
+      "review": "art/chapter00/camper/review/07-book-packed-journal-open.png",
+      "packed": true,
+      "water_packed": true,
+      "blanket_packed": true,
+      "light": "warm",
+      "repair_pose": false,
+      "connection_secured": true,
+      "book_packed": true,
+      "journal_open": true
+    },
+    {
+      "id": "08-voluntary-lights-off",
+      "review": "art/chapter00/camper/review/08-voluntary-lights-off.png",
+      "packed": true,
+      "water_packed": true,
+      "blanket_packed": true,
+      "light": "off",
+      "repair_pose": false,
+      "connection_secured": true,
+      "book_packed": true,
+      "journal_open": false
+    },
+    {
+      "id": "02a-water-only",
+      "review": "art/chapter00/camper/review/02a-water-only.png",
+      "packed": false,
+      "water_packed": true,
+      "blanket_packed": false,
+      "light": "warm",
+      "repair_pose": false,
+      "connection_secured": false,
+      "book_packed": false,
+      "journal_open": false
+    },
+    {
+      "id": "02b-blanket-only",
+      "review": "art/chapter00/camper/review/02b-blanket-only.png",
+      "packed": false,
+      "water_packed": false,
+      "blanket_packed": true,
+      "light": "warm",
+      "repair_pose": false,
+      "connection_secured": false,
+      "book_packed": false,
+      "journal_open": false
+    }
+  ],
+  "placements": {
+    "water-before": [
+      "water-jug-v1",
+      [
+        630,
+        325,
+        47,
+        60
+      ]
+    ],
+    "water-packed": [
+      "water-jug-v1",
+      [
+        564,
+        604,
+        47,
+        60
+      ]
+    ],
+    "blanket-before": [
+      "folded-blanket-v1",
+      [
+        1194,
+        550,
+        124,
+        84
+      ]
+    ],
+    "blanket-packed": [
+      "folded-blanket-v1",
+      [
+        465,
+        584,
+        107,
+        75
+      ]
+    ],
+    "flashlight-stored": [
+      "flashlight-off-v1",
+      [
+        504,
+        586,
+        55,
+        37
+      ]
+    ],
+    "panel-loose": [
+      "power-panel-loose-v1",
+      [
+        604,
+        426,
+        86,
+        61
+      ]
+    ],
+    "panel-fixed": [
+      "power-panel-fixed-v1",
+      [
+        604,
+        426,
+        86,
+        61
+      ]
+    ],
+    "repair": [
+      "suhyeok-flashlight-repair-v2",
+      [
+        616,
+        418,
+        170,
+        254
+      ]
+    ],
+    "journal": [
+      "journal-open-v1",
+      [
+        863,
+        455,
+        104,
+        77
+      ]
+    ]
+  },
+  "reused_assets": [
+    "art/chapter01/layers/characters/suhyeok-seated-body-v1.png",
+    "art/chapter01/layers/characters/suhyeok-seated-hands-v1.png",
+    "art/chapter01/layers/characters/soi-seated-body-v1.png",
+    "art/chapter01/layers/characters/soi-seated-hands-v1.png",
+    "art/chapter01/layers/pages/sketchbook-blank-v1.png",
+    "art/chapter01/layers/sprites/mug-source-v1.png"
+  ],
+  "lighting": {
+    "study": "art/chapter00/camper/sources/camper-outage-light-study-v1.png",
+    "stable_dark": "art/chapter00/camper/layers/camper-outage-stable-v1.png",
+    "method": "per-channel low-frequency illumination transfer onto original v3 pixels; no geometry warp",
+    "warm_restored": "art/chapter01/revision-v3/camper-clean-base-v3.png",
+    "gain_map_scale": 1.05
+  },
+  "notes": [
+    "Art states only; no input, sound, time, saves or gameplay implemented.",
+    "Existing small seated actors/book/mug retained as placement drafts; new sources not upscaled.",
+    "Night completion is a fade after voluntary switch-off, not an empty-bed claim.",
+    "All physical actions are by Suhyeok; no dog or letter in chapter 0.",
+    "New panel position is a prop-placement proposal; furniture positions preserved.",
+    "Journal text remains external to artwork. Blank page is not a completed runtime journal."
+  ]
+}

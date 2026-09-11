@@ -1,0 +1,97 @@
+{
+  "id": "C0-photo-memory-v1",
+  "photo_native": [
+    1672,
+    941
+  ],
+  "paper_canvas": [
+    1784,
+    1149
+  ],
+  "soi_native": [
+    1024,
+    1536
+  ],
+  "files": {
+    "photo": "family-sunset-source-v1.png",
+    "frame": "polaroid-frame-v1.png",
+    "face_mask": "seoyeon-face-mask-v1.png",
+    "photo_psd": "family-polaroid-layers-v1.psd",
+    "soi": "soi-answer-v1.png",
+    "soi_source": "soi-answer-source-v1.png",
+    "soi_psd": "soi-answer-layers-v1.psd"
+  },
+  "photo_in_frame": [
+    56,
+    56,
+    1672,
+    941
+  ],
+  "face_rect_photo_pixels": [
+    610,
+    265,
+    110,
+    100
+  ],
+  "status": "sequence approved; art and exact effect timing are review drafts",
+  "limitations": [
+    "Photo native 1672x941; below requested large master target. No detail-restoring upscale.",
+    "Soi native 1024x1536. Body is one cutout, not expression/body-part layers.",
+    "Photo people and landscape remain a single painted layer; paper and face mask are independently editable.",
+    "PSD channels verified by decoder, not Photoshop or Unity."
+  ],
+  "qa": {
+    "passed": 12,
+    "failed": 0,
+    "checks": [
+      {
+        "name": "family-polaroid-layers-v1:merged_rgba",
+        "pass": true
+      },
+      {
+        "name": "family-polaroid-layers-v1:layer_names",
+        "pass": true
+      },
+      {
+        "name": "family-polaroid-layers-v1:layer:face_effect_mask_hidden",
+        "pass": true
+      },
+      {
+        "name": "family-polaroid-layers-v1:layer:separate_paper_frame",
+        "pass": true
+      },
+      {
+        "name": "family-polaroid-layers-v1:layer:clean_family_photo",
+        "pass": true
+      },
+      {
+        "name": "soi-background-transparent",
+        "pass": true
+      },
+      {
+        "name": "soi-shirt-opaque",
+        "pass": true
+      },
+      {
+        "name": "soi-face-opaque",
+        "pass": true
+      },
+      {
+        "name": "soi-answer-layers-v1:merged_rgba",
+        "pass": true
+      },
+      {
+        "name": "soi-answer-layers-v1:layer_names",
+        "pass": true
+      },
+      {
+        "name": "soi-answer-layers-v1:layer:soi_cutout",
+        "pass": true
+      },
+      {
+        "name": "soi-answer-layers-v1:layer:generated_source_hidden",
+        "pass": true
+      }
+    ]
+  }
+}

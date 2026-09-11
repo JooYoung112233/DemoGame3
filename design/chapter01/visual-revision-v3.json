@@ -2,32 +2,150 @@
   "version": 3,
   "status": "user-requested open fronts, quieter exterior and distinct action silhouettes",
   "scenes": {
-    "kitchen": {"base":"art/chapter01/revision-v3/camper-clean-base-v3.png"},
-    "drawing": {"base":"art/chapter01/revision-v3/camper-clean-base-v3.png"},
-    "evening": {"base":"art/chapter01/revision-v3/camper-clean-base-v3.png"},
+    "kitchen": {
+      "base": "art/chapter01/revision-v3/camper-clean-base-v3.png"
+    },
+    "drawing": {
+      "base": "art/chapter01/revision-v3/camper-clean-base-v3.png"
+    },
+    "evening": {
+      "base": "art/chapter01/revision-v3/camper-clean-base-v3.png"
+    },
     "store": {
-      "base":"art/chapter01/revision-v3/store-clean-base-v3.png","occluders":[],
-      "layers":{"investigate":{"rect":[1075,372,195,249],"tone":[0.88,0.79,0.94],"contactShadow":[1161,616,56,9,0.20]}}
+      "base": "art/chapter01/revision-v3/store-clean-base-v3.png",
+      "occluders": [],
+      "layers": {
+        "investigate": {
+          "rect": [
+            1075,
+            372,
+            195,
+            249
+          ],
+          "tone": [
+            0.88,
+            0.79,
+            0.94
+          ],
+          "contactShadow": [
+            1161,
+            616,
+            56,
+            9,
+            0.2
+          ]
+        }
+      }
     },
     "letter": {
-      "base":"art/chapter01/revision-v3/house-clean-base-v3.png",
+      "base": "art/chapter01/revision-v3/house-clean-base-v3.png",
       "layers": {
-        "investigate": {"name":"수혁 · 서랍 확인", "asset":"art/chapter01/revision-v3/suhyeok-drawer-v3.png","rect":[914,250,179,350],"tone":[0.88,0.79,0.94],"contactShadow":[970,596,47,9,0.22]}
+        "investigate": {
+          "name": "수혁 · 서랍 확인",
+          "asset": "art/style-revision/soft-storybook-v1/sprites/suhyeok-drawer-trim.png",
+          "rect": [
+            914,
+            250,
+            179,
+            350
+          ],
+          "tone": [
+            0.88,
+            0.79,
+            0.94
+          ],
+          "contactShadow": [
+            970,
+            596,
+            47,
+            9,
+            0.22
+          ]
+        }
       },
       "addSlots": [
-        {"id":"read-letter","name":"수혁 · 편지 읽기","asset":"art/chapter01/revision-v3/suhyeok-read-letter-v3.png","rect":[973,270,120,352],"order":40,"interactive":false,"tone":[0.88,0.79,0.94],"contactShadow":[1030,618,44,9,0.22]}
+        {
+          "id": "read-letter",
+          "name": "수혁 · 편지 읽기",
+          "asset": "art/style-revision/soft-storybook-v1/sprites/suhyeok-read-trim.png",
+          "rect": [
+            973,
+            270,
+            120,
+            352
+          ],
+          "order": 40,
+          "interactive": false,
+          "tone": [
+            0.88,
+            0.79,
+            0.94
+          ],
+          "contactShadow": [
+            1030,
+            618,
+            44,
+            9,
+            0.22
+          ]
+        }
       ],
       "presets": {
-        "reach":{"focus":[0.61,0.46,2.5]},
-        "taken":{"visible":["read-letter"],"focus":[0.61,0.46,2.5]}
+        "reach": {
+          "focus": [
+            0.61,
+            0.46,
+            2.5
+          ]
+        },
+        "taken": {
+          "visible": [
+            "read-letter"
+          ],
+          "focus": [
+            0.61,
+            0.46,
+            2.5
+          ]
+        }
       }
     },
     "byeolddongi": {
-      "base":"art/chapter01/revision-v3/camper-clean-base-v3.png",
+      "base": "art/chapter01/revision-v3/camper-clean-base-v3.png",
       "layers": {
-        "meet-dog":{"name":"수혁 · 바닥에 앉아 손 내밀기","asset":"art/chapter01/revision-v3/suhyeok-befriend-v3.png","rect":[628,714,190,196],"tone":[0.83,0.74,0.94],"contactShadow":[718,901,91,9,0.23]}
+        "meet-dog": {
+          "name": "수혁 · 바닥에 앉아 손 내밀기",
+          "asset": "art/style-revision/soft-storybook-v1/sprites/suhyeok-befriend-trim.png",
+          "rect": [
+            628,
+            714,
+            190,
+            196
+          ],
+          "tone": [
+            0.83,
+            0.74,
+            0.94
+          ],
+          "contactShadow": [
+            718,
+            901,
+            91,
+            9,
+            0.23
+          ]
+        }
       },
-      "presets":{"approach":{"description":"바닥에 편하게 앉아 별똥이에게 손을 내미는 전용 자세","focus":[0.445,0.81,2.7]}}
+      "presets": {
+        "approach": {
+          "description": "바닥에 편하게 앉아 별똥이에게 손을 내미는 전용 자세",
+          "focus": [
+            0.445,
+            0.81,
+            2.7
+          ]
+        }
+      }
     }
   }
 }

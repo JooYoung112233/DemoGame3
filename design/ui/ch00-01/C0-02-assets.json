@@ -1,0 +1,373 @@
+{
+  "id": "C0-memory-dialogue-v1",
+  "flow_approved": true,
+  "wording_and_portrait_approval": false,
+  "resolution": [
+    1920,
+    1080
+  ],
+  "ui_master": [
+    3840,
+    2160
+  ],
+  "art": {
+    "seoyeon": {
+      "png": "art/chapter00/memory/dialogue-v1/seoyeon-speaking-soft-v3.png",
+      "source": "art/style-revision/soft-storybook-v1/sources/seoyeon-dialogue.png",
+      "psd": "art/style-revision/soft-storybook-v1/psd/seoyeon-dialogue.psd",
+      "native_size": [
+        1024,
+        1536
+      ],
+      "native_alpha_bounds": [
+        151,
+        26,
+        895,
+        1536
+      ],
+      "status": "soft-storybook-revision; suppressed in memory",
+      "processing": "exterior-connected neutral backdrop cut, 1px fringe trim; RGB untouched"
+    },
+    "suhyeok": {
+      "png": "art/chapter00-01/art-polish-v1/layers/suhyeok-dialogue-native.png",
+      "source": "art/chapter00-01/art-polish-v1/sources/suhyeok-dialogue.png",
+      "psd": "art/chapter00-01/art-polish-v1/psd/suhyeok-dialogue-native.psd",
+      "native_size": [
+        1024,
+        1536
+      ],
+      "native_alpha_bounds": [
+        100,
+        41,
+        949,
+        1536
+      ],
+      "status": "alpha-repaired-original-paint-preserved",
+      "processing": "local alpha-only enclosed-gap correction; original RGB preserved"
+    },
+    "feet": {
+      "png": "art/chapter00/memory/dialogue-v1/feet-paused-v1.png",
+      "native_size": [
+        1672,
+        941
+      ],
+      "psd": "art/chapter00/memory/dialogue-v1/feet-scene-layers-v1.psd",
+      "scene_review": "art/chapter00/memory/dialogue-v1/feet-scene-review-v1.png",
+      "ground_source": "art/chapter00/memory/memory-path-base-v1.png",
+      "ground_source_crop": [
+        300,
+        338,
+        1372,
+        941
+      ],
+      "ground_review": "art/chapter00/memory/dialogue-v1/path-closeup-review-v1.png",
+      "status": "new feet foreground, old path crop enlarged for composition only; final ground resolution below target"
+    },
+    "soi": {
+      "png": "art/chapter00/memory/dialogue-v1/soi-answer-soft-v3.png",
+      "source": "art/style-revision/soft-storybook-v1/sources/soi-dialogue.png",
+      "psd": "art/style-revision/soft-storybook-v1/psd/soi-dialogue.psd",
+      "native_size": [
+        1024,
+        1536
+      ],
+      "native_alpha_bounds": [
+        256,
+        62,
+        790,
+        1491
+      ],
+      "status": "soft-storybook-revision",
+      "processing": "exterior-connected neutral backdrop cut, 1px fringe trim; RGB untouched"
+    }
+  },
+  "ui_layers": [
+    {
+      "name": "01_dialogue_panel",
+      "png": "design/ui/ch00-01/layers/C0-02-dialogue/01_dialogue_panel.png",
+      "rect_logical": [
+        60.0,
+        790.0,
+        1800.0,
+        240.0
+      ],
+      "visible": true,
+      "role": "runtime image",
+      "runtime_png": "design/ui/ch00-01/runtime/1920x1080/C0-02/01_dialogue_panel.png"
+    },
+    {
+      "name": "02_nameplate",
+      "png": "design/ui/ch00-01/layers/C0-02-dialogue/02_nameplate.png",
+      "rect_logical": [
+        110.0,
+        752.0,
+        240.0,
+        64.0
+      ],
+      "visible": true,
+      "role": "runtime image",
+      "runtime_png": "design/ui/ch00-01/runtime/1920x1080/C0-02/02_nameplate.png"
+    },
+    {
+      "name": "03_speaker_proof",
+      "png": "design/ui/ch00-01/layers/C0-02-dialogue/03_speaker_proof.png",
+      "rect_logical": [
+        195.0,
+        758.0,
+        70.0,
+        39.0
+      ],
+      "visible": true,
+      "role": "raster proof only; Unity speaker string"
+    },
+    {
+      "name": "04_dialogue_proof",
+      "png": "design/ui/ch00-01/layers/C0-02-dialogue/04_dialogue_proof.png",
+      "rect_logical": [
+        140.0,
+        855.0,
+        1560.0,
+        90.0
+      ],
+      "visible": true,
+      "role": "raster proof only; Unity typewriter text"
+    },
+    {
+      "name": "05_advance_cue",
+      "png": "design/ui/ch00-01/layers/C0-02-dialogue/05_advance_cue.png",
+      "rect_logical": [
+        1780.0,
+        975.0,
+        28.0,
+        28.0
+      ],
+      "visible": true,
+      "role": "runtime image",
+      "runtime_png": "design/ui/ch00-01/runtime/1920x1080/C0-02/05_advance_cue.png"
+    }
+  ],
+  "ui_psd": "design/ui/ch00-01/psd/C0-02-dialogue.psd",
+  "font": "art/title/fonts/Live49MenuSerif-Regular.ttf",
+  "limitations": [
+    "Generated feet 1672x941 and portraits 1024x1536 are below requested large-master targets; no restored-detail claim.",
+    "Native PSD layers preserve sources; body/hair/clothes are not internally split.",
+    "Ground crop is a preview from existing low-resolution background.",
+    "PSD text is raster proof; actual text, blur, fades and movement belong in Unity 6.6.",
+    "New portraits are single provisional poses, not a final expression library."
+  ],
+  "qa": {
+    "passed": 24,
+    "failed": 0,
+    "checks": [
+      {
+        "name": "seoyeon:transparent-corners",
+        "pass": true
+      },
+      {
+        "name": "seoyeon:opaque-body",
+        "pass": true
+      },
+      {
+        "name": "seoyeon-speaking-layers-v1:merged_rgba",
+        "pass": true
+      },
+      {
+        "name": "seoyeon-speaking-layers-v1:layer_names",
+        "pass": true
+      },
+      {
+        "name": "seoyeon-speaking-layers-v1:layer:character_cutout",
+        "pass": true
+      },
+      {
+        "name": "seoyeon-speaking-layers-v1:layer:source_with_baked_checker",
+        "pass": true
+      },
+      {
+        "name": "suhyeok:transparent-corners",
+        "pass": true
+      },
+      {
+        "name": "suhyeok:opaque-body",
+        "pass": true
+      },
+      {
+        "name": "suhyeok-response-layers-v1:merged_rgba",
+        "pass": true
+      },
+      {
+        "name": "suhyeok-response-layers-v1:layer_names",
+        "pass": true
+      },
+      {
+        "name": "suhyeok-response-layers-v1:layer:character_cutout",
+        "pass": true
+      },
+      {
+        "name": "suhyeok-response-layers-v1:layer:source_with_baked_checker",
+        "pass": true
+      },
+      {
+        "name": "feet-scene-layers-v1:merged_rgba",
+        "pass": true
+      },
+      {
+        "name": "feet-scene-layers-v1:layer_names",
+        "pass": true
+      },
+      {
+        "name": "feet-scene-layers-v1:layer:feet_native",
+        "pass": true
+      },
+      {
+        "name": "feet-scene-layers-v1:layer:ground_crop_preview",
+        "pass": true
+      },
+      {
+        "name": "feet-scene-layers-v1:layer:original_path_native_hidden",
+        "pass": true
+      },
+      {
+        "name": "C0-02-dialogue:merged_rgba",
+        "pass": true
+      },
+      {
+        "name": "C0-02-dialogue:layer_names",
+        "pass": true
+      },
+      {
+        "name": "C0-02-dialogue:layer:05_advance_cue",
+        "pass": true
+      },
+      {
+        "name": "C0-02-dialogue:layer:04_dialogue_proof",
+        "pass": true
+      },
+      {
+        "name": "C0-02-dialogue:layer:03_speaker_proof",
+        "pass": true
+      },
+      {
+        "name": "C0-02-dialogue:layer:02_nameplate",
+        "pass": true
+      },
+      {
+        "name": "C0-02-dialogue:layer:01_dialogue_panel",
+        "pass": true
+      }
+    ],
+    "photoshop_app_tested": false
+  },
+  "reviews": [
+    "design/ui/ch00-01/review/C0-02-narration.png",
+    "design/ui/ch00-01/review/C0-02-seoyeon.png",
+    "design/ui/ch00-01/review/C0-02-response.png"
+  ],
+  "photo_memory_extension": {
+    "document": "docs/03-콘티/챕터0/C0-PHOTO-MEMORY-IMPLEMENTATION.ko.md",
+    "assets": "art/chapter00/memory/dialogue-v1/photo-memory-assets-v1.json",
+    "portrait_rect": [
+      1100,
+      180,
+      700,
+      1050
+    ],
+    "status": "draft art; sequence approved"
+  },
+  "runtime_suppressed_portraits": [
+    "seoyeon"
+  ],
+  "speaker_name_policy": "docs/06-대사/SPEAKER-IDENTITY-RULES.ko.md",
+  "present_extension": {
+    "document": "docs/03-콘티/챕터0/C0-PRESENT-DIALOGUE.ko.md",
+    "reviews": [
+      "design/ui/ch00-01/review/C0-03-response.png",
+      "design/ui/ch00-01/review/C0-03-narration.png",
+      "design/ui/ch00-01/review/C0-03-soi-question.png"
+    ]
+  },
+  "suhyeok_semi_replacement": {
+    "png": "art/chapter00/memory/dialogue-v1/suhyeok-response-semi-v2.png",
+    "psd": "art/chapter00/memory/dialogue-v1/suhyeok-response-semi-layers-v2.psd",
+    "native_size": [
+      1024,
+      1536
+    ],
+    "rect": [
+      100,
+      50,
+      720,
+      1080
+    ],
+    "previous": "art/chapter00/memory/dialogue-v1/suhyeok-response-v1.png",
+    "status": "comparison archive; not current runtime"
+  },
+  "archived_suhyeok_v1": {
+    "png": "art/chapter00/memory/dialogue-v1/suhyeok-response-v1.png",
+    "source": "art/chapter00/memory/dialogue-v1/suhyeok-response-source-v1.png",
+    "psd": "art/chapter00/memory/dialogue-v1/suhyeok-response-layers-v1.psd",
+    "native_size": [
+      1024,
+      1536
+    ],
+    "native_alpha_bounds": [
+      97,
+      42,
+      948,
+      1536
+    ],
+    "status": "single-pose-dialogue-draft; expression/identity approval pending",
+    "processing": "neutral checkerboard segmentation at native resolution, original RGB preserved"
+  },
+  "latest_art_qa": {
+    "passed": 11,
+    "failed": 0,
+    "checks": [
+      {
+        "name": "native-size-preserved",
+        "pass": true
+      },
+      {
+        "name": "transparent-surround",
+        "pass": true
+      },
+      {
+        "name": "face-opaque",
+        "pass": true
+      },
+      {
+        "name": "shirt-opaque",
+        "pass": true
+      },
+      {
+        "name": "trousers-opaque",
+        "pass": true
+      },
+      {
+        "name": "left-hand-opaque",
+        "pass": true
+      },
+      {
+        "name": "right-hand-opaque",
+        "pass": true
+      },
+      {
+        "name": "suhyeok-response-semi-layers-v2:merged_rgba",
+        "pass": true
+      },
+      {
+        "name": "suhyeok-response-semi-layers-v2:layer_names",
+        "pass": true
+      },
+      {
+        "name": "suhyeok-response-semi-layers-v2:layer:suhyeok_transparent_paint",
+        "pass": true
+      },
+      {
+        "name": "suhyeok-response-semi-layers-v2:layer:generated_source_hidden",
+        "pass": true
+      }
+    ],
+    "scope": "archived semi-realistic v2 asset, not current v1"
+  }
+}

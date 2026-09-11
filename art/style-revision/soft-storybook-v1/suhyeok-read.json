@@ -1,0 +1,60 @@
+{
+  "id": "suhyeok-read",
+  "source": "sources/suhyeok-read.png",
+  "previous": "art/chapter01/revision-v3/suhyeok-read-letter-v3.png",
+  "category": "action",
+  "status": "deferred-chapter3",
+  "native_size": [
+    1024,
+    1536
+  ],
+  "alpha_bounds": [
+    243,
+    10,
+    755,
+    1504
+  ],
+  "subject_height": 1494,
+  "sprite": "sprites/suhyeok-read.png",
+  "psd": "psd/suhyeok-read.psd",
+  "alpha_method": "exterior-connected neutral backdrop cut, 1px fringe trim; RGB untouched",
+  "native_unscaled": true,
+  "sha256": "7625667abbaf3191341343248daebef08652cbfa06efc1f122f2af4265d56089",
+  "qa": [
+    {
+      "name": "native-size",
+      "pass": true
+    },
+    {
+      "name": "transparent-border",
+      "pass": true
+    },
+    {
+      "name": "visible-subject",
+      "pass": true
+    },
+    {
+      "name": "foreground-RGB-preserved",
+      "pass": true
+    },
+    {
+      "name": "suhyeok-read:merged_rgba",
+      "pass": true
+    },
+    {
+      "name": "suhyeok-read:layer_names",
+      "pass": true
+    },
+    {
+      "name": "suhyeok-read:layer:isolated_character",
+      "pass": true
+    },
+    {
+      "name": "suhyeok-read:layer:generated_source_hidden",
+      "pass": true
+    }
+  ],
+  "psd_scope": "2 actual layers: hidden native source + visible isolated character; body parts not independently layered",
+  "resolution_target_met": false,
+  "unity_tested": false
+}

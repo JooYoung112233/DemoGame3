@@ -1,0 +1,24 @@
+{
+  "source": "art/chapter01/day01-v1/evacuation-notice-paper-source.png",
+  "clean_sprite": "art/chapter01/day01-v1/evacuation-notice-paper-clean.png",
+  "native_size": [
+    1086,
+    1448
+  ],
+  "psd": "art/chapter01/day01-v1/evacuation-notice-native.psd",
+  "layers": [
+    "source_hidden",
+    "native_paper_clean",
+    "02_text",
+    "03_text",
+    "04_erasure_a",
+    "05_erasure_b",
+    "06_text",
+    "07_text"
+  ],
+  "contains_live_text": false,
+  "paper_rgb_unchanged": true,
+  "alpha_cleanup": "3px alpha erosion plus neon matte removal within edge only. Source hidden layer untouched.",
+  "note_text_status": "Provisional destination name; no authored text under erased regions",
+  "validation": "design/ui/day01-v1/validation.json"
+}

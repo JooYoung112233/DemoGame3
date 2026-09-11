@@ -1,0 +1,1753 @@
+{
+  "scenes": [
+    {
+      "id": "kitchen",
+      "title": "주방과 저녁 식사",
+      "canvas": {
+        "width": 1672,
+        "height": 941
+      },
+      "base": "art/chapter01/revision-v3/camper-clean-base-v3.png",
+      "slots": [
+        {
+          "id": "pot",
+          "name": "수프 냄비",
+          "asset": "art/chapter01/kitchen/soup-pot-v1.png",
+          "rect": [
+            723,
+            306,
+            75,
+            55
+          ],
+          "order": 35,
+          "interactive": false,
+          "tone": [
+            0.94,
+            0.9,
+            0.97
+          ]
+        },
+        {
+          "id": "can",
+          "name": "통조림",
+          "asset": "art/chapter01/shared-props/food-can-v1.png",
+          "rect": [
+            621,
+            328,
+            25,
+            27
+          ],
+          "order": 35,
+          "interactive": false,
+          "tone": [
+            0.94,
+            0.92,
+            0.98
+          ]
+        },
+        {
+          "id": "cook",
+          "name": "수혁 · 요리",
+          "asset": "art/chapter01/extra-poses/suhyeok-cook-v1.png",
+          "rect": [
+            725,
+            230,
+            156,
+            314
+          ],
+          "order": 40,
+          "interactive": false,
+          "contactShadow": [
+            799,
+            542,
+            37,
+            8,
+            0.17
+          ]
+        },
+        {
+          "id": "soup-father",
+          "name": "수혁의 수프",
+          "asset": "art/chapter01/shared-props/soup-bowl-v1.png",
+          "rect": [
+            872,
+            469,
+            58,
+            46
+          ],
+          "order": 46,
+          "interactive": false,
+          "tone": [
+            0.95,
+            0.93,
+            0.98
+          ]
+        },
+        {
+          "id": "soup-soi",
+          "name": "소이의 수프",
+          "asset": "art/chapter01/shared-props/soup-bowl-v1.png",
+          "rect": [
+            988,
+            469,
+            50,
+            40
+          ],
+          "order": 46,
+          "interactive": false,
+          "tone": [
+            0.95,
+            0.93,
+            0.98
+          ]
+        }
+      ],
+      "actors": [
+        {
+          "id": "suhyeok-seated-body",
+          "name": "수혁 · 앉기",
+          "asset": "art/chapter01/layers/characters/suhyeok-seated-body-v1.png",
+          "rect": [
+            840,
+            289,
+            109,
+            155
+          ],
+          "order": 20,
+          "interactive": false,
+          "pose": "suhyeok-seated",
+          "part": "body"
+        },
+        {
+          "id": "suhyeok-seated-hands",
+          "name": "수혁 · 앉기",
+          "asset": "art/chapter01/layers/characters/suhyeok-seated-hands-v1.png",
+          "rect": [
+            840,
+            289,
+            109,
+            155
+          ],
+          "order": 50,
+          "interactive": false,
+          "pose": "suhyeok-seated",
+          "part": "hands"
+        },
+        {
+          "id": "soi-seated-body",
+          "name": "소이 · 앉기",
+          "asset": "art/chapter01/layers/characters/soi-seated-body-v1.png",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ],
+          "order": 20,
+          "interactive": false,
+          "pose": "soi-seated",
+          "part": "body"
+        },
+        {
+          "id": "soi-seated-hands",
+          "name": "소이 · 앉기",
+          "asset": "art/chapter01/layers/characters/soi-seated-hands-v1.png",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ],
+          "order": 50,
+          "interactive": false,
+          "pose": "soi-seated",
+          "part": "hands"
+        },
+        {
+          "id": "soi-drawing-body",
+          "name": "소이 · 그리기",
+          "asset": "art/chapter01/layers/characters/soi-drawing-body-v1.png",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ],
+          "order": 20,
+          "interactive": false,
+          "pose": "soi-drawing",
+          "part": "body"
+        },
+        {
+          "id": "soi-drawing-hands",
+          "name": "소이 · 그리기",
+          "asset": "art/chapter01/layers/characters/soi-drawing-hands-v1.png",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ],
+          "order": 50,
+          "interactive": false,
+          "pose": "soi-drawing",
+          "part": "hands"
+        }
+      ],
+      "foreground": {
+        "asset": "art/chapter01/layers/sprites/table-foreground-v1.png",
+        "rect": [
+          835,
+          432,
+          257,
+          201
+        ],
+        "order": 44,
+        "status": "seated-pose composite inspected; other poses untested",
+        "id": "table-foreground",
+        "alwaysVisible": true
+      },
+      "presets": [
+        {
+          "id": "prepare",
+          "label": "준비",
+          "visible": [
+            "can",
+            "soi-seated-body",
+            "soi-seated-hands"
+          ],
+          "active": [
+            "can"
+          ],
+          "line": "남은 걸로 따뜻하게 해 보자.",
+          "speaker": "수혁",
+          "description": "식재료를 꺼내 놓은 주방"
+        },
+        {
+          "id": "cook",
+          "label": "요리 자세",
+          "visible": [
+            "can",
+            "pot",
+            "cook",
+            "soi-seated-body",
+            "soi-seated-hands"
+          ],
+          "active": [],
+          "line": "냄새 좋다.",
+          "speaker": "소이",
+          "description": "고정 주방 자리의 요리 포즈 · 미니게임 규칙은 보류"
+        },
+        {
+          "id": "meal",
+          "label": "식사",
+          "visible": [
+            "soup-father",
+            "soup-soi",
+            "suhyeok-seated-body",
+            "suhyeok-seated-hands",
+            "soi-seated-body",
+            "soi-seated-hands"
+          ],
+          "active": [],
+          "line": "아빠 것도 식기 전에 먹어.",
+          "speaker": "소이",
+          "description": "같은 식탁에서 함께 먹는 저녁"
+        }
+      ],
+      "zoom": {
+        "scale": 2,
+        "originX": 47,
+        "originY": 45
+      },
+      "status": "resource placement prototype; no minigame or date rules",
+      "occluders": []
+    },
+    {
+      "version": 2,
+      "status": "placement-prototype",
+      "coordinateOrigin": "top-left",
+      "canvas": {
+        "width": 1672,
+        "height": 941
+      },
+      "base": "art/chapter01/revision-v3/camper-clean-base-v3.png",
+      "source": "art/scenes/01-camper/camper-mood-v1.png",
+      "slots": [
+        {
+          "id": "pencil-cup",
+          "name": "연필통",
+          "asset": "art/chapter01/layers/sprites/pencil-cup-source-v1.png",
+          "rect": [
+            849,
+            440,
+            46,
+            68
+          ],
+          "order": 40,
+          "interactive": false,
+          "status": "manual-cutout-prototype"
+        },
+        {
+          "id": "sketchbook",
+          "name": "소이의 스케치북",
+          "asset": "art/chapter01/layers/pages/sketchbook-blank-v1.png",
+          "rect": [
+            904,
+            454,
+            102,
+            73
+          ],
+          "order": 40,
+          "interactive": true,
+          "status": "manual-cutout-prototype"
+        },
+        {
+          "id": "mug",
+          "name": "머그컵",
+          "asset": "art/chapter01/layers/sprites/mug-source-v1.png",
+          "rect": [
+            1010,
+            480,
+            53,
+            52
+          ],
+          "order": 40,
+          "interactive": false,
+          "status": "manual-cutout-prototype"
+        }
+      ],
+      "presets": [
+        {
+          "id": "ask",
+          "label": "1",
+          "visible": [
+            "pencil-cup",
+            "sketchbook",
+            "mug",
+            "suhyeok-seated-body",
+            "suhyeok-seated-hands",
+            "soi-seated-body",
+            "soi-seated-hands"
+          ],
+          "focus": [
+            0.575,
+            0.44,
+            2.9
+          ],
+          "line": "아빠, 이 파란색 써도 돼?",
+          "speaker": "소이",
+          "active": []
+        },
+        {
+          "id": "answer",
+          "label": "2",
+          "visible": [
+            "pencil-cup",
+            "sketchbook",
+            "mug",
+            "suhyeok-seated-body",
+            "suhyeok-seated-hands",
+            "soi-seated-body",
+            "soi-seated-hands"
+          ],
+          "focus": [
+            0.575,
+            0.44,
+            2.9
+          ],
+          "line": "응. 네가 그리고 싶은 거 그려.",
+          "speaker": "수혁",
+          "active": []
+        },
+        {
+          "id": "first-line",
+          "label": "3",
+          "visible": [
+            "pencil-cup",
+            "sketchbook",
+            "mug",
+            "suhyeok-seated-body",
+            "suhyeok-seated-hands",
+            "soi-drawing-body",
+            "soi-drawing-hands",
+            "sea-started"
+          ],
+          "focus": [
+            0.572,
+            0.525,
+            5
+          ],
+          "line": "바다는… 여기서부터 하면 되겠다.",
+          "speaker": "소이",
+          "active": []
+        },
+        {
+          "id": "wide",
+          "label": "4",
+          "visible": [
+            "pencil-cup",
+            "sketchbook",
+            "mug",
+            "suhyeok-seated-body",
+            "suhyeok-seated-hands",
+            "soi-drawing-body",
+            "soi-drawing-hands",
+            "sea-started"
+          ],
+          "focus": [
+            0.572,
+            0.525,
+            5
+          ],
+          "line": "생각보다 넓네.",
+          "speaker": "수혁",
+          "active": []
+        },
+        {
+          "id": "together",
+          "label": "5",
+          "visible": [
+            "pencil-cup",
+            "sketchbook",
+            "mug",
+            "suhyeok-seated-body",
+            "suhyeok-seated-hands",
+            "soi-seated-body",
+            "soi-seated-hands",
+            "sea-complete"
+          ],
+          "focus": [
+            0.572,
+            0.525,
+            5
+          ],
+          "line": "둘이 들어가야 하니까.",
+          "speaker": "소이",
+          "active": []
+        },
+        {
+          "id": "point",
+          "label": "6",
+          "visible": [
+            "pencil-cup",
+            "sketchbook",
+            "mug",
+            "suhyeok-seated-body",
+            "suhyeok-seated-hands",
+            "soi-seated-body",
+            "soi-seated-hands",
+            "sea-complete"
+          ],
+          "focus": [
+            0.575,
+            0.44,
+            2.9
+          ],
+          "line": "큰 사람은 아빠야. 옆에는 나.",
+          "speaker": "소이",
+          "active": []
+        },
+        {
+          "id": "promise",
+          "label": "7",
+          "visible": [
+            "pencil-cup",
+            "sketchbook",
+            "mug",
+            "suhyeok-seated-body",
+            "suhyeok-seated-hands",
+            "soi-seated-body",
+            "soi-seated-hands",
+            "sea-complete"
+          ],
+          "focus": [
+            0.575,
+            0.44,
+            2.9
+          ],
+          "line": "그럼, 같이 보러 가자. 진짜 바다.",
+          "speaker": "수혁",
+          "active": []
+        },
+        {
+          "id": "hold",
+          "label": "8",
+          "visible": [
+            "pencil-cup",
+            "sketchbook",
+            "mug",
+            "suhyeok-seated-body",
+            "suhyeok-seated-hands",
+            "soi-seated-body",
+            "soi-seated-hands",
+            "sea-complete"
+          ],
+          "focus": [
+            0.575,
+            0.44,
+            2.9
+          ],
+          "line": "거기서도 손잡고 있어야 해.",
+          "speaker": "소이",
+          "active": []
+        },
+        {
+          "id": "memory",
+          "label": "9",
+          "visible": [
+            "pencil-cup",
+            "sketchbook",
+            "mug",
+            "suhyeok-seated-body",
+            "suhyeok-seated-hands",
+            "soi-seated-body",
+            "soi-seated-hands",
+            "sea-complete"
+          ],
+          "focus": [
+            0.572,
+            0.525,
+            5
+          ],
+          "line": "그림 속 두 사람은, 같은 바다를 보고 있었다.",
+          "speaker": "",
+          "active": []
+        }
+      ],
+      "notes": [
+        "원화의 보이는 인물 부분만 추출했다. 가려진 하체가 있는 전신 스프라이트가 아니다.",
+        "몸 → 식탁 전경 → 소품 → 팔·손 순서로 합성한다.",
+        "확대 선명도 보정은 사용자 요청에 따라 후속 작업으로 둔다.",
+        "페이지 그림 변화와 실제 사건·대화는 아직 연결하지 않았다."
+      ],
+      "foreground": {
+        "asset": "art/chapter01/layers/sprites/table-foreground-v1.png",
+        "rect": [
+          835,
+          432,
+          257,
+          201
+        ],
+        "order": 30,
+        "status": "seated-pose composite inspected; other poses untested",
+        "id": "table-foreground",
+        "alwaysVisible": true
+      },
+      "zoom": {
+        "scale": 2.9,
+        "originX": 57.5,
+        "originY": 44
+      },
+      "actors": [
+        {
+          "id": "suhyeok-seated-body",
+          "name": "수혁 · 앉기",
+          "asset": "art/chapter01/layers/characters/suhyeok-seated-body-v1.png",
+          "rect": [
+            840,
+            289,
+            109,
+            155
+          ],
+          "order": 20,
+          "interactive": false,
+          "pose": "suhyeok-seated",
+          "part": "body"
+        },
+        {
+          "id": "suhyeok-seated-hands",
+          "name": "수혁 · 앉기",
+          "asset": "art/chapter01/layers/characters/suhyeok-seated-hands-v1.png",
+          "rect": [
+            840,
+            289,
+            109,
+            155
+          ],
+          "order": 50,
+          "interactive": false,
+          "pose": "suhyeok-seated",
+          "part": "hands"
+        },
+        {
+          "id": "soi-seated-body",
+          "name": "소이 · 앉기",
+          "asset": "art/chapter01/layers/characters/soi-seated-body-v1.png",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ],
+          "order": 20,
+          "interactive": false,
+          "pose": "soi-seated",
+          "part": "body"
+        },
+        {
+          "id": "soi-seated-hands",
+          "name": "소이 · 앉기",
+          "asset": "art/chapter01/layers/characters/soi-seated-hands-v1.png",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ],
+          "order": 50,
+          "interactive": false,
+          "pose": "soi-seated",
+          "part": "hands"
+        },
+        {
+          "id": "soi-drawing-body",
+          "name": "소이 · 그리기",
+          "asset": "art/chapter01/layers/characters/soi-drawing-body-v1.png",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ],
+          "order": 20,
+          "interactive": false,
+          "pose": "soi-drawing",
+          "part": "body"
+        },
+        {
+          "id": "soi-drawing-hands",
+          "name": "소이 · 그리기",
+          "asset": "art/chapter01/layers/characters/soi-drawing-hands-v1.png",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ],
+          "order": 50,
+          "interactive": false,
+          "pose": "soi-drawing",
+          "part": "hands"
+        }
+      ],
+      "pages": [
+        {
+          "id": "sea-started",
+          "pageState": "started",
+          "asset": "art/chapter01/layers/pages/sea-started-overlay-v1.png",
+          "rect": [
+            904,
+            454,
+            102,
+            73
+          ],
+          "order": 45
+        },
+        {
+          "id": "sea-complete",
+          "pageState": "complete",
+          "asset": "art/chapter01/layers/pages/sea-complete-overlay-v1.png",
+          "rect": [
+            904,
+            454,
+            102,
+            73
+          ],
+          "order": 45
+        }
+      ],
+      "id": "drawing",
+      "title": "처음 그린 바다",
+      "occluders": []
+    },
+    {
+      "id": "store",
+      "title": "편의점에서",
+      "canvas": {
+        "width": 1672,
+        "height": 941
+      },
+      "base": "art/chapter01/revision-v3/store-clean-base-v3.png",
+      "slots": [
+        {
+          "id": "can-a",
+          "name": "통조림",
+          "asset": "art/chapter01/store/food-can-v1.png",
+          "rect": [
+            565,
+            132,
+            29,
+            44
+          ],
+          "order": 30
+        },
+        {
+          "id": "can-b",
+          "name": "통조림",
+          "asset": "art/chapter01/store/food-can-v1.png",
+          "rect": [
+            608,
+            192,
+            29,
+            44
+          ],
+          "order": 30
+        },
+        {
+          "id": "medicine",
+          "name": "갈색 약병",
+          "asset": "art/chapter01/store/medicine-v1.png",
+          "rect": [
+            1096,
+            207,
+            26,
+            44
+          ],
+          "order": 30
+        },
+        {
+          "id": "pencils",
+          "name": "색연필 상자",
+          "asset": "art/chapter01/store/pencil-tin-v1.png",
+          "rect": [
+            1266,
+            460,
+            89,
+            49
+          ],
+          "order": 30
+        },
+        {
+          "id": "drink-a",
+          "name": "음료 병",
+          "asset": "art/chapter01/store/drink-bottle-v1.png",
+          "rect": [
+            795,
+            168,
+            17,
+            32
+          ],
+          "order": 30
+        },
+        {
+          "id": "drink-b",
+          "name": "음료 병",
+          "asset": "art/chapter01/store/drink-bottle-v1.png",
+          "rect": [
+            872,
+            168,
+            17,
+            32
+          ],
+          "order": 30
+        },
+        {
+          "id": "investigate",
+          "name": "수혁 · 조사",
+          "asset": "art/chapter01/extra-poses/suhyeok-investigate-v2.png",
+          "rect": [
+            1075,
+            372,
+            195,
+            249
+          ],
+          "order": 40,
+          "tone": [
+            0.88,
+            0.79,
+            0.94
+          ],
+          "contactShadow": [
+            1161,
+            616,
+            56,
+            9,
+            0.2
+          ]
+        }
+      ],
+      "actors": [],
+      "presets": [
+        {
+          "id": "enter",
+          "label": "들어가기",
+          "visible": [
+            "can-a",
+            "can-b",
+            "medicine",
+            "pencils",
+            "drink-a",
+            "drink-b"
+          ],
+          "focus": [
+            0.5,
+            0.5,
+            1
+          ],
+          "line": "아직 남아 있는 게 있을까.",
+          "speaker": "수혁",
+          "active": [
+            "fridge",
+            "stationery"
+          ]
+        },
+        {
+          "id": "fridge",
+          "label": "냉장고",
+          "visible": [
+            "can-a",
+            "can-b",
+            "medicine",
+            "pencils",
+            "drink-a",
+            "drink-b"
+          ],
+          "focus": [
+            0.515,
+            0.225,
+            3.1
+          ],
+          "line": "유리 너머, 몇 병이 보인다.",
+          "speaker": "",
+          "active": [
+            "drink-a"
+          ]
+        },
+        {
+          "id": "recovered",
+          "label": "한 병 꺼낸 뒤",
+          "visible": [
+            "can-a",
+            "can-b",
+            "medicine",
+            "pencils",
+            "drink-b"
+          ],
+          "focus": [
+            0.515,
+            0.225,
+            3.1
+          ],
+          "line": "덜컥. 선반이 생각보다 크게 울렸다.",
+          "speaker": "",
+          "active": []
+        },
+        {
+          "id": "noise",
+          "label": "입구의 인기척",
+          "visible": [
+            "can-a",
+            "can-b",
+            "medicine",
+            "pencils",
+            "drink-b"
+          ],
+          "focus": [
+            0.5,
+            0.75,
+            2.4
+          ],
+          "line": "…밖에서 난 소리인가.",
+          "speaker": "수혁",
+          "active": []
+        },
+        {
+          "id": "stationery",
+          "label": "문구 선반",
+          "visible": [
+            "can-a",
+            "can-b",
+            "medicine",
+            "pencils",
+            "drink-a",
+            "drink-b",
+            "investigate"
+          ],
+          "focus": [
+            0.7,
+            0.5,
+            2.3
+          ],
+          "line": "색연필. 소이가 좋아하겠지.",
+          "speaker": "수혁",
+          "active": [
+            "pencils"
+          ]
+        },
+        {
+          "id": "pencils-taken",
+          "label": "상자를 챙긴 뒤",
+          "visible": [
+            "can-a",
+            "can-b",
+            "medicine",
+            "drink-a",
+            "drink-b",
+            "investigate"
+          ],
+          "focus": [
+            0.7,
+            0.5,
+            2.3
+          ],
+          "line": "이제 돌아가자.",
+          "speaker": "수혁",
+          "active": []
+        }
+      ],
+      "hotspots": [
+        {
+          "id": "fridge",
+          "name": "냉장고",
+          "rect": [
+            778,
+            143,
+            161,
+            148
+          ]
+        },
+        {
+          "id": "stationery",
+          "name": "문구 선반",
+          "rect": [
+            1247,
+            443,
+            117,
+            81
+          ]
+        }
+      ],
+      "notes": [
+        "상태 선택용 원화 시안. 실제 획득 판정·재고·소음 확률은 연결하지 않았다.",
+        "회수용 병은 기존 원화 크기 그대로 추출했다.",
+        "약품 종류·용량은 원문에 없으므로 시각적 소품으로만 둔다."
+      ],
+      "occluders": []
+    },
+    {
+      "id": "byeolddongi",
+      "title": "별똥이의 캠핑카 자리",
+      "canvas": {
+        "width": 1672,
+        "height": 941
+      },
+      "base": "art/chapter01/revision-v3/camper-clean-base-v3.png",
+      "slots": [
+        {
+          "id": "dog-sit",
+          "name": "별똥이",
+          "asset": "art/chapter01/dog/byeolddongi-sit-v1.png",
+          "rect": [
+            735,
+            610,
+            52,
+            70
+          ],
+          "order": 45,
+          "interactive": false,
+          "tone": [
+            0.96,
+            0.94,
+            0.98
+          ],
+          "contactShadow": [
+            763,
+            678,
+            24,
+            5,
+            0.18
+          ]
+        },
+        {
+          "id": "dog-alert",
+          "name": "별똥이 · 인기척",
+          "asset": "art/chapter01/dog/byeolddongi-alert-v1.png",
+          "rect": [
+            730,
+            610,
+            57,
+            70
+          ],
+          "order": 45,
+          "interactive": false,
+          "tone": [
+            0.96,
+            0.94,
+            0.98
+          ],
+          "contactShadow": [
+            758,
+            678,
+            26,
+            5,
+            0.18
+          ]
+        },
+        {
+          "id": "dog-rest",
+          "name": "별똥이 · 쉬기",
+          "asset": "art/chapter01/dog/byeolddongi-rest-v1.png",
+          "rect": [
+            722,
+            643,
+            63,
+            37
+          ],
+          "order": 45,
+          "interactive": false,
+          "tone": [
+            0.96,
+            0.94,
+            0.98
+          ],
+          "contactShadow": [
+            754,
+            678,
+            29,
+            4,
+            0.16
+          ]
+        },
+        {
+          "id": "dog-outside",
+          "name": "처음 만난 강아지",
+          "asset": "art/chapter01/dog/byeolddongi-sit-v1.png",
+          "rect": [
+            810,
+            805,
+            52,
+            70
+          ],
+          "order": 45,
+          "interactive": false,
+          "tone": [
+            0.9,
+            0.87,
+            0.97
+          ],
+          "contactShadow": [
+            839,
+            871,
+            26,
+            5,
+            0.22
+          ]
+        },
+        {
+          "id": "meet-dog",
+          "name": "수혁 · 바닥에 앉아 손 내밀기",
+          "asset": "art/chapter01/revision-v3/suhyeok-befriend-v3.png",
+          "rect": [
+            628,
+            714,
+            190,
+            196
+          ],
+          "order": 45,
+          "interactive": false,
+          "tone": [
+            0.83,
+            0.74,
+            0.94
+          ],
+          "contactShadow": [
+            718,
+            901,
+            91,
+            9,
+            0.23
+          ]
+        }
+      ],
+      "actors": [
+        {
+          "id": "suhyeok-seated-body",
+          "name": "수혁 · 앉기",
+          "asset": "art/chapter01/layers/characters/suhyeok-seated-body-v1.png",
+          "rect": [
+            840,
+            289,
+            109,
+            155
+          ],
+          "order": 20,
+          "interactive": false,
+          "pose": "suhyeok-seated",
+          "part": "body"
+        },
+        {
+          "id": "suhyeok-seated-hands",
+          "name": "수혁 · 앉기",
+          "asset": "art/chapter01/layers/characters/suhyeok-seated-hands-v1.png",
+          "rect": [
+            840,
+            289,
+            109,
+            155
+          ],
+          "order": 50,
+          "interactive": false,
+          "pose": "suhyeok-seated",
+          "part": "hands"
+        },
+        {
+          "id": "soi-seated-body",
+          "name": "소이 · 앉기",
+          "asset": "art/chapter01/layers/characters/soi-seated-body-v1.png",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ],
+          "order": 20,
+          "interactive": false,
+          "pose": "soi-seated",
+          "part": "body"
+        },
+        {
+          "id": "soi-seated-hands",
+          "name": "소이 · 앉기",
+          "asset": "art/chapter01/layers/characters/soi-seated-hands-v1.png",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ],
+          "order": 50,
+          "interactive": false,
+          "pose": "soi-seated",
+          "part": "hands"
+        },
+        {
+          "id": "soi-drawing-body",
+          "name": "소이 · 그리기",
+          "asset": "art/chapter01/layers/characters/soi-drawing-body-v1.png",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ],
+          "order": 20,
+          "interactive": false,
+          "pose": "soi-drawing",
+          "part": "body"
+        },
+        {
+          "id": "soi-drawing-hands",
+          "name": "소이 · 그리기",
+          "asset": "art/chapter01/layers/characters/soi-drawing-hands-v1.png",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ],
+          "order": 50,
+          "interactive": false,
+          "pose": "soi-drawing",
+          "part": "hands"
+        }
+      ],
+      "foreground": {
+        "asset": "art/chapter01/layers/sprites/table-foreground-v1.png",
+        "rect": [
+          835,
+          432,
+          257,
+          201
+        ],
+        "order": 30,
+        "status": "seated-pose composite inspected; other poses untested",
+        "id": "table-foreground",
+        "alwaysVisible": true
+      },
+      "presets": [
+        {
+          "id": "meet",
+          "label": "첫 만남",
+          "visible": [
+            "dog-outside",
+            "soi-seated-body",
+            "soi-seated-hands"
+          ],
+          "active": [
+            "dog-outside"
+          ],
+          "focus": [
+            0.49,
+            0.83,
+            2.5
+          ],
+          "line": "아빠, 저기. 혼자 있나 봐.",
+          "speaker": "소이",
+          "description": "캠핑카 계단 밖에서 마주치는 작은 유기견"
+        },
+        {
+          "id": "approach",
+          "label": "손 내밀기",
+          "visible": [
+            "dog-outside",
+            "meet-dog",
+            "soi-seated-body",
+            "soi-seated-hands"
+          ],
+          "active": [],
+          "focus": [
+            0.445,
+            0.81,
+            2.7
+          ],
+          "line": "괜찮아. 천천히 와.",
+          "speaker": "수혁",
+          "description": "바닥에 편하게 앉아 별똥이에게 손을 내미는 전용 자세"
+        },
+        {
+          "id": "sit",
+          "label": "기다리기",
+          "visible": [
+            "dog-sit",
+            "suhyeok-seated-body",
+            "suhyeok-seated-hands",
+            "soi-seated-body",
+            "soi-seated-hands"
+          ],
+          "active": [],
+          "line": "이제 네 자리도 생겼네.",
+          "speaker": "소이",
+          "description": "합류 후 러그에서 두 사람을 바라보는 별똥이"
+        },
+        {
+          "id": "alert",
+          "label": "인기척",
+          "visible": [
+            "dog-alert",
+            "suhyeok-seated-body",
+            "suhyeok-seated-hands",
+            "soi-seated-body",
+            "soi-seated-hands"
+          ],
+          "active": [],
+          "line": "왜 그래, 별똥아?",
+          "speaker": "수혁",
+          "description": "별똥이의 반응이 주변을 살펴볼 계기가 된다"
+        },
+        {
+          "id": "rest",
+          "label": "쉬기",
+          "visible": [
+            "dog-rest",
+            "suhyeok-seated-body",
+            "suhyeok-seated-hands",
+            "soi-seated-body",
+            "soi-seated-hands"
+          ],
+          "active": [],
+          "line": "작은 발소리도 조용해졌다.",
+          "speaker": "",
+          "description": "같은 자리에서 편하게 쉬는 자세"
+        }
+      ],
+      "zoom": {
+        "scale": 2.2,
+        "originX": 47,
+        "originY": 67
+      },
+      "status": "resource placement prototype; no minigame or date rules",
+      "occluders": []
+    },
+    {
+      "id": "letter",
+      "title": "서랍에 남은 편지",
+      "canvas": {
+        "width": 1672,
+        "height": 941
+      },
+      "base": "art/chapter01/revision-v3/house-clean-base-v3.png",
+      "slots": [
+        {
+          "id": "envelope",
+          "name": "분홍색 봉투",
+          "asset": "art/chapter01/letter/pink-envelope-v1.png",
+          "rect": [
+            1049,
+            396,
+            85,
+            28
+          ],
+          "order": 30,
+          "tone": [
+            0.83,
+            0.83,
+            0.97
+          ],
+          "labelPlacement": "below"
+        },
+        {
+          "id": "investigate",
+          "name": "수혁 · 서랍 확인",
+          "asset": "art/chapter01/revision-v3/suhyeok-drawer-v3.png",
+          "rect": [
+            914,
+            250,
+            179,
+            350
+          ],
+          "order": 40,
+          "tone": [
+            0.88,
+            0.79,
+            0.94
+          ],
+          "contactShadow": [
+            970,
+            596,
+            47,
+            9,
+            0.22
+          ]
+        },
+        {
+          "id": "read-letter",
+          "name": "수혁 · 편지 읽기",
+          "asset": "art/chapter01/revision-v3/suhyeok-read-letter-v3.png",
+          "rect": [
+            973,
+            270,
+            120,
+            352
+          ],
+          "order": 40,
+          "interactive": false,
+          "tone": [
+            0.88,
+            0.79,
+            0.94
+          ],
+          "contactShadow": [
+            1030,
+            618,
+            44,
+            9,
+            0.22
+          ]
+        }
+      ],
+      "actors": [],
+      "presets": [
+        {
+          "id": "discover",
+          "label": "발견 전",
+          "visible": [
+            "envelope"
+          ],
+          "focus": [
+            0.5,
+            0.5,
+            1
+          ],
+          "line": "서랍 안에, 익숙한 색이 남아 있었다.",
+          "speaker": "",
+          "active": [
+            "envelope"
+          ]
+        },
+        {
+          "id": "reach",
+          "label": "서랍 앞에서",
+          "visible": [
+            "envelope",
+            "investigate"
+          ],
+          "focus": [
+            0.61,
+            0.46,
+            2.5
+          ],
+          "line": "…서연아.",
+          "speaker": "수혁",
+          "active": [
+            "envelope"
+          ]
+        },
+        {
+          "id": "taken",
+          "label": "꺼낸 뒤",
+          "visible": [
+            "read-letter"
+          ],
+          "focus": [
+            0.61,
+            0.46,
+            2.5
+          ],
+          "line": "빛바랜 분홍색 편지지. 익숙하고 따뜻한 향기가 희미하게 남아있다.",
+          "speaker": "",
+          "active": []
+        },
+        {
+          "id": "read",
+          "label": "첫 편지 읽기",
+          "visible": [],
+          "focus": [
+            0.635,
+            0.445,
+            2.7
+          ],
+          "line": "내 사랑하는 수혁 씨에게.",
+          "speaker": "서연",
+          "active": []
+        }
+      ],
+      "notes": [
+        "낡은 집 내부는 원문에 배치가 없어 새로 제안한 고정 베이스다.",
+        "발견·수혁의 짧은 반응은 새 대본 초안. 편지 본문은 사용자 최초 기획서 원문."
+      ],
+      "occluders": []
+    },
+    {
+      "id": "evening",
+      "title": "돌아온 저녁",
+      "canvas": {
+        "width": 1672,
+        "height": 941
+      },
+      "base": "art/chapter01/revision-v3/camper-clean-base-v3.png",
+      "slots": [
+        {
+          "id": "book",
+          "name": "소이의 스케치북",
+          "asset": "art/chapter01/layers/pages/sketchbook-blank-v1.png",
+          "rect": [
+            904,
+            454,
+            102,
+            73
+          ],
+          "order": 40
+        },
+        {
+          "id": "journal",
+          "name": "블랙 저널",
+          "asset": "art/chapter01/shared-props/black-journal-v1.png",
+          "rect": [
+            872,
+            476,
+            67,
+            45
+          ],
+          "order": 40,
+          "tone": [
+            0.95,
+            0.9,
+            0.98
+          ]
+        },
+        {
+          "id": "medicine",
+          "name": "약병",
+          "asset": "art/chapter01/shared-props/medicine-bottle-v1.png",
+          "rect": [
+            990,
+            470,
+            22,
+            38
+          ],
+          "order": 40,
+          "tone": [
+            0.88,
+            0.85,
+            0.97
+          ]
+        },
+        {
+          "id": "mug",
+          "name": "머그컵",
+          "asset": "art/chapter01/layers/sprites/mug-source-v1.png",
+          "rect": [
+            1010,
+            480,
+            53,
+            52
+          ],
+          "order": 40
+        },
+        {
+          "id": "dog",
+          "name": "별똥이",
+          "asset": "art/chapter01/dog/byeolddongi-rest-v1.png",
+          "rect": [
+            722,
+            643,
+            63,
+            37
+          ],
+          "order": 40,
+          "tone": [
+            0.96,
+            0.94,
+            0.98
+          ],
+          "contactShadow": [
+            754,
+            678,
+            29,
+            4,
+            0.16
+          ]
+        }
+      ],
+      "actors": [
+        {
+          "id": "suhyeok-seated-body",
+          "name": "수혁 · 앉기",
+          "asset": "art/chapter01/layers/characters/suhyeok-seated-body-v1.png",
+          "rect": [
+            840,
+            289,
+            109,
+            155
+          ],
+          "order": 20,
+          "interactive": false,
+          "pose": "suhyeok-seated",
+          "part": "body"
+        },
+        {
+          "id": "suhyeok-seated-hands",
+          "name": "수혁 · 앉기",
+          "asset": "art/chapter01/layers/characters/suhyeok-seated-hands-v1.png",
+          "rect": [
+            840,
+            289,
+            109,
+            155
+          ],
+          "order": 50,
+          "interactive": false,
+          "pose": "suhyeok-seated",
+          "part": "hands"
+        },
+        {
+          "id": "soi-seated-body",
+          "name": "소이 · 앉기",
+          "asset": "art/chapter01/layers/characters/soi-seated-body-v1.png",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ],
+          "order": 20,
+          "interactive": false,
+          "pose": "soi-seated",
+          "part": "body"
+        },
+        {
+          "id": "soi-seated-hands",
+          "name": "소이 · 앉기",
+          "asset": "art/chapter01/layers/characters/soi-seated-hands-v1.png",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ],
+          "order": 50,
+          "interactive": false,
+          "pose": "soi-seated",
+          "part": "hands"
+        },
+        {
+          "id": "soi-drawing-body",
+          "name": "소이 · 그리기",
+          "asset": "art/chapter01/layers/characters/soi-drawing-body-v1.png",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ],
+          "order": 20,
+          "interactive": false,
+          "pose": "soi-drawing",
+          "part": "body"
+        },
+        {
+          "id": "soi-drawing-hands",
+          "name": "소이 · 그리기",
+          "asset": "art/chapter01/layers/characters/soi-drawing-hands-v1.png",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ],
+          "order": 50,
+          "interactive": false,
+          "pose": "soi-drawing",
+          "part": "hands"
+        }
+      ],
+      "foreground": {
+        "asset": "art/chapter01/layers/sprites/table-foreground-v1.png",
+        "rect": [
+          835,
+          432,
+          257,
+          201
+        ],
+        "order": 30,
+        "status": "seated-pose composite inspected; other poses untested",
+        "id": "table-foreground",
+        "alwaysVisible": true
+      },
+      "presets": [
+        {
+          "id": "no-pencils",
+          "label": "빈 페이지",
+          "visible": [
+            "book",
+            "suhyeok-seated-body",
+            "suhyeok-seated-hands",
+            "soi-seated-body",
+            "soi-seated-hands"
+          ],
+          "focus": [
+            0.575,
+            0.44,
+            2.9
+          ],
+          "line": "오늘은 못 찾았어.",
+          "speaker": "수혁",
+          "active": [
+            "book"
+          ]
+        },
+        {
+          "id": "promise",
+          "label": "소이의 대답",
+          "visible": [
+            "book",
+            "suhyeok-seated-body",
+            "suhyeok-seated-hands",
+            "soi-seated-body",
+            "soi-seated-hands"
+          ],
+          "focus": [
+            0.575,
+            0.44,
+            2.9
+          ],
+          "line": "그럼 오늘은 얘기로 그리자. 아빠가 본 거.",
+          "speaker": "소이",
+          "active": []
+        },
+        {
+          "id": "journal",
+          "label": "하루의 기록",
+          "visible": [
+            "journal",
+            "mug",
+            "suhyeok-seated-body",
+            "suhyeok-seated-hands"
+          ],
+          "focus": [
+            0.565,
+            0.455,
+            2.6
+          ],
+          "line": "빈손으로 돌아왔지만, 오늘의 이야기는 남았다.",
+          "speaker": "수혁",
+          "active": [
+            "journal"
+          ]
+        },
+        {
+          "id": "medicine",
+          "label": "쉬어 갈 때",
+          "visible": [
+            "medicine",
+            "mug",
+            "suhyeok-seated-body",
+            "suhyeok-seated-hands"
+          ],
+          "focus": [
+            0.565,
+            0.445,
+            2.65
+          ],
+          "line": "오늘은 여기까지 하자.",
+          "speaker": "수혁",
+          "active": []
+        },
+        {
+          "id": "rest",
+          "label": "잠들기 전",
+          "visible": [
+            "dog",
+            "suhyeok-seated-body",
+            "suhyeok-seated-hands",
+            "soi-seated-body",
+            "soi-seated-hands"
+          ],
+          "focus": [
+            0.56,
+            0.49,
+            1.9
+          ],
+          "line": "밖의 소리가 조금 멀어졌다.",
+          "speaker": "",
+          "active": []
+        },
+        {
+          "id": "next",
+          "label": "다음 목적지",
+          "visible": [
+            "book",
+            "dog",
+            "suhyeok-seated-body",
+            "suhyeok-seated-hands",
+            "soi-seated-body",
+            "soi-seated-hands"
+          ],
+          "focus": [
+            0.575,
+            0.44,
+            2.9
+          ],
+          "line": "그 바다는, 어느 쪽에 있어?",
+          "speaker": "소이",
+          "active": []
+        }
+      ],
+      "notes": [
+        "미획득 분기 대사와 저널은 새 초안. 원문 대사로 표기하지 않는다.",
+        "휴식은 현재 앉기 포즈를 재사용한다. 잠든 인물 전신을 새로 만들지 않는다.",
+        "약 이름·용량·치료 효과를 설정하지 않는다."
+      ],
+      "occluders": []
+    }
+  ],
+  "letter": {
+    "id": "seoyeon-letter-01",
+    "title": "첫 번째 편지 · 담담한 부탁",
+    "author": "서연",
+    "provenance": "사용자 최초 기획서 아포칼립스 · Live49 · 편지 1",
+    "verbatim": true,
+    "paragraphs": [
+      "내 사랑하는 수혁 씨에게.",
+      "이 편지를 읽고 있을 때, 나는 아마 당신 곁에 없겠네요. 먼저 떠나서 미안해요. 울고 있을까 봐, 또 모든 걸 당신 혼자 짊어지게 하는 것 같아 마음이 무거워요.",
+      "하지만 너무 오래 슬퍼하지는 말아요, 여보. 당신은 내가 아는 가장 강한 사람이니까.",
+      "기억나요? 우리가 처음 여행 가서, 길을 잃고 한참 헤맸던 날. 그때 당신이 그랬잖아요. \"길을 잃는 것도 여행의 일부야. 덕분에 예쁜 노을을 봤잖아.\" 라고. 당신은 언제나 그랬어요. 절망 속에서도 작은 희망을 찾아내는 사람.",
+      "그러니, 내가 없다고 해서 당신과 소이의 여행이 멈추지 않았으면 해요. 우리 소이, 엄마 없이도 씩씩하게 잘 자라야 할 텐데… 아이에게 세상이 얼마나 넓고 아름다운 곳인지, 당신이 대신 보여주세요. 먼 훗날, 소이가 세상을 살아갈 힘이 될 단단한 추억을 선물해줘요.",
+      "그게 내가 당신에게 하는 마지막 부탁이에요.",
+      "사랑해요, 아주 많이.",
+      "- 당신의 서연"
+    ]
+  },
+  "stationery": "art/chapter01/letter/pink-stationery-v1.png"
+}

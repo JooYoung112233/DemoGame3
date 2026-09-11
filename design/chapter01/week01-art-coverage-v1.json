@@ -1,0 +1,580 @@
+{
+  "scope": "Chapter 1 first-week current storyboard art; not release-ready game",
+  "events": [
+    {
+      "event": "E01",
+      "title": "오늘 쓸 물",
+      "locations": [
+        "HUB",
+        "L1"
+      ],
+      "resources": [
+        "art/chapter00-01/art-polish-v1/review/L1-enter.png",
+        "art/chapter00-01/art-polish-v1/review/L1-fridge.png",
+        "design/ui/day01-v1/story.json"
+      ],
+      "composition_ids": [],
+      "status": "art-polish-v1-reviewed-native-PSD-supplied-resolution-limit-recorded",
+      "note": "HUB·L1 기존 배경, 지도·물자 소품 재사용; 이동은 암전·음향.",
+      "composition_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "revision_composition_ids": [
+        "L1-enter",
+        "L1-fridge"
+      ]
+    },
+    {
+      "event": "E02",
+      "title": "지워진 대피 안내",
+      "locations": [
+        "L1",
+        "L2"
+      ],
+      "resources": [
+        "art/chapter01/day01-v1/evacuation-notice-paper-clean.png",
+        "art/chapter01/day01-v1/evacuation-notice-native.psd"
+      ],
+      "composition_ids": [],
+      "status": "current-storyboard-coverage",
+      "note": "기존 종이·글자·지워짐 분리 PSD; L2 대화 배경 공유."
+    },
+    {
+      "event": "E03",
+      "title": "돌아와 나누는 첫 식사",
+      "locations": [
+        "HUB"
+      ],
+      "resources": [
+        "art/chapter00-01/art-polish-v1/review/E03-HUB-rations-shared.png"
+      ],
+      "composition_ids": [],
+      "status": "art-polish-v1-reviewed-native-PSD-supplied-resolution-limit-recorded",
+      "note": "기존 물통·통조림과 앉은 인물로 분배 확정 후의 찬 식사 결과 컷 제작. 요리대는 꺼진 상태. 분배 손 애니메이션 대신 확인 뒤 결과로 전환.",
+      "previous_resources": [
+        "art/chapter01/completion-v1/review/E03-HUB-rations-shared.png"
+      ],
+      "previous_composition_ids": [
+        "E03-HUB-rations-shared"
+      ],
+      "composition_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "revision_composition_ids": [
+        "E03-HUB-rations-shared"
+      ]
+    },
+    {
+      "event": "E04",
+      "title": "불이 붙지 않는 요리대",
+      "locations": [
+        "HUB",
+        "L4"
+      ],
+      "resources": [
+        "art/chapter00-01/art-polish-v1/review/E04-HUB-stove-off.png",
+        "art/chapter00-01/art-polish-v1/review/E17-HUB-cooking.png"
+      ],
+      "composition_ids": [
+        "E04-HUB-stove-off",
+        "E17-HUB-cooking"
+      ],
+      "status": "art-polish-v1-reviewed-native-PSD-supplied-resolution-limit-recorded",
+      "note": "고정 요리대 꺼짐 상태와 수리 완료 후 조리 결과 컷 연결. 고장 원인·수리 레시피는 미정, 화염·김은 Unity 효과.",
+      "composition_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "revision_composition_ids": [
+        "E04-HUB-stove-off",
+        "E17-HUB-cooking"
+      ]
+    },
+    {
+      "event": "E05",
+      "title": "그림을 그리고 싶은 소이",
+      "locations": [
+        "HUB",
+        "L1",
+        "L3"
+      ],
+      "resources": [
+        "art/chapter01/colored-pencils-v1/manifest.json",
+        "art/chapter00-01/art-polish-v1/review/E05-delivery.png"
+      ],
+      "composition_ids": [],
+      "status": "art-polish-v1-reviewed-native-PSD-supplied-resolution-limit-recorded",
+      "note": "L3 색연필 소품·획득 전후와 HUB 새 수혁 전달 자세·식탁 준비 상태 제작. 큰 원본과 배치 PSD는 분리 보존.",
+      "previous_resources": [
+        "art/chapter01/colored-pencils-v1/manifest.json",
+        "art/chapter01/first-drawing-v2/review/01-delivery.png"
+      ],
+      "previous_composition_ids": [],
+      "composition_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "revision_composition_ids": [
+        "E05-delivery"
+      ]
+    },
+    {
+      "event": "E06",
+      "title": "빈 페이지에 남기는 오늘",
+      "locations": [
+        "HUB"
+      ],
+      "resources": [
+        "art/chapter00-01/art-polish-v1/review/E06-ready.png",
+        "art/chapter00-01/art-polish-v1/review/E06-drawing.png",
+        "art/chapter00-01/art-polish-v1/review/E06-complete.png"
+      ],
+      "composition_ids": [],
+      "status": "art-polish-v1-reviewed-native-PSD-supplied-resolution-limit-recorded",
+      "note": "기존 책 위에 첫 바다 그림 시작/완성 레이어, 네 장면 합성·원본 및 배치 PSD 제작. 바다 내용은 가 보고 싶은 곳이라는 시안, 조용한 인물·소이 그리기 자세는 기존 재사용.",
+      "previous_resources": [
+        "art/chapter01/first-drawing-v2/review/02-ready.png",
+        "art/chapter01/first-drawing-v2/review/03-started.png",
+        "art/chapter01/first-drawing-v2/review/04-complete.png"
+      ],
+      "previous_composition_ids": [],
+      "composition_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "revision_composition_ids": [
+        "E06-ready",
+        "E06-drawing",
+        "E06-complete"
+      ]
+    },
+    {
+      "event": "E07",
+      "title": "떠나지 못한 사진기사",
+      "locations": [
+        "L2"
+      ],
+      "resources": [
+        "art/chapter01/sejin-v1/manifest.json",
+        "art/chapter01/completion-v1/layers/sejin-dialogue-native.png",
+        "art/chapter00-01/art-polish-v1/review/E07-L2-sejin-repair.png"
+      ],
+      "composition_ids": [
+        "E07-L2-sejin-repair"
+      ],
+      "status": "art-polish-v1-reviewed-native-PSD-supplied-resolution-limit-recorded",
+      "note": "같은 L2 차량·새 세진 정비 자세·별도 큰 중립 대화 초상 제작. 외형은 검토 후보, 표정은 대사집 이후.",
+      "composition_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "revision_composition_ids": [
+        "E07-L2-sejin-repair"
+      ]
+    },
+    {
+      "event": "E08",
+      "title": "작업대 아래의 공구 가방",
+      "locations": [
+        "L4"
+      ],
+      "resources": [
+        "art/chapter00-01/art-polish-v1/review/L4-toolbag-available.png",
+        "art/chapter00-01/art-polish-v1/review/L4-toolbag-collected.png",
+        "art/chapter00-01/art-polish-v1/review/E08-L4-retrieve.png"
+      ],
+      "composition_ids": [
+        "E08-L4-retrieve"
+      ],
+      "status": "art-polish-v1-reviewed-native-PSD-supplied-resolution-limit-recorded",
+      "note": "같은 L4 가방 회수 전/후와 새 가방 든 수혁 정지 자세 제작. 행동 컷에서 선반 가방은 제거.",
+      "composition_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "revision_composition_ids": [
+        "L4-toolbag-available",
+        "L4-toolbag-collected",
+        "E08-L4-retrieve"
+      ]
+    },
+    {
+      "event": "E09",
+      "title": "가방 대신 건네받은 카메라",
+      "locations": [
+        "L2"
+      ],
+      "resources": [
+        "art/chapter01/photographer-props-v1/manifest.json",
+        "art/chapter01/completion-v1/layers/camera-handover-native.png",
+        "art/chapter00-01/art-polish-v1/review/E09-L2-camera-handover.png"
+      ],
+      "composition_ids": [
+        "E09-L2-camera-handover"
+      ],
+      "status": "art-polish-v1-reviewed-native-PSD-supplied-resolution-limit-recorded",
+      "note": "같은 카메라를 세진이 건네고 수혁이 받는 두 손 근접 원화·PNG/PSD 제작. 팔은 화면 양쪽에서 들어오는 인서트.",
+      "composition_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "revision_composition_ids": [
+        "E09-L2-camera-handover"
+      ]
+    },
+    {
+      "event": "E10",
+      "title": "가방에서 빠진 하나",
+      "locations": [
+        "L4",
+        "L2"
+      ],
+      "resources": [
+        "art/chapter00-01/art-polish-v1/review/E10-L4-tool-available.png",
+        "art/chapter00-01/art-polish-v1/review/E10-L4-tool-collected.png"
+      ],
+      "composition_ids": [
+        "E10-L4-tool-available",
+        "E10-L4-tool-collected"
+      ],
+      "status": "art-polish-v1-reviewed-native-PSD-supplied-resolution-limit-recorded",
+      "note": "개별 렌치 원본과 L4 유무 상태 PNG/PSD 제작. 추가 공구는 카메라 획득의 필수 조건 아님.",
+      "composition_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "revision_composition_ids": [
+        "E10-L4-tool-available",
+        "E10-L4-tool-collected"
+      ]
+    },
+    {
+      "event": "E11",
+      "title": "새로운 첫 사진",
+      "locations": [
+        "L6",
+        "HUB"
+      ],
+      "resources": [
+        "art/chapter00-01/art-polish-v1/review/L6-first-shoot.png",
+        "art/chapter01/first-photo-v1/review/album-first-photo.png",
+        "art/chapter01/first-photo-v1/photo-selection.json"
+      ],
+      "composition_ids": [],
+      "status": "art-polish-v1-reviewed-native-PSD-supplied-resolution-limit-recorded",
+      "note": "L6 촬영 자세·강변 사진 내용·빈 앨범·첫 사진 등록 상태 PNG/PSD 제작. 사진은 풍경만 담는 검토안이며 최종 구도 미확정. 대사/UI/음향 후속.",
+      "composition_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "revision_composition_ids": [
+        "L6-first-shoot"
+      ]
+    },
+    {
+      "event": "E12",
+      "title": "문밖의 작은 발소리",
+      "locations": [
+        "L5"
+      ],
+      "resources": [
+        "art/chapter00-01/art-polish-v1/review/01-L5-wary.png",
+        "art/chapter00-01/art-polish-v1/review/02-L5-water-placed.png",
+        "art/chapter00-01/art-polish-v1/review/E12-L5-place-water.png",
+        "art/chapter00-01/art-polish-v1/review/E12-L5-food-alternative.png"
+      ],
+      "composition_ids": [
+        "E12-L5-place-water",
+        "E12-L5-food-alternative"
+      ],
+      "status": "art-polish-v1-reviewed-native-PSD-supplied-resolution-limit-recorded",
+      "note": "경계·물 놓는 새 수혁 자세·물러난 결과·먹이 대안 제작. 같은 그릇 외곽을 유지하고 내용물만 교체.",
+      "composition_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "revision_composition_ids": [
+        "01-L5-wary",
+        "02-L5-water-placed",
+        "E12-L5-place-water",
+        "E12-L5-food-alternative"
+      ]
+    },
+    {
+      "event": "E13",
+      "title": "한 걸음 가까워진 별똥이",
+      "locations": [
+        "L5",
+        "HUB"
+      ],
+      "resources": [
+        "art/chapter00-01/art-polish-v1/review/03-L5-relaxed.png"
+      ],
+      "composition_ids": [],
+      "status": "art-polish-v1-reviewed-native-PSD-supplied-resolution-limit-recorded",
+      "note": "새 안심하고 앉는 개별 원본 및 물그릇 유지 합성 제작. 동행 확인 연출은 콘티로 기록; 걷기 애니메이션 없음.",
+      "composition_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "revision_composition_ids": [
+        "03-L5-relaxed"
+      ]
+    },
+    {
+      "event": "E14",
+      "title": "별똥이의 자리",
+      "locations": [
+        "HUB",
+        "L3"
+      ],
+      "resources": [
+        "art/chapter00-01/art-polish-v1/review/E14-HUB-place-ready.png",
+        "art/chapter00-01/art-polish-v1/review/E14-HUB-rest.png",
+        "art/chapter00-01/art-polish-v1/review/E14-HUB-place-ready.png",
+        "art/chapter00-01/art-polish-v1/review/E14-HUB-rest.png"
+      ],
+      "composition_ids": [
+        "E14-HUB-place-ready",
+        "E14-HUB-rest"
+      ],
+      "status": "art-polish-v1-reviewed-native-PSD-supplied-resolution-limit-recorded",
+      "note": "HUB 기존 러그 위 분리 깔개·새 휴식 자세·접촉 그림자, 마련 전후 상태 PNG/PSD 제작.",
+      "composition_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "revision_composition_ids": [
+        "E14-HUB-place-ready",
+        "E14-HUB-rest",
+        "E14-HUB-place-ready",
+        "E14-HUB-rest"
+      ]
+    },
+    {
+      "event": "E15",
+      "title": "이음새로 떨어지는 빗방울",
+      "locations": [
+        "HUB",
+        "L3",
+        "L4"
+      ],
+      "resources": [
+        "art/chapter00-01/art-polish-v1/review/E15-HUB-wet-bed.png",
+        "art/chapter00-01/art-polish-v1/review/E15-HUB-temporary-repair.png"
+      ],
+      "composition_ids": [
+        "E15-HUB-wet-bed",
+        "E15-HUB-temporary-repair"
+      ],
+      "status": "art-polish-v1-reviewed-native-PSD-supplied-resolution-limit-recorded",
+      "note": "기존 HUB의 침구 젖음 제한 패치와 지붕 보수 천 상태 제작. 비/물방울은 Unity 효과; 전체 배경 재생성 없음.",
+      "composition_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "revision_composition_ids": [
+        "E15-HUB-wet-bed",
+        "E15-HUB-temporary-repair"
+      ]
+    },
+    {
+      "event": "E16",
+      "title": "젖은 잠자리",
+      "locations": [
+        "HUB",
+        "L6"
+      ],
+      "resources": [
+        "art/chapter00-01/art-polish-v1/review/E15-HUB-wet-bed.png",
+        "art/chapter00-01/art-polish-v1/review/E16-HUB-dry-bed.png",
+        "art/chapter00-01/art-polish-v1/review/E16-L6-drying.png"
+      ],
+      "composition_ids": [
+        "E15-HUB-wet-bed",
+        "E16-HUB-dry-bed",
+        "E16-L6-drying"
+      ],
+      "status": "art-polish-v1-reviewed-native-PSD-supplied-resolution-limit-recorded",
+      "note": "젖은 침구/마른 침구 결과와 L6 벤치에 널린 천 제작. 실제 젖은 경로에서만 사용.",
+      "composition_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "revision_composition_ids": [
+        "E15-HUB-wet-bed",
+        "E16-HUB-dry-bed",
+        "E16-L6-drying"
+      ]
+    },
+    {
+      "event": "E17",
+      "title": "따뜻한 한 끼",
+      "locations": [
+        "HUB",
+        "L1"
+      ],
+      "resources": [
+        "art/chapter00-01/art-polish-v1/review/E17-HUB-cooking.png",
+        "art/chapter00-01/art-polish-v1/review/E17-HUB-warm-meal.png"
+      ],
+      "composition_ids": [
+        "E17-HUB-cooking",
+        "E17-HUB-warm-meal"
+      ],
+      "status": "art-polish-v1-reviewed-native-PSD-supplied-resolution-limit-recorded",
+      "note": "조리 자세의 식탁 앞면 가림 수정, 개별 큰 음식 원본과 두 그릇 식사 상태 제작. 실제 분배에 따라 노출.",
+      "composition_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "revision_composition_ids": [
+        "E17-HUB-cooking",
+        "E17-HUB-warm-meal"
+      ]
+    },
+    {
+      "event": "E18",
+      "title": "덜컹거리는 찬장",
+      "locations": [
+        "HUB",
+        "L3"
+      ],
+      "resources": [
+        "art/chapter00-01/art-polish-v1/review/E18-HUB-cabinet-secured.png"
+      ],
+      "composition_ids": [
+        "E18-HUB-cabinet-secured"
+      ],
+      "status": "art-polish-v1-reviewed-native-PSD-supplied-resolution-limit-recorded",
+      "note": "기존 찬장 손잡이에 천 고정 상태 PNG/PSD 제작. 소리와 수리 판정은 Unity.",
+      "composition_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "revision_composition_ids": [
+        "E18-HUB-cabinet-secured"
+      ]
+    },
+    {
+      "event": "E19",
+      "title": "주인이 남긴 물건",
+      "locations": [
+        "L3",
+        "L2"
+      ],
+      "resources": [
+        "art/chapter00-01/art-polish-v1/review/E19-L3-owned-goods.png",
+        "art/chapter00-01/art-polish-v1/review/E20-L2-exchange.png"
+      ],
+      "composition_ids": [
+        "E19-L3-owned-goods",
+        "E20-L2-exchange"
+      ],
+      "status": "art-polish-v1-reviewed-native-PSD-supplied-resolution-limit-recorded",
+      "note": "L3 선택 천/별도 소유자 메모와 L2 이름 미정 교환처 인물 후보 제작. 색연필 튜토리얼과 분리.",
+      "composition_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "revision_composition_ids": [
+        "E19-L3-owned-goods",
+        "E20-L2-exchange"
+      ]
+    },
+    {
+      "event": "E20",
+      "title": "전해주지 못한 꾸러미",
+      "locations": [
+        "L2",
+        "L5"
+      ],
+      "resources": [
+        "art/chapter00-01/art-polish-v1/review/E20-L2-exchange.png",
+        "art/chapter00-01/art-polish-v1/review/E20-L5-empty-crate.png",
+        "art/chapter00-01/art-polish-v1/review/E20-L5-delivered.png"
+      ],
+      "composition_ids": [
+        "E20-L2-exchange",
+        "E20-L5-empty-crate",
+        "E20-L5-delivered"
+      ],
+      "status": "art-polish-v1-reviewed-native-PSD-supplied-resolution-limit-recorded",
+      "note": "봉인 꾸러미·빈 보관함·내용물이 앞벽에 가려지는 전달 후 상태 제작. L2/L5 고정 배경 공유.",
+      "composition_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "revision_composition_ids": [
+        "E20-L2-exchange",
+        "E20-L5-empty-crate",
+        "E20-L5-delivered"
+      ]
+    },
+    {
+      "event": "E21",
+      "title": "카메라를 넣을 곳",
+      "locations": [
+        "HUB",
+        "L3"
+      ],
+      "resources": [
+        "art/chapter00-01/art-polish-v1/review/E21-HUB-pouch-empty.png",
+        "art/chapter00-01/art-polish-v1/review/E21-HUB-camera-protected.png"
+      ],
+      "composition_ids": [
+        "E21-HUB-pouch-empty",
+        "E21-HUB-camera-protected"
+      ],
+      "status": "art-polish-v1-reviewed-native-PSD-supplied-resolution-limit-recorded",
+      "note": "빈 천 주머니·카메라 수납 상태와 앞쪽 천 가림 레이어 제작. 개별 카메라 원본 유지.",
+      "composition_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "revision_composition_ids": [
+        "E21-HUB-pouch-empty",
+        "E21-HUB-camera-protected"
+      ]
+    },
+    {
+      "event": "E22",
+      "title": "선반 너머에서 난 소리",
+      "locations": [
+        "L1",
+        "L3",
+        "L4"
+      ],
+      "resources": [
+        "art/chapter00-01/art-polish-v1/review/L1-noise.png",
+        "art/chapter00-01/art-polish-v1/review/L1-recovered.png"
+      ],
+      "composition_ids": [],
+      "status": "art-polish-v1-reviewed-native-PSD-supplied-resolution-limit-recorded",
+      "note": "기존 장소 배경과 암전·효과음·정지 반응 포즈 공유. 별도 적 원화 불필요.",
+      "composition_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "revision_composition_ids": [
+        "L1-noise",
+        "L1-recovered"
+      ]
+    },
+    {
+      "event": "E23",
+      "title": "다음 길의 여유 연료",
+      "locations": [
+        "L2"
+      ],
+      "resources": [
+        "art/chapter00-01/art-polish-v1/review/E23-L2-fuel-option.png",
+        "art/chapter00-01/art-polish-v1/review/E23-L2-fuel-collected.png"
+      ],
+      "composition_ids": [
+        "E23-L2-fuel-option",
+        "E23-L2-fuel-collected"
+      ],
+      "status": "art-polish-v1-reviewed-native-PSD-supplied-resolution-limit-recorded",
+      "note": "L2 연료 용기 유무 선택 상태 제작. 조기 연료 부족 설정 없음, 주유 동작은 소리/가림 후보.",
+      "composition_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "revision_composition_ids": [
+        "E23-L2-fuel-option",
+        "E23-L2-fuel-collected"
+      ]
+    },
+    {
+      "event": "E24",
+      "title": "이제는 빈 페이지가 아니다",
+      "locations": [
+        "HUB"
+      ],
+      "resources": [
+        "art/chapter00-01/art-polish-v1/review/E24-HUB-memories.png",
+        "art/chapter00-01/art-polish-v1/review/E24-HUB-memories-with-dog.png"
+      ],
+      "composition_ids": [
+        "E24-HUB-memories",
+        "E24-HUB-memories-with-dog"
+      ],
+      "status": "art-polish-v1-reviewed-native-PSD-supplied-resolution-limit-recorded",
+      "note": "실제 첫 그림과 첫 사진을 함께 보는 HUB 상태, 강아지 동행 조건 변형 제작. 미경험 사건을 회상하지 않음.",
+      "composition_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "revision_composition_ids": [
+        "E24-HUB-memories",
+        "E24-HUB-memories-with-dog"
+      ]
+    },
+    {
+      "event": "E25",
+      "title": "다음 동네로 가는 길",
+      "locations": [
+        "L7",
+        "HUB"
+      ],
+      "resources": [
+        "art/chapter00-01/art-polish-v1/review/E25-L7-road-choice.png"
+      ],
+      "composition_ids": [
+        "E25-L7-road-choice"
+      ],
+      "status": "art-polish-v1-reviewed-native-PSD-supplied-resolution-limit-recorded",
+      "note": "L7 고정 배경에 오르막 차단물 분리. 왼쪽 우회로 유지. 출발 이동은 암전·음향 후보.",
+      "composition_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "revision_composition_ids": [
+        "E25-L7-road-choice"
+      ]
+    }
+  ],
+  "event_count": 25,
+  "unlinked_events": [],
+  "resolution_and_runtime_deferred": [
+    "Background masters are 1672x941, below the 3840x2160 target. No upscale claimed as restored detail.",
+    "Action masters are individual native generations; consult actual visible sizes, some below 1536px height target.",
+    "PSD layers validated with binary reader and merged-pixel comparison; Photoshop application and Unity import not tested.",
+    "Hand-tool joint actions and occlusion copies are not articulated body parts or reconstructed hidden surfaces.",
+    "Exchange NPC, repair details and optional props are design candidates, not user-approved canon.",
+    "Expression sets, final dialogue, UI, audio, effects, minigame rules, quest persistence and Unity runtime remain later work."
+  ],
+  "art_revision_manifest": "art/chapter00-01/narrative-art-v1/manifest.json",
+  "art_polish_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json"
+}

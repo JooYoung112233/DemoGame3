@@ -1,0 +1,119 @@
+{
+  "id": "L6-base-v1",
+  "status": "composition-review-below-resolution-target",
+  "source": "art/chapter01/riverside-v1/riverside-clean-base-source-v1.png",
+  "native_size": [
+    1672,
+    941
+  ],
+  "target_size": [
+    3840,
+    2160
+  ],
+  "source_sha256": "121ae6f95d3e201b60c249bae7488204afdf041c4fe7cd49268404f761932651",
+  "generator": "built-in image_gen",
+  "prompt": "art/chapter01/riverside-v1/riverside-v1.prompt.txt",
+  "psd": "art/chapter01/riverside-v1/riverside-native-layers-v1.psd",
+  "layers": [
+    {
+      "id": "bench_front",
+      "path": "art/chapter01/riverside-v1/layers/bench_front.png",
+      "rect": [
+        1061,
+        406,
+        379,
+        103
+      ],
+      "polygons": [
+        [
+          [
+            1062,
+            409
+          ],
+          [
+            1421,
+            406
+          ],
+          [
+            1439,
+            449
+          ],
+          [
+            1061,
+            453
+          ]
+        ],
+        [
+          [
+            1068,
+            454
+          ],
+          [
+            1088,
+            454
+          ],
+          [
+            1088,
+            508
+          ],
+          [
+            1069,
+            508
+          ]
+        ],
+        [
+          [
+            1410,
+            451
+          ],
+          [
+            1430,
+            449
+          ],
+          [
+            1431,
+            504
+          ],
+          [
+            1411,
+            506
+          ]
+        ]
+      ],
+      "type": "same-position occlusion/editing copy; native background remains underneath"
+    }
+  ],
+  "slots": [
+    {
+      "id": "photo_standing_ground",
+      "rect": [
+        681,
+        497,
+        250,
+        245
+      ],
+      "note": "촬영 자세 후보. 촬영할 실제 사진 구도는 별도 확정; 이 배경이 곧 앨범 사진은 아님."
+    },
+    {
+      "id": "drying_cloth",
+      "rect": [
+        1090,
+        409,
+        279,
+        35
+      ],
+      "note": "벤치 상판의 천 말리기 후보. 같은 그림을 받침면에 맞춰 추가."
+    }
+  ],
+  "events": [
+    "E11",
+    "E16"
+  ],
+  "remaining": "카메라·필름은 art/chapter01/photographer-props-v1/manifest.json 참조. 촬영 포즈·첫 사진/앨범 시안은 art/chapter01/first-photo-v1/manifest.json 참조. 말리는 천 미제작. 하천 물은 식수 보상으로 쓰지 않음.",
+  "limitations": [
+    "No 4K source was produced; no upscaling claimed as restored detail.",
+    "Painting is one fixed native base; only listed foreground copies are separately editable.",
+    "Character/prop contact, foreground edge masks and vehicle perspective require composition review when assets arrive.",
+    "No Photoshop app or Unity validation."
+  ]
+}

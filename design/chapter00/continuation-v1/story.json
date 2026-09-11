@@ -1,0 +1,1447 @@
+{
+  "id": "C0-continuation-v1",
+  "status": "new-dialogue-and-flow-review-draft",
+  "entry": "reply",
+  "canvas": [
+    1920,
+    1080
+  ],
+  "nodes": {
+    "reply": {
+      "id": "reply",
+      "title": "첫 응답",
+      "purpose": "소이의 질문을 플레이어가 받아 여행의 이유를 듣는다.",
+      "scene": "current",
+      "lines": [],
+      "next": null,
+      "effects": {},
+      "choices": [
+        {
+          "label": "다른 데 가 보고 싶어?",
+          "target": "reply_a",
+          "effects": {
+            "opening_reply": "curiosity"
+          },
+          "requires": [],
+          "unless": []
+        },
+        {
+          "label": "어디로 가고 싶은데?",
+          "target": "reply_b",
+          "effects": {
+            "opening_reply": "destination"
+          },
+          "requires": [],
+          "unless": []
+        }
+      ],
+      "camera": [
+        1,
+        0.5,
+        0.5
+      ],
+      "cue": null,
+      "draft": true
+    },
+    "reply_a": {
+      "id": "reply_a",
+      "title": "다른 풍경",
+      "purpose": "이동 욕구를 위험 회피만으로 설명하지 않는다.",
+      "scene": "current",
+      "lines": [
+        {
+          "speaker": "수혁",
+          "text": "다른 데 가 보고 싶어?"
+        },
+        {
+          "speaker": "소이",
+          "text": "응. 다른 것도 보고 싶어."
+        },
+        {
+          "speaker": "소이",
+          "text": "아침에도 저 표지판이 보였잖아."
+        }
+      ],
+      "next": "book_look",
+      "effects": {},
+      "choices": [],
+      "camera": [
+        1,
+        0.5,
+        0.5
+      ],
+      "cue": null,
+      "draft": true
+    },
+    "reply_b": {
+      "id": "reply_b",
+      "title": "정하지 않은 목적지",
+      "purpose": "정확한 목적지가 아직 없는 이유를 아이의 호기심으로 받는다.",
+      "scene": "current",
+      "lines": [
+        {
+          "speaker": "수혁",
+          "text": "어디로 가고 싶은데?"
+        },
+        {
+          "speaker": "소이",
+          "text": "아직 몰라. 가면서 생각할래."
+        },
+        {
+          "speaker": "소이",
+          "text": "여기서는 창밖이 계속 똑같아."
+        }
+      ],
+      "next": "book_look",
+      "effects": {},
+      "choices": [],
+      "camera": [
+        1,
+        0.5,
+        0.5
+      ],
+      "cue": null,
+      "draft": true,
+      "dialogue_revision_note": {
+        "status": "user-script-pass-pending",
+        "intent": "캠프 방송 전의 답변으로 유지. 이후 목적지 없는 여행이라고 반복하지 않도록 대사집에서 확인."
+      }
+    },
+    "book_look": {
+      "id": "book_look",
+      "title": "식탁의 책",
+      "purpose": "말한 풍경이 앞으로 채울 빈 페이지와 이어진다.",
+      "scene": "current",
+      "lines": [
+        {
+          "speaker": "수혁",
+          "text": "그럼 새로운 걸 보면, 여기 그려 둘까?"
+        }
+      ],
+      "next": null,
+      "effects": {},
+      "choices": [
+        {
+          "label": "식탁의 스케치북 살펴보기",
+          "target": "book",
+          "effects": {},
+          "requires": [],
+          "unless": []
+        }
+      ],
+      "camera": [
+        1.08,
+        0.58,
+        0.53
+      ],
+      "cue": null,
+      "draft": true
+    },
+    "book": {
+      "id": "book",
+      "title": "남아 있는 페이지",
+      "purpose": "새 책이 아니라 지금 쓰는 책에 의미를 쌓는다.",
+      "scene": "current",
+      "lines": [
+        {
+          "speaker": "수혁",
+          "text": "여기는 비워 뒀네."
+        },
+        {
+          "speaker": "소이",
+          "text": "응. 나중에 그릴 거야."
+        },
+        {
+          "speaker": "수혁",
+          "text": "모서리가 많이 닳았네."
+        },
+        {
+          "speaker": "소이",
+          "text": "그래도 여기는 깨끗해."
+        },
+        {
+          "speaker": "수혁",
+          "text": "아직 그릴 데가 많네."
+        }
+      ],
+      "next": "camp_radio",
+      "effects": {
+        "blank_page_seen": true
+      },
+      "choices": [],
+      "camera": [
+        1.08,
+        0.58,
+        0.53
+      ],
+      "cue": null,
+      "draft": true
+    },
+    "departure": {
+      "id": "departure",
+      "title": "내일 떠나자",
+      "purpose": "라디오에서 들은 캠프를 장기 목적지로 삼고, 가는 동안 새로운 풍경도 함께 보자는 약속으로 연결한다. 기존 대사는 대사집 차수까지 보존한다.",
+      "scene": "current",
+      "lines": [
+        {
+          "speaker": "수혁",
+          "text": "그럼 내일 떠나자."
+        },
+        {
+          "speaker": "소이",
+          "text": "멀리?"
+        },
+        {
+          "speaker": "수혁",
+          "text": "네가 보고 싶은 게 있을 때까지."
+        },
+        {
+          "speaker": "소이",
+          "text": "아침 되면?"
+        },
+        {
+          "speaker": "수혁",
+          "text": "응. 오늘은 준비만 해 두고."
+        }
+      ],
+      "next": "prepare_intro",
+      "effects": {
+        "departure_decided": true
+      },
+      "choices": [],
+      "camera": [
+        1,
+        0.5,
+        0.5
+      ],
+      "cue": null,
+      "draft": true,
+      "dialogue_revision_note": {
+        "status": "user-script-pass-pending",
+        "intent": "캠프 목적과 가는 길의 풍경 약속을 연결."
+      }
+    },
+    "prepare_intro": {
+      "id": "prepare_intro",
+      "title": "차 안에서 챙기는 이유",
+      "purpose": "캠프를 향해 이동할 준비로 물·담요를 정리한다. 정확한 길은 이후 지도와 현지 정보로 알아본다.",
+      "scene": "current",
+      "lines": [
+        {
+          "speaker": "수혁",
+          "text": "차가 움직이면 굴러다니겠다. 꺼내 둔 것부터 넣어 두자."
+        },
+        {
+          "speaker": "소이",
+          "text": "책도?"
+        },
+        {
+          "speaker": "수혁",
+          "text": "책은 마지막에. 아직 보고 있어도 돼."
+        }
+      ],
+      "next": "prepare",
+      "effects": {},
+      "choices": [],
+      "camera": [
+        1,
+        0.5,
+        0.5
+      ],
+      "cue": null,
+      "draft": true
+    },
+    "prepare": {
+      "id": "prepare",
+      "title": "떠날 준비",
+      "purpose": "두 필수 물건만 순서 자유. 창밖과 기존 사진은 선택 관찰.",
+      "scene": "preparation",
+      "lines": [],
+      "next": null,
+      "effects": {},
+      "choices": [
+        {
+          "label": "물통 챙기기",
+          "target": "water",
+          "effects": {},
+          "requires": [],
+          "unless": [
+            "water_packed"
+          ]
+        },
+        {
+          "label": "여분 담요 챙기기",
+          "target": "blanket",
+          "effects": {},
+          "requires": [],
+          "unless": [
+            "blanket_packed"
+          ]
+        },
+        {
+          "label": "잠깐 창밖 보기",
+          "target": "window",
+          "effects": {},
+          "requires": [],
+          "unless": [
+            "window_seen"
+          ]
+        },
+        {
+          "label": "벽의 가족사진 살펴보기",
+          "target": "photo_observe",
+          "effects": {},
+          "requires": [],
+          "unless": [
+            "photo_observed"
+          ]
+        }
+      ],
+      "camera": [
+        1,
+        0.5,
+        0.5
+      ],
+      "cue": null,
+      "draft": true
+    },
+    "photo_observe": {
+      "id": "photo_observe",
+      "title": "처음 보았던 사진",
+      "purpose": "도입과 동일한 사진이다. 사진을 붙인 오래된 테이프 끝이 들떠 있다는 생활 속 문제만 발견한다. 새 회상·날짜 추리·얼굴 복원은 없다.",
+      "scene": "photo_lifted",
+      "lines": [],
+      "next": null,
+      "effects": {},
+      "choices": [
+        {
+          "label": "준비 계속하기",
+          "target": "prepare",
+          "effects": {
+            "photo_observed": true
+          },
+          "requires": [],
+          "unless": []
+        }
+      ],
+      "camera": [
+        1,
+        0.5,
+        0.5
+      ],
+      "cue": null,
+      "draft": true,
+      "visual_note": "기존 가족사진의 얼굴 없는 하단 근접 컷. 같은 테이프 끝의 들뜸을 확인한다. 원본·손·고정 결과는 photo-care-v1에 분리 보관. 실제 손 전환은 Unity 연출로 연결."
+    },
+    "water": {
+      "id": "water",
+      "title": "남은 물",
+      "purpose": "C0에서 새 물을 획득하는 것이 아니라 남은 물을 고정한다.",
+      "scene": "preparation",
+      "lines": [
+        {
+          "speaker": "",
+          "text": "물통을 기울이자 바닥 가까이에서 물소리가 났다."
+        },
+        {
+          "speaker": "수혁",
+          "text": "아예 없는 건 아닌데… 내일 쓸 물은 더 찾아야겠어."
+        },
+        {
+          "speaker": "소이",
+          "text": "내일 가는 데도 물이 있어?"
+        },
+        {
+          "speaker": "수혁",
+          "text": "가까운 가게부터 찾아보자."
+        }
+      ],
+      "next": "prepare",
+      "effects": {
+        "water_packed": true
+      },
+      "choices": [],
+      "camera": [
+        1,
+        0.5,
+        0.5
+      ],
+      "cue": "sfx_water_shift",
+      "draft": true
+    },
+    "blanket": {
+      "id": "blanket",
+      "title": "둘이 쓰는 담요",
+      "purpose": "생존 준비 중에도 서로를 살피는 반응을 남긴다.",
+      "scene": "preparation",
+      "lines": [
+        {
+          "speaker": "소이",
+          "text": "밖에서 잘 거야?"
+        },
+        {
+          "speaker": "수혁",
+          "text": "차 안에서도 추울 수 있으니까."
+        },
+        {
+          "speaker": "소이",
+          "text": "그럼 아빠 것도."
+        },
+        {
+          "speaker": "수혁",
+          "text": "같이 쓰면 돼."
+        },
+        {
+          "speaker": "",
+          "text": "접은 담요를 손이 닿기 쉬운 곳에 넣었다."
+        }
+      ],
+      "next": "prepare",
+      "effects": {
+        "blanket_packed": true
+      },
+      "choices": [],
+      "camera": [
+        1,
+        0.5,
+        0.5
+      ],
+      "cue": "sfx_fabric_fold",
+      "draft": true
+    },
+    "window": {
+      "id": "window",
+      "title": "오늘은 쉬는 이유",
+      "purpose": "한밤중에 바로 출발하지 않는 이유. 필수 진행에 잠그지 않는다.",
+      "scene": "preparation",
+      "lines": [
+        {
+          "speaker": "",
+          "text": "유리 너머로 길의 가장자리만 희미하게 보였다."
+        },
+        {
+          "speaker": "수혁",
+          "text": "지금 나가면 표지판도 놓치겠어. 밝아지면 움직이자."
+        }
+      ],
+      "next": "prepare",
+      "effects": {
+        "window_seen": true
+      },
+      "choices": [],
+      "camera": [
+        1.04,
+        0.38,
+        0.3
+      ],
+      "cue": null,
+      "draft": true
+    },
+    "prepared": {
+      "id": "prepared",
+      "title": "정리된 실내",
+      "purpose": "두 가지 준비 완료를 한 번 확인한 뒤 소등. 물건 이동이 고장 원인이라고 단정하지 않는다.",
+      "scene": "packed",
+      "lines": [
+        {
+          "speaker": "수혁",
+          "text": "이렇게 두면 아침엔 바로 움직일 수 있겠다."
+        }
+      ],
+      "next": "outage",
+      "effects": {},
+      "choices": [],
+      "camera": [
+        1,
+        0.5,
+        0.5
+      ],
+      "cue": null,
+      "draft": true
+    },
+    "outage": {
+      "id": "outage",
+      "title": "예고 없이 꺼진 불",
+      "purpose": "밝기가 한 번 약해진 뒤 소등. 반복 깜빡임·폭음 없음.",
+      "scene": "outage",
+      "lines": [
+        {
+          "speaker": "",
+          "text": "실내등이 힘을 잃듯 어두워졌다."
+        },
+        {
+          "speaker": "소이",
+          "text": "아빠?"
+        },
+        {
+          "speaker": "수혁",
+          "text": "여기 있어."
+        }
+      ],
+      "next": "reassure",
+      "effects": {
+        "outage_triggered": true
+      },
+      "choices": [],
+      "camera": [
+        1,
+        0.5,
+        0.5
+      ],
+      "cue": "sfx_light_click",
+      "draft": true
+    },
+    "reassure": {
+      "id": "reassure",
+      "title": "먼저 대답하기",
+      "purpose": "수리를 시작하기 전에 소이의 부름을 받는다. 정답 없는 말투 선택.",
+      "scene": "outage",
+      "lines": [],
+      "next": null,
+      "effects": {},
+      "choices": [
+        {
+          "label": "움직이지 마. 내가 불 켤게.",
+          "target": "reassure_a",
+          "effects": {
+            "reassurance": "guide"
+          },
+          "requires": [],
+          "unless": []
+        },
+        {
+          "label": "놀랐지? 잠깐만 기다려.",
+          "target": "reassure_b",
+          "effects": {
+            "reassurance": "comfort"
+          },
+          "requires": [],
+          "unless": []
+        }
+      ],
+      "camera": [
+        1,
+        0.5,
+        0.5
+      ],
+      "cue": null,
+      "draft": true
+    },
+    "reassure_a": {
+      "id": "reassure_a",
+      "title": "목소리를 따라",
+      "purpose": "짧게 공간의 위치를 확인한다.",
+      "scene": "outage",
+      "lines": [
+        {
+          "speaker": "수혁",
+          "text": "움직이지 마. 내가 불 켤게."
+        },
+        {
+          "speaker": "소이",
+          "text": "응. 여기 있을게."
+        }
+      ],
+      "next": "flashlight_find",
+      "effects": {},
+      "choices": [],
+      "camera": [
+        1,
+        0.5,
+        0.5
+      ],
+      "cue": null,
+      "draft": true
+    },
+    "reassure_b": {
+      "id": "reassure_b",
+      "title": "놀람을 받아 주기",
+      "purpose": "어둠에 놀랐다는 말만으로 충분하다.",
+      "scene": "outage",
+      "lines": [
+        {
+          "speaker": "수혁",
+          "text": "놀랐지? 잠깐만 기다려."
+        },
+        {
+          "speaker": "소이",
+          "text": "갑자기 안 보여서."
+        }
+      ],
+      "next": "flashlight_find",
+      "effects": {},
+      "choices": [],
+      "camera": [
+        1,
+        0.5,
+        0.5
+      ],
+      "cue": null,
+      "draft": true
+    },
+    "flashlight_find": {
+      "id": "flashlight_find",
+      "title": "작은 빛부터",
+      "purpose": "어둠 속 픽셀 찾기를 요구하지 않고 기존 수납 위치를 안내한다.",
+      "scene": "outage",
+      "lines": [
+        {
+          "speaker": "수혁",
+          "text": "손전등을 수납칸에 뒀었지."
+        }
+      ],
+      "next": null,
+      "effects": {},
+      "choices": [
+        {
+          "label": "수납칸에서 손전등 꺼내 켜기",
+          "target": "flashlight_on",
+          "effects": {},
+          "requires": [],
+          "unless": []
+        }
+      ],
+      "camera": [
+        1,
+        0.5,
+        0.5
+      ],
+      "cue": null,
+      "draft": true
+    },
+    "flashlight_on": {
+      "id": "flashlight_on",
+      "title": "손전등",
+      "purpose": "찾기와 켜기를 한 행동으로 묶어 클릭 수를 억지로 늘리지 않는다.",
+      "scene": "investigation",
+      "lines": [
+        {
+          "speaker": "수혁",
+          "text": "있다."
+        },
+        {
+          "speaker": "소이",
+          "text": "켜졌어?"
+        },
+        {
+          "speaker": "수혁",
+          "text": "응. 이제 안쪽을 볼 수 있겠어."
+        }
+      ],
+      "next": "inspect",
+      "effects": {
+        "flashlight_on": true
+      },
+      "choices": [],
+      "camera": [
+        1,
+        0.5,
+        0.5
+      ],
+      "cue": "sfx_flashlight_click",
+      "draft": true
+    },
+    "inspect": {
+      "id": "inspect",
+      "title": "어디가 문제일까",
+      "purpose": "스위치와 연결부의 관찰 결과를 모은다. 조사 순서는 자유.",
+      "scene": "investigation",
+      "lines": [],
+      "next": null,
+      "effects": {},
+      "choices": [
+        {
+          "label": "실내등 스위치 확인",
+          "target": "switch_check",
+          "effects": {},
+          "requires": [],
+          "unless": [
+            "switch_checked"
+          ]
+        },
+        {
+          "label": "조명 전원부 확인",
+          "target": "panel_check",
+          "effects": {},
+          "requires": [],
+          "unless": [
+            "panel_checked"
+          ]
+        }
+      ],
+      "camera": [
+        1,
+        0.5,
+        0.5
+      ],
+      "cue": null,
+      "draft": true
+    },
+    "switch_check": {
+      "id": "switch_check",
+      "title": "스위치 확인",
+      "purpose": "누르기만 하면 해결되는 사건이 아님을 관찰한다.",
+      "scene": "investigation",
+      "lines": [
+        {
+          "speaker": "수혁",
+          "text": "스위치만 다시 눌러서는 안 켜지네."
+        }
+      ],
+      "next": "inspect",
+      "effects": {
+        "switch_checked": true
+      },
+      "choices": [],
+      "camera": [
+        1,
+        0.5,
+        0.5
+      ],
+      "cue": null,
+      "draft": true
+    },
+    "panel_check": {
+      "id": "panel_check",
+      "title": "헐거운 연결",
+      "purpose": "관찰 결과만 말하고 실제 배선 수리 절차는 묘사하지 않는다.",
+      "scene": "investigation",
+      "lines": [
+        {
+          "speaker": "수혁",
+          "text": "이쪽 연결이 헐거워졌네."
+        }
+      ],
+      "next": "inspect",
+      "effects": {
+        "panel_checked": true
+      },
+      "choices": [],
+      "camera": [
+        1,
+        0.5,
+        0.5
+      ],
+      "cue": null,
+      "draft": true
+    },
+    "small_light": {
+      "id": "small_light",
+      "title": "서연을 떠올릴 계기",
+      "purpose": "손전등의 작은 빛이 평소 잠자리의 불로 이어져 갑작스러운 가족 설명을 피한다.",
+      "scene": "investigation",
+      "lines": [
+        {
+          "speaker": "소이",
+          "text": "그 작은 불은 켜 두면 안 돼?"
+        },
+        {
+          "speaker": "수혁",
+          "text": "등이 켜지면 이건 아껴 두자."
+        },
+        {
+          "speaker": "소이",
+          "text": "엄마도 어두운 거 싫어했어?"
+        },
+        {
+          "speaker": "수혁",
+          "text": "잘 때도 작은 불은 켜 뒀어."
+        },
+        {
+          "speaker": "소이",
+          "text": "무서워서?"
+        },
+        {
+          "speaker": "수혁",
+          "text": "네가 깨면 얼굴 보려고."
+        },
+        {
+          "speaker": "소이",
+          "text": "그럼 아빠도 보였겠다."
+        },
+        {
+          "speaker": "수혁",
+          "text": "응. 나도."
+        }
+      ],
+      "next": "secure",
+      "effects": {},
+      "choices": [],
+      "camera": [
+        1,
+        0.5,
+        0.5
+      ],
+      "cue": null,
+      "draft": true,
+      "dialogue_revision_note": {
+        "status": "user-script-pass-pending",
+        "intent": "서연 사망 원인의 설명을 덧붙이지 말고 과거의 생활 기억만 유지."
+      }
+    },
+    "secure": {
+      "id": "secure",
+      "title": "연결을 확인하기",
+      "purpose": "기존 정지 포즈와 고정 전후 상태를 사용. 미니게임·부품 소모 없음.",
+      "scene": "investigation",
+      "lines": [
+        {
+          "speaker": "",
+          "text": "실내등 전원을 끈 상태에서 연결을 확인했다."
+        }
+      ],
+      "next": null,
+      "effects": {},
+      "choices": [
+        {
+          "label": "연결 고정하기",
+          "target": "secured",
+          "effects": {},
+          "requires": [],
+          "unless": []
+        }
+      ],
+      "camera": [
+        1,
+        0.5,
+        0.5
+      ],
+      "cue": null,
+      "draft": true
+    },
+    "secured": {
+      "id": "secured",
+      "title": "고정된 연결",
+      "purpose": "연결 상태와 스위치 상태를 구분한다.",
+      "scene": "secured",
+      "lines": [
+        {
+          "speaker": "수혁",
+          "text": "됐어. 이제 불을 켜 보자."
+        }
+      ],
+      "next": null,
+      "effects": {
+        "connection_secured": true
+      },
+      "choices": [
+        {
+          "label": "실내등 켜기",
+          "target": "restored",
+          "effects": {},
+          "requires": [],
+          "unless": []
+        }
+      ],
+      "camera": [
+        1,
+        0.5,
+        0.5
+      ],
+      "cue": null,
+      "draft": true
+    },
+    "restored": {
+      "id": "restored",
+      "title": "돌아온 공간",
+      "purpose": "같은 방이 다시 보이는 것으로 사건의 보상을 준다.",
+      "scene": "restored",
+      "lines": [
+        {
+          "speaker": "소이",
+          "text": "이제 보여."
+        },
+        {
+          "speaker": "수혁",
+          "text": "뭐가?"
+        },
+        {
+          "speaker": "소이",
+          "text": "아빠 얼굴."
+        },
+        {
+          "speaker": "수혁",
+          "text": "아까도 여기 있었어."
+        },
+        {
+          "speaker": "소이",
+          "text": "알아."
+        }
+      ],
+      "next": "put_flashlight_back",
+      "effects": {
+        "light_restored": true
+      },
+      "choices": [],
+      "camera": [
+        1,
+        0.5,
+        0.5
+      ],
+      "cue": "sfx_light_click",
+      "draft": true
+    },
+    "put_flashlight_back": {
+      "id": "put_flashlight_back",
+      "title": "제자리의 손전등",
+      "purpose": "다음에 필요할 물건의 위치를 남기되 반복 수리 퀘스트를 만들지 않는다.",
+      "scene": "restored",
+      "lines": [
+        {
+          "speaker": "수혁",
+          "text": "손전등은 같은 데 둘게."
+        },
+        {
+          "speaker": "소이",
+          "text": "다음엔 바로 찾을 수 있겠다."
+        },
+        {
+          "speaker": "수혁",
+          "text": "아침에 등도 한 번 더 봐야겠어."
+        }
+      ],
+      "next": "photo_care",
+      "effects": {
+        "flashlight_stored": true
+      },
+      "choices": [],
+      "camera": [
+        1,
+        0.5,
+        0.5
+      ],
+      "cue": null,
+      "draft": true
+    },
+    "photo_care": {
+      "id": "photo_care",
+      "title": "사진을 제자리에",
+      "purpose": "불을 고친 뒤 작은 생활 정리로 돌아온다. 수혁이 같은 사진의 테이프 모서리를 눌러 고정한다. 사진 위치·내용·얼굴 가림은 바뀌지 않는다.",
+      "scene": "photo_lifted",
+      "lines": [],
+      "next": null,
+      "effects": {},
+      "choices": [
+        {
+          "label": "들뜬 테이프를 눌러 사진 고정하기",
+          "target": "photo_wish",
+          "effects": {
+            "family_photo_secured": true
+          },
+          "requires": [],
+          "unless": []
+        }
+      ],
+      "camera": [
+        1,
+        0.5,
+        0.5
+      ],
+      "cue": null,
+      "draft": true,
+      "visual_note": "기존 가족사진의 얼굴 없는 하단 근접 컷. 같은 테이프 끝의 들뜸을 확인한다. 원본·손·고정 결과는 photo-care-v1에 분리 보관. 실제 손 전환은 Unity 연출로 연결.",
+      "visual_note_if_seen": "준비 중 봤던 같은 테이프 모서리를 고정한다. 사진·기억을 새로 획득하거나 복원하지 않는다.",
+      "visual_note_condition": "photo_observed",
+      "art_sequence": [
+        {
+          "phase": "before_input",
+          "asset": "art/chapter00/photo-care-v1/review/01-lifted.png"
+        },
+        {
+          "phase": "after_confirm",
+          "asset": "art/chapter00/photo-care-v1/review/02-pressing.png",
+          "duration_candidate_seconds": [
+            0.35,
+            0.6
+          ]
+        },
+        {
+          "phase": "after_hand_recedes",
+          "asset": "art/chapter00/photo-care-v1/review/03-secured.png"
+        }
+      ]
+    },
+    "photo_wish": {
+      "id": "photo_wish",
+      "title": "다음 여행도 사진으로",
+      "purpose": "소이는 기존 사진처럼 앞으로 가는 곳도 사진으로 남기고 싶어 한다. 수혁도 이번 여행을 새 사진으로 남기고 싶다는 마음을 받아 둔다. 당장 촬영 수단을 지급하지 않고, 챕터 1에서 사진기사 세진의 카메라에 관심을 보일 이유로 남긴다. 실제 문장은 대사집 단계에서 작성한다.",
+      "scene": "photo_secured",
+      "lines": [],
+      "next": null,
+      "effects": {
+        "wants_new_photos": true
+      },
+      "choices": [
+        {
+          "label": "내일 준비 이어가기",
+          "target": "book_pack",
+          "effects": {},
+          "requires": [],
+          "unless": []
+        }
+      ],
+      "camera": [
+        1,
+        0.5,
+        0.5
+      ],
+      "cue": null,
+      "draft": true,
+      "visual_note": "서사 초안 · 소이가 사진을 보며 앞으로 가는 곳도 이렇게 남기고 싶다는 바람을 꺼낸다. 수혁도 그 마음을 받아 두지만 지금 바로 찍을 수는 없다. 촬영할 기회가 생기면 새 사진을 남기기로 마음에 둔다. 정확한 대사는 대사집에서 작성한다.",
+      "dialogue_intents": [
+        {
+          "speaker": "소이",
+          "intent": "앞으로 보는 풍경도 기존 사진처럼 남기고 싶다는 구체적인 바람"
+        },
+        {
+          "speaker": "수혁",
+          "intent": "바람에 공감하고 촬영할 방법이 생기면 시도하겠다는 뜻. 내일 당장 찍는다고 약속하지 않음"
+        }
+      ],
+      "dialogue_revision_note": {
+        "status": "user-script-pass-pending",
+        "intent": "과거 가족사진은 실제 기록. 현재 새 사진을 남기고 싶은 마음은 수혁의 주관적 소이 대화로 유지."
+      }
+    },
+    "book_pack": {
+      "id": "book_pack",
+      "title": "아직 남아 있던 책",
+      "purpose": "준비 전에 마지막에 챙기기로 한 약속을 되받는다.",
+      "scene": "restored",
+      "lines": [
+        {
+          "speaker": "소이",
+          "text": "책도 꼭 가져가."
+        },
+        {
+          "speaker": "수혁",
+          "text": "참, 마지막에 챙기기로 했지."
+        },
+        {
+          "speaker": "소이",
+          "text": "맨 밑에는 넣지 마."
+        },
+        {
+          "speaker": "수혁",
+          "text": "꺼내기 쉬운 데 둘게."
+        }
+      ],
+      "next": null,
+      "effects": {},
+      "choices": [
+        {
+          "label": "기존 스케치북 챙기기",
+          "target": "journal_intro",
+          "effects": {
+            "book_packed": true
+          },
+          "requires": [],
+          "unless": []
+        }
+      ],
+      "camera": [
+        1,
+        0.5,
+        0.5
+      ],
+      "cue": null,
+      "draft": true
+    },
+    "journal_intro": {
+      "id": "journal_intro",
+      "title": "오늘의 기록",
+      "purpose": "정리 행동을 짧은 회고와 다음 목표로 바꾼다.",
+      "scene": "journal",
+      "lines": [
+        {
+          "speaker": "",
+          "text": "책을 넣고, 늘 쓰던 저널을 펼쳤다."
+        },
+        {
+          "speaker": "소이",
+          "text": "뭐 써?"
+        },
+        {
+          "speaker": "수혁",
+          "text": "내일 잊어버리면 안 되는 거."
+        },
+        {
+          "speaker": "소이",
+          "text": "나한테 물어보면 되는데."
+        },
+        {
+          "speaker": "수혁",
+          "text": "그래도 써 두려고."
+        }
+      ],
+      "next": "journal_choice",
+      "effects": {},
+      "choices": [],
+      "camera": [
+        1,
+        0.5,
+        0.5
+      ],
+      "cue": null,
+      "draft": true
+    },
+    "journal_choice": {
+      "id": "journal_choice",
+      "title": "첫 문장 고르기",
+      "purpose": "정답·엔딩 점수 없이 플레이어가 오늘의 중심을 고른다.",
+      "scene": "journal",
+      "lines": [],
+      "next": null,
+      "effects": {},
+      "choices": [
+        {
+          "label": "소이가 다른 곳에 가고 싶다고 했다.",
+          "target": "journal_done",
+          "effects": {
+            "journal_first_line": "소이가 다른 곳에 가고 싶다고 했다."
+          },
+          "requires": [],
+          "unless": []
+        },
+        {
+          "label": "내일은 이곳을 떠나기로 했다.",
+          "target": "journal_done",
+          "effects": {
+            "journal_first_line": "내일은 이곳을 떠나기로 했다."
+          },
+          "requires": [],
+          "unless": []
+        }
+      ],
+      "camera": [
+        1,
+        0.5,
+        0.5
+      ],
+      "cue": null,
+      "draft": true
+    },
+    "journal_done": {
+      "id": "journal_done",
+      "title": "준비와 남은 일",
+      "purpose": "물을 더 구할 필요를 확인하되 소이 부탁보다 생존 설명만 남기지 않는다.",
+      "scene": "journal",
+      "lines": [
+        {
+          "speaker": "",
+          "text": "{journal_first_line}"
+        },
+        {
+          "speaker": "",
+          "text": "실내등 연결을 확인했다. 물과 담요, 스케치북을 챙겼다."
+        },
+        {
+          "speaker": "",
+          "text": "내일은 물부터 더 구하자."
+        }
+      ],
+      "next": "morning_promise",
+      "effects": {
+        "journal_written": true
+      },
+      "choices": [],
+      "camera": [
+        1,
+        0.5,
+        0.5
+      ],
+      "cue": null,
+      "draft": true
+    },
+    "morning_promise": {
+      "id": "morning_promise",
+      "title": "같이 보는 아침",
+      "purpose": "‘혼자 먼저 보지 말고’의 대상을 창밖 풍경으로 명확히 한다.",
+      "scene": "journal",
+      "lines": [
+        {
+          "speaker": "소이",
+          "text": "내일은 창밖도 달라질까?"
+        },
+        {
+          "speaker": "수혁",
+          "text": "조금은 달라지겠지."
+        },
+        {
+          "speaker": "소이",
+          "text": "아빠가 먼저 일어나면 깨워줘."
+        },
+        {
+          "speaker": "수혁",
+          "text": "알았어."
+        },
+        {
+          "speaker": "소이",
+          "text": "혼자 먼저 보지 말고."
+        },
+        {
+          "speaker": "수혁",
+          "text": "같이 보자."
+        }
+      ],
+      "next": "sleep",
+      "effects": {},
+      "choices": [],
+      "camera": [
+        1,
+        0.5,
+        0.5
+      ],
+      "cue": null,
+      "draft": true,
+      "dialogue_revision_note": {
+        "status": "user-script-pass-pending",
+        "intent": "소이가 혼자 현실의 문·물건을 움직였다는 뜻이 되지 않도록 확인."
+      }
+    },
+    "sleep": {
+      "id": "sleep",
+      "title": "이번에는 스스로",
+      "purpose": "같은 소등을 고장과 휴식으로 구분한다.",
+      "scene": "journal",
+      "lines": [
+        {
+          "speaker": "수혁",
+          "text": "이제 불 끌게."
+        },
+        {
+          "speaker": "소이",
+          "text": "응. 잘 자, 아빠."
+        }
+      ],
+      "next": null,
+      "effects": {},
+      "choices": [
+        {
+          "label": "불을 끄고 쉬기",
+          "target": "night",
+          "effects": {},
+          "requires": [],
+          "unless": []
+        }
+      ],
+      "camera": [
+        1,
+        0.5,
+        0.5
+      ],
+      "cue": null,
+      "draft": true
+    },
+    "night": {
+      "id": "night",
+      "title": "밤의 끝",
+      "purpose": "준비물과 고정한 연결을 유지한 채 따뜻한 어둠으로 끝낸다.",
+      "scene": "night",
+      "lines": [
+        {
+          "speaker": "",
+          "text": "아직, 같이 가고 싶은 곳이 있다."
+        }
+      ],
+      "next": "day1",
+      "effects": {
+        "night_complete": true
+      },
+      "choices": [],
+      "camera": [
+        1,
+        0.5,
+        0.5
+      ],
+      "cue": "sfx_light_click",
+      "draft": true,
+      "visual_note": "연출 초안 · 마지막 소등에도 같은 사진은 벽의 원래 자리에 남는다. 사진만 다시 확대하거나 얼굴을 드러내지 않고, 캠핑카 전체가 천천히 어두워진다."
+    },
+    "day1": {
+      "id": "day1",
+      "title": "1일 차 아침",
+      "purpose": "캠프를 향한 여행을 이어가기 위해 우선 가까운 편의점에서 물을 보충한다. 준비한 물·담요·책은 유지한다. 수혁은 아직 비감염이며 아침 전용 광원은 Unity 작업이다.",
+      "scene": "journal",
+      "lines": [
+        {
+          "speaker": "",
+          "text": "1일 차. 창문 가장자리로 빛이 들어왔다."
+        },
+        {
+          "speaker": "소이",
+          "text": "오늘 가는 거지?"
+        },
+        {
+          "speaker": "수혁",
+          "text": "응. 먼저 물을 구하러 가자."
+        }
+      ],
+      "next": null,
+      "effects": {},
+      "choices": [],
+      "camera": [
+        1,
+        0.5,
+        0.5
+      ],
+      "cue": null,
+      "draft": true
+    },
+    "camp_radio": {
+      "id": "camp_radio",
+      "title": "라디오에서 들려온 목적지",
+      "purpose": "책의 빈 페이지를 본 뒤 같은 캠핑카 안에서 생존자 캠프 안내 방송을 듣는다. 함께 갈 안전한 곳이라는 여행 목적을 얻되 캠프의 현재 안전과 정확한 경로까지 확정하지 않는다.",
+      "scene": "current",
+      "lines": [],
+      "next": null,
+      "effects": {
+        "camp_broadcast_heard": true,
+        "travel_goal_known": true
+      },
+      "choices": [
+        {
+          "label": "방송 확인 후 출발 준비로",
+          "target": "departure",
+          "effects": {},
+          "requires": [],
+          "unless": []
+        }
+      ],
+      "camera": [
+        1,
+        0.5,
+        0.5
+      ],
+      "cue": "vo_radio_survivor_camp_pending_script",
+      "draft": true,
+      "visual_note": "연출 검토 · 실내 화면을 유지한 채 화면 밖 라디오의 생존자 캠프 안내에 수혁이 귀를 기울인다. 대사집 작성 전이라 방송 문장·음성은 비워 두었다. 아래 확인은 검토용 진행이며 인게임 선택지가 아니다.",
+      "production_direction": {
+        "sequence": [
+          "기존 책 관찰 종료; 현재 실내 화면 유지",
+          "짧은 수신 잡음 뒤 캠프 안내; 중요한 정보는 자막도 제공 예정",
+          "수혁이 듣는 여백; 소이가 라디오를 켜거나 채널을 맞추지 않음",
+          "기존 출발 약속과 준비 행동으로 연결"
+        ],
+        "timing_seconds_proposal": {
+          "lead_in": [
+            0.3,
+            0.5
+          ],
+          "reaction": [
+            0.6,
+            1
+          ]
+        },
+        "camera_policy": "고정 구도, 라디오 근접 원화·위치 임의 추가 없음",
+        "audio_status": "script-and-recording-pending",
+        "information": [
+          "생존자 캠프 안내를 들음",
+          "앞으로 확인할 목적지가 생김"
+        ],
+        "withhold": [
+          "소이 사망",
+          "49재",
+          "수혁 감염 증상",
+          "확정 캠프 안전",
+          "정확한 감염 잠복기"
+        ],
+        "preview_only_confirmation": true
+      }
+    }
+  },
+  "scenes": {
+    "current": "art/chapter00-01/art-polish-v1/review/C0-current.png",
+    "packed": "art/chapter00-01/art-polish-v1/review/C0-packed.png",
+    "outage": "art/chapter00-01/art-polish-v1/review/C0-outage.png",
+    "investigation": "art/chapter00-01/art-polish-v1/review/C0-investigation.png",
+    "secured": "art/chapter00-01/art-polish-v1/review/C0-secured.png",
+    "restored": "art/chapter00-01/art-polish-v1/review/C0-restored.png",
+    "journal": "art/chapter00-01/art-polish-v1/review/C0-journal.png",
+    "night": "art/chapter00-01/art-polish-v1/review/C0-night.png",
+    "water_only": "art/chapter00-01/art-polish-v1/review/C0-water_only.png",
+    "blanket_only": "art/chapter00-01/art-polish-v1/review/C0-blanket_only.png",
+    "photo_lifted": "art/chapter00/photo-care-v1/review/01-lifted.png",
+    "photo_secured": "art/chapter00/photo-care-v1/review/03-secured.png"
+  },
+  "names_known": [
+    "수혁",
+    "소이",
+    "서연"
+  ],
+  "timing": {
+    "seconds_per_character": 0.055,
+    "panel_fade_seconds": 0.2,
+    "scene_fade_seconds": 0.35,
+    "outage_fade_seconds": 0.55,
+    "night_fade_seconds": 0.8
+  },
+  "journal_common": [
+    "실내등 연결을 확인했다. 물과 담요, 스케치북을 챙겼다.",
+    "내일은 물부터 더 구하자."
+  ],
+  "art_layout_source": "design/chapter00/camper-assets-v1.json",
+  "limits": [
+    "Preview scene composites reuse existing art; no new high-resolution paintings.",
+    "Provisional facial expressions reused; dedicated emotions pending final script.",
+    "Cue IDs specify future sounds. This continuation plays no audio.",
+    "Browser local save is a review bookmark, not Unity save data.",
+    "Not a measured 15-minute game."
+  ],
+  "photo_story_extension": {
+    "status": "art-ready-storyboard-proposal-transition-runtime-pending",
+    "item": "existing_family_photo",
+    "attachment": "existing tape edge, provisional set dressing; no inventory item or consumption",
+    "new_spoken_lines": 0,
+    "dialogue_revision": "deferred to dialogue script",
+    "source_photo": "art/chapter00/memory/dialogue-v1/family-sunset-source-v1.png",
+    "face_mask": "art/chapter00/memory/dialogue-v1/seoyeon-face-mask-v1.png",
+    "frame": "art/chapter00/memory/dialogue-v1/polaroid-frame-v1.png",
+    "wall_rect_logical": [
+      1442,
+      269,
+      44,
+      28.34
+    ],
+    "requires_new_art": [],
+    "no_new_letter_or_camera_unlock": true,
+    "chapter01_payoff": {
+      "seed_flag": "wants_new_photos",
+      "npc": "세진",
+      "role": "사진기사 / 기존 기획의 사진작가",
+      "encounter": "캠프 방향의 지역 밖 길을 확인하러 주유소에 들러 세진을 만난다. 카메라에 대한 관심은 챕터 0 사진 바람을 잇는다.",
+      "continuation": "기존 공구 가방 부탁·전달 → 여분 카메라와 필름 → 쉼터 첫 촬영·앨범 확인",
+      "not_required_for_progress": "Seed is narrative continuity, not a hard prerequisite; older saves cannot lose the first photo tutorial.",
+      "no_early_unlock": [
+        "camera",
+        "film",
+        "album",
+        "mandatory photo quest"
+      ]
+    },
+    "asset_manifest": "art/chapter00/photo-care-v1/manifest.json",
+    "preview_note": "Browser uses before/after stills; intermediate hand cut is registered for Unity, not a new animation implementation."
+  },
+  "narrative_revision": {
+    "id": "truth-revision-v1",
+    "guide": "docs/00-제작관리/CH00-01-TRUTH-REVISION-STORYBOARD.ko.md",
+    "dialogue_status": "existing-lines-preserved-user-script-pass-pending",
+    "start_infection": "uninfected",
+    "radio_slot": "book -> camp_radio -> departure",
+    "legacy_bookmark_policy": "이미 방송 지점 뒤에 저장된 검토 북마크는 강제 되감지 않는다. 인계 시 캠프 정보를 들은 배경 문맥으로 보완하며 보상·이벤트는 재실행하지 않는다.",
+    "scope": "storyboard-flow-not-Unity-runtime"
+  },
+  "art_revision": {
+    "manifest": "art/chapter00-01/narrative-art-v1/manifest.json",
+    "guide": "docs/05-원화/CH00-01-NARRATIVE-ART-REVIEW.ko.md",
+    "source_scenes_preserved": true,
+    "objective_reveal_in_early_game": false
+  },
+  "art_polish": {
+    "manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json",
+    "native_manifest": "art/chapter00-01/art-polish-v1/native-manifest.json",
+    "guide": "docs/05-원화/ART-POLISH-2026-09-11.ko.md",
+    "objective_variants": "ending-only",
+    "note": "Clean art updated; baked UI screenshot studies remain historical."
+  }
+}

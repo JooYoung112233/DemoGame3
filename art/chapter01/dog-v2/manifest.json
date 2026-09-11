@@ -1,0 +1,355 @@
+{
+  "id": "dog-v2",
+  "status": "new-individual-art-and-placement-review",
+  "generator": "built-in image_gen",
+  "events": [
+    "E12",
+    "E13",
+    "E14"
+  ],
+  "quests": [
+    "Q11",
+    "Q12"
+  ],
+  "identity_reference": "art/chapter01/dog/byeolddongi-poses-source-v1.png",
+  "assets": [
+    {
+      "id": "alert",
+      "source": "art/chapter01/dog-v2/sources/alert-source.png",
+      "native": "art/chapter01/dog-v2/layers/alert-native.png",
+      "native_size": [
+        1254,
+        1254
+      ],
+      "solid_bounds_alpha16": [
+        139,
+        67,
+        1156,
+        1217
+      ],
+      "visible_size": [
+        1017,
+        1150
+      ],
+      "alpha_method": "original generated alpha preserved",
+      "source_sha256": "f94fccabb3660f62c2181c0b9a681ff44d16f3e0b64bd2d47b941f87c2f2aea9"
+    },
+    {
+      "id": "sit",
+      "source": "art/chapter01/dog-v2/sources/sit-source.png",
+      "native": "art/chapter01/dog-v2/layers/sit-native.png",
+      "native_size": [
+        1254,
+        1254
+      ],
+      "solid_bounds_alpha16": [
+        211,
+        63,
+        1130,
+        1214
+      ],
+      "visible_size": [
+        919,
+        1151
+      ],
+      "alpha_method": "original generated alpha preserved",
+      "source_sha256": "21e9e1454bb7507d8451084932592cf996c120cb8b7aeb6147a9ce0519027341"
+    },
+    {
+      "id": "rest",
+      "source": "art/chapter01/dog-v2/sources/rest-source.png",
+      "native": "art/chapter01/dog-v2/layers/rest-native.png",
+      "native_size": [
+        1448,
+        1086
+      ],
+      "solid_bounds_alpha16": [
+        91,
+        253,
+        1404,
+        936
+      ],
+      "visible_size": [
+        1313,
+        683
+      ],
+      "alpha_method": "original generated alpha preserved",
+      "source_sha256": "e253220aa42173b884a3d035f8d3801427fc3f0eaf0f22ea9fd9bdcb1e4252f7"
+    },
+    {
+      "id": "bowl",
+      "source": "art/chapter01/dog-v2/sources/bowl-source.png",
+      "native": "art/chapter01/dog-v2/layers/bowl-native.png",
+      "native_size": [
+        1536,
+        1024
+      ],
+      "solid_bounds_alpha16": [
+        67,
+        125,
+        1475,
+        948
+      ],
+      "visible_size": [
+        1408,
+        823
+      ],
+      "alpha_method": "Bezier exterior alpha trim to remove glow; original RGB preserved",
+      "source_sha256": "6de2b8233e963d8a01fc617f70fdcc3a525ef89b17d5e62dd4daec5fa93e8226"
+    },
+    {
+      "id": "mat",
+      "source": "art/chapter01/dog-v2/sources/mat-source.png",
+      "native": "art/chapter01/dog-v2/layers/mat-native.png",
+      "native_size": [
+        1448,
+        1086
+      ],
+      "solid_bounds_alpha16": [
+        45,
+        173,
+        1408,
+        950
+      ],
+      "visible_size": [
+        1363,
+        777
+      ],
+      "alpha_method": "baked checkerboard removed via chroma silhouette / exterior flood fill; RGB preserved",
+      "source_sha256": "fad8ff44b2efb6f2f8edaea5665c8309b1ecbfa97ee8f254d40ee56255f4ad82"
+    }
+  ],
+  "states": [
+    {
+      "id": "01-L5-wary",
+      "location": "L5",
+      "canvas": [
+        1672,
+        941
+      ],
+      "layers": [
+        {
+          "id": "dog_shadow",
+          "path": "art/chapter01/dog-v2/layers/01-L5-wary-dog_shadow.png",
+          "rect": [
+            382,
+            543,
+            78,
+            12
+          ]
+        },
+        {
+          "id": "dog_alert",
+          "path": "art/chapter01/dog-v2/layers/01-L5-wary-dog_alert.png",
+          "rect": [
+            385,
+            465,
+            76,
+            86
+          ]
+        }
+      ],
+      "review": "art/chapter01/dog-v2/review/01-L5-wary.png",
+      "psd": "art/chapter01/dog-v2/psd/01-L5-wary.psd"
+    },
+    {
+      "id": "02-L5-water-placed",
+      "location": "L5",
+      "canvas": [
+        1672,
+        941
+      ],
+      "layers": [
+        {
+          "id": "dog_shadow",
+          "path": "art/chapter01/dog-v2/layers/02-L5-water-placed-dog_shadow.png",
+          "rect": [
+            382,
+            543,
+            78,
+            12
+          ]
+        },
+        {
+          "id": "dog_alert",
+          "path": "art/chapter01/dog-v2/layers/02-L5-water-placed-dog_alert.png",
+          "rect": [
+            385,
+            465,
+            76,
+            86
+          ]
+        },
+        {
+          "id": "bowl_shadow",
+          "path": "art/chapter01/dog-v2/layers/02-L5-water-placed-bowl_shadow.png",
+          "rect": [
+            519,
+            578,
+            39,
+            8
+          ]
+        },
+        {
+          "id": "water_bowl",
+          "path": "art/chapter01/dog-v2/layers/02-L5-water-placed-water_bowl.png",
+          "rect": [
+            519,
+            560,
+            39,
+            23
+          ]
+        }
+      ],
+      "review": "art/chapter01/dog-v2/review/02-L5-water-placed.png",
+      "psd": "art/chapter01/dog-v2/psd/02-L5-water-placed.psd"
+    },
+    {
+      "id": "03-L5-relaxed",
+      "location": "L5",
+      "canvas": [
+        1672,
+        941
+      ],
+      "layers": [
+        {
+          "id": "dog_shadow",
+          "path": "art/chapter01/dog-v2/layers/03-L5-relaxed-dog_shadow.png",
+          "rect": [
+            462,
+            567,
+            63,
+            11
+          ]
+        },
+        {
+          "id": "dog_sit",
+          "path": "art/chapter01/dog-v2/layers/03-L5-relaxed-dog_sit.png",
+          "rect": [
+            462,
+            497,
+            64,
+            80
+          ]
+        },
+        {
+          "id": "bowl_shadow",
+          "path": "art/chapter01/dog-v2/layers/03-L5-relaxed-bowl_shadow.png",
+          "rect": [
+            519,
+            578,
+            39,
+            8
+          ]
+        },
+        {
+          "id": "water_bowl",
+          "path": "art/chapter01/dog-v2/layers/03-L5-relaxed-water_bowl.png",
+          "rect": [
+            519,
+            560,
+            39,
+            23
+          ]
+        }
+      ],
+      "review": "art/chapter01/dog-v2/review/03-L5-relaxed.png",
+      "psd": "art/chapter01/dog-v2/psd/03-L5-relaxed.psd"
+    },
+    {
+      "id": "04-HUB-place-ready",
+      "location": "HUB",
+      "canvas": [
+        1672,
+        941
+      ],
+      "layers": [
+        {
+          "id": "mat_shadow",
+          "path": "art/chapter01/dog-v2/layers/04-HUB-place-ready-mat_shadow.png",
+          "rect": [
+            679,
+            688,
+            108,
+            14
+          ]
+        },
+        {
+          "id": "folded_mat",
+          "path": "art/chapter01/dog-v2/layers/04-HUB-place-ready-folded_mat.png",
+          "rect": [
+            678,
+            640,
+            109,
+            62
+          ]
+        }
+      ],
+      "review": "art/chapter01/dog-v2/review/04-HUB-place-ready.png",
+      "psd": "art/chapter01/dog-v2/psd/04-HUB-place-ready.psd"
+    },
+    {
+      "id": "05-HUB-rest",
+      "location": "HUB",
+      "canvas": [
+        1672,
+        941
+      ],
+      "layers": [
+        {
+          "id": "mat_shadow",
+          "path": "art/chapter01/dog-v2/layers/05-HUB-rest-mat_shadow.png",
+          "rect": [
+            679,
+            688,
+            108,
+            14
+          ]
+        },
+        {
+          "id": "folded_mat",
+          "path": "art/chapter01/dog-v2/layers/05-HUB-rest-folded_mat.png",
+          "rect": [
+            678,
+            640,
+            109,
+            62
+          ]
+        },
+        {
+          "id": "dog_shadow",
+          "path": "art/chapter01/dog-v2/layers/05-HUB-rest-dog_shadow.png",
+          "rect": [
+            697,
+            672,
+            69,
+            10
+          ]
+        },
+        {
+          "id": "dog_rest",
+          "path": "art/chapter01/dog-v2/layers/05-HUB-rest-dog_rest.png",
+          "rect": [
+            697,
+            645,
+            68,
+            35
+          ]
+        }
+      ],
+      "review": "art/chapter01/dog-v2/review/05-HUB-rest.png",
+      "psd": "art/chapter01/dog-v2/psd/05-HUB-rest.psd"
+    }
+  ],
+  "limitations": [
+    "New dog originals are 1254x1254 or 1448x1086, actual visible size recorded; not 2048 target masters.",
+    "Independent sprite originals are new generations, not upscaled old sheet cutouts.",
+    "Five original PSDs contain one visible cutout and hidden source, not separately articulated body parts.",
+    "Scene PSDs contain separate objects and contact shadows on unchanged fixed bases.",
+    "No drinking/approach walk animation or new Suhyeok placing-hand pose; no Unity implementation.",
+    "Bowl water is baked inside the bowl sprite; an empty state requires later artwork.",
+    "Backgrounds are still 1672x941. Photoshop app not tested."
+  ],
+  "supplement_manifest": "art/chapter01/completion-v1/manifest.json",
+  "supplement_note": "This original bundle remains intact; later handover, care, repair, portrait and living-state assets are listed in completion-v1 and the week01 coverage index."
+}

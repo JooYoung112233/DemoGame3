@@ -1,0 +1,4340 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "check": "native_builder_channel_checks",
+      "pass": true
+    },
+    {
+      "check": "scene_builder_channel_checks",
+      "pass": true
+    },
+    {
+      "check": "all_current_package_images_decode",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-care:native_RGB_preserved",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-care:native_dimensions_preserved",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-care:alpha",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-care:trim_bounds",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-care:source_hash",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-care:PSD_matches_cutout",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-retrieve:native_RGB_preserved",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-retrieve:native_dimensions_preserved",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-retrieve:alpha",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-retrieve:trim_bounds",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-retrieve:source_hash",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-retrieve:PSD_matches_cutout",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-seated:native_RGB_preserved",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-seated:native_dimensions_preserved",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-seated:alpha",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-seated:trim_bounds",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-seated:source_hash",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-seated:PSD_matches_cutout",
+      "pass": true
+    },
+    {
+      "check": "soi-seated:native_RGB_preserved",
+      "pass": true
+    },
+    {
+      "check": "soi-seated:native_dimensions_preserved",
+      "pass": true
+    },
+    {
+      "check": "soi-seated:alpha",
+      "pass": true
+    },
+    {
+      "check": "soi-seated:trim_bounds",
+      "pass": true
+    },
+    {
+      "check": "soi-seated:source_hash",
+      "pass": true
+    },
+    {
+      "check": "soi-seated:PSD_matches_cutout",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-drawing:native_RGB_preserved",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-drawing:native_dimensions_preserved",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-drawing:alpha",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-drawing:trim_bounds",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-drawing:source_hash",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-drawing:PSD_matches_cutout",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-shoot:native_RGB_preserved",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-shoot:native_dimensions_preserved",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-shoot:alpha",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-shoot:trim_bounds",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-shoot:source_hash",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-shoot:PSD_matches_cutout",
+      "pass": true
+    },
+    {
+      "check": "sejin-standing:native_RGB_preserved",
+      "pass": true
+    },
+    {
+      "check": "sejin-standing:native_dimensions_preserved",
+      "pass": true
+    },
+    {
+      "check": "sejin-standing:alpha",
+      "pass": true
+    },
+    {
+      "check": "sejin-standing:trim_bounds",
+      "pass": true
+    },
+    {
+      "check": "sejin-standing:source_hash",
+      "pass": true
+    },
+    {
+      "check": "sejin-standing:PSD_matches_cutout",
+      "pass": true
+    },
+    {
+      "check": "sejin-repair:native_RGB_preserved",
+      "pass": true
+    },
+    {
+      "check": "sejin-repair:native_dimensions_preserved",
+      "pass": true
+    },
+    {
+      "check": "sejin-repair:alpha",
+      "pass": true
+    },
+    {
+      "check": "sejin-repair:trim_bounds",
+      "pass": true
+    },
+    {
+      "check": "sejin-repair:source_hash",
+      "pass": true
+    },
+    {
+      "check": "sejin-repair:PSD_matches_cutout",
+      "pass": true
+    },
+    {
+      "check": "van:native_RGB_preserved",
+      "pass": true
+    },
+    {
+      "check": "van:native_dimensions_preserved",
+      "pass": true
+    },
+    {
+      "check": "van:alpha",
+      "pass": true
+    },
+    {
+      "check": "van:trim_bounds",
+      "pass": true
+    },
+    {
+      "check": "van:source_hash",
+      "pass": true
+    },
+    {
+      "check": "van:PSD_matches_cutout",
+      "pass": true
+    },
+    {
+      "check": "dog-alert:native_RGB_preserved",
+      "pass": true
+    },
+    {
+      "check": "dog-alert:native_dimensions_preserved",
+      "pass": true
+    },
+    {
+      "check": "dog-alert:alpha",
+      "pass": true
+    },
+    {
+      "check": "dog-alert:trim_bounds",
+      "pass": true
+    },
+    {
+      "check": "dog-alert:source_hash",
+      "pass": true
+    },
+    {
+      "check": "dog-alert:PSD_matches_cutout",
+      "pass": true
+    },
+    {
+      "check": "dog-sit:native_RGB_preserved",
+      "pass": true
+    },
+    {
+      "check": "dog-sit:native_dimensions_preserved",
+      "pass": true
+    },
+    {
+      "check": "dog-sit:alpha",
+      "pass": true
+    },
+    {
+      "check": "dog-sit:trim_bounds",
+      "pass": true
+    },
+    {
+      "check": "dog-sit:source_hash",
+      "pass": true
+    },
+    {
+      "check": "dog-sit:PSD_matches_cutout",
+      "pass": true
+    },
+    {
+      "check": "dog-rest:native_RGB_preserved",
+      "pass": true
+    },
+    {
+      "check": "dog-rest:native_dimensions_preserved",
+      "pass": true
+    },
+    {
+      "check": "dog-rest:alpha",
+      "pass": true
+    },
+    {
+      "check": "dog-rest:trim_bounds",
+      "pass": true
+    },
+    {
+      "check": "dog-rest:source_hash",
+      "pass": true
+    },
+    {
+      "check": "dog-rest:PSD_matches_cutout",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-delivery:native_RGB_preserved",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-delivery:native_dimensions_preserved",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-delivery:alpha",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-delivery:trim_bounds",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-delivery:source_hash",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-delivery:PSD_matches_cutout",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-cook:native_RGB_preserved",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-cook:native_dimensions_preserved",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-cook:alpha",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-cook:trim_bounds",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-cook:source_hash",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-cook:PSD_matches_cutout",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-repair:native_RGB_preserved",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-repair:native_dimensions_preserved",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-repair:alpha",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-repair:trim_bounds",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-repair:source_hash",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-repair:PSD_matches_cutout",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-investigate:native_RGB_preserved",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-investigate:native_dimensions_preserved",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-investigate:alpha",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-investigate:trim_bounds",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-investigate:source_hash",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-investigate:PSD_matches_cutout",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-dialogue:native_RGB_preserved",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-dialogue:native_dimensions_preserved",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-dialogue:alpha",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-dialogue:trim_bounds",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-dialogue:source_hash",
+      "pass": true
+    },
+    {
+      "check": "suhyeok-dialogue:PSD_matches_cutout",
+      "pass": true
+    },
+    {
+      "check": "dialogue_gap_(775, 1100)",
+      "pass": true
+    },
+    {
+      "check": "dialogue_gap_(790, 1190)",
+      "pass": true
+    },
+    {
+      "check": "dialogue_gap_(220, 1340)",
+      "pass": true
+    },
+    {
+      "check": "C0-current:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "C0-current:size:suhyeok-seated",
+      "pass": true
+    },
+    {
+      "check": "C0-current:size:soi-seated",
+      "pass": true
+    },
+    {
+      "check": "C0-current:size:table_occlusion",
+      "pass": true
+    },
+    {
+      "check": "C0-current:size:book",
+      "pass": true
+    },
+    {
+      "check": "C0-current:size:mug",
+      "pass": true
+    },
+    {
+      "check": "C0-current:size:suhyeok-seated_forearms",
+      "pass": true
+    },
+    {
+      "check": "C0-current:size:soi-seated_forearms",
+      "pass": true
+    },
+    {
+      "check": "C0-current:size:water-before",
+      "pass": true
+    },
+    {
+      "check": "C0-current:size:blanket-before",
+      "pass": true
+    },
+    {
+      "check": "C0-current:size:panel-loose",
+      "pass": true
+    },
+    {
+      "check": "C0-current:size:flashlight-stored",
+      "pass": true
+    },
+    {
+      "check": "C0-current:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "C0-current:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "C0-current-truth:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "C0-current-truth:size:suhyeok-seated",
+      "pass": true
+    },
+    {
+      "check": "C0-current-truth:size:table_occlusion",
+      "pass": true
+    },
+    {
+      "check": "C0-current-truth:size:book",
+      "pass": true
+    },
+    {
+      "check": "C0-current-truth:size:mug",
+      "pass": true
+    },
+    {
+      "check": "C0-current-truth:size:suhyeok-seated_forearms",
+      "pass": true
+    },
+    {
+      "check": "C0-current-truth:size:water-before",
+      "pass": true
+    },
+    {
+      "check": "C0-current-truth:size:blanket-before",
+      "pass": true
+    },
+    {
+      "check": "C0-current-truth:size:panel-loose",
+      "pass": true
+    },
+    {
+      "check": "C0-current-truth:size:flashlight-stored",
+      "pass": true
+    },
+    {
+      "check": "C0-current-truth:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "C0-current-truth:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "C0-packed:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "C0-packed:size:suhyeok-seated",
+      "pass": true
+    },
+    {
+      "check": "C0-packed:size:soi-seated",
+      "pass": true
+    },
+    {
+      "check": "C0-packed:size:table_occlusion",
+      "pass": true
+    },
+    {
+      "check": "C0-packed:size:book",
+      "pass": true
+    },
+    {
+      "check": "C0-packed:size:mug",
+      "pass": true
+    },
+    {
+      "check": "C0-packed:size:suhyeok-seated_forearms",
+      "pass": true
+    },
+    {
+      "check": "C0-packed:size:soi-seated_forearms",
+      "pass": true
+    },
+    {
+      "check": "C0-packed:size:water-packed",
+      "pass": true
+    },
+    {
+      "check": "C0-packed:size:blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "C0-packed:size:panel-loose",
+      "pass": true
+    },
+    {
+      "check": "C0-packed:size:flashlight-stored",
+      "pass": true
+    },
+    {
+      "check": "C0-packed:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "C0-packed:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "C0-outage:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "C0-outage:size:suhyeok-seated",
+      "pass": true
+    },
+    {
+      "check": "C0-outage:size:soi-seated",
+      "pass": true
+    },
+    {
+      "check": "C0-outage:size:table_occlusion",
+      "pass": true
+    },
+    {
+      "check": "C0-outage:size:book",
+      "pass": true
+    },
+    {
+      "check": "C0-outage:size:mug",
+      "pass": true
+    },
+    {
+      "check": "C0-outage:size:suhyeok-seated_forearms",
+      "pass": true
+    },
+    {
+      "check": "C0-outage:size:soi-seated_forearms",
+      "pass": true
+    },
+    {
+      "check": "C0-outage:size:water-packed",
+      "pass": true
+    },
+    {
+      "check": "C0-outage:size:blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "C0-outage:size:panel-loose",
+      "pass": true
+    },
+    {
+      "check": "C0-outage:size:flashlight-stored",
+      "pass": true
+    },
+    {
+      "check": "C0-outage:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "C0-outage:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "C0-investigation:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "C0-investigation:size:soi-seated",
+      "pass": true
+    },
+    {
+      "check": "C0-investigation:size:table_occlusion",
+      "pass": true
+    },
+    {
+      "check": "C0-investigation:size:book",
+      "pass": true
+    },
+    {
+      "check": "C0-investigation:size:mug",
+      "pass": true
+    },
+    {
+      "check": "C0-investigation:size:soi-seated_forearms",
+      "pass": true
+    },
+    {
+      "check": "C0-investigation:size:water-packed",
+      "pass": true
+    },
+    {
+      "check": "C0-investigation:size:blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "C0-investigation:size:panel-loose",
+      "pass": true
+    },
+    {
+      "check": "C0-investigation:size:flashlight_local",
+      "pass": true
+    },
+    {
+      "check": "C0-investigation:size:flashlight_bounce",
+      "pass": true
+    },
+    {
+      "check": "C0-investigation:size:repair_shadow",
+      "pass": true
+    },
+    {
+      "check": "C0-investigation:size:repair_actor",
+      "pass": true
+    },
+    {
+      "check": "C0-investigation:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "C0-investigation:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "C0-secured:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "C0-secured:size:soi-seated",
+      "pass": true
+    },
+    {
+      "check": "C0-secured:size:table_occlusion",
+      "pass": true
+    },
+    {
+      "check": "C0-secured:size:book",
+      "pass": true
+    },
+    {
+      "check": "C0-secured:size:mug",
+      "pass": true
+    },
+    {
+      "check": "C0-secured:size:soi-seated_forearms",
+      "pass": true
+    },
+    {
+      "check": "C0-secured:size:water-packed",
+      "pass": true
+    },
+    {
+      "check": "C0-secured:size:blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "C0-secured:size:panel-fixed",
+      "pass": true
+    },
+    {
+      "check": "C0-secured:size:flashlight_local",
+      "pass": true
+    },
+    {
+      "check": "C0-secured:size:flashlight_bounce",
+      "pass": true
+    },
+    {
+      "check": "C0-secured:size:repair_shadow",
+      "pass": true
+    },
+    {
+      "check": "C0-secured:size:repair_actor",
+      "pass": true
+    },
+    {
+      "check": "C0-secured:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "C0-secured:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "C0-restored:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "C0-restored:size:suhyeok-seated",
+      "pass": true
+    },
+    {
+      "check": "C0-restored:size:soi-seated",
+      "pass": true
+    },
+    {
+      "check": "C0-restored:size:table_occlusion",
+      "pass": true
+    },
+    {
+      "check": "C0-restored:size:book",
+      "pass": true
+    },
+    {
+      "check": "C0-restored:size:mug",
+      "pass": true
+    },
+    {
+      "check": "C0-restored:size:suhyeok-seated_forearms",
+      "pass": true
+    },
+    {
+      "check": "C0-restored:size:soi-seated_forearms",
+      "pass": true
+    },
+    {
+      "check": "C0-restored:size:water-packed",
+      "pass": true
+    },
+    {
+      "check": "C0-restored:size:blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "C0-restored:size:panel-fixed",
+      "pass": true
+    },
+    {
+      "check": "C0-restored:size:flashlight-stored",
+      "pass": true
+    },
+    {
+      "check": "C0-restored:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "C0-restored:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "C0-journal:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "C0-journal:size:suhyeok-seated",
+      "pass": true
+    },
+    {
+      "check": "C0-journal:size:soi-seated",
+      "pass": true
+    },
+    {
+      "check": "C0-journal:size:table_occlusion",
+      "pass": true
+    },
+    {
+      "check": "C0-journal:size:mug",
+      "pass": true
+    },
+    {
+      "check": "C0-journal:size:suhyeok-seated_forearms",
+      "pass": true
+    },
+    {
+      "check": "C0-journal:size:soi-seated_forearms",
+      "pass": true
+    },
+    {
+      "check": "C0-journal:size:water-packed",
+      "pass": true
+    },
+    {
+      "check": "C0-journal:size:blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "C0-journal:size:panel-fixed",
+      "pass": true
+    },
+    {
+      "check": "C0-journal:size:flashlight-stored",
+      "pass": true
+    },
+    {
+      "check": "C0-journal:size:journal",
+      "pass": true
+    },
+    {
+      "check": "C0-journal:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "C0-journal:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "C0-night:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "C0-night:size:suhyeok-seated",
+      "pass": true
+    },
+    {
+      "check": "C0-night:size:soi-seated",
+      "pass": true
+    },
+    {
+      "check": "C0-night:size:table_occlusion",
+      "pass": true
+    },
+    {
+      "check": "C0-night:size:mug",
+      "pass": true
+    },
+    {
+      "check": "C0-night:size:suhyeok-seated_forearms",
+      "pass": true
+    },
+    {
+      "check": "C0-night:size:soi-seated_forearms",
+      "pass": true
+    },
+    {
+      "check": "C0-night:size:water-packed",
+      "pass": true
+    },
+    {
+      "check": "C0-night:size:blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "C0-night:size:panel-fixed",
+      "pass": true
+    },
+    {
+      "check": "C0-night:size:flashlight-stored",
+      "pass": true
+    },
+    {
+      "check": "C0-night:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "C0-night:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "C0-water_only:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "C0-water_only:size:suhyeok-seated",
+      "pass": true
+    },
+    {
+      "check": "C0-water_only:size:soi-seated",
+      "pass": true
+    },
+    {
+      "check": "C0-water_only:size:table_occlusion",
+      "pass": true
+    },
+    {
+      "check": "C0-water_only:size:book",
+      "pass": true
+    },
+    {
+      "check": "C0-water_only:size:mug",
+      "pass": true
+    },
+    {
+      "check": "C0-water_only:size:suhyeok-seated_forearms",
+      "pass": true
+    },
+    {
+      "check": "C0-water_only:size:soi-seated_forearms",
+      "pass": true
+    },
+    {
+      "check": "C0-water_only:size:water-packed",
+      "pass": true
+    },
+    {
+      "check": "C0-water_only:size:blanket-before",
+      "pass": true
+    },
+    {
+      "check": "C0-water_only:size:panel-loose",
+      "pass": true
+    },
+    {
+      "check": "C0-water_only:size:flashlight-stored",
+      "pass": true
+    },
+    {
+      "check": "C0-water_only:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "C0-water_only:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "C0-blanket_only:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "C0-blanket_only:size:suhyeok-seated",
+      "pass": true
+    },
+    {
+      "check": "C0-blanket_only:size:soi-seated",
+      "pass": true
+    },
+    {
+      "check": "C0-blanket_only:size:table_occlusion",
+      "pass": true
+    },
+    {
+      "check": "C0-blanket_only:size:book",
+      "pass": true
+    },
+    {
+      "check": "C0-blanket_only:size:mug",
+      "pass": true
+    },
+    {
+      "check": "C0-blanket_only:size:suhyeok-seated_forearms",
+      "pass": true
+    },
+    {
+      "check": "C0-blanket_only:size:soi-seated_forearms",
+      "pass": true
+    },
+    {
+      "check": "C0-blanket_only:size:water-before",
+      "pass": true
+    },
+    {
+      "check": "C0-blanket_only:size:blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "C0-blanket_only:size:panel-loose",
+      "pass": true
+    },
+    {
+      "check": "C0-blanket_only:size:flashlight-stored",
+      "pass": true
+    },
+    {
+      "check": "C0-blanket_only:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "C0-blanket_only:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "E05-delivery:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "E05-delivery:size:water-packed",
+      "pass": true
+    },
+    {
+      "check": "E05-delivery:size:blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "E05-delivery:size:panel-fixed",
+      "pass": true
+    },
+    {
+      "check": "E05-delivery:size:flashlight-stored",
+      "pass": true
+    },
+    {
+      "check": "E05-delivery:size:existing_delivery_pose",
+      "pass": true
+    },
+    {
+      "check": "E05-delivery:size:soi-seated",
+      "pass": true
+    },
+    {
+      "check": "E05-delivery:size:existing_table",
+      "pass": true
+    },
+    {
+      "check": "E05-delivery:size:existing_book_blank",
+      "pass": true
+    },
+    {
+      "check": "E05-delivery:size:existing_mug",
+      "pass": true
+    },
+    {
+      "check": "E05-delivery:size:existing_pencils_shadow",
+      "pass": true
+    },
+    {
+      "check": "E05-delivery:size:existing_pencils",
+      "pass": true
+    },
+    {
+      "check": "E05-delivery:size:existing_delivery_pose_foreground_copy",
+      "pass": true
+    },
+    {
+      "check": "E05-delivery:size:soi-seated_foreground_copy",
+      "pass": true
+    },
+    {
+      "check": "E05-delivery:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "E05-delivery:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "E06-ready:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "E06-ready:size:water-packed",
+      "pass": true
+    },
+    {
+      "check": "E06-ready:size:blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "E06-ready:size:panel-fixed",
+      "pass": true
+    },
+    {
+      "check": "E06-ready:size:flashlight-stored",
+      "pass": true
+    },
+    {
+      "check": "E06-ready:size:suhyeok-seated",
+      "pass": true
+    },
+    {
+      "check": "E06-ready:size:soi-seated",
+      "pass": true
+    },
+    {
+      "check": "E06-ready:size:existing_table",
+      "pass": true
+    },
+    {
+      "check": "E06-ready:size:existing_book_blank",
+      "pass": true
+    },
+    {
+      "check": "E06-ready:size:existing_mug",
+      "pass": true
+    },
+    {
+      "check": "E06-ready:size:existing_pencils_shadow",
+      "pass": true
+    },
+    {
+      "check": "E06-ready:size:existing_pencils",
+      "pass": true
+    },
+    {
+      "check": "E06-ready:size:suhyeok-seated_foreground_copy",
+      "pass": true
+    },
+    {
+      "check": "E06-ready:size:soi-seated_foreground_copy",
+      "pass": true
+    },
+    {
+      "check": "E06-ready:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "E06-ready:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "E06-drawing:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "E06-drawing:size:water-packed",
+      "pass": true
+    },
+    {
+      "check": "E06-drawing:size:blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "E06-drawing:size:panel-fixed",
+      "pass": true
+    },
+    {
+      "check": "E06-drawing:size:flashlight-stored",
+      "pass": true
+    },
+    {
+      "check": "E06-drawing:size:suhyeok_drawing",
+      "pass": true
+    },
+    {
+      "check": "E06-drawing:size:soi-seated",
+      "pass": true
+    },
+    {
+      "check": "E06-drawing:size:existing_table",
+      "pass": true
+    },
+    {
+      "check": "E06-drawing:size:existing_book_started",
+      "pass": true
+    },
+    {
+      "check": "E06-drawing:size:existing_mug",
+      "pass": true
+    },
+    {
+      "check": "E06-drawing:size:existing_pencils_shadow",
+      "pass": true
+    },
+    {
+      "check": "E06-drawing:size:existing_pencils",
+      "pass": true
+    },
+    {
+      "check": "E06-drawing:size:suhyeok_drawing_foreground_copy",
+      "pass": true
+    },
+    {
+      "check": "E06-drawing:size:soi-seated_foreground_copy",
+      "pass": true
+    },
+    {
+      "check": "E06-drawing:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "E06-drawing:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "E06-complete:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "E06-complete:size:water-packed",
+      "pass": true
+    },
+    {
+      "check": "E06-complete:size:blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "E06-complete:size:panel-fixed",
+      "pass": true
+    },
+    {
+      "check": "E06-complete:size:flashlight-stored",
+      "pass": true
+    },
+    {
+      "check": "E06-complete:size:suhyeok-seated",
+      "pass": true
+    },
+    {
+      "check": "E06-complete:size:soi-seated",
+      "pass": true
+    },
+    {
+      "check": "E06-complete:size:existing_table",
+      "pass": true
+    },
+    {
+      "check": "E06-complete:size:existing_book_complete",
+      "pass": true
+    },
+    {
+      "check": "E06-complete:size:existing_mug",
+      "pass": true
+    },
+    {
+      "check": "E06-complete:size:existing_pencils_shadow",
+      "pass": true
+    },
+    {
+      "check": "E06-complete:size:existing_pencils",
+      "pass": true
+    },
+    {
+      "check": "E06-complete:size:suhyeok-seated_foreground_copy",
+      "pass": true
+    },
+    {
+      "check": "E06-complete:size:soi-seated_foreground_copy",
+      "pass": true
+    },
+    {
+      "check": "E06-complete:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "E06-complete:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "E06-drawing-truth:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "E06-drawing-truth:size:water-packed",
+      "pass": true
+    },
+    {
+      "check": "E06-drawing-truth:size:blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "E06-drawing-truth:size:panel-fixed",
+      "pass": true
+    },
+    {
+      "check": "E06-drawing-truth:size:flashlight-stored",
+      "pass": true
+    },
+    {
+      "check": "E06-drawing-truth:size:suhyeok_drawing",
+      "pass": true
+    },
+    {
+      "check": "E06-drawing-truth:size:existing_table",
+      "pass": true
+    },
+    {
+      "check": "E06-drawing-truth:size:existing_book_started",
+      "pass": true
+    },
+    {
+      "check": "E06-drawing-truth:size:existing_mug",
+      "pass": true
+    },
+    {
+      "check": "E06-drawing-truth:size:existing_pencils_shadow",
+      "pass": true
+    },
+    {
+      "check": "E06-drawing-truth:size:existing_pencils",
+      "pass": true
+    },
+    {
+      "check": "E06-drawing-truth:size:suhyeok_drawing_foreground_copy",
+      "pass": true
+    },
+    {
+      "check": "E06-drawing-truth:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "E06-drawing-truth:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "E08-L4-retrieve:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "E08-L4-retrieve:size:feet_contact",
+      "pass": true
+    },
+    {
+      "check": "E08-L4-retrieve:size:suhyeok_with_bag",
+      "pass": true
+    },
+    {
+      "check": "E08-L4-retrieve:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "E08-L4-retrieve:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "E10-L4-tool-available:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "E10-L4-tool-available:size:wrench_contact",
+      "pass": true
+    },
+    {
+      "check": "E10-L4-tool-available:size:wrench",
+      "pass": true
+    },
+    {
+      "check": "E10-L4-tool-available:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "E10-L4-tool-available:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "E10-L4-tool-collected:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "E10-L4-tool-collected:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "E10-L4-tool-collected:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "E09-L2-camera-handover:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "E09-L2-camera-handover:size:camera_handover_close_cut",
+      "pass": true
+    },
+    {
+      "check": "E09-L2-camera-handover:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "E09-L2-camera-handover:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "E07-L2-sejin-repair:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "E07-L2-sejin-repair:size:van_contact_shadow",
+      "pass": true
+    },
+    {
+      "check": "E07-L2-sejin-repair:size:front_tire_shadow",
+      "pass": true
+    },
+    {
+      "check": "E07-L2-sejin-repair:size:rear_tire_shadow",
+      "pass": true
+    },
+    {
+      "check": "E07-L2-sejin-repair:size:van",
+      "pass": true
+    },
+    {
+      "check": "E07-L2-sejin-repair:size:repair_feet_contact",
+      "pass": true
+    },
+    {
+      "check": "E07-L2-sejin-repair:size:sejin_repair",
+      "pass": true
+    },
+    {
+      "check": "E07-L2-sejin-repair:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "E07-L2-sejin-repair:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "E12-L5-place-water:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "E12-L5-place-water:size:dog_contact",
+      "pass": true
+    },
+    {
+      "check": "E12-L5-place-water:size:dog_wary",
+      "pass": true
+    },
+    {
+      "check": "E12-L5-place-water:size:water_bowl_contact",
+      "pass": true
+    },
+    {
+      "check": "E12-L5-place-water:size:water_bowl",
+      "pass": true
+    },
+    {
+      "check": "E12-L5-place-water:size:care_contact",
+      "pass": true
+    },
+    {
+      "check": "E12-L5-place-water:size:suhyeok_release_bowl",
+      "pass": true
+    },
+    {
+      "check": "E12-L5-place-water:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "E12-L5-place-water:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "E12-L5-food-alternative:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "E12-L5-food-alternative:size:dog_contact",
+      "pass": true
+    },
+    {
+      "check": "E12-L5-food-alternative:size:dog_wary",
+      "pass": true
+    },
+    {
+      "check": "E12-L5-food-alternative:size:food_bowl_contact",
+      "pass": true
+    },
+    {
+      "check": "E12-L5-food-alternative:size:food_bowl",
+      "pass": true
+    },
+    {
+      "check": "E12-L5-food-alternative:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "E12-L5-food-alternative:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "E15-HUB-wet-bed:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "E15-HUB-wet-bed:size:conditional_c0_blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "E15-HUB-wet-bed:size:conditional_c0_water-packed",
+      "pass": true
+    },
+    {
+      "check": "E15-HUB-wet-bed:size:wet_blanket_patch",
+      "pass": true
+    },
+    {
+      "check": "E15-HUB-wet-bed:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "E15-HUB-wet-bed:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "E15-HUB-wet-bed:condition:conditional_c0_blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "E15-HUB-wet-bed:condition:conditional_c0_water-packed",
+      "pass": true
+    },
+    {
+      "check": "E15-HUB-temporary-repair:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "E15-HUB-temporary-repair:size:conditional_c0_blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "E15-HUB-temporary-repair:size:conditional_c0_water-packed",
+      "pass": true
+    },
+    {
+      "check": "E15-HUB-temporary-repair:size:wet_blanket_patch",
+      "pass": true
+    },
+    {
+      "check": "E15-HUB-temporary-repair:size:roof_cloth_patch",
+      "pass": true
+    },
+    {
+      "check": "E15-HUB-temporary-repair:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "E15-HUB-temporary-repair:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "E15-HUB-temporary-repair:condition:conditional_c0_blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "E15-HUB-temporary-repair:condition:conditional_c0_water-packed",
+      "pass": true
+    },
+    {
+      "check": "E16-HUB-dry-bed:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "E16-HUB-dry-bed:size:conditional_c0_blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "E16-HUB-dry-bed:size:conditional_c0_water-packed",
+      "pass": true
+    },
+    {
+      "check": "E16-HUB-dry-bed:size:roof_cloth_patch",
+      "pass": true
+    },
+    {
+      "check": "E16-HUB-dry-bed:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "E16-HUB-dry-bed:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "E16-HUB-dry-bed:condition:conditional_c0_blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "E16-HUB-dry-bed:condition:conditional_c0_water-packed",
+      "pass": true
+    },
+    {
+      "check": "E16-L6-drying:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "E16-L6-drying:size:drying_cloth",
+      "pass": true
+    },
+    {
+      "check": "E16-L6-drying:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "E16-L6-drying:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "E04-HUB-stove-off:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "E04-HUB-stove-off:size:conditional_c0_blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "E04-HUB-stove-off:size:conditional_c0_water-packed",
+      "pass": true
+    },
+    {
+      "check": "E04-HUB-stove-off:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "E04-HUB-stove-off:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "E04-HUB-stove-off:condition:conditional_c0_blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "E04-HUB-stove-off:condition:conditional_c0_water-packed",
+      "pass": true
+    },
+    {
+      "check": "E17-HUB-cooking:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "E17-HUB-cooking:size:conditional_c0_blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "E17-HUB-cooking:size:conditional_c0_water-packed",
+      "pass": true
+    },
+    {
+      "check": "E17-HUB-cooking:size:pot",
+      "pass": true
+    },
+    {
+      "check": "E17-HUB-cooking:size:can",
+      "pass": true
+    },
+    {
+      "check": "E17-HUB-cooking:size:cook",
+      "pass": true
+    },
+    {
+      "check": "E17-HUB-cooking:size:table-foreground",
+      "pass": true
+    },
+    {
+      "check": "E17-HUB-cooking:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "E17-HUB-cooking:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "E17-HUB-cooking:condition:conditional_c0_blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "E17-HUB-cooking:condition:conditional_c0_water-packed",
+      "pass": true
+    },
+    {
+      "check": "E17-HUB-warm-meal:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "E17-HUB-warm-meal:size:conditional_c0_blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "E17-HUB-warm-meal:size:conditional_c0_water-packed",
+      "pass": true
+    },
+    {
+      "check": "E17-HUB-warm-meal:size:suhyeok-seated-body",
+      "pass": true
+    },
+    {
+      "check": "E17-HUB-warm-meal:size:soi-seated-body",
+      "pass": true
+    },
+    {
+      "check": "E17-HUB-warm-meal:size:table-foreground",
+      "pass": true
+    },
+    {
+      "check": "E17-HUB-warm-meal:size:father_meal_contact",
+      "pass": true
+    },
+    {
+      "check": "E17-HUB-warm-meal:size:father_meal",
+      "pass": true
+    },
+    {
+      "check": "E17-HUB-warm-meal:size:soi_meal_contact",
+      "pass": true
+    },
+    {
+      "check": "E17-HUB-warm-meal:size:soi_meal",
+      "pass": true
+    },
+    {
+      "check": "E17-HUB-warm-meal:size:suhyeok-seated-hands",
+      "pass": true
+    },
+    {
+      "check": "E17-HUB-warm-meal:size:soi-seated-hands",
+      "pass": true
+    },
+    {
+      "check": "E17-HUB-warm-meal:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "E17-HUB-warm-meal:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "E17-HUB-warm-meal:condition:conditional_c0_blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "E17-HUB-warm-meal:condition:conditional_c0_water-packed",
+      "pass": true
+    },
+    {
+      "check": "E18-HUB-cabinet-secured:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "E18-HUB-cabinet-secured:size:conditional_c0_blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "E18-HUB-cabinet-secured:size:conditional_c0_water-packed",
+      "pass": true
+    },
+    {
+      "check": "E18-HUB-cabinet-secured:size:cloth_door_strap",
+      "pass": true
+    },
+    {
+      "check": "E18-HUB-cabinet-secured:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "E18-HUB-cabinet-secured:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "E18-HUB-cabinet-secured:condition:conditional_c0_blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "E18-HUB-cabinet-secured:condition:conditional_c0_water-packed",
+      "pass": true
+    },
+    {
+      "check": "E19-L3-owned-goods:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "E19-L3-owned-goods:size:owned_cloth_contact",
+      "pass": true
+    },
+    {
+      "check": "E19-L3-owned-goods:size:owned_cloth",
+      "pass": true
+    },
+    {
+      "check": "E19-L3-owned-goods:size:note_contact",
+      "pass": true
+    },
+    {
+      "check": "E19-L3-owned-goods:size:owner_note_blank",
+      "pass": true
+    },
+    {
+      "check": "E19-L3-owned-goods:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "E19-L3-owned-goods:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "E20-L2-exchange:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "E20-L2-exchange:size:trader_contact",
+      "pass": true
+    },
+    {
+      "check": "E20-L2-exchange:size:unnamed_exchange_npc",
+      "pass": true
+    },
+    {
+      "check": "E20-L2-exchange:size:parcel_contact",
+      "pass": true
+    },
+    {
+      "check": "E20-L2-exchange:size:parcel",
+      "pass": true
+    },
+    {
+      "check": "E20-L2-exchange:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "E20-L2-exchange:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "E20-L5-empty-crate:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "E20-L5-empty-crate:size:crate_contact",
+      "pass": true
+    },
+    {
+      "check": "E20-L5-empty-crate:size:crate",
+      "pass": true
+    },
+    {
+      "check": "E20-L5-empty-crate:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "E20-L5-empty-crate:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "E20-L5-delivered:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "E20-L5-delivered:size:crate_contact",
+      "pass": true
+    },
+    {
+      "check": "E20-L5-delivered:size:crate",
+      "pass": true
+    },
+    {
+      "check": "E20-L5-delivered:size:parcel_in_crate",
+      "pass": true
+    },
+    {
+      "check": "E20-L5-delivered:size:crate_front_wall_copy",
+      "pass": true
+    },
+    {
+      "check": "E20-L5-delivered:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "E20-L5-delivered:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "E21-HUB-pouch-empty:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "E21-HUB-pouch-empty:size:conditional_c0_blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "E21-HUB-pouch-empty:size:conditional_c0_water-packed",
+      "pass": true
+    },
+    {
+      "check": "E21-HUB-pouch-empty:size:camera_pouch_contact",
+      "pass": true
+    },
+    {
+      "check": "E21-HUB-pouch-empty:size:camera_pouch",
+      "pass": true
+    },
+    {
+      "check": "E21-HUB-pouch-empty:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "E21-HUB-pouch-empty:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "E21-HUB-pouch-empty:condition:conditional_c0_blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "E21-HUB-pouch-empty:condition:conditional_c0_water-packed",
+      "pass": true
+    },
+    {
+      "check": "E21-HUB-camera-protected:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "E21-HUB-camera-protected:size:conditional_c0_blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "E21-HUB-camera-protected:size:conditional_c0_water-packed",
+      "pass": true
+    },
+    {
+      "check": "E21-HUB-camera-protected:size:camera_pouch_contact",
+      "pass": true
+    },
+    {
+      "check": "E21-HUB-camera-protected:size:camera_pouch",
+      "pass": true
+    },
+    {
+      "check": "E21-HUB-camera-protected:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "E21-HUB-camera-protected:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "E21-HUB-camera-protected:condition:conditional_c0_blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "E21-HUB-camera-protected:condition:conditional_c0_water-packed",
+      "pass": true
+    },
+    {
+      "check": "E23-L2-fuel-option:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "E23-L2-fuel-option:size:fuel_can_contact",
+      "pass": true
+    },
+    {
+      "check": "E23-L2-fuel-option:size:fuel_can",
+      "pass": true
+    },
+    {
+      "check": "E23-L2-fuel-option:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "E23-L2-fuel-option:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "E23-L2-fuel-collected:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "E23-L2-fuel-collected:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "E23-L2-fuel-collected:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "E25-L7-road-choice:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "E25-L7-road-choice:size:road_barrier_contact",
+      "pass": true
+    },
+    {
+      "check": "E25-L7-road-choice:size:road_barrier",
+      "pass": true
+    },
+    {
+      "check": "E25-L7-road-choice:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "E25-L7-road-choice:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "E24-HUB-memories:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "E24-HUB-memories:size:conditional_c0_blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "E24-HUB-memories:size:conditional_c0_water-packed",
+      "pass": true
+    },
+    {
+      "check": "E24-HUB-memories:size:suhyeok-seated-body",
+      "pass": true
+    },
+    {
+      "check": "E24-HUB-memories:size:soi-seated-body",
+      "pass": true
+    },
+    {
+      "check": "E24-HUB-memories:size:table-foreground",
+      "pass": true
+    },
+    {
+      "check": "E24-HUB-memories:size:completed_book_contact",
+      "pass": true
+    },
+    {
+      "check": "E24-HUB-memories:size:completed_book",
+      "pass": true
+    },
+    {
+      "check": "E24-HUB-memories:size:photo_contact",
+      "pass": true
+    },
+    {
+      "check": "E24-HUB-memories:size:first_photo",
+      "pass": true
+    },
+    {
+      "check": "E24-HUB-memories:size:suhyeok-seated-hands",
+      "pass": true
+    },
+    {
+      "check": "E24-HUB-memories:size:soi-seated-hands",
+      "pass": true
+    },
+    {
+      "check": "E24-HUB-memories:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "E24-HUB-memories:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "E24-HUB-memories:condition:conditional_c0_blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "E24-HUB-memories:condition:conditional_c0_water-packed",
+      "pass": true
+    },
+    {
+      "check": "E24-HUB-memories-with-dog:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "E24-HUB-memories-with-dog:size:conditional_c0_blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "E24-HUB-memories-with-dog:size:conditional_c0_water-packed",
+      "pass": true
+    },
+    {
+      "check": "E24-HUB-memories-with-dog:size:suhyeok-seated-body",
+      "pass": true
+    },
+    {
+      "check": "E24-HUB-memories-with-dog:size:soi-seated-body",
+      "pass": true
+    },
+    {
+      "check": "E24-HUB-memories-with-dog:size:table-foreground",
+      "pass": true
+    },
+    {
+      "check": "E24-HUB-memories-with-dog:size:completed_book_contact",
+      "pass": true
+    },
+    {
+      "check": "E24-HUB-memories-with-dog:size:completed_book",
+      "pass": true
+    },
+    {
+      "check": "E24-HUB-memories-with-dog:size:photo_contact",
+      "pass": true
+    },
+    {
+      "check": "E24-HUB-memories-with-dog:size:first_photo",
+      "pass": true
+    },
+    {
+      "check": "E24-HUB-memories-with-dog:size:suhyeok-seated-hands",
+      "pass": true
+    },
+    {
+      "check": "E24-HUB-memories-with-dog:size:soi-seated-hands",
+      "pass": true
+    },
+    {
+      "check": "E24-HUB-memories-with-dog:size:dog_mat_contact",
+      "pass": true
+    },
+    {
+      "check": "E24-HUB-memories-with-dog:size:dog_mat",
+      "pass": true
+    },
+    {
+      "check": "E24-HUB-memories-with-dog:size:resting_dog_contact",
+      "pass": true
+    },
+    {
+      "check": "E24-HUB-memories-with-dog:size:resting_dog",
+      "pass": true
+    },
+    {
+      "check": "E24-HUB-memories-with-dog:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "E24-HUB-memories-with-dog:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "E24-HUB-memories-with-dog:condition:conditional_c0_blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "E24-HUB-memories-with-dog:condition:conditional_c0_water-packed",
+      "pass": true
+    },
+    {
+      "check": "E14-HUB-place-ready:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "E14-HUB-place-ready:size:conditional_c0_blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "E14-HUB-place-ready:size:conditional_c0_water-packed",
+      "pass": true
+    },
+    {
+      "check": "E14-HUB-place-ready:size:mat_shadow",
+      "pass": true
+    },
+    {
+      "check": "E14-HUB-place-ready:size:folded_mat",
+      "pass": true
+    },
+    {
+      "check": "E14-HUB-place-ready:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "E14-HUB-place-ready:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "E14-HUB-place-ready:condition:conditional_c0_blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "E14-HUB-place-ready:condition:conditional_c0_water-packed",
+      "pass": true
+    },
+    {
+      "check": "E14-HUB-rest:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "E14-HUB-rest:size:conditional_c0_blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "E14-HUB-rest:size:conditional_c0_water-packed",
+      "pass": true
+    },
+    {
+      "check": "E14-HUB-rest:size:mat_shadow",
+      "pass": true
+    },
+    {
+      "check": "E14-HUB-rest:size:folded_mat",
+      "pass": true
+    },
+    {
+      "check": "E14-HUB-rest:size:dog_shadow",
+      "pass": true
+    },
+    {
+      "check": "E14-HUB-rest:size:dog_rest",
+      "pass": true
+    },
+    {
+      "check": "E14-HUB-rest:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "E14-HUB-rest:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "E14-HUB-rest:condition:conditional_c0_blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "E14-HUB-rest:condition:conditional_c0_water-packed",
+      "pass": true
+    },
+    {
+      "check": "E03-HUB-rations-shared:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "E03-HUB-rations-shared:size:conditional_c0_blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "E03-HUB-rations-shared:size:suhyeok-seated-body",
+      "pass": true
+    },
+    {
+      "check": "E03-HUB-rations-shared:size:soi-seated-body",
+      "pass": true
+    },
+    {
+      "check": "E03-HUB-rations-shared:size:table-foreground",
+      "pass": true
+    },
+    {
+      "check": "E03-HUB-rations-shared:size:shared_water_contact",
+      "pass": true
+    },
+    {
+      "check": "E03-HUB-rations-shared:size:shared_water",
+      "pass": true
+    },
+    {
+      "check": "E03-HUB-rations-shared:size:father_cold_food_contact",
+      "pass": true
+    },
+    {
+      "check": "E03-HUB-rations-shared:size:father_cold_food",
+      "pass": true
+    },
+    {
+      "check": "E03-HUB-rations-shared:size:soi_cold_food_contact",
+      "pass": true
+    },
+    {
+      "check": "E03-HUB-rations-shared:size:soi_cold_food",
+      "pass": true
+    },
+    {
+      "check": "E03-HUB-rations-shared:size:suhyeok-seated-hands",
+      "pass": true
+    },
+    {
+      "check": "E03-HUB-rations-shared:size:soi-seated-hands",
+      "pass": true
+    },
+    {
+      "check": "E03-HUB-rations-shared:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "E03-HUB-rations-shared:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "E03-HUB-rations-shared:condition:conditional_c0_blanket-packed",
+      "pass": true
+    },
+    {
+      "check": "L2-sejin-meeting:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "L2-sejin-meeting:size:van_contact_shadow",
+      "pass": true
+    },
+    {
+      "check": "L2-sejin-meeting:size:front_tire_shadow",
+      "pass": true
+    },
+    {
+      "check": "L2-sejin-meeting:size:rear_tire_shadow",
+      "pass": true
+    },
+    {
+      "check": "L2-sejin-meeting:size:van",
+      "pass": true
+    },
+    {
+      "check": "L2-sejin-meeting:size:camera_bench_shadow",
+      "pass": true
+    },
+    {
+      "check": "L2-sejin-meeting:size:camera_on_bench",
+      "pass": true
+    },
+    {
+      "check": "L2-sejin-meeting:size:sejin_contact_shadow",
+      "pass": true
+    },
+    {
+      "check": "L2-sejin-meeting:size:sejin_standing",
+      "pass": true
+    },
+    {
+      "check": "L2-sejin-meeting:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "L2-sejin-meeting:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "L6-first-shoot:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "L6-first-shoot:size:left_foot_contact_shadow",
+      "pass": true
+    },
+    {
+      "check": "L6-first-shoot:size:right_foot_contact_shadow",
+      "pass": true
+    },
+    {
+      "check": "L6-first-shoot:size:suhyeok_shoot",
+      "pass": true
+    },
+    {
+      "check": "L6-first-shoot:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "L6-first-shoot:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "01-L5-wary:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "01-L5-wary:size:dog_shadow",
+      "pass": true
+    },
+    {
+      "check": "01-L5-wary:size:dog_alert",
+      "pass": true
+    },
+    {
+      "check": "01-L5-wary:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "01-L5-wary:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "02-L5-water-placed:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "02-L5-water-placed:size:dog_shadow",
+      "pass": true
+    },
+    {
+      "check": "02-L5-water-placed:size:dog_alert",
+      "pass": true
+    },
+    {
+      "check": "02-L5-water-placed:size:bowl_shadow",
+      "pass": true
+    },
+    {
+      "check": "02-L5-water-placed:size:water_bowl",
+      "pass": true
+    },
+    {
+      "check": "02-L5-water-placed:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "02-L5-water-placed:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "03-L5-relaxed:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "03-L5-relaxed:size:dog_shadow",
+      "pass": true
+    },
+    {
+      "check": "03-L5-relaxed:size:dog_sit",
+      "pass": true
+    },
+    {
+      "check": "03-L5-relaxed:size:bowl_shadow",
+      "pass": true
+    },
+    {
+      "check": "03-L5-relaxed:size:water_bowl",
+      "pass": true
+    },
+    {
+      "check": "03-L5-relaxed:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "03-L5-relaxed:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "04-HUB-place-ready:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "04-HUB-place-ready:size:mat_shadow",
+      "pass": true
+    },
+    {
+      "check": "04-HUB-place-ready:size:folded_mat",
+      "pass": true
+    },
+    {
+      "check": "04-HUB-place-ready:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "04-HUB-place-ready:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "05-HUB-rest:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "05-HUB-rest:size:mat_shadow",
+      "pass": true
+    },
+    {
+      "check": "05-HUB-rest:size:folded_mat",
+      "pass": true
+    },
+    {
+      "check": "05-HUB-rest:size:dog_shadow",
+      "pass": true
+    },
+    {
+      "check": "05-HUB-rest:size:dog_rest",
+      "pass": true
+    },
+    {
+      "check": "05-HUB-rest:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "05-HUB-rest:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "L1-enter:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "L1-enter:size:can-a",
+      "pass": true
+    },
+    {
+      "check": "L1-enter:size:can-b",
+      "pass": true
+    },
+    {
+      "check": "L1-enter:size:medicine",
+      "pass": true
+    },
+    {
+      "check": "L1-enter:size:pencils",
+      "pass": true
+    },
+    {
+      "check": "L1-enter:size:drink-a",
+      "pass": true
+    },
+    {
+      "check": "L1-enter:size:drink-b",
+      "pass": true
+    },
+    {
+      "check": "L1-enter:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "L1-enter:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "L1-fridge:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "L1-fridge:size:can-a",
+      "pass": true
+    },
+    {
+      "check": "L1-fridge:size:can-b",
+      "pass": true
+    },
+    {
+      "check": "L1-fridge:size:medicine",
+      "pass": true
+    },
+    {
+      "check": "L1-fridge:size:pencils",
+      "pass": true
+    },
+    {
+      "check": "L1-fridge:size:drink-a",
+      "pass": true
+    },
+    {
+      "check": "L1-fridge:size:drink-b",
+      "pass": true
+    },
+    {
+      "check": "L1-fridge:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "L1-fridge:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "L1-recovered:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "L1-recovered:size:can-a",
+      "pass": true
+    },
+    {
+      "check": "L1-recovered:size:can-b",
+      "pass": true
+    },
+    {
+      "check": "L1-recovered:size:medicine",
+      "pass": true
+    },
+    {
+      "check": "L1-recovered:size:pencils",
+      "pass": true
+    },
+    {
+      "check": "L1-recovered:size:drink-b",
+      "pass": true
+    },
+    {
+      "check": "L1-recovered:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "L1-recovered:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "L1-noise:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "L1-noise:size:can-a",
+      "pass": true
+    },
+    {
+      "check": "L1-noise:size:can-b",
+      "pass": true
+    },
+    {
+      "check": "L1-noise:size:medicine",
+      "pass": true
+    },
+    {
+      "check": "L1-noise:size:pencils",
+      "pass": true
+    },
+    {
+      "check": "L1-noise:size:drink-b",
+      "pass": true
+    },
+    {
+      "check": "L1-noise:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "L1-noise:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "L1-stationery:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "L1-stationery:size:can-a",
+      "pass": true
+    },
+    {
+      "check": "L1-stationery:size:can-b",
+      "pass": true
+    },
+    {
+      "check": "L1-stationery:size:medicine",
+      "pass": true
+    },
+    {
+      "check": "L1-stationery:size:pencils",
+      "pass": true
+    },
+    {
+      "check": "L1-stationery:size:drink-a",
+      "pass": true
+    },
+    {
+      "check": "L1-stationery:size:drink-b",
+      "pass": true
+    },
+    {
+      "check": "L1-stationery:size:investigate_contact",
+      "pass": true
+    },
+    {
+      "check": "L1-stationery:size:investigate",
+      "pass": true
+    },
+    {
+      "check": "L1-stationery:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "L1-stationery:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "L1-pencils-taken:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "L1-pencils-taken:size:can-a",
+      "pass": true
+    },
+    {
+      "check": "L1-pencils-taken:size:can-b",
+      "pass": true
+    },
+    {
+      "check": "L1-pencils-taken:size:medicine",
+      "pass": true
+    },
+    {
+      "check": "L1-pencils-taken:size:drink-a",
+      "pass": true
+    },
+    {
+      "check": "L1-pencils-taken:size:drink-b",
+      "pass": true
+    },
+    {
+      "check": "L1-pencils-taken:size:investigate_contact",
+      "pass": true
+    },
+    {
+      "check": "L1-pencils-taken:size:investigate",
+      "pass": true
+    },
+    {
+      "check": "L1-pencils-taken:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "L1-pencils-taken:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "L4-toolbag-available:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "L4-toolbag-available:size:bag_contact",
+      "pass": true
+    },
+    {
+      "check": "L4-toolbag-available:size:toolbag",
+      "pass": true
+    },
+    {
+      "check": "L4-toolbag-available:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "L4-toolbag-available:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "L4-toolbag-collected:size:fixed_background",
+      "pass": true
+    },
+    {
+      "check": "L4-toolbag-collected:independent_layers_recompose",
+      "pass": true
+    },
+    {
+      "check": "L4-toolbag-collected:PSD_merged_matches",
+      "pass": true
+    },
+    {
+      "check": "C0-current:truth_diff_only_soi",
+      "pass": true
+    },
+    {
+      "check": "E06-drawing:truth_diff_only_soi",
+      "pass": true
+    },
+    {
+      "check": "shooting_aspect_not_squeezed",
+      "pass": true
+    },
+    {
+      "check": "sixty_scene_variants",
+      "pass": true
+    },
+    {
+      "check": "all_25_events",
+      "pass": true
+    },
+    {
+      "check": "active:C0-current:C0-current.png",
+      "pass": true
+    },
+    {
+      "check": "active:C0-packed:C0-packed.png",
+      "pass": true
+    },
+    {
+      "check": "active:C0-outage:C0-outage.png",
+      "pass": true
+    },
+    {
+      "check": "active:C0-investigation:C0-investigation.png",
+      "pass": true
+    },
+    {
+      "check": "active:C0-secured:C0-secured.png",
+      "pass": true
+    },
+    {
+      "check": "active:C0-restored:C0-restored.png",
+      "pass": true
+    },
+    {
+      "check": "active:C0-journal:C0-journal.png",
+      "pass": true
+    },
+    {
+      "check": "active:C0-night:C0-night.png",
+      "pass": true
+    },
+    {
+      "check": "active:C0-water_only:C0-water_only.png",
+      "pass": true
+    },
+    {
+      "check": "active:C0-blanket_only:C0-blanket_only.png",
+      "pass": true
+    },
+    {
+      "check": "active:C0-photo_lifted:01-lifted.png",
+      "pass": true
+    },
+    {
+      "check": "active:C0-photo_secured:03-secured.png",
+      "pass": true
+    },
+    {
+      "check": "active:E01:L1-enter.png",
+      "pass": true
+    },
+    {
+      "check": "active:E01:L1-fridge.png",
+      "pass": true
+    },
+    {
+      "check": "active:E02:evacuation-notice-paper-clean.png",
+      "pass": true
+    },
+    {
+      "check": "active:E03:E03-HUB-rations-shared.png",
+      "pass": true
+    },
+    {
+      "check": "active:E04:E04-HUB-stove-off.png",
+      "pass": true
+    },
+    {
+      "check": "active:E04:E17-HUB-cooking.png",
+      "pass": true
+    },
+    {
+      "check": "active:E05:E05-delivery.png",
+      "pass": true
+    },
+    {
+      "check": "active:E06:E06-ready.png",
+      "pass": true
+    },
+    {
+      "check": "active:E06:E06-drawing.png",
+      "pass": true
+    },
+    {
+      "check": "active:E06:E06-complete.png",
+      "pass": true
+    },
+    {
+      "check": "active:E07:sejin-dialogue-native.png",
+      "pass": true
+    },
+    {
+      "check": "active:E07:E07-L2-sejin-repair.png",
+      "pass": true
+    },
+    {
+      "check": "active:E08:L4-toolbag-available.png",
+      "pass": true
+    },
+    {
+      "check": "active:E08:L4-toolbag-collected.png",
+      "pass": true
+    },
+    {
+      "check": "active:E08:E08-L4-retrieve.png",
+      "pass": true
+    },
+    {
+      "check": "active:E09:camera-handover-native.png",
+      "pass": true
+    },
+    {
+      "check": "active:E09:E09-L2-camera-handover.png",
+      "pass": true
+    },
+    {
+      "check": "active:E10:E10-L4-tool-available.png",
+      "pass": true
+    },
+    {
+      "check": "active:E10:E10-L4-tool-collected.png",
+      "pass": true
+    },
+    {
+      "check": "active:E11:L6-first-shoot.png",
+      "pass": true
+    },
+    {
+      "check": "active:E11:album-first-photo.png",
+      "pass": true
+    },
+    {
+      "check": "active:E12:01-L5-wary.png",
+      "pass": true
+    },
+    {
+      "check": "active:E12:02-L5-water-placed.png",
+      "pass": true
+    },
+    {
+      "check": "active:E12:E12-L5-place-water.png",
+      "pass": true
+    },
+    {
+      "check": "active:E12:E12-L5-food-alternative.png",
+      "pass": true
+    },
+    {
+      "check": "active:E13:03-L5-relaxed.png",
+      "pass": true
+    },
+    {
+      "check": "active:E14:E14-HUB-place-ready.png",
+      "pass": true
+    },
+    {
+      "check": "active:E14:E14-HUB-rest.png",
+      "pass": true
+    },
+    {
+      "check": "active:E14:E14-HUB-place-ready.png",
+      "pass": true
+    },
+    {
+      "check": "active:E14:E14-HUB-rest.png",
+      "pass": true
+    },
+    {
+      "check": "active:E15:E15-HUB-wet-bed.png",
+      "pass": true
+    },
+    {
+      "check": "active:E15:E15-HUB-temporary-repair.png",
+      "pass": true
+    },
+    {
+      "check": "active:E16:E15-HUB-wet-bed.png",
+      "pass": true
+    },
+    {
+      "check": "active:E16:E16-HUB-dry-bed.png",
+      "pass": true
+    },
+    {
+      "check": "active:E16:E16-L6-drying.png",
+      "pass": true
+    },
+    {
+      "check": "active:E17:E17-HUB-cooking.png",
+      "pass": true
+    },
+    {
+      "check": "active:E17:E17-HUB-warm-meal.png",
+      "pass": true
+    },
+    {
+      "check": "active:E18:E18-HUB-cabinet-secured.png",
+      "pass": true
+    },
+    {
+      "check": "active:E19:E19-L3-owned-goods.png",
+      "pass": true
+    },
+    {
+      "check": "active:E19:E20-L2-exchange.png",
+      "pass": true
+    },
+    {
+      "check": "active:E20:E20-L2-exchange.png",
+      "pass": true
+    },
+    {
+      "check": "active:E20:E20-L5-empty-crate.png",
+      "pass": true
+    },
+    {
+      "check": "active:E20:E20-L5-delivered.png",
+      "pass": true
+    },
+    {
+      "check": "active:E21:E21-HUB-pouch-empty.png",
+      "pass": true
+    },
+    {
+      "check": "active:E21:E21-HUB-camera-protected.png",
+      "pass": true
+    },
+    {
+      "check": "active:E22:L1-noise.png",
+      "pass": true
+    },
+    {
+      "check": "active:E22:L1-recovered.png",
+      "pass": true
+    },
+    {
+      "check": "active:E23:E23-L2-fuel-option.png",
+      "pass": true
+    },
+    {
+      "check": "active:E23:E23-L2-fuel-collected.png",
+      "pass": true
+    },
+    {
+      "check": "active:E24:E24-HUB-memories.png",
+      "pass": true
+    },
+    {
+      "check": "active:E24:E24-HUB-memories-with-dog.png",
+      "pass": true
+    },
+    {
+      "check": "active:E25:E25-L7-road-choice.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter00/continuation-v1/story.json:art/chapter00/photo-care-v1/review/01-lifted.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter00/continuation-v1/story.json:art/chapter00/photo-care-v1/review/02-pressing.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter00/continuation-v1/story.json:art/chapter00/photo-care-v1/review/03-secured.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter00/continuation-v1/story.json:art/chapter00-01/art-polish-v1/review/C0-current.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter00/continuation-v1/story.json:art/chapter00-01/art-polish-v1/review/C0-packed.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter00/continuation-v1/story.json:art/chapter00-01/art-polish-v1/review/C0-outage.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter00/continuation-v1/story.json:art/chapter00-01/art-polish-v1/review/C0-investigation.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter00/continuation-v1/story.json:art/chapter00-01/art-polish-v1/review/C0-secured.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter00/continuation-v1/story.json:art/chapter00-01/art-polish-v1/review/C0-restored.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter00/continuation-v1/story.json:art/chapter00-01/art-polish-v1/review/C0-journal.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter00/continuation-v1/story.json:art/chapter00-01/art-polish-v1/review/C0-night.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter00/continuation-v1/story.json:art/chapter00-01/art-polish-v1/review/C0-water_only.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter00/continuation-v1/story.json:art/chapter00-01/art-polish-v1/review/C0-blanket_only.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter00/continuation-v1/story.json:art/chapter00/photo-care-v1/review/01-lifted.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter00/continuation-v1/story.json:art/chapter00/photo-care-v1/review/03-secured.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter00/continuation-v1/story.json:design/chapter00/camper-assets-v1.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter00/continuation-v1/story.json:art/chapter00/memory/dialogue-v1/family-sunset-source-v1.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter00/continuation-v1/story.json:art/chapter00/memory/dialogue-v1/seoyeon-face-mask-v1.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter00/continuation-v1/story.json:art/chapter00/memory/dialogue-v1/polaroid-frame-v1.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter00/continuation-v1/story.json:art/chapter00/photo-care-v1/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter00/continuation-v1/story.json:docs/00-제작관리/CH00-01-TRUTH-REVISION-STORYBOARD.ko.md",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter00/continuation-v1/story.json:art/chapter00-01/narrative-art-v1/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter00/continuation-v1/story.json:docs/05-원화/CH00-01-NARRATIVE-ART-REVIEW.ko.md",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter00/continuation-v1/story.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter00/continuation-v1/story.json:art/chapter00-01/art-polish-v1/native-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter00/continuation-v1/story.json:docs/05-원화/ART-POLISH-2026-09-11.ko.md",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/L1-enter.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/L1-fridge.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:design/ui/day01-v1/story.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:docs/00-제작관리/CH00-01-TRUTH-REVISION-STORYBOARD.ko.md",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/day01-v1/evacuation-notice-paper-clean.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/day01-v1/evacuation-notice-native.psd",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:docs/00-제작관리/CH00-01-TRUTH-REVISION-STORYBOARD.ko.md",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E03-HUB-rations-shared.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:docs/00-제작관리/CH00-01-TRUTH-REVISION-STORYBOARD.ko.md",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/completion-v1/review/E03-HUB-rations-shared.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E04-HUB-stove-off.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E17-HUB-cooking.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/colored-pencils-v1/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:docs/03-콘티/챕터1/CH01-E06-FIRST-DRAWING.ko.md",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/colored-pencils-v1/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/first-drawing-v2/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/colored-pencils-v1/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E05-delivery.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/colored-pencils-v1/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/first-drawing-v2/review/01-delivery.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/first-drawing-v2/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:docs/03-콘티/챕터1/CH01-E06-FIRST-DRAWING.ko.md",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E06-ready.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E06-drawing.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E06-complete.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:docs/00-제작관리/CH00-01-TRUTH-REVISION-STORYBOARD.ko.md",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/first-drawing-v2/review/02-ready.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/first-drawing-v2/review/03-started.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/first-drawing-v2/review/04-complete.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:docs/03-콘티/챕터1/CH01-E07-11-PHOTOGRAPHER-STORYBOARD.ko.md",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/sejin-v1/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/sejin-v1/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/completion-v1/layers/sejin-dialogue-native.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E07-L2-sejin-repair.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:docs/00-제작관리/CH00-01-TRUTH-REVISION-STORYBOARD.ko.md",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:docs/03-콘티/챕터1/CH01-E07-11-PHOTOGRAPHER-STORYBOARD.ko.md",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/photographer-props-v1/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/L4-toolbag-available.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/L4-toolbag-collected.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E08-L4-retrieve.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:docs/03-콘티/챕터1/CH01-E07-11-PHOTOGRAPHER-STORYBOARD.ko.md",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/photographer-props-v1/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/sejin-v1/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/photographer-props-v1/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/completion-v1/layers/camera-handover-native.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E09-L2-camera-handover.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/sejin-v1/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E10-L4-tool-available.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E10-L4-tool-collected.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:docs/03-콘티/챕터1/CH01-E07-11-PHOTOGRAPHER-STORYBOARD.ko.md",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/photographer-props-v1/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/first-photo-v1/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/L6-first-shoot.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/first-photo-v1/review/album-first-photo.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/first-photo-v1/photo-selection.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:docs/00-제작관리/CH00-01-TRUTH-REVISION-STORYBOARD.ko.md",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:docs/03-콘티/챕터1/CH01-E12-14-DOG-STORYBOARD.ko.md",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/dog-v2/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/01-L5-wary.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/02-L5-water-placed.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E12-L5-place-water.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E12-L5-food-alternative.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:docs/03-콘티/챕터1/CH01-E12-14-DOG-STORYBOARD.ko.md",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/dog-v2/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/03-L5-relaxed.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:docs/03-콘티/챕터1/CH01-E12-14-DOG-STORYBOARD.ko.md",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/dog-v2/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E14-HUB-place-ready.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E14-HUB-rest.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E14-HUB-place-ready.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E14-HUB-rest.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E15-HUB-wet-bed.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E15-HUB-temporary-repair.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E15-HUB-wet-bed.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E16-HUB-dry-bed.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E16-L6-drying.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E17-HUB-cooking.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E17-HUB-warm-meal.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E18-HUB-cabinet-secured.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E19-L3-owned-goods.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E20-L2-exchange.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E20-L2-exchange.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E20-L5-empty-crate.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E20-L5-delivered.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E21-HUB-pouch-empty.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E21-HUB-camera-protected.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/L1-noise.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/L1-recovered.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E23-L2-fuel-option.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E23-L2-fuel-collected.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E24-HUB-memories.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E24-HUB-memories-with-dog.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/review/E25-L7-road-choice.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:docs/00-제작관리/CH00-01-TRUTH-REVISION-STORYBOARD.ko.md",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/revision-v3/camper-clean-base-v3.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/dog-v2/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/revision-v3/store-clean-base-v3.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/gas-station-v1/gas-station-clean-base-source-v1.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/gas-station-v1/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/photographer-props-v1/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/sejin-v1/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/general-store-v1/general-store-clean-base-source-v1.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/general-store-v1/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/colored-pencils-v1/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/repair-shop-v1/repair-shop-clean-base-source-v1.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/repair-shop-v1/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/photographer-props-v1/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/revision-v3/house-clean-base-v3.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/dog-v2/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/riverside-v1/riverside-clean-base-source-v1.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/riverside-v1/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/photographer-props-v1/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/first-photo-v1/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/hill-road-v1/hill-road-clean-base-source-v1.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:art/chapter01/hill-road-v1/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:design/chapter01/week01-art-coverage-v1.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:docs/00-제작관리/CH00-WEEK01-CONTINUOUS-HANDOFF.ko.md",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/event-quest-catalog-v2.json:docs/00-제작관리/CH00-01-TRUTH-REVISION-STORYBOARD.ko.md",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/L1-enter.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/L1-fridge.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:design/ui/day01-v1/story.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter01/day01-v1/evacuation-notice-paper-clean.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter01/day01-v1/evacuation-notice-native.psd",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E03-HUB-rations-shared.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter01/completion-v1/review/E03-HUB-rations-shared.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E04-HUB-stove-off.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E17-HUB-cooking.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter01/colored-pencils-v1/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E05-delivery.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter01/colored-pencils-v1/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter01/first-drawing-v2/review/01-delivery.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E06-ready.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E06-drawing.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E06-complete.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter01/first-drawing-v2/review/02-ready.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter01/first-drawing-v2/review/03-started.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter01/first-drawing-v2/review/04-complete.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter01/sejin-v1/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter01/completion-v1/layers/sejin-dialogue-native.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E07-L2-sejin-repair.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/L4-toolbag-available.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/L4-toolbag-collected.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E08-L4-retrieve.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter01/photographer-props-v1/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter01/completion-v1/layers/camera-handover-native.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E09-L2-camera-handover.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E10-L4-tool-available.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E10-L4-tool-collected.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/L6-first-shoot.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter01/first-photo-v1/review/album-first-photo.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter01/first-photo-v1/photo-selection.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/01-L5-wary.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/02-L5-water-placed.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E12-L5-place-water.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E12-L5-food-alternative.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/03-L5-relaxed.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E14-HUB-place-ready.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E14-HUB-rest.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E14-HUB-place-ready.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E14-HUB-rest.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E15-HUB-wet-bed.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E15-HUB-temporary-repair.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E15-HUB-wet-bed.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E16-HUB-dry-bed.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E16-L6-drying.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E17-HUB-cooking.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E17-HUB-warm-meal.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E18-HUB-cabinet-secured.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E19-L3-owned-goods.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E20-L2-exchange.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E20-L2-exchange.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E20-L5-empty-crate.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E20-L5-delivered.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E21-HUB-pouch-empty.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E21-HUB-camera-protected.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/L1-noise.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/L1-recovered.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E23-L2-fuel-option.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E23-L2-fuel-collected.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E24-HUB-memories.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E24-HUB-memories-with-dog.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/review/E25-L7-road-choice.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/narrative-art-v1/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/week01-art-coverage-v1.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/day01-flow-v1.json:docs/03-콘티/챕터1/CH01-DAY01-NOON-STORYBOARD.ko.md",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/day01-flow-v1.json:design/ui/day01-v1/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/day01-flow-v1.json:art/chapter01/day01-v1/evacuation-notice-paper-clean.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/day01-flow-v1.json:design/chapter01/event-quest-catalog-v2.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/day01-flow-v1.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/day01-flow-v1.json:art/chapter00-01/art-polish-v1/native-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/chapter01/day01-flow-v1.json:docs/05-원화/ART-POLISH-2026-09-11.ko.md",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/day01-v1/story.json:design/chapter01/event-quest-catalog-v2.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/day01-v1/story.json:docs/00-제작관리/CH00-01-TRUTH-REVISION-STORYBOARD.ko.md",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/day01-v1/story.json:art/chapter00-01/narrative-art-v1/manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/day01-v1/story.json:art/chapter00-01/art-polish-v1/scene-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/day01-v1/story.json:art/chapter00-01/art-polish-v1/native-manifest.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/day01-v1/story.json:docs/05-원화/ART-POLISH-2026-09-11.ko.md",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/memory-dialogue.json:design/ui/ch00-01/C0-02-assets.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/memory-dialogue.json:art/chapter00/memory/dialogue-v1/path-closeup-review-v1.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/memory-dialogue.json:art/chapter00/memory/dialogue-v1/feet-paused-v1.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/memory-dialogue.json:art/chapter00/memory/dialogue-v1/seoyeon-speaking-soft-v3.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/memory-dialogue.json:art/chapter00-01/art-polish-v1/layers/suhyeok-dialogue-native.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/memory-dialogue.json:art/chapter00/memory/dialogue-v1/soi-answer-soft-v3.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/memory-dialogue.json:art/chapter00/memory/dialogue-v1/hands-held-review-v2.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/memory-dialogue.json:art/chapter00-01/art-polish-v1/review/C0-current.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/memory-dialogue.json:design/chapter00/continuation-v1/story.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:art/chapter00/memory/dialogue-v1/seoyeon-speaking-soft-v3.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:art/style-revision/soft-storybook-v1/sources/seoyeon-dialogue.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:art/style-revision/soft-storybook-v1/psd/seoyeon-dialogue.psd",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:art/chapter00-01/art-polish-v1/layers/suhyeok-dialogue-native.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:art/chapter00-01/art-polish-v1/sources/suhyeok-dialogue.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:art/chapter00-01/art-polish-v1/psd/suhyeok-dialogue-native.psd",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:art/chapter00/memory/dialogue-v1/feet-paused-v1.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:art/chapter00/memory/dialogue-v1/feet-scene-layers-v1.psd",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:art/chapter00/memory/dialogue-v1/feet-scene-review-v1.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:art/chapter00/memory/memory-path-base-v1.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:art/chapter00/memory/dialogue-v1/path-closeup-review-v1.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:art/chapter00/memory/dialogue-v1/soi-answer-soft-v3.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:art/style-revision/soft-storybook-v1/sources/soi-dialogue.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:art/style-revision/soft-storybook-v1/psd/soi-dialogue.psd",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:design/ui/ch00-01/layers/C0-02-dialogue/01_dialogue_panel.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:design/ui/ch00-01/runtime/1920x1080/C0-02/01_dialogue_panel.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:design/ui/ch00-01/layers/C0-02-dialogue/02_nameplate.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:design/ui/ch00-01/runtime/1920x1080/C0-02/02_nameplate.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:design/ui/ch00-01/layers/C0-02-dialogue/03_speaker_proof.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:design/ui/ch00-01/layers/C0-02-dialogue/04_dialogue_proof.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:design/ui/ch00-01/layers/C0-02-dialogue/05_advance_cue.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:design/ui/ch00-01/runtime/1920x1080/C0-02/05_advance_cue.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:design/ui/ch00-01/psd/C0-02-dialogue.psd",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:design/ui/ch00-01/review/C0-02-narration.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:design/ui/ch00-01/review/C0-02-seoyeon.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:design/ui/ch00-01/review/C0-02-response.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:docs/03-콘티/챕터0/C0-PHOTO-MEMORY-IMPLEMENTATION.ko.md",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:art/chapter00/memory/dialogue-v1/photo-memory-assets-v1.json",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:docs/06-대사/SPEAKER-IDENTITY-RULES.ko.md",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:docs/03-콘티/챕터0/C0-PRESENT-DIALOGUE.ko.md",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:design/ui/ch00-01/review/C0-03-response.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:design/ui/ch00-01/review/C0-03-narration.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:design/ui/ch00-01/review/C0-03-soi-question.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:art/chapter00/memory/dialogue-v1/suhyeok-response-semi-v2.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:art/chapter00/memory/dialogue-v1/suhyeok-response-semi-layers-v2.psd",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:art/chapter00/memory/dialogue-v1/suhyeok-response-v1.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:art/chapter00/memory/dialogue-v1/suhyeok-response-v1.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:art/chapter00/memory/dialogue-v1/suhyeok-response-source-v1.png",
+      "pass": true
+    },
+    {
+      "check": "reference:design/ui/ch00-01/C0-02-assets.json:art/chapter00/memory/dialogue-v1/suhyeok-response-layers-v1.psd",
+      "pass": true
+    },
+    {
+      "check": "approved_reference_status_preserved",
+      "pass": true
+    }
+  ],
+  "decoded_images": 639,
+  "checked_current_data_references": 319,
+  "native_assets": 17,
+  "scene_variants": 60,
+  "PSD_files": 77,
+  "visual_review": "All 60 compositions in 10 sheets; 17 native cutouts on dark neutral ground; full-size key scenes and corrected alpha edges inspected.",
+  "not_tested": [
+    "Unity runtime",
+    "Photoshop application"
+  ],
+  "remaining_limit": "Native resolution goals are not all met; no upscaling claimed as restored detail."
+}

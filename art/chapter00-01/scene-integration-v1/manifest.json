@@ -1,0 +1,43 @@
+{
+  "id": "scene-integration-v1",
+  "status": "approved-scene-integration-reference-not-isolated-sprite-delivery",
+  "user_approval": {
+    "response": "좋다",
+    "approved_reference": "art/chapter00-01/scene-integration-v1/review/house-integrated.png",
+    "scope": "Match character scale, projection, environmental lighting, edge strength and contact within the actual scene; preserve existing identity and soft storybook style.",
+    "not_completed": "Independent character/shadow extraction and implementation across other scenes.",
+    "scale_policy": "Evaluate each scene separately; do not apply house layout multipliers globally."
+  },
+  "previous_scene": "art/chapter00-01/background-harmony-v2/review/E12-L5-place-water.png",
+  "fixed_background": "art/chapter00-01/background-harmony-v2/sources/house.png",
+  "generated_source": "art/chapter00-01/scene-integration-v1/sources/house-context-paint.png",
+  "native_size": [
+    1672,
+    941
+  ],
+  "native_sha256": "37b5d1daf570d3f7ab95b8121796777626fc0e8a05c650ee16ee601edc52d355",
+  "prompt": "art/chapter00-01/scene-integration-v1/sources/house-context-paint.prompt.txt",
+  "generator": "built-in image_gen",
+  "layout": "art/chapter00-01/scene-integration-v1/layout.json",
+  "review": "art/chapter00-01/scene-integration-v1/review/house-integrated.png",
+  "comparison": "art/chapter00-01/scene-integration-v1/review/house-before-after.jpg",
+  "psd": "art/chapter00-01/scene-integration-v1/psd/house-integration-review.psd",
+  "patch": {
+    "path": "art/chapter00-01/scene-integration-v1/layers/house-context-region.png",
+    "rect": [
+      330,
+      340,
+      345,
+      295
+    ],
+    "feather_px": 22,
+    "includes_background": true
+  },
+  "limitations": [
+    "Not an isolated transparent character asset; patch includes floor, contact shadows and local background.",
+    "Native source1672x941 is below3840px target. Proportion layout scaled existing sprites; this is not high-resolution recovery.",
+    "Generated scene source is flat; native PSD is explicitly one layer. Review PSD separates original scene, fixed background and local repaint region only.",
+    "Approved visual integration reference for this house scene; other scenes are not yet revised to this standard.",
+    "No Unity or Photoshop application validation."
+  ]
+}

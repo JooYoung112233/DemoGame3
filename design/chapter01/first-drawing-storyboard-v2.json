@@ -1,0 +1,47 @@
+{
+  "id": "E05-E06-first-drawing-art-storyboard-v2",
+  "status": "storyboard-not-runtime",
+  "source_doc": "docs/03-콘티/챕터1/CH01-E06-FIRST-DRAWING.ko.md",
+  "entry_conditions": [
+    "Q05 color-pencil item owned",
+    "original Chapter 0 book available"
+  ],
+  "steps": [
+    {
+      "id": "delivery",
+      "asset": "art/chapter01/first-drawing-v2/review/01-delivery.png",
+      "event": "E05",
+      "input": "confirm delivery reaction",
+      "effect": "Q05 complete once; Q06 ready"
+    },
+    {
+      "id": "ready",
+      "asset": "art/chapter01/first-drawing-v2/review/02-ready.png",
+      "event": "E06",
+      "input": "begin first drawing",
+      "effect": "Q06 started"
+    },
+    {
+      "id": "started",
+      "asset": "art/chapter01/first-drawing-v2/review/03-started.png",
+      "event": "E06",
+      "input": "confirm scene progression",
+      "effect": "drawing complete image available; quest not yet complete"
+    },
+    {
+      "id": "complete",
+      "asset": "art/chapter01/first-drawing-v2/review/04-complete.png",
+      "event": "E06",
+      "input": "confirm completed picture and response",
+      "effect": "Q06 complete once; Q07 road information offered"
+    }
+  ],
+  "next_location": "L2",
+  "dialogue": "intents only; script revision later",
+  "art_subject": "Imagined sea destination, review draft",
+  "skip_rules": [
+    "If Q05 already completed resume Q06 saved step",
+    "If Q06 completed do not award first drawing twice",
+    "Do not require L3 revisit when pencils obtained earlier"
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "id": "colored-pencils-v1",
+  "status": "prop-and-placement-review",
+  "event": "E05",
+  "quest": "Q05",
+  "source": "art/chapter01/colored-pencils-v1/colored-pencils-source-v1.png",
+  "source_size": [
+    1774,
+    887
+  ],
+  "visible_bounds": [
+    38,
+    157,
+    1725,
+    736
+  ],
+  "visible_size": [
+    1687,
+    579
+  ],
+  "generator": "built-in image_gen",
+  "source_had_baked_checkerboard": true,
+  "extraction": "User-authorized local alpha-only extraction; native RGB preserved. Chromatic silhouette + exterior flood fill + thin contour recovery.",
+  "cutout": "art/chapter01/colored-pencils-v1/colored-pencils-cutout-native-v1.png",
+  "native_psd": "art/chapter01/colored-pencils-v1/colored-pencils-native-v1.psd",
+  "placement_psd": "art/chapter01/colored-pencils-v1/L3-discovery-placement-v1.psd",
+  "prompt": "art/chapter01/colored-pencils-v1/colored-pencils-v1.prompt.txt",
+  "placement": {
+    "coordinate_canvas": [
+      1672,
+      941
+    ],
+    "pencils_rect": [
+      1210,
+      425,
+      90,
+      31
+    ],
+    "shadow_rect": [
+      1206,
+      421,
+      98,
+      39
+    ],
+    "order": [
+      "fixed_base",
+      "contact_shadow",
+      "pencils"
+    ],
+    "state_available": [
+      "contact_shadow",
+      "pencils"
+    ],
+    "state_collected": []
+  },
+  "reviews": {
+    "available": "art/chapter01/colored-pencils-v1/review/L3-pencils-available.png",
+    "collected": "art/chapter01/colored-pencils-v1/review/L3-pencils-collected.png",
+    "contact_native": "art/chapter01/colored-pencils-v1/review/table-contact-native.png"
+  },
+  "limitations": [
+    "Pencils and cardboard tray are one raster object; individual pencils are not independent layers.",
+    "Placement PSD is a low-resolution scene composition. Native prop PSD/PNG is the editable source.",
+    "No acquisition hand pose, full inspection close-up background, UI, highlight or Unity logic implemented.",
+    "Background remains 1672x941; close camera use needs later background detail work.",
+    "PSD was reopened with file readers; Photoshop application not tested."
+  ]
+}

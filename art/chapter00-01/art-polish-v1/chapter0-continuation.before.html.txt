@@ -1,0 +1,10 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Live49 · 챕터 0 이어 보기</title><link rel="stylesheet" href="chapter0-continuation.css"></head>
+<body><header><span>LIVE49 · 연결 콘티 검토</span><h1 id="title">챕터 0 · 내일 떠날 준비</h1><p>새 대사·선택은 검토 초안입니다. 기존 원화 재사용 · 후속 구간 무음 · Unity 구현 아님</p></header>
+<main><section id="story-stage" tabindex="0" aria-label="챕터 0 대사, 클릭 또는 Space로 진행">
+<img id="scene" alt="캠핑카 장면"><div id="shade"></div>
+<img id="suhyeok" class="portrait" src="/art/chapter00/memory/dialogue-v1/suhyeok-response-soft-v3.png" alt="수혁" hidden>
+<img id="soi" class="portrait" src="/art/chapter00/memory/dialogue-v1/soi-answer-soft-v3.png" alt="소이" hidden>
+<div id="panel" hidden><img src="runtime/1920x1080/C0-02/01_dialogue_panel.png" alt=""><span id="name"></span><p id="text"></p><span id="cue">클릭 / Space</span></div>
+<div id="choices" aria-label="선택 또는 행동"></div><div id="fade"></div><div id="end" hidden><p>챕터 0 끝 · 함께 볼 아침</p><a href="/design/ui/day01-v1/story.html">챕터 1 첫 외출로</a></div>
+</section><section class="controls"><a href="opening-motion.html">시작 화면부터 보기</a><button id="restart">첫 응답부터 다시</button><button id="resume" disabled>이전 검토 지점 이어 보기</button><button id="export-review">검토 기록 저장</button><label><input id="instant" type="checkbox"> 글자 즉시 표시</label><label><input id="reduce" type="checkbox"> 움직임 줄이기</label></section>
+<p id="status" role="status">콘티를 읽고 있습니다.</p><p id="visual-note" hidden></p><details><summary>이 장면의 제작 메모</summary><p id="purpose"></p><p id="asset"></p><p id="sound"></p><p>새로운 원화가 아니라 기존 상태 합성본으로 연결합니다. 소품 접지·기본 표정·최종 음향은 보강 대상입니다.</p></details><p class="note">출력 중 입력은 문장 완성만, 다음 새 입력이 진행입니다. 선택은 시간제한·정답 점수가 없습니다. 브라우저 저장은 검토용 북마크이며 게임 세이브가 아닙니다.</p></main><script type="module" src="chapter0-continuation.mjs"></script></body></html>

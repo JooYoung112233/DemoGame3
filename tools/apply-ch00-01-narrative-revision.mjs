@@ -1,0 +1,57 @@
+// Apply the approved narrative direction without rewriting dialogue or painting assets.
+import fs from 'node:fs';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+import crypto from 'node:crypto';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+const read=p=>JSON.parse(fs.readFileSync(path.join(root,p),'utf8'));
+const write=(p,v)=>{fs.mkdirSync(path.dirname(path.join(root,p)),{recursive:true});fs.writeFileSync(path.join(root,p),JSON.stringify(v,null,2)+'\n')};
+const hash=p=>crypto.createHash('sha256').update(fs.readFileSync(path.join(root,p))).digest('hex');
+const guide='docs/00-제작관리/CH00-01-TRUTH-REVISION-STORYBOARD.ko.md';
+const c0path='design/chapter00/continuation-v1/story.json',d1path='design/ui/day01-v1/story.json',catpath='design/chapter01/event-quest-catalog-v2.json';
+const c0=read(c0path),d1=read(d1path),cat=read(catpath);
+const baselinePath='design/story/ch00-01-revision-v1/dialogue-baseline.json';
+if(!fs.existsSync(path.join(root,baselinePath))){
+ const protectedFiles=['design/ui/day01-v1/strings.ko.json','design/ui/ch00-01/memory-dialogue.json'];
+ const walk=p=>fs.readdirSync(path.join(root,p),{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(`${p}/${e.name}`):[`${p}/${e.name}`]);
+ protectedFiles.push(...walk('design/unity-handoff/opening-v1'));
+ write(baselinePath,{c0_lines:Object.fromEntries(Object.entries(c0.nodes).map(([id,n])=>[id,n.lines])),c0_choice_labels:Object.fromEntries(Object.entries(c0.nodes).map(([id,n])=>[id,n.choices.map(c=>c.label)])),journal_common:c0.journal_common,d1_actions:Object.fromEntries(Object.entries(d1.steps).map(([id,n])=>[id,n.actions??[]])),protected_hashes:Object.fromEntries(protectedFiles.map(p=>[p,hash(p)]))});
+}
+const c0patch={
+ book:{next:'camp_radio'},
+ camp_radio:{id:'camp_radio',title:'라디오에서 들려온 목적지',purpose:'책의 빈 페이지를 본 뒤 같은 캠핑카 안에서 생존자 캠프 안내 방송을 듣는다. 함께 갈 안전한 곳이라는 여행 목적을 얻되 캠프의 현재 안전과 정확한 경로까지 확정하지 않는다.',scene:'current',lines:[],next:null,effects:{camp_broadcast_heard:true,travel_goal_known:true},choices:[{label:'방송 확인 후 출발 준비로',target:'departure',effects:{},requires:[],unless:[]}],camera:[1,.5,.5],cue:'vo_radio_survivor_camp_pending_script',draft:true,visual_note:'연출 검토 · 실내 화면을 유지한 채 화면 밖 라디오의 생존자 캠프 안내에 수혁이 귀를 기울인다. 대사집 작성 전이라 방송 문장·음성은 비워 두었다. 아래 확인은 검토용 진행이며 인게임 선택지가 아니다.',production_direction:{sequence:['기존 책 관찰 종료; 현재 실내 화면 유지','짧은 수신 잡음 뒤 캠프 안내; 중요한 정보는 자막도 제공 예정','수혁이 듣는 여백; 소이가 라디오를 켜거나 채널을 맞추지 않음','기존 출발 약속과 준비 행동으로 연결'],timing_seconds_proposal:{lead_in:[.3,.5],reaction:[.6,1]},camera_policy:'고정 구도, 라디오 근접 원화·위치 임의 추가 없음',audio_status:'script-and-recording-pending',information:['생존자 캠프 안내를 들음','앞으로 확인할 목적지가 생김'],withhold:['소이 사망','49재','수혁 감염 증상','확정 캠프 안전','정확한 감염 잠복기'],preview_only_confirmation:true}},
+ departure:{purpose:'라디오에서 들은 캠프를 장기 목적지로 삼고, 가는 동안 새로운 풍경도 함께 보자는 약속으로 연결한다. 기존 대사는 대사집 차수까지 보존한다.'},
+ prepare_intro:{purpose:'캠프를 향해 이동할 준비로 물·담요를 정리한다. 정확한 길은 이후 지도와 현지 정보로 알아본다.'},
+ day1:{purpose:'캠프를 향한 여행을 이어가기 위해 우선 가까운 편의점에서 물을 보충한다. 준비한 물·담요·책은 유지한다. 수혁은 아직 비감염이며 아침 전용 광원은 Unity 작업이다.'}
+};
+for(const[id,patch]of Object.entries(c0patch))c0.nodes[id]={...c0.nodes[id],...patch};
+c0.narrative_revision={id:'truth-revision-v1',guide,dialogue_status:'existing-lines-preserved-user-script-pass-pending',start_infection:'uninfected',radio_slot:'book -> camp_radio -> departure',legacy_bookmark_policy:'이미 방송 지점 뒤에 저장된 검토 북마크는 강제 되감지 않는다. 인계 시 캠프 정보를 들은 배경 문맥으로 보완하며 보상·이벤트는 재실행하지 않는다.',scope:'storyboard-flow-not-Unity-runtime'};
+const pending={reply_b:'캠프 방송 전의 답변으로 유지. 이후 목적지 없는 여행이라고 반복하지 않도록 대사집에서 확인.',departure:'캠프 목적과 가는 길의 풍경 약속을 연결.',small_light:'서연 사망 원인의 설명을 덧붙이지 말고 과거의 생활 기억만 유지.',photo_wish:'과거 가족사진은 실제 기록. 현재 새 사진을 남기고 싶은 마음은 수혁의 주관적 소이 대화로 유지.',morning_promise:'소이가 혼자 현실의 문·물건을 움직였다는 뜻이 되지 않도록 확인.'};
+for(const[id,intent]of Object.entries(pending))c0.nodes[id].dialogue_revision_note={status:'user-script-pass-pending',intent};
+c0.photo_story_extension.chapter01_payoff.encounter='캠프 방향의 지역 밖 길을 확인하러 주유소에 들러 세진을 만난다. 카메라에 대한 관심은 챕터 0 사진 바람을 잇는다.';
+const d1patch={
+ morning:{purpose:'라디오에서 들은 생존자 캠프로 가려면 먼저 오늘 쓸 물이 필요하다. 챕터 0의 물·담요·책을 유지하며 가까운 편의점 보충을 첫 행동으로 삼는다.'},
+ map:{purpose:'캠프는 장기 목적지, 편의점은 그곳으로 가기 위한 첫 보급지다. 현재 지도에서는 가까운 편의점과 이동 시간만 확인한다. 미확정 캠프 위치에 새 마커를 추가하지 않는다.'},
+ notice:{purpose:'이미 들은 캠프 소식과 별개로 오래된 지역 대피 안내를 발견한다. 같은 시설인지 확정하지 않고 이후 현지인에게 확인할 선택 단서로 남긴다.'},
+ return:{purpose:'보급을 마친 뒤 캠프 쪽으로 계속 갈지 잠시 안전을 확인하고 쉴지 생각한다. 캠프가 있다는 방송과 쪽지 열람 여부는 별개의 정보다.',dialogue_intent:'캠프 방향으로 이동할 준비와 현재 장소의 안전을 고민. 읽은 경우에만 오래된 대피 안내의 유효성도 떠올림.',dialogue_intent_by_notice:{read:'캠프 방향으로 이동할 준비와 이곳의 안전을 고민하면서 읽은 대피 안내가 아직 유효할지 떠올린다. 방송 속 캠프와 같은 시설로 단정하지 않는다.',unread:'캠프 방향으로 계속 갈지 잠시 쉬어 갈지 고민한다. 읽지 않은 쪽지나 주민센터는 언급하지 않는다.'}},
+ ration:{purpose:'수혁이 두 자리 몫을 놓고 여정에 남길 물자를 챙긴다. 소이가 직접 먹어 현실의 재고를 소모했다는 증거를 만들지 않는다.',direction:'총량 → 두 자리 배정 → 남겨 둘 몫. 배정과 실제 섭취를 구분한다. 이번 시안의 수량·생존 게이지는 물리적인 소이의 생존 증거가 아닌 수혁의 돌봄 인식이다. 실제 재고 계산은 미구현이며 일괄 삭제하지 않는다.'},
+ soi:{purpose:'식사 자리 정리 뒤 수혁이 경험하는 소이의 그림 바람으로 관심이 이어진다. 부탁과 취향은 유지하되 소이가 혼자 물건을 꺼내거나 옮기지 않는다.'}
+};
+for(const[id,patch]of Object.entries(d1patch))Object.assign(d1.steps[id],patch);
+d1.initial_context={...d1.initial_context,camp_broadcast_heard:true,travel_goal_known:true};
+d1.narrative_revision={id:'truth-revision-v1',guide,start_infection:'uninfected',context_policy:'Standalone review assumes Chapter 0 completed; this is not a cross-page save bridge.',dialogue_status:'displayed-script-and-action-labels-preserved',forced_bite:'later-story-event-not-day1-tutorial'};
+const eventpatch={
+ E01:{scene:'캠프행 여정의 첫 보급: 전날 준비 상태를 이어받아 지도에서 편의점 선택 → 암전·정차음 → 물과 식량 탐색.'},
+ E02:{scene:'지워진 감염자 관련 글과 오래된 지역 대피 안내를 읽는다. 캠프 방송과 같은 시설인지 확정하지 않고 세진에게 유효성을 물을 수 있다.'},
+ E03:{scene:'문소리·짧은 암전 → 이동과 안전에 대한 독백 → 수혁이 두 자리 몫을 배정하고 남은 재고 확인. 소이의 독립적 섭취 장면은 만들지 않는다.'},
+ E06:{scene:'준비 → 수혁이 경험하는 소이와의 첫 그림 → 완성 페이지 확인. 객관적인 그림의 작성자는 수혁으로 정리하며 현재 소이 그리기 원화는 주관적 장면으로 사용한다.',result:'캠프 방향으로 여행을 이어갈 길 정보를 알아보러 L2로 갈 동기를 제시. 바다 그림은 가는 길에 보고 싶은 풍경으로 유지.'},
+ E07:{scene:'수혁은 캠프 방향으로 통하는 길을 묻다가 세진의 카메라에 관심을 보인다. 소이를 소개하는 지점에는 세진이 한 박자 늦게 수혁에게 답하는 작은 반응 후보를 두며, 공구 가방 부탁으로 연결한다.'},
+ E11:{scene:'풍경 촬영 안내 → 수혁의 첫 촬영 → 실제 풍경 사진을 앨범에서 확인. 소이와 함께 본 체험과 사진에 무엇이 찍혔는지는 구분한다.',branches:'이미 L6면 그 자리에서 안내. 첫 필름 보장. 현재 style-v2 풍경 사진을 유지하고 첫 장에서 소이 부재를 추리하게 만들지 않는다. 촬영 경험은 이후 현실 확인 서사의 씨앗이며 재열람으로 사진 수를 늘리지 않는다.'},
+ E25:{scene:'캠프 방향으로 계속 이동하기 위한 고갯길 통제 안내 확인 → 알려진 우회로 선택 → 미완료 선택 사건과 준비 상태 확인 → 암전·출발.'}
+};
+for(const e of cat.events)if(eventpatch[e.id]){Object.assign(e,eventpatch[e.id]);e.narrative_revision_ref=guide;}
+cat.narrative_revision={id:'truth-revision-v1',guide,scope:'Chapter 0 and early first-week causality; no new combat event or dialogue',status:'storyboard-direction-applied-runtime-pending',first_photo:'landscape-tutorial-not-immediate-truth-reveal',infection_event:'forced-later-event-date-unset'};
+const q7=cat.quests.find(q=>q.id==='Q07');q7.steps[0]='세진에게 캠프 방향의 지역 밖 길 정보 듣기';
+write(c0path,c0);write(d1path,d1);write(catpath,cat);
+write('design/story/ch00-01-revision-v1/manifest.json',{id:'truth-revision-v1',guide,status:'storyboard-and-review-flow-updated-no-new-art-or-dialogue',source:'tools/apply-ch00-01-narrative-revision.mjs',c0_patch:c0patch,day01_patch:d1patch,event_patch:eventpatch,changed_story_files:[c0path,d1path,catpath],dialogue_baseline:baselinePath,radio_audio_created:false,unity_tested:false,art_policy:'existing-subjective-scenes-preserved-objective-reveal-art-pending'});
+console.log(JSON.stringify({c0_radio_added:!!c0.nodes.camp_radio,day01_steps_updated:Object.keys(d1patch).length,events_updated:Object.keys(eventpatch).length,new_spoken_lines:0}));

@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import{fresh,begin,check,grade,checkpoint,proceed,finish,acknowledge,decide,restore}from'../design/minigames/search-v2/core.mjs';
+let s=begin(fresh(),'fridge','focus',()=>.55);assert.equal(s.minutes,10);
+assert.equal(checkpoint(s),s);s=check(s,0,'great');assert.equal(s.pending.bonus,.1);assert.equal(check(s,0,'great'),s);
+s=check(s,1,'miss');assert.equal(s.pending.risk,.5);s=checkpoint(s);assert.equal(s.inventory.water,2);assert.equal(s.phase,'checkpoint');
+let b=finish(s,'banked');assert.equal(b.inventory.water,2);assert.equal(b.minutes,10);assert.equal(b.last.items.length,1);assert.equal(finish(b),b);
+let restored=restore(JSON.stringify(s));assert.equal(restored.inventory.water,2);assert.equal(restored.phase,'result');assert.equal(restored.last.reason,'interrupted');
+s=proceed(s);assert.equal(s.minutes,15);assert.equal(proceed(s),s);s=check(s,2,'great');s=finish(s);assert.equal(s.inventory.water,3);assert.equal(s.last.bonus,.2);assert.equal(s.last.items.length,3);
+assert.equal(restore(JSON.stringify(s)).inventory.water,3);
+let q=finish(begin(fresh(),'fridge','quick',()=>.99));assert.equal(q.minutes,5);assert.equal(q.inventory.water,2);
+let n=begin(fresh(),'food','focus',()=>.1);n=check(n,0,'miss');n=check(n,1,'miss');n=checkpoint(n);n=finish(n,'banked');n=acknowledge(n);assert.equal(n.phase,'warning');n=decide(n,'stay');assert.equal(n.caution,1);assert.equal(n.phase,'explore');n=decide(n,'return');assert.equal(n.phase,'returned');
+assert.equal(grade(.6,.6),'great');assert.equal(grade(.69,.6),'good');assert.equal(grade(.75,.6),'miss');assert.equal(grade(.75,.6,true),'good');
+let early=restore(JSON.stringify(begin(fresh(),'fridge','focus',()=>.1)));assert.deepEqual(early.inventory,{});assert.equal(early.minutes,10);assert.deepEqual(early.searched,['fridge']);
+console.log('PASS: staged rewards, optional cost, grades, noise, banking, interruption, duplicate guards and quick search');

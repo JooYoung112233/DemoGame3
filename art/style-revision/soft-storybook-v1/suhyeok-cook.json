@@ -1,0 +1,60 @@
+{
+  "id": "suhyeok-cook",
+  "source": "sources/suhyeok-cook.png",
+  "previous": "art/chapter01/extra-poses/suhyeok-cook-v1.png",
+  "category": "action",
+  "status": "art-revision",
+  "native_size": [
+    1024,
+    1536
+  ],
+  "alpha_bounds": [
+    134,
+    12,
+    860,
+    1515
+  ],
+  "subject_height": 1503,
+  "sprite": "sprites/suhyeok-cook.png",
+  "psd": "psd/suhyeok-cook.psd",
+  "alpha_method": "exterior-connected neutral backdrop cut, 1px fringe trim; RGB untouched",
+  "native_unscaled": true,
+  "sha256": "7dca2867be09e257b281cf96b42d91f7564fdefd6ed2f4f3819d75633ac5f45f",
+  "qa": [
+    {
+      "name": "native-size",
+      "pass": true
+    },
+    {
+      "name": "transparent-border",
+      "pass": true
+    },
+    {
+      "name": "visible-subject",
+      "pass": true
+    },
+    {
+      "name": "foreground-RGB-preserved",
+      "pass": true
+    },
+    {
+      "name": "suhyeok-cook:merged_rgba",
+      "pass": true
+    },
+    {
+      "name": "suhyeok-cook:layer_names",
+      "pass": true
+    },
+    {
+      "name": "suhyeok-cook:layer:isolated_character",
+      "pass": true
+    },
+    {
+      "name": "suhyeok-cook:layer:generated_source_hidden",
+      "pass": true
+    }
+  ],
+  "psd_scope": "2 actual layers: hidden native source + visible isolated character; body parts not independently layered",
+  "resolution_target_met": false,
+  "unity_tested": false
+}

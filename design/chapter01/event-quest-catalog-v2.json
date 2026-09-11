@@ -1,0 +1,1254 @@
+{
+  "id": "chapter01-event-quest-catalog-v2",
+  "status": "design-draft-not-unity-runtime",
+  "scope": "챕터 1 첫 주, 25개 이벤트 후보. 모든 사건 의무 수행 아님.",
+  "event_count": 25,
+  "quest_count": 21,
+  "events": [
+    {
+      "id": "E01",
+      "title": "오늘 쓸 물",
+      "kind": "중심",
+      "locations": [
+        "HUB",
+        "L1"
+      ],
+      "trigger": "챕터 0 취침 완료, 첫날 아침, 최초 1회",
+      "scene": "캠프행 여정의 첫 보급: 전날 준비 상태를 이어받아 지도에서 편의점 선택 → 암전·정차음 → 물과 식량 탐색.",
+      "quest_links": [
+        {
+          "id": "Q01",
+          "operation": "생성 → 확보 단계 진행 → 결과 확인으로 완료"
+        }
+      ],
+      "completion": "첫 확보 결과를 확인",
+      "result": "Q03 귀환·분배로 연결. 캠핑카는 편의점 앞에 주차.",
+      "branches": "전날 물이 남은 상태를 인정. 빠른/집중 탐색 선택, 필수 확보분 보장 방식은 밸런스 초안.",
+      "art": "HUB·L1 기존 배경, 지도·물자 소품 재사용; 이동은 암전·음향.",
+      "art_resources": [
+        "art/chapter00-01/art-polish-v1/review/L1-enter.png",
+        "art/chapter00-01/art-polish-v1/review/L1-fridge.png",
+        "design/ui/day01-v1/story.json"
+      ],
+      "art_status": "art-polish-v1-reviewed; native resolution limits recorded; Unity pending",
+      "narrative_revision_ref": "docs/00-제작관리/CH00-01-TRUTH-REVISION-STORYBOARD.ko.md",
+      "art_revision_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json"
+    },
+    {
+      "id": "E02",
+      "title": "지워진 대피 안내",
+      "kind": "선택",
+      "locations": [
+        "L1",
+        "L2"
+      ],
+      "trigger": "편의점 계산대 쪽지를 직접 선택",
+      "scene": "지워진 감염자 관련 글과 오래된 지역 대피 안내를 읽는다. 캠프 방송과 같은 시설인지 확정하지 않고 세진에게 유효성을 물을 수 있다.",
+      "quest_links": [
+        {
+          "id": "Q02",
+          "operation": "읽으면 생성 → 세진의 답을 확인하면 조사 단계 완료"
+        }
+      ],
+      "completion": "추가 질문과 아는 범위의 답 확인",
+      "result": "안내의 현재 상태는 미확인으로 남김. 읽은 경로만 귀환 독백에서 언급.",
+      "branches": "쪽지를 안 읽어도 세진·다음 지역 진행 가능. 주민센터는 가칭, 별도 배경/확정 대피소를 열지 않음.",
+      "art": "기존 종이·글자·지워짐 분리 PSD; L2 대화 배경 공유.",
+      "art_resources": [
+        "art/chapter01/day01-v1/evacuation-notice-paper-clean.png",
+        "art/chapter01/day01-v1/evacuation-notice-native.psd"
+      ],
+      "art_status": "storyboard-art-linked; final dialogue/Unity/high-resolution signoff pending",
+      "narrative_revision_ref": "docs/00-제작관리/CH00-01-TRUTH-REVISION-STORYBOARD.ko.md"
+    },
+    {
+      "id": "E03",
+      "title": "돌아와 나누는 첫 식사",
+      "kind": "중심",
+      "locations": [
+        "HUB"
+      ],
+      "trigger": "첫 편의점 귀환. 물·식량 확보 조건 충족 때 분배 가능",
+      "scene": "문소리·짧은 암전 → 이동과 안전에 대한 독백 → 수혁이 두 자리 몫을 배정하고 남은 재고 확인. 소이의 독립적 섭취 장면은 만들지 않는다.",
+      "quest_links": [
+        {
+          "id": "Q03",
+          "operation": "귀환 시 생성 → 분배·반응 확인 후 완료"
+        }
+      ],
+      "completion": "분배 결과와 식사 반응 확인",
+      "result": "요리대 고장 암시와 소이의 부탁이 순서대로 가능해짐.",
+      "branches": "조기 귀환은 보충 안내만. 물자 상태 유지, 편의점 재입장에 차량 이동 시간을 다시 부과하지 않음.",
+      "art": "기존 물통·통조림과 앉은 인물로 분배 확정 후의 찬 식사 결과 컷 제작. 요리대는 꺼진 상태. 분배 손 애니메이션 대신 확인 뒤 결과로 전환.",
+      "art_resources": [
+        "art/chapter00-01/art-polish-v1/review/E03-HUB-rations-shared.png"
+      ],
+      "art_status": "art-polish-v1-reviewed; native resolution limits recorded; Unity pending",
+      "narrative_revision_ref": "docs/00-제작관리/CH00-01-TRUTH-REVISION-STORYBOARD.ko.md",
+      "previous_art_resources": [
+        "art/chapter01/completion-v1/review/E03-HUB-rations-shared.png"
+      ],
+      "art_revision_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json"
+    },
+    {
+      "id": "E04",
+      "title": "불이 붙지 않는 요리대",
+      "kind": "선택",
+      "locations": [
+        "HUB",
+        "L4"
+      ],
+      "trigger": "첫 분배 뒤 고장 암시. 수리 목표는 요리대를 직접 조사하면 생성",
+      "scene": "짧게 고장을 확인하고 이후 수리점 부품으로 손본다. 작동 확인으로 다음 식사의 가능성을 보여 준다.",
+      "quest_links": [
+        {
+          "id": "Q04",
+          "operation": "고장 조사로 생성 → 부품 확보 → 수리·작동 확인으로 완료"
+        }
+      ],
+      "completion": "수리 후 작동 확인",
+      "result": "kitchen_repaired=true; E17 조리 가능.",
+      "branches": "1일 차 낮에는 암시까지만. 이미 챙긴 재료 인정. 정확한 고장·레시피·비용은 후속.",
+      "art": "고정 요리대 꺼짐 상태와 수리 완료 후 조리 결과 컷 연결. 고장 원인·수리 레시피는 미정, 화염·김은 Unity 효과.",
+      "art_resources": [
+        "art/chapter00-01/art-polish-v1/review/E04-HUB-stove-off.png",
+        "art/chapter00-01/art-polish-v1/review/E17-HUB-cooking.png"
+      ],
+      "art_status": "art-polish-v1-reviewed; native resolution limits recorded; Unity pending",
+      "art_revision_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json"
+    },
+    {
+      "id": "E05",
+      "title": "그림을 그리고 싶은 소이",
+      "kind": "중심",
+      "locations": [
+        "HUB",
+        "L1",
+        "L3"
+      ],
+      "trigger": "첫 분배와 요리대 암시 이후 소이를 선택",
+      "scene": "부탁을 듣고 어제 챙긴 책을 떠올린다. 필요한 것은 색연필뿐이다.",
+      "quest_links": [
+        {
+          "id": "Q05",
+          "operation": "부탁으로 생성 → 보유 검사 → 전달로 완료"
+        }
+      ],
+      "completion": "수혁이 색연필을 전달한 상태 확인",
+      "result": "E06 첫 그림 안내 활성. 첫날 낮 콘티는 부탁/다음 목표 제시에서 닫고 전달은 다음 구간.",
+      "branches": "선확보면 바로 전달. 미보유면 L3 확정 확보 후보 안내; L1 확률 탐색 재방문 강제 없음.",
+      "art": "L3 색연필 소품·획득 전후와 HUB 새 수혁 전달 자세·식탁 준비 상태 제작. 큰 원본과 배치 PSD는 분리 보존.",
+      "resource_manifest": "art/chapter01/colored-pencils-v1/manifest.json",
+      "storyboard": "docs/03-콘티/챕터1/CH01-E06-FIRST-DRAWING.ko.md",
+      "resource_manifests": [
+        "art/chapter01/colored-pencils-v1/manifest.json",
+        "art/chapter01/first-drawing-v2/manifest.json"
+      ],
+      "art_resources": [
+        "art/chapter01/colored-pencils-v1/manifest.json",
+        "art/chapter00-01/art-polish-v1/review/E05-delivery.png"
+      ],
+      "art_status": "art-polish-v1-reviewed; native resolution limits recorded; Unity pending",
+      "previous_art_resources": [
+        "art/chapter01/colored-pencils-v1/manifest.json",
+        "art/chapter01/first-drawing-v2/review/01-delivery.png"
+      ],
+      "art_revision_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json"
+    },
+    {
+      "id": "E06",
+      "title": "빈 페이지에 남기는 오늘",
+      "kind": "필수 튜토리얼",
+      "locations": [
+        "HUB"
+      ],
+      "trigger": "색연필 전달 완료, 기존 책 보유",
+      "scene": "수혁이 기존 책에 그리는 행동 → 소이와 함께 보는 체험 → 완성 페이지 확인. 소이는 옆에서 지켜보며 연필·페이지를 독립적으로 움직이지 않는다.",
+      "quest_links": [
+        {
+          "id": "Q06",
+          "operation": "첫 그림 안내 생성 → 완성·반응 확인으로 완료"
+        },
+        {
+          "id": "Q07",
+          "operation": "첫 그림 반응 확인 뒤 길 정보를 찾는 목표 생성"
+        }
+      ],
+      "completion": "완성 그림과 소이 반응 모두 확인",
+      "result": "캠프 방향으로 여행을 이어갈 길 정보를 알아보러 L2로 갈 동기를 제시. 바다 그림은 가는 길에 보고 싶은 풍경으로 유지.",
+      "branches": "첫 그림은 무작위 재고·미니게임 성공에 잠그지 않음. 추가 그림은 선택.",
+      "art": "새 수혁 그리기 자세·새 소이 앉기와 기존 책/색연필/배경. 실제 상황 회수용 무소이 변형은 초반 비노출.",
+      "resource_manifests": [
+        "art/chapter01/first-drawing-v2/manifest.json"
+      ],
+      "storyboard": "docs/03-콘티/챕터1/CH01-E06-FIRST-DRAWING.ko.md",
+      "art_resources": [
+        "art/chapter00-01/art-polish-v1/review/E06-ready.png",
+        "art/chapter00-01/art-polish-v1/review/E06-drawing.png",
+        "art/chapter00-01/art-polish-v1/review/E06-complete.png"
+      ],
+      "art_status": "art-polish-v1-reviewed; native resolution limits recorded; Unity pending",
+      "narrative_revision_ref": "docs/00-제작관리/CH00-01-TRUTH-REVISION-STORYBOARD.ko.md",
+      "previous_art_resources": [
+        "art/chapter01/first-drawing-v2/review/02-ready.png",
+        "art/chapter01/first-drawing-v2/review/03-started.png",
+        "art/chapter01/first-drawing-v2/review/04-complete.png"
+      ],
+      "art_revision_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json"
+    },
+    {
+      "id": "E07",
+      "title": "떠나지 못한 사진기사",
+      "kind": "중심",
+      "locations": [
+        "L2"
+      ],
+      "trigger": "첫 그림 이후 길 정보 안내를 따라 주유소에서 세진을 선택",
+      "scene": "수혁은 캠프 방향으로 통하는 길을 묻다가 세진의 카메라에 관심을 보인다. 소이를 소개하는 지점에는 세진이 한 박자 늦게 수혁에게 답하는 작은 반응 후보를 두며, 공구 가방 부탁으로 연결한다.",
+      "quest_links": [
+        {
+          "id": "Q07",
+          "operation": "지역 밖 길 정보 단계 진행"
+        },
+        {
+          "id": "Q08",
+          "operation": "공구 가방 부탁을 수락하면 생성"
+        }
+      ],
+      "completion": "길 정보와 부탁 내용을 확인",
+      "result": "L4 목적지·공구 가방 목표. 챕터 0 사진 바람을 되받는 반응.",
+      "branches": "부탁은 나중에 수락 가능. 먼저 방문했으면 소개만 하고 진행 시 대화 재개. 차량을 오래 비울 수 없는 구체 사정은 대사집 전 확정 필요.",
+      "art": "같은 L2 차량·새 세진 정비 자세·별도 큰 중립 대화 초상 제작. 외형은 검토 후보, 표정은 대사집 이후.",
+      "storyboard": "docs/03-콘티/챕터1/CH01-E07-11-PHOTOGRAPHER-STORYBOARD.ko.md",
+      "resource_manifests": [
+        "art/chapter01/sejin-v1/manifest.json"
+      ],
+      "art_resources": [
+        "art/chapter01/sejin-v1/manifest.json",
+        "art/chapter01/completion-v1/layers/sejin-dialogue-native.png",
+        "art/chapter00-01/art-polish-v1/review/E07-L2-sejin-repair.png"
+      ],
+      "art_status": "art-polish-v1-reviewed; native resolution limits recorded; Unity pending",
+      "narrative_revision_ref": "docs/00-제작관리/CH00-01-TRUTH-REVISION-STORYBOARD.ko.md",
+      "art_revision_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json"
+    },
+    {
+      "id": "E08",
+      "title": "작업대 아래의 공구 가방",
+      "kind": "중심",
+      "locations": [
+        "L4"
+      ],
+      "trigger": "Q08 진행 중 가방을 선택. 선발견은 위치를 기록",
+      "scene": "세진이 설명한 가방을 확인하고 회수한다. 같은 작업대에서 생활 수리 재료도 살필 수 있다.",
+      "quest_links": [
+        {
+          "id": "Q08",
+          "operation": "가방 확인·회수 단계 진행"
+        }
+      ],
+      "completion": "가방 회수 결과 확인",
+      "result": "세진에게 돌아가 전달할 수 있음. 선택적으로 E10 추가 공구.",
+      "branches": "필수 가방은 확정 배치. 주변 추가 재료의 탐색 확률과 분리. 선발견 상태 유지.",
+      "art": "같은 L4 가방 회수 전/후와 새 가방 든 수혁 정지 자세 제작. 행동 컷에서 선반 가방은 제거.",
+      "storyboard": "docs/03-콘티/챕터1/CH01-E07-11-PHOTOGRAPHER-STORYBOARD.ko.md",
+      "resource_manifests": [
+        "art/chapter01/photographer-props-v1/manifest.json"
+      ],
+      "art_resources": [
+        "art/chapter00-01/art-polish-v1/review/L4-toolbag-available.png",
+        "art/chapter00-01/art-polish-v1/review/L4-toolbag-collected.png",
+        "art/chapter00-01/art-polish-v1/review/E08-L4-retrieve.png"
+      ],
+      "art_status": "art-polish-v1-reviewed; native resolution limits recorded; Unity pending",
+      "art_revision_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json"
+    },
+    {
+      "id": "E09",
+      "title": "가방 대신 건네받은 카메라",
+      "kind": "중심",
+      "locations": [
+        "L2"
+      ],
+      "trigger": "Q08 가방 회수 후 세진에게 전달 선택",
+      "scene": "세진이 가방을 받고 여분 즉석카메라와 첫 필름을 건넨다. 수혁의 사진 바람과 강변 쉼터 추천을 연결한다.",
+      "quest_links": [
+        {
+          "id": "Q08",
+          "operation": "가방 전달·카메라 인수 확인으로 완료"
+        },
+        {
+          "id": "Q10",
+          "operation": "인수 후 첫 사진 안내 생성"
+        }
+      ],
+      "completion": "가방 차감·카메라/필름 지급·인수 확인을 일관되게 저장",
+      "result": "L6 첫 촬영 목표, E21 보관 주머니 선택 가능.",
+      "branches": "Q09 추가 공구 미완료여도 보상. 재접속/대화 재열람으로 중복 지급 금지.",
+      "art": "같은 카메라를 세진이 건네고 수혁이 받는 두 손 근접 원화·PNG/PSD 제작. 팔은 화면 양쪽에서 들어오는 인서트.",
+      "storyboard": "docs/03-콘티/챕터1/CH01-E07-11-PHOTOGRAPHER-STORYBOARD.ko.md",
+      "resource_manifests": [
+        "art/chapter01/photographer-props-v1/manifest.json",
+        "art/chapter01/sejin-v1/manifest.json"
+      ],
+      "art_resources": [
+        "art/chapter01/photographer-props-v1/manifest.json",
+        "art/chapter01/completion-v1/layers/camera-handover-native.png",
+        "art/chapter00-01/art-polish-v1/review/E09-L2-camera-handover.png"
+      ],
+      "art_status": "art-polish-v1-reviewed; native resolution limits recorded; Unity pending",
+      "art_revision_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json"
+    },
+    {
+      "id": "E10",
+      "title": "가방에서 빠진 하나",
+      "kind": "선택",
+      "locations": [
+        "L4",
+        "L2"
+      ],
+      "trigger": "가방 회수 후 목록을 선택해 확인",
+      "scene": "남은 공구를 더 찾거나 세진에게 현재 가방부터 가져가 대안을 듣는다.",
+      "quest_links": [
+        {
+          "id": "Q09",
+          "operation": "목록 확인으로 생성 → 추가 공구 전달 또는 대안 확인으로 완료"
+        }
+      ],
+      "completion": "선택한 해결 경로 확인",
+      "result": "추가 회수 시 소량 수리 물자/관계 반응. 보상 수치 후속.",
+      "branches": "이 사건 때문에 Q08 전달을 막지 않음. 공구 가방 자체를 다시 찾게 하지 않음.",
+      "art": "개별 렌치 원본과 L4 유무 상태 PNG/PSD 제작. 추가 공구는 카메라 획득의 필수 조건 아님.",
+      "resource_manifests": [
+        "art/chapter01/sejin-v1/manifest.json"
+      ],
+      "art_resources": [
+        "art/chapter00-01/art-polish-v1/review/E10-L4-tool-available.png",
+        "art/chapter00-01/art-polish-v1/review/E10-L4-tool-collected.png"
+      ],
+      "art_status": "art-polish-v1-reviewed; native resolution limits recorded; Unity pending",
+      "art_revision_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json"
+    },
+    {
+      "id": "E11",
+      "title": "새로운 첫 사진",
+      "kind": "필수 튜토리얼",
+      "locations": [
+        "L6",
+        "HUB"
+      ],
+      "trigger": "카메라·첫 필름 인수 완료, 강변 쉼터 방문",
+      "scene": "풍경 촬영 안내 → 수혁의 첫 촬영 → 실제 풍경 사진을 앨범에서 확인. 소이와 함께 본 체험과 사진에 무엇이 찍혔는지는 구분한다.",
+      "quest_links": [
+        {
+          "id": "Q10",
+          "operation": "촬영·앨범 확인으로 완료"
+        },
+        {
+          "id": "Q07",
+          "operation": "첫 사진 조건 충족 기록"
+        }
+      ],
+      "completion": "첫 사진과 앨범 확인 모두 기록",
+      "result": "첫 주 회고·지역 출발의 중심 조건 충족.",
+      "branches": "이미 L6면 그 자리에서 안내. 첫 필름 보장. 현재 style-v2 풍경 사진을 유지하고 첫 장에서 소이 부재를 추리하게 만들지 않는다. 촬영 경험은 이후 현실 확인 서사의 씨앗이며 재열람으로 사진 수를 늘리지 않는다.",
+      "art": "L6 촬영 자세·강변 사진 내용·빈 앨범·첫 사진 등록 상태 PNG/PSD 제작. 사진은 풍경만 담는 검토안이며 최종 구도 미확정. 대사/UI/음향 후속.",
+      "storyboard": "docs/03-콘티/챕터1/CH01-E07-11-PHOTOGRAPHER-STORYBOARD.ko.md",
+      "resource_manifests": [
+        "art/chapter01/photographer-props-v1/manifest.json",
+        "art/chapter01/first-photo-v1/manifest.json"
+      ],
+      "art_resources": [
+        "art/chapter00-01/art-polish-v1/review/L6-first-shoot.png",
+        "art/chapter01/first-photo-v1/review/album-first-photo.png",
+        "art/chapter01/first-photo-v1/photo-selection.json"
+      ],
+      "art_status": "art-polish-v1-reviewed; native resolution limits recorded; Unity pending",
+      "narrative_revision_ref": "docs/00-제작관리/CH00-01-TRUTH-REVISION-STORYBOARD.ko.md",
+      "art_revision_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json"
+    },
+    {
+      "id": "E12",
+      "title": "문밖의 작은 발소리",
+      "kind": "선택",
+      "locations": [
+        "L5"
+      ],
+      "trigger": "낡은 집에서 생활 흔적을 살핀 뒤 작은 소리가 나고 강아지를 선택",
+      "scene": "별똥이가 거리를 둔다. 수혁이 물그릇이나 먹을 것을 놓고 물러나 기다린다.",
+      "quest_links": [
+        {
+          "id": "Q11",
+          "operation": "직접 관심을 보이면 생성 → 돌봄·거리 두기 단계 진행"
+        }
+      ],
+      "completion": "물을 두거나 먹을 것을 두고 기다린 행동 확인",
+      "result": "dog_care_offered=true; 차분해진 뒤 E13 가능.",
+      "branches": "지나쳐도 주요 진행 영향 없음. 필요한 돌봄 물자는 최소 확보 경로 제공; 소중한 필수 식량 전량을 요구하지 않음.",
+      "art": "경계·물 놓는 새 수혁 자세·물러난 결과·먹이 대안 제작. 같은 그릇 외곽을 유지하고 내용물만 교체.",
+      "storyboard": "docs/03-콘티/챕터1/CH01-E12-14-DOG-STORYBOARD.ko.md",
+      "resource_manifests": [
+        "art/chapter01/dog-v2/manifest.json"
+      ],
+      "art_resources": [
+        "art/chapter00-01/art-polish-v1/review/01-L5-wary.png",
+        "art/chapter00-01/art-polish-v1/review/02-L5-water-placed.png",
+        "art/chapter00-01/art-polish-v1/review/E12-L5-place-water.png",
+        "art/chapter00-01/art-polish-v1/review/E12-L5-food-alternative.png"
+      ],
+      "art_status": "art-polish-v1-reviewed; native resolution limits recorded; Unity pending",
+      "art_revision_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json"
+    },
+    {
+      "id": "E13",
+      "title": "한 걸음 가까워진 별똥이",
+      "kind": "선택",
+      "locations": [
+        "L5",
+        "HUB"
+      ],
+      "trigger": "E12 돌봄 후 별도 관찰/다른 행동이 끝나고 다시 교감 선택",
+      "scene": "그릇 가까이 온 별똥이가 수혁을 덜 경계한다. 기다려 주기 → 동행 여부 선택 → 캠핑카 입구의 강아지 정지 컷.",
+      "quest_links": [
+        {
+          "id": "Q11",
+          "operation": "신뢰 반응 확인 → 동행 수락이면 완료, 유보면 보류"
+        }
+      ],
+      "completion": "dog_joined는 수락하고 동행 장면을 확인했을 때만 설정",
+      "result": "E14 자리 마련 가능. 이후 캠핑카 교감 후보에 별똥이 추가.",
+      "branches": "클릭 연타로 신뢰 수치 반복 적립하지 않음. 날짜 강제/같은 먹이 반복 요구 없음. 유보 후 지역 내 재교감 가능.",
+      "art": "새 안심하고 앉는 개별 원본 및 물그릇 유지 합성 제작. 동행 확인 연출은 콘티로 기록; 걷기 애니메이션 없음.",
+      "storyboard": "docs/03-콘티/챕터1/CH01-E12-14-DOG-STORYBOARD.ko.md",
+      "resource_manifests": [
+        "art/chapter01/dog-v2/manifest.json"
+      ],
+      "art_resources": [
+        "art/chapter00-01/art-polish-v1/review/03-L5-relaxed.png"
+      ],
+      "art_status": "art-polish-v1-reviewed; native resolution limits recorded; Unity pending",
+      "art_revision_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json"
+    },
+    {
+      "id": "E14",
+      "title": "별똥이의 자리",
+      "kind": "선택",
+      "locations": [
+        "HUB",
+        "L3"
+      ],
+      "trigger": "동행 후 캠핑카에서 별똥이를 선택",
+      "scene": "쉴 곳을 살피고 여분 천이나 깔개를 놓는다. 강아지가 그곳에 눕는 정지 컷으로 결과를 남긴다.",
+      "quest_links": [
+        {
+          "id": "Q12",
+          "operation": "자리 필요 확인으로 생성 → 마련·휴식 확인으로 완료"
+        }
+      ],
+      "completion": "자리와 휴식 상태 확인",
+      "result": "고정 휴식 위치·후속 교감 변주.",
+      "branches": "기존 재료 인정, 새 깔개 구입만 정답이 아님. 젖은 침구와 재료 공유는 선택 고민, 필수 진행 잠금 아님.",
+      "art": "HUB 기존 러그 위 분리 깔개·새 휴식 자세·접촉 그림자, 마련 전후 상태 PNG/PSD 제작.",
+      "storyboard": "docs/03-콘티/챕터1/CH01-E12-14-DOG-STORYBOARD.ko.md",
+      "resource_manifests": [
+        "art/chapter01/dog-v2/manifest.json"
+      ],
+      "art_resources": [
+        "art/chapter00-01/art-polish-v1/review/E14-HUB-place-ready.png",
+        "art/chapter00-01/art-polish-v1/review/E14-HUB-rest.png",
+        "art/chapter00-01/art-polish-v1/review/E14-HUB-place-ready.png",
+        "art/chapter00-01/art-polish-v1/review/E14-HUB-rest.png"
+      ],
+      "art_status": "art-polish-v1-reviewed; native resolution limits recorded; Unity pending",
+      "art_revision_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json"
+    },
+    {
+      "id": "E15",
+      "title": "이음새로 떨어지는 빗방울",
+      "kind": "조건",
+      "locations": [
+        "HUB",
+        "L3",
+        "L4"
+      ],
+      "trigger": "비가 오는 구간, 아직 보수되지 않은 캠핑카로 귀환",
+      "scene": "물방울 소리 → 누수 지점 짧은 시선 이동 → 덮개 임시 대응 또는 틈 보수.",
+      "quest_links": [
+        {
+          "id": "Q13",
+          "operation": "누수 확인으로 생성 → 선택 대응 결과 확인으로 해결"
+        }
+      ],
+      "completion": "이번 비 대응 또는 지속 보수 확인",
+      "result": "roof_state=temporary/repaired 구분. 침구가 실제 젖은 경로만 E16.",
+      "branches": "비가 안 오면 발생하지 않음. 이미 보수면 새 퀘스트 없이 짧은 반응.",
+      "art": "기존 HUB의 침구 젖음 제한 패치와 지붕 보수 천 상태 제작. 비/물방울은 Unity 효과; 전체 배경 재생성 없음.",
+      "art_resources": [
+        "art/chapter00-01/art-polish-v1/review/E15-HUB-wet-bed.png",
+        "art/chapter00-01/art-polish-v1/review/E15-HUB-temporary-repair.png"
+      ],
+      "art_status": "art-polish-v1-reviewed; native resolution limits recorded; Unity pending",
+      "art_revision_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json"
+    },
+    {
+      "id": "E16",
+      "title": "젖은 잠자리",
+      "kind": "조건",
+      "locations": [
+        "HUB",
+        "L6"
+      ],
+      "trigger": "누수 중 침구가 젖고 아직 쉴 자리를 마련하지 않음",
+      "scene": "젖은 침구를 살피고 마른 천을 깔거나 갠 날 쉼터에서 말린다.",
+      "quest_links": [
+        {
+          "id": "Q14",
+          "operation": "실제 젖은 상태일 때 생성 → 대체/건조 완료"
+        }
+      ],
+      "completion": "쉴 자리가 마련됨",
+      "result": "rest_space_ready=true, 젖은 상태 정리.",
+      "branches": "누수를 막아 안 젖었다면 건너뜀. 날이 개기를 기다리는 경로도 가능.",
+      "art": "젖은 침구/마른 침구 결과와 L6 벤치에 널린 천 제작. 실제 젖은 경로에서만 사용.",
+      "art_resources": [
+        "art/chapter00-01/art-polish-v1/review/E15-HUB-wet-bed.png",
+        "art/chapter00-01/art-polish-v1/review/E16-HUB-dry-bed.png",
+        "art/chapter00-01/art-polish-v1/review/E16-L6-drying.png"
+      ],
+      "art_status": "art-polish-v1-reviewed; native resolution limits recorded; Unity pending",
+      "art_revision_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json"
+    },
+    {
+      "id": "E17",
+      "title": "따뜻한 한 끼",
+      "kind": "선택",
+      "locations": [
+        "HUB",
+        "L1"
+      ],
+      "trigger": "요리대 수리 완료 후 사용 가능한 식재료와 조리 선택",
+      "scene": "포장 식량으로 때우던 식사에서 직접 조리한 한 끼로 달라진다. 요리 미니게임은 후속 설계.",
+      "quest_links": [
+        {
+          "id": "Q15",
+          "operation": "요리 제안 선택으로 생성 → 조리·식사로 완료"
+        }
+      ],
+      "completion": "완성 음식과 사용 결과 확인",
+      "result": "수리와 식재료 탐색의 보람을 생활 장면으로 연결.",
+      "branches": "수리 전 부패성 재료 퀘스트를 강요하지 않음. 재료를 두고 와도 기본 분배 가능.",
+      "art": "조리 자세의 식탁 앞면 가림 수정, 개별 큰 음식 원본과 두 그릇 식사 상태 제작. 실제 분배에 따라 노출.",
+      "art_resources": [
+        "art/chapter00-01/art-polish-v1/review/E17-HUB-cooking.png",
+        "art/chapter00-01/art-polish-v1/review/E17-HUB-warm-meal.png"
+      ],
+      "art_status": "art-polish-v1-reviewed; native resolution limits recorded; Unity pending",
+      "art_revision_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json"
+    },
+    {
+      "id": "E18",
+      "title": "덜컹거리는 찬장",
+      "kind": "선택",
+      "locations": [
+        "HUB",
+        "L3"
+      ],
+      "trigger": "첫 물자 적재 뒤 이동하고 아직 찬장을 정리하지 않음",
+      "scene": "찬장 소리에 주의를 돌리고 천 받침이나 고정끈으로 식기를 정리한다.",
+      "quest_links": [
+        {
+          "id": "Q16",
+          "operation": "찬장을 조사하면 생성 → 고정 확인으로 완료"
+        }
+      ],
+      "completion": "고정 상태 확인",
+      "result": "다음 이동의 찬장 소리 감소, 정리된 소품 상태.",
+      "branches": "발생만으로 퀘스트 자동 등록하지 않음. 주요 대화 도중 소음 안내 중첩 금지.",
+      "art": "기존 찬장 손잡이에 천 고정 상태 PNG/PSD 제작. 소리와 수리 판정은 Unity.",
+      "art_resources": [
+        "art/chapter00-01/art-polish-v1/review/E18-HUB-cabinet-secured.png"
+      ],
+      "art_status": "art-polish-v1-reviewed; native resolution limits recorded; Unity pending",
+      "art_revision_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json"
+    },
+    {
+      "id": "E19",
+      "title": "주인이 남긴 물건",
+      "kind": "선택",
+      "locations": [
+        "L3",
+        "L2"
+      ],
+      "trigger": "잡화점 선택 생활용품 곁 보관 메모를 읽음",
+      "scene": "챙겨도 되는지 잠깐 망설이고 다른 물건을 고르거나 메모의 주유소 교환처에 문의한다.",
+      "quest_links": [
+        {
+          "id": "Q17",
+          "operation": "메모 확인으로 생성 → 대체품 선택 또는 문의 결과로 완료"
+        }
+      ],
+      "completion": "선택한 해결을 확인",
+      "result": "교환처에 간 경로는 E20 부탁을 들을 수 있음.",
+      "branches": "필수 색연필을 이 물건으로 지정하지 않음. 거래 불참이어도 첫 그림 진행.",
+      "art": "L3 선택 천/별도 소유자 메모와 L2 이름 미정 교환처 인물 후보 제작. 색연필 튜토리얼과 분리.",
+      "art_resources": [
+        "art/chapter00-01/art-polish-v1/review/E19-L3-owned-goods.png",
+        "art/chapter00-01/art-polish-v1/review/E20-L2-exchange.png"
+      ],
+      "art_status": "art-polish-v1-reviewed; native resolution limits recorded; Unity pending",
+      "art_revision_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json"
+    },
+    {
+      "id": "E20",
+      "title": "전해주지 못한 꾸러미",
+      "kind": "선택",
+      "locations": [
+        "L2",
+        "L5"
+      ],
+      "trigger": "교환처 인물에게 말 걸기, 전달 부탁을 수락",
+      "scene": "낡은 집 근처 지정 보관함으로 작은 꾸러미를 가져간다. 가는 김에 주변 생활 흔적과 별똥이를 볼 수 있다.",
+      "quest_links": [
+        {
+          "id": "Q18",
+          "operation": "명시적 수락으로 생성 → 보관함 전달 확인으로 완료"
+        }
+      ],
+      "completion": "꾸러미 전달·보관함 상태 저장",
+      "result": "낡은 집 방문에 추가 동기. 사례 물자 지급 방식·수량은 후속.",
+      "branches": "E19 없이도 교환처 대화로 부탁 가능. 배달 거절해도 집 지도·강아지 접근 허용. 새 편지 발견으로 연결하지 않음.",
+      "art": "봉인 꾸러미·빈 보관함·내용물이 앞벽에 가려지는 전달 후 상태 제작. L2/L5 고정 배경 공유.",
+      "art_resources": [
+        "art/chapter00-01/art-polish-v1/review/E20-L2-exchange.png",
+        "art/chapter00-01/art-polish-v1/review/E20-L5-empty-crate.png",
+        "art/chapter00-01/art-polish-v1/review/E20-L5-delivered.png"
+      ],
+      "art_status": "art-polish-v1-reviewed; native resolution limits recorded; Unity pending",
+      "art_revision_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json"
+    },
+    {
+      "id": "E21",
+      "title": "카메라를 넣을 곳",
+      "kind": "선택",
+      "locations": [
+        "HUB",
+        "L3"
+      ],
+      "trigger": "카메라 인수 뒤 보관 위치를 직접 살펴봄",
+      "scene": "새 카메라를 어디에 둘지 정하고 여분 천으로 주머니를 만든다.",
+      "quest_links": [
+        {
+          "id": "Q19",
+          "operation": "보관 조사로 생성 → 주머니·보관 확인으로 완료"
+        }
+      ],
+      "completion": "보관 소품 상태 확인",
+      "result": "캠핑카에 사진을 찍는 생활의 흔적이 남음.",
+      "branches": "미제작 때문에 카메라 무작위 파손 없음. 사진 튜토리얼을 막지 않음.",
+      "art": "빈 천 주머니·카메라 수납 상태와 앞쪽 천 가림 레이어 제작. 개별 카메라 원본 유지.",
+      "art_resources": [
+        "art/chapter00-01/art-polish-v1/review/E21-HUB-pouch-empty.png",
+        "art/chapter00-01/art-polish-v1/review/E21-HUB-camera-protected.png"
+      ],
+      "art_status": "art-polish-v1-reviewed; native resolution limits recorded; Unity pending",
+      "art_revision_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json"
+    },
+    {
+      "id": "E22",
+      "title": "선반 너머에서 난 소리",
+      "kind": "조건",
+      "locations": [
+        "L1",
+        "L3",
+        "L4"
+      ],
+      "trigger": "탐색 비용·결과를 확정한 뒤 소음 조건이 충족, 이번 장소 사건 미처리; 최초 탐색 튜토리얼 완료 이후",
+      "scene": "물건 부딪치는 소리 뒤 바깥의 불분명한 반응. 잠깐 기다릴지 출입구 밖으로 물러날지 선택한다.",
+      "quest_links": [
+        {
+          "id": "Q20",
+          "operation": "상황 발생으로 잠깐 대응 목표 생성 → 재탐색 가능 상태 확인으로 완료"
+        }
+      ],
+      "completion": "기다리기/물러나기의 대응 확인",
+      "result": "일부 탐색 시간·접근 순서를 고민하는 사건. 감염자 정체나 전투는 확정하지 않음.",
+      "branches": "미니게임 실패마다 강제 발생 아님. 확률·추가 시간 후속. 물자 재추첨 금지, 필수 물자 영구 소실 금지.",
+      "art": "기존 장소 배경과 암전·효과음·정지 반응 포즈 공유. 별도 적 원화 불필요.",
+      "art_resources": [
+        "art/chapter00-01/art-polish-v1/review/L1-noise.png",
+        "art/chapter00-01/art-polish-v1/review/L1-recovered.png"
+      ],
+      "art_status": "art-polish-v1-reviewed; native resolution limits recorded; Unity pending",
+      "art_revision_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json"
+    },
+    {
+      "id": "E23",
+      "title": "다음 길의 여유 연료",
+      "kind": "선택",
+      "locations": [
+        "L2"
+      ],
+      "trigger": "주유소에서 연료 설비를 직접 확인",
+      "scene": "남은 연료와 계획을 비교하고 원하면 보충한다.",
+      "quest_links": [
+        {
+          "id": "Q21",
+          "operation": "설비 확인으로 선택 목표 → 보충을 택한 경우 결과 확인으로 완료"
+        }
+      ],
+      "completion": "선택한 보충 결과 확인",
+      "result": "다음 이동 여유.",
+      "branches": "시작 연료는 충분. 거절·보류해도 사진·세진·지역 출발을 잠그지 않음. 연료 수치 후속.",
+      "art": "L2 연료 용기 유무 선택 상태 제작. 조기 연료 부족 설정 없음, 주유 동작은 소리/가림 후보.",
+      "art_resources": [
+        "art/chapter00-01/art-polish-v1/review/E23-L2-fuel-option.png",
+        "art/chapter00-01/art-polish-v1/review/E23-L2-fuel-collected.png"
+      ],
+      "art_status": "art-polish-v1-reviewed; native resolution limits recorded; Unity pending",
+      "art_revision_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json"
+    },
+    {
+      "id": "E24",
+      "title": "이제는 빈 페이지가 아니다",
+      "kind": "선택 서사",
+      "locations": [
+        "HUB"
+      ],
+      "trigger": "첫 그림·첫 사진 이후 저녁, 책/사진을 선택, 최초 1회",
+      "scene": "처음의 빈 책과 새 그림·사진을 천천히 본다. 별똥이 동행 여부, 요리대·누수 보수 등 실제 겪은 일만 짧게 되받는다.",
+      "quest_links": [],
+      "completion": "회고를 본 상태만 기록",
+      "result": "다음 풍경으로 떠날 감정적 연결. 새 수집 숙제를 만들지 않음.",
+      "branches": "강아지 미동행이면 그 자리는 비워둠. 겪지 않은 사건을 회상하지 않음. 건너뛰어도 출발 가능.",
+      "art": "실제 첫 그림과 첫 사진을 함께 보는 HUB 상태, 강아지 동행 조건 변형 제작. 미경험 사건을 회상하지 않음.",
+      "art_resources": [
+        "art/chapter00-01/art-polish-v1/review/E24-HUB-memories.png",
+        "art/chapter00-01/art-polish-v1/review/E24-HUB-memories-with-dog.png"
+      ],
+      "art_status": "art-polish-v1-reviewed; native resolution limits recorded; Unity pending",
+      "art_revision_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json"
+    },
+    {
+      "id": "E25",
+      "title": "다음 동네로 가는 길",
+      "kind": "중심",
+      "locations": [
+        "L7",
+        "HUB"
+      ],
+      "trigger": "첫 그림·첫 사진 완료, 세진의 길 정보 보유, 출발 시점 선택",
+      "scene": "캠프 방향으로 계속 이동하기 위한 고갯길 통제 안내 확인 → 알려진 우회로 선택 → 미완료 선택 사건과 준비 상태 확인 → 암전·출발.",
+      "quest_links": [
+        {
+          "id": "Q07",
+          "operation": "도로 확인·실제 다음 지역 진입으로 완료"
+        }
+      ],
+      "completion": "다음 지역 진입과 이어갈 상태 저장",
+      "result": "그림·사진·소지품·수리 상태·동행을 다음 챕터로 유지.",
+      "branches": "Q02 안내·강아지·수리·주유·배달 전부 완료 요구 금지. 날짜만으로 미완료 튜토리얼 자동 실패시키지 않음.",
+      "art": "L7 고정 배경에 오르막 차단물 분리. 왼쪽 우회로 유지. 출발 이동은 암전·음향 후보.",
+      "art_resources": [
+        "art/chapter00-01/art-polish-v1/review/E25-L7-road-choice.png"
+      ],
+      "art_status": "art-polish-v1-reviewed; native resolution limits recorded; Unity pending",
+      "narrative_revision_ref": "docs/00-제작관리/CH00-01-TRUTH-REVISION-STORYBOARD.ko.md",
+      "art_revision_manifest": "art/chapter00-01/art-polish-v1/scene-manifest.json"
+    }
+  ],
+  "quests": [
+    {
+      "id": "Q01",
+      "title": "오늘 쓸 물과 식량",
+      "kind": "중심",
+      "steps": [
+        "지도에서 편의점 선택",
+        "물·바로 먹을 식량 확보",
+        "확보 결과 확인"
+      ],
+      "completion": "첫 분배용 물자 확보 확인. 분배 자체는 Q03에서 진행."
+    },
+    {
+      "id": "Q02",
+      "title": "오래된 대피 안내",
+      "kind": "선택",
+      "steps": [
+        "계산대 안내 읽기",
+        "세진에게 아는 정보 묻기"
+      ],
+      "completion": "세진의 제한된 정보까지 확인. 현재 안전 여부는 미확인으로 기록하며 안전구역 해금으로 처리하지 않음."
+    },
+    {
+      "id": "Q03",
+      "title": "첫 식사 나누기",
+      "kind": "중심",
+      "steps": [
+        "캠핑카로 귀환",
+        "물·식량 분배",
+        "식사 반응 확인"
+      ],
+      "completion": "첫 분배 완료. 전 재고를 소비하지 않으며 요리대 수리가 선행 조건이 아님."
+    },
+    {
+      "id": "Q04",
+      "title": "따뜻한 식사를 위한 준비",
+      "kind": "선택",
+      "steps": [
+        "요리대 고장 확인",
+        "필요한 부품 확인·확보",
+        "수리 작업·작동 확인"
+      ],
+      "completion": "작동 확인 뒤 조리 가능. 첫날 낮에는 고장 암시까지만, 수리 단계는 낮 마무리 이후 가능."
+    },
+    {
+      "id": "Q05",
+      "title": "소이에게 색연필",
+      "kind": "중심",
+      "steps": [
+        "소이 부탁 듣기",
+        "색연필 확보 또는 보유 확인",
+        "색연필 전달"
+      ],
+      "completion": "기존 책 사용. 선확보 인정, 전달은 한 번만. 편의점 미획득이면 잡화점 확정 확보 경로 안내."
+    },
+    {
+      "id": "Q06",
+      "title": "기존 책에 첫 그림",
+      "kind": "필수 튜토리얼",
+      "steps": [
+        "책·색연필 준비",
+        "첫 그림 진행",
+        "완성 그림과 소이 반응 확인"
+      ],
+      "completion": "그림 완성과 반응 확인을 모두 기록. 재료 전달만으로 완료 처리하지 않음."
+    },
+    {
+      "id": "Q07",
+      "title": "다음 풍경으로 가는 길",
+      "kind": "중심",
+      "steps": [
+        "세진에게 캠프 방향의 지역 밖 길 정보 듣기",
+        "첫 그림·첫 사진 완료 확인",
+        "고갯길 안내 확인",
+        "미완료 선택 사건 확인 후 출발"
+      ],
+      "completion": "실제 다음 지역 진입 확인. 주유·강아지·대피 안내 퀘스트 완료는 요구하지 않음."
+    },
+    {
+      "id": "Q08",
+      "title": "세진의 공구 가방",
+      "kind": "중심",
+      "steps": [
+        "세진의 부탁 듣고 수락",
+        "수리점에서 가방 확인·회수",
+        "세진에게 전달",
+        "카메라·필름 인수 확인"
+      ],
+      "completion": "전달과 카메라·필름 인수를 한 번만 반영. 추가 공구 Q09와 분리."
+    },
+    {
+      "id": "Q09",
+      "title": "가방에서 빠진 공구",
+      "kind": "선택",
+      "steps": [
+        "가방의 공구 목록 확인",
+        "추가 공구 회수 또는 대안 확인",
+        "세진에게 결과 전달"
+      ],
+      "completion": "추가 회수 또는 대안 확인으로 해결. 포기해도 Q08 보상에 영향 없음."
+    },
+    {
+      "id": "Q10",
+      "title": "새로운 첫 사진",
+      "kind": "필수 튜토리얼",
+      "steps": [
+        "카메라·필름 인수",
+        "강변 쉼터에서 촬영 대상 확인",
+        "첫 촬영",
+        "앨범에서 첫 장 확인"
+      ],
+      "completion": "촬영과 앨범 확인 모두 완료. 첫 필름은 선택 촬영으로 소진되지 않게 보장."
+    },
+    {
+      "id": "Q11",
+      "title": "문밖의 강아지",
+      "kind": "선택",
+      "steps": [
+        "별똥이를 발견",
+        "물 또는 먹을 것 두고 거리 두기",
+        "진정된 뒤 다시 교감",
+        "동행 여부 선택"
+      ],
+      "completion": "동행 수락 또는 이번에는 두고 가기 결정. 후자는 declined이며 영입 완료와 구분; 지역 내 재제안 가능."
+    },
+    {
+      "id": "Q12",
+      "title": "별똥이의 자리",
+      "kind": "선택",
+      "steps": [
+        "동행한 강아지의 쉴 곳 확인",
+        "기존 천·깔개로 자리 준비",
+        "쉬는 모습 확인"
+      ],
+      "completion": "자리 상태와 강아지 휴식 포즈 변경. 없다고 강아지가 갑자기 이탈하지 않음."
+    },
+    {
+      "id": "Q13",
+      "title": "빗물이 들어오는 틈",
+      "kind": "조건",
+      "steps": [
+        "누수 위치 확인",
+        "덮개 임시 대응 또는 틈 보수",
+        "대응 결과 확인"
+      ],
+      "completion": "임시 대응은 이번 비 해결, 보수는 지속 상태. temporary와 repaired를 구분."
+    },
+    {
+      "id": "Q14",
+      "title": "젖은 잠자리",
+      "kind": "조건",
+      "steps": [
+        "젖은 침구 확인",
+        "마른 천 교체 또는 갠 날 말리기",
+        "쉴 자리 확인"
+      ],
+      "completion": "수면 가능한 자리 확보. 재료가 없으면 마를 때까지 보류하며 필수 진행을 막지 않음."
+    },
+    {
+      "id": "Q15",
+      "title": "따뜻한 한 끼",
+      "kind": "선택",
+      "steps": [
+        "작동하는 요리대와 쓸 식재료 확인",
+        "요리 방식 선택·진행",
+        "완성 음식을 식사에 사용"
+      ],
+      "completion": "실제 음식 생성·사용 한 번만 기록. 미니게임 상세는 후속이며 실패 때문에 필수 식사를 잠그지 않음."
+    },
+    {
+      "id": "Q16",
+      "title": "덜컹거리는 찬장",
+      "kind": "선택",
+      "steps": [
+        "이동 뒤 찬장 소리 확인",
+        "천 받침 또는 고정끈 준비",
+        "고정 결과 확인"
+      ],
+      "completion": "찬장 정리 상태·다음 이동 소리 변경."
+    },
+    {
+      "id": "Q17",
+      "title": "주인이 남긴 물건",
+      "kind": "선택",
+      "steps": [
+        "잡화점 보관 메모 읽기",
+        "다른 물건 선택 또는 주유소 교환처 문의"
+      ],
+      "completion": "대체품을 택해도 해결. 메모 대상은 선택 생활용품이며 필수 색연필과 분리."
+    },
+    {
+      "id": "Q18",
+      "title": "전해주지 못한 꾸러미",
+      "kind": "선택",
+      "steps": [
+        "교환처 부탁 수락",
+        "낡은 집 지정 보관함에 전달",
+        "전달 사실 확인"
+      ],
+      "completion": "동의한 배달만 진행. 별똥이 발견·집 방문의 필수 조건이 아님."
+    },
+    {
+      "id": "Q19",
+      "title": "카메라를 넣을 곳",
+      "kind": "선택",
+      "steps": [
+        "보관 위치 확인",
+        "여분 천으로 주머니 제작",
+        "카메라 보관"
+      ],
+      "completion": "보관 소품 상태 변화. 미제작에 따른 무작위 카메라 파손 없음."
+    },
+    {
+      "id": "Q20",
+      "title": "소리가 멎을 때까지",
+      "kind": "조건",
+      "steps": [
+        "탐색 소음 뒤 주변 반응 확인",
+        "잠깐 기다리기 또는 밖으로 물러나기",
+        "다시 살필 수 있는 상태 확인"
+      ],
+      "completion": "일시 대응 종료. 탐색 결과·사용 시간 유지, 물자를 재추첨하지 않음."
+    },
+    {
+      "id": "Q21",
+      "title": "다음 길의 여유 연료",
+      "kind": "선택",
+      "steps": [
+        "현재 연료와 이동 계획 확인",
+        "보충 여부 선택",
+        "선택했다면 보충 결과 확인"
+      ],
+      "completion": "보충은 선택. 하지 않으면 deferred/declined, 주유 완료로 기록하지 않음."
+    }
+  ],
+  "locations": [
+    {
+      "id": "HUB",
+      "name": "캠핑카 내부",
+      "status": "기존 v3 재사용·상태 보강",
+      "source": "art/chapter01/revision-v3/camper-clean-base-v3.png",
+      "size": [
+        1672,
+        941
+      ],
+      "brief": "기존 열린 측면 구도 고정. 책·그림·사진·물자·강아지 자리와 수리 상태를 분리해서 얹는다.",
+      "layers": [
+        "고정 배경",
+        "식탁·가구 전경 가림",
+        "물자·책·사진",
+        "요리대/누수/찬장 상태",
+        "인물·강아지",
+        "각 접지 그림자"
+      ],
+      "priority": "기존 보강",
+      "events": [
+        "E01",
+        "E03",
+        "E04",
+        "E05",
+        "E06",
+        "E11",
+        "E13",
+        "E14",
+        "E15",
+        "E16",
+        "E17",
+        "E18",
+        "E21",
+        "E24",
+        "E25"
+      ],
+      "prop_manifests": [
+        "art/chapter01/dog-v2/manifest.json"
+      ]
+    },
+    {
+      "id": "L1",
+      "name": "작은 편의점",
+      "status": "기존 v3 재사용",
+      "source": "art/chapter01/revision-v3/store-clean-base-v3.png",
+      "size": [
+        1672,
+        941
+      ],
+      "brief": "기존 열린 앞면·냉장고·선반·문구대·계산대 위치 고정. 획득 가능한 소품은 배경에서 분리.",
+      "layers": [
+        "고정 배경",
+        "전경 선반/계산대 가림",
+        "물자 소진 상태",
+        "쪽지",
+        "인물·접지 그림자"
+      ],
+      "priority": "기존 보강",
+      "events": [
+        "E01",
+        "E02",
+        "E05",
+        "E17",
+        "E22"
+      ]
+    },
+    {
+      "id": "L2",
+      "name": "주유소 정비·주차 구역",
+      "status": "신규 빈 베이스 v1 제작·구도 검토, 해상도 보강 필요",
+      "source": "art/chapter01/gas-station-v1/gas-station-clean-base-source-v1.png",
+      "brief": "L1과 비슷한 비스듬한 시점의 작은 주유소. 한 화면에 펌프·지붕·차량 정비 면·대화 공간. 별도 사무실 내부는 만들지 않는다. 세진 차량과 수혁 캠핑카 정차 슬롯을 혼동하지 않게 분리.",
+      "layers": [
+        "지면·펌프 기초·건물",
+        "지붕/기둥 전경 가림",
+        "세진 차량",
+        "정비 장비·호스",
+        "세진·선택 교환처 인물",
+        "그림자"
+      ],
+      "priority": "신규 2순위",
+      "events": [
+        "E02",
+        "E07",
+        "E09",
+        "E10",
+        "E19",
+        "E20",
+        "E23"
+      ],
+      "size": [
+        1672,
+        941
+      ],
+      "asset_manifest": "art/chapter01/gas-station-v1/manifest.json",
+      "prop_manifests": [
+        "art/chapter01/photographer-props-v1/manifest.json",
+        "art/chapter01/sejin-v1/manifest.json"
+      ]
+    },
+    {
+      "id": "L3",
+      "name": "생활 잡화점",
+      "status": "신규 빈 베이스 v1 제작·구도 검토, 해상도 보강 필요",
+      "source": "art/chapter01/general-store-v1/general-store-clean-base-source-v1.png",
+      "brief": "작은 동네 생활용품점의 앞벽 없는 내부. 낮은 문구 진열대·천과 생활용품 선반·작은 계산대. 편의점보다 건조하고 소박한 생활 공간. 문구대와 보관 메모 대상 생활용품은 별도 구역.",
+      "layers": [
+        "빈 진열대 포함 고정 실내",
+        "앞쪽 가구 가림",
+        "색연필·천·깔개",
+        "보관 메모·선택 생활용품",
+        "인물·그림자"
+      ],
+      "priority": "신규 1순위",
+      "events": [
+        "E05",
+        "E14",
+        "E15",
+        "E18",
+        "E19",
+        "E21",
+        "E22"
+      ],
+      "size": [
+        1672,
+        941
+      ],
+      "asset_manifest": "art/chapter01/general-store-v1/manifest.json",
+      "prop_manifests": [
+        "art/chapter01/colored-pencils-v1/manifest.json"
+      ]
+    },
+    {
+      "id": "L4",
+      "name": "철물·전기 수리점",
+      "status": "신규 빈 베이스 v1 제작·구도 검토, 해상도 보강 필요",
+      "source": "art/chapter01/repair-shop-v1/repair-shop-clean-base-source-v1.png",
+      "brief": "앞면이 열린 좁은 작업장. 넓지 않은 작업대·벽 공구 걸이·부품 서랍. 가방은 작업대 아래 눈에 들어오는 자리. 여러 수리 사건이 같은 공간을 재사용.",
+      "layers": [
+        "벽·빈 서랍·작업대",
+        "작업대 앞판 가림",
+        "공구 가방·추가 공구",
+        "부품·테이프·방수 재료",
+        "인물·그림자"
+      ],
+      "priority": "신규 3순위",
+      "events": [
+        "E04",
+        "E08",
+        "E10",
+        "E15",
+        "E22"
+      ],
+      "size": [
+        1672,
+        941
+      ],
+      "asset_manifest": "art/chapter01/repair-shop-v1/manifest.json",
+      "prop_manifests": [
+        "art/chapter01/photographer-props-v1/manifest.json"
+      ]
+    },
+    {
+      "id": "L5",
+      "name": "낡은 집",
+      "status": "기존 v3 재사용·입구 소품 보강",
+      "source": "art/chapter01/revision-v3/house-clean-base-v3.png",
+      "size": [
+        1672,
+        941
+      ],
+      "brief": "기존 앞쪽이 열린 집 구도 보존. 별똥이가 거리를 둘 입구 바닥과 지정 보관함 위치를 먼저 잡는다. 서연 편지 등장 금지.",
+      "layers": [
+        "고정 집 배경",
+        "앞쪽 가구 가림",
+        "그릇·꾸러미·보관함 상태",
+        "강아지·수혁",
+        "접지 그림자"
+      ],
+      "priority": "강아지 콘티 전 보강",
+      "events": [
+        "E12",
+        "E13",
+        "E20"
+      ],
+      "prop_manifests": [
+        "art/chapter01/dog-v2/manifest.json"
+      ]
+    },
+    {
+      "id": "L6",
+      "name": "강변 쉼터",
+      "status": "신규 빈 베이스 v1 제작·구도 검토, 해상도 보강 필요",
+      "source": "art/chapter01/riverside-v1/riverside-clean-base-source-v1.png",
+      "brief": "같은 지역의 작은 하천과 둑길·나무·낮은 벤치. 넓은 풍경과 가까운 쉼터 바닥이 함께 읽히게 한다. 사진 촬영과 천 말리기 공간을 공유. 버려진 도시의 흔적은 절제하고 과한 노을·광선은 넣지 않는다.",
+      "layers": [
+        "멀리 보이는 풍경·하천",
+        "쉼터 지면",
+        "전경 수풀/벤치 가림",
+        "말리는 천·카메라",
+        "인물·강아지 선택",
+        "그림자"
+      ],
+      "priority": "신규 4순위",
+      "events": [
+        "E11",
+        "E16"
+      ],
+      "size": [
+        1672,
+        941
+      ],
+      "asset_manifest": "art/chapter01/riverside-v1/manifest.json",
+      "prop_manifests": [
+        "art/chapter01/photographer-props-v1/manifest.json",
+        "art/chapter01/first-photo-v1/manifest.json"
+      ]
+    },
+    {
+      "id": "L7",
+      "name": "고갯길 입구",
+      "status": "신규 빈 베이스 v1 제작·구도 검토, 해상도 보강 필요",
+      "source": "art/chapter01/hill-road-v1/hill-road-clean-base-source-v1.png",
+      "brief": "도로 입구와 갈림길이 읽히는 고정 한 장. 통제 안내판은 분리해서 Unity 글자를 얹는다. 짧은 진입·출발 장면을 겸하며 우회로 전체 배경은 추가하지 않는다.",
+      "layers": [
+        "길·산자락 고정 풍경",
+        "분리 안내판",
+        "차단물",
+        "선택 캠핑카",
+        "그림자"
+      ],
+      "priority": "신규 5순위",
+      "events": [
+        "E25"
+      ],
+      "size": [
+        1672,
+        941
+      ],
+      "asset_manifest": "art/chapter01/hill-road-v1/manifest.json"
+    }
+  ],
+  "rules": {
+    "event_vs_quest": "이벤트는 세계/연출의 사건, 퀘스트는 지속 목표. 여러 이벤트가 한 퀘스트를 진행할 수 있고 퀘스트 없는 사건도 허용.",
+    "day_policy": "날짜는 배치 예시. 선행 사건·재고·장소·선택을 우선.",
+    "noon_boundary": "E01→E03→E04 고장 암시→E05 부탁까지. E02 및 다른 탐색은 선택. 수리·그림은 다음 구간.",
+    "text_policy": "정식 대사집은 후속. 화자 이름은 소개/호명으로 알게 된 시점부터 공개.",
+    "art_policy": "현재 25개 사건의 원화 연결 완료. 새 17점과 29개 상태는 completion-v1, 기존 개별 원본은 전체 원화 연결표를 따른다. 배경 1672×941 및 일부 인물 높이는 목표 미달. 최종 대사/표정/Unity는 후속."
+  },
+  "art_coverage_manifest": "design/chapter01/week01-art-coverage-v1.json",
+  "continuous_handoff": "docs/00-제작관리/CH00-WEEK01-CONTINUOUS-HANDOFF.ko.md",
+  "narrative_revision": {
+    "id": "truth-revision-v1",
+    "guide": "docs/00-제작관리/CH00-01-TRUTH-REVISION-STORYBOARD.ko.md",
+    "scope": "Chapter 0 and early first-week causality; no new combat event or dialogue",
+    "status": "storyboard-direction-applied-runtime-pending",
+    "first_photo": "landscape-tutorial-not-immediate-truth-reveal",
+    "infection_event": "forced-later-event-date-unset"
+  }
+}

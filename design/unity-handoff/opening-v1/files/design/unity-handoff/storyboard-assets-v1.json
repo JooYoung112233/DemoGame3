@@ -1,0 +1,4057 @@
+{
+  "version": 1,
+  "base_resolution": [
+    1920,
+    1080
+  ],
+  "art_coordinate_canvas": [
+    1672,
+    941
+  ],
+  "ui_master_canvas": [
+    3840,
+    2160
+  ],
+  "scenes": [
+    {
+      "id": "C0-00",
+      "label": "시작 화면 · A 채택",
+      "preview": "design/ui/ch00-01/review/C0-00-A-first-start.jpg",
+      "parts": [
+        {
+          "path": "art/title/title-background-v1.png",
+          "role": "임시 배경 / 실제 손 화풍 교체 예정",
+          "rect": null
+        },
+        {
+          "path": "art/title/logo-v1.png",
+          "role": "기존 투명 로고",
+          "rect": null
+        },
+        {
+          "path": "design/ui/ch00-01/psd/C0-00-A-first-start.psd",
+          "role": "최초 시작 UI PSD",
+          "rect": null
+        },
+        {
+          "path": "design/ui/ch00-01/psd/C0-00-A-returning.psd",
+          "role": "저장 있음 UI PSD",
+          "rect": null
+        },
+        {
+          "path": "design/ui/ch00-01/manifest.json",
+          "role": "UI 좌표·클릭 영역·문자 참조",
+          "rect": null
+        },
+        {
+          "path": "design/ui/ch00-01/strings.ko.json",
+          "role": "별도 런타임 문구",
+          "rect": null
+        },
+        {
+          "path": "art/title/fonts/Live49MenuSerif-Regular.ttf",
+          "role": "메뉴 폰트 / OFL 고지 함께 사용",
+          "rect": null
+        }
+      ],
+      "entry": "앱 시작 또는 메뉴 복귀",
+      "advance": "시작 선택 → 메뉴·로고 페이드 시작. 최초 시작 확인창 없음",
+      "next": "C0-01",
+      "ui_status": "A 화풍 채택 / 실행 구현 없음",
+      "notes": "저장이 있을 때만 이어하기 표시. 동일 시작 입력이 다음 대사를 넘기지 않게 소비한다.",
+      "state_data": {
+        "C0-00-A-first-start": {
+          "psd": "design/ui/ch00-01/psd/C0-00-A-first-start.psd",
+          "has_save": false,
+          "focus": "start",
+          "review": "design/ui/ch00-01/review/C0-00-A-first-start.jpg",
+          "ui_png": "design/ui/ch00-01/review/C0-00-A-first-start-ui.png",
+          "layers": [
+            {
+              "name": "01_readability_shade",
+              "png": "design/ui/ch00-01/layers/C0-00-A-first-start/01_readability_shade.png",
+              "rect_px": [
+                0,
+                0,
+                3840,
+                2160
+              ],
+              "rect_logical": [
+                0.0,
+                0.0,
+                1920.0,
+                1080.0
+              ],
+              "runtime": "optional overlay",
+              "string_id": null
+            },
+            {
+              "name": "02_existing_logo",
+              "png": "design/ui/ch00-01/layers/C0-00-A-first-start/02_existing_logo.png",
+              "rect_px": [
+                334,
+                444,
+                1000,
+                390
+              ],
+              "rect_logical": [
+                167.0,
+                222.0,
+                500.0,
+                195.0
+              ],
+              "runtime": "existing logo image",
+              "string_id": null
+            },
+            {
+              "name": "10_0_start_surface",
+              "png": "design/ui/ch00-01/layers/C0-00-A-first-start/10_0_start_surface.png",
+              "rect_px": [
+                470,
+                984,
+                720,
+                128
+              ],
+              "rect_logical": [
+                235.0,
+                492.0,
+                360.0,
+                64.0
+              ],
+              "runtime": "button image",
+              "string_id": null
+            },
+            {
+              "name": "20_0_start_text",
+              "png": "design/ui/ch00-01/layers/C0-00-A-first-start/20_0_start_text.png",
+              "rect_px": [
+                768,
+                1008,
+                124,
+                71
+              ],
+              "rect_logical": [
+                384.0,
+                504.0,
+                62.0,
+                35.5
+              ],
+              "runtime": "replace with runtime text",
+              "string_id": "start"
+            },
+            {
+              "name": "10_1_settings_surface",
+              "png": "design/ui/ch00-01/layers/C0-00-A-first-start/10_1_settings_surface.png",
+              "rect_px": [
+                470,
+                1148,
+                720,
+                128
+              ],
+              "rect_logical": [
+                235.0,
+                574.0,
+                360.0,
+                64.0
+              ],
+              "runtime": "button image",
+              "string_id": null
+            },
+            {
+              "name": "20_1_settings_text",
+              "png": "design/ui/ch00-01/layers/C0-00-A-first-start/20_1_settings_text.png",
+              "rect_px": [
+                768,
+                1172,
+                124,
+                71
+              ],
+              "rect_logical": [
+                384.0,
+                586.0,
+                62.0,
+                35.5
+              ],
+              "runtime": "replace with runtime text",
+              "string_id": "settings"
+            },
+            {
+              "name": "10_2_quit_surface",
+              "png": "design/ui/ch00-01/layers/C0-00-A-first-start/10_2_quit_surface.png",
+              "rect_px": [
+                470,
+                1312,
+                720,
+                128
+              ],
+              "rect_logical": [
+                235.0,
+                656.0,
+                360.0,
+                64.0
+              ],
+              "runtime": "button image",
+              "string_id": null
+            },
+            {
+              "name": "20_2_quit_text",
+              "png": "design/ui/ch00-01/layers/C0-00-A-first-start/20_2_quit_text.png",
+              "rect_px": [
+                768,
+                1336,
+                124,
+                68
+              ],
+              "rect_logical": [
+                384.0,
+                668.0,
+                62.0,
+                34.0
+              ],
+              "runtime": "replace with runtime text",
+              "string_id": "quit"
+            },
+            {
+              "name": "30_input_hint",
+              "png": "design/ui/ch00-01/layers/C0-00-A-first-start/30_input_hint.png",
+              "rect_px": [
+                645,
+                1928,
+                370,
+                45
+              ],
+              "rect_logical": [
+                322.5,
+                964.0,
+                185.0,
+                22.5
+              ],
+              "runtime": "device-dependent runtime text",
+              "string_id": "input_hint"
+            }
+          ],
+          "menu_hit_rects_logical": {
+            "start": [
+              235,
+              492,
+              360,
+              64
+            ],
+            "settings": [
+              235,
+              574,
+              360,
+              64
+            ],
+            "quit": [
+              235,
+              656,
+              360,
+              64
+            ]
+          },
+          "anchor": "top-left; scale uniformly inside centered 16:9 viewport",
+          "pivot": [
+            0,
+            1
+          ]
+        },
+        "C0-00-A-returning": {
+          "psd": "design/ui/ch00-01/psd/C0-00-A-returning.psd",
+          "has_save": true,
+          "focus": "continue",
+          "review": "design/ui/ch00-01/review/C0-00-A-returning.jpg",
+          "ui_png": "design/ui/ch00-01/review/C0-00-A-returning-ui.png",
+          "layers": [
+            {
+              "name": "01_readability_shade",
+              "png": "design/ui/ch00-01/layers/C0-00-A-returning/01_readability_shade.png",
+              "rect_px": [
+                0,
+                0,
+                3840,
+                2160
+              ],
+              "rect_logical": [
+                0.0,
+                0.0,
+                1920.0,
+                1080.0
+              ],
+              "runtime": "optional overlay",
+              "string_id": null
+            },
+            {
+              "name": "02_existing_logo",
+              "png": "design/ui/ch00-01/layers/C0-00-A-returning/02_existing_logo.png",
+              "rect_px": [
+                334,
+                444,
+                1000,
+                390
+              ],
+              "rect_logical": [
+                167.0,
+                222.0,
+                500.0,
+                195.0
+              ],
+              "runtime": "existing logo image",
+              "string_id": null
+            },
+            {
+              "name": "10_0_continue_surface",
+              "png": "design/ui/ch00-01/layers/C0-00-A-returning/10_0_continue_surface.png",
+              "rect_px": [
+                470,
+                984,
+                720,
+                128
+              ],
+              "rect_logical": [
+                235.0,
+                492.0,
+                360.0,
+                64.0
+              ],
+              "runtime": "button image",
+              "string_id": null
+            },
+            {
+              "name": "20_0_continue_text",
+              "png": "design/ui/ch00-01/layers/C0-00-A-returning/20_0_continue_text.png",
+              "rect_px": [
+                714,
+                1008,
+                232,
+                72
+              ],
+              "rect_logical": [
+                357.0,
+                504.0,
+                116.0,
+                36.0
+              ],
+              "runtime": "replace with runtime text",
+              "string_id": "continue"
+            },
+            {
+              "name": "10_1_start_surface",
+              "png": "design/ui/ch00-01/layers/C0-00-A-returning/10_1_start_surface.png",
+              "rect_px": [
+                470,
+                1148,
+                720,
+                128
+              ],
+              "rect_logical": [
+                235.0,
+                574.0,
+                360.0,
+                64.0
+              ],
+              "runtime": "button image",
+              "string_id": null
+            },
+            {
+              "name": "20_1_start_text",
+              "png": "design/ui/ch00-01/layers/C0-00-A-returning/20_1_start_text.png",
+              "rect_px": [
+                768,
+                1172,
+                124,
+                71
+              ],
+              "rect_logical": [
+                384.0,
+                586.0,
+                62.0,
+                35.5
+              ],
+              "runtime": "replace with runtime text",
+              "string_id": "start"
+            },
+            {
+              "name": "10_2_settings_surface",
+              "png": "design/ui/ch00-01/layers/C0-00-A-returning/10_2_settings_surface.png",
+              "rect_px": [
+                470,
+                1312,
+                720,
+                128
+              ],
+              "rect_logical": [
+                235.0,
+                656.0,
+                360.0,
+                64.0
+              ],
+              "runtime": "button image",
+              "string_id": null
+            },
+            {
+              "name": "20_2_settings_text",
+              "png": "design/ui/ch00-01/layers/C0-00-A-returning/20_2_settings_text.png",
+              "rect_px": [
+                768,
+                1336,
+                124,
+                71
+              ],
+              "rect_logical": [
+                384.0,
+                668.0,
+                62.0,
+                35.5
+              ],
+              "runtime": "replace with runtime text",
+              "string_id": "settings"
+            },
+            {
+              "name": "10_3_quit_surface",
+              "png": "design/ui/ch00-01/layers/C0-00-A-returning/10_3_quit_surface.png",
+              "rect_px": [
+                470,
+                1476,
+                720,
+                128
+              ],
+              "rect_logical": [
+                235.0,
+                738.0,
+                360.0,
+                64.0
+              ],
+              "runtime": "button image",
+              "string_id": null
+            },
+            {
+              "name": "20_3_quit_text",
+              "png": "design/ui/ch00-01/layers/C0-00-A-returning/20_3_quit_text.png",
+              "rect_px": [
+                768,
+                1500,
+                124,
+                68
+              ],
+              "rect_logical": [
+                384.0,
+                750.0,
+                62.0,
+                34.0
+              ],
+              "runtime": "replace with runtime text",
+              "string_id": "quit"
+            },
+            {
+              "name": "30_input_hint",
+              "png": "design/ui/ch00-01/layers/C0-00-A-returning/30_input_hint.png",
+              "rect_px": [
+                645,
+                1928,
+                370,
+                45
+              ],
+              "rect_logical": [
+                322.5,
+                964.0,
+                185.0,
+                22.5
+              ],
+              "runtime": "device-dependent runtime text",
+              "string_id": "input_hint"
+            }
+          ],
+          "menu_hit_rects_logical": {
+            "continue": [
+              235,
+              492,
+              360,
+              64
+            ],
+            "start": [
+              235,
+              574,
+              360,
+              64
+            ],
+            "settings": [
+              235,
+              656,
+              360,
+              64
+            ],
+            "quit": [
+              235,
+              738,
+              360,
+              64
+            ]
+          },
+          "anchor": "top-left; scale uniformly inside centered 16:9 viewport",
+          "pivot": [
+            0,
+            1
+          ]
+        },
+        "C0-00-B-first-start": {
+          "psd": "design/ui/ch00-01/psd/C0-00-B-first-start.psd",
+          "has_save": false,
+          "focus": "start",
+          "review": "design/ui/ch00-01/review/C0-00-B-first-start.jpg",
+          "ui_png": "design/ui/ch00-01/review/C0-00-B-first-start-ui.png",
+          "layers": [
+            {
+              "name": "01_readability_shade",
+              "png": "design/ui/ch00-01/layers/C0-00-B-first-start/01_readability_shade.png",
+              "rect_px": [
+                0,
+                0,
+                3840,
+                2160
+              ],
+              "rect_logical": [
+                0.0,
+                0.0,
+                1920.0,
+                1080.0
+              ],
+              "runtime": "optional overlay",
+              "string_id": null
+            },
+            {
+              "name": "02_existing_logo",
+              "png": "design/ui/ch00-01/layers/C0-00-B-first-start/02_existing_logo.png",
+              "rect_px": [
+                334,
+                444,
+                1000,
+                390
+              ],
+              "rect_logical": [
+                167.0,
+                222.0,
+                500.0,
+                195.0
+              ],
+              "runtime": "existing logo image",
+              "string_id": null
+            },
+            {
+              "name": "10_0_start_surface",
+              "png": "design/ui/ch00-01/layers/C0-00-B-first-start/10_0_start_surface.png",
+              "rect_px": [
+                470,
+                984,
+                720,
+                128
+              ],
+              "rect_logical": [
+                235.0,
+                492.0,
+                360.0,
+                64.0
+              ],
+              "runtime": "button image",
+              "string_id": null
+            },
+            {
+              "name": "20_0_start_text",
+              "png": "design/ui/ch00-01/layers/C0-00-B-first-start/20_0_start_text.png",
+              "rect_px": [
+                768,
+                1008,
+                124,
+                71
+              ],
+              "rect_logical": [
+                384.0,
+                504.0,
+                62.0,
+                35.5
+              ],
+              "runtime": "replace with runtime text",
+              "string_id": "start"
+            },
+            {
+              "name": "10_1_settings_surface",
+              "png": "design/ui/ch00-01/layers/C0-00-B-first-start/10_1_settings_surface.png",
+              "rect_px": [
+                470,
+                1148,
+                720,
+                128
+              ],
+              "rect_logical": [
+                235.0,
+                574.0,
+                360.0,
+                64.0
+              ],
+              "runtime": "button image",
+              "string_id": null
+            },
+            {
+              "name": "20_1_settings_text",
+              "png": "design/ui/ch00-01/layers/C0-00-B-first-start/20_1_settings_text.png",
+              "rect_px": [
+                768,
+                1172,
+                124,
+                71
+              ],
+              "rect_logical": [
+                384.0,
+                586.0,
+                62.0,
+                35.5
+              ],
+              "runtime": "replace with runtime text",
+              "string_id": "settings"
+            },
+            {
+              "name": "10_2_quit_surface",
+              "png": "design/ui/ch00-01/layers/C0-00-B-first-start/10_2_quit_surface.png",
+              "rect_px": [
+                470,
+                1312,
+                720,
+                128
+              ],
+              "rect_logical": [
+                235.0,
+                656.0,
+                360.0,
+                64.0
+              ],
+              "runtime": "button image",
+              "string_id": null
+            },
+            {
+              "name": "20_2_quit_text",
+              "png": "design/ui/ch00-01/layers/C0-00-B-first-start/20_2_quit_text.png",
+              "rect_px": [
+                768,
+                1336,
+                124,
+                68
+              ],
+              "rect_logical": [
+                384.0,
+                668.0,
+                62.0,
+                34.0
+              ],
+              "runtime": "replace with runtime text",
+              "string_id": "quit"
+            },
+            {
+              "name": "30_input_hint",
+              "png": "design/ui/ch00-01/layers/C0-00-B-first-start/30_input_hint.png",
+              "rect_px": [
+                645,
+                1928,
+                370,
+                45
+              ],
+              "rect_logical": [
+                322.5,
+                964.0,
+                185.0,
+                22.5
+              ],
+              "runtime": "device-dependent runtime text",
+              "string_id": "input_hint"
+            }
+          ],
+          "menu_hit_rects_logical": {
+            "start": [
+              235,
+              492,
+              360,
+              64
+            ],
+            "settings": [
+              235,
+              574,
+              360,
+              64
+            ],
+            "quit": [
+              235,
+              656,
+              360,
+              64
+            ]
+          },
+          "anchor": "top-left; scale uniformly inside centered 16:9 viewport",
+          "pivot": [
+            0,
+            1
+          ]
+        },
+        "C0-00-B-returning": {
+          "psd": "design/ui/ch00-01/psd/C0-00-B-returning.psd",
+          "has_save": true,
+          "focus": "continue",
+          "review": "design/ui/ch00-01/review/C0-00-B-returning.jpg",
+          "ui_png": "design/ui/ch00-01/review/C0-00-B-returning-ui.png",
+          "layers": [
+            {
+              "name": "01_readability_shade",
+              "png": "design/ui/ch00-01/layers/C0-00-B-returning/01_readability_shade.png",
+              "rect_px": [
+                0,
+                0,
+                3840,
+                2160
+              ],
+              "rect_logical": [
+                0.0,
+                0.0,
+                1920.0,
+                1080.0
+              ],
+              "runtime": "optional overlay",
+              "string_id": null
+            },
+            {
+              "name": "02_existing_logo",
+              "png": "design/ui/ch00-01/layers/C0-00-B-returning/02_existing_logo.png",
+              "rect_px": [
+                334,
+                444,
+                1000,
+                390
+              ],
+              "rect_logical": [
+                167.0,
+                222.0,
+                500.0,
+                195.0
+              ],
+              "runtime": "existing logo image",
+              "string_id": null
+            },
+            {
+              "name": "10_0_continue_surface",
+              "png": "design/ui/ch00-01/layers/C0-00-B-returning/10_0_continue_surface.png",
+              "rect_px": [
+                470,
+                984,
+                720,
+                128
+              ],
+              "rect_logical": [
+                235.0,
+                492.0,
+                360.0,
+                64.0
+              ],
+              "runtime": "button image",
+              "string_id": null
+            },
+            {
+              "name": "20_0_continue_text",
+              "png": "design/ui/ch00-01/layers/C0-00-B-returning/20_0_continue_text.png",
+              "rect_px": [
+                714,
+                1008,
+                232,
+                72
+              ],
+              "rect_logical": [
+                357.0,
+                504.0,
+                116.0,
+                36.0
+              ],
+              "runtime": "replace with runtime text",
+              "string_id": "continue"
+            },
+            {
+              "name": "10_1_start_surface",
+              "png": "design/ui/ch00-01/layers/C0-00-B-returning/10_1_start_surface.png",
+              "rect_px": [
+                470,
+                1148,
+                720,
+                128
+              ],
+              "rect_logical": [
+                235.0,
+                574.0,
+                360.0,
+                64.0
+              ],
+              "runtime": "button image",
+              "string_id": null
+            },
+            {
+              "name": "20_1_start_text",
+              "png": "design/ui/ch00-01/layers/C0-00-B-returning/20_1_start_text.png",
+              "rect_px": [
+                768,
+                1172,
+                124,
+                71
+              ],
+              "rect_logical": [
+                384.0,
+                586.0,
+                62.0,
+                35.5
+              ],
+              "runtime": "replace with runtime text",
+              "string_id": "start"
+            },
+            {
+              "name": "10_2_settings_surface",
+              "png": "design/ui/ch00-01/layers/C0-00-B-returning/10_2_settings_surface.png",
+              "rect_px": [
+                470,
+                1312,
+                720,
+                128
+              ],
+              "rect_logical": [
+                235.0,
+                656.0,
+                360.0,
+                64.0
+              ],
+              "runtime": "button image",
+              "string_id": null
+            },
+            {
+              "name": "20_2_settings_text",
+              "png": "design/ui/ch00-01/layers/C0-00-B-returning/20_2_settings_text.png",
+              "rect_px": [
+                768,
+                1336,
+                124,
+                71
+              ],
+              "rect_logical": [
+                384.0,
+                668.0,
+                62.0,
+                35.5
+              ],
+              "runtime": "replace with runtime text",
+              "string_id": "settings"
+            },
+            {
+              "name": "10_3_quit_surface",
+              "png": "design/ui/ch00-01/layers/C0-00-B-returning/10_3_quit_surface.png",
+              "rect_px": [
+                470,
+                1476,
+                720,
+                128
+              ],
+              "rect_logical": [
+                235.0,
+                738.0,
+                360.0,
+                64.0
+              ],
+              "runtime": "button image",
+              "string_id": null
+            },
+            {
+              "name": "20_3_quit_text",
+              "png": "design/ui/ch00-01/layers/C0-00-B-returning/20_3_quit_text.png",
+              "rect_px": [
+                768,
+                1500,
+                124,
+                68
+              ],
+              "rect_logical": [
+                384.0,
+                750.0,
+                62.0,
+                34.0
+              ],
+              "runtime": "replace with runtime text",
+              "string_id": "quit"
+            },
+            {
+              "name": "30_input_hint",
+              "png": "design/ui/ch00-01/layers/C0-00-B-returning/30_input_hint.png",
+              "rect_px": [
+                645,
+                1928,
+                370,
+                45
+              ],
+              "rect_logical": [
+                322.5,
+                964.0,
+                185.0,
+                22.5
+              ],
+              "runtime": "device-dependent runtime text",
+              "string_id": "input_hint"
+            }
+          ],
+          "menu_hit_rects_logical": {
+            "continue": [
+              235,
+              492,
+              360,
+              64
+            ],
+            "start": [
+              235,
+              574,
+              360,
+              64
+            ],
+            "settings": [
+              235,
+              656,
+              360,
+              64
+            ],
+            "quit": [
+              235,
+              738,
+              360,
+              64
+            ]
+          },
+          "anchor": "top-left; scale uniformly inside centered 16:9 viewport",
+          "pivot": [
+            0,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": "C0-01",
+      "label": "첫 부름 · 하단 딤 반영",
+      "preview": "design/ui/ch00-01/review/C0-01-call.jpg",
+      "parts": [
+        {
+          "path": "art/title/title-background-v1.png",
+          "role": "시작과 공유하는 임시 배경",
+          "rect": null
+        },
+        {
+          "path": "design/ui/ch00-01/psd/C0-01-call.psd",
+          "role": "UI 4레이어 PSD",
+          "rect": null
+        },
+        {
+          "path": "design/ui/ch00-01/runtime/1920x1080/C0-01/01_bottom_readability_gradient.png",
+          "role": "01_bottom_readability_gradient",
+          "rect": [
+            0.0,
+            0.0,
+            1920,
+            1080
+          ]
+        },
+        {
+          "path": "design/ui/ch00-01/runtime/1920x1080/C0-01/03_advance_cue.png",
+          "role": "03_advance_cue",
+          "rect": [
+            1766.0,
+            979.0,
+            28,
+            28
+          ]
+        },
+        {
+          "path": "design/ui/ch00-01/C0-01.json",
+          "role": "레이어 좌표·문구·해상도",
+          "rect": null
+        }
+      ],
+      "entry": "시작 입력 직후 같은 배경에서 메뉴가 사라지고 자동으로 딤·수혁아. 표시",
+      "advance": "읽을 수 있는 상태에서 새 클릭 또는 Space → 회상 전환",
+      "next": "C0-02a",
+      "ui_status": "구성 채택 / 딤 요청 반영",
+      "notes": "문구는 수혁아. 페이드 시간은 미정. 음성 미제작. PSD 글자는 래스터이며 인게임에서는 문자열 렌더링.",
+      "state_data": {
+        "id": "C0-01",
+        "status": "layout-accepted-requested-bottom-dim-applied",
+        "style": "A",
+        "canvas": [
+          3840,
+          2160
+        ],
+        "logical_canvas": [
+          1920,
+          1080
+        ],
+        "game_resolution": [
+          1920,
+          1080
+        ],
+        "master_scale": 2,
+        "runtime_assets": [
+          {
+            "path": "design/ui/ch00-01/runtime/1920x1080/C0-01/01_bottom_readability_gradient.png",
+            "size": [
+              1920,
+              1080
+            ],
+            "position": [
+              0.0,
+              0.0
+            ],
+            "contains_text": false,
+            "layer": "01_bottom_readability_gradient"
+          },
+          {
+            "path": "design/ui/ch00-01/runtime/1920x1080/C0-01/03_advance_cue.png",
+            "size": [
+              28,
+              28
+            ],
+            "position": [
+              1766.0,
+              979.0
+            ],
+            "contains_text": false,
+            "layer": "03_advance_cue"
+          }
+        ],
+        "psd": "design/ui/ch00-01/psd/C0-01-call.psd",
+        "layers": [
+          {
+            "name": "01_bottom_readability_gradient",
+            "png": "design/ui/ch00-01/layers/C0-01-call/01_bottom_readability_gradient.png",
+            "rect_px": [
+              0,
+              0,
+              3840,
+              2160
+            ],
+            "rect_logical": [
+              0.0,
+              0.0,
+              1920.0,
+              1080.0
+            ],
+            "visible": true,
+            "runtime": "Image"
+          },
+          {
+            "name": "02_call_text",
+            "png": "design/ui/ch00-01/layers/C0-01-call/02_call_text.png",
+            "rect_px": [
+              1790,
+              1610,
+              260,
+              91
+            ],
+            "rect_logical": [
+              895.0,
+              805.0,
+              130.0,
+              45.5
+            ],
+            "visible": true,
+            "runtime": "Text: opening.call; raster proof only"
+          },
+          {
+            "name": "03_advance_cue",
+            "png": "design/ui/ch00-01/layers/C0-01-call/03_advance_cue.png",
+            "rect_px": [
+              3532,
+              1958,
+              56,
+              56
+            ],
+            "rect_logical": [
+              1766.0,
+              979.0,
+              28.0,
+              28.0
+            ],
+            "visible": true,
+            "runtime": "Image; show only when advancing is available"
+          },
+          {
+            "name": "04_first_input_hint",
+            "png": "design/ui/ch00-01/layers/C0-01-call/04_first_input_hint.png",
+            "rect_px": [
+              1746,
+              1952,
+              349,
+              52
+            ],
+            "rect_logical": [
+              873.0,
+              976.0,
+              174.5,
+              26.0
+            ],
+            "visible": true,
+            "runtime": "Device-dependent Text; first input only"
+          }
+        ],
+        "review": "design/ui/ch00-01/review/C0-01-call.jpg",
+        "advance_sprite": {
+          "path": "design/ui/ch00-01/sprites/A/advance-cue.png",
+          "size": [
+            56,
+            56
+          ],
+          "pivot": [
+            0.5,
+            0.5
+          ]
+        },
+        "strings": {
+          "opening.call": "수혁아.",
+          "opening.input_hint": "클릭 또는 Space로 계속"
+        },
+        "font": "art/title/fonts/Live49MenuSerif-Regular.ttf",
+        "text_sizes_logical": {
+          "caption": 38,
+          "hint": 16
+        },
+        "bottom_dim": {
+          "start_y_normalized": 0.48,
+          "full_y_normalized": 0.88,
+          "max_alpha": 205,
+          "curve": "smoothstep"
+        },
+        "flow": [
+          "Title menu hides",
+          "Call appears over the same book/hand shot",
+          "Wait for user advance",
+          "Move to family memory shot"
+        ],
+        "provenance": "docs/DIRECTION-TOOLKIT.ko.md section 6: sound before the memory cut",
+        "notes": [
+          "User accepted the composition and requested stronger bottom dim; applied.",
+          "Current realistic hand background is temporary and should be replaced later; not approved as final art.",
+          "Speaker label omitted in this proposal; disclosure timing remains script-dependent.",
+          "No voice audio or actual playback/input implemented.",
+          "PSD text is a raster proof; runtime renders strings separately.",
+          "Background enlargement is preview-only, not recovered native detail."
+        ]
+      }
+    },
+    {
+      "id": "C0-02a",
+      "label": "서연의 얼굴·모녀 회상",
+      "preview": "art/chapter00/review/01-memory-family-v1.png",
+      "parts": [
+        {
+          "path": "art/chapter00/memory/memory-path-base-v1.png",
+          "role": "회상 배경",
+          "rect": null
+        },
+        {
+          "path": "art/chapter00/memory/seoyeon-soi-holding-v1.png",
+          "role": "모녀 접촉 그룹 PNG",
+          "rect": [
+            650,
+            70,
+            429,
+            835
+          ]
+        },
+        {
+          "path": "art/chapter00/memory/memory-ground-shadow-review-v1.png",
+          "role": "접지 그림자 검수 레이어",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ]
+        }
+      ],
+      "entry": "첫 부름 읽기 완료",
+      "advance": "대사 확인 후 다음 컷",
+      "next": "C0-02b",
+      "ui_status": "다음 제작·선택 대상",
+      "notes": "기존 시안 재사용. 서연 외형·얼굴 확대·표정 보강은 미확정. 모녀는 하나의 PNG이며 개별 몸 레이어 아님.",
+      "state_data": null
+    },
+    {
+      "id": "C0-02b",
+      "label": "손을 건네기",
+      "preview": "art/chapter00/review/02-memory-hands-v1.png",
+      "parts": [
+        {
+          "path": "art/chapter00/memory/memory-path-base-v1.png",
+          "role": "같은 회상 배경",
+          "rect": null
+        },
+        {
+          "path": "art/chapter00/memory/hands-handover-v1.png",
+          "role": "손 상태 PNG",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ]
+        },
+        {
+          "path": "art/chapter00/memory/memory-hands-layers-v1.psd",
+          "role": "배경·손 전후 3레이어 / 손 상태 배타 표시",
+          "rect": null
+        }
+      ],
+      "entry": "직전 대사 확인",
+      "advance": "손 상태 교체 또는 다음 대사 확인",
+      "next": "C0-02c",
+      "ui_status": "미제작",
+      "notes": "손 두 상태를 동시에 켜지 않는다. 현재 책 위 손과 위치·손바닥 방향이 달라 정확한 매치 컷은 보강 필요.",
+      "state_data": null
+    },
+    {
+      "id": "C0-02c",
+      "label": "손을 받은 상태",
+      "preview": "art/chapter00/review/03-memory-hands-v1.png",
+      "parts": [
+        {
+          "path": "art/chapter00/memory/memory-path-base-v1.png",
+          "role": "같은 회상 배경",
+          "rect": null
+        },
+        {
+          "path": "art/chapter00/memory/hands-received-v1.png",
+          "role": "손 상태 PNG",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ]
+        },
+        {
+          "path": "art/chapter00/memory/memory-hands-layers-v1.psd",
+          "role": "배경·손 전후 3레이어 / 손 상태 배타 표시",
+          "rect": null
+        }
+      ],
+      "entry": "직전 대사 확인",
+      "advance": "손 상태 교체 또는 다음 대사 확인",
+      "next": "C0-03a",
+      "ui_status": "미제작",
+      "notes": "손 두 상태를 동시에 켜지 않는다. 현재 책 위 손과 위치·손바닥 방향이 달라 정확한 매치 컷은 보강 필요.",
+      "state_data": null
+    },
+    {
+      "id": "C0-03a",
+      "label": "현재 책 위 손으로 돌아오기",
+      "preview": "art/chapter00/present/hand-on-book-v1.png",
+      "parts": [
+        {
+          "path": "art/chapter00/present/hand-on-book-v1.png",
+          "role": "손·책·식탁이 합쳐진 원화 / 분리 PSD 없음",
+          "rect": null
+        }
+      ],
+      "entry": "회상 대사 종료",
+      "advance": "짧은 전환 후 현재 캠핑카",
+      "next": "C0-03b",
+      "ui_status": "미제작",
+      "notes": "전환 시간 미정. 손의 사실적 화풍 피드백과 매치 컷 보강을 함께 검토. 신규 고해상도 분리 원본이 아님.",
+      "state_data": null
+    },
+    {
+      "id": "C0-03b",
+      "label": "현재 소이와 대화",
+      "preview": "art/chapter00/camper/review/01-current-conversation.png",
+      "parts": [
+        {
+          "path": "art/chapter01/revision-v3/camper-clean-base-v3.png",
+          "role": "고정 배경",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/suhyeok-seated-body-v1.png",
+          "role": "suhyeok-seated-body",
+          "rect": [
+            840,
+            289,
+            109,
+            155
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/suhyeok-seated-hands-v1.png",
+          "role": "suhyeok-seated-hands",
+          "rect": [
+            840,
+            289,
+            109,
+            155
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/soi-seated-body-v1.png",
+          "role": "soi-seated-body",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/soi-seated-hands-v1.png",
+          "role": "soi-seated-hands",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/pages/sketchbook-blank-v1.png",
+          "role": "식탁 위 스케치북",
+          "rect": [
+            904,
+            454,
+            102,
+            73
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/sprites/mug-source-v1.png",
+          "role": "컵",
+          "rect": [
+            1010,
+            480,
+            53,
+            52
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/water-jug-v1.png",
+          "role": "water-before",
+          "rect": [
+            630,
+            325,
+            47,
+            60
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/folded-blanket-v1.png",
+          "role": "blanket-before",
+          "rect": [
+            1194,
+            550,
+            124,
+            84
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/power-panel-loose-v1.png",
+          "role": "panel-loose",
+          "rect": [
+            604,
+            426,
+            86,
+            61
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/flashlight-off-v1.png",
+          "role": "flashlight-stored",
+          "rect": [
+            504,
+            586,
+            55,
+            37
+          ]
+        }
+      ],
+      "entry": "현재 컷 진입",
+      "advance": "대사·첫 응답 확인",
+      "next": "C0-04a",
+      "ui_status": "좌우 대화 시안 채택; 실제 인물 원화·UI 조합 대기",
+      "notes": "순서·상태는 최신 콘티 기준이며 입력·저장 로직은 아직 없음. 소이는 물리 조작을 하지 않음.",
+      "state_data": {
+        "id": "01-current-conversation",
+        "review": "art/chapter00/camper/review/01-current-conversation.png",
+        "packed": false,
+        "water_packed": false,
+        "blanket_packed": false,
+        "light": "warm",
+        "repair_pose": false,
+        "connection_secured": false,
+        "book_packed": false,
+        "journal_open": false
+      }
+    },
+    {
+      "id": "C0-04a",
+      "label": "물·담요 준비 전",
+      "preview": "art/chapter00/camper/review/01-current-conversation.png",
+      "parts": [
+        {
+          "path": "art/chapter01/revision-v3/camper-clean-base-v3.png",
+          "role": "고정 배경",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/suhyeok-seated-body-v1.png",
+          "role": "suhyeok-seated-body",
+          "rect": [
+            840,
+            289,
+            109,
+            155
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/suhyeok-seated-hands-v1.png",
+          "role": "suhyeok-seated-hands",
+          "rect": [
+            840,
+            289,
+            109,
+            155
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/soi-seated-body-v1.png",
+          "role": "soi-seated-body",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/soi-seated-hands-v1.png",
+          "role": "soi-seated-hands",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/pages/sketchbook-blank-v1.png",
+          "role": "식탁 위 스케치북",
+          "rect": [
+            904,
+            454,
+            102,
+            73
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/sprites/mug-source-v1.png",
+          "role": "컵",
+          "rect": [
+            1010,
+            480,
+            53,
+            52
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/water-jug-v1.png",
+          "role": "water-before",
+          "rect": [
+            630,
+            325,
+            47,
+            60
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/folded-blanket-v1.png",
+          "role": "blanket-before",
+          "rect": [
+            1194,
+            550,
+            124,
+            84
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/power-panel-loose-v1.png",
+          "role": "panel-loose",
+          "rect": [
+            604,
+            426,
+            86,
+            61
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/flashlight-off-v1.png",
+          "role": "flashlight-stored",
+          "rect": [
+            504,
+            586,
+            55,
+            37
+          ]
+        }
+      ],
+      "entry": "출발 준비 대화 종료",
+      "advance": "물 또는 여분 담요 챙기기",
+      "next": "C0-04b 또는 C0-04c",
+      "ui_status": "미제작",
+      "notes": "순서·상태는 최신 콘티 기준이며 입력·저장 로직은 아직 없음. 소이는 물리 조작을 하지 않음.",
+      "state_data": {
+        "id": "01-current-conversation",
+        "review": "art/chapter00/camper/review/01-current-conversation.png",
+        "packed": false,
+        "water_packed": false,
+        "blanket_packed": false,
+        "light": "warm",
+        "repair_pose": false,
+        "connection_secured": false,
+        "book_packed": false,
+        "journal_open": false
+      }
+    },
+    {
+      "id": "C0-04b",
+      "label": "물만 준비",
+      "preview": "art/chapter00/camper/review/02a-water-only.png",
+      "parts": [
+        {
+          "path": "art/chapter01/revision-v3/camper-clean-base-v3.png",
+          "role": "고정 배경",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/suhyeok-seated-body-v1.png",
+          "role": "suhyeok-seated-body",
+          "rect": [
+            840,
+            289,
+            109,
+            155
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/suhyeok-seated-hands-v1.png",
+          "role": "suhyeok-seated-hands",
+          "rect": [
+            840,
+            289,
+            109,
+            155
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/soi-seated-body-v1.png",
+          "role": "soi-seated-body",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/soi-seated-hands-v1.png",
+          "role": "soi-seated-hands",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/pages/sketchbook-blank-v1.png",
+          "role": "식탁 위 스케치북",
+          "rect": [
+            904,
+            454,
+            102,
+            73
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/sprites/mug-source-v1.png",
+          "role": "컵",
+          "rect": [
+            1010,
+            480,
+            53,
+            52
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/water-jug-v1.png",
+          "role": "water-packed",
+          "rect": [
+            564,
+            604,
+            47,
+            60
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/folded-blanket-v1.png",
+          "role": "blanket-before",
+          "rect": [
+            1194,
+            550,
+            124,
+            84
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/power-panel-loose-v1.png",
+          "role": "panel-loose",
+          "rect": [
+            604,
+            426,
+            86,
+            61
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/flashlight-off-v1.png",
+          "role": "flashlight-stored",
+          "rect": [
+            504,
+            586,
+            55,
+            37
+          ]
+        }
+      ],
+      "entry": "물 먼저 챙김",
+      "advance": "담요 챙기기",
+      "next": "C0-04d",
+      "ui_status": "미제작",
+      "notes": "순서·상태는 최신 콘티 기준이며 입력·저장 로직은 아직 없음. 소이는 물리 조작을 하지 않음.",
+      "state_data": {
+        "id": "02a-water-only",
+        "review": "art/chapter00/camper/review/02a-water-only.png",
+        "packed": false,
+        "water_packed": true,
+        "blanket_packed": false,
+        "light": "warm",
+        "repair_pose": false,
+        "connection_secured": false,
+        "book_packed": false,
+        "journal_open": false
+      }
+    },
+    {
+      "id": "C0-04c",
+      "label": "담요만 준비",
+      "preview": "art/chapter00/camper/review/02b-blanket-only.png",
+      "parts": [
+        {
+          "path": "art/chapter01/revision-v3/camper-clean-base-v3.png",
+          "role": "고정 배경",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/suhyeok-seated-body-v1.png",
+          "role": "suhyeok-seated-body",
+          "rect": [
+            840,
+            289,
+            109,
+            155
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/suhyeok-seated-hands-v1.png",
+          "role": "suhyeok-seated-hands",
+          "rect": [
+            840,
+            289,
+            109,
+            155
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/soi-seated-body-v1.png",
+          "role": "soi-seated-body",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/soi-seated-hands-v1.png",
+          "role": "soi-seated-hands",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/pages/sketchbook-blank-v1.png",
+          "role": "식탁 위 스케치북",
+          "rect": [
+            904,
+            454,
+            102,
+            73
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/sprites/mug-source-v1.png",
+          "role": "컵",
+          "rect": [
+            1010,
+            480,
+            53,
+            52
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/water-jug-v1.png",
+          "role": "water-before",
+          "rect": [
+            630,
+            325,
+            47,
+            60
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/folded-blanket-v1.png",
+          "role": "blanket-packed",
+          "rect": [
+            465,
+            584,
+            107,
+            75
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/power-panel-loose-v1.png",
+          "role": "panel-loose",
+          "rect": [
+            604,
+            426,
+            86,
+            61
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/flashlight-off-v1.png",
+          "role": "flashlight-stored",
+          "rect": [
+            504,
+            586,
+            55,
+            37
+          ]
+        }
+      ],
+      "entry": "담요 먼저 챙김",
+      "advance": "물 챙기기",
+      "next": "C0-04d",
+      "ui_status": "미제작",
+      "notes": "순서·상태는 최신 콘티 기준이며 입력·저장 로직은 아직 없음. 소이는 물리 조작을 하지 않음.",
+      "state_data": {
+        "id": "02b-blanket-only",
+        "review": "art/chapter00/camper/review/02b-blanket-only.png",
+        "packed": false,
+        "water_packed": false,
+        "blanket_packed": true,
+        "light": "warm",
+        "repair_pose": false,
+        "connection_secured": false,
+        "book_packed": false,
+        "journal_open": false
+      }
+    },
+    {
+      "id": "C0-04d",
+      "label": "준비 완료",
+      "preview": "art/chapter00/camper/review/02-preparation-complete.png",
+      "parts": [
+        {
+          "path": "art/chapter01/revision-v3/camper-clean-base-v3.png",
+          "role": "고정 배경",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/suhyeok-seated-body-v1.png",
+          "role": "suhyeok-seated-body",
+          "rect": [
+            840,
+            289,
+            109,
+            155
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/suhyeok-seated-hands-v1.png",
+          "role": "suhyeok-seated-hands",
+          "rect": [
+            840,
+            289,
+            109,
+            155
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/soi-seated-body-v1.png",
+          "role": "soi-seated-body",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/soi-seated-hands-v1.png",
+          "role": "soi-seated-hands",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/pages/sketchbook-blank-v1.png",
+          "role": "식탁 위 스케치북",
+          "rect": [
+            904,
+            454,
+            102,
+            73
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/sprites/mug-source-v1.png",
+          "role": "컵",
+          "rect": [
+            1010,
+            480,
+            53,
+            52
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/water-jug-v1.png",
+          "role": "water-packed",
+          "rect": [
+            564,
+            604,
+            47,
+            60
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/folded-blanket-v1.png",
+          "role": "blanket-packed",
+          "rect": [
+            465,
+            584,
+            107,
+            75
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/power-panel-loose-v1.png",
+          "role": "panel-loose",
+          "rect": [
+            604,
+            426,
+            86,
+            61
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/flashlight-off-v1.png",
+          "role": "flashlight-stored",
+          "rect": [
+            504,
+            586,
+            55,
+            37
+          ]
+        }
+      ],
+      "entry": "물·담요 두 행동 완료",
+      "advance": "준비 몽타주 후 소등 1회",
+      "next": "C0-05",
+      "ui_status": "미제작",
+      "notes": "순서·상태는 최신 콘티 기준이며 입력·저장 로직은 아직 없음. 소이는 물리 조작을 하지 않음. 가방 속 담요와 정리된 짐의 확대 원화는 미제작, 작은 크롭은 대체 시안.",
+      "state_data": {
+        "id": "02-preparation-complete",
+        "review": "art/chapter00/camper/review/02-preparation-complete.png",
+        "packed": true,
+        "water_packed": true,
+        "blanket_packed": true,
+        "light": "warm",
+        "repair_pose": false,
+        "connection_secured": false,
+        "book_packed": false,
+        "journal_open": false
+      }
+    },
+    {
+      "id": "C0-05",
+      "label": "소등·소이에게 답하기",
+      "preview": "art/chapter00/camper/review/03-outage-answer-soi.png",
+      "parts": [
+        {
+          "path": "art/chapter00/camper/layers/camper-outage-stable-v1.png",
+          "role": "고정 배경",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/suhyeok-seated-body-v1.png",
+          "role": "suhyeok-seated-body",
+          "rect": [
+            840,
+            289,
+            109,
+            155
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/suhyeok-seated-hands-v1.png",
+          "role": "suhyeok-seated-hands",
+          "rect": [
+            840,
+            289,
+            109,
+            155
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/soi-seated-body-v1.png",
+          "role": "soi-seated-body",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/soi-seated-hands-v1.png",
+          "role": "soi-seated-hands",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/pages/sketchbook-blank-v1.png",
+          "role": "식탁 위 스케치북",
+          "rect": [
+            904,
+            454,
+            102,
+            73
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/sprites/mug-source-v1.png",
+          "role": "컵",
+          "rect": [
+            1010,
+            480,
+            53,
+            52
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/water-jug-v1.png",
+          "role": "water-packed",
+          "rect": [
+            564,
+            604,
+            47,
+            60
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/folded-blanket-v1.png",
+          "role": "blanket-packed",
+          "rect": [
+            465,
+            584,
+            107,
+            75
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/power-panel-loose-v1.png",
+          "role": "panel-loose",
+          "rect": [
+            604,
+            426,
+            86,
+            61
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/flashlight-off-v1.png",
+          "role": "flashlight-stored",
+          "rect": [
+            504,
+            586,
+            55,
+            37
+          ]
+        }
+      ],
+      "entry": "두 준비 행동 완료 뒤 최초 소등",
+      "advance": "소이에게 답변 선택 → 수납함 조사",
+      "next": "C0-06a",
+      "ui_status": "선택지·조사 UI 미제작",
+      "notes": "순서·상태는 최신 콘티 기준이며 입력·저장 로직은 아직 없음. 소이는 물리 조작을 하지 않음.",
+      "state_data": {
+        "id": "03-outage-answer-soi",
+        "review": "art/chapter00/camper/review/03-outage-answer-soi.png",
+        "packed": true,
+        "water_packed": true,
+        "blanket_packed": true,
+        "light": "off",
+        "repair_pose": false,
+        "connection_secured": false,
+        "book_packed": false,
+        "journal_open": false
+      }
+    },
+    {
+      "id": "C0-06a",
+      "label": "손전등으로 조사",
+      "preview": "art/chapter00/camper/review/04-flashlight-investigation.png",
+      "parts": [
+        {
+          "path": "art/chapter00/camper/layers/camper-outage-stable-v1.png",
+          "role": "고정 배경",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/soi-seated-body-v1.png",
+          "role": "soi-seated-body",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/soi-seated-hands-v1.png",
+          "role": "soi-seated-hands",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/pages/sketchbook-blank-v1.png",
+          "role": "식탁 위 스케치북",
+          "rect": [
+            904,
+            454,
+            102,
+            73
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/sprites/mug-source-v1.png",
+          "role": "컵",
+          "rect": [
+            1010,
+            480,
+            53,
+            52
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/water-jug-v1.png",
+          "role": "water-packed",
+          "rect": [
+            564,
+            604,
+            47,
+            60
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/folded-blanket-v1.png",
+          "role": "blanket-packed",
+          "rect": [
+            465,
+            584,
+            107,
+            75
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/power-panel-loose-v1.png",
+          "role": "panel-loose",
+          "rect": [
+            604,
+            426,
+            86,
+            61
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/suhyeok-flashlight-repair-v2.png",
+          "role": "repair",
+          "rect": [
+            616,
+            418,
+            170,
+            254
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/repair-contact-shadow-v1.png",
+          "role": "그림자/국소광 보조 레이어",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/flashlight-local-reveal-mask-v1.png",
+          "role": "그림자/국소광 보조 레이어",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/flashlight-bounce-overlay-v1.png",
+          "role": "그림자/국소광 보조 레이어",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ]
+        }
+      ],
+      "entry": "손전등 확보",
+      "advance": "스위치와 연결부 모두 조사, 관계 대사 확인",
+      "next": "C0-06b",
+      "ui_status": "조사 UI 미제작",
+      "notes": "순서·상태는 최신 콘티 기준이며 입력·저장 로직은 아직 없음. 소이는 물리 조작을 하지 않음. 손 포즈는 연결부를 실제로 잡지 못하므로 보강 필요. 밝은 배경 국소광을 인물 뒤에 합성.",
+      "state_data": {
+        "id": "04-flashlight-investigation",
+        "review": "art/chapter00/camper/review/04-flashlight-investigation.png",
+        "packed": true,
+        "water_packed": true,
+        "blanket_packed": true,
+        "light": "off",
+        "repair_pose": true,
+        "connection_secured": false,
+        "book_packed": false,
+        "journal_open": false
+      }
+    },
+    {
+      "id": "C0-06b",
+      "label": "연결 고정",
+      "preview": "art/chapter00/camper/review/05-connection-secured.png",
+      "parts": [
+        {
+          "path": "art/chapter00/camper/layers/camper-outage-stable-v1.png",
+          "role": "고정 배경",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/soi-seated-body-v1.png",
+          "role": "soi-seated-body",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/soi-seated-hands-v1.png",
+          "role": "soi-seated-hands",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/pages/sketchbook-blank-v1.png",
+          "role": "식탁 위 스케치북",
+          "rect": [
+            904,
+            454,
+            102,
+            73
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/sprites/mug-source-v1.png",
+          "role": "컵",
+          "rect": [
+            1010,
+            480,
+            53,
+            52
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/water-jug-v1.png",
+          "role": "water-packed",
+          "rect": [
+            564,
+            604,
+            47,
+            60
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/folded-blanket-v1.png",
+          "role": "blanket-packed",
+          "rect": [
+            465,
+            584,
+            107,
+            75
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/power-panel-fixed-v1.png",
+          "role": "panel-fixed",
+          "rect": [
+            604,
+            426,
+            86,
+            61
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/suhyeok-flashlight-repair-v2.png",
+          "role": "repair",
+          "rect": [
+            616,
+            418,
+            170,
+            254
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/repair-contact-shadow-v1.png",
+          "role": "그림자/국소광 보조 레이어",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/flashlight-local-reveal-mask-v1.png",
+          "role": "그림자/국소광 보조 레이어",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/flashlight-bounce-overlay-v1.png",
+          "role": "그림자/국소광 보조 레이어",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ]
+        }
+      ],
+      "entry": "조사·대화 조건 완료",
+      "advance": "연결 고정 후 실내등 켜기",
+      "next": "C0-07a",
+      "ui_status": "행동 UI 미제작",
+      "notes": "순서·상태는 최신 콘티 기준이며 입력·저장 로직은 아직 없음. 소이는 물리 조작을 하지 않음. 손 포즈는 연결부를 실제로 잡지 못하므로 보강 필요. 밝은 배경 국소광을 인물 뒤에 합성.",
+      "state_data": {
+        "id": "05-connection-secured",
+        "review": "art/chapter00/camper/review/05-connection-secured.png",
+        "packed": true,
+        "water_packed": true,
+        "blanket_packed": true,
+        "light": "off",
+        "repair_pose": true,
+        "connection_secured": true,
+        "book_packed": false,
+        "journal_open": false
+      }
+    },
+    {
+      "id": "C0-07a",
+      "label": "조명 복구",
+      "preview": "art/chapter00/camper/review/06-light-restored.png",
+      "parts": [
+        {
+          "path": "art/chapter01/revision-v3/camper-clean-base-v3.png",
+          "role": "고정 배경",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/suhyeok-seated-body-v1.png",
+          "role": "suhyeok-seated-body",
+          "rect": [
+            840,
+            289,
+            109,
+            155
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/suhyeok-seated-hands-v1.png",
+          "role": "suhyeok-seated-hands",
+          "rect": [
+            840,
+            289,
+            109,
+            155
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/soi-seated-body-v1.png",
+          "role": "soi-seated-body",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/soi-seated-hands-v1.png",
+          "role": "soi-seated-hands",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/pages/sketchbook-blank-v1.png",
+          "role": "식탁 위 스케치북",
+          "rect": [
+            904,
+            454,
+            102,
+            73
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/sprites/mug-source-v1.png",
+          "role": "컵",
+          "rect": [
+            1010,
+            480,
+            53,
+            52
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/water-jug-v1.png",
+          "role": "water-packed",
+          "rect": [
+            564,
+            604,
+            47,
+            60
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/folded-blanket-v1.png",
+          "role": "blanket-packed",
+          "rect": [
+            465,
+            584,
+            107,
+            75
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/power-panel-fixed-v1.png",
+          "role": "panel-fixed",
+          "rect": [
+            604,
+            426,
+            86,
+            61
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/flashlight-off-v1.png",
+          "role": "flashlight-stored",
+          "rect": [
+            504,
+            586,
+            55,
+            37
+          ]
+        }
+      ],
+      "entry": "실내등 켜기",
+      "advance": "소이와 대화, 손전등 반환, 책 챙기기",
+      "next": "C0-07b",
+      "ui_status": "대화·행동 UI 미제작",
+      "notes": "순서·상태는 최신 콘티 기준이며 입력·저장 로직은 아직 없음. 소이는 물리 조작을 하지 않음.",
+      "state_data": {
+        "id": "06-light-restored",
+        "review": "art/chapter00/camper/review/06-light-restored.png",
+        "packed": true,
+        "water_packed": true,
+        "blanket_packed": true,
+        "light": "warm",
+        "repair_pose": false,
+        "connection_secured": true,
+        "book_packed": false,
+        "journal_open": false
+      }
+    },
+    {
+      "id": "C0-07b",
+      "label": "책 정리·첫 기록",
+      "preview": "art/chapter00/camper/review/07-book-packed-journal-open.png",
+      "parts": [
+        {
+          "path": "art/chapter01/revision-v3/camper-clean-base-v3.png",
+          "role": "고정 배경",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/suhyeok-seated-body-v1.png",
+          "role": "suhyeok-seated-body",
+          "rect": [
+            840,
+            289,
+            109,
+            155
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/suhyeok-seated-hands-v1.png",
+          "role": "suhyeok-seated-hands",
+          "rect": [
+            840,
+            289,
+            109,
+            155
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/soi-seated-body-v1.png",
+          "role": "soi-seated-body",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/soi-seated-hands-v1.png",
+          "role": "soi-seated-hands",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/sprites/mug-source-v1.png",
+          "role": "컵",
+          "rect": [
+            1010,
+            480,
+            53,
+            52
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/water-jug-v1.png",
+          "role": "water-packed",
+          "rect": [
+            564,
+            604,
+            47,
+            60
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/folded-blanket-v1.png",
+          "role": "blanket-packed",
+          "rect": [
+            465,
+            584,
+            107,
+            75
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/power-panel-fixed-v1.png",
+          "role": "panel-fixed",
+          "rect": [
+            604,
+            426,
+            86,
+            61
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/flashlight-off-v1.png",
+          "role": "flashlight-stored",
+          "rect": [
+            504,
+            586,
+            55,
+            37
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/journal-open-v1.png",
+          "role": "journal",
+          "rect": [
+            863,
+            455,
+            104,
+            77
+          ]
+        }
+      ],
+      "entry": "책 챙김",
+      "advance": "첫 문장 선택·저널 확인, 내일 약속",
+      "next": "C0-08",
+      "ui_status": "기록 UI 미제작",
+      "notes": "순서·상태는 최신 콘티 기준이며 입력·저장 로직은 아직 없음. 소이는 물리 조작을 하지 않음.",
+      "state_data": {
+        "id": "07-book-packed-journal-open",
+        "review": "art/chapter00/camper/review/07-book-packed-journal-open.png",
+        "packed": true,
+        "water_packed": true,
+        "blanket_packed": true,
+        "light": "warm",
+        "repair_pose": false,
+        "connection_secured": true,
+        "book_packed": true,
+        "journal_open": true
+      }
+    },
+    {
+      "id": "C0-08",
+      "label": "스스로 불을 끄고 쉬기",
+      "preview": "art/chapter00/camper/review/08-voluntary-lights-off.png",
+      "parts": [
+        {
+          "path": "art/chapter00/camper/layers/camper-outage-stable-v1.png",
+          "role": "고정 배경",
+          "rect": [
+            0,
+            0,
+            1672,
+            941
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/suhyeok-seated-body-v1.png",
+          "role": "suhyeok-seated-body",
+          "rect": [
+            840,
+            289,
+            109,
+            155
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/suhyeok-seated-hands-v1.png",
+          "role": "suhyeok-seated-hands",
+          "rect": [
+            840,
+            289,
+            109,
+            155
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/soi-seated-body-v1.png",
+          "role": "soi-seated-body",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/characters/soi-seated-hands-v1.png",
+          "role": "soi-seated-hands",
+          "rect": [
+            938,
+            330,
+            112,
+            132
+          ]
+        },
+        {
+          "path": "art/chapter01/layers/sprites/mug-source-v1.png",
+          "role": "컵",
+          "rect": [
+            1010,
+            480,
+            53,
+            52
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/water-jug-v1.png",
+          "role": "water-packed",
+          "rect": [
+            564,
+            604,
+            47,
+            60
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/folded-blanket-v1.png",
+          "role": "blanket-packed",
+          "rect": [
+            465,
+            584,
+            107,
+            75
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/power-panel-fixed-v1.png",
+          "role": "panel-fixed",
+          "rect": [
+            604,
+            426,
+            86,
+            61
+          ]
+        },
+        {
+          "path": "art/chapter00/camper/layers/flashlight-off-v1.png",
+          "role": "flashlight-stored",
+          "rect": [
+            504,
+            586,
+            55,
+            37
+          ]
+        }
+      ],
+      "entry": "약속 뒤 소등 입력",
+      "advance": "암전·작품명·1일 차로 연결",
+      "next": "C1-01",
+      "ui_status": "날짜·소등 UI 미제작",
+      "notes": "순서·상태는 최신 콘티 기준이며 입력·저장 로직은 아직 없음. 소이는 물리 조작을 하지 않음.",
+      "state_data": {
+        "id": "08-voluntary-lights-off",
+        "review": "art/chapter00/camper/review/08-voluntary-lights-off.png",
+        "packed": true,
+        "water_packed": true,
+        "blanket_packed": true,
+        "light": "off",
+        "repair_pose": false,
+        "connection_secured": true,
+        "book_packed": true,
+        "journal_open": false
+      }
+    },
+    {
+      "id": "C1-01",
+      "label": "첫 출발·편의점·귀환",
+      "preview": "art/chapter01/revision-v3/store-clean-base-v3.png",
+      "parts": [
+        {
+          "path": "art/chapter01/revision-v3/store-clean-base-v3.png",
+          "role": "후속 장면 재사용 후보 / 개별 검수 필요",
+          "rect": null
+        },
+        {
+          "path": "art/chapter01/extra-poses/suhyeok-investigate-v2.png",
+          "role": "후속 장면 재사용 후보 / 개별 검수 필요",
+          "rect": null
+        },
+        {
+          "path": "art/chapter01/store/drink-bottle-v1.png",
+          "role": "후속 장면 재사용 후보 / 개별 검수 필요",
+          "rect": null
+        }
+      ],
+      "entry": "C0 종료 후 첫 낮",
+      "advance": "물 확보·귀환·약속 확인",
+      "next": "C1-02",
+      "ui_status": "미제작",
+      "notes": "지도·목표·회수·가방·상태 UI 미제작. 기존 파일은 배경/단품이며 완성 UI 합성본 아님.",
+      "state_data": null
+    },
+    {
+      "id": "C1-02",
+      "label": "색연필 전달·첫 그림",
+      "preview": "art/chapter01/01-camper-evening/camper-drawing-v2.png",
+      "parts": [
+        {
+          "path": "art/chapter01/revision-v3/camper-clean-base-v3.png",
+          "role": "후속 장면 재사용 후보 / 개별 검수 필요",
+          "rect": null
+        },
+        {
+          "path": "art/chapter01/shared-props/pencil-tin-open-v1.png",
+          "role": "후속 장면 재사용 후보 / 개별 검수 필요",
+          "rect": null
+        },
+        {
+          "path": "art/chapter01/layers/pages/sketchbook-blank-v1.png",
+          "role": "후속 장면 재사용 후보 / 개별 검수 필요",
+          "rect": null
+        },
+        {
+          "path": "art/chapter01/layers/pages/sea-started-overlay-v1.png",
+          "role": "후속 장면 재사용 후보 / 개별 검수 필요",
+          "rect": null
+        },
+        {
+          "path": "art/chapter01/layers/pages/sea-complete-overlay-v1.png",
+          "role": "후속 장면 재사용 후보 / 개별 검수 필요",
+          "rect": null
+        }
+      ],
+      "entry": "첫 귀환·소이의 부탁",
+      "advance": "도구 전달→함께 그리기→완성 확인",
+      "next": "C1-03",
+      "ui_status": "미제작",
+      "notes": "첫 그림 필수 튜토리얼. 이미 가진 색연필 인정. 기존 바다 그림은 재사용 후보이며 최종 그림 내용과 대사집 대조 필요.",
+      "state_data": null
+    },
+    {
+      "id": "C1-03",
+      "label": "세진·공구·첫 사진",
+      "preview": null,
+      "parts": [],
+      "entry": "첫 그림 후 길 정보 안내",
+      "advance": "공구 전달→카메라 확보→촬영·앨범 확인",
+      "next": "C1-05 또는 선택 사건",
+      "ui_status": "미제작",
+      "notes": "주유소·수리점·하천 쉼터 배경, 세진 대화용 원화, 카메라·공구 상세 자산과 촬영 UI는 이 인계에 연결된 납품 파일 없음. 연료 부족 필수 조건 아님.",
+      "state_data": null
+    },
+    {
+      "id": "C1-04a",
+      "label": "요리·생활 제작",
+      "preview": "art/chapter01/revision-v3/camper-clean-base-v3.png",
+      "parts": [
+        {
+          "path": "art/chapter01/revision-v3/camper-clean-base-v3.png",
+          "role": "후속 장면 재사용 후보 / 개별 검수 필요",
+          "rect": null
+        },
+        {
+          "path": "art/chapter01/extra-poses/suhyeok-cook-v1.png",
+          "role": "후속 장면 재사용 후보 / 개별 검수 필요",
+          "rect": null
+        },
+        {
+          "path": "art/chapter01/kitchen/soup-pot-v1.png",
+          "role": "후속 장면 재사용 후보 / 개별 검수 필요",
+          "rect": null
+        },
+        {
+          "path": "art/chapter01/shared-props/soup-bowl-v1.png",
+          "role": "후속 장면 재사용 후보 / 개별 검수 필요",
+          "rect": null
+        }
+      ],
+      "entry": "식재료 확보 등 조건",
+      "advance": "요리 또는 생활 제작 결과 확인",
+      "next": "현재 장소로 복귀",
+      "ui_status": "미제작",
+      "notes": "UI·레시피 수치·미니게임 상세 미정. 후보 원화만 연결.",
+      "state_data": null
+    },
+    {
+      "id": "C1-04b",
+      "label": "낡은 집·별똥이",
+      "preview": "art/chapter01/revision-v3/house-clean-base-v3.png",
+      "parts": [
+        {
+          "path": "art/chapter01/revision-v3/house-clean-base-v3.png",
+          "role": "후속 장면 재사용 후보 / 개별 검수 필요",
+          "rect": null
+        },
+        {
+          "path": "art/chapter01/dog/byeolddongi-sit-v1.png",
+          "role": "후속 장면 재사용 후보 / 개별 검수 필요",
+          "rect": null
+        },
+        {
+          "path": "art/chapter01/dog/byeolddongi-rest-v1.png",
+          "role": "후속 장면 재사용 후보 / 개별 검수 필요",
+          "rect": null
+        },
+        {
+          "path": "art/chapter01/revision-v3/suhyeok-befriend-v3.png",
+          "role": "후속 장면 재사용 후보 / 개별 검수 필요",
+          "rect": null
+        }
+      ],
+      "entry": "낡은 집 조사와 동행 조건",
+      "advance": "거리를 두고 교감, 후속 재방문",
+      "next": "현재 장소로 복귀",
+      "ui_status": "미제작",
+      "notes": "별똥이의 집 앞 접지·포즈 배치는 미검증. 기존 캠핑카 배치 좌표를 집으로 자동 복사하지 않음. 첫 편지는 챕터 3으로 이관.",
+      "state_data": null
+    },
+    {
+      "id": "C1-05",
+      "label": "다음 지역 출발",
+      "preview": null,
+      "parts": [],
+      "entry": "첫 그림·첫 사진과 길 정보 조건 완료",
+      "advance": "남은 일 안내→목적지·물자 확인→출발",
+      "next": "다음 챕터",
+      "ui_status": "미제작",
+      "notes": "지도·고갯길 UI/원화 연결 미제작. 정확한 날짜·비용·재방문 정책 미정.",
+      "state_data": null
+    }
+  ],
+  "assets": {
+    "design/ui/ch00-01/review/C0-00-A-first-start.jpg": {
+      "path": "design/ui/ch00-01/review/C0-00-A-first-start.jpg",
+      "role": "합성 또는 장면 참고 이미지 / 분리 원본 여부 확인",
+      "bytes": 447249,
+      "sha256": "3df9ccfa2d8d01051b84b962d41a92c840cb9af899158366137f34a042733843",
+      "native_size": [
+        1920,
+        1080
+      ],
+      "mode": "RGB"
+    },
+    "art/title/title-background-v1.png": {
+      "path": "art/title/title-background-v1.png",
+      "role": "임시 배경 / 실제 손 화풍 교체 예정",
+      "bytes": 1844927,
+      "sha256": "67cb06467580225aaa3c4d9ddb4f0fce9c1860d783e7ed82bca1c9684e94bafc",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "RGB"
+    },
+    "art/title/logo-v1.png": {
+      "path": "art/title/logo-v1.png",
+      "role": "기존 투명 로고",
+      "bytes": 64794,
+      "sha256": "d61045baf05dd88d87baaa3e26dfd4b822d7da8561ab4636da8b6b71b54b7830",
+      "native_size": [
+        2560,
+        976
+      ],
+      "mode": "RGBA"
+    },
+    "design/ui/ch00-01/psd/C0-00-A-first-start.psd": {
+      "path": "design/ui/ch00-01/psd/C0-00-A-first-start.psd",
+      "role": "최초 시작 UI PSD",
+      "bytes": 1769704,
+      "sha256": "fa32a723dfdf5a8061631f81261ed19af06d57d5be0de1a911cecb58cb2caa56",
+      "native_size": [
+        3840,
+        2160
+      ],
+      "mode": "RGBA",
+      "layer_names": [
+        "30_input_hint",
+        "20_2_quit_text",
+        "10_2_quit_surface",
+        "20_1_settings_text",
+        "10_1_settings_surface",
+        "20_0_start_text",
+        "10_0_start_surface",
+        "02_existing_logo",
+        "01_readability_shade"
+      ]
+    },
+    "design/ui/ch00-01/psd/C0-00-A-returning.psd": {
+      "path": "design/ui/ch00-01/psd/C0-00-A-returning.psd",
+      "role": "저장 있음 UI PSD",
+      "bytes": 1798127,
+      "sha256": "1db75d777eb72e1b6c2f9dfa13ad7ef438dcddd5fbf7d10850c91ef419d2f078",
+      "native_size": [
+        3840,
+        2160
+      ],
+      "mode": "RGBA",
+      "layer_names": [
+        "30_input_hint",
+        "20_3_quit_text",
+        "10_3_quit_surface",
+        "20_2_settings_text",
+        "10_2_settings_surface",
+        "20_1_start_text",
+        "10_1_start_surface",
+        "20_0_continue_text",
+        "10_0_continue_surface",
+        "02_existing_logo",
+        "01_readability_shade"
+      ]
+    },
+    "design/ui/ch00-01/manifest.json": {
+      "path": "design/ui/ch00-01/manifest.json",
+      "role": "UI 좌표·클릭 영역·문자 참조",
+      "bytes": 27109,
+      "sha256": "627982b60bcc9d9758d59c5e94d2d349fdab04fabdb4b94fd03f805389432888"
+    },
+    "design/ui/ch00-01/strings.ko.json": {
+      "path": "design/ui/ch00-01/strings.ko.json",
+      "role": "별도 런타임 문구",
+      "bytes": 159,
+      "sha256": "3321d3ade483a9222738c7d2bf3adbc336466fb34a21b9b6b13deba12caa37c4"
+    },
+    "art/title/fonts/Live49MenuSerif-Regular.ttf": {
+      "path": "art/title/fonts/Live49MenuSerif-Regular.ttf",
+      "role": "메뉴 폰트 / OFL 고지 함께 사용",
+      "bytes": 9377708,
+      "sha256": "ae501686d255c8b2bc3f0c54460c9b131d5423b2942d0c6c42e139d290ca8054"
+    },
+    "design/ui/ch00-01/review/C0-01-call.jpg": {
+      "path": "design/ui/ch00-01/review/C0-01-call.jpg",
+      "role": "합성 또는 장면 참고 이미지 / 분리 원본 여부 확인",
+      "bytes": 365635,
+      "sha256": "0d4adc8a01b338618fd6a77819ce2b0f878041239a63616795c44c466753c7db",
+      "native_size": [
+        1920,
+        1080
+      ],
+      "mode": "RGB"
+    },
+    "design/ui/ch00-01/psd/C0-01-call.psd": {
+      "path": "design/ui/ch00-01/psd/C0-01-call.psd",
+      "role": "UI 4레이어 PSD",
+      "bytes": 1121902,
+      "sha256": "5fdae46e9d0e44e0484a92b195d8ccbd2dad5591e0ea7e5474a74e98aecf0b95",
+      "native_size": [
+        3840,
+        2160
+      ],
+      "mode": "RGBA",
+      "layer_names": [
+        "04_first_input_hint",
+        "03_advance_cue",
+        "02_call_text",
+        "01_bottom_readability_gradient"
+      ]
+    },
+    "design/ui/ch00-01/runtime/1920x1080/C0-01/01_bottom_readability_gradient.png": {
+      "path": "design/ui/ch00-01/runtime/1920x1080/C0-01/01_bottom_readability_gradient.png",
+      "role": "01_bottom_readability_gradient",
+      "bytes": 9521,
+      "sha256": "1564780a304936c7f98df717af8e4a0495a8f18e0a458c6a62b72df91ba4198c",
+      "native_size": [
+        1920,
+        1080
+      ],
+      "mode": "RGBA"
+    },
+    "design/ui/ch00-01/runtime/1920x1080/C0-01/03_advance_cue.png": {
+      "path": "design/ui/ch00-01/runtime/1920x1080/C0-01/03_advance_cue.png",
+      "role": "03_advance_cue",
+      "bytes": 463,
+      "sha256": "6fa33548e10813fdc15a59116c6b26267cf487f5c7f40bc66dee7f70baa31dc2",
+      "native_size": [
+        28,
+        28
+      ],
+      "mode": "RGBA"
+    },
+    "design/ui/ch00-01/C0-01.json": {
+      "path": "design/ui/ch00-01/C0-01.json",
+      "role": "레이어 좌표·문구·해상도",
+      "bytes": 3870,
+      "sha256": "d5513501da3fdaf2b85441dad2e040d7ab09fd84e46efb225b15225d9ee9ccde"
+    },
+    "art/chapter00/review/01-memory-family-v1.png": {
+      "path": "art/chapter00/review/01-memory-family-v1.png",
+      "role": "합성 또는 장면 참고 이미지 / 분리 원본 여부 확인",
+      "bytes": 2663532,
+      "sha256": "433eff8258e8693733f88777c612ae55100c1117d6dbf37371653f42b49d047e",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter00/memory/memory-path-base-v1.png": {
+      "path": "art/chapter00/memory/memory-path-base-v1.png",
+      "role": "회상 배경",
+      "bytes": 2201966,
+      "sha256": "61d25f952a82f6b944fcc843dc0a4eae7162d328053677829ca5d4873b2a6ac7",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "RGB"
+    },
+    "art/chapter00/memory/seoyeon-soi-holding-v1.png": {
+      "path": "art/chapter00/memory/seoyeon-soi-holding-v1.png",
+      "role": "모녀 접촉 그룹 PNG",
+      "bytes": 1491259,
+      "sha256": "3a93e04f25d0d0533113b96db6038bf8720358579a24672094aa8e87a9064a04",
+      "native_size": [
+        701,
+        1364
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter00/memory/memory-ground-shadow-review-v1.png": {
+      "path": "art/chapter00/memory/memory-ground-shadow-review-v1.png",
+      "role": "접지 그림자 검수 레이어",
+      "bytes": 26131,
+      "sha256": "f393f7327ddce0308c3471e442fbf538293023923a4568fd571f697b529c5b5c",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter00/review/02-memory-hands-v1.png": {
+      "path": "art/chapter00/review/02-memory-hands-v1.png",
+      "role": "합성 또는 장면 참고 이미지 / 분리 원본 여부 확인",
+      "bytes": 2516231,
+      "sha256": "2d6af260f327e05c5205aa5a4fcdfedff7b044afb514bba418580cb565aa7562",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter00/memory/hands-handover-v1.png": {
+      "path": "art/chapter00/memory/hands-handover-v1.png",
+      "role": "손 상태 PNG",
+      "bytes": 1690349,
+      "sha256": "81ff5531efe585f747862b016260000317da6db97f366abd1797d339ef05d670",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter00/memory/memory-hands-layers-v1.psd": {
+      "path": "art/chapter00/memory/memory-hands-layers-v1.psd",
+      "role": "배경·손 전후 3레이어 / 손 상태 배타 표시",
+      "bytes": 23600652,
+      "sha256": "41223aafc2d7f56618bd5690ce97f92e4f1e6e887572316ee7dba171508e6f49",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "layer_names": [
+        "03_received_HIDE_WHEN_02_VISIBLE",
+        "02_handover_HIDE_WHEN_03_VISIBLE",
+        "01_memory_path_background"
+      ]
+    },
+    "art/chapter00/review/03-memory-hands-v1.png": {
+      "path": "art/chapter00/review/03-memory-hands-v1.png",
+      "role": "합성 또는 장면 참고 이미지 / 분리 원본 여부 확인",
+      "bytes": 2560123,
+      "sha256": "4bb7b954313b88504378bc744725c368b04684a15a658ea496624acaead0448e",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter00/memory/hands-received-v1.png": {
+      "path": "art/chapter00/memory/hands-received-v1.png",
+      "role": "손 상태 PNG",
+      "bytes": 1611817,
+      "sha256": "e895704775229b7d6a433c62c4c5b213e5141d27e3f38e76d2929e6a6d8cea76",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter00/present/hand-on-book-v1.png": {
+      "path": "art/chapter00/present/hand-on-book-v1.png",
+      "role": "합성 또는 장면 참고 이미지 / 분리 원본 여부 확인",
+      "bytes": 1784292,
+      "sha256": "8f335b9cd980a33f79758d55388704e3d9aecade828b9c7cc68137fd902ec234",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "RGB"
+    },
+    "art/chapter00/camper/review/01-current-conversation.png": {
+      "path": "art/chapter00/camper/review/01-current-conversation.png",
+      "role": "합성 또는 장면 참고 이미지 / 분리 원본 여부 확인",
+      "bytes": 2278889,
+      "sha256": "bc9f530ce83737814ee4b8421958cbed39bf7ad1ffbc1951397aafdaeb6621f3",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter01/revision-v3/camper-clean-base-v3.png": {
+      "path": "art/chapter01/revision-v3/camper-clean-base-v3.png",
+      "role": "고정 배경",
+      "bytes": 1959987,
+      "sha256": "7acbf901342b7854170c4388ece659a1fa4ba0446d60f78dc1b8bb7c6847ea9f",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "RGB"
+    },
+    "art/chapter01/layers/characters/suhyeok-seated-body-v1.png": {
+      "path": "art/chapter01/layers/characters/suhyeok-seated-body-v1.png",
+      "role": "suhyeok-seated-body",
+      "bytes": 37293,
+      "sha256": "e7b01a123405e3ae9c4c40b01d8cf51ce1e36a198343db0f7c8df093ca8901f8",
+      "native_size": [
+        109,
+        155
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter01/layers/characters/suhyeok-seated-hands-v1.png": {
+      "path": "art/chapter01/layers/characters/suhyeok-seated-hands-v1.png",
+      "role": "suhyeok-seated-hands",
+      "bytes": 36013,
+      "sha256": "8b2c3a33fef1739fb38cd20d19e83e5dce486c51c019c425b5c345b55dc51dc3",
+      "native_size": [
+        109,
+        155
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter01/layers/characters/soi-seated-body-v1.png": {
+      "path": "art/chapter01/layers/characters/soi-seated-body-v1.png",
+      "role": "soi-seated-body",
+      "bytes": 30639,
+      "sha256": "52564697894ac4f7458a12e8a10f66b6c15424ad8cf3dd8270926386644741e3",
+      "native_size": [
+        112,
+        132
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter01/layers/characters/soi-seated-hands-v1.png": {
+      "path": "art/chapter01/layers/characters/soi-seated-hands-v1.png",
+      "role": "soi-seated-hands",
+      "bytes": 29774,
+      "sha256": "7f192cd00142f7a2e9759441a09608aa148be9f06f9161fb1c29f57e4b0b1652",
+      "native_size": [
+        112,
+        132
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter01/layers/pages/sketchbook-blank-v1.png": {
+      "path": "art/chapter01/layers/pages/sketchbook-blank-v1.png",
+      "role": "식탁 위 스케치북",
+      "bytes": 11941,
+      "sha256": "709736752c8a7cc1b6248fead0dab0de4d119324f17c2c83e685fc61850a807c",
+      "native_size": [
+        102,
+        73
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter01/layers/sprites/mug-source-v1.png": {
+      "path": "art/chapter01/layers/sprites/mug-source-v1.png",
+      "role": "컵",
+      "bytes": 6708,
+      "sha256": "54a0eeb7710474c46b19b3bea0f5ac7f78c2c80b6986fef1987d03ad9bef6cc8",
+      "native_size": [
+        53,
+        52
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter00/camper/layers/water-jug-v1.png": {
+      "path": "art/chapter00/camper/layers/water-jug-v1.png",
+      "role": "water-before",
+      "bytes": 1414209,
+      "sha256": "ed873d010b7d4625603ff3fd39bc91b746c40701dbcb805f975b40f289096883",
+      "native_size": [
+        1009,
+        1321
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter00/camper/layers/folded-blanket-v1.png": {
+      "path": "art/chapter00/camper/layers/folded-blanket-v1.png",
+      "role": "blanket-before",
+      "bytes": 2133720,
+      "sha256": "81b62ada754a10d70a9f93af8c31a0c14912972eb8092617f32aaf77cdd0bd59",
+      "native_size": [
+        1348,
+        908
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter00/camper/layers/power-panel-loose-v1.png": {
+      "path": "art/chapter00/camper/layers/power-panel-loose-v1.png",
+      "role": "panel-loose",
+      "bytes": 1613728,
+      "sha256": "0af112f0facc4fd1aff89bfae170cb6d960eee700ed95b384d5ee04d40a4553d",
+      "native_size": [
+        1277,
+        910
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter00/camper/layers/flashlight-off-v1.png": {
+      "path": "art/chapter00/camper/layers/flashlight-off-v1.png",
+      "role": "flashlight-stored",
+      "bytes": 1852481,
+      "sha256": "946ea8f71bf91eaced1590089f3eb5e02fcb54f70d87cd3fa0b8ac2c1965c40a",
+      "native_size": [
+        1502,
+        985
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter00/camper/review/02a-water-only.png": {
+      "path": "art/chapter00/camper/review/02a-water-only.png",
+      "role": "합성 또는 장면 참고 이미지 / 분리 원본 여부 확인",
+      "bytes": 2277810,
+      "sha256": "13ba002660bc2c8a968fee3df5031af9e3ce300f82241e992edd6db07caf61f1",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter00/camper/review/02b-blanket-only.png": {
+      "path": "art/chapter00/camper/review/02b-blanket-only.png",
+      "role": "합성 또는 장면 참고 이미지 / 분리 원본 여부 확인",
+      "bytes": 2273326,
+      "sha256": "1c45d3ba66795c50f0db8e9be5df72f156da863b805de4dda364e7767ddb66db",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter00/camper/review/02-preparation-complete.png": {
+      "path": "art/chapter00/camper/review/02-preparation-complete.png",
+      "role": "합성 또는 장면 참고 이미지 / 분리 원본 여부 확인",
+      "bytes": 2272045,
+      "sha256": "e9eaa646eae7163bba3c297c5eff24b70e8d9c3b4a45fd4ec648139fed868e8d",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter00/camper/review/03-outage-answer-soi.png": {
+      "path": "art/chapter00/camper/review/03-outage-answer-soi.png",
+      "role": "합성 또는 장면 참고 이미지 / 분리 원본 여부 확인",
+      "bytes": 2131077,
+      "sha256": "65dfd619e9a4f45ae055517cd8dbd95ce21f3fecbfd3f5d16841d4bcf20ce874",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter00/camper/layers/camper-outage-stable-v1.png": {
+      "path": "art/chapter00/camper/layers/camper-outage-stable-v1.png",
+      "role": "고정 배경",
+      "bytes": 2102325,
+      "sha256": "ac2dd7e0295600b282ba31cd4f40bcbd973342417b9554877de58c1d2b807bf8",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter00/camper/review/04-flashlight-investigation.png": {
+      "path": "art/chapter00/camper/review/04-flashlight-investigation.png",
+      "role": "합성 또는 장면 참고 이미지 / 분리 원본 여부 확인",
+      "bytes": 2143466,
+      "sha256": "70bebef3e232ec77034945a570092f9db89fffa6a473fd16feb872b84188948a",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter00/camper/layers/suhyeok-flashlight-repair-v2.png": {
+      "path": "art/chapter00/camper/layers/suhyeok-flashlight-repair-v2.png",
+      "role": "repair",
+      "bytes": 1696281,
+      "sha256": "87ed1a5f4d65533e7e1a456fce1668aa6c2f0ebd3fae2f6d32d20a90c48b328f",
+      "native_size": [
+        851,
+        1315
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter00/camper/layers/repair-contact-shadow-v1.png": {
+      "path": "art/chapter00/camper/layers/repair-contact-shadow-v1.png",
+      "role": "그림자/국소광 보조 레이어",
+      "bytes": 11655,
+      "sha256": "63541bc58ad1325f62a74125c6a8fca84747784049345a2caef9b978c295e10d",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter00/camper/layers/flashlight-local-reveal-mask-v1.png": {
+      "path": "art/chapter00/camper/layers/flashlight-local-reveal-mask-v1.png",
+      "role": "그림자/국소광 보조 레이어",
+      "bytes": 7027,
+      "sha256": "6d3a02d3cd89af63d5ea35f7dc297605bf6c62577c958491098d881b7c8170a1",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "L"
+    },
+    "art/chapter00/camper/layers/flashlight-bounce-overlay-v1.png": {
+      "path": "art/chapter00/camper/layers/flashlight-bounce-overlay-v1.png",
+      "role": "그림자/국소광 보조 레이어",
+      "bytes": 11991,
+      "sha256": "62e103ccd546c6718459dbc1a9d19738691cef4dd214f50fbe6831d4e3d679e9",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter00/camper/review/05-connection-secured.png": {
+      "path": "art/chapter00/camper/review/05-connection-secured.png",
+      "role": "합성 또는 장면 참고 이미지 / 분리 원본 여부 확인",
+      "bytes": 2143432,
+      "sha256": "0a411abf17d74401315825726bc8c51163110ef6dda053603fb14500745e72d4",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter00/camper/layers/power-panel-fixed-v1.png": {
+      "path": "art/chapter00/camper/layers/power-panel-fixed-v1.png",
+      "role": "panel-fixed",
+      "bytes": 1564604,
+      "sha256": "ee6a9fe32580d8e7f43a90921f7ff0761577a09ad214907ee130347dbdf5e534",
+      "native_size": [
+        1277,
+        910
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter00/camper/review/06-light-restored.png": {
+      "path": "art/chapter00/camper/review/06-light-restored.png",
+      "role": "합성 또는 장면 참고 이미지 / 분리 원본 여부 확인",
+      "bytes": 2271895,
+      "sha256": "8c5df33a9899040df22d87667a53d4fa2ec543d781659ef8a4135f1f39c1b6b7",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter00/camper/review/07-book-packed-journal-open.png": {
+      "path": "art/chapter00/camper/review/07-book-packed-journal-open.png",
+      "role": "합성 또는 장면 참고 이미지 / 분리 원본 여부 확인",
+      "bytes": 2275447,
+      "sha256": "7402f0d46d29ea08581e1d325daca5058a8d2426ab38b573134b2464c459a294",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter00/camper/layers/journal-open-v1.png": {
+      "path": "art/chapter00/camper/layers/journal-open-v1.png",
+      "role": "journal",
+      "bytes": 2265457,
+      "sha256": "59e9a5031c59f03f79baa3717b1aeaa9bf33c55a1e79ecb4ff835248b8d89e57",
+      "native_size": [
+        1444,
+        986
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter00/camper/review/08-voluntary-lights-off.png": {
+      "path": "art/chapter00/camper/review/08-voluntary-lights-off.png",
+      "role": "합성 또는 장면 참고 이미지 / 분리 원본 여부 확인",
+      "bytes": 2129580,
+      "sha256": "52635c78edf6823da7b30f035dde3271c4bb6a7403310f1ce2b2335415f3e9a4",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter01/revision-v3/store-clean-base-v3.png": {
+      "path": "art/chapter01/revision-v3/store-clean-base-v3.png",
+      "role": "합성 또는 장면 참고 이미지 / 분리 원본 여부 확인",
+      "bytes": 1974964,
+      "sha256": "9cda7b9842f7e041b81046a1a8bfed4f3748f9cd4a181c432dfb7a3b9f561844",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "RGB"
+    },
+    "art/chapter01/extra-poses/suhyeok-investigate-v2.png": {
+      "path": "art/chapter01/extra-poses/suhyeok-investigate-v2.png",
+      "role": "후속 장면 재사용 후보 / 개별 검수 필요",
+      "bytes": 195689,
+      "sha256": "7d3e4a7ffbde2d458b6481fdae792456cb73df3bbf12e8b5a4dc1e16551c47fc",
+      "native_size": [
+        327,
+        417
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter01/store/drink-bottle-v1.png": {
+      "path": "art/chapter01/store/drink-bottle-v1.png",
+      "role": "후속 장면 재사용 후보 / 개별 검수 필요",
+      "bytes": 1296,
+      "sha256": "9b086e016e9bc24a01db1736f3855455e3c4f1ad4e5d25fd18270d4b781dc590",
+      "native_size": [
+        17,
+        32
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter01/01-camper-evening/camper-drawing-v2.png": {
+      "path": "art/chapter01/01-camper-evening/camper-drawing-v2.png",
+      "role": "합성 또는 장면 참고 이미지 / 분리 원본 여부 확인",
+      "bytes": 2009561,
+      "sha256": "70fdfbf475921aef2a5d0f514b0cb57263eef070d98097f4ccec4273eb81c947",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "RGB"
+    },
+    "art/chapter01/shared-props/pencil-tin-open-v1.png": {
+      "path": "art/chapter01/shared-props/pencil-tin-open-v1.png",
+      "role": "후속 장면 재사용 후보 / 개별 검수 필요",
+      "bytes": 268134,
+      "sha256": "7937ad57f2c799857fc06142ba8fafdf6b967e0885596cfa25270253a50cfa3e",
+      "native_size": [
+        377,
+        432
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter01/layers/pages/sea-started-overlay-v1.png": {
+      "path": "art/chapter01/layers/pages/sea-started-overlay-v1.png",
+      "role": "후속 장면 재사용 후보 / 개별 검수 필요",
+      "bytes": 11520,
+      "sha256": "cb1964e96fb51e7856bb7063a64dd17e98f1b6b082203a03a4ef484ae1e1c39e",
+      "native_size": [
+        102,
+        73
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter01/layers/pages/sea-complete-overlay-v1.png": {
+      "path": "art/chapter01/layers/pages/sea-complete-overlay-v1.png",
+      "role": "후속 장면 재사용 후보 / 개별 검수 필요",
+      "bytes": 12088,
+      "sha256": "dad6ea20311a381a582d1fa28a78236b8ecf0569e2bca147862272f2216f33f2",
+      "native_size": [
+        102,
+        73
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter01/extra-poses/suhyeok-cook-v1.png": {
+      "path": "art/chapter01/extra-poses/suhyeok-cook-v1.png",
+      "role": "후속 장면 재사용 후보 / 개별 검수 필요",
+      "bytes": 205284,
+      "sha256": "d7b0733ea95c051a82136fbe766543b4ea9a6eb7f39ad1ddedd82e6fdc4ab4ad",
+      "native_size": [
+        273,
+        550
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter01/kitchen/soup-pot-v1.png": {
+      "path": "art/chapter01/kitchen/soup-pot-v1.png",
+      "role": "후속 장면 재사용 후보 / 개별 검수 필요",
+      "bytes": 524633,
+      "sha256": "2de2c15a94421986bfd9dc402e75d9f9b520291b212c12bc99f1edcbdaefba97",
+      "native_size": [
+        714,
+        523
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter01/shared-props/soup-bowl-v1.png": {
+      "path": "art/chapter01/shared-props/soup-bowl-v1.png",
+      "role": "후속 장면 재사용 후보 / 개별 검수 필요",
+      "bytes": 165709,
+      "sha256": "34bfb98b5156a975b1186892eb5a6534993fa66d83a1bc66cabc81b68167fcfe",
+      "native_size": [
+        347,
+        275
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter01/revision-v3/house-clean-base-v3.png": {
+      "path": "art/chapter01/revision-v3/house-clean-base-v3.png",
+      "role": "합성 또는 장면 참고 이미지 / 분리 원본 여부 확인",
+      "bytes": 1983032,
+      "sha256": "2c9efbb70110bc34073df066a28b8ec1d0325e904719e0697ce43eb8a1221ead",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "RGB"
+    },
+    "art/chapter01/dog/byeolddongi-sit-v1.png": {
+      "path": "art/chapter01/dog/byeolddongi-sit-v1.png",
+      "role": "후속 장면 재사용 후보 / 개별 검수 필요",
+      "bytes": 217815,
+      "sha256": "5517f895cdb0666108c8bd287f2e34d79a65cac471fdb7a6d5afe7feabcf7ad8",
+      "native_size": [
+        326,
+        439
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter01/dog/byeolddongi-rest-v1.png": {
+      "path": "art/chapter01/dog/byeolddongi-rest-v1.png",
+      "role": "후속 장면 재사용 후보 / 개별 검수 필요",
+      "bytes": 159884,
+      "sha256": "372559dad99a30e99da6208815ef1393449d2343876c15cf9054cd9eeabfec67",
+      "native_size": [
+        396,
+        233
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter01/revision-v3/suhyeok-befriend-v3.png": {
+      "path": "art/chapter01/revision-v3/suhyeok-befriend-v3.png",
+      "role": "후속 장면 재사용 후보 / 개별 검수 필요",
+      "bytes": 279409,
+      "sha256": "9ac5c7a16d7d3ae626b1ae2e7699eda6c8886382afe7855b3afd3d70c1e824e5",
+      "native_size": [
+        453,
+        467
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter00/sources/hands-handover-source-v1.png": {
+      "path": "art/chapter00/sources/hands-handover-source-v1.png",
+      "role": "회상 원본·분리 PNG / first draft",
+      "bytes": 1491374,
+      "sha256": "432fb23d767451ee00c80fe6e31ef952340a5703fca2581574ac881540ba4955",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "RGB"
+    },
+    "art/chapter00/sources/hands-received-source-v1.png": {
+      "path": "art/chapter00/sources/hands-received-source-v1.png",
+      "role": "회상 원본·분리 PNG / first draft",
+      "bytes": 1419039,
+      "sha256": "0cf43c2212e942b587341f8ba0b2ed2133e34028c5e864730cdb1ca6eda3845d",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "RGB"
+    },
+    "art/chapter00/sources/seoyeon-soi-holding-source-v1.png": {
+      "path": "art/chapter00/sources/seoyeon-soi-holding-source-v1.png",
+      "role": "회상 원본·분리 PNG / first draft",
+      "bytes": 1971548,
+      "sha256": "941989b2d0e803e83aef73b056fd2a67cb1385a2f21bdf747585d38b226b115b",
+      "native_size": [
+        1122,
+        1402
+      ],
+      "mode": "RGB"
+    },
+    "art/chapter00/camper/layers/water-jug-held-v1.png": {
+      "path": "art/chapter00/camper/layers/water-jug-held-v1.png",
+      "role": "캠핑카 분리 원화",
+      "bytes": 1347609,
+      "sha256": "b5cfa6175f4dedc4d3dbb321f837390f72584837c278696ad1588e3e2920f29d",
+      "native_size": [
+        1122,
+        1392
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter00/prompts/hand-on-book-v1.txt": {
+      "path": "art/chapter00/prompts/hand-on-book-v1.txt",
+      "role": "가공 전 생성 소스 또는 프롬프트 / 직접 배치하지 않음",
+      "bytes": 1141,
+      "sha256": "9218fdec00f796f7fdc914e7485eeab910290b2122b81dab95c176087b26707b"
+    },
+    "art/chapter00/prompts/hands-handover-v1.txt": {
+      "path": "art/chapter00/prompts/hands-handover-v1.txt",
+      "role": "가공 전 생성 소스 또는 프롬프트 / 직접 배치하지 않음",
+      "bytes": 1952,
+      "sha256": "1e44fa58e40b1610463a846caccc647c307adb5dcd40aaa0d22d8c520bf35744"
+    },
+    "art/chapter00/prompts/hands-received-v1.txt": {
+      "path": "art/chapter00/prompts/hands-received-v1.txt",
+      "role": "가공 전 생성 소스 또는 프롬프트 / 직접 배치하지 않음",
+      "bytes": 651,
+      "sha256": "d42d38aa018f928d846cb21925234dee29fd008d4daa7aa7a13ceba9ecc2a9fe"
+    },
+    "art/chapter00/prompts/memory-path-base-v1.txt": {
+      "path": "art/chapter00/prompts/memory-path-base-v1.txt",
+      "role": "가공 전 생성 소스 또는 프롬프트 / 직접 배치하지 않음",
+      "bytes": 1512,
+      "sha256": "d8e0db03ee699e4d4f47f754c6a5cc871aac6147b8877c442a95c1d8d0a03547"
+    },
+    "art/chapter00/prompts/seoyeon-soi-holding-v1.txt": {
+      "path": "art/chapter00/prompts/seoyeon-soi-holding-v1.txt",
+      "role": "가공 전 생성 소스 또는 프롬프트 / 직접 배치하지 않음",
+      "bytes": 2313,
+      "sha256": "c47fa10a3f0f1fab1268a3913255c2202a95d0b6247612bc0f8b6608320a4185"
+    },
+    "art/chapter00/camper/sources/camper-outage-light-study-v1.png": {
+      "path": "art/chapter00/camper/sources/camper-outage-light-study-v1.png",
+      "role": "가공 전 생성 소스 또는 프롬프트 / 직접 배치하지 않음",
+      "bytes": 1744523,
+      "sha256": "4bc2c75235b103f4f579b8fca1fa74af8d03c6076d0a43251ec5355336e24d53",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "RGB"
+    },
+    "art/chapter00/camper/sources/flashlight-off-v1.png": {
+      "path": "art/chapter00/camper/sources/flashlight-off-v1.png",
+      "role": "가공 전 생성 소스 또는 프롬프트 / 직접 배치하지 않음",
+      "bytes": 1920208,
+      "sha256": "9666ad660bf1f6701dc865e07ca4cf755ea3c38c51830a50170051c9deead559",
+      "native_size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter00/camper/sources/folded-blanket-v1.png": {
+      "path": "art/chapter00/camper/sources/folded-blanket-v1.png",
+      "role": "가공 전 생성 소스 또는 프롬프트 / 직접 배치하지 않음",
+      "bytes": 2235412,
+      "sha256": "9064dfdc58218de5ed4a764d52debe9db1ce7701ab733c19701d4881462d3231",
+      "native_size": [
+        1448,
+        1086
+      ],
+      "mode": "RGB"
+    },
+    "art/chapter00/camper/sources/journal-open-v1.png": {
+      "path": "art/chapter00/camper/sources/journal-open-v1.png",
+      "role": "가공 전 생성 소스 또는 프롬프트 / 직접 배치하지 않음",
+      "bytes": 2240424,
+      "sha256": "e89369cf0f05b726a3cf904c67d4e7113db4e04c91fd81213605a0405c75afbd",
+      "native_size": [
+        1448,
+        1086
+      ],
+      "mode": "RGB"
+    },
+    "art/chapter00/camper/sources/power-panel-fixed-v1.png": {
+      "path": "art/chapter00/camper/sources/power-panel-fixed-v1.png",
+      "role": "가공 전 생성 소스 또는 프롬프트 / 직접 배치하지 않음",
+      "bytes": 1644865,
+      "sha256": "8be920289478dab81154568d12e7bb2e10deb2c5b234a985f3588cd7c7c0e83d",
+      "native_size": [
+        1374,
+        1145
+      ],
+      "mode": "RGB"
+    },
+    "art/chapter00/camper/sources/power-panel-loose-v1.png": {
+      "path": "art/chapter00/camper/sources/power-panel-loose-v1.png",
+      "role": "가공 전 생성 소스 또는 프롬프트 / 직접 배치하지 않음",
+      "bytes": 1864170,
+      "sha256": "d96cd2292c1a960da58b571228889c403c859db023a44186f85bfc4fbdfe3b9e",
+      "native_size": [
+        1374,
+        1145
+      ],
+      "mode": "RGB"
+    },
+    "art/chapter00/camper/sources/suhyeok-flashlight-repair-v1.png": {
+      "path": "art/chapter00/camper/sources/suhyeok-flashlight-repair-v1.png",
+      "role": "가공 전 생성 소스 또는 프롬프트 / 직접 배치하지 않음",
+      "bytes": 2225197,
+      "sha256": "1ce565e00fccda6bb8f4537744aff253e247de71c733d571adf276d01ea6904e",
+      "native_size": [
+        1024,
+        1536
+      ],
+      "mode": "RGB"
+    },
+    "art/chapter00/camper/sources/suhyeok-flashlight-repair-v2.png": {
+      "path": "art/chapter00/camper/sources/suhyeok-flashlight-repair-v2.png",
+      "role": "가공 전 생성 소스 또는 프롬프트 / 직접 배치하지 않음",
+      "bytes": 2182806,
+      "sha256": "48c48f4d17a78ed74d668e5fd726ec9aa282f95dc92611a873cbe1dba81cff4d",
+      "native_size": [
+        1024,
+        1536
+      ],
+      "mode": "RGB"
+    },
+    "art/chapter00/camper/sources/water-jug-held-v1.png": {
+      "path": "art/chapter00/camper/sources/water-jug-held-v1.png",
+      "role": "가공 전 생성 소스 또는 프롬프트 / 직접 배치하지 않음",
+      "bytes": 1335244,
+      "sha256": "a86db3545731935f664d8281e76e17507c6bb31a881ec9b45ff557aa7fb513b0",
+      "native_size": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter00/camper/sources/water-jug-v1.png": {
+      "path": "art/chapter00/camper/sources/water-jug-v1.png",
+      "role": "가공 전 생성 소스 또는 프롬프트 / 직접 배치하지 않음",
+      "bytes": 1418100,
+      "sha256": "aead7c721c8a0752736788e600eb529b24862b0be953a8e8dc5daaaeae8e7c2d",
+      "native_size": [
+        1122,
+        1402
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter00/camper/prompts/camper-outage-light-study-v1.txt": {
+      "path": "art/chapter00/camper/prompts/camper-outage-light-study-v1.txt",
+      "role": "가공 전 생성 소스 또는 프롬프트 / 직접 배치하지 않음",
+      "bytes": 911,
+      "sha256": "bea8c9f2bb8cb4e8ed99ec4d58b0b9cf8096163c2ddd33e903e8e2c9470678ea"
+    },
+    "art/chapter00/camper/prompts/flashlight-off-v1.txt": {
+      "path": "art/chapter00/camper/prompts/flashlight-off-v1.txt",
+      "role": "가공 전 생성 소스 또는 프롬프트 / 직접 배치하지 않음",
+      "bytes": 1017,
+      "sha256": "5546633ef2b6d4e7f6788deb834eff118273f8b49f8a00101847e1cc9976e2bc"
+    },
+    "art/chapter00/camper/prompts/folded-blanket-v1.txt": {
+      "path": "art/chapter00/camper/prompts/folded-blanket-v1.txt",
+      "role": "가공 전 생성 소스 또는 프롬프트 / 직접 배치하지 않음",
+      "bytes": 1032,
+      "sha256": "a019b5d7e35258e8a911a89ab7b7f37889e726f319b4fdf149ec26f528e37fc7"
+    },
+    "art/chapter00/camper/prompts/journal-open-v1.txt": {
+      "path": "art/chapter00/camper/prompts/journal-open-v1.txt",
+      "role": "가공 전 생성 소스 또는 프롬프트 / 직접 배치하지 않음",
+      "bytes": 1146,
+      "sha256": "45f08fcd7a13d59ad04c0088c644dabb69b2308dc2571f19104436df677d462c"
+    },
+    "art/chapter00/camper/prompts/power-panel-fixed-v1.txt": {
+      "path": "art/chapter00/camper/prompts/power-panel-fixed-v1.txt",
+      "role": "가공 전 생성 소스 또는 프롬프트 / 직접 배치하지 않음",
+      "bytes": 500,
+      "sha256": "4c2fe75de9cd91dd820944fab06ec1221149738884500c97ea5721e0e9715996"
+    },
+    "art/chapter00/camper/prompts/power-panel-loose-v1.txt": {
+      "path": "art/chapter00/camper/prompts/power-panel-loose-v1.txt",
+      "role": "가공 전 생성 소스 또는 프롬프트 / 직접 배치하지 않음",
+      "bytes": 1452,
+      "sha256": "10449090d694de466f8bb68cd748ba29a677dbaf9c9e90d71f83a8f9c97ac20d"
+    },
+    "art/chapter00/camper/prompts/suhyeok-flashlight-repair-v1.txt": {
+      "path": "art/chapter00/camper/prompts/suhyeok-flashlight-repair-v1.txt",
+      "role": "가공 전 생성 소스 또는 프롬프트 / 직접 배치하지 않음",
+      "bytes": 1564,
+      "sha256": "f61579b7d8af552b149eecc0375d670708f6a02c1c7c10655c5f23e68a789cb0"
+    },
+    "art/chapter00/camper/prompts/suhyeok-flashlight-repair-v2.txt": {
+      "path": "art/chapter00/camper/prompts/suhyeok-flashlight-repair-v2.txt",
+      "role": "가공 전 생성 소스 또는 프롬프트 / 직접 배치하지 않음",
+      "bytes": 480,
+      "sha256": "9609b9e8db17810d3b527c2afac1f25246629d3ee362d762cf89e32f69cb872e"
+    },
+    "art/chapter00/camper/prompts/water-jug-held-v1.txt": {
+      "path": "art/chapter00/camper/prompts/water-jug-held-v1.txt",
+      "role": "가공 전 생성 소스 또는 프롬프트 / 직접 배치하지 않음",
+      "bytes": 1203,
+      "sha256": "e7c1d9c327d7d0416fe546e66dbd3df30b692457049e7e9160687f0923f9a81e"
+    },
+    "art/chapter00/camper/prompts/water-jug-v1.txt": {
+      "path": "art/chapter00/camper/prompts/water-jug-v1.txt",
+      "role": "가공 전 생성 소스 또는 프롬프트 / 직접 배치하지 않음",
+      "bytes": 1048,
+      "sha256": "935256ced2e9d11f98f15042969f3fa74daa67edd7da2e819dc4443cce75a34c"
+    },
+    "art/chapter00/camper/camper-light-states-v1.psd": {
+      "path": "art/chapter00/camper/camper-light-states-v1.psd",
+      "role": "제작·조합·보완 참고; 파일별 상태 문서 우선",
+      "bytes": 23600628,
+      "sha256": "3604a8dc98351aa5b3cf04bee83ae56fe0372964ed9b316e1be2ae423126f7fa",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "layer_names": [
+        "03_flashlight_bounce_optional",
+        "02_outage_same_geometry",
+        "01_original_warm_v3"
+      ]
+    },
+    "art/chapter00/camper/power-panel-states-v1.psd": {
+      "path": "art/chapter00/camper/power-panel-states-v1.psd",
+      "role": "제작·조합·보완 참고; 파일별 상태 문서 우선",
+      "bytes": 12783020,
+      "sha256": "37bdfae8a7c636d4fa842e8e6719351b612b2910e5080e882d9d53be9770e288",
+      "native_size": [
+        1277,
+        910
+      ],
+      "mode": "RGB",
+      "layer_names": [
+        "02_secured_HIDE_WHEN_01_VISIBLE",
+        "01_loose_connection"
+      ]
+    },
+    "art/chapter00/camper/review/montage-water.png": {
+      "path": "art/chapter00/camper/review/montage-water.png",
+      "role": "제작·조합·보완 참고; 파일별 상태 문서 우선",
+      "bytes": 535900,
+      "sha256": "0493f1c0412499a8fac78be4f5facfffda05afe0762815c6198b4249470e52b5",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter00/camper/review/montage-blanket.png": {
+      "path": "art/chapter00/camper/review/montage-blanket.png",
+      "role": "제작·조합·보완 참고; 파일별 상태 문서 우선",
+      "bytes": 1461285,
+      "sha256": "b76ba21e8c40bfd78f8aa78d9e74d775a64531138eacd4716966b9375363a7cb",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "RGBA"
+    },
+    "art/chapter00/camper/review/prepared-supplies-closeup.png": {
+      "path": "art/chapter00/camper/review/prepared-supplies-closeup.png",
+      "role": "제작·조합·보완 참고; 파일별 상태 문서 우선",
+      "bytes": 62577,
+      "sha256": "922be498d56cb7cea38976b537ec80aa76b60b733f7f1457ab7431393bec992e",
+      "native_size": [
+        200,
+        175
+      ],
+      "mode": "RGBA"
+    },
+    "design/dialogue/dialogue-layout-v1.png": {
+      "path": "design/dialogue/dialogue-layout-v1.png",
+      "role": "제작·조합·보완 참고; 파일별 상태 문서 우선",
+      "bytes": 1735237,
+      "sha256": "6f943ee4f7dc36ad140184baea4ff515f98f5fd45b340f346ad568dacd53d5c2",
+      "native_size": [
+        1672,
+        941
+      ],
+      "mode": "RGB"
+    },
+    "design/dialogue/README.ko.md": {
+      "path": "design/dialogue/README.ko.md",
+      "role": "제작·조합·보완 참고; 파일별 상태 문서 우선",
+      "bytes": 3084,
+      "sha256": "330004e62983c6da00b4b7be8ad43727ac5cf741ca89c5c5f42aabb7297a8f2a"
+    },
+    "design/chapter00/camper-assets-v1.json": {
+      "path": "design/chapter00/camper-assets-v1.json",
+      "role": "제작·조합·보완 참고; 파일별 상태 문서 우선",
+      "bytes": 9984,
+      "sha256": "d85ab53e20b6c2b2e00ed7224ff5153749669b29982a593df0d624699e0953d3"
+    },
+    "design/chapter00/opening-assets-v1.json": {
+      "path": "design/chapter00/opening-assets-v1.json",
+      "role": "제작·조합·보완 참고; 파일별 상태 문서 우선",
+      "bytes": 3443,
+      "sha256": "f9ae7d5b59d5b2489e86d36ef7064f6d0883a9bde1adaa89bd9e1f0275f1a5a2"
+    },
+    "design/interaction/camper-seated-v1.json": {
+      "path": "design/interaction/camper-seated-v1.json",
+      "role": "제작·조합·보완 참고; 파일별 상태 문서 우선",
+      "bytes": 5152,
+      "sha256": "2bfddb387fe97c085c4035de70f38f16710e340ca7ae9983e2c0230d84491fa1"
+    },
+    "design/chapter01/gallery-scenes.json": {
+      "path": "design/chapter01/gallery-scenes.json",
+      "role": "제작·조합·보완 참고; 파일별 상태 문서 우선",
+      "bytes": 45315,
+      "sha256": "52309253b25b4f8fe98c94beffaf86ebd27aedd4211dced4cc672a0ee9de109c"
+    },
+    "design/chapter01/visual-revision-v3.json": {
+      "path": "design/chapter01/visual-revision-v3.json",
+      "role": "제작·조합·보완 참고; 파일별 상태 문서 우선",
+      "bytes": 1797,
+      "sha256": "f924ae61fb6f73e8c72c8f8a1b1c31a06a512f511aafc4bde1c86752625ebb5f"
+    },
+    "tools/prepare-ch00-camper.py": {
+      "path": "tools/prepare-ch00-camper.py",
+      "role": "제작·조합·보완 참고; 파일별 상태 문서 우선",
+      "bytes": 14200,
+      "sha256": "45cb5e7eead21c40f8aed6b5dde38e84337aaca437b90699352991af0591bb4d"
+    },
+    "tools/prepare-ch00-memory.py": {
+      "path": "tools/prepare-ch00-memory.py",
+      "role": "제작·조합·보완 참고; 파일별 상태 문서 우선",
+      "bytes": 7221,
+      "sha256": "f8dfdc72078655379496b6a86e78f15b67ffcbed6206fd5e7134b996828777eb"
+    },
+    "tools/build-ui-title-styles.py": {
+      "path": "tools/build-ui-title-styles.py",
+      "role": "제작·조합·보완 참고; 파일별 상태 문서 우선",
+      "bytes": 14451,
+      "sha256": "4c3647679cf7925d6fe37d126e7e8b1185bb07daeff53dc3a32a8fe1077487ef"
+    },
+    "tools/build-ui-opening-call.py": {
+      "path": "tools/build-ui-opening-call.py",
+      "role": "제작·조합·보완 참고; 파일별 상태 문서 우선",
+      "bytes": 5174,
+      "sha256": "ecc67c4f156f32c3d3ae3e1fd98e364d2f333cfdf4d2bfe86f298845ae5a9dc8"
+    },
+    "art/title/fonts/NotoSerifKR-OFL.txt": {
+      "path": "art/title/fonts/NotoSerifKR-OFL.txt",
+      "role": "제작·조합·보완 참고; 파일별 상태 문서 우선",
+      "bytes": 4350,
+      "sha256": "5e0da210fb04058a8c0087985d2d456b931c2579811a49655721d3cf0c36b6d6"
+    },
+    "art/title/fonts/CormorantGaramond-OFL.txt": {
+      "path": "art/title/fonts/CormorantGaramond-OFL.txt",
+      "role": "제작·조합·보완 참고; 파일별 상태 문서 우선",
+      "bytes": 4387,
+      "sha256": "60700d351cac4650c51f3f9db318d2a420f8b45052dba2715eb5fec41f0f6956"
+    }
+  },
+  "shared_composition": {
+    "table_occlusion": {
+      "method": "copy from current warm/dark base",
+      "rect": [
+        835,
+        432,
+        257,
+        201
+      ]
+    },
+    "order": "background → bodies → table occlusion → props → hands; repair local light behind actor",
+    "night_actor_rgb_multiplier": [
+      0.39,
+      0.47,
+      0.66
+    ],
+    "night_repair_rgb_multiplier": [
+      0.57,
+      0.61,
+      0.73
+    ],
+    "placement_note": "art rectangles are x,y,width,height in 1672x941; UI rectangles state their 1920/3840 coordinate system"
+  },
+  "warnings": [
+    "Scene sub-IDs are documentation identifiers, not implemented Unity scene names.",
+    "All chapter 1 previews are reference/candidate art, not completed matching UI.",
+    "Older gallery JSON contains deferred letter and old dialogue branches; do not execute it as latest chapter 1 script."
+  ]
+}

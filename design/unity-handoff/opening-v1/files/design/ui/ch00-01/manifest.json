@@ -1,0 +1,1087 @@
+{
+  "id": "C0-00",
+  "status": "title-style-selected",
+  "logical_canvas": [
+    1920,
+    1080
+  ],
+  "native_ui_canvas": [
+    3840,
+    2160
+  ],
+  "scale": 2,
+  "background": "art/title/title-background-v1.png",
+  "background_native_size": [
+    1672,
+    941
+  ],
+  "styles": {
+    "A": {
+      "name": "활자와 얇은 선",
+      "state_psd": "design/ui/ch00-01/psd/C0-00-A-button-states.psd",
+      "selected": true
+    },
+    "B": {
+      "name": "붓 질감과 거친 선",
+      "state_psd": "design/ui/ch00-01/psd/C0-00-B-button-states.psd",
+      "selected": false
+    }
+  },
+  "sprites": {
+    "A-normal": {
+      "path": "design/ui/ch00-01/sprites/A/title-button-normal.png",
+      "size": [
+        720,
+        128
+      ],
+      "contains_text": false,
+      "border_lbrt": [
+        100,
+        24,
+        100,
+        24
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 100,
+      "notes": "Sliced image border in source pixels; keep native size initially. Small brush detail may stretch."
+    },
+    "A-focus": {
+      "path": "design/ui/ch00-01/sprites/A/title-button-focus.png",
+      "size": [
+        720,
+        128
+      ],
+      "contains_text": false,
+      "border_lbrt": [
+        100,
+        24,
+        100,
+        24
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 100,
+      "notes": "Sliced image border in source pixels; keep native size initially. Small brush detail may stretch."
+    },
+    "A-pressed": {
+      "path": "design/ui/ch00-01/sprites/A/title-button-pressed.png",
+      "size": [
+        720,
+        128
+      ],
+      "contains_text": false,
+      "border_lbrt": [
+        100,
+        24,
+        100,
+        24
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 100,
+      "notes": "Sliced image border in source pixels; keep native size initially. Small brush detail may stretch."
+    },
+    "A-disabled": {
+      "path": "design/ui/ch00-01/sprites/A/title-button-disabled.png",
+      "size": [
+        720,
+        128
+      ],
+      "contains_text": false,
+      "border_lbrt": [
+        100,
+        24,
+        100,
+        24
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 100,
+      "notes": "Sliced image border in source pixels; keep native size initially. Small brush detail may stretch."
+    },
+    "B-normal": {
+      "path": "design/ui/ch00-01/sprites/B/title-button-normal.png",
+      "size": [
+        720,
+        128
+      ],
+      "contains_text": false,
+      "border_lbrt": [
+        100,
+        24,
+        100,
+        24
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 100,
+      "notes": "Sliced image border in source pixels; keep native size initially. Small brush detail may stretch."
+    },
+    "B-focus": {
+      "path": "design/ui/ch00-01/sprites/B/title-button-focus.png",
+      "size": [
+        720,
+        128
+      ],
+      "contains_text": false,
+      "border_lbrt": [
+        100,
+        24,
+        100,
+        24
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 100,
+      "notes": "Sliced image border in source pixels; keep native size initially. Small brush detail may stretch."
+    },
+    "B-pressed": {
+      "path": "design/ui/ch00-01/sprites/B/title-button-pressed.png",
+      "size": [
+        720,
+        128
+      ],
+      "contains_text": false,
+      "border_lbrt": [
+        100,
+        24,
+        100,
+        24
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 100,
+      "notes": "Sliced image border in source pixels; keep native size initially. Small brush detail may stretch."
+    },
+    "B-disabled": {
+      "path": "design/ui/ch00-01/sprites/B/title-button-disabled.png",
+      "size": [
+        720,
+        128
+      ],
+      "contains_text": false,
+      "border_lbrt": [
+        100,
+        24,
+        100,
+        24
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 100,
+      "notes": "Sliced image border in source pixels; keep native size initially. Small brush detail may stretch."
+    }
+  },
+  "screens": {
+    "C0-00-A-first-start": {
+      "psd": "design/ui/ch00-01/psd/C0-00-A-first-start.psd",
+      "has_save": false,
+      "focus": "start",
+      "review": "design/ui/ch00-01/review/C0-00-A-first-start.jpg",
+      "ui_png": "design/ui/ch00-01/review/C0-00-A-first-start-ui.png",
+      "layers": [
+        {
+          "name": "01_readability_shade",
+          "png": "design/ui/ch00-01/layers/C0-00-A-first-start/01_readability_shade.png",
+          "rect_px": [
+            0,
+            0,
+            3840,
+            2160
+          ],
+          "rect_logical": [
+            0.0,
+            0.0,
+            1920.0,
+            1080.0
+          ],
+          "runtime": "optional overlay",
+          "string_id": null
+        },
+        {
+          "name": "02_existing_logo",
+          "png": "design/ui/ch00-01/layers/C0-00-A-first-start/02_existing_logo.png",
+          "rect_px": [
+            334,
+            444,
+            1000,
+            390
+          ],
+          "rect_logical": [
+            167.0,
+            222.0,
+            500.0,
+            195.0
+          ],
+          "runtime": "existing logo image",
+          "string_id": null
+        },
+        {
+          "name": "10_0_start_surface",
+          "png": "design/ui/ch00-01/layers/C0-00-A-first-start/10_0_start_surface.png",
+          "rect_px": [
+            470,
+            984,
+            720,
+            128
+          ],
+          "rect_logical": [
+            235.0,
+            492.0,
+            360.0,
+            64.0
+          ],
+          "runtime": "button image",
+          "string_id": null
+        },
+        {
+          "name": "20_0_start_text",
+          "png": "design/ui/ch00-01/layers/C0-00-A-first-start/20_0_start_text.png",
+          "rect_px": [
+            768,
+            1008,
+            124,
+            71
+          ],
+          "rect_logical": [
+            384.0,
+            504.0,
+            62.0,
+            35.5
+          ],
+          "runtime": "replace with runtime text",
+          "string_id": "start"
+        },
+        {
+          "name": "10_1_settings_surface",
+          "png": "design/ui/ch00-01/layers/C0-00-A-first-start/10_1_settings_surface.png",
+          "rect_px": [
+            470,
+            1148,
+            720,
+            128
+          ],
+          "rect_logical": [
+            235.0,
+            574.0,
+            360.0,
+            64.0
+          ],
+          "runtime": "button image",
+          "string_id": null
+        },
+        {
+          "name": "20_1_settings_text",
+          "png": "design/ui/ch00-01/layers/C0-00-A-first-start/20_1_settings_text.png",
+          "rect_px": [
+            768,
+            1172,
+            124,
+            71
+          ],
+          "rect_logical": [
+            384.0,
+            586.0,
+            62.0,
+            35.5
+          ],
+          "runtime": "replace with runtime text",
+          "string_id": "settings"
+        },
+        {
+          "name": "10_2_quit_surface",
+          "png": "design/ui/ch00-01/layers/C0-00-A-first-start/10_2_quit_surface.png",
+          "rect_px": [
+            470,
+            1312,
+            720,
+            128
+          ],
+          "rect_logical": [
+            235.0,
+            656.0,
+            360.0,
+            64.0
+          ],
+          "runtime": "button image",
+          "string_id": null
+        },
+        {
+          "name": "20_2_quit_text",
+          "png": "design/ui/ch00-01/layers/C0-00-A-first-start/20_2_quit_text.png",
+          "rect_px": [
+            768,
+            1336,
+            124,
+            68
+          ],
+          "rect_logical": [
+            384.0,
+            668.0,
+            62.0,
+            34.0
+          ],
+          "runtime": "replace with runtime text",
+          "string_id": "quit"
+        },
+        {
+          "name": "30_input_hint",
+          "png": "design/ui/ch00-01/layers/C0-00-A-first-start/30_input_hint.png",
+          "rect_px": [
+            645,
+            1928,
+            370,
+            45
+          ],
+          "rect_logical": [
+            322.5,
+            964.0,
+            185.0,
+            22.5
+          ],
+          "runtime": "device-dependent runtime text",
+          "string_id": "input_hint"
+        }
+      ],
+      "menu_hit_rects_logical": {
+        "start": [
+          235,
+          492,
+          360,
+          64
+        ],
+        "settings": [
+          235,
+          574,
+          360,
+          64
+        ],
+        "quit": [
+          235,
+          656,
+          360,
+          64
+        ]
+      },
+      "anchor": "top-left; scale uniformly inside centered 16:9 viewport",
+      "pivot": [
+        0,
+        1
+      ]
+    },
+    "C0-00-A-returning": {
+      "psd": "design/ui/ch00-01/psd/C0-00-A-returning.psd",
+      "has_save": true,
+      "focus": "continue",
+      "review": "design/ui/ch00-01/review/C0-00-A-returning.jpg",
+      "ui_png": "design/ui/ch00-01/review/C0-00-A-returning-ui.png",
+      "layers": [
+        {
+          "name": "01_readability_shade",
+          "png": "design/ui/ch00-01/layers/C0-00-A-returning/01_readability_shade.png",
+          "rect_px": [
+            0,
+            0,
+            3840,
+            2160
+          ],
+          "rect_logical": [
+            0.0,
+            0.0,
+            1920.0,
+            1080.0
+          ],
+          "runtime": "optional overlay",
+          "string_id": null
+        },
+        {
+          "name": "02_existing_logo",
+          "png": "design/ui/ch00-01/layers/C0-00-A-returning/02_existing_logo.png",
+          "rect_px": [
+            334,
+            444,
+            1000,
+            390
+          ],
+          "rect_logical": [
+            167.0,
+            222.0,
+            500.0,
+            195.0
+          ],
+          "runtime": "existing logo image",
+          "string_id": null
+        },
+        {
+          "name": "10_0_continue_surface",
+          "png": "design/ui/ch00-01/layers/C0-00-A-returning/10_0_continue_surface.png",
+          "rect_px": [
+            470,
+            984,
+            720,
+            128
+          ],
+          "rect_logical": [
+            235.0,
+            492.0,
+            360.0,
+            64.0
+          ],
+          "runtime": "button image",
+          "string_id": null
+        },
+        {
+          "name": "20_0_continue_text",
+          "png": "design/ui/ch00-01/layers/C0-00-A-returning/20_0_continue_text.png",
+          "rect_px": [
+            714,
+            1008,
+            232,
+            72
+          ],
+          "rect_logical": [
+            357.0,
+            504.0,
+            116.0,
+            36.0
+          ],
+          "runtime": "replace with runtime text",
+          "string_id": "continue"
+        },
+        {
+          "name": "10_1_start_surface",
+          "png": "design/ui/ch00-01/layers/C0-00-A-returning/10_1_start_surface.png",
+          "rect_px": [
+            470,
+            1148,
+            720,
+            128
+          ],
+          "rect_logical": [
+            235.0,
+            574.0,
+            360.0,
+            64.0
+          ],
+          "runtime": "button image",
+          "string_id": null
+        },
+        {
+          "name": "20_1_start_text",
+          "png": "design/ui/ch00-01/layers/C0-00-A-returning/20_1_start_text.png",
+          "rect_px": [
+            768,
+            1172,
+            124,
+            71
+          ],
+          "rect_logical": [
+            384.0,
+            586.0,
+            62.0,
+            35.5
+          ],
+          "runtime": "replace with runtime text",
+          "string_id": "start"
+        },
+        {
+          "name": "10_2_settings_surface",
+          "png": "design/ui/ch00-01/layers/C0-00-A-returning/10_2_settings_surface.png",
+          "rect_px": [
+            470,
+            1312,
+            720,
+            128
+          ],
+          "rect_logical": [
+            235.0,
+            656.0,
+            360.0,
+            64.0
+          ],
+          "runtime": "button image",
+          "string_id": null
+        },
+        {
+          "name": "20_2_settings_text",
+          "png": "design/ui/ch00-01/layers/C0-00-A-returning/20_2_settings_text.png",
+          "rect_px": [
+            768,
+            1336,
+            124,
+            71
+          ],
+          "rect_logical": [
+            384.0,
+            668.0,
+            62.0,
+            35.5
+          ],
+          "runtime": "replace with runtime text",
+          "string_id": "settings"
+        },
+        {
+          "name": "10_3_quit_surface",
+          "png": "design/ui/ch00-01/layers/C0-00-A-returning/10_3_quit_surface.png",
+          "rect_px": [
+            470,
+            1476,
+            720,
+            128
+          ],
+          "rect_logical": [
+            235.0,
+            738.0,
+            360.0,
+            64.0
+          ],
+          "runtime": "button image",
+          "string_id": null
+        },
+        {
+          "name": "20_3_quit_text",
+          "png": "design/ui/ch00-01/layers/C0-00-A-returning/20_3_quit_text.png",
+          "rect_px": [
+            768,
+            1500,
+            124,
+            68
+          ],
+          "rect_logical": [
+            384.0,
+            750.0,
+            62.0,
+            34.0
+          ],
+          "runtime": "replace with runtime text",
+          "string_id": "quit"
+        },
+        {
+          "name": "30_input_hint",
+          "png": "design/ui/ch00-01/layers/C0-00-A-returning/30_input_hint.png",
+          "rect_px": [
+            645,
+            1928,
+            370,
+            45
+          ],
+          "rect_logical": [
+            322.5,
+            964.0,
+            185.0,
+            22.5
+          ],
+          "runtime": "device-dependent runtime text",
+          "string_id": "input_hint"
+        }
+      ],
+      "menu_hit_rects_logical": {
+        "continue": [
+          235,
+          492,
+          360,
+          64
+        ],
+        "start": [
+          235,
+          574,
+          360,
+          64
+        ],
+        "settings": [
+          235,
+          656,
+          360,
+          64
+        ],
+        "quit": [
+          235,
+          738,
+          360,
+          64
+        ]
+      },
+      "anchor": "top-left; scale uniformly inside centered 16:9 viewport",
+      "pivot": [
+        0,
+        1
+      ]
+    },
+    "C0-00-B-first-start": {
+      "psd": "design/ui/ch00-01/psd/C0-00-B-first-start.psd",
+      "has_save": false,
+      "focus": "start",
+      "review": "design/ui/ch00-01/review/C0-00-B-first-start.jpg",
+      "ui_png": "design/ui/ch00-01/review/C0-00-B-first-start-ui.png",
+      "layers": [
+        {
+          "name": "01_readability_shade",
+          "png": "design/ui/ch00-01/layers/C0-00-B-first-start/01_readability_shade.png",
+          "rect_px": [
+            0,
+            0,
+            3840,
+            2160
+          ],
+          "rect_logical": [
+            0.0,
+            0.0,
+            1920.0,
+            1080.0
+          ],
+          "runtime": "optional overlay",
+          "string_id": null
+        },
+        {
+          "name": "02_existing_logo",
+          "png": "design/ui/ch00-01/layers/C0-00-B-first-start/02_existing_logo.png",
+          "rect_px": [
+            334,
+            444,
+            1000,
+            390
+          ],
+          "rect_logical": [
+            167.0,
+            222.0,
+            500.0,
+            195.0
+          ],
+          "runtime": "existing logo image",
+          "string_id": null
+        },
+        {
+          "name": "10_0_start_surface",
+          "png": "design/ui/ch00-01/layers/C0-00-B-first-start/10_0_start_surface.png",
+          "rect_px": [
+            470,
+            984,
+            720,
+            128
+          ],
+          "rect_logical": [
+            235.0,
+            492.0,
+            360.0,
+            64.0
+          ],
+          "runtime": "button image",
+          "string_id": null
+        },
+        {
+          "name": "20_0_start_text",
+          "png": "design/ui/ch00-01/layers/C0-00-B-first-start/20_0_start_text.png",
+          "rect_px": [
+            768,
+            1008,
+            124,
+            71
+          ],
+          "rect_logical": [
+            384.0,
+            504.0,
+            62.0,
+            35.5
+          ],
+          "runtime": "replace with runtime text",
+          "string_id": "start"
+        },
+        {
+          "name": "10_1_settings_surface",
+          "png": "design/ui/ch00-01/layers/C0-00-B-first-start/10_1_settings_surface.png",
+          "rect_px": [
+            470,
+            1148,
+            720,
+            128
+          ],
+          "rect_logical": [
+            235.0,
+            574.0,
+            360.0,
+            64.0
+          ],
+          "runtime": "button image",
+          "string_id": null
+        },
+        {
+          "name": "20_1_settings_text",
+          "png": "design/ui/ch00-01/layers/C0-00-B-first-start/20_1_settings_text.png",
+          "rect_px": [
+            768,
+            1172,
+            124,
+            71
+          ],
+          "rect_logical": [
+            384.0,
+            586.0,
+            62.0,
+            35.5
+          ],
+          "runtime": "replace with runtime text",
+          "string_id": "settings"
+        },
+        {
+          "name": "10_2_quit_surface",
+          "png": "design/ui/ch00-01/layers/C0-00-B-first-start/10_2_quit_surface.png",
+          "rect_px": [
+            470,
+            1312,
+            720,
+            128
+          ],
+          "rect_logical": [
+            235.0,
+            656.0,
+            360.0,
+            64.0
+          ],
+          "runtime": "button image",
+          "string_id": null
+        },
+        {
+          "name": "20_2_quit_text",
+          "png": "design/ui/ch00-01/layers/C0-00-B-first-start/20_2_quit_text.png",
+          "rect_px": [
+            768,
+            1336,
+            124,
+            68
+          ],
+          "rect_logical": [
+            384.0,
+            668.0,
+            62.0,
+            34.0
+          ],
+          "runtime": "replace with runtime text",
+          "string_id": "quit"
+        },
+        {
+          "name": "30_input_hint",
+          "png": "design/ui/ch00-01/layers/C0-00-B-first-start/30_input_hint.png",
+          "rect_px": [
+            645,
+            1928,
+            370,
+            45
+          ],
+          "rect_logical": [
+            322.5,
+            964.0,
+            185.0,
+            22.5
+          ],
+          "runtime": "device-dependent runtime text",
+          "string_id": "input_hint"
+        }
+      ],
+      "menu_hit_rects_logical": {
+        "start": [
+          235,
+          492,
+          360,
+          64
+        ],
+        "settings": [
+          235,
+          574,
+          360,
+          64
+        ],
+        "quit": [
+          235,
+          656,
+          360,
+          64
+        ]
+      },
+      "anchor": "top-left; scale uniformly inside centered 16:9 viewport",
+      "pivot": [
+        0,
+        1
+      ]
+    },
+    "C0-00-B-returning": {
+      "psd": "design/ui/ch00-01/psd/C0-00-B-returning.psd",
+      "has_save": true,
+      "focus": "continue",
+      "review": "design/ui/ch00-01/review/C0-00-B-returning.jpg",
+      "ui_png": "design/ui/ch00-01/review/C0-00-B-returning-ui.png",
+      "layers": [
+        {
+          "name": "01_readability_shade",
+          "png": "design/ui/ch00-01/layers/C0-00-B-returning/01_readability_shade.png",
+          "rect_px": [
+            0,
+            0,
+            3840,
+            2160
+          ],
+          "rect_logical": [
+            0.0,
+            0.0,
+            1920.0,
+            1080.0
+          ],
+          "runtime": "optional overlay",
+          "string_id": null
+        },
+        {
+          "name": "02_existing_logo",
+          "png": "design/ui/ch00-01/layers/C0-00-B-returning/02_existing_logo.png",
+          "rect_px": [
+            334,
+            444,
+            1000,
+            390
+          ],
+          "rect_logical": [
+            167.0,
+            222.0,
+            500.0,
+            195.0
+          ],
+          "runtime": "existing logo image",
+          "string_id": null
+        },
+        {
+          "name": "10_0_continue_surface",
+          "png": "design/ui/ch00-01/layers/C0-00-B-returning/10_0_continue_surface.png",
+          "rect_px": [
+            470,
+            984,
+            720,
+            128
+          ],
+          "rect_logical": [
+            235.0,
+            492.0,
+            360.0,
+            64.0
+          ],
+          "runtime": "button image",
+          "string_id": null
+        },
+        {
+          "name": "20_0_continue_text",
+          "png": "design/ui/ch00-01/layers/C0-00-B-returning/20_0_continue_text.png",
+          "rect_px": [
+            714,
+            1008,
+            232,
+            72
+          ],
+          "rect_logical": [
+            357.0,
+            504.0,
+            116.0,
+            36.0
+          ],
+          "runtime": "replace with runtime text",
+          "string_id": "continue"
+        },
+        {
+          "name": "10_1_start_surface",
+          "png": "design/ui/ch00-01/layers/C0-00-B-returning/10_1_start_surface.png",
+          "rect_px": [
+            470,
+            1148,
+            720,
+            128
+          ],
+          "rect_logical": [
+            235.0,
+            574.0,
+            360.0,
+            64.0
+          ],
+          "runtime": "button image",
+          "string_id": null
+        },
+        {
+          "name": "20_1_start_text",
+          "png": "design/ui/ch00-01/layers/C0-00-B-returning/20_1_start_text.png",
+          "rect_px": [
+            768,
+            1172,
+            124,
+            71
+          ],
+          "rect_logical": [
+            384.0,
+            586.0,
+            62.0,
+            35.5
+          ],
+          "runtime": "replace with runtime text",
+          "string_id": "start"
+        },
+        {
+          "name": "10_2_settings_surface",
+          "png": "design/ui/ch00-01/layers/C0-00-B-returning/10_2_settings_surface.png",
+          "rect_px": [
+            470,
+            1312,
+            720,
+            128
+          ],
+          "rect_logical": [
+            235.0,
+            656.0,
+            360.0,
+            64.0
+          ],
+          "runtime": "button image",
+          "string_id": null
+        },
+        {
+          "name": "20_2_settings_text",
+          "png": "design/ui/ch00-01/layers/C0-00-B-returning/20_2_settings_text.png",
+          "rect_px": [
+            768,
+            1336,
+            124,
+            71
+          ],
+          "rect_logical": [
+            384.0,
+            668.0,
+            62.0,
+            35.5
+          ],
+          "runtime": "replace with runtime text",
+          "string_id": "settings"
+        },
+        {
+          "name": "10_3_quit_surface",
+          "png": "design/ui/ch00-01/layers/C0-00-B-returning/10_3_quit_surface.png",
+          "rect_px": [
+            470,
+            1476,
+            720,
+            128
+          ],
+          "rect_logical": [
+            235.0,
+            738.0,
+            360.0,
+            64.0
+          ],
+          "runtime": "button image",
+          "string_id": null
+        },
+        {
+          "name": "20_3_quit_text",
+          "png": "design/ui/ch00-01/layers/C0-00-B-returning/20_3_quit_text.png",
+          "rect_px": [
+            768,
+            1500,
+            124,
+            68
+          ],
+          "rect_logical": [
+            384.0,
+            750.0,
+            62.0,
+            34.0
+          ],
+          "runtime": "replace with runtime text",
+          "string_id": "quit"
+        },
+        {
+          "name": "30_input_hint",
+          "png": "design/ui/ch00-01/layers/C0-00-B-returning/30_input_hint.png",
+          "rect_px": [
+            645,
+            1928,
+            370,
+            45
+          ],
+          "rect_logical": [
+            322.5,
+            964.0,
+            185.0,
+            22.5
+          ],
+          "runtime": "device-dependent runtime text",
+          "string_id": "input_hint"
+        }
+      ],
+      "menu_hit_rects_logical": {
+        "continue": [
+          235,
+          492,
+          360,
+          64
+        ],
+        "start": [
+          235,
+          574,
+          360,
+          64
+        ],
+        "settings": [
+          235,
+          656,
+          360,
+          64
+        ],
+        "quit": [
+          235,
+          738,
+          360,
+          64
+        ]
+      },
+      "anchor": "top-left; scale uniformly inside centered 16:9 viewport",
+      "pivot": [
+        0,
+        1
+      ]
+    }
+  },
+  "font": "art/title/fonts/Live49MenuSerif-Regular.ttf",
+  "strings": "strings.ko.json",
+  "limitations": [
+    "UI geometry is drawn at 2x, not upscaled bitmap artwork.",
+    "Background enlargement is review-only; native art is unchanged.",
+    "PSD text layers are raster; runtime strings and font remain separate.",
+    "No Unity/Photoshop application interaction test."
+  ],
+  "runtime_text": {
+    "menu_font_size_logical": 28,
+    "font_weight": 400,
+    "state_colors": {
+      "normal": "#C7B695",
+      "focus": "#F2E4C4",
+      "pressed": "#FFF0D2",
+      "disabled": "#867A64"
+    },
+    "note": "Normal/disabled A backgrounds are intentionally transparent; text tint and interactability distinguish them."
+  },
+  "source_hashes": {
+    "art/title/title-background-v1.png": "67cb06467580225aaa3c4d9ddb4f0fce9c1860d783e7ed82bca1c9684e94bafc",
+    "art/title/logo-v1.png": "d61045baf05dd88d87baaa3e26dfd4b822d7da8561ab4636da8b6b71b54b7830",
+    "art/title/fonts/Live49MenuSerif-Regular.ttf": "ae501686d255c8b2bc3f0c54460c9b131d5423b2942d0c6c42e139d290ca8054"
+  },
+  "selected_style": "A"
+}

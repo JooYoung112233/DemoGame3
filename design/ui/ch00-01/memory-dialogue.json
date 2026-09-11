@@ -1,0 +1,231 @@
+{
+  "id": "C0-02-footsteps-dialogue-v1",
+  "status": "flow-approved-layout-and-wording-review",
+  "resolution": [
+    1920,
+    1080
+  ],
+  "implementation_target": "Unity 6.6 runtime text, images, blur and animation",
+  "assets_manifest": "design/ui/ch00-01/C0-02-assets.json",
+  "background": "art/chapter00/memory/dialogue-v1/path-closeup-review-v1.png",
+  "feet": "art/chapter00/memory/dialogue-v1/feet-paused-v1.png",
+  "portraits": {
+    "seoyeon": {
+      "png": "art/chapter00/memory/dialogue-v1/seoyeon-speaking-soft-v3.png",
+      "rect": [
+        1120,
+        70,
+        700,
+        1050
+      ]
+    },
+    "suhyeok": {
+      "png": "art/chapter00-01/art-polish-v1/layers/suhyeok-dialogue-native.png",
+      "rect": [
+        100,
+        50,
+        720,
+        1080
+      ]
+    },
+    "soi": {
+      "png": "art/chapter00/memory/dialogue-v1/soi-answer-soft-v3.png",
+      "rect": [
+        1100,
+        180,
+        700,
+        1050
+      ]
+    }
+  },
+  "handoff_preview": "art/chapter00/memory/dialogue-v1/hands-held-review-v2.png",
+  "timing": {
+    "arrival_hold": 0.6,
+    "panel_fade": 0.25,
+    "portrait_fade": 0.3,
+    "seconds_per_grapheme": 0.055,
+    "cue_fade": 0.15,
+    "handoff_fade": 0.3,
+    "handhold_pause": 0.8
+  },
+  "blur_logical_px": 5,
+  "panel_rect": [
+    60,
+    790,
+    1800,
+    240
+  ],
+  "nameplate_rect": [
+    110,
+    752,
+    240,
+    64
+  ],
+  "text_rect": [
+    140,
+    850,
+    1620,
+    140
+  ],
+  "font_size": 38,
+  "lines": [
+    {
+      "id": "C0-02-N01",
+      "kind": "narration",
+      "speaker": "",
+      "text": "몇 걸음 앞서던 발소리가 멎었다.",
+      "source": "new proposed narration, wording not approved",
+      "portraits": [],
+      "speaker_id": ""
+    },
+    {
+      "id": "C0-02-D01",
+      "kind": "dialogue",
+      "speaker": "서연",
+      "text": "잠깐만. 신발에 돌 들어갔어.",
+      "source": "CHAPTER00-STORYBOARD-v02 cut 02, retained draft dialogue",
+      "portraits": [],
+      "speaker_id": "seoyeon"
+    },
+    {
+      "id": "C0-02-D02",
+      "kind": "dialogue",
+      "speaker": "서연",
+      "text": "소이 손 좀 잡아줘.",
+      "source": "CHAPTER00-STORYBOARD-v02 cut 03",
+      "portraits": [],
+      "speaker_id": "seoyeon"
+    },
+    {
+      "id": "C0-02-D03",
+      "kind": "dialogue",
+      "speaker": "수혁",
+      "text": "응.",
+      "source": "CHAPTER00-STORYBOARD-v02 cut 03",
+      "portraits": [
+        "suhyeok"
+      ],
+      "speaker_id": "suhyeok"
+    },
+    {
+      "id": "C0-02-D04",
+      "kind": "dialogue",
+      "speaker": "서연",
+      "text": "됐어. 다시 엄마 손 잡을래?",
+      "source": "2026-09-10 photo-memory sequence accepted; exact phrasing review",
+      "portraits": [],
+      "background": "handhold",
+      "reenter_panel": true,
+      "end_preview": false,
+      "staging_note": "서연은 화면 밖에서 돌을 뺐다. 수혁·소이 손은 계속 잡은 상태.",
+      "speaker_id": "seoyeon"
+    },
+    {
+      "id": "C0-02-D05",
+      "kind": "dialogue",
+      "speaker": "소이",
+      "text": "아니. 아빠 손 잡을래.",
+      "portraits": [
+        "soi"
+      ],
+      "background": "handhold",
+      "reenter_panel": true,
+      "speaker_id": "soi"
+    },
+    {
+      "id": "C0-02-D06",
+      "kind": "dialogue",
+      "speaker": "서연",
+      "text": "그래. 그럼 가자.",
+      "portraits": [],
+      "background": "handhold",
+      "reenter_panel": true,
+      "speaker_id": "seoyeon"
+    },
+    {
+      "id": "C0-03-D01",
+      "kind": "dialogue",
+      "speaker": "수혁",
+      "text": "응. 잠깐 옛날 생각했어.",
+      "portraits": [
+        "suhyeok",
+        "soi"
+      ],
+      "background": "present",
+      "reenter_panel": true,
+      "source": "CHAPTER00-STORYBOARD-v02 cut 06",
+      "speaker_id": "suhyeok"
+    },
+    {
+      "id": "C0-03-N01",
+      "kind": "narration",
+      "speaker": "",
+      "text": "서연이 없는 밤은 아직도 낯설다.",
+      "portraits": [],
+      "background": "present",
+      "source": "CHAPTER00-STORYBOARD-v02 cut 07; Suhyeok inner narration",
+      "speaker_id": ""
+    },
+    {
+      "id": "C0-03-D02",
+      "kind": "dialogue",
+      "speaker": "소이",
+      "text": "내일도 여기 있어?",
+      "portraits": [
+        "suhyeok",
+        "soi"
+      ],
+      "background": "present",
+      "reenter_panel": true,
+      "end_preview": true,
+      "source": "CHAPTER00-STORYBOARD-v02 cut 08",
+      "speaker_id": "soi"
+    }
+  ],
+  "input": {
+    "during_typing": "reveal_current_line_only",
+    "after_line": "next_line_on_fresh_input",
+    "after_last_line": "fresh input navigates to chapter0-continuation.html: response, preparation, outage, restoration, journal, sleep and day1 morning",
+    "auto_advance": false,
+    "after_response": "first entrance to handhold only: fade 0.3s + unobstructed 0.8s; continue three dialogue lines on same image",
+    "after_memory_last_line": "fade to photo; after present call fresh input dissolves to seated camper and current dialogue"
+  },
+  "notes": [
+    "No words or panels baked into scene or character artwork.",
+    "Narration and dialogue share the exact same panel and background; only blur/name/portraits change.",
+    "Voice and footstep sound are not produced.",
+    "New portraits are provisional single poses, not final expression assets.",
+    "Three-hand stacked composition rejected. v2 shows father and child holding hands; mother has released off-screen.",
+    "Closing line reuses provisional Seoyeon speaking portrait; no new expression artwork. Handhold remains behind the reappearing panel.",
+    "2026-09-10 user requested no Seoyeon face during dialogue: suppress portrait entirely; speaker name and text remain. Clear source PNG/PSD retained for editing, not runtime.",
+    "Present dialogue reuses provisional portraits and existing seated-camper review. Source scene layers remain in design/chapter00/camper-assets-v1.json."
+  ],
+  "suppressed_portraits": [
+    "seoyeon"
+  ],
+  "present_background": "art/chapter00-01/art-polish-v1/review/C0-current.png",
+  "speaker_identity": {
+    "unknown_label": "?",
+    "reveal_policy": "Reveal when dialogue, address, introduction or explanation links a name to the character; no separate self-introduction required.",
+    "entry_context": "The photo-entry call 수혁아. has been read and confirmed before this dialogue sequence.",
+    "event_mapping": "Author maps an identifiable reference to speaker_id; do not mechanically disclose unrelated names."
+  },
+  "name_reveals": [
+    {
+      "after_line": "C0-02-D02",
+      "speaker_id": "soi",
+      "display_name": "소이",
+      "reason": "소이 손 좀 잡아줘. identifies the child."
+    },
+    {
+      "after_line": "C0-03-N01",
+      "speaker_id": "seoyeon",
+      "display_name": "서연",
+      "reason": "Inner narration names the absent mother; applies to any subsequent line, not earlier memory."
+    }
+  ],
+  "names_known_on_entry": {
+    "suhyeok": "수혁"
+  },
+  "continuation_source": "design/chapter00/continuation-v1/story.json"
+}

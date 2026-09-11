@@ -1,0 +1,3 @@
+export const initialStory=()=>({step:'morning',flags:{}});
+export function choicesFor(data,state){return (data.steps[state.step].actions||[]).filter(a=>!a.unless||!state.flags[a.unless])}
+export function advanceStory(data,state,index){const options=choicesFor(data,state),action=options[index];if(!action)throw Error('Unavailable storyboard branch');const next={step:action.to,flags:{...state.flags,...action.set}};for(let i=0;i<4;i++){const n=data.steps[next.step];if(!n)throw Error('Unknown storyboard step');if(!n.gate)return next;next.step=n.gate==='supplies'?(next.flags.water_checked&&next.flags.food_checked?'return':'early_return'):(next.flags.pencils_owned?'quest_owned':'quest_search')}throw Error('Unresolved storyboard gate')}

@@ -1,0 +1,82 @@
+{
+  "id": "L7-base-v1",
+  "status": "composition-review-below-resolution-target",
+  "source": "art/chapter01/hill-road-v1/hill-road-clean-base-source-v1.png",
+  "native_size": [
+    1672,
+    941
+  ],
+  "target_size": [
+    3840,
+    2160
+  ],
+  "source_sha256": "971fc430f6f285134a77c0a22b4ee75578685ee3238586b39cb2467367e61ed1",
+  "generator": "built-in image_gen",
+  "prompt": "art/chapter01/hill-road-v1/hill-road-v1.prompt.txt",
+  "psd": "art/chapter01/hill-road-v1/hill-road-native-layers-v1.psd",
+  "layers": [
+    {
+      "id": "blank_board_face",
+      "path": "art/chapter01/hill-road-v1/layers/blank_board_face.png",
+      "rect": [
+        1413,
+        168,
+        191,
+        122
+      ],
+      "polygons": [
+        [
+          [
+            1417,
+            168
+          ],
+          [
+            1596,
+            168
+          ],
+          [
+            1603,
+            289
+          ],
+          [
+            1413,
+            285
+          ]
+        ]
+      ],
+      "type": "same-position occlusion/editing copy; native background remains underneath"
+    }
+  ],
+  "slots": [
+    {
+      "id": "temporary_closure",
+      "rect": [
+        998,
+        295,
+        268,
+        137
+      ],
+      "note": "큰길의 임시 통제물 자리 후보. 차량 진입·우회 길 폭과 함께 검토."
+    },
+    {
+      "id": "roadboard_text",
+      "rect": [
+        1426,
+        182,
+        158,
+        90
+      ],
+      "note": "표지 글자는 Unity에서 별도. 빈 안내판의 현재 픽셀 좌표."
+    }
+  ],
+  "events": [
+    "E25"
+  ],
+  "remaining": "임시 통제물·표지 글자·캠핑카 배치 미제작. 빈 안내판은 고정 구조물로 베이스에도 남아 있음. 실제 차량을 놓고 우회로 폭·시점 검수 필요.",
+  "limitations": [
+    "No 4K source was produced; no upscaling claimed as restored detail.",
+    "Painting is one fixed native base; only listed foreground copies are separately editable.",
+    "Character/prop contact, foreground edge masks and vehicle perspective require composition review when assets arrive.",
+    "No Photoshop app or Unity validation."
+  ]
+}

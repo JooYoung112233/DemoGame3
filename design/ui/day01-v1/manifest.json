@@ -1,0 +1,2998 @@
+{
+  "id": "day01-v1",
+  "status": "storyboard-review-draft",
+  "canvas": [
+    1920,
+    1080
+  ],
+  "ui_native_canvas": [
+    3840,
+    2160
+  ],
+  "font": "art/title/fonts/Live49MenuSerif-Regular.ttf",
+  "screens": [
+    {
+      "id": "C0-03c-choice",
+      "label": "첫 응답 선택",
+      "background": "art/chapter00/camper/review/01-current-conversation.png",
+      "blur_logical": 5,
+      "review_only_background": true,
+      "layers": [
+        {
+          "name": "01_text",
+          "path": "design/ui/day01-v1/layers/C0-03c-choice/01_text.png",
+          "rect": [
+            90,
+            78,
+            331.5,
+            49.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "C0-03c-choice.01_text"
+        },
+        {
+          "name": "02_text",
+          "path": "design/ui/day01-v1/layers/C0-03c-choice/02_text.png",
+          "rect": [
+            92,
+            144,
+            391.5,
+            33.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "C0-03c-choice.02_text"
+        },
+        {
+          "name": "03_button",
+          "path": "design/ui/day01-v1/layers/C0-03c-choice/03_button.png",
+          "rect": [
+            660,
+            395,
+            600.0,
+            88.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "04_text",
+          "path": "design/ui/day01-v1/layers/C0-03c-choice/04_text.png",
+          "rect": [
+            681,
+            413,
+            264.0,
+            36.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "C0-03c-choice.04_text"
+        },
+        {
+          "name": "05_button",
+          "path": "design/ui/day01-v1/layers/C0-03c-choice/05_button.png",
+          "rect": [
+            660,
+            510,
+            600.0,
+            88.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "06_text",
+          "path": "design/ui/day01-v1/layers/C0-03c-choice/06_text.png",
+          "rect": [
+            681,
+            528,
+            250.0,
+            36.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "C0-03c-choice.06_text"
+        },
+        {
+          "name": "07_dialogue_panel",
+          "path": "design/ui/day01-v1/layers/C0-03c-choice/07_dialogue_panel.png",
+          "rect": [
+            60,
+            790,
+            1800.0,
+            240.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "08_text",
+          "path": "design/ui/day01-v1/layers/C0-03c-choice/08_text.png",
+          "rect": [
+            106,
+            810,
+            56.0,
+            32.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "C0-03c-choice.08_text"
+        },
+        {
+          "name": "09_text",
+          "path": "design/ui/day01-v1/layers/C0-03c-choice/09_text.png",
+          "rect": [
+            136,
+            881,
+            456.0,
+            45.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "C0-03c-choice.09_text"
+        },
+        {
+          "name": "10_text",
+          "path": "design/ui/day01-v1/layers/C0-03c-choice/10_text.png",
+          "rect": [
+            1706,
+            974,
+            69.5,
+            29.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "C0-03c-choice.10_text"
+        }
+      ],
+      "psd": "design/ui/day01-v1/psd/C0-03c-choice.psd",
+      "preview": "design/ui/day01-v1/review/C0-03c-choice.jpg",
+      "next": [
+        "C0-03c-book"
+      ],
+      "review_note": "두 선택 모두 빈 페이지로 합류. 이 검토판에서는 분기 대사를 생략하며 상세 콘티에 보관한다."
+    },
+    {
+      "id": "C0-03c-book",
+      "label": "이미 펼쳐 둔 책",
+      "background": "art/chapter00/camper/review/01-current-conversation.png",
+      "blur_logical": 5,
+      "review_only_background": true,
+      "layers": [
+        {
+          "name": "01_native_book_reference",
+          "path": "design/ui/day01-v1/layers/C0-03c-book/01_native_book_reference.png",
+          "rect": [
+            397,
+            40,
+            1125.0,
+            750.0
+          ],
+          "kind": "art-reference"
+        },
+        {
+          "name": "02_dialogue_panel",
+          "path": "design/ui/day01-v1/layers/C0-03c-book/02_dialogue_panel.png",
+          "rect": [
+            60,
+            790,
+            1800.0,
+            240.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "03_text",
+          "path": "design/ui/day01-v1/layers/C0-03c-book/03_text.png",
+          "rect": [
+            106,
+            810,
+            56.0,
+            33.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "C0-03c-book.03_text"
+        },
+        {
+          "name": "04_text",
+          "path": "design/ui/day01-v1/layers/C0-03c-book/04_text.png",
+          "rect": [
+            136,
+            881,
+            282.5,
+            43.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "C0-03c-book.04_text"
+        },
+        {
+          "name": "05_text",
+          "path": "design/ui/day01-v1/layers/C0-03c-book/05_text.png",
+          "rect": [
+            1706,
+            974,
+            69.5,
+            29.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "C0-03c-book.05_text"
+        }
+      ],
+      "psd": "design/ui/day01-v1/psd/C0-03c-book.psd",
+      "preview": "design/ui/day01-v1/review/C0-03c-book.jpg",
+      "next": [
+        "D1-01-need"
+      ],
+      "review_note": "소이: 응. 나중에 그릴 거야. 이후 출발 약속과 C0 준비·정전·취침을 거쳐 다음 날. 이 검토판은 그 사이를 건너뛴다."
+    },
+    {
+      "id": "D1-01-need",
+      "label": "1일 차 · 물을 구할 이유",
+      "background": "art/chapter00/camper/review/01-current-conversation.png",
+      "blur_logical": 5,
+      "review_only_background": true,
+      "layers": [
+        {
+          "name": "01_text",
+          "path": "design/ui/day01-v1/layers/D1-01-need/01_text.png",
+          "rect": [
+            90,
+            78,
+            237.0,
+            49.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-01-need.01_text"
+        },
+        {
+          "name": "02_text",
+          "path": "design/ui/day01-v1/layers/D1-01-need/02_text.png",
+          "rect": [
+            92,
+            144,
+            204.0,
+            32.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-01-need.02_text"
+        },
+        {
+          "name": "03_dialogue_panel",
+          "path": "design/ui/day01-v1/layers/D1-01-need/03_dialogue_panel.png",
+          "rect": [
+            60,
+            790,
+            1800.0,
+            240.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "04_text",
+          "path": "design/ui/day01-v1/layers/D1-01-need/04_text.png",
+          "rect": [
+            106,
+            810,
+            56.0,
+            33.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-01-need.04_text"
+        },
+        {
+          "name": "05_text",
+          "path": "design/ui/day01-v1/layers/D1-01-need/05_text.png",
+          "rect": [
+            136,
+            881,
+            838.0,
+            45.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-01-need.05_text"
+        },
+        {
+          "name": "06_text",
+          "path": "design/ui/day01-v1/layers/D1-01-need/06_text.png",
+          "rect": [
+            1706,
+            974,
+            69.5,
+            29.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-01-need.06_text"
+        }
+      ],
+      "psd": "design/ui/day01-v1/psd/D1-01-need.psd",
+      "preview": "design/ui/day01-v1/review/D1-01-need.jpg",
+      "next": [
+        "D1-02-map"
+      ],
+      "review_note": "비상분은 남아 있다. 어젯밤 챙긴 물을 없었던 것으로 만들지 않는다. 다음 대사: 지도에 편의점이 있었지."
+    },
+    {
+      "id": "D1-02-map",
+      "label": "지도 · 편의점 선택",
+      "background": "art/chapter00/camper/review/01-current-conversation.png",
+      "blur_logical": 5,
+      "review_only_background": true,
+      "layers": [
+        {
+          "name": "01_map_paper",
+          "path": "design/ui/day01-v1/layers/D1-02-map/01_map_paper.png",
+          "rect": [
+            180,
+            210,
+            1000.0,
+            650.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "02_map_roads",
+          "path": "design/ui/day01-v1/layers/D1-02-map/02_map_roads.png",
+          "rect": [
+            220,
+            250,
+            920.0,
+            520.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "03_current_marker",
+          "path": "design/ui/day01-v1/layers/D1-02-map/03_current_marker.png",
+          "rect": [
+            340,
+            605,
+            28.0,
+            28.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "04_store_marker",
+          "path": "design/ui/day01-v1/layers/D1-02-map/04_store_marker.png",
+          "rect": [
+            885,
+            365,
+            32.0,
+            32.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "05_text",
+          "path": "design/ui/day01-v1/layers/D1-02-map/05_text.png",
+          "rect": [
+            281,
+            656,
+            119.0,
+            35.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-02-map.05_text"
+        },
+        {
+          "name": "06_text",
+          "path": "design/ui/day01-v1/layers/D1-02-map/06_text.png",
+          "rect": [
+            851,
+            306,
+            95.0,
+            37.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-02-map.06_text"
+        },
+        {
+          "name": "07_text",
+          "path": "design/ui/day01-v1/layers/D1-02-map/07_text.png",
+          "rect": [
+            90,
+            78,
+            181.0,
+            48.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-02-map.07_text"
+        },
+        {
+          "name": "08_text",
+          "path": "design/ui/day01-v1/layers/D1-02-map/08_text.png",
+          "rect": [
+            92,
+            144,
+            268.0,
+            32.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-02-map.08_text"
+        },
+        {
+          "name": "09_destination_card",
+          "path": "design/ui/day01-v1/layers/D1-02-map/09_destination_card.png",
+          "rect": [
+            1230,
+            270,
+            530.0,
+            490.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "10_text",
+          "path": "design/ui/day01-v1/layers/D1-02-map/10_text.png",
+          "rect": [
+            1266,
+            316,
+            123.5,
+            47.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-02-map.10_text"
+        },
+        {
+          "name": "11_text",
+          "path": "design/ui/day01-v1/layers/D1-02-map/11_text.png",
+          "rect": [
+            1266,
+            401,
+            238.5,
+            37.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-02-map.11_text"
+        },
+        {
+          "name": "12_text",
+          "path": "design/ui/day01-v1/layers/D1-02-map/12_text.png",
+          "rect": [
+            1266,
+            468,
+            258.0,
+            33.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-02-map.12_text"
+        },
+        {
+          "name": "13_text",
+          "path": "design/ui/day01-v1/layers/D1-02-map/13_text.png",
+          "rect": [
+            1266,
+            512,
+            275.5,
+            33.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-02-map.13_text"
+        },
+        {
+          "name": "14_button",
+          "path": "design/ui/day01-v1/layers/D1-02-map/14_button.png",
+          "rect": [
+            1270,
+            630,
+            450.0,
+            86.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "15_text",
+          "path": "design/ui/day01-v1/layers/D1-02-map/15_text.png",
+          "rect": [
+            1291,
+            648,
+            177.0,
+            36.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-02-map.15_text"
+        }
+      ],
+      "psd": "design/ui/day01-v1/psd/D1-02-map.psd",
+      "preview": "design/ui/day01-v1/review/D1-02-map.jpg",
+      "next": [
+        "D1-03-arrival"
+      ],
+      "review_note": "실제 지명이 없는 개략 지도. 20분은 검토용. 출발 전 수혁: 편의점부터 가 보자. 차는 가게 앞에 세울게."
+    },
+    {
+      "id": "D1-03-arrival",
+      "label": "소리와 암전으로 이동",
+      "background": "art/chapter00/camper/review/01-current-conversation.png",
+      "blur_logical": 5,
+      "review_only_background": true,
+      "layers": [
+        {
+          "name": "01_text",
+          "path": "design/ui/day01-v1/layers/D1-03-arrival/01_text.png",
+          "rect": [
+            566,
+            492,
+            514.0,
+            37.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-03-arrival.01_text"
+        },
+        {
+          "name": "02_text",
+          "path": "design/ui/day01-v1/layers/D1-03-arrival/02_text.png",
+          "rect": [
+            741,
+            560,
+            235.0,
+            32.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-03-arrival.02_text"
+        }
+      ],
+      "psd": "design/ui/day01-v1/psd/D1-03-arrival.psd",
+      "preview": "design/ui/day01-v1/review/D1-03-arrival.jpg",
+      "next": [
+        "D1-04-store"
+      ],
+      "review_note": "위 문장은 소리 접근성 자막 시안. 최종 SFX 미납품. 검토판은 실제 음향을 재생하지 않는다. 화면 이동에 20분 반영, 복귀에는 다시 부과하지 않는다."
+    },
+    {
+      "id": "D1-04-store",
+      "label": "편의점 · 선택 가능한 탐색 지점",
+      "background": "art/chapter01/revision-v3/store-clean-base-v3.png",
+      "blur_logical": 0,
+      "review_only_background": true,
+      "layers": [
+        {
+          "name": "01_objective",
+          "path": "design/ui/day01-v1/layers/D1-04-store/01_objective.png",
+          "rect": [
+            60,
+            40,
+            630.0,
+            110.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "02_text",
+          "path": "design/ui/day01-v1/layers/D1-04-store/02_text.png",
+          "rect": [
+            86,
+            72,
+            320.5,
+            38.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-04-store.02_text"
+        },
+        {
+          "name": "03_parking",
+          "path": "design/ui/day01-v1/layers/D1-04-store/03_parking.png",
+          "rect": [
+            1280,
+            40,
+            580.0,
+            88.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "04_text",
+          "path": "design/ui/day01-v1/layers/D1-04-store/04_text.png",
+          "rect": [
+            1306,
+            63,
+            268.0,
+            32.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-04-store.04_text"
+        },
+        {
+          "name": "05_fridge_focus",
+          "path": "design/ui/day01-v1/layers/D1-04-store/05_fridge_focus.png",
+          "rect": [
+            876,
+            147,
+            219.0,
+            234.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "06_focus_label",
+          "path": "design/ui/day01-v1/layers/D1-04-store/06_focus_label.png",
+          "rect": [
+            880,
+            398,
+            210.0,
+            60.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "07_text",
+          "path": "design/ui/day01-v1/layers/D1-04-store/07_text.png",
+          "rect": [
+            926,
+            411,
+            77.0,
+            31.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-04-store.07_text"
+        }
+      ],
+      "psd": "design/ui/day01-v1/psd/D1-04-store.psd",
+      "preview": "design/ui/day01-v1/review/D1-04-store.jpg",
+      "next": [
+        "D1-05-search",
+        "D1-08-note",
+        "D1-09-return"
+      ],
+      "review_note": "냉장고·식품 선반·생활용품 상자·문구대·계산대 쪽지·출입문. 이 화면은 냉장고에만 포커스한 예시. 충돌 영역은 flow.json에 별도 기록."
+    },
+    {
+      "id": "D1-05-search",
+      "label": "냉장고 · 획득 확률과 시간",
+      "background": "art/chapter01/revision-v3/store-clean-base-v3.png",
+      "blur_logical": 5,
+      "review_only_background": true,
+      "layers": [
+        {
+          "name": "01_search_panel",
+          "path": "design/ui/day01-v1/layers/D1-05-search/01_search_panel.png",
+          "rect": [
+            350,
+            180,
+            1220.0,
+            755.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "02_text",
+          "path": "design/ui/day01-v1/layers/D1-05-search/02_text.png",
+          "rect": [
+            90,
+            78,
+            129.5,
+            48.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-search.02_text"
+        },
+        {
+          "name": "03_text",
+          "path": "design/ui/day01-v1/layers/D1-05-search/03_text.png",
+          "rect": [
+            92,
+            144,
+            389.0,
+            32.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-search.03_text"
+        },
+        {
+          "name": "04_text",
+          "path": "design/ui/day01-v1/layers/D1-05-search/04_text.png",
+          "rect": [
+            406,
+            246,
+            60.0,
+            34.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-search.04_text"
+        },
+        {
+          "name": "05_text",
+          "path": "design/ui/day01-v1/layers/D1-05-search/05_text.png",
+          "rect": [
+            991,
+            246,
+            119.0,
+            35.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-search.05_text"
+        },
+        {
+          "name": "06_text",
+          "path": "design/ui/day01-v1/layers/D1-05-search/06_text.png",
+          "rect": [
+            1226,
+            246,
+            204.0,
+            35.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-search.06_text"
+        },
+        {
+          "name": "07_text",
+          "path": "design/ui/day01-v1/layers/D1-05-search/07_text.png",
+          "rect": [
+            406,
+            334,
+            391.0,
+            38.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-search.07_text"
+        },
+        {
+          "name": "08_text",
+          "path": "design/ui/day01-v1/layers/D1-05-search/08_text.png",
+          "rect": [
+            1046,
+            334,
+            88.5,
+            33.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-search.08_text"
+        },
+        {
+          "name": "09_text",
+          "path": "design/ui/day01-v1/layers/D1-05-search/09_text.png",
+          "rect": [
+            1316,
+            334,
+            88.5,
+            33.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-search.09_text"
+        },
+        {
+          "name": "10_text",
+          "path": "design/ui/day01-v1/layers/D1-05-search/10_text.png",
+          "rect": [
+            406,
+            431,
+            182.5,
+            37.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-search.10_text"
+        },
+        {
+          "name": "11_text",
+          "path": "design/ui/day01-v1/layers/D1-05-search/11_text.png",
+          "rect": [
+            1046,
+            431,
+            73.0,
+            33.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-search.11_text"
+        },
+        {
+          "name": "12_text",
+          "path": "design/ui/day01-v1/layers/D1-05-search/12_text.png",
+          "rect": [
+            1316,
+            431,
+            73.0,
+            33.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-search.12_text"
+        },
+        {
+          "name": "13_text",
+          "path": "design/ui/day01-v1/layers/D1-05-search/13_text.png",
+          "rect": [
+            406,
+            528,
+            182.5,
+            37.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-search.13_text"
+        },
+        {
+          "name": "14_text",
+          "path": "design/ui/day01-v1/layers/D1-05-search/14_text.png",
+          "rect": [
+            1046,
+            528,
+            73.5,
+            33.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-search.14_text"
+        },
+        {
+          "name": "15_text",
+          "path": "design/ui/day01-v1/layers/D1-05-search/15_text.png",
+          "rect": [
+            1316,
+            528,
+            73.0,
+            33.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-search.15_text"
+        },
+        {
+          "name": "16_text",
+          "path": "design/ui/day01-v1/layers/D1-05-search/16_text.png",
+          "rect": [
+            406,
+            640,
+            520.0,
+            37.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-search.16_text"
+        },
+        {
+          "name": "17_button",
+          "path": "design/ui/day01-v1/layers/D1-05-search/17_button.png",
+          "rect": [
+            410,
+            745,
+            530.0,
+            92.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "18_text",
+          "path": "design/ui/day01-v1/layers/D1-05-search/18_text.png",
+          "rect": [
+            431,
+            763,
+            189.0,
+            35.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-search.18_text"
+        },
+        {
+          "name": "19_button",
+          "path": "design/ui/day01-v1/layers/D1-05-search/19_button.png",
+          "rect": [
+            970,
+            745,
+            530.0,
+            92.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "20_text",
+          "path": "design/ui/day01-v1/layers/D1-05-search/20_text.png",
+          "rect": [
+            991,
+            763,
+            236.0,
+            35.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-search.20_text"
+        }
+      ],
+      "psd": "design/ui/day01-v1/psd/D1-05-search.psd",
+      "preview": "design/ui/day01-v1/review/D1-05-search.jpg",
+      "next": [
+        "D1-07-result",
+        "D1-06-minigame"
+      ],
+      "review_note": "모든 숫자는 조정용. 품목별 독립 판정, 표시 수량은 상한. 집중 탐색 15분은 미니게임 포함 총시간."
+    },
+    {
+      "id": "D1-06-minigame",
+      "label": "집중 탐색 · 확률 상승 시안",
+      "background": "art/chapter01/revision-v3/store-clean-base-v3.png",
+      "blur_logical": 5,
+      "review_only_background": true,
+      "layers": [
+        {
+          "name": "01_minigame_panel",
+          "path": "design/ui/day01-v1/layers/D1-06-minigame/01_minigame_panel.png",
+          "rect": [
+            320,
+            280,
+            1280.0,
+            560.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "02_text",
+          "path": "design/ui/day01-v1/layers/D1-06-minigame/02_text.png",
+          "rect": [
+            90,
+            78,
+            343.0,
+            49.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-06-minigame.02_text"
+        },
+        {
+          "name": "03_text",
+          "path": "design/ui/day01-v1/layers/D1-06-minigame/03_text.png",
+          "rect": [
+            92,
+            144,
+            408.5,
+            33.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-06-minigame.03_text"
+        },
+        {
+          "name": "04_track",
+          "path": "design/ui/day01-v1/layers/D1-06-minigame/04_track.png",
+          "rect": [
+            465,
+            475,
+            990.0,
+            46.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "05_success_zone",
+          "path": "design/ui/day01-v1/layers/D1-06-minigame/05_success_zone.png",
+          "rect": [
+            865,
+            475,
+            180.0,
+            46.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "06_cursor",
+          "path": "design/ui/day01-v1/layers/D1-06-minigame/06_cursor.png",
+          "rect": [
+            951,
+            450,
+            7.0,
+            95.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "07_text",
+          "path": "design/ui/day01-v1/layers/D1-06-minigame/07_text.png",
+          "rect": [
+            641,
+            579,
+            474.0,
+            39.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-06-minigame.07_text"
+        },
+        {
+          "name": "08_text",
+          "path": "design/ui/day01-v1/layers/D1-06-minigame/08_text.png",
+          "rect": [
+            491,
+            652,
+            625.5,
+            37.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-06-minigame.08_text"
+        },
+        {
+          "name": "09_button",
+          "path": "design/ui/day01-v1/layers/D1-06-minigame/09_button.png",
+          "rect": [
+            710,
+            741,
+            500.0,
+            76.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "10_text",
+          "path": "design/ui/day01-v1/layers/D1-06-minigame/10_text.png",
+          "rect": [
+            731,
+            759,
+            184.0,
+            36.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-06-minigame.10_text"
+        }
+      ],
+      "psd": "design/ui/day01-v1/psd/D1-06-minigame.psd",
+      "preview": "design/ui/day01-v1/review/D1-06-minigame.jpg",
+      "next": [
+        "D1-07-result"
+      ],
+      "review_note": "미니게임 화면 구도만 만든다. 실제 움직임·난이도·판정 규칙은 추후 상세 기획. 성공 사례를 보는 버튼이며 플레이 가능한 미니게임이 아니다."
+    },
+    {
+      "id": "D1-07-result",
+      "label": "탐색 결과",
+      "background": "art/chapter01/revision-v3/store-clean-base-v3.png",
+      "blur_logical": 5,
+      "review_only_background": true,
+      "layers": [
+        {
+          "name": "01_result_panel",
+          "path": "design/ui/day01-v1/layers/D1-07-result/01_result_panel.png",
+          "rect": [
+            535,
+            235,
+            850.0,
+            600.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "02_text",
+          "path": "design/ui/day01-v1/layers/D1-07-result/02_text.png",
+          "rect": [
+            90,
+            78,
+            181.0,
+            48.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-07-result.02_text"
+        },
+        {
+          "name": "03_text",
+          "path": "design/ui/day01-v1/layers/D1-07-result/03_text.png",
+          "rect": [
+            92,
+            144,
+            227.5,
+            32.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-07-result.03_text"
+        },
+        {
+          "name": "04_text",
+          "path": "design/ui/day01-v1/layers/D1-07-result/04_text.png",
+          "rect": [
+            606,
+            340,
+            78.0,
+            43.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-07-result.04_text"
+        },
+        {
+          "name": "05_text",
+          "path": "design/ui/day01-v1/layers/D1-07-result/05_text.png",
+          "rect": [
+            1166,
+            340,
+            63.5,
+            43.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-07-result.05_text"
+        },
+        {
+          "name": "06_text",
+          "path": "design/ui/day01-v1/layers/D1-07-result/06_text.png",
+          "rect": [
+            606,
+            422,
+            157.0,
+            43.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-07-result.06_text"
+        },
+        {
+          "name": "07_text",
+          "path": "design/ui/day01-v1/layers/D1-07-result/07_text.png",
+          "rect": [
+            1166,
+            422,
+            63.0,
+            43.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-07-result.07_text"
+        },
+        {
+          "name": "08_text",
+          "path": "design/ui/day01-v1/layers/D1-07-result/08_text.png",
+          "rect": [
+            606,
+            551,
+            378.0,
+            32.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-07-result.08_text"
+        },
+        {
+          "name": "09_button",
+          "path": "design/ui/day01-v1/layers/D1-07-result/09_button.png",
+          "rect": [
+            610,
+            674,
+            690.0,
+            90.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "10_text",
+          "path": "design/ui/day01-v1/layers/D1-07-result/10_text.png",
+          "rect": [
+            631,
+            692,
+            265.0,
+            36.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-07-result.10_text"
+        }
+      ],
+      "psd": "design/ui/day01-v1/psd/D1-07-result.psd",
+      "preview": "design/ui/day01-v1/review/D1-07-result.jpg",
+      "next": [
+        "D1-04-store"
+      ],
+      "review_note": "정해진 예시 결과: 확정 2 + 추가 생수 1. 실제 RNG·가방·게임 시간 구현은 Unity 단계. 다른 탐색 지점은 같은 패널을 재사용한다."
+    },
+    {
+      "id": "D1-08-note",
+      "label": "계산대 · 대피 안내 쪽지",
+      "background": "art/chapter01/revision-v3/store-clean-base-v3.png",
+      "blur_logical": 5,
+      "review_only_background": true,
+      "layers": [
+        {
+          "name": "01_notice_paper_reference",
+          "path": "design/ui/day01-v1/layers/D1-08-note/01_notice_paper_reference.png",
+          "rect": [
+            190,
+            40,
+            690.0,
+            920.0
+          ],
+          "kind": "art-reference"
+        },
+        {
+          "name": "02_text",
+          "path": "design/ui/day01-v1/layers/D1-08-note/02_text.png",
+          "rect": [
+            356,
+            210,
+            172.0,
+            47.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-08-note.02_text"
+        },
+        {
+          "name": "03_text",
+          "path": "design/ui/day01-v1/layers/D1-08-note/03_text.png",
+          "rect": [
+            323,
+            321,
+            95.0,
+            37.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-08-note.03_text"
+        },
+        {
+          "name": "04_erasure_a",
+          "path": "design/ui/day01-v1/layers/D1-08-note/04_erasure_a.png",
+          "rect": [
+            465,
+            316,
+            245.0,
+            44.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "05_erasure_b",
+          "path": "design/ui/day01-v1/layers/D1-08-note/05_erasure_b.png",
+          "rect": [
+            326,
+            389,
+            376.0,
+            40.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "06_text",
+          "path": "design/ui/day01-v1/layers/D1-08-note/06_text.png",
+          "rect": [
+            323,
+            499,
+            240.5,
+            36.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-08-note.06_text"
+        },
+        {
+          "name": "07_text",
+          "path": "design/ui/day01-v1/layers/D1-08-note/07_text.png",
+          "rect": [
+            323,
+            555,
+            270.0,
+            31.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-08-note.07_text"
+        },
+        {
+          "name": "08_note_caption",
+          "path": "design/ui/day01-v1/layers/D1-08-note/08_note_caption.png",
+          "rect": [
+            1050,
+            280,
+            670.0,
+            390.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "09_text",
+          "path": "design/ui/day01-v1/layers/D1-08-note/09_text.png",
+          "rect": [
+            1096,
+            332,
+            264.0,
+            42.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-08-note.09_text"
+        },
+        {
+          "name": "10_text",
+          "path": "design/ui/day01-v1/layers/D1-08-note/10_text.png",
+          "rect": [
+            1096,
+            424,
+            274.5,
+            36.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-08-note.10_text"
+        },
+        {
+          "name": "11_text",
+          "path": "design/ui/day01-v1/layers/D1-08-note/11_text.png",
+          "rect": [
+            1096,
+            474,
+            281.5,
+            35.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-08-note.11_text"
+        },
+        {
+          "name": "12_dialogue_panel",
+          "path": "design/ui/day01-v1/layers/D1-08-note/12_dialogue_panel.png",
+          "rect": [
+            60,
+            790,
+            1800.0,
+            240.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "13_text",
+          "path": "design/ui/day01-v1/layers/D1-08-note/13_text.png",
+          "rect": [
+            106,
+            810,
+            56.0,
+            33.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-08-note.13_text"
+        },
+        {
+          "name": "14_text",
+          "path": "design/ui/day01-v1/layers/D1-08-note/14_text.png",
+          "rect": [
+            136,
+            881,
+            572.5,
+            43.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-08-note.14_text"
+        },
+        {
+          "name": "15_text",
+          "path": "design/ui/day01-v1/layers/D1-08-note/15_text.png",
+          "rect": [
+            1706,
+            974,
+            69.5,
+            29.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-08-note.15_text"
+        }
+      ],
+      "psd": "design/ui/day01-v1/psd/D1-08-note.psd",
+      "preview": "design/ui/day01-v1/review/D1-08-note.jpg",
+      "next": [
+        "D1-04-store"
+      ],
+      "review_note": "주민센터는 지명 검토용 가칭. 감염자에 관한 나머지 문장은 작성하지 않음. 읽은 위치 정보만 기록, 안전을 보장하지 않는다."
+    },
+    {
+      "id": "D1-09-return",
+      "label": "바로 앞 캠핑카로 복귀",
+      "background": "art/chapter00/camper/review/01-current-conversation.png",
+      "blur_logical": 5,
+      "review_only_background": true,
+      "layers": [
+        {
+          "name": "01_dialogue_panel",
+          "path": "design/ui/day01-v1/layers/D1-09-return/01_dialogue_panel.png",
+          "rect": [
+            60,
+            790,
+            1800.0,
+            240.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "02_text",
+          "path": "design/ui/day01-v1/layers/D1-09-return/02_text.png",
+          "rect": [
+            106,
+            810,
+            125.0,
+            33.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-09-return.02_text"
+        },
+        {
+          "name": "03_text",
+          "path": "design/ui/day01-v1/layers/D1-09-return/03_text.png",
+          "rect": [
+            136,
+            881,
+            671.0,
+            43.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-09-return.03_text"
+        },
+        {
+          "name": "04_text",
+          "path": "design/ui/day01-v1/layers/D1-09-return/04_text.png",
+          "rect": [
+            1706,
+            974,
+            69.5,
+            29.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-09-return.04_text"
+        }
+      ],
+      "psd": "design/ui/day01-v1/psd/D1-09-return.psd",
+      "preview": "design/ui/day01-v1/review/D1-09-return.jpg",
+      "next": [
+        "D1-10-ration"
+      ],
+      "review_note": "문 클릭 → 0.25초 암전·문소리 → 같은 장소 캠핑카. 물/식량 부족 시 추가 탐색 안내, 종료/아이템 폐기 없음. 쪽지를 못 읽으면 주민센터 언급을 추가하지 않는다."
+    },
+    {
+      "id": "D1-10-ration",
+      "label": "물과 식량 · 분배 튜토리얼",
+      "background": "art/chapter00/camper/review/01-current-conversation.png",
+      "blur_logical": 5,
+      "review_only_background": true,
+      "layers": [
+        {
+          "name": "01_ration_panel",
+          "path": "design/ui/day01-v1/layers/D1-10-ration/01_ration_panel.png",
+          "rect": [
+            300,
+            170,
+            1320.0,
+            760.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "02_text",
+          "path": "design/ui/day01-v1/layers/D1-10-ration/02_text.png",
+          "rect": [
+            90,
+            78,
+            324.5,
+            49.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-10-ration.02_text"
+        },
+        {
+          "name": "03_text",
+          "path": "design/ui/day01-v1/layers/D1-10-ration/03_text.png",
+          "rect": [
+            92,
+            144,
+            366.5,
+            32.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-10-ration.03_text"
+        },
+        {
+          "name": "04_text",
+          "path": "design/ui/day01-v1/layers/D1-10-ration/04_text.png",
+          "rect": [
+            371,
+            260,
+            139.5,
+            34.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-10-ration.04_text"
+        },
+        {
+          "name": "05_text",
+          "path": "design/ui/day01-v1/layers/D1-10-ration/05_text.png",
+          "rect": [
+            646,
+            260,
+            350.5,
+            38.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-10-ration.05_text"
+        },
+        {
+          "name": "06_person_card",
+          "path": "design/ui/day01-v1/layers/D1-10-ration/06_person_card.png",
+          "rect": [
+            400,
+            350,
+            500.0,
+            290.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "07_text",
+          "path": "design/ui/day01-v1/layers/D1-10-ration/07_text.png",
+          "rect": [
+            436,
+            384,
+            81.0,
+            45.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-10-ration.07_text"
+        },
+        {
+          "name": "08_text",
+          "path": "design/ui/day01-v1/layers/D1-10-ration/08_text.png",
+          "rect": [
+            436,
+            469,
+            243.5,
+            36.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-10-ration.08_text"
+        },
+        {
+          "name": "09_text",
+          "path": "design/ui/day01-v1/layers/D1-10-ration/09_text.png",
+          "rect": [
+            436,
+            540,
+            269.5,
+            37.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-10-ration.09_text"
+        },
+        {
+          "name": "10_person_card",
+          "path": "design/ui/day01-v1/layers/D1-10-ration/10_person_card.png",
+          "rect": [
+            1020,
+            350,
+            500.0,
+            290.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "11_text",
+          "path": "design/ui/day01-v1/layers/D1-10-ration/11_text.png",
+          "rect": [
+            1056,
+            384,
+            81.0,
+            45.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-10-ration.11_text"
+        },
+        {
+          "name": "12_text",
+          "path": "design/ui/day01-v1/layers/D1-10-ration/12_text.png",
+          "rect": [
+            1056,
+            469,
+            243.5,
+            36.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-10-ration.12_text"
+        },
+        {
+          "name": "13_text",
+          "path": "design/ui/day01-v1/layers/D1-10-ration/13_text.png",
+          "rect": [
+            1056,
+            540,
+            269.5,
+            37.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-10-ration.13_text"
+        },
+        {
+          "name": "14_text",
+          "path": "design/ui/day01-v1/layers/D1-10-ration/14_text.png",
+          "rect": [
+            416,
+            687,
+            427.5,
+            35.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-10-ration.14_text"
+        },
+        {
+          "name": "15_button",
+          "path": "design/ui/day01-v1/layers/D1-10-ration/15_button.png",
+          "rect": [
+            615,
+            778,
+            690.0,
+            88.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "16_text",
+          "path": "design/ui/day01-v1/layers/D1-10-ration/16_text.png",
+          "rect": [
+            636,
+            796,
+            177.0,
+            36.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-10-ration.16_text"
+        }
+      ],
+      "psd": "design/ui/day01-v1/psd/D1-10-ration.psd",
+      "preview": "design/ui/day01-v1/review/D1-10-ration.jpg",
+      "next": [
+        "D1-11-kitchen"
+      ],
+      "review_note": "가방 수량은 예시. 첫 안내는 두 자리 모두 물·식량 1씩 선택 후 확인. 최종 확정 시 한 번만 차감. 실제 영양/소비 단위와 자원 밸런스는 미확정."
+    },
+    {
+      "id": "D1-11-kitchen",
+      "label": "요리대 · 수리 필요 암시",
+      "background": "art/chapter00/camper/review/01-current-conversation.png",
+      "blur_logical": 0,
+      "review_only_background": true,
+      "layers": [
+        {
+          "name": "01_kitchen_focus",
+          "path": "design/ui/day01-v1/layers/D1-11-kitchen/01_kitchen_focus.png",
+          "rect": [
+            525,
+            326,
+            430.0,
+            123.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "02_repair_hint",
+          "path": "design/ui/day01-v1/layers/D1-11-kitchen/02_repair_hint.png",
+          "rect": [
+            1100,
+            225,
+            700.0,
+            280.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "03_text",
+          "path": "design/ui/day01-v1/layers/D1-11-kitchen/03_text.png",
+          "rect": [
+            1136,
+            266,
+            275.5,
+            41.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-11-kitchen.03_text"
+        },
+        {
+          "name": "04_text",
+          "path": "design/ui/day01-v1/layers/D1-11-kitchen/04_text.png",
+          "rect": [
+            1136,
+            347,
+            272.0,
+            36.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-11-kitchen.04_text"
+        },
+        {
+          "name": "05_text",
+          "path": "design/ui/day01-v1/layers/D1-11-kitchen/05_text.png",
+          "rect": [
+            1136,
+            396,
+            369.5,
+            36.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-11-kitchen.05_text"
+        },
+        {
+          "name": "06_dialogue_panel",
+          "path": "design/ui/day01-v1/layers/D1-11-kitchen/06_dialogue_panel.png",
+          "rect": [
+            60,
+            790,
+            1800.0,
+            240.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "07_text",
+          "path": "design/ui/day01-v1/layers/D1-11-kitchen/07_text.png",
+          "rect": [
+            106,
+            810,
+            56.0,
+            33.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-11-kitchen.07_text"
+        },
+        {
+          "name": "08_text",
+          "path": "design/ui/day01-v1/layers/D1-11-kitchen/08_text.png",
+          "rect": [
+            136,
+            881,
+            750.0,
+            43.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-11-kitchen.08_text"
+        },
+        {
+          "name": "09_text",
+          "path": "design/ui/day01-v1/layers/D1-11-kitchen/09_text.png",
+          "rect": [
+            1706,
+            974,
+            69.5,
+            29.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-11-kitchen.09_text"
+        }
+      ],
+      "psd": "design/ui/day01-v1/psd/D1-11-kitchen.psd",
+      "preview": "design/ui/day01-v1/review/D1-11-kitchen.jpg",
+      "next": [
+        "D1-12-soi"
+      ],
+      "review_note": "아직 수리 버튼·레시피·요리 미니게임을 열지 않는다. 재료와 수리 조건은 후속 기획. 물건을 두는 행동은 수혁 기준으로 연출."
+    },
+    {
+      "id": "D1-12-soi",
+      "label": "소이의 부탁 · 이벤트 알림",
+      "background": "art/chapter00/camper/review/01-current-conversation.png",
+      "blur_logical": 0,
+      "review_only_background": true,
+      "layers": [
+        {
+          "name": "01_soi_event",
+          "path": "design/ui/day01-v1/layers/D1-12-soi/01_soi_event.png",
+          "rect": [
+            1120,
+            302,
+            54.0,
+            66.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "02_text",
+          "path": "design/ui/day01-v1/layers/D1-12-soi/02_text.png",
+          "rect": [
+            1134,
+            309,
+            19.5,
+            35.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-12-soi.02_text"
+        }
+      ],
+      "psd": "design/ui/day01-v1/psd/D1-12-soi.psd",
+      "preview": "design/ui/day01-v1/review/D1-12-soi.jpg",
+      "next": [
+        "D1-13-quest"
+      ],
+      "review_note": "실제 캐릭터 머리 위치에 앵커링. 소이를 클릭하면 기존 VN 구도: 아빠, 나 그림 그리고 싶어. → 어제 챙긴 책에 그릴까? → 응. 색연필도 있으면 좋겠어."
+    },
+    {
+      "id": "D1-13-quest",
+      "label": "1일 차 낮 마무리 · 색연필만 찾기",
+      "background": "art/chapter00/camper/review/01-current-conversation.png",
+      "blur_logical": 5,
+      "review_only_background": true,
+      "layers": [
+        {
+          "name": "01_quest_card",
+          "path": "design/ui/day01-v1/layers/D1-13-quest/01_quest_card.png",
+          "rect": [
+            1040,
+            200,
+            760.0,
+            420.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "02_text",
+          "path": "design/ui/day01-v1/layers/D1-13-quest/02_text.png",
+          "rect": [
+            1086,
+            249,
+            283.0,
+            45.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-13-quest.02_text"
+        },
+        {
+          "name": "03_text",
+          "path": "design/ui/day01-v1/layers/D1-13-quest/03_text.png",
+          "rect": [
+            1086,
+            339,
+            249.0,
+            47.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-13-quest.03_text"
+        },
+        {
+          "name": "04_text",
+          "path": "design/ui/day01-v1/layers/D1-13-quest/04_text.png",
+          "rect": [
+            1086,
+            420,
+            246.5,
+            35.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-13-quest.04_text"
+        },
+        {
+          "name": "05_text",
+          "path": "design/ui/day01-v1/layers/D1-13-quest/05_text.png",
+          "rect": [
+            1086,
+            482,
+            338.5,
+            35.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-13-quest.05_text"
+        },
+        {
+          "name": "06_dialogue_panel",
+          "path": "design/ui/day01-v1/layers/D1-13-quest/06_dialogue_panel.png",
+          "rect": [
+            60,
+            790,
+            1800.0,
+            240.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "07_text",
+          "path": "design/ui/day01-v1/layers/D1-13-quest/07_text.png",
+          "rect": [
+            106,
+            810,
+            56.0,
+            33.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-13-quest.07_text"
+        },
+        {
+          "name": "08_text",
+          "path": "design/ui/day01-v1/layers/D1-13-quest/08_text.png",
+          "rect": [
+            136,
+            881,
+            434.0,
+            43.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-13-quest.08_text"
+        },
+        {
+          "name": "09_text",
+          "path": "design/ui/day01-v1/layers/D1-13-quest/09_text.png",
+          "rect": [
+            1706,
+            974,
+            69.5,
+            29.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-13-quest.09_text"
+        }
+      ],
+      "psd": "design/ui/day01-v1/psd/D1-13-quest.psd",
+      "preview": "design/ui/day01-v1/review/D1-13-quest.jpg",
+      "next": [],
+      "review_note": "이 지점이 1일 차 낮 콘티의 끝. 이미 색연필이 있으면 찾기 대신 건네기 상태. 새 스케치북 획득 목표 없음. 그림 튜토리얼은 후속 구간."
+    },
+    {
+      "id": "D1-05-food_shelf",
+      "label": "식품 선반 · 탐색 목록",
+      "background": "art/chapter01/revision-v3/store-clean-base-v3.png",
+      "blur_logical": 5,
+      "review_only_background": true,
+      "layers": [
+        {
+          "name": "01_search_panel",
+          "path": "design/ui/day01-v1/layers/D1-05-food_shelf/01_search_panel.png",
+          "rect": [
+            350,
+            180,
+            1220.0,
+            755.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "02_text",
+          "path": "design/ui/day01-v1/layers/D1-05-food_shelf/02_text.png",
+          "rect": [
+            90,
+            78,
+            181.0,
+            49.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-food_shelf.02_text"
+        },
+        {
+          "name": "03_text",
+          "path": "design/ui/day01-v1/layers/D1-05-food_shelf/03_text.png",
+          "rect": [
+            92,
+            144,
+            389.0,
+            32.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-food_shelf.03_text"
+        },
+        {
+          "name": "04_text",
+          "path": "design/ui/day01-v1/layers/D1-05-food_shelf/04_text.png",
+          "rect": [
+            406,
+            246,
+            60.0,
+            34.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-food_shelf.04_text"
+        },
+        {
+          "name": "05_text",
+          "path": "design/ui/day01-v1/layers/D1-05-food_shelf/05_text.png",
+          "rect": [
+            991,
+            246,
+            119.0,
+            35.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-food_shelf.05_text"
+        },
+        {
+          "name": "06_text",
+          "path": "design/ui/day01-v1/layers/D1-05-food_shelf/06_text.png",
+          "rect": [
+            1226,
+            246,
+            204.0,
+            35.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-food_shelf.06_text"
+        },
+        {
+          "name": "07_text",
+          "path": "design/ui/day01-v1/layers/D1-05-food_shelf/07_text.png",
+          "rect": [
+            406,
+            334,
+            426.5,
+            35.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-food_shelf.07_text"
+        },
+        {
+          "name": "08_text",
+          "path": "design/ui/day01-v1/layers/D1-05-food_shelf/08_text.png",
+          "rect": [
+            1046,
+            334,
+            88.5,
+            33.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-food_shelf.08_text"
+        },
+        {
+          "name": "09_text",
+          "path": "design/ui/day01-v1/layers/D1-05-food_shelf/09_text.png",
+          "rect": [
+            1316,
+            334,
+            88.5,
+            33.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-food_shelf.09_text"
+        },
+        {
+          "name": "10_text",
+          "path": "design/ui/day01-v1/layers/D1-05-food_shelf/10_text.png",
+          "rect": [
+            406,
+            431,
+            136.0,
+            35.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-food_shelf.10_text"
+        },
+        {
+          "name": "11_text",
+          "path": "design/ui/day01-v1/layers/D1-05-food_shelf/11_text.png",
+          "rect": [
+            1046,
+            431,
+            73.0,
+            33.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-food_shelf.11_text"
+        },
+        {
+          "name": "12_text",
+          "path": "design/ui/day01-v1/layers/D1-05-food_shelf/12_text.png",
+          "rect": [
+            1316,
+            431,
+            73.5,
+            33.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-food_shelf.12_text"
+        },
+        {
+          "name": "13_text",
+          "path": "design/ui/day01-v1/layers/D1-05-food_shelf/13_text.png",
+          "rect": [
+            406,
+            640,
+            520.0,
+            37.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-food_shelf.13_text"
+        },
+        {
+          "name": "14_button",
+          "path": "design/ui/day01-v1/layers/D1-05-food_shelf/14_button.png",
+          "rect": [
+            410,
+            745,
+            530.0,
+            92.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "15_text",
+          "path": "design/ui/day01-v1/layers/D1-05-food_shelf/15_text.png",
+          "rect": [
+            431,
+            763,
+            189.0,
+            35.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-food_shelf.15_text"
+        },
+        {
+          "name": "16_button",
+          "path": "design/ui/day01-v1/layers/D1-05-food_shelf/16_button.png",
+          "rect": [
+            970,
+            745,
+            530.0,
+            92.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "17_text",
+          "path": "design/ui/day01-v1/layers/D1-05-food_shelf/17_text.png",
+          "rect": [
+            991,
+            763,
+            236.0,
+            35.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-food_shelf.17_text"
+        }
+      ],
+      "psd": "design/ui/day01-v1/psd/D1-05-food_shelf.psd",
+      "preview": "design/ui/day01-v1/review/D1-05-food_shelf.jpg",
+      "next": [
+        "D1-07-food_shelf",
+        "D1-06-minigame"
+      ],
+      "review_note": "품목·확률·수량은 지점별 검토안. 반복 재추첨 없음. "
+    },
+    {
+      "id": "D1-07-food_shelf",
+      "label": "식품 선반 · 결과 예시",
+      "background": "art/chapter01/revision-v3/store-clean-base-v3.png",
+      "blur_logical": 5,
+      "review_only_background": true,
+      "layers": [
+        {
+          "name": "01_result_panel",
+          "path": "design/ui/day01-v1/layers/D1-07-food_shelf/01_result_panel.png",
+          "rect": [
+            535,
+            210,
+            850.0,
+            650.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "02_text",
+          "path": "design/ui/day01-v1/layers/D1-07-food_shelf/02_text.png",
+          "rect": [
+            90,
+            78,
+            181.0,
+            48.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-07-food_shelf.02_text"
+        },
+        {
+          "name": "03_text",
+          "path": "design/ui/day01-v1/layers/D1-07-food_shelf/03_text.png",
+          "rect": [
+            92,
+            144,
+            262.0,
+            32.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-07-food_shelf.03_text"
+        },
+        {
+          "name": "04_text",
+          "path": "design/ui/day01-v1/layers/D1-07-food_shelf/04_text.png",
+          "rect": [
+            606,
+            326,
+            131.5,
+            38.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-07-food_shelf.04_text"
+        },
+        {
+          "name": "05_text",
+          "path": "design/ui/day01-v1/layers/D1-07-food_shelf/05_text.png",
+          "rect": [
+            1186,
+            326,
+            57.0,
+            39.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-07-food_shelf.05_text"
+        },
+        {
+          "name": "06_text",
+          "path": "design/ui/day01-v1/layers/D1-07-food_shelf/06_text.png",
+          "rect": [
+            606,
+            413,
+            95.0,
+            37.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-07-food_shelf.06_text"
+        },
+        {
+          "name": "07_text",
+          "path": "design/ui/day01-v1/layers/D1-07-food_shelf/07_text.png",
+          "rect": [
+            1186,
+            413,
+            57.0,
+            39.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-07-food_shelf.07_text"
+        },
+        {
+          "name": "08_text",
+          "path": "design/ui/day01-v1/layers/D1-07-food_shelf/08_text.png",
+          "rect": [
+            606,
+            622,
+            275.5,
+            33.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-07-food_shelf.08_text"
+        },
+        {
+          "name": "09_button",
+          "path": "design/ui/day01-v1/layers/D1-07-food_shelf/09_button.png",
+          "rect": [
+            610,
+            718,
+            690.0,
+            90.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "10_text",
+          "path": "design/ui/day01-v1/layers/D1-07-food_shelf/10_text.png",
+          "rect": [
+            631,
+            736,
+            265.0,
+            36.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-07-food_shelf.10_text"
+        }
+      ],
+      "psd": "design/ui/day01-v1/psd/D1-07-food_shelf.psd",
+      "preview": "design/ui/day01-v1/review/D1-07-food_shelf.jpg",
+      "next": [
+        "D1-04-store"
+      ],
+      "review_note": "고정 결과 예시. 실제 난수 판정·인벤토리 없음."
+    },
+    {
+      "id": "D1-05-supply_box",
+      "label": "생활용품 상자 · 탐색 목록",
+      "background": "art/chapter01/revision-v3/store-clean-base-v3.png",
+      "blur_logical": 5,
+      "review_only_background": true,
+      "layers": [
+        {
+          "name": "01_search_panel",
+          "path": "design/ui/day01-v1/layers/D1-05-supply_box/01_search_panel.png",
+          "rect": [
+            350,
+            180,
+            1220.0,
+            755.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "02_text",
+          "path": "design/ui/day01-v1/layers/D1-05-supply_box/02_text.png",
+          "rect": [
+            90,
+            78,
+            262.0,
+            49.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-supply_box.02_text"
+        },
+        {
+          "name": "03_text",
+          "path": "design/ui/day01-v1/layers/D1-05-supply_box/03_text.png",
+          "rect": [
+            92,
+            144,
+            389.0,
+            32.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-supply_box.03_text"
+        },
+        {
+          "name": "04_text",
+          "path": "design/ui/day01-v1/layers/D1-05-supply_box/04_text.png",
+          "rect": [
+            406,
+            246,
+            60.0,
+            34.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-supply_box.04_text"
+        },
+        {
+          "name": "05_text",
+          "path": "design/ui/day01-v1/layers/D1-05-supply_box/05_text.png",
+          "rect": [
+            991,
+            246,
+            119.0,
+            35.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-supply_box.05_text"
+        },
+        {
+          "name": "06_text",
+          "path": "design/ui/day01-v1/layers/D1-05-supply_box/06_text.png",
+          "rect": [
+            1226,
+            246,
+            204.0,
+            35.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-supply_box.06_text"
+        },
+        {
+          "name": "07_text",
+          "path": "design/ui/day01-v1/layers/D1-05-supply_box/07_text.png",
+          "rect": [
+            406,
+            334,
+            204.0,
+            35.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-supply_box.07_text"
+        },
+        {
+          "name": "08_text",
+          "path": "design/ui/day01-v1/layers/D1-05-supply_box/08_text.png",
+          "rect": [
+            1046,
+            334,
+            72.5,
+            33.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-supply_box.08_text"
+        },
+        {
+          "name": "09_text",
+          "path": "design/ui/day01-v1/layers/D1-05-supply_box/09_text.png",
+          "rect": [
+            1316,
+            334,
+            73.0,
+            33.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-supply_box.09_text"
+        },
+        {
+          "name": "10_text",
+          "path": "design/ui/day01-v1/layers/D1-05-supply_box/10_text.png",
+          "rect": [
+            406,
+            431,
+            143.0,
+            35.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-supply_box.10_text"
+        },
+        {
+          "name": "11_text",
+          "path": "design/ui/day01-v1/layers/D1-05-supply_box/11_text.png",
+          "rect": [
+            1046,
+            431,
+            73.0,
+            33.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-supply_box.11_text"
+        },
+        {
+          "name": "12_text",
+          "path": "design/ui/day01-v1/layers/D1-05-supply_box/12_text.png",
+          "rect": [
+            1316,
+            431,
+            73.5,
+            33.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-supply_box.12_text"
+        },
+        {
+          "name": "13_text",
+          "path": "design/ui/day01-v1/layers/D1-05-supply_box/13_text.png",
+          "rect": [
+            406,
+            528,
+            136.0,
+            35.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-supply_box.13_text"
+        },
+        {
+          "name": "14_text",
+          "path": "design/ui/day01-v1/layers/D1-05-supply_box/14_text.png",
+          "rect": [
+            1046,
+            528,
+            73.0,
+            33.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-supply_box.14_text"
+        },
+        {
+          "name": "15_text",
+          "path": "design/ui/day01-v1/layers/D1-05-supply_box/15_text.png",
+          "rect": [
+            1316,
+            528,
+            72.5,
+            33.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-supply_box.15_text"
+        },
+        {
+          "name": "16_text",
+          "path": "design/ui/day01-v1/layers/D1-05-supply_box/16_text.png",
+          "rect": [
+            406,
+            640,
+            520.0,
+            37.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-supply_box.16_text"
+        },
+        {
+          "name": "17_button",
+          "path": "design/ui/day01-v1/layers/D1-05-supply_box/17_button.png",
+          "rect": [
+            410,
+            745,
+            530.0,
+            92.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "18_text",
+          "path": "design/ui/day01-v1/layers/D1-05-supply_box/18_text.png",
+          "rect": [
+            431,
+            763,
+            189.0,
+            35.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-supply_box.18_text"
+        },
+        {
+          "name": "19_button",
+          "path": "design/ui/day01-v1/layers/D1-05-supply_box/19_button.png",
+          "rect": [
+            970,
+            745,
+            530.0,
+            92.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "20_text",
+          "path": "design/ui/day01-v1/layers/D1-05-supply_box/20_text.png",
+          "rect": [
+            991,
+            763,
+            236.0,
+            35.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-supply_box.20_text"
+        }
+      ],
+      "psd": "design/ui/day01-v1/psd/D1-05-supply_box.psd",
+      "preview": "design/ui/day01-v1/review/D1-05-supply_box.jpg",
+      "next": [
+        "D1-07-supply_box",
+        "D1-06-minigame"
+      ],
+      "review_note": "품목·확률·수량은 지점별 검토안. 반복 재추첨 없음. "
+    },
+    {
+      "id": "D1-07-supply_box",
+      "label": "생활용품 상자 · 결과 예시",
+      "background": "art/chapter01/revision-v3/store-clean-base-v3.png",
+      "blur_logical": 5,
+      "review_only_background": true,
+      "layers": [
+        {
+          "name": "01_result_panel",
+          "path": "design/ui/day01-v1/layers/D1-07-supply_box/01_result_panel.png",
+          "rect": [
+            535,
+            210,
+            850.0,
+            650.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "02_text",
+          "path": "design/ui/day01-v1/layers/D1-07-supply_box/02_text.png",
+          "rect": [
+            90,
+            78,
+            181.0,
+            48.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-07-supply_box.02_text"
+        },
+        {
+          "name": "03_text",
+          "path": "design/ui/day01-v1/layers/D1-07-supply_box/03_text.png",
+          "rect": [
+            92,
+            144,
+            308.0,
+            32.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-07-supply_box.03_text"
+        },
+        {
+          "name": "04_text",
+          "path": "design/ui/day01-v1/layers/D1-07-supply_box/04_text.png",
+          "rect": [
+            606,
+            326,
+            168.0,
+            37.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-07-supply_box.04_text"
+        },
+        {
+          "name": "05_text",
+          "path": "design/ui/day01-v1/layers/D1-07-supply_box/05_text.png",
+          "rect": [
+            1186,
+            326,
+            54.0,
+            39.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-07-supply_box.05_text"
+        },
+        {
+          "name": "06_text",
+          "path": "design/ui/day01-v1/layers/D1-07-supply_box/06_text.png",
+          "rect": [
+            606,
+            413,
+            102.5,
+            38.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-07-supply_box.06_text"
+        },
+        {
+          "name": "07_text",
+          "path": "design/ui/day01-v1/layers/D1-07-supply_box/07_text.png",
+          "rect": [
+            1186,
+            413,
+            54.0,
+            39.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-07-supply_box.07_text"
+        },
+        {
+          "name": "08_text",
+          "path": "design/ui/day01-v1/layers/D1-07-supply_box/08_text.png",
+          "rect": [
+            606,
+            500,
+            95.0,
+            37.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-07-supply_box.08_text"
+        },
+        {
+          "name": "09_text",
+          "path": "design/ui/day01-v1/layers/D1-07-supply_box/09_text.png",
+          "rect": [
+            1186,
+            500,
+            57.0,
+            39.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-07-supply_box.09_text"
+        },
+        {
+          "name": "10_text",
+          "path": "design/ui/day01-v1/layers/D1-07-supply_box/10_text.png",
+          "rect": [
+            606,
+            622,
+            275.5,
+            33.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-07-supply_box.10_text"
+        },
+        {
+          "name": "11_button",
+          "path": "design/ui/day01-v1/layers/D1-07-supply_box/11_button.png",
+          "rect": [
+            610,
+            718,
+            690.0,
+            90.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "12_text",
+          "path": "design/ui/day01-v1/layers/D1-07-supply_box/12_text.png",
+          "rect": [
+            631,
+            736,
+            265.0,
+            36.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-07-supply_box.12_text"
+        }
+      ],
+      "psd": "design/ui/day01-v1/psd/D1-07-supply_box.psd",
+      "preview": "design/ui/day01-v1/review/D1-07-supply_box.jpg",
+      "next": [
+        "D1-04-store"
+      ],
+      "review_note": "고정 결과 예시. 실제 난수 판정·인벤토리 없음."
+    },
+    {
+      "id": "D1-05-stationery",
+      "label": "문구대 · 탐색 목록",
+      "background": "art/chapter01/revision-v3/store-clean-base-v3.png",
+      "blur_logical": 5,
+      "review_only_background": true,
+      "layers": [
+        {
+          "name": "01_search_panel",
+          "path": "design/ui/day01-v1/layers/D1-05-stationery/01_search_panel.png",
+          "rect": [
+            350,
+            180,
+            1220.0,
+            755.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "02_text",
+          "path": "design/ui/day01-v1/layers/D1-05-stationery/02_text.png",
+          "rect": [
+            90,
+            78,
+            129.5,
+            49.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-stationery.02_text"
+        },
+        {
+          "name": "03_text",
+          "path": "design/ui/day01-v1/layers/D1-05-stationery/03_text.png",
+          "rect": [
+            92,
+            144,
+            389.0,
+            32.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-stationery.03_text"
+        },
+        {
+          "name": "04_text",
+          "path": "design/ui/day01-v1/layers/D1-05-stationery/04_text.png",
+          "rect": [
+            406,
+            246,
+            60.0,
+            34.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-stationery.04_text"
+        },
+        {
+          "name": "05_text",
+          "path": "design/ui/day01-v1/layers/D1-05-stationery/05_text.png",
+          "rect": [
+            991,
+            246,
+            119.0,
+            35.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-stationery.05_text"
+        },
+        {
+          "name": "06_text",
+          "path": "design/ui/day01-v1/layers/D1-05-stationery/06_text.png",
+          "rect": [
+            1226,
+            246,
+            204.0,
+            35.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-stationery.06_text"
+        },
+        {
+          "name": "07_text",
+          "path": "design/ui/day01-v1/layers/D1-05-stationery/07_text.png",
+          "rect": [
+            406,
+            334,
+            136.0,
+            36.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-stationery.07_text"
+        },
+        {
+          "name": "08_text",
+          "path": "design/ui/day01-v1/layers/D1-05-stationery/08_text.png",
+          "rect": [
+            1046,
+            334,
+            73.5,
+            33.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-stationery.08_text"
+        },
+        {
+          "name": "09_text",
+          "path": "design/ui/day01-v1/layers/D1-05-stationery/09_text.png",
+          "rect": [
+            1316,
+            334,
+            73.5,
+            33.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-stationery.09_text"
+        },
+        {
+          "name": "10_text",
+          "path": "design/ui/day01-v1/layers/D1-05-stationery/10_text.png",
+          "rect": [
+            406,
+            431,
+            143.0,
+            35.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-stationery.10_text"
+        },
+        {
+          "name": "11_text",
+          "path": "design/ui/day01-v1/layers/D1-05-stationery/11_text.png",
+          "rect": [
+            1046,
+            431,
+            73.5,
+            33.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-stationery.11_text"
+        },
+        {
+          "name": "12_text",
+          "path": "design/ui/day01-v1/layers/D1-05-stationery/12_text.png",
+          "rect": [
+            1316,
+            431,
+            73.5,
+            33.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-stationery.12_text"
+        },
+        {
+          "name": "13_text",
+          "path": "design/ui/day01-v1/layers/D1-05-stationery/13_text.png",
+          "rect": [
+            406,
+            640,
+            520.0,
+            37.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-stationery.13_text"
+        },
+        {
+          "name": "14_button",
+          "path": "design/ui/day01-v1/layers/D1-05-stationery/14_button.png",
+          "rect": [
+            410,
+            745,
+            530.0,
+            92.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "15_text",
+          "path": "design/ui/day01-v1/layers/D1-05-stationery/15_text.png",
+          "rect": [
+            431,
+            763,
+            189.0,
+            35.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-stationery.15_text"
+        },
+        {
+          "name": "16_button",
+          "path": "design/ui/day01-v1/layers/D1-05-stationery/16_button.png",
+          "rect": [
+            970,
+            745,
+            530.0,
+            92.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "17_text",
+          "path": "design/ui/day01-v1/layers/D1-05-stationery/17_text.png",
+          "rect": [
+            991,
+            763,
+            236.0,
+            35.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-05-stationery.17_text"
+        }
+      ],
+      "psd": "design/ui/day01-v1/psd/D1-05-stationery.psd",
+      "preview": "design/ui/day01-v1/review/D1-05-stationery.jpg",
+      "next": [
+        "D1-07-stationery",
+        "D1-06-minigame"
+      ],
+      "review_note": "품목·확률·수량은 지점별 검토안. 반복 재추첨 없음. 색연필 선확보를 인정하며 실패하면 후속 안내 경로를 둔다."
+    },
+    {
+      "id": "D1-07-stationery",
+      "label": "문구대 · 결과 예시",
+      "background": "art/chapter01/revision-v3/store-clean-base-v3.png",
+      "blur_logical": 5,
+      "review_only_background": true,
+      "layers": [
+        {
+          "name": "01_result_panel",
+          "path": "design/ui/day01-v1/layers/D1-07-stationery/01_result_panel.png",
+          "rect": [
+            535,
+            210,
+            850.0,
+            650.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "02_text",
+          "path": "design/ui/day01-v1/layers/D1-07-stationery/02_text.png",
+          "rect": [
+            90,
+            78,
+            181.0,
+            48.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-07-stationery.02_text"
+        },
+        {
+          "name": "03_text",
+          "path": "design/ui/day01-v1/layers/D1-07-stationery/03_text.png",
+          "rect": [
+            92,
+            144,
+            233.0,
+            32.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-07-stationery.03_text"
+        },
+        {
+          "name": "04_text",
+          "path": "design/ui/day01-v1/layers/D1-07-stationery/04_text.png",
+          "rect": [
+            606,
+            326,
+            95.0,
+            38.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-07-stationery.04_text"
+        },
+        {
+          "name": "05_text",
+          "path": "design/ui/day01-v1/layers/D1-07-stationery/05_text.png",
+          "rect": [
+            1186,
+            326,
+            57.0,
+            39.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-07-stationery.05_text"
+        },
+        {
+          "name": "06_text",
+          "path": "design/ui/day01-v1/layers/D1-07-stationery/06_text.png",
+          "rect": [
+            606,
+            413,
+            102.5,
+            38.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-07-stationery.06_text"
+        },
+        {
+          "name": "07_text",
+          "path": "design/ui/day01-v1/layers/D1-07-stationery/07_text.png",
+          "rect": [
+            1186,
+            413,
+            54.0,
+            39.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-07-stationery.07_text"
+        },
+        {
+          "name": "08_text",
+          "path": "design/ui/day01-v1/layers/D1-07-stationery/08_text.png",
+          "rect": [
+            606,
+            622,
+            275.5,
+            33.5
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-07-stationery.08_text"
+        },
+        {
+          "name": "09_button",
+          "path": "design/ui/day01-v1/layers/D1-07-stationery/09_button.png",
+          "rect": [
+            610,
+            718,
+            690.0,
+            90.0
+          ],
+          "kind": "image"
+        },
+        {
+          "name": "10_text",
+          "path": "design/ui/day01-v1/layers/D1-07-stationery/10_text.png",
+          "rect": [
+            631,
+            736,
+            265.0,
+            36.0
+          ],
+          "kind": "runtime-text",
+          "string_id": "D1-07-stationery.10_text"
+        }
+      ],
+      "psd": "design/ui/day01-v1/psd/D1-07-stationery.psd",
+      "preview": "design/ui/day01-v1/review/D1-07-stationery.jpg",
+      "next": [
+        "D1-04-store"
+      ],
+      "review_note": "고정 결과 예시. 실제 난수 판정·인벤토리 없음."
+    }
+  ],
+  "limitations": [
+    "Clickable storyboard, not a Unity game or inventory simulation.",
+    "Time/probability/loot counts and dialogue are review drafts.",
+    "PSD has actual separate raster layers; text is not Photoshop live text.",
+    "Backgrounds remain native 1672x941; preview enlargement adds no detail.",
+    "Paper native 1086x1448, book native 1536x1024; not 2x painting masters.",
+    "Map is a schematic UI, not approved geographical lore.",
+    "Audio cues are specified in storyboard; final audio files not supplied."
+  ]
+}

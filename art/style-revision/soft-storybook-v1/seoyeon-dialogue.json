@@ -1,0 +1,75 @@
+{
+  "id": "seoyeon-dialogue",
+  "source": "sources/seoyeon-dialogue.png",
+  "previous": "art/chapter00/memory/dialogue-v1/seoyeon-speaking-v1.png",
+  "category": "dialogue",
+  "status": "art-revision",
+  "suppressed_in_memory": true,
+  "hair_cleanup": [
+    [
+      280,
+      0,
+      780,
+      480
+    ],
+    [
+      380,
+      200,
+      710,
+      500
+    ]
+  ],
+  "native_size": [
+    1024,
+    1536
+  ],
+  "alpha_bounds": [
+    151,
+    26,
+    895,
+    1536
+  ],
+  "subject_height": 1510,
+  "sprite": "sprites/seoyeon-dialogue.png",
+  "psd": "psd/seoyeon-dialogue.psd",
+  "alpha_method": "exterior-connected neutral backdrop cut, 1px fringe trim; RGB untouched",
+  "native_unscaled": true,
+  "sha256": "b621c26572a8b378324937399c6633bba97da7023a5b467e2987938e85f37f18",
+  "qa": [
+    {
+      "name": "native-size",
+      "pass": true
+    },
+    {
+      "name": "transparent-border",
+      "pass": true
+    },
+    {
+      "name": "visible-subject",
+      "pass": true
+    },
+    {
+      "name": "foreground-RGB-preserved",
+      "pass": true
+    },
+    {
+      "name": "seoyeon-dialogue:merged_rgba",
+      "pass": true
+    },
+    {
+      "name": "seoyeon-dialogue:layer_names",
+      "pass": true
+    },
+    {
+      "name": "seoyeon-dialogue:layer:isolated_character",
+      "pass": true
+    },
+    {
+      "name": "seoyeon-dialogue:layer:generated_source_hidden",
+      "pass": true
+    }
+  ],
+  "psd_scope": "2 actual layers: hidden native source + visible isolated character; body parts not independently layered",
+  "resolution_target_met": false,
+  "unity_tested": false
+}

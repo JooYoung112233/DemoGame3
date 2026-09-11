@@ -1,0 +1,75 @@
+{
+  "id": "soi-dialogue",
+  "source": "sources/soi-dialogue.png",
+  "previous": "art/chapter00/memory/dialogue-v1/soi-answer-v1.png",
+  "category": "dialogue",
+  "status": "art-revision",
+  "suppressed_in_memory": false,
+  "hair_cleanup": [
+    [
+      250,
+      0,
+      800,
+      510
+    ],
+    [
+      380,
+      220,
+      610,
+      420
+    ]
+  ],
+  "native_size": [
+    1024,
+    1536
+  ],
+  "alpha_bounds": [
+    256,
+    62,
+    790,
+    1491
+  ],
+  "subject_height": 1429,
+  "sprite": "sprites/soi-dialogue.png",
+  "psd": "psd/soi-dialogue.psd",
+  "alpha_method": "exterior-connected neutral backdrop cut, 1px fringe trim; RGB untouched",
+  "native_unscaled": true,
+  "sha256": "c0b4a2793b42bae6d84b28a1bf51cbf7edeb0530af3f613da28c91b04fe25853",
+  "qa": [
+    {
+      "name": "native-size",
+      "pass": true
+    },
+    {
+      "name": "transparent-border",
+      "pass": true
+    },
+    {
+      "name": "visible-subject",
+      "pass": true
+    },
+    {
+      "name": "foreground-RGB-preserved",
+      "pass": true
+    },
+    {
+      "name": "soi-dialogue:merged_rgba",
+      "pass": true
+    },
+    {
+      "name": "soi-dialogue:layer_names",
+      "pass": true
+    },
+    {
+      "name": "soi-dialogue:layer:isolated_character",
+      "pass": true
+    },
+    {
+      "name": "soi-dialogue:layer:generated_source_hidden",
+      "pass": true
+    }
+  ],
+  "psd_scope": "2 actual layers: hidden native source + visible isolated character; body parts not independently layered",
+  "resolution_target_met": false,
+  "unity_tested": false
+}

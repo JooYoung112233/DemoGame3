@@ -1,0 +1,293 @@
+{
+  "id": "chapter00-photo-care-v1",
+  "status": "storyboard-art-proposal-not-Unity-runtime",
+  "assets": [
+    {
+      "id": "pressing-hand",
+      "source": "art/chapter00/photo-care-v1/sources/pressing-hand.png",
+      "native": "art/chapter00/photo-care-v1/layers/pressing-hand-native.png",
+      "size": [
+        1448,
+        1086
+      ],
+      "visible_bounds": [
+        0,
+        21,
+        1448,
+        1086
+      ],
+      "psd": "art/chapter00/photo-care-v1/psd/pressing-hand-native.psd"
+    },
+    {
+      "id": "tape-lifted",
+      "source": "art/chapter00/photo-care-v1/sources/tape-lifted.png",
+      "native": "art/chapter00/photo-care-v1/layers/tape-lifted-native.png",
+      "size": [
+        2172,
+        724
+      ],
+      "visible_bounds": [
+        23,
+        131,
+        2121,
+        554
+      ],
+      "psd": "art/chapter00/photo-care-v1/psd/tape-lifted-native.psd"
+    },
+    {
+      "id": "tape-pressed",
+      "source": "art/chapter00/photo-care-v1/sources/tape-pressed.png",
+      "native": "art/chapter00/photo-care-v1/layers/tape-pressed-native.png",
+      "size": [
+        2172,
+        724
+      ],
+      "visible_bounds": [
+        15,
+        144,
+        2155,
+        700
+      ],
+      "psd": "art/chapter00/photo-care-v1/psd/tape-pressed-native.psd"
+    },
+    {
+      "id": "wall-close",
+      "source": "art/chapter00/photo-care-v1/sources/wall-close.png",
+      "native": "art/chapter00/photo-care-v1/layers/wall-close-native.png",
+      "size": [
+        1448,
+        1086
+      ],
+      "visible_bounds": [
+        0,
+        0,
+        1448,
+        1086
+      ],
+      "psd": "art/chapter00/photo-care-v1/psd/wall-close-native.psd"
+    }
+  ],
+  "canvas": [
+    1448,
+    815
+  ],
+  "states": [
+    {
+      "id": "01-lifted",
+      "review": "art/chapter00/photo-care-v1/review/01-lifted.png",
+      "psd": "art/chapter00/photo-care-v1/psd/01-lifted.psd",
+      "layers": [
+        {
+          "id": "wall_insert",
+          "path": "art/chapter00/photo-care-v1/layers/01-lifted-wall_insert.png",
+          "rect": [
+            0,
+            0,
+            1448,
+            815
+          ]
+        },
+        {
+          "id": "photo_edge_contact",
+          "path": "art/chapter00/photo-care-v1/layers/01-lifted-photo_edge_contact.png",
+          "rect": [
+            100,
+            246,
+            1000,
+            13
+          ]
+        },
+        {
+          "id": "existing_photo_lower_crop",
+          "path": "art/chapter00/photo-care-v1/layers/01-lifted-existing_photo_lower_crop.png",
+          "rect": [
+            100,
+            0,
+            1000,
+            252
+          ]
+        },
+        {
+          "id": "tape_contact",
+          "path": "art/chapter00/photo-care-v1/layers/01-lifted-tape_contact.png",
+          "rect": [
+            425,
+            273,
+            272,
+            7
+          ]
+        },
+        {
+          "id": "same_tape_corner",
+          "path": "art/chapter00/photo-care-v1/layers/01-lifted-same_tape_corner.png",
+          "rect": [
+            420,
+            225,
+            280,
+            55
+          ]
+        }
+      ]
+    },
+    {
+      "id": "02-pressing",
+      "review": "art/chapter00/photo-care-v1/review/02-pressing.png",
+      "psd": "art/chapter00/photo-care-v1/psd/02-pressing.psd",
+      "layers": [
+        {
+          "id": "wall_insert",
+          "path": "art/chapter00/photo-care-v1/layers/02-pressing-wall_insert.png",
+          "rect": [
+            0,
+            0,
+            1448,
+            815
+          ]
+        },
+        {
+          "id": "photo_edge_contact",
+          "path": "art/chapter00/photo-care-v1/layers/02-pressing-photo_edge_contact.png",
+          "rect": [
+            100,
+            246,
+            1000,
+            13
+          ]
+        },
+        {
+          "id": "existing_photo_lower_crop",
+          "path": "art/chapter00/photo-care-v1/layers/02-pressing-existing_photo_lower_crop.png",
+          "rect": [
+            100,
+            0,
+            1000,
+            252
+          ]
+        },
+        {
+          "id": "tape_contact",
+          "path": "art/chapter00/photo-care-v1/layers/02-pressing-tape_contact.png",
+          "rect": [
+            425,
+            273,
+            272,
+            7
+          ]
+        },
+        {
+          "id": "same_tape_corner",
+          "path": "art/chapter00/photo-care-v1/layers/02-pressing-same_tape_corner.png",
+          "rect": [
+            420,
+            225,
+            280,
+            55
+          ]
+        },
+        {
+          "id": "hand_contact",
+          "path": "art/chapter00/photo-care-v1/layers/02-pressing-hand_contact.png",
+          "rect": [
+            650,
+            220,
+            798,
+            595
+          ]
+        },
+        {
+          "id": "suhyeok_pressing_hand",
+          "path": "art/chapter00/photo-care-v1/layers/02-pressing-suhyeok_pressing_hand.png",
+          "rect": [
+            650,
+            220,
+            798,
+            595
+          ]
+        }
+      ]
+    },
+    {
+      "id": "03-secured",
+      "review": "art/chapter00/photo-care-v1/review/03-secured.png",
+      "psd": "art/chapter00/photo-care-v1/psd/03-secured.psd",
+      "layers": [
+        {
+          "id": "wall_insert",
+          "path": "art/chapter00/photo-care-v1/layers/03-secured-wall_insert.png",
+          "rect": [
+            0,
+            0,
+            1448,
+            815
+          ]
+        },
+        {
+          "id": "photo_edge_contact",
+          "path": "art/chapter00/photo-care-v1/layers/03-secured-photo_edge_contact.png",
+          "rect": [
+            100,
+            246,
+            1000,
+            13
+          ]
+        },
+        {
+          "id": "existing_photo_lower_crop",
+          "path": "art/chapter00/photo-care-v1/layers/03-secured-existing_photo_lower_crop.png",
+          "rect": [
+            100,
+            0,
+            1000,
+            252
+          ]
+        },
+        {
+          "id": "tape_contact",
+          "path": "art/chapter00/photo-care-v1/layers/03-secured-tape_contact.png",
+          "rect": [
+            425,
+            273,
+            272,
+            7
+          ]
+        },
+        {
+          "id": "same_tape_corner",
+          "path": "art/chapter00/photo-care-v1/layers/03-secured-same_tape_corner.png",
+          "rect": [
+            420,
+            225,
+            280,
+            55
+          ]
+        }
+      ]
+    }
+  ],
+  "original_photo": "art/chapter00/memory/dialogue-v1/family-polaroid-clean-review-v1.png",
+  "photo_source_crop": [
+    0,
+    700,
+    1784,
+    1149
+  ],
+  "face_exclusion": "Only lower original photo is included; original face area is outside all three delivered close cuts. Do not pan or zoom beyond this crop.",
+  "world_anchor_1920": [
+    1442,
+    269,
+    44,
+    28.34
+  ],
+  "story_nodes": [
+    "photo_observe",
+    "photo_care",
+    "photo_wish"
+  ],
+  "limitations": [
+    "Close wall insert is a new matching paint study, not recovered detail from the tiny world placement. Full camper geometry is unchanged.",
+    "Native wall is 1448x1086; close composition canvas is 1448x815; not final 4K or 1920-wide sharp master. No upscale claims.",
+    "Hand is one static cutout, not articulated fingers. Tape left anchor retains original pixels; only curled end changes.",
+    "PSD binary/merged-image checked; Photoshop application and Unity not tested.",
+    "Dialogue, contact sound and transition timing remain implementation work."
+  ]
+}

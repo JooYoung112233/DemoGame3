@@ -1,0 +1,86 @@
+{
+  "id": "suhyeok-dialogue-semi-v2",
+  "status": "comparison archive; user prefers original Suhyeok; v1 restored",
+  "native_size": [
+    1024,
+    1536
+  ],
+  "alpha_bounds": [
+    92,
+    19,
+    967,
+    1536
+  ],
+  "body_pixel_height": 1517,
+  "generated_source": "art/chapter00/memory/dialogue-v1/suhyeok-response-semi-source-v2.png",
+  "runtime": "art/chapter00/memory/dialogue-v1/suhyeok-response-semi-v2.png",
+  "psd": "art/chapter00/memory/dialogue-v1/suhyeok-response-semi-layers-v2.psd",
+  "previous": "art/chapter00/memory/dialogue-v1/suhyeok-response-v1.png",
+  "rect_1920": [
+    100,
+    50,
+    720,
+    1080
+  ],
+  "style_reference": "art/style-reference/2026-09-10/mother-semi-realistic-approved-v1.png",
+  "face_study": "art/style-revision/2026-09-10/suhyeok-face-study-v1.png",
+  "source_sha256": "3403c9a1c452bb842151911d63bb2868ac380f79e0314a03037d7b8af9b2d7cc",
+  "alpha_processing": "neutral checker removal + 1px fringe trim under prior explicit user permission",
+  "psd_scope": "2 actual RGBA layers: hidden full native source; visible isolated native character. Head, hands, clothing and expression remain one painted character layer.",
+  "limitations": [
+    "Native 1024x1536; subject height below 1536-2048 target. No detail-restoring upscale.",
+    "Current Soi and scene backgrounds still old style; only one asset replaced.",
+    "No Photoshop application or Unity runtime test."
+  ],
+  "qa": {
+    "passed": 11,
+    "failed": 0,
+    "checks": [
+      {
+        "name": "native-size-preserved",
+        "pass": true
+      },
+      {
+        "name": "transparent-surround",
+        "pass": true
+      },
+      {
+        "name": "face-opaque",
+        "pass": true
+      },
+      {
+        "name": "shirt-opaque",
+        "pass": true
+      },
+      {
+        "name": "trousers-opaque",
+        "pass": true
+      },
+      {
+        "name": "left-hand-opaque",
+        "pass": true
+      },
+      {
+        "name": "right-hand-opaque",
+        "pass": true
+      },
+      {
+        "name": "suhyeok-response-semi-layers-v2:merged_rgba",
+        "pass": true
+      },
+      {
+        "name": "suhyeok-response-semi-layers-v2:layer_names",
+        "pass": true
+      },
+      {
+        "name": "suhyeok-response-semi-layers-v2:layer:suhyeok_transparent_paint",
+        "pass": true
+      },
+      {
+        "name": "suhyeok-response-semi-layers-v2:layer:generated_source_hidden",
+        "pass": true
+      }
+    ]
+  },
+  "currently_used": false
+}

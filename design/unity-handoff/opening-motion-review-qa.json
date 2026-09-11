@@ -1,0 +1,159 @@
+{
+  "scope": "opening plus narration, handhold and closing Seoyeon dialogue",
+  "date": "2026-09-10",
+  "automated": {
+    "script": "tools/test-opening-motion.mjs",
+    "passed": 38,
+    "failed": 0
+  },
+  "not_browser_checked": [
+    "Window blur/visibility suspension",
+    "JSON file download",
+    "Other viewport sizes",
+    "Gamepad",
+    "Space key and held-key behavior",
+    "New dialogue typing-skip and held-Space behavior"
+  ],
+  "not_implemented": [
+    "Voice and footsteps audio",
+    "Return to present",
+    "Unity gameplay"
+  ],
+  "unity_tested": false,
+  "previous_camera_browser_checks": [
+    "Initial title assets loaded and start button enabled",
+    "Start click begins motion and hides start hit area",
+    "Base completes at scale 1.035 and 1.35 seconds",
+    "Gentle preset completes at scale 1.02 and 1.65 seconds",
+    "Clear preset completes at scale 1.05 and 1.15 seconds",
+    "Pause stops midway and shows resume state",
+    "Scrub to 0.675 seconds yields scale 1.01424, menu opacity 0, paused state",
+    "All stage images loaded without broken-image placeholders"
+  ],
+  "browser_checked": [
+    "Narration after entry uses feet background, no speaker name, no visible portraits and zero blur",
+    "Seoyeon first dialogue shows nameplate and right portrait; same background URL and framing; 5px logical blur",
+    "Second Seoyeon line keeps same scene and portrait",
+    "Suhyeok response shows left portrait and dims right portrait to brightness 0.8",
+    "After last line fresh click hides dialogue and shows existing handoff image",
+    "Reset after handoff hides memory, portraits, panel and handoff and returns to title",
+    "All loaded images have natural dimensions, no broken images",
+    "Narration and Seoyeon dialogue visually inspected in 1280x720 browser, handoff also observed in narrower live panel"
+  ],
+  "camera_approved_by_user": true,
+  "call_timing_approved_by_user": true,
+  "previous_call_browser_checks": [
+    "Start click plays through to complete at 2.08 seconds, scale 1.035, dim opacity 1 and 4 visible graphemes",
+    "All image assets and Live49 Korean font loaded",
+    "Scrub to 1.75 seconds shows only first grapheme with full dim",
+    "Click during typing reveals all four graphemes and remains at reading hold",
+    "Glyph x positions unchanged between partial and full line",
+    "Final screen visually checked at 1280x720 browser viewport",
+    "Reset returns preview to initial title"
+  ],
+  "transition_timing_approved_by_user": false,
+  "previous_transition_browser_checks": [
+    "Start plays to reading at 2.23s without automatic memory entry",
+    "Cue opacity 1 and memory image preloaded successfully",
+    "Fresh click after reading plays transition to memory at 1.0s",
+    "At transition 0.35s black opacity 1, memory selected and old source hidden",
+    "Click during paused transition does not advance time or scene",
+    "Typing-stage click reveals whole line and stays in opening reading phase",
+    "Reading cue and memory arrival visually checked at 1280x720",
+    "Reset from transition returns to title and clears memory/black overlay"
+  ],
+  "additional_automated": [
+    {
+      "script": "tools/test-memory-dialogue.mjs",
+      "passed": 25,
+      "failed": 0
+    },
+    {
+      "script": "tools/build-memory-dialogue-assets.py",
+      "passed": 24,
+      "failed": 0
+    }
+  ],
+  "memory_dialogue_flow_approved": true,
+  "new_art_and_wording_approved": false,
+  "closing_browser_checked": [
+    "This segment button starts handhold and automatically enters C0-02-D04 after 0.3s fade and 0.8s hold",
+    "Closing uses corrected handhold image, hides feet, shows Seoyeon and same panel",
+    "Final line has no advance arrow and remains readable",
+    "Closing screen visually inspected in 1280x720 browser",
+    "Click at closing typing time 0.35s reveals all 17 graphemes without advancing",
+    "Additional click after completion keeps C0-02-D04 and dialogue-reading state"
+  ],
+  "closing_wording_revision": {
+    "text": "됐어. 이제 가자.",
+    "status": "wording-only revision; prior 17-grapheme browser check describes previous wording",
+    "cause": "No established fatigue or reluctance justified walking a little more."
+  },
+  "photo_memory_review_2026_09_10": {
+    "status": "passed-with-art-resolution-limitations",
+    "automated": {
+      "existing_opening_checks": 38,
+      "dialogue_checks": 33,
+      "photo_timing_checks": 24,
+      "native_asset_and_psd_checks": 12,
+      "failed": 0
+    },
+    "browser_observed": [
+      "Start automatically reaches blurred photo and waits at 4.20 seconds.",
+      "Fresh click on photo enters foot narration C0-02-N01.",
+      "Handhold -> mother question -> Soi answer -> mother closing keeps the same handhold backdrop.",
+      "Last mother line transitions back to photo; at 3.60 seconds blur is 0, glitch is false, and present call is 아빠?.",
+      "Screenshot at 1.50 seconds shows narrow displaced bands and scan lines; at 3.60 only face remains pixelated.",
+      "Soi cutout checked against light/dark fields; source checker not used in runtime."
+    ],
+    "not_verified": [
+      "Actual Unity rendering/input/audio.",
+      "Photoshop application opening.",
+      "Auditory quality of procedural scratch; no voice assets.",
+      "Space-held repeat and focus suspension regression were not exercised this turn."
+    ],
+    "latest_document": "docs/03-콘티/챕터0/C0-PHOTO-MEMORY-IMPLEMENTATION.ko.md",
+    "art_limitations": [
+      "Photo 1672x941 native; Soi 1024x1536 native; not final high-resolution masters.",
+      "Family picture internally flat; paper and face mask are separate real layers."
+    ]
+  },
+  "present_dialogue_and_identity_2026_09_10": {
+    "status": "review-checked",
+    "checks": {
+      "opening": 38,
+      "dialogue": 42,
+      "photo": 24,
+      "speaker_identity": 15,
+      "failed": 0
+    },
+    "browser_observed": [
+      "C0-02-D04: Seoyeon image hidden, source attribute absent, label ?.",
+      "C0-03-D01: current camper backdrop, left Suhyeok/right Soi, label ?.",
+      "C0-03-N01: nameplate and all portraits hidden.",
+      "C0-03-D02: label ?, question 내일도 여기 있어?, extra click stays on final question."
+    ],
+    "source_art_changes": "none; reuse preserved originals and regenerate seven 1920x1080 composite review frames",
+    "not_verified": [
+      "Unity implementation and save/load identity state",
+      "New final expression art",
+      "Photoshop application",
+      "Audio quality"
+    ],
+    "rules": "docs/06-대사/SPEAKER-IDENTITY-RULES.ko.md",
+    "direction": "docs/03-콘티/챕터0/C0-PRESENT-DIALOGUE.ko.md"
+  },
+  "speaker_reveal_correction_2026_09_10": {
+    "passed": 19,
+    "failed": 0,
+    "policy": "Names become known via address and dialogue; previous all-question-mark QA is superseded.",
+    "expected_labels": {
+      "C0-02-D01": "?",
+      "C0-02-D03": "수혁",
+      "C0-02-D05": "소이",
+      "C0-03-D01": "수혁",
+      "C0-03-D02": "소이"
+    },
+    "review_images_regenerated": 7
+  }
+}

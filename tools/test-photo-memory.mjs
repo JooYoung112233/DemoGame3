@@ -1,0 +1,23 @@
+import assert from'node:assert/strict';
+import{PHOTO,photoFrame}from'../design/ui/ch00-01/photo-memory.mjs';
+let count=0;function ok(v){assert.ok(v);count++;}
+ok(photoFrame('photo-entry',0).opacity===0);
+ok(photoFrame('photo-entry',1.7).zoom===1);
+ok(photoFrame('photo-entry',2.39).text==='');
+ok(photoFrame('photo-entry',2.4).text==='수');
+ok(photoFrame('photo-entry',2.73).text==='수혁아.');
+ok(photoFrame('photo-entry',PHOTO.entryEnd).complete);
+ok(photoFrame('photo-return',0).black===1);
+ok(photoFrame('photo-return',.5).black===0);
+ok(photoFrame('photo-return',1.4).blur===0);
+ok(!photoFrame('photo-return',PHOTO.glitchStart-.0001).glitch);
+ok(photoFrame('photo-return',PHOTO.glitchStart).glitch);
+ok(photoFrame('photo-return',PHOTO.glitchEnd-.0001).glitch);
+ok(!photoFrame('photo-return',PHOTO.glitchEnd).glitch);
+ok(!photoFrame('photo-entry',1.5).glitch);
+ok(photoFrame('photo-return',3.09).text==='');
+ok(photoFrame('photo-return',3.1).text==='아');
+ok(photoFrame('photo-return',3.32).text==='아빠?');
+ok(photoFrame('photo-return',PHOTO.returnEnd).complete);
+for(const t of [0,1.4,1.5,1.6,3.6,100])ok(photoFrame('photo-return',t).face===1);
+console.log(JSON.stringify({passed:count,failed:0,scope:'photo fade, Korean grapheme timing, single bounded glitch interval, persistent unresolved face'}));

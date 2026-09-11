@@ -1,0 +1,85 @@
+{
+  "id": "suhyeok-dialogue",
+  "source": "sources/suhyeok-dialogue.png",
+  "previous": "art/chapter00/memory/dialogue-v1/suhyeok-response-v1.png",
+  "category": "dialogue",
+  "status": "art-revision",
+  "suppressed_in_memory": false,
+  "holes": [
+    [
+      250,
+      1120
+    ],
+    [
+      804,
+      1100
+    ]
+  ],
+  "hair_cleanup": [
+    [
+      300,
+      0,
+      800,
+      460
+    ],
+    [
+      390,
+      205,
+      720,
+      470
+    ]
+  ],
+  "native_size": [
+    1024,
+    1536
+  ],
+  "alpha_bounds": [
+    100,
+    41,
+    949,
+    1536
+  ],
+  "subject_height": 1495,
+  "sprite": "sprites/suhyeok-dialogue.png",
+  "psd": "psd/suhyeok-dialogue.psd",
+  "alpha_method": "exterior-connected neutral backdrop cut, 1px fringe trim; RGB untouched",
+  "native_unscaled": true,
+  "sha256": "643bb204a0adfa02227baa1f5f1cd6168f0ae61d87108c7fd8b67c5e6d6e2aa2",
+  "qa": [
+    {
+      "name": "native-size",
+      "pass": true
+    },
+    {
+      "name": "transparent-border",
+      "pass": true
+    },
+    {
+      "name": "visible-subject",
+      "pass": true
+    },
+    {
+      "name": "foreground-RGB-preserved",
+      "pass": true
+    },
+    {
+      "name": "suhyeok-dialogue:merged_rgba",
+      "pass": true
+    },
+    {
+      "name": "suhyeok-dialogue:layer_names",
+      "pass": true
+    },
+    {
+      "name": "suhyeok-dialogue:layer:isolated_character",
+      "pass": true
+    },
+    {
+      "name": "suhyeok-dialogue:layer:generated_source_hidden",
+      "pass": true
+    }
+  ],
+  "psd_scope": "2 actual layers: hidden native source + visible isolated character; body parts not independently layered",
+  "resolution_target_met": false,
+  "unity_tested": false
+}

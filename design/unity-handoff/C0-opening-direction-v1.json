@@ -1,0 +1,219 @@
+{
+  "id": "C0-opening-direction-v1",
+  "status": "opening-approved-memory-dialogue-flow-approved-details-review",
+  "implemented": false,
+  "preview": {
+    "status": "hidden-memory-face-and-present-dialogue-review",
+    "implemented_steps": [
+      "start-feedback",
+      "menu-exit",
+      "camera-approach",
+      "bottom-dim",
+      "call-text",
+      "reading-hold",
+      "next-indicator",
+      "memory-transition",
+      "footstep-closeup",
+      "narration-panel",
+      "dialogue-portraits",
+      "speaker-switch",
+      "handoff-cut",
+      "closing-seoyeon-dialogue",
+      "camper-blurred-photo-entry",
+      "soi-answer-dialogue",
+      "same-photo-return",
+      "seoyeon-face-mask",
+      "single-screen-glitch",
+      "procedural-noise-preview",
+      "present-soi-call-text",
+      "seoyeon-portrait-suppressed",
+      "present-camper-dissolve",
+      "present-three-dialogue-lines",
+      "unknown-speaker-label-policy"
+    ],
+    "not_implemented_steps": [
+      "voice-and-footsteps-audio",
+      "final-glitch-audio-asset",
+      "present-response-choices",
+      "Unity-game-save-and-identity-persistence"
+    ],
+    "url": "http://127.0.0.1:8791/design/ui/ch00-01/opening-motion.html",
+    "page": "design/ui/ch00-01/opening-motion.html",
+    "controller": "design/ui/ch00-01/opening-motion.mjs",
+    "core": "design/ui/ch00-01/opening-motion-core.mjs",
+    "server": "tools/serve-opening-motion.cjs",
+    "unity_implemented": false
+  },
+  "scope": [
+    "C0-00",
+    "C0-01",
+    "entry-to-C0-02"
+  ],
+  "resolution": [
+    1920,
+    1080
+  ],
+  "document": "docs/03-콘티/챕터0/C0-OPENING-DIRECTION.ko.md",
+  "current_review_item": "C0-03 current conversation through 내일도 여기 있어?",
+  "timing_values_approved": false,
+  "camera": {
+    "target": "background-container-only",
+    "start_seconds": 0.15,
+    "duration_seconds": 1.2,
+    "scale_from": 1.0,
+    "scale_to": 1.035,
+    "focus_normalized": [
+      0.66,
+      0.52
+    ],
+    "easing": "smoothstep",
+    "temporary_background": true
+  },
+  "entry_tracks": [
+    {
+      "id": "start-feedback",
+      "start": 0,
+      "duration": 0.12,
+      "target": "selected-menu-item"
+    },
+    {
+      "id": "menu-exit",
+      "start": 0.08,
+      "duration": 0.4,
+      "alpha": [
+        1,
+        0
+      ],
+      "target": "logo-menu-input-hint"
+    },
+    {
+      "id": "bottom-dim",
+      "start": 1.35,
+      "duration": 0.4,
+      "alpha": [
+        0,
+        1
+      ],
+      "target": "C0-01-dim"
+    },
+    {
+      "id": "call-text",
+      "start": 1.75,
+      "text": "수혁아.",
+      "seconds_per_grapheme": 0.11,
+      "first_grapheme_immediate": true
+    },
+    {
+      "id": "call-voice",
+      "start": 1.75,
+      "asset": null,
+      "status": "not-produced"
+    },
+    {
+      "id": "next-indicator",
+      "start_event": "text-complete",
+      "duration": 0.15,
+      "alpha": [
+        0,
+        1
+      ],
+      "preview_implemented": true
+    }
+  ],
+  "input": {
+    "consume_initial_start": true,
+    "advance_events": [
+      "new-primary-click",
+      "new-space-press"
+    ],
+    "while_typing": "reveal-full-line-only",
+    "after_typing": "begin-memory-transition",
+    "auto_advance_after_line": false,
+    "transition_input_passthrough": false,
+    "pause_timeline_on_app_inactive": true
+  },
+  "memory_transition": {
+    "trigger": "fresh-advance-after-line-complete",
+    "fade_out_seconds": 0.35,
+    "black_hold_seconds": 0.1,
+    "fade_in_seconds": 0.55,
+    "voice_fade_out_seconds": 0.15,
+    "target_preview": "art/chapter00/memory/dialogue-v1/feet-scene-review-v1.png",
+    "next_dialogue": "design/ui/ch00-01/memory-dialogue.json",
+    "image_usage": "split ground crop and feet PNG; same background during narration and dialogue",
+    "camera_reset": "memory image at scale 1, no inherited title transform"
+  },
+  "notes": [
+    "D00-D04 camera, menu, dim and call timing approved; advance cue and transition timing remain proposals.",
+    "Use final line layout and reveal graphemes without re-centering each partial string.",
+    "Camera focus must be reviewed again after replacing the temporary background.",
+    "New memory dialogue replaces immediate full-family reveal. See docs/C0-MEMORY-DIALOGUE.ko.md. Runtime implementation target is Unity; browser is review only."
+  ],
+  "approval": {
+    "camera_and_menu": {
+      "approved": true,
+      "feedback": "기본이 좋네",
+      "preset": "base",
+      "date": "2026-09-10",
+      "steps": [
+        "D00",
+        "D01",
+        "D02"
+      ]
+    },
+    "call_timing": {
+      "approved": true,
+      "feedback": "좋다",
+      "date": "2026-09-10",
+      "steps": [
+        "D03",
+        "D04"
+      ]
+    },
+    "memory_transition": {
+      "approved": false,
+      "status": "browser-preview-for-review"
+    },
+    "memory_dialogue_flow": {
+      "approved": true,
+      "feedback": "그방향으로 진행해보자",
+      "scope": "feet background held across narration and dialogue; shared bottom panel",
+      "wording_and_portraits_approved": false
+    },
+    "photo_memory_flow": {
+      "approved": true,
+      "feedback": "좋다 이렇게 정하고 다음 진행하자",
+      "date": "2026-09-10",
+      "scope": "same photo before/after memory; sunset family backs; mother face unresolved; short screen glitch",
+      "art_and_exact_timing_approved": false
+    },
+    "seoyeon_face_hidden_in_dialogue": {
+      "approved": true,
+      "feedback": "중간에 서연 얼굴도 안나와야할듯해 대사할때 그부분만 다듬고 다음가보자",
+      "implementation": "portrait omitted; source preserved"
+    },
+    "speaker_names_hidden_until_introduced": {
+      "approved": true,
+      "scope": "Unknown until linked to a name in dialogue/address/explanation, then reveal. Suhyeok after 수혁아.; Soi after 소이 손 좀 잡아줘.",
+      "correction": "A separate formal self-introduction is not required."
+    }
+  },
+  "photo_sequence": {
+    "document": "docs/03-콘티/챕터0/C0-PHOTO-MEMORY-IMPLEMENTATION.ko.md",
+    "controller": "design/ui/ch00-01/photo-memory.mjs",
+    "assets": "art/chapter00/memory/dialogue-v1/photo-memory-assets-v1.json",
+    "dialogue": "design/ui/ch00-01/memory-dialogue.json",
+    "entry_duration": 4.2,
+    "return_duration": 3.6,
+    "glitch_seconds": [
+      1.42,
+      1.58
+    ],
+    "entry_call_start": 2.4,
+    "return_call_start": 3.1,
+    "call_step": 0.11,
+    "legacy_entry_track_note": "Book-call entry tracks preserved as previous approved reference. Current preview relocates call to photo-entry; new start timing is draft."
+  },
+  "latest_document": "docs/03-콘티/챕터0/C0-PRESENT-DIALOGUE.ko.md",
+  "speaker_identity_rules": "docs/06-대사/SPEAKER-IDENTITY-RULES.ko.md"
+}

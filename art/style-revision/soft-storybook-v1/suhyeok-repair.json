@@ -1,0 +1,70 @@
+{
+  "id": "suhyeok-repair",
+  "source": "sources/suhyeok-repair.png",
+  "previous": "art/chapter00/camper/layers/suhyeok-flashlight-repair-v2.png",
+  "category": "action",
+  "status": "art-revision",
+  "holes": [
+    [
+      500,
+      610
+    ],
+    [
+      566,
+      1170
+    ]
+  ],
+  "native_size": [
+    1024,
+    1536
+  ],
+  "alpha_bounds": [
+    114,
+    106,
+    986,
+    1449
+  ],
+  "subject_height": 1343,
+  "sprite": "sprites/suhyeok-repair.png",
+  "psd": "psd/suhyeok-repair.psd",
+  "alpha_method": "exterior-connected neutral backdrop cut, 1px fringe trim; RGB untouched",
+  "native_unscaled": true,
+  "sha256": "139f9aabebc30afa1fff8140f2c2b8b787fdb82b426edb2d411232743fcda589",
+  "qa": [
+    {
+      "name": "native-size",
+      "pass": true
+    },
+    {
+      "name": "transparent-border",
+      "pass": true
+    },
+    {
+      "name": "visible-subject",
+      "pass": true
+    },
+    {
+      "name": "foreground-RGB-preserved",
+      "pass": true
+    },
+    {
+      "name": "suhyeok-repair:merged_rgba",
+      "pass": true
+    },
+    {
+      "name": "suhyeok-repair:layer_names",
+      "pass": true
+    },
+    {
+      "name": "suhyeok-repair:layer:isolated_character",
+      "pass": true
+    },
+    {
+      "name": "suhyeok-repair:layer:generated_source_hidden",
+      "pass": true
+    }
+  ],
+  "psd_scope": "2 actual layers: hidden native source + visible isolated character; body parts not independently layered",
+  "resolution_target_met": false,
+  "unity_tested": false
+}

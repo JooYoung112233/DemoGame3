@@ -1,0 +1,153 @@
+{
+  "status": "opening-memory-first-draft-not-final-resolution",
+  "generator": "built-in image_gen; native outputs preserved; local authorized background removal",
+  "coordinate_canvas": [
+    1672,
+    941
+  ],
+  "people_source_crop": [
+    213,
+    17,
+    701,
+    1364
+  ],
+  "review_people_placement": {
+    "position": [
+      650,
+      70
+    ],
+    "size": [
+      429,
+      835
+    ]
+  },
+  "hands": "same 1672x941 canvas, mutually exclusive layers; retain native pixels",
+  "psd": {
+    "path": "art/chapter00/memory/memory-hands-layers-v1.psd",
+    "native_canvas": [
+      1672,
+      941
+    ],
+    "layers": 3,
+    "default_visible": "handover + background",
+    "verification": "Pillow PSD parser: layer names/count/canvas and pixel-exact merged image; Photoshop UI not tested"
+  },
+  "limitations": [
+    "Backgrounds 1672x941, below 3840px target; no upscaling passed off as detail.",
+    "Character height below 1536px target; Seoyeon design is an unapproved first proposal.",
+    "Mother and child are one contact group; bodies are not individually layered.",
+    "Book/hand/table present frame is flattened; only the two hand states and memory background are PSD layers.",
+    "Hand matching to present frame is approximate; final camera alignment and transition remain to be implemented."
+  ],
+  "assets": [
+    {
+      "path": "art/chapter00/memory/hands-handover-v1.png",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        0,
+        1672,
+        941
+      ],
+      "transparent_pixels": 961475,
+      "partial_alpha_pixels": 1174
+    },
+    {
+      "path": "art/chapter00/memory/hands-received-v1.png",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        775,
+        0,
+        1672,
+        941
+      ],
+      "transparent_pixels": 1166467,
+      "partial_alpha_pixels": 843
+    },
+    {
+      "path": "art/chapter00/memory/memory-ground-shadow-review-v1.png",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        670,
+        839,
+        1119,
+        941
+      ],
+      "transparent_pixels": 1536900,
+      "partial_alpha_pixels": 36452
+    },
+    {
+      "path": "art/chapter00/memory/memory-path-base-v1.png",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGB"
+    },
+    {
+      "path": "art/chapter00/memory/seoyeon-soi-holding-v1.png",
+      "size": [
+        701,
+        1364
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        0,
+        701,
+        1364
+      ],
+      "transparent_pixels": 432186,
+      "partial_alpha_pixels": 0
+    },
+    {
+      "path": "art/chapter00/present/hand-on-book-v1.png",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGB"
+    },
+    {
+      "path": "art/chapter00/sources/hands-handover-source-v1.png",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGB"
+    },
+    {
+      "path": "art/chapter00/sources/hands-received-source-v1.png",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGB"
+    },
+    {
+      "path": "art/chapter00/sources/seoyeon-soi-holding-source-v1.png",
+      "size": [
+        1122,
+        1402
+      ],
+      "mode": "RGB"
+    }
+  ],
+  "current_handhold_override": {
+    "manifest": "art/chapter00/memory/dialogue-v1/hands-held-v2.json",
+    "reason": "stacked three-hand pose rejected",
+    "scope": "current C0-02 dialogue preview and new implementation handhold; v1 assets are historical"
+  }
+}

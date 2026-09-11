@@ -1,0 +1,248 @@
+{
+  "base_game": [
+    1920,
+    1080
+  ],
+  "background_current": [
+    1672,
+    941
+  ],
+  "background_target": [
+    3840,
+    2160
+  ],
+  "background_status": "below target; fixed framing preserved",
+  "close_insert_current": [
+    1448,
+    815
+  ],
+  "priority": [
+    "Full-screen backgrounds and camera-handover/photo-care close inserts before final zoom approval",
+    "Dialogue portrait native sizes against actual displayed height once final script/expression usage is known",
+    "Small legacy can/mug/bottle only if enlarged; world-size placement may reuse them"
+  ],
+  "assets": [
+    {
+      "id": "bed-wet",
+      "source": "art/chapter01/completion-v1/sources/bed-wet.png",
+      "visible_native": [
+        1180,
+        1333
+      ],
+      "display_budget_at_1_5x_margin": [
+        786,
+        888
+      ],
+      "meaning": "Aspect-preserving display budget for original pixels; not an automatic Unity size or an upscaled master."
+    },
+    {
+      "id": "camera-handover",
+      "source": "art/chapter01/completion-v1/sources/camera-handover.png",
+      "visible_native": [
+        1448,
+        909
+      ],
+      "display_budget_at_1_5x_margin": [
+        965,
+        606
+      ],
+      "meaning": "Aspect-preserving display budget for original pixels; not an automatic Unity size or an upscaled master."
+    },
+    {
+      "id": "camera-pouch",
+      "source": "art/chapter01/completion-v1/sources/camera-pouch.png",
+      "visible_native": [
+        1325,
+        911
+      ],
+      "display_budget_at_1_5x_margin": [
+        883,
+        607
+      ],
+      "meaning": "Aspect-preserving display budget for original pixels; not an automatic Unity size or an upscaled master."
+    },
+    {
+      "id": "delivery-crate",
+      "source": "art/chapter01/completion-v1/sources/delivery-crate.png",
+      "visible_native": [
+        1171,
+        875
+      ],
+      "display_budget_at_1_5x_margin": [
+        780,
+        583
+      ],
+      "meaning": "Aspect-preserving display budget for original pixels; not an automatic Unity size or an upscaled master."
+    },
+    {
+      "id": "dog-food",
+      "source": "art/chapter01/completion-v1/sources/dog-food.png",
+      "visible_native": [
+        1402,
+        834
+      ],
+      "display_budget_at_1_5x_margin": [
+        934,
+        556
+      ],
+      "meaning": "Aspect-preserving display budget for original pixels; not an automatic Unity size or an upscaled master."
+    },
+    {
+      "id": "drying-cloth",
+      "source": "art/chapter01/completion-v1/sources/drying-cloth.png",
+      "visible_native": [
+        1474,
+        737
+      ],
+      "display_budget_at_1_5x_margin": [
+        982,
+        491
+      ],
+      "meaning": "Aspect-preserving display budget for original pixels; not an automatic Unity size or an upscaled master."
+    },
+    {
+      "id": "exchange-npc",
+      "source": "art/chapter01/completion-v1/sources/exchange-npc.png",
+      "visible_native": [
+        465,
+        1427
+      ],
+      "display_budget_at_1_5x_margin": [
+        310,
+        951
+      ],
+      "meaning": "Aspect-preserving display budget for original pixels; not an automatic Unity size or an upscaled master."
+    },
+    {
+      "id": "fuel-can",
+      "source": "art/chapter01/completion-v1/sources/fuel-can.png",
+      "visible_native": [
+        716,
+        970
+      ],
+      "display_budget_at_1_5x_margin": [
+        477,
+        646
+      ],
+      "meaning": "Aspect-preserving display budget for original pixels; not an automatic Unity size or an upscaled master."
+    },
+    {
+      "id": "parcel",
+      "source": "art/chapter01/completion-v1/sources/parcel.png",
+      "visible_native": [
+        1303,
+        825
+      ],
+      "display_budget_at_1_5x_margin": [
+        868,
+        550
+      ],
+      "meaning": "Aspect-preserving display budget for original pixels; not an automatic Unity size or an upscaled master."
+    },
+    {
+      "id": "repair-tape",
+      "source": "art/chapter01/completion-v1/sources/repair-tape.png",
+      "visible_native": [
+        1490,
+        424
+      ],
+      "display_budget_at_1_5x_margin": [
+        993,
+        282
+      ],
+      "meaning": "Aspect-preserving display budget for original pixels; not an automatic Unity size or an upscaled master."
+    },
+    {
+      "id": "road-barrier",
+      "source": "art/chapter01/completion-v1/sources/road-barrier.png",
+      "visible_native": [
+        1321,
+        979
+      ],
+      "display_budget_at_1_5x_margin": [
+        880,
+        652
+      ],
+      "meaning": "Aspect-preserving display budget for original pixels; not an automatic Unity size or an upscaled master."
+    },
+    {
+      "id": "sejin-dialogue",
+      "source": "art/chapter01/completion-v1/sources/sejin-dialogue.png",
+      "visible_native": [
+        825,
+        1424
+      ],
+      "display_budget_at_1_5x_margin": [
+        550,
+        949
+      ],
+      "meaning": "Aspect-preserving display budget for original pixels; not an automatic Unity size or an upscaled master."
+    },
+    {
+      "id": "sejin-repair",
+      "source": "art/chapter01/completion-v1/sources/sejin-repair.png",
+      "visible_native": [
+        794,
+        1397
+      ],
+      "display_budget_at_1_5x_margin": [
+        529,
+        931
+      ],
+      "meaning": "Aspect-preserving display budget for original pixels; not an automatic Unity size or an upscaled master."
+    },
+    {
+      "id": "suhyeok-care",
+      "source": "art/chapter01/completion-v1/sources/suhyeok-care.png",
+      "visible_native": [
+        1014,
+        1376
+      ],
+      "display_budget_at_1_5x_margin": [
+        676,
+        917
+      ],
+      "meaning": "Aspect-preserving display budget for original pixels; not an automatic Unity size or an upscaled master."
+    },
+    {
+      "id": "suhyeok-retrieve",
+      "source": "art/chapter01/completion-v1/sources/suhyeok-retrieve.png",
+      "visible_native": [
+        1048,
+        1337
+      ],
+      "display_budget_at_1_5x_margin": [
+        698,
+        891
+      ],
+      "meaning": "Aspect-preserving display budget for original pixels; not an automatic Unity size or an upscaled master."
+    },
+    {
+      "id": "warm-meal",
+      "source": "art/chapter01/completion-v1/sources/warm-meal.png",
+      "visible_native": [
+        1389,
+        1088
+      ],
+      "display_budget_at_1_5x_margin": [
+        926,
+        725
+      ],
+      "meaning": "Aspect-preserving display budget for original pixels; not an automatic Unity size or an upscaled master."
+    },
+    {
+      "id": "wrench",
+      "source": "art/chapter01/completion-v1/sources/wrench.png",
+      "visible_native": [
+        1457,
+        478
+      ],
+      "display_budget_at_1_5x_margin": [
+        971,
+        318
+      ],
+      "meaning": "Aspect-preserving display budget for original pixels; not an automatic Unity size or an upscaled master."
+    }
+  ],
+  "policy": "Do not enlarge files and relabel them as restored detail. Current low-resolution compositions are review sources. Final zoom requires native-source work or a smaller on-screen framing."
+}

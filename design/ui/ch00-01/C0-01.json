@@ -1,0 +1,163 @@
+{
+  "id": "C0-01",
+  "status": "layout-accepted-requested-bottom-dim-applied",
+  "style": "A",
+  "canvas": [
+    3840,
+    2160
+  ],
+  "logical_canvas": [
+    1920,
+    1080
+  ],
+  "game_resolution": [
+    1920,
+    1080
+  ],
+  "master_scale": 2,
+  "runtime_assets": [
+    {
+      "path": "design/ui/ch00-01/runtime/1920x1080/C0-01/01_bottom_readability_gradient.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "position": [
+        0.0,
+        0.0
+      ],
+      "contains_text": false,
+      "layer": "01_bottom_readability_gradient"
+    },
+    {
+      "path": "design/ui/ch00-01/runtime/1920x1080/C0-01/03_advance_cue.png",
+      "size": [
+        28,
+        28
+      ],
+      "position": [
+        1766.0,
+        979.0
+      ],
+      "contains_text": false,
+      "layer": "03_advance_cue"
+    }
+  ],
+  "psd": "design/ui/ch00-01/psd/C0-01-call.psd",
+  "layers": [
+    {
+      "name": "01_bottom_readability_gradient",
+      "png": "design/ui/ch00-01/layers/C0-01-call/01_bottom_readability_gradient.png",
+      "rect_px": [
+        0,
+        0,
+        3840,
+        2160
+      ],
+      "rect_logical": [
+        0.0,
+        0.0,
+        1920.0,
+        1080.0
+      ],
+      "visible": true,
+      "runtime": "Image"
+    },
+    {
+      "name": "02_call_text",
+      "png": "design/ui/ch00-01/layers/C0-01-call/02_call_text.png",
+      "rect_px": [
+        1790,
+        1610,
+        260,
+        91
+      ],
+      "rect_logical": [
+        895.0,
+        805.0,
+        130.0,
+        45.5
+      ],
+      "visible": true,
+      "runtime": "Text: opening.call; raster proof only"
+    },
+    {
+      "name": "03_advance_cue",
+      "png": "design/ui/ch00-01/layers/C0-01-call/03_advance_cue.png",
+      "rect_px": [
+        3532,
+        1958,
+        56,
+        56
+      ],
+      "rect_logical": [
+        1766.0,
+        979.0,
+        28.0,
+        28.0
+      ],
+      "visible": true,
+      "runtime": "Image; show only when advancing is available"
+    },
+    {
+      "name": "04_first_input_hint",
+      "png": "design/ui/ch00-01/layers/C0-01-call/04_first_input_hint.png",
+      "rect_px": [
+        1746,
+        1952,
+        349,
+        52
+      ],
+      "rect_logical": [
+        873.0,
+        976.0,
+        174.5,
+        26.0
+      ],
+      "visible": true,
+      "runtime": "Device-dependent Text; first input only"
+    }
+  ],
+  "review": "design/ui/ch00-01/review/C0-01-call.jpg",
+  "advance_sprite": {
+    "path": "design/ui/ch00-01/sprites/A/advance-cue.png",
+    "size": [
+      56,
+      56
+    ],
+    "pivot": [
+      0.5,
+      0.5
+    ]
+  },
+  "strings": {
+    "opening.call": "수혁아.",
+    "opening.input_hint": "클릭 또는 Space로 계속"
+  },
+  "font": "art/title/fonts/Live49MenuSerif-Regular.ttf",
+  "text_sizes_logical": {
+    "caption": 38,
+    "hint": 16
+  },
+  "bottom_dim": {
+    "start_y_normalized": 0.48,
+    "full_y_normalized": 0.88,
+    "max_alpha": 205,
+    "curve": "smoothstep"
+  },
+  "flow": [
+    "Title menu hides",
+    "Call appears over the same book/hand shot",
+    "Wait for user advance",
+    "Move to family memory shot"
+  ],
+  "provenance": "docs/08-UI연출/DIRECTION-TOOLKIT.ko.md section 6: sound before the memory cut",
+  "notes": [
+    "User accepted the composition and requested stronger bottom dim; applied.",
+    "Current realistic hand background is temporary and should be replaced later; not approved as final art.",
+    "Speaker label omitted in this proposal; disclosure timing remains script-dependent.",
+    "No voice audio or actual playback/input implemented.",
+    "PSD text is a raster proof; runtime renders strings separately.",
+    "Background enlargement is preview-only, not recovered native detail."
+  ]
+}
