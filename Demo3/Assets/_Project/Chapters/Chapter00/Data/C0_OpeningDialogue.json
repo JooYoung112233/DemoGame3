@@ -1,0 +1,46 @@
+{
+  "source": "design/ui/ch00-01/memory-dialogue.json",
+  "status": "flow approved; wording and portraits under review",
+  "unknownLabel": "?",
+  "entryCall": "수혁아.",
+  "returnCall": "아빠?",
+  "firstInputHint": "클릭 또는 Space로 계속",
+  "speakers": [
+    { "speakerId": "suhyeok", "displayName": "수혁" },
+    { "speakerId": "soi", "displayName": "소이" },
+    { "speakerId": "seoyeon", "displayName": "서연" }
+  ],
+  "knownOnEntry": ["suhyeok"],
+  "suppressedPortraits": ["seoyeon"],
+  "nameReveals": [
+    { "afterLine": "C0-02-D02", "speakerId": "soi" },
+    { "afterLine": "C0-03-N01", "speakerId": "seoyeon" }
+  ],
+  "lines": [
+    { "id": "C0-02-N01", "kind": "narration", "speakerId": "", "text": "몇 걸음 앞서던 발소리가 멎었다.", "portraits": [], "background": "path" },
+    { "id": "C0-02-D01", "kind": "dialogue", "speakerId": "seoyeon", "text": "잠깐만. 신발에 돌 들어갔어.", "portraits": [], "background": "path" },
+    { "id": "C0-02-D02", "kind": "dialogue", "speakerId": "seoyeon", "text": "소이 손 좀 잡아줘.", "portraits": [], "background": "path" },
+    { "id": "C0-02-D03", "kind": "dialogue", "speakerId": "suhyeok", "text": "응.", "portraits": ["suhyeok"], "background": "path" },
+    { "id": "C0-02-D04", "kind": "dialogue", "speakerId": "seoyeon", "text": "됐어. 다시 엄마 손 잡을래?", "portraits": [], "background": "handhold" },
+    { "id": "C0-02-D05", "kind": "dialogue", "speakerId": "soi", "text": "아니. 아빠 손 잡을래.", "portraits": ["soi"], "background": "handhold" },
+    { "id": "C0-02-D06", "kind": "dialogue", "speakerId": "seoyeon", "text": "그래. 그럼 가자.", "portraits": [], "background": "handhold" },
+    { "id": "C0-03-D01", "kind": "dialogue", "speakerId": "suhyeok", "text": "응. 잠깐 옛날 생각했어.", "portraits": ["suhyeok", "soi"], "background": "present" },
+    { "id": "C0-03-N01", "kind": "narration", "speakerId": "", "text": "서연이 없는 밤은 아직도 낯설다.", "portraits": [], "background": "present" },
+    { "id": "C0-03-D02", "kind": "dialogue", "speakerId": "soi", "text": "내일도 여기 있어?", "portraits": ["suhyeok", "soi"], "background": "present", "endOfSequence": true }
+  ],
+  "continuation": [
+    { "id": "C0-reply-a-01", "kind": "dialogue", "speakerId": "suhyeok", "text": "다른 데 가 보고 싶어?", "portraits": ["suhyeok", "soi"], "background": "reply_a" },
+    { "id": "C0-reply-a-02", "kind": "dialogue", "speakerId": "soi", "text": "응. 다른 것도 보고 싶어.", "portraits": ["suhyeok", "soi"], "background": "reply_a" },
+    { "id": "C0-reply-a-03", "kind": "dialogue", "speakerId": "soi", "text": "아침에도 저 표지판이 보였잖아.", "portraits": ["suhyeok", "soi"], "background": "reply_a" },
+    { "id": "C0-reply-a-04", "kind": "dialogue", "speakerId": "suhyeok", "text": "그럼 새로운 걸 보면, 여기 그려 둘까?", "portraits": ["suhyeok", "soi"], "background": "reply_a" },
+    { "id": "C0-reply-b-01", "kind": "dialogue", "speakerId": "suhyeok", "text": "어디로 가고 싶은데?", "portraits": ["suhyeok", "soi"], "background": "reply_b" },
+    { "id": "C0-reply-b-02", "kind": "dialogue", "speakerId": "soi", "text": "아직 몰라. 가면서 생각할래.", "portraits": ["suhyeok", "soi"], "background": "reply_b" },
+    { "id": "C0-reply-b-03", "kind": "dialogue", "speakerId": "soi", "text": "여기서는 창밖이 계속 똑같아.", "portraits": ["suhyeok", "soi"], "background": "reply_b" },
+    { "id": "C0-reply-b-04", "kind": "dialogue", "speakerId": "suhyeok", "text": "그럼 새로운 걸 보면, 여기 그려 둘까?", "portraits": ["suhyeok", "soi"], "background": "reply_b" },
+    { "id": "C0-book-01", "kind": "dialogue", "speakerId": "suhyeok", "text": "여기는 비워 뒀네.", "portraits": ["suhyeok", "soi"], "background": "book" },
+    { "id": "C0-book-02", "kind": "dialogue", "speakerId": "soi", "text": "응. 나중에 그릴 거야.", "portraits": ["suhyeok", "soi"], "background": "book" },
+    { "id": "C0-book-03", "kind": "dialogue", "speakerId": "suhyeok", "text": "모서리가 많이 닳았네.", "portraits": ["suhyeok", "soi"], "background": "book" },
+    { "id": "C0-book-04", "kind": "dialogue", "speakerId": "soi", "text": "그래도 여기는 깨끗해.", "portraits": ["suhyeok", "soi"], "background": "book" },
+    { "id": "C0-book-05", "kind": "dialogue", "speakerId": "suhyeok", "text": "아직 그릴 데가 많네.", "portraits": ["suhyeok", "soi"], "background": "book" }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "status": "implementation-dialogue-draft-2026-09-13",
+  "events": [
+    {"id":"request","title":"빈 페이지와 색연필","lines":[
+      {"speaker":"","art":"journal","text":"챙겨 온 물과 식량을 내려놓고, 식탁의 책을 펼쳤다."},
+      {"speaker":"soi","art":"journal","text":"아빠, 여기 그림도 그릴 수 있어?"},
+      {"speaker":"suhyeok","art":"journal","text":"그럼. 색연필만 있으면 되겠다."},
+      {"speaker":"","art":"journal","text":"책은 이미 있다. 색연필을 챙겨 왔다면 바로 꺼내고, 없다면 잡화점을 살펴보자."}]},
+    {"id":"pencils","title":"진열대의 색연필","lines":[
+      {"speaker":"","art":"region-L3","text":"진열대에 남아 있는 색연필 케이스를 확인했다. 그림을 그릴 도구로 쓸 수 있겠다."},
+      {"speaker":"","art":"region-L3","text":"색연필 한 묶음을 가방에 챙겼다. 캠핑카의 책 곁에 놓아 두자."}]},
+    {"id":"deliver","title":"책 곁에 놓은 도구","lines":[
+      {"speaker":"","art":"week-E05-delivery","text":"색연필을 꺼내 어제 챙긴 책 곁에 놓았다."},
+      {"speaker":"soi","art":"week-E06-ready","text":"파란색도 있네. 아빠, 바다 그려 줘."},
+      {"speaker":"suhyeok","art":"week-E06-ready","text":"좋아. 같이 보면서 그려 보자."}]},
+    {"id":"draw","title":"빈 페이지에 남기는 오늘","lines":[
+      {"speaker":"","art":"week-E06-drawing","text":"파란 연필을 쥐고 종이 위에 천천히 선을 그었다."},
+      {"speaker":"soi","art":"week-E06-drawing","text":"파도가 여기까지 오면 좋겠다."},
+      {"speaker":"","art":"week-E06-complete","text":"마지막 선을 더하고 연필을 내려놓았다. 빈 페이지에 작은 바다가 남았다."},
+      {"speaker":"soi","art":"week-E06-complete","text":"나중에 진짜 바다도 볼 수 있을까?"},
+      {"speaker":"suhyeok","art":"week-E06-complete","text":"캠프로 가는 길에 볼 수 있으면 좋겠다. 먼저 어느 길로 갈 수 있는지 알아보자."}]},
+    {"id":"meet","title":"주유소에서 길 묻기","lines":[
+      {"speaker":"suhyeok","art":"week-E07-L2-sejin-repair","text":"저기요. 캠프 쪽으로 가려는데, 이 앞길이 통하는지 아세요?"},
+      {"speaker":"sejin","art":"week-E07-L2-sejin-repair","text":"고갯길 쪽을 확인해 보세요. 저는 세진이라고 합니다.","effect":"reveal_sejin"},
+      {"speaker":"suhyeok","art":"week-E07-L2-sejin-repair","text":"수혁입니다. 딸아이와 함께 가는 길이에요."},
+      {"speaker":"","art":"week-E07-L2-sejin-repair","text":"그가 잠깐 말을 고르더니 내 쪽으로 고개를 돌렸다."},
+      {"speaker":"sejin","art":"week-E07-L2-sejin-repair","text":"강변 쪽으로 돌아가는 길도 있어요. 출발 전에 진입로를 살펴보는 게 좋겠습니다."},
+      {"speaker":"suhyeok","art":"week-E07-L2-sejin-repair","text":"그 카메라, 아직 쓸 수 있나요? 여행하는 동안 사진을 좀 남기고 싶어서요."},
+      {"speaker":"sejin","art":"week-E07-L2-sejin-repair","text":"여분이 하나 있어요. 제가 이쪽을 정리하는 동안, 수리점에 둔 공구 가방을 가져다주실 수 있을까요?"},
+      {"speaker":"sejin","art":"week-E07-L2-sejin-repair","text":"작업대 아래에 둔 가방입니다. 준비되시면 말씀해 주세요."}]},
+    {"id":"accept","title":"공구 가방 부탁","lines":[
+      {"speaker":"suhyeok","art":"week-E07-L2-sejin-repair","text":"수리점의 가방을 가져올게요."},
+      {"speaker":"sejin","art":"week-E07-L2-sejin-repair","text":"고맙습니다. 가방을 가져오시면 카메라 쓰는 법도 알려 드릴게요."}]},
+    {"id":"noticebag","title":"작업대 아래의 가방","lines":[
+      {"speaker":"","art":"week-L4-toolbag-available","text":"작업대 아래에 공구 가방이 놓여 있다. 누가 둔 것인지는 아직 모른다."},
+      {"speaker":"","art":"week-L4-toolbag-available","text":"손대지 않고 위치만 기억해 뒀다."}]},
+    {"id":"bag","title":"부탁받은 가방 회수","lines":[
+      {"speaker":"suhyeok","art":"week-L4-toolbag-available","text":"세진 씨가 말한 자리가 여기구나."},
+      {"speaker":"","art":"week-E08-L4-retrieve","text":"가방을 들어 올렸다. 주유소로 돌아가 전해 주자."}]},
+    {"id":"handover","title":"가방 대신 건네받은 카메라","lines":[
+      {"speaker":"suhyeok","art":"week-E07-L2-sejin-repair","text":"말씀하신 공구 가방입니다."},
+      {"speaker":"sejin","art":"week-E09-L2-camera-handover","text":"잘 가져오셨네요. 이 카메라와 필름은 가져가세요.","effect":"exchange_camera"},
+      {"speaker":"","art":"week-E09-L2-camera-handover","text":"가방을 건네고 카메라를 두 손으로 받았다."},
+      {"speaker":"sejin","art":"week-E07-L2-sejin-repair","text":"첫 장은 강변에서 찍어 보세요. 풍경을 고르고 천천히 셔터를 누르면 됩니다."}]},
+    {"id":"shoot","title":"지금의 여행을 찍기","lines":[
+      {"speaker":"","art":"region-L6","text":"강변 난간 너머로 물결이 흐른다. 남기고 싶은 풍경을 골랐다."},
+      {"speaker":"","art":"week-L6-first-shoot","text":"카메라를 들어 구도를 잡았다. 준비가 되면 셔터를 누르자.","effect":"take_photo"},
+      {"speaker":"","art":"week-first-photo","text":"한 장의 풍경이 사진으로 남았다. 앨범에 넣고 함께 확인하자."}]},
+    {"id":"album","title":"앨범의 첫 여행 사진","lines":[
+      {"speaker":"","art":"week-album","text":"오늘 찍은 풍경을 앨범의 첫 여행 사진으로 넣었다."},
+      {"speaker":"soi","art":"week-album","text":"다음에도 또 찍자."},
+      {"speaker":"suhyeok","art":"week-album","text":"그래. 이 사진도, 아까 그린 그림도 가지고 가자."}]}
+  ]
+}

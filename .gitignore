@@ -17,6 +17,8 @@
 .env
 .env.*
 !.env.example
+.claude/settings.local.json
+**/.claude/settings.local.json
 *.user
 *.csproj
 *.sln
@@ -33,3 +35,9 @@ art/**/qa/*.png
 art/**/scene-qa/*.png
 art/**/gallery-qa/*.png
 preview-output/
+
+# Local save fixtures and machine-specific verification snapshots
+Demo3/Screenshots/**/*.json
+Demo3/Screenshots/**/*.bak
+Demo3/Screenshots/**/real-*.txt
+Demo3/Screenshots/**/blocked-parent

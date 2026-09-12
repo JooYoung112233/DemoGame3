@@ -1,0 +1,8 @@
+PASS model: relocation; locked travel; remote store validation; zero-fuel walking; fuel and vehicle separation.
+PASS live: L1→L2 vehicle; L2→L3 walk; return L2; relocate L3; visit L1 on foot; save/load/return L3.
+PASS model: 18 distinct inspections; partial progress; two-route reveals; final AND; once-only fuel; per-day log and save.
+PASS live: departure/arrival; cancel; partial autosave/reload; second inspection; new pins and seen state; day summary/cancel/advance with parking preserved.
+PASS model: drawing/photo/route prerequisite; no walking cross; no local teleport; next entry; region-scoped completion; return/save validation.
+PASS live: narrative gate; vehicle crosses region; next-entry exploration/save/reload; return preserves both regions; maximum day summary and journal fit.
+PASS final: previous/next journal; first entry retained; map legend/text fits; actual save path restored.
+PASS final: previous/next journal; first entry retained; map legend/text fits; actual save path restored.

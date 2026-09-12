@@ -1,0 +1,40 @@
+PASS core: fixed cooking charge once; all heat levels yield one meal; pause; insufficient ingredient transaction; save roundtrip, atomic backup, corrupt file rejection without removal.
+Reached: 
+Reached: camp_radio
+Reached: departure
+Reached: prepare_intro
+Reached: prepare
+Reached: water
+Reached: prepare
+Reached: blanket
+Reached: prepared
+Reached: outage
+Reached: reassure
+Reached: reassure_a
+Reached: flashlight_find
+Reached: flashlight_on
+Reached: inspect
+Reached: switch_check
+Reached: inspect
+Reached: panel_check
+Reached: small_light
+Reached: secure
+Reached: secured
+Reached: restored
+Reached: put_flashlight_back
+Reached: photo_care
+Reached: photo_wish
+Reached: book_pack
+Reached: journal_intro
+Reached: journal_choice
+Reached: journal_done
+Reached: morning_promise
+Reached: sleep
+Reached: night
+Reached: day1
+PASS: real title → opening → both preparation objects → outage inspection → repair → photo care → book → journal → voluntary sleep → day 1; automatic checkpoint.
+PASS: native map confirmation commits one fuel/20 minutes once; unsearched store permits return; water and food guaranteed receipts each once; no new scene.
+PASS: manual save, load confirmation, in-game load and title continue restore chapter, node/line, flags, journal, supplies, location and minutes.
+PASS: live kitchen start once, close pauses, travel/save blocked during cook, explicit resume, meal receipt once; fixture removed by reload; confirmed day end advances once and preserves inventory.
+PASS ALL. Test saves are isolated under Screenshots/JourneyReview. Runtime left at day 2 with real acquired supplies, without kitchen fixture. No user save overwritten.
+

@@ -1,0 +1,120 @@
+{
+  "status": "art-first-pass-local-alpha-approved",
+  "background": {
+    "source": "sources/alley.png",
+    "size": [
+      1672,
+      941
+    ],
+    "layered_internals": false,
+    "upscaled": false
+  },
+  "assets": [
+    {
+      "id": "bandit-lead",
+      "source": "art/chapter01/bandit-encounter-v1/sources/bandit-lead.png",
+      "native": "art/chapter01/bandit-encounter-v1/layers/bandit-lead-native.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "alpha_bounds": [
+        141,
+        21,
+        836,
+        1522
+      ],
+      "visible_size": [
+        695,
+        1501
+      ],
+      "rgb_preserved": true,
+      "source_sha256": "df3cf0006097e5c1f609bda9fc4904649f858026e91d79d3cc9595333308a171",
+      "faces": "left",
+      "upscaled": false
+    },
+    {
+      "id": "bandit-lookout",
+      "source": "art/chapter01/bandit-encounter-v1/sources/bandit-lookout.png",
+      "native": "art/chapter01/bandit-encounter-v1/layers/bandit-lookout-native.png",
+      "size": [
+        1024,
+        1536
+      ],
+      "alpha_bounds": [
+        236,
+        18,
+        766,
+        1509
+      ],
+      "visible_size": [
+        530,
+        1491
+      ],
+      "rgb_preserved": true,
+      "source_sha256": "304e4155f2aedf98f5a05d564e875fbd90dba4267f871b4aff6a87f2defd793b",
+      "faces": "left",
+      "upscaled": false
+    }
+  ],
+  "stage": {
+    "canvas": [
+      1672,
+      941
+    ],
+    "placements": [
+      {
+        "id": "lookout",
+        "source": "art/chapter01/bandit-encounter-v1/layers/bandit-lookout-native.png",
+        "source_alpha_bounds": [
+          236,
+          18,
+          766,
+          1509
+        ],
+        "rect": [
+          1122,
+          229,
+          96,
+          270
+        ],
+        "shadow_rect": [
+          1103,
+          476,
+          134,
+          46
+        ],
+        "source_faces": "left"
+      },
+      {
+        "id": "lead",
+        "source": "art/chapter01/bandit-encounter-v1/layers/bandit-lead-native.png",
+        "source_alpha_bounds": [
+          141,
+          21,
+          836,
+          1522
+        ],
+        "rect": [
+          893,
+          305,
+          144,
+          310
+        ],
+        "shadow_rect": [
+          874,
+          592,
+          182,
+          46
+        ],
+        "source_faces": "left"
+      }
+    ]
+  },
+  "limitations": [
+    "Native background is 1672x941, below 3840 target.",
+    "Character native canvases are 1024x1536; visible heights are recorded separately, below 2048 target.",
+    "Native PSDs separate character from source, not limbs/clothing.",
+    "Scene placement PSD has reduced placement layers; native PNG and editing master preserve full original resolution."
+  ]
+}
