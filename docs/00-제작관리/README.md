@@ -1,6 +1,6 @@
 # 00-제작관리 자료
 
-최신 진행 기준은 [제작 시작점](NEXT-UNITY-WORK.ko.md)을 먼저 확인합니다. 이전 제안과 검수 이력은 최신 승인 사항과 구분합니다.
+최신 진행 기준은 [첫 여정 1차 마감·연속 검수](FIRST-PASS-COMPLETE-2026-09-13.ko.md)와 [현재 인계](SESSION-HANDOFF-2026-09-13.ko.md)를 먼저 확인합니다. 이전 제안과 검수 이력은 최신 승인 사항과 구분합니다.
 
 - [CH00-01-STORYBOARD-ASSET-MAP](CH00-01-STORYBOARD-ASSET-MAP.ko.md)
 - [CH00-01-TRUTH-REVISION-STORYBOARD](CH00-01-TRUTH-REVISION-STORYBOARD.ko.md)

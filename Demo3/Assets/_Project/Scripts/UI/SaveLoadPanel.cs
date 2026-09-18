@@ -67,9 +67,9 @@ namespace Live49.UI
             }
             var selected=slots[_selected];var state=selected.State??selected.Backup;
             var detail=PanelUI.Box(_content,"SaveDetail",662,0,1078,595,PanelUI.Ink);
-            string art=SaveSlots.Art(state);var sprite=string.IsNullOrEmpty(art)?null:Resources.Load<Sprite>("Live49/Stages/"+art);
+            string art=SaveSlots.ArtResource(state);var sprite=string.IsNullOrEmpty(art)?null:Resources.Load<Sprite>(art);
             if(sprite!=null){var img=PanelUI.Rect(detail,"SaveIllustration",24,25,620,349).gameObject.AddComponent<Image>();img.sprite=sprite;img.preserveAspect=true;img.raycastTarget=false;}
-            else{PanelUI.Box(detail,"EmptyFrame",24,25,620,349,new Color(1,1,1,.025f));PanelUI.Text(detail,_font,"EmptySlot",selected.Exists?"기록을 확인해주세요.":"아직 남겨 둔 여정이 없어요.",60,153,550,82,28,PanelUI.Muted);}
+            else{PanelUI.Box(detail,"EmptyFrame",24,25,620,349,new Color(1,1,1,.025f));PanelUI.Text(detail,_font,"EmptySlot",state!=null?SaveSlots.Place(state)+"\n탐색 기록이 남아 있어요.":selected.Exists?"기록을 확인해주세요.":"아직 남겨 둔 여정이 없어요.",60,153,550,82,28,PanelUI.Muted);}
             PanelUI.Text(detail,_font,"SelectedSlotName",selected.Name,680,25,370,52,33,PanelUI.Gold);
             string info=state==null?(_saving?"이 슬롯에 현재 진행을 남겨요.\n다른 수동 슬롯은 유지돼요.":"저장된 슬롯을 선택해주세요."):(state.day==0?"챕터 0 · 출발 전":"챕터 1 · "+state.day+"일 차")+"\n"+SaveSlots.Place(state)+"\n\n"+SaveSlots.Progress(state)+"\n\n"+SaveSlots.Stamp(state);
             PanelUI.Text(detail,_font,"SavedProgress",info,680,90,370,298,23,PanelUI.Muted);

@@ -9,6 +9,8 @@ namespace Live49.Core
         public static string Name(string region)=>region==NextRegion?"고개 너머":"첫 동네";
         public static string Block(JourneyState state,string target)
         {
+            if(SearchSession.Active(state))return "탐색 결과를 먼저 확인해요.";
+            if(BanditEncounter.Active(state))return "진행 중인 일을 먼저 마쳐요.";
             if(target!=RegionExploration.RegionId&&target!=NextRegion)return "아직 확인하지 못한 지역이에요.";
             if(target==Current(state))return "지금 머무는 지역이에요.";
             if(state.day<=0)return "출발 준비를 먼저 마쳐요.";

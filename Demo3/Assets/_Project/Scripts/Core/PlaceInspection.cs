@@ -32,6 +32,7 @@ namespace Live49.Core
         public static bool Inspect(JourneyState state,string id,int index,out string[] revealed)
         {
             revealed=Array.Empty<string>();var points=Points(id);
+            if(BanditEncounter.Active(state))return false;
             if(state.day==0||!RegionExploration.Outside(state)||RegionExploration.PlayerPlace(state)!=id||!RegionExploration.Discovered(state,id)||index<0||index>=points.Length||Checked(state,id,index))return false;
             state.Set(Key(id,index));state.minutes+=5;JourneyDayLog.Visit(state,id);
             if(id=="L2"&&index==0){state.fuel=Math.Min(1000000,state.fuel+2);JourneyDayLog.Fuel(state,2);}

@@ -22,6 +22,7 @@ namespace Live49.Chapter00
         static bool At(JourneyState s,string id)=>RegionExploration.Outside(s)&&RegionExploration.PlayerPlace(s)==id;
         public static string Action(JourneyState s)
         {
+            if(BanditEncounter.Active(s))return null;
             if(s.day<=0||RegionTravel.Current(s)!=RegionExploration.RegionId)return null;
             if(!string.IsNullOrEmpty(s.weekEvent))return s.weekEvent;
             return AvailableAction(s);

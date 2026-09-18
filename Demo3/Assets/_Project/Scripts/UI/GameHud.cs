@@ -30,6 +30,7 @@ namespace Live49.UI
         Func<string> _dayEndBlockReason;
         string _dayEndSummary;
         TMP_Text _place, _time, _objective, _notice;
+        HudIcon _locationIcon;
         CanvasGroup _pause;
         SettingsPanel _settings;
         MapPanel _map;
@@ -38,6 +39,18 @@ namespace Live49.UI
         public BagPanel Bag => _bag;
         ActivityPanel _activity;
         SaveLoadPanel _saveLoad;
+        TutorialPanel _tutorial;
+        public TutorialPanel Tutorial=>_tutorial;
+        SearchPanel _search;
+        public SearchPanel Search=>_search;
+        public bool SearchOpen=>_search!=null&&_search.IsOpen;
+        public void OpenSearch(string place,int point,Action<bool> close)
+        {
+            if(IsPaused||SearchOpen||!_exploring)return;
+            if(_search==null)_search=SearchPanel.Create(_viewport,_font);
+            _search.Open(SaveSystem.Current,place,point,back=>{ShowExplorationWidgets(_exploring);close(back);});
+            ShowExplorationWidgets(false);
+        }
         TMP_Text _autoSaveStatus;
         CanvasGroup _autoSaveCue;
         float _autoSaveCueLeft;
@@ -45,7 +58,6 @@ namespace Live49.UI
         public ActivityPanel Activity => _activity;
         public Action ActivitiesChanged;
         public string Objective => _objective.text;
-        Button _menuButton;
         bool _exploring, _closing, _savedAudioPause;
         float _savedScale;
         int _changedFrame = -1;
@@ -53,6 +65,7 @@ namespace Live49.UI
         Coroutine _noticeRoutine, _fade;
         public bool IsPaused => GamePause.IsPaused;
         public bool IsExploring => _exploring;
+        bool EncounterActive => BanditEncounter.Active(SaveSystem.Current);
         public SettingsPanel Settings => _settings;
         public Transform InteractionRoot => _viewport;
 
@@ -83,6 +96,7 @@ namespace Live49.UI
             _location = Box(_viewport, "Location", 86, 78, 334, 112, Ink);
             Rule(_location, 0, 0, 2, 112, Gold);
             Icon(_location, HudIcon.Kind.Moon, 24, 29, 42);
+            _locationIcon = _location.GetComponentInChildren<HudIcon>();
             Label(_location, "머무는 곳", 88, 17, 204, 25, 16, Muted);
             _place = Label(_location, "캠핑카", 87, 44, 208, 38, 30, Cream);
             _place.textWrappingMode = TextWrappingModes.NoWrap;
@@ -91,7 +105,9 @@ namespace Live49.UI
             _goal = Rect(_viewport, "CurrentObjective", 92, 893, 710, 112);
             var goalBack = Box(_goal, "Shade", -6, 0, 610, 110, new Color(Ink.r, Ink.g, Ink.b, .83f));
             Rule(goalBack, 0, 0, 2, 110, new Color(Gold.r, Gold.g, Gold.b, .65f));
-            Label(_goal, "지금 할 일", 22, 19, 530, 25, 17, Muted);
+            Label(_goal, "지금 할 일 · 안내", 22, 19, 530, 25, 17, Muted);
+            var guideButton=goalBack.gameObject.AddComponent<Button>();guideButton.targetGraphic=goalBack.GetComponent<Image>();
+            goalBack.GetComponent<Image>().raycastTarget=true;guideButton.onClick.AddListener(OpenTutorial);
             _objective = Label(_goal, "", 22, 52, 540, 37, 27, Cream);
 
             _dock = Box(_viewport, "ActionDock", 1288, 867, 546, 138, Ink);
@@ -111,10 +127,6 @@ namespace Live49.UI
             _endDayButton.GetComponent<Image>().color = Ink;
             Icon(_endDayButton.transform, HudIcon.Kind.Moon, 22, 19, 30);
             Label(_endDayButton.transform, "하루 마치기", 70, 12, 185, 44, 25, Cream);
-            _menuButton = MakeButton(_viewport, "PauseButton", "", 1696, 78, 138, 58, OpenPause);
-            _menuButton.GetComponent<Image>().color = Ink;
-            Icon(_menuButton.transform, HudIcon.Kind.Menu, 20, 18, 22);
-            Label(_menuButton.transform, "메뉴", 55, 9, 69, 39, 22, Cream);
             var saveCue=Box(_viewport,"AutoSaveCue",1514,148,320,38,new Color(Ink.r,Ink.g,Ink.b,.72f));
             _autoSaveStatus=Label(saveCue,"",12,0,296,38,17,Muted,TextAlignmentOptions.Center);
             _autoSaveCue=saveCue.gameObject.AddComponent<CanvasGroup>();
@@ -139,10 +151,15 @@ namespace Live49.UI
             _place.text = place;
             _time.text = timeOfDay;
             _objective.text = objective;
+            var state = SaveSystem.Current;
+            _locationIcon.Symbol = state == null || state.day == 0 ? HudIcon.Kind.Moon
+                : RegionExploration.Outside(state) ? HudIcon.Kind.Map : HudIcon.Kind.Camper;
+            _locationIcon.SetVerticesDirty();
             ShowExplorationWidgets((_map == null || !_map.IsOpen) && (_bag == null || !_bag.IsOpen) && (_activity == null || !_activity.IsOpen));
         }
         void ShowExplorationWidgets(bool visible)
         {
+            visible=visible&&!EncounterActive&&!SearchOpen;
             _location.gameObject.SetActive(visible); _dock.gameObject.SetActive(visible);
             _endDayButton.gameObject.SetActive(visible);
             _goal.gameObject.SetActive(visible && !string.IsNullOrWhiteSpace(_objective.text));
@@ -166,6 +183,7 @@ namespace Live49.UI
         }
         public void OpenMap()
         {
+            if(EncounterActive||SearchOpen)return;
             if (_map == null || !_exploring || IsPaused || _closing) return;
             if (_activity != null && _activity.CookingActive) { ShowInteraction("조리가 진행 중이에요.", "주방에서 조리를 마친 뒤 이동해요."); return; }
             OpenPause();
@@ -188,6 +206,7 @@ namespace Live49.UI
         }
         public void OpenActivity(ActivityPanel.Kind kind)
         {
+            if(EncounterActive||SearchOpen)return;
             if (!_exploring || IsPaused || _closing || SaveSystem.Current == null) return;
             if((kind==ActivityPanel.Kind.Kitchen||kind==ActivityPanel.Kind.Life||kind==ActivityPanel.Kind.Evening)&&(SaveSystem.Current.inStore||!string.IsNullOrEmpty(SaveSystem.Current.exploringPlace)))
             {ShowInteraction("캠핑카에서 요리해요", "캠핑카로 돌아온 뒤 주방을 이용해요.", context:"주변 탐색");return;}
@@ -209,6 +228,7 @@ namespace Live49.UI
         }
         public void OpenBag()
         {
+            if(EncounterActive||SearchOpen)return;
             if (_bag == null || !_exploring || IsPaused || _closing) return;
             OpenPause();
             if (_fade != null) StopCoroutine(_fade);
@@ -240,6 +260,7 @@ namespace Live49.UI
         }
         public void InvokeAction(ActionId id)
         {
+            if(EncounterActive||SearchOpen)return;
             if (!_exploring || IsPaused) return;
             FreshInput.DiscardPending();
             if (_actions.TryGetValue(id, out var action)) { action(); return; }
@@ -272,6 +293,7 @@ namespace Live49.UI
         }
         public void RequestDayEnd()
         {
+            if(EncounterActive||SearchOpen)return;
             if (!_exploring || IsPaused || _closing || SceneFlow.OpeningHandoffPending) return;
             OpenPause();
             ShowDayEndCard();
@@ -326,7 +348,6 @@ namespace Live49.UI
         void Update()
         {
             bool available = !SceneFlow.OpeningHandoffPending;
-            _menuButton.gameObject.SetActive(available && !IsPaused);
             bool cueVisible=available&&_exploring&&!IsPaused&&!_closing&&_autoSaveCueLeft>0;
             _autoSaveCue.alpha=cueVisible?Mathf.Min(Mathf.Clamp01((3-_autoSaveCueLeft)/.25f),Mathf.Clamp01(_autoSaveCueLeft/.5f)):0;
             if(cueVisible)_autoSaveCueLeft=Mathf.Max(0,_autoSaveCueLeft-Time.unscaledDeltaTime);
@@ -342,6 +363,7 @@ namespace Live49.UI
         public void HandleEscape()
         {
             if (_closing || SceneFlow.OpeningHandoffPending) return;
+            if(_tutorial!=null&&_tutorial.IsOpen){_tutorial.Close();return;}
             if(_saveLoad!=null&&_saveLoad.IsOpen){_saveLoad.Escape();return;}
             if (_map != null && _map.IsOpen) { _map.Escape(); return; }
             if (_bag != null && _bag.IsOpen) { CloseBag(); return; }
@@ -361,11 +383,13 @@ namespace Live49.UI
             FreshInput.DiscardPending();
             _changedFrame = Time.frameCount;
             _pause.gameObject.SetActive(true);
+            _pause.transform.SetAsLastSibling();
             ShowPauseCard();
             _fade = StartCoroutine(FadeOverlay(0, 1, .18f));
         }
         public void Resume()
         {
+            if(_tutorial!=null&&_tutorial.IsOpen){_tutorial.Close();return;}
             if (_map != null && _map.IsOpen) { CloseMap(); return; }
             if (_bag != null && _bag.IsOpen) { CloseBag(); return; }
             if (_activity != null && _activity.IsOpen) { _activity.RequestClose(); return; }
@@ -414,10 +438,19 @@ namespace Live49.UI
             _pause.gameObject.SetActive(true);
             ClearCard("LIVE49  /  잠시 멈춤", "잠시 쉬어가기", "준비가 되면, 머물던 순간에서 이어가요.");
             MenuRow("재개", "이야기 이어가기", 244, Resume, true);
-            MenuRow("설정", "소리 · 대사 · 저장·불러오기", 346, OpenSettings);
-            MenuRow("타이틀로", "시작 화면으로 돌아가기", 448, () => RequestExit(false));
-            MenuRow("게임 종료", "여정에서 나가기", 550, () => RequestExit(true));
+            MenuRow("플레이 안내", "지금 할 일 · 첫 여정 순서", 332, OpenTutorial);
+            MenuRow("설정", "소리 · 대사 · 저장·불러오기", 420, OpenSettings);
+            MenuRow("타이틀로", "시작 화면으로 돌아가기", 508, () => RequestExit(false));
+            MenuRow("게임 종료", "여정에서 나가기", 596, () => RequestExit(true));
             WireNavigation();
+        }
+        public void OpenTutorial()
+        {
+            if(_closing||SceneFlow.OpeningHandoffPending||_settings.IsOpen||(_saveLoad!=null&&_saveLoad.IsOpen)||(_map!=null&&_map.IsOpen)||(_activity!=null&&_activity.IsOpen)||(_bag!=null&&_bag.IsOpen))return;
+            if(!IsPaused)OpenPause();
+            if(_fade!=null)StopCoroutine(_fade);_pause.alpha=1;_pause.gameObject.SetActive(false);
+            if(_tutorial==null)_tutorial=TutorialPanel.Create(_viewport,_font,()=>{ShowPauseCard();ShowExplorationWidgets(false);});
+            ShowExplorationWidgets(false);_tutorial.Open();
         }
         public void OpenSettings()
         {
@@ -580,6 +613,8 @@ namespace Live49.UI
                 }
                 if (_activity != null) { Destroy(_activity.gameObject); _activity = null; }
                 if(_saveLoad!=null){Destroy(_saveLoad.gameObject);_saveLoad=null;}
+                if(_tutorial!=null){Destroy(_tutorial.gameObject);_tutorial=null;}
+                if(_search!=null){Destroy(_search.gameObject);_search=null;}
                 _actions.Clear(); ConfigureDayEnd(null, null, null); SetNarrativeMode();
                 ActivitiesChanged=null;
                 if (_map != null) { _map.SetPlaces(Array.Empty<MapPanel.Place>()); _map.ConfigureTravel(null, null); }

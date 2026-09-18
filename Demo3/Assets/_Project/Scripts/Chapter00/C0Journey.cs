@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Linq;
 using Live49.Core;
@@ -20,7 +20,7 @@ namespace Live49.Chapter00
         string _sceneId;
         public JourneyState State=>_state;
         TMP_FontAsset Font=>dialogue.Body.GetComponent<TMP_Text>().font;
-        string Goal=>_state.day>0?RegionGoal:
+        string Goal=>_state.day>0?JourneyTutorial.Current(_state).Title:
             string.IsNullOrEmpty(_state.node)?(!_answeredSoi?"소이에게 대답하기":!_bookSeen?"식탁의 스케치북 살펴보기":"라디오에 귀 기울이기"):_graph.Node(_state.node).title;
         IEnumerator RestoreJourney()
         {
@@ -31,6 +31,14 @@ namespace Live49.Chapter00
             screenFade.alpha=1;
             if(_state.day>0)
             {
+                if(SearchSession.Active(_state))
+                {
+                    SearchSession.Finish(_state,"interrupted");SaveSystem.AutoSave(_state,out _);
+                    if(AwayFromCamper)SetRegionView(_state.exploringPlace);else SetJourneyImage(_state.inStore?"store":"journal");
+                    yield return Tween.Fade(screenFade,0,.7f);yield return EnterExploration(false);
+                    OpenPlaceSearch(_state.search.place,_state.search.point);yield break;
+                }
+                if(BanditEncounter.Active(_state)){yield return EnterExploration(false);yield break;}
                 if(!string.IsNullOrEmpty(_state.weekEvent)){yield return PlayWeekEvent(_state.weekEvent,true);yield break;}
                 if(AwayFromCamper)SetRegionView(_state.exploringPlace);else SetJourneyImage(_state.inStore?"store":"journal");
                 yield return Tween.Fade(screenFade,0,.7f);yield return EnterExploration(false);
@@ -53,6 +61,7 @@ namespace Live49.Chapter00
         }
         void SetJourneyImage(string scene)
         {
+            if(_banditStage!=null)_banditStage.gameObject.SetActive(false);
             if(scene=="journal"&&_state.day>0&&string.IsNullOrEmpty(_state.weekEvent))
                 scene=_state.Has("dog_place_ready")?"life-E14-HUB-rest":_state.Has("life.meal."+_state.day)?"life-E03-HUB-rations-shared":scene;
             if(_weekDisplay!=null)_weekDisplay.gameObject.SetActive(false);
@@ -171,19 +180,14 @@ namespace Live49.Chapter00
         {
             if(enter)yield return LeaveCamper();else yield return ReturnFromRegion();
         }
-        void InspectSupplies(bool water)
+        void InspectSupplies(bool water)=>OpenPlaceSearch("L1",water?0:1);
+        void OpenPlaceSearch(string place,int point)
         {
-            string flag=water?"water_checked":"food_checked";
-            if(_state.Has(flag))return;
-            GameHud.Instance.ShowInteraction(water?"냉장고에 남아 있는 물":"선반에 남아 있는 식량",water?"눈에 보이는 생수 2개를 챙길 수 있어요.\n살펴보는 데 5분이 걸려요.":"포장 식량 2개를 챙길 수 있어요.\n살펴보는 데 5분이 걸려요.",new[]{"살펴보고 챙기기"},_=>
+            if(!SearchSession.Active(_state)&&!SearchSession.CanBegin(_state,place,point))return;
+            GameHud.Instance.OpenSearch(place,point,back=>
             {
-                if(_state.Has(flag))return;
-                var before=RegionExploration.Visible(_state);
-                _state.Add(water?"water":"packaged_food",water?"생수":"포장 식량",2,0,water?"편의점에서 챙긴 밀봉 생수.":"포장이 온전한 식량.");
-                _state.Set(flag);_state.minutes+=5;JourneyDayLog.Visit(_state,"L1");RefreshJourneyHud();
-                var revealed=RegionExploration.Visible(_state).Except(before).ToArray();
-                JourneyDayLog.Found(_state,revealed);ConfigureRegionMap();
-                if(revealed.Length>0)ShowRegionResult("L1",revealed);else SaveJourney();
+                RefreshJourneyHud();
+                if(back)StartCoroutine(ReturnFromRegion());
             });
         }
         IEnumerator FinishDay()

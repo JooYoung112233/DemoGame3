@@ -18,7 +18,6 @@ namespace Live49.UI
         TMP_FontAsset _font;CanvasGroup _group;RectTransform _body;
         TMP_Text _title,_subtitle,_phase,_heatText,_status,_resource,_result;
         RectTransform _heatFill,_pot;Button _start,_close,_pauseCook;
-        readonly List<Button> _heatButtons=new List<Button>();
         JourneyState _state;CookingSession _cook;Action _closed;Kind _kind;
         bool _closing;Coroutine _fade;
         public bool IsOpen=>gameObject.activeSelf;
@@ -38,52 +37,10 @@ namespace Live49.UI
         public void Open(Kind kind,JourneyState state,string objective)
         {
             _state=state;_kind=kind;_closing=false;gameObject.SetActive(true);transform.SetAsLastSibling();
-            PanelUI.Clear(_body);_heatButtons.Clear();
+            PanelUI.Clear(_body);
             if(kind==Kind.Kitchen)BuildKitchen();else if(kind==Kind.Journal)BuildJournal(objective);else BuildLife(kind==Kind.Supplies?"supplies":kind==Kind.Evening?"evening":"meal");
             EventSystem.current?.SetSelectedGameObject(_close.gameObject);
             _fade=StartCoroutine(Fade(0,1,.22f));
-        }
-        void BuildKitchen()
-        {
-            _title.text="작은 주방";_subtitle.text="불을 조절하며, 따뜻한 한 끼를 준비해요.";
-            if(_cook==null||!ReferenceEquals(_cookState,_state)||_cook.Stage==CookingSession.Phase.Done){_cook=new CookingSession(_state);_cookState=_state;}
-            var left=PanelUI.Box(_body,"RecipeCard",0,0,620,710,PanelUI.Ink);
-            PanelUI.Text(left,_font,"RecipeHeading","가스레인지",38,28,544,35,19,PanelUI.Gold);
-            PanelUI.Text(left,_font,"RecipeName","냄비 한 끼",36,86,548,68,42);
-            PanelUI.Text(left,_font,"RecipeDescription","가스와 식재료로 만드는 식사.\n약불·중불·강불로 냄비의 열기를 조절해요.",38,178,544,100,24,PanelUI.Muted);
-            PanelUI.Box(left,"Rule",38,295,544,1,PanelUI.Gold);
-            _resource=PanelUI.Text(left,_font,"RecipeCosts","",38,326,544,126,25);
-            PanelUI.Text(left,_font,"RecipeYield","완성  ·  따뜻한 식사 1\n조리 시간  ·  25분",38,480,544,88,24,PanelUI.Muted);
-            _start=PanelUI.Button(left,_font,"StartCooking","조리 시작",38,605,544,68,()=>{if(_cook.Start()){PersistActivity();RefreshKitchen();}});
-            var right=PanelUI.Box(_body,"Stove",654,0,1086,710,PanelUI.Ink);
-            _phase=PanelUI.Text(right,_font,"CookingPhase","",40,28,1006,40,27,PanelUI.Gold);
-            _pot=PanelUI.Rect(right,"Pot",380,121,326,238);
-            var icon=PanelUI.Rect(_pot,"CookingIcon",0,0,326,238).gameObject.AddComponent<HudIcon>();icon.Symbol=HudIcon.Kind.Cooking;icon.color=PanelUI.Gold;icon.raycastTarget=false;
-            _heatText=PanelUI.Text(right,_font,"HeatText","",40,370,1006,38,24);
-            var track=PanelUI.Box(right,"HeatTrack",40,421,1006,14,new Color(1,1,1,.1f));
-            PanelUI.Box(track,"IdealRange",1006*62/120f,-5,1006*16/120f,24,new Color(.5f,.65f,.5f,.24f));
-            _heatFill=PanelUI.Box(track,"Fill",0,0,0,14,PanelUI.Gold);
-            _status=PanelUI.Text(right,_font,"CookingStatus","",40,460,1006,61,23,PanelUI.Muted);
-            for(int i=0;i<3;i++){int level=i+1;_heatButtons.Add(PanelUI.Button(right,_font,"Heat_"+level,new[]{"약불","중불","강불"}[i],40+i*224,548,208,68,()=>{_cook.Select(level);RefreshKitchen();}));}
-            _pauseCook=PanelUI.Button(right,_font,"PauseCooking","잠시 멈춤",744,548,300,68,()=>{if(_cook.Active)_cook.Paused=!_cook.Paused;RefreshKitchen();});
-            _result=PanelUI.Text(right,_font,"CookingResult","",40,641,1006,47,21,PanelUI.Muted);
-            RefreshKitchen();
-        }
-        JourneyState _cookState;
-        void RefreshKitchen()
-        {
-            if(_kind!=Kind.Kitchen||!IsOpen)return;
-            bool done=_cook.Stage==CookingSession.Phase.Done;
-            _resource.text="가스  1  /  보유 "+(_state.inventoryKnown?_state.Count("gas").ToString():"확인 전")+"\n식재료  1  /  보유 "+(_state.inventoryKnown?_state.Count("ingredients").ToString():"확인 전");
-            _start.interactable=_cook.Stage==CookingSession.Phase.Ready&&_cook.BlockReason()==null;
-            _start.GetComponentInChildren<TMP_Text>().text=done?"조리 완료":_cook.Active?"조리 중":"조리 시작";
-            _phase.text=done?"불을 끄고, 그릇에 담아요.":_cook.Paused?"잠시 멈춤":_cook.Stage==CookingSession.Phase.Warming?"01  천천히 데우기":_cook.Stage==CookingSession.Phase.Simmering?"02  잔잔하게 익히기":"조리 준비";
-            _heatText.text="냄비의 열기  ·  "+Mathf.RoundToInt(_cook.Heat);
-            _heatFill.sizeDelta=new Vector2(1006*Mathf.Clamp01(_cook.Heat/120),14);
-            _status.text=done?(_cook.Great?"잔잔하게 끓인 따뜻한 식사가 완성됐어요.":"남은 익힘을 마무리해 한 끼를 완성했어요."):_cook.Stage==CookingSession.Phase.Ready?(_cook.BlockReason()??"준비됐어요. 시작하면 재료를 한 번 사용해요."):_cook.Paused?"준비가 되면 이어서 조리해요.":_cook.Stage==CookingSession.Phase.Warming?"열기가 서서히 올라와요. 끓기 시작하면 불을 낮춰요.":"표시된 구간의 열기를 유지해요. "+Mathf.CeilToInt(10-_cook.Simmer)+"초";
-            for(int i=0;i<3;i++){_heatButtons[i].interactable=_cook.Active&&!_cook.Paused;_heatButtons[i].GetComponent<Image>().color=_cook.Level==i+1?PanelUI.Gold:new Color(1,1,1,.08f);}
-            _pauseCook.interactable=_cook.Active;_pauseCook.GetComponentInChildren<TMP_Text>().text=_cook.Paused?"이어서 조리":"잠시 멈춤";
-            _result.text=done?"따뜻한 식사 1개를 가방에 담았어요.":_cook.Active?"창을 닫으면 조리를 멈추고, 다시 열면 이어서 할 수 있어요.":"가스와 차량의 연료는 따로 보관해요.";
         }
         void Update()
         {
@@ -92,13 +49,12 @@ namespace Live49.UI
             if(_closing||_kind!=Kind.Kitchen||_cook==null)return;
             bool cooking=_cook.Active;
             _cook.Tick(Time.unscaledDeltaTime);
-            if(cooking){_lifeSaveClock+=Time.unscaledDeltaTime;if(!_cook.Active||_lifeSaveClock>=1){PersistActivity(!_cook.Active);_lifeSaveClock=0;}}
+            if(cooking&&!_cook.Paused){_kitchenClock+=Time.unscaledDeltaTime;_lifeSaveClock+=Time.unscaledDeltaTime;if(!_cook.Active||_lifeSaveClock>=1){SaveKitchen(!_cook.Active);_lifeSaveClock=0;}}
             var keyboard=Keyboard.current;
-            if(keyboard!=null){if(keyboard.digit1Key.wasPressedThisFrame)_cook.Select(1);if(keyboard.digit2Key.wasPressedThisFrame)_cook.Select(2);if(keyboard.digit3Key.wasPressedThisFrame)_cook.Select(3);}
-            if(_cook.Active)_pot.localScale=Vector3.one*(1+Mathf.Sin(Time.unscaledTime*3)*.006f);
+            if(keyboard!=null){if(keyboard.digit1Key.wasPressedThisFrame)SelectKitchenHeat(1);if(keyboard.digit2Key.wasPressedThisFrame)SelectKitchenHeat(2);if(keyboard.digit3Key.wasPressedThisFrame)SelectKitchenHeat(3);}
             RefreshKitchen();
         }
-        void OnApplicationFocus(bool focus){if(!focus&&CookingActive)_cook.Paused=true;}
+        void OnApplicationFocus(bool focus){if(!focus&&CookingActive){_cook.Paused=true;if(_kind==Kind.Kitchen){SaveKitchen();RefreshKitchen();}}}
         void BuildJournal(string objective)
         {
             _title.text="남겨 둔 기록";_subtitle.text="지나온 순간과, 지금 해야 할 일을 한곳에.";
@@ -145,7 +101,7 @@ namespace Live49.UI
                 previous?.onClick.AddListener(()=>sync());next?.onClick.AddListener(()=>sync());
             }
         }
-        public void RequestClose(){if(!_closing){if(CookingActive)_cook.Paused=true;PersistActivity();_closed();}}
+        public void RequestClose(){if(!_closing){if(CookingActive)_cook.Paused=true;if(_kind==Kind.Kitchen){SaveKitchen();if(_kitchenSaveFailed){RefreshKitchen();return;}}else PersistActivity();_closed();}}
         public void Close(Action completed)
         {if(_closing)return;_closing=true;if(CookingActive)_cook.Paused=true;if(_fade!=null)StopCoroutine(_fade);StartCoroutine(CloseRoutine(completed));}
         IEnumerator CloseRoutine(Action completed){yield return Fade(_group.alpha,0,.16f);gameObject.SetActive(false);_closing=false;completed();}

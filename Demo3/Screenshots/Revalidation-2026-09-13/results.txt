@@ -1,0 +1,18 @@
+2026-09-13T04:27:42 START first-week model
+2026-09-13T04:27:42 PASS first-week model — PASS first-week model
+2026-09-13T04:27:42 START region travel model
+2026-09-13T04:27:42 PASS region travel model — PASS model: drawing/photo/route prerequisite; no walking cross; no local teleport; next entry; region-scoped completion; return/save validation.
+2026-09-13T04:27:42 START camp life model
+2026-09-13T04:27:42 PASS camp life model — PASS camp life model
+2026-09-13T04:27:42 START tutorial model + UI
+2026-09-13T04:28:05 PASS tutorial model + UI — PASS tutorial UI verification
+2026-09-13T04:28:05 START search model + UI
+2026-09-13T04:28:25 PASS search model + UI — PASS search runtime
+2026-09-13T04:28:25 START kitchen runtime
+2026-09-13T04:28:52 PASS kitchen runtime — PASS kitchen presentation
+2026-09-13T04:28:52 START bandit model + UI
+2026-09-13T04:29:43 PASS bandit model + UI — PASS bandit encounter runtime verification
+2026-09-13T04:29:43 START save recovery + art
+2026-09-13T04:30:02 PASS save recovery + art — settings manual save/load, overwrite/load cancellation, checksum rejection, backup recovery, six milestones and 3 stage/thumbnail identities
+2026-09-13T04:30:02 RESTORED Title, slot override cleared; checked automatic/manual slots and backups
+2026-09-13T04:30:02 COMPLETE PASS — 8 suites, no runtime error logs, all 8 real slot/backup hashes unchanged

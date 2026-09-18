@@ -24,9 +24,9 @@ namespace Live49.Core
             new Site{Id="L5",Name="낡은 집",ShortName="낡은 집",Point=new Vector2(220,417),Art="region-L5",Parents=new[]{"L3"},Description="집 주변의 생활 흔적과 골목을 살펴봐요.",Finding="골목 바깥으로 이어지는 강변 쉼터와 동네 약국의 길을 찾았어요."},
             new Site{Id="L6",Name="강변 쉼터",ShortName="강변 쉼터",Point=new Vector2(536,198),Art="region-L6",Parents=new[]{"L4","L5"},Description="강변 산책로와 바깥으로 이어지는 길을 확인해요.",Finding="강변 쪽 길을 확인했어요. 약국 주변 길도 확인하면 고갯길 진입로를 찾을 수 있어요."},
             new Site{Id="L7",Name="고갯길 입구",ShortName="고갯길",Point=new Vector2(1136,716),Art="region-L7",Parents=new[]{"L6","L10"},RequireAll=true,Description="다음 지역으로 이어지는 진입로를 살펴봐요.",Finding="고갯길 진입로를 확인했어요. 다음 지역으로 떠날 준비를 할 수 있어요."},
-            new Site{Id="L8",Name="공영주차장",ShortName="주차장",Point=new Vector2(395,590),Parents=new[]{"L2"},Description="주차 구획과 주변 출입로를 둘러봐요.",Finding="주차 구획과 돌아가는 길을 기록했어요. 주변 탐색을 마쳤어요."},
-            new Site{Id="L9",Name="작은 세탁소",ShortName="세탁소",Point=new Vector2(305,682),Parents=new[]{"L3"},Description="세탁소 앞과 주변 골목을 살펴봐요.",Finding="가게 앞과 골목을 둘러보고 생활의 흔적을 기록했어요."},
-            new Site{Id="L10",Name="동네 약국",ShortName="약국",Point=new Vector2(195,324),Parents=new[]{"L4","L5"},Description="약국 주변에서 바깥으로 이어지는 길을 확인해요.",Finding="약국 주변 길을 확인했어요. 강변 쪽 길도 확인하면 고갯길 진입로를 찾을 수 있어요."}
+            new Site{Id="L8",Art="region-L8",Name="공영주차장",ShortName="주차장",Point=new Vector2(395,590),Parents=new[]{"L2"},Description="주차 구획과 주변 출입로를 둘러봐요.",Finding="주차 구획과 돌아가는 길을 기록했어요. 주변 탐색을 마쳤어요."},
+            new Site{Id="L9",Art="region-L9",Name="작은 세탁소",ShortName="세탁소",Point=new Vector2(305,682),Parents=new[]{"L3"},Description="세탁소 앞과 주변 골목을 살펴봐요.",Finding="가게 앞과 골목을 둘러보고 생활의 흔적을 기록했어요."},
+            new Site{Id="L10",Art="region-L10",Name="동네 약국",ShortName="약국",Point=new Vector2(195,324),Parents=new[]{"L4","L5"},Description="약국 주변에서 바깥으로 이어지는 길을 확인해요.",Finding="약국 주변 길을 확인했어요. 강변 쪽 길도 확인하면 고갯길 진입로를 찾을 수 있어요."}
         };
         public static readonly Site[] NextSites={new Site{Id=RegionTravel.Entry,Region=RegionTravel.NextRegion,Name="고개 너머 진입로",ShortName="진입로",Point=new Vector2(610,460),Art="region-L7",Description="고개를 넘어 도착한 진입 구간이에요.\n주변을 살피고 여정을 정리해요.",Finding="진입로와 돌아갈 길을 확인했어요."}};
         public static Site[] ForRegion(string region)=>region==RegionTravel.NextRegion?NextSites:Sites;
@@ -65,6 +65,8 @@ namespace Live49.Core
         }
         public static string TravelBlock(JourneyState state,string id)
         {
+            if(SearchSession.Active(state))return "탐색 결과와 주변 인기척을 먼저 확인해요.";
+            if(BanditEncounter.Active(state))return "골목에서의 일을 마친 뒤 이동해요.";
             if(state.day==0)return "출발 준비를 마치고 아침에 이동해요.";
             if(!Discovered(state,id))return "아직 가는 길을 확인하지 못했어요.";
             if(Find(id).Region!=RegionTravel.Current(state))return "지역의 진입로에서 캠핑카로 이동해요.";

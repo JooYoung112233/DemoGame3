@@ -46,6 +46,7 @@ namespace Live49.Chapter00
         }
         void SetRegionView(string id)
         {
+            if(_banditStage!=null)_banditStage.gameObject.SetActive(false);
             if(_weekDisplay!=null)_weekDisplay.gameObject.SetActive(false);
             if(_weekProp!=null)_weekProp.gameObject.SetActive(false);
             var site=RegionExploration.Find(id);
@@ -54,7 +55,7 @@ namespace Live49.Chapter00
             if(id=="L2"&&_state.Has(RegionTravel.Drawing)){SetJourneyImage("week-E07-L2-sejin-repair");return;}
             if(id=="L4"){SetJourneyImage(_state.Has("toolbag_collected")?"week-L4-toolbag-collected":"week-L4-toolbag-available");return;}
             if(!string.IsNullOrEmpty(site.Art)){SetJourneyImage(site.Art);return;}
-            // Three new locations use a map overview until their interior art is authored.
+            // Keep a map fallback for future locations without authored stage art.
             if(_regionOverview==null)
             {
                 var rt=PanelUI.Rect(present.transform,"RegionOverview",0,0,1920,1080);
@@ -117,13 +118,7 @@ namespace Live49.Chapter00
             if(!AwayFromCamper||_interactionBusy||GameHud.Instance.IsPaused)return;
             var id=_state.exploringPlace;var site=RegionExploration.Find(id);var point=PlaceInspection.Points(id)[index];
             if(PlaceInspection.Checked(_state,id,index)){GameHud.Instance.ShowInteraction(point.Label,point.Finding,context:site.ShortName);return;}
-            GameHud.Instance.ShowInteraction(point.Label,point.Description+"\n살펴보는 시간 · 5분",new[]{"천천히 살펴보기"},_=>
-            {
-                if(!PlaceInspection.Inspect(_state,id,index,out var revealed))return;
-                RefreshJourneyHud();
-                if(RegionExploration.Completed(_state,id))ShowRegionResult(id,revealed);
-                else{SaveJourney();if(!GameHud.Instance.IsPaused)GameHud.Instance.ShowInteraction("확인한 흔적 · 1 / 2",point.Finding,context:site.ShortName);}
-            },site.ShortName);
+            OpenPlaceSearch(id,index);
         }
         void ShowRegionResult(string id,string[] revealed)
         {

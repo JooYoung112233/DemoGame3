@@ -44,10 +44,12 @@ namespace Live49.Core
         public static string Progress(JourneyState s)
         {
             if(s==null)return "";
+            if(SearchSession.Active(s))return SearchSession.Label(s.search.place,s.search.point)+" · 확보한 물자 유지";
+            if(BanditEncounter.Active(s))return s.bandit.stage==0?"골목 조우 · 선택하기":s.bandit.stage==1?"골목 조우 · 결과 확인":"캠핑카 귀환 · 소지품 확인";
             if(!string.IsNullOrEmpty(s.weekEvent))return Chapter00.WeekScript.Find(s.weekEvent)?.title+" · 이어서 읽기";
             if(CampLife.Cooking(s))return "냄비 조리 · 중간부터 재개";
             if(CampLife.Heating(s))return "전자레인지 · 가열 중";
-            return s.day==0?"출발 준비":Chapter00.FirstWeekStory.Goal(s)??"탐색과 여행 이어가기";
+            return s.day==0?"출발 준비":JourneyTutorial.Current(s).Title;
         }
         public static string Art(JourneyState s)
         {
@@ -56,6 +58,11 @@ namespace Live49.Core
             {var e=Chapter00.WeekScript.Find(s.weekEvent);if(e!=null&&e.lines.Length>0)return e.lines[Math.Min(s.weekLine,e.lines.Length-1)].art;}
             if(RegionExploration.Outside(s))return RegionExploration.Find(RegionExploration.PlayerPlace(s))?.Art;
             return s.Has("dog_place_ready")?"life-E14-HUB-rest":s.Has("life.meal."+s.day)?"life-E03-HUB-rations-shared":"journal";
+        }
+        public static string ArtResource(JourneyState s)
+        {
+            if(BanditEncounter.Active(s)&&s.bandit.stage<2)return "Live49/Encounters/Bandit/alley";
+            string art=Art(s);return string.IsNullOrEmpty(art)?null:"Live49/Stages/"+art;
         }
     }
 }

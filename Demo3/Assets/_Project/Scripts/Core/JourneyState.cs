@@ -24,6 +24,8 @@ namespace Live49.Core
         public int weekLine;
         public CampLifeState life;
         public CookingProgress cooking;
+        public BanditEncounterState bandit;
+        public SearchProgress search;
         public bool answeredSoi, bookSeen, inventoryKnown, inStore, cookingUnlocked;
         public List<JourneyItem> items=new List<JourneyItem>();
         public List<JourneyFlag> flags=new List<JourneyFlag>();
@@ -63,7 +65,7 @@ namespace Live49.Core
             && flags.Select(f=>f.key).Distinct().Count()==flags.Count && done.All(d=>d!=null)
             && (string.IsNullOrEmpty(regionId)||regionId==RegionExploration.RegionId||regionId==RegionTravel.NextRegion)
             && (location=="camper"?RegionTravel.Current(this)==RegionExploration.RegionId:RegionExploration.Find(location).Region==RegionTravel.Current(this))
-            && JourneyDayLog.Valid(days) && CampLife.Valid(this) && Chapter00.FirstWeekStory.Valid(this) && (location=="camper"||RegionExploration.Discovered(this,location))
+            && JourneyDayLog.Valid(days) && CampLife.Valid(this) && Chapter00.FirstWeekStory.Valid(this) && BanditEncounter.Valid(this) && SearchSession.Valid(this) && (location=="camper"||RegionExploration.Discovered(this,location))
             && (!inStore||(day>0&&location!="camper"&&RegionTravel.Current(this)==RegionExploration.RegionId&&string.IsNullOrEmpty(exploringPlace)))
             && (string.IsNullOrEmpty(exploringPlace)||(day>0&&location!="camper"&&!inStore&&exploringPlace!="L1"&&RegionExploration.Discovered(this,exploringPlace)&&RegionExploration.Find(exploringPlace).Region==RegionTravel.Current(this)));
     }

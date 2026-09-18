@@ -28,6 +28,6 @@ namespace Live49.UI
     {
         CanvasGroup _group;
         void Awake(){_group=gameObject.AddComponent<CanvasGroup>();}
-        void Update(){bool show=GameHud.Instance!=null&&GameHud.Instance.IsExploring&&!GameHud.Instance.IsPaused;_group.alpha=show?1:0;_group.blocksRaycasts=_group.interactable=show;}
+        void Update(){bool show=GameHud.Instance!=null&&GameHud.Instance.IsExploring&&!GameHud.Instance.IsPaused&&!GameHud.Instance.SearchOpen;_group.alpha=show?1:0;_group.blocksRaycasts=_group.interactable=show;}
     }
 }

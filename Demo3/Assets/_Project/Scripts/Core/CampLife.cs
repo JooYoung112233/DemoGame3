@@ -57,6 +57,8 @@ namespace Live49.Core
             }
             if(home&&section=="energy")
             {
+                if(s.location=="camper"&&s.fuel==0)
+                    list.Add(C("emergency.origin","출발 지점 주변에서 비상 연료 찾기","주변 수색 60분 · 공용 연료 +2\n첫 출발 전에 연료를 모두 썼을 때 이동을 다시 준비해요.",null,null,()=>{s.fuel+=2;JourneyDayLog.Fuel(s,2);Mark(s,"emergency_fuel_found","출발 지점 비상 연료 확보",60);}));
                 int gain=Math.Min(Charge,Capacity-data.battery);
                 var site=RegionExploration.Find(data.energyDestination);
                 bool planned=site!=null&&site.Region==RegionTravel.Current(s)&&RegionExploration.Discovered(s,site.Id);
@@ -113,6 +115,8 @@ namespace Live49.Core
         }
         public static bool Apply(JourneyState s,string section,string id,out string error)
         {
+            if(SearchSession.Active(s)){error="진행 중인 탐색을 먼저 마쳐요.";return false;}
+            if(BanditEncounter.Active(s)){error="진행 중인 일을 먼저 마쳐요.";return false;}
             var option=Choices(s,section).FirstOrDefault(c=>c.Id==id);error=option==null?"지금은 할 수 없는 행동이에요.":option.Block;
             if(error!=null)return false;option.Apply();return true;
         }

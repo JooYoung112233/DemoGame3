@@ -108,6 +108,7 @@ namespace Live49.Chapter00
             SetGlitch(0f);
             if (_interactions != null) Destroy(_interactions.gameObject);
             if (_journeyActions != null) Destroy(_journeyActions.gameObject);
+            if (_banditPanel != null) Destroy(_banditPanel.gameObject);
         }
 
         void ResetStage()
@@ -292,6 +293,9 @@ namespace Live49.Chapter00
                 _interactions = CamperInteractions.Create(hud, dialogue.Body.GetComponent<TMP_Text>().font, Interact);
             }
             _state.answeredSoi = _answeredSoi; _state.bookSeen = _bookSeen;
+            bool encounterStarted=BanditEncounter.Begin(_state)||BanditEncounter.BeginReturn(_state);
+            if(BanditEncounter.Active(_state))
+            {yield return ShowBanditEncounter(encounterStarted);yield break;}
             RefreshJourneyHud();
             FreshInput.DiscardPending();
             _interactionBusy = false;
