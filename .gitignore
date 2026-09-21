@@ -31,10 +31,10 @@ __pycache__/
 *.py[cod]
 
 # Reproducible local visual QA (source art and JSON reports stay tracked)
-art/**/qa/*.png
-art/**/scene-qa/*.png
-art/**/gallery-qa/*.png
-preview-output/
+LIVE49/art/**/qa/*.png
+LIVE49/art/**/scene-qa/*.png
+LIVE49/art/**/gallery-qa/*.png
+LIVE49/preview-output/
 
 # Local save fixtures and machine-specific verification snapshots
 LIVE49/Screenshots/**/*.json
