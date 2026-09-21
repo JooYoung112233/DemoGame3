@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7468365843074141969
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1143662601882632455}
+  - component: {fileID: 8665115389411923031}
+  m_Layer: 0
+  m_Name: Expedition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1143662601882632455
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7468365843074141969}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8665115389411923031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7468365843074141969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdb78aff4f93be341ba901e12303aeb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Demo5.NightRun.NightRunView
+  PanelPrefab: {fileID: 5174670678551475002, guid: 3bf4fcb80ddabee4383c7946a96d26f7, type: 3}
+  ButtonPrefab: {fileID: 5285306252178496139, guid: 863de6e1c77740f4b86e60b56228700e, type: 3}
+  TilePrefab: {fileID: 1763441434900671088, guid: f766478c4866e124f80d4f88b27c328f, type: 3}
+  TokenPrefab: {fileID: 1675102216395722566, guid: c9711bbd49de4b64bae57c3b536e0f29, type: 3}
+  PropPrefab: {fileID: 350047884812399127, guid: 992cb34fb50a38a4c95a0b38bd111ed5, type: 3}
+  ReferenceResolution: {x: 1920, y: 1080}
