@@ -1,0 +1,45 @@
+{
+  "source": "../UI전체시안-v1/20-시작과정착지선택.png",
+  "locations": [
+    {
+      "id": "garage",
+      "sourceBox": [
+        435,
+        654,
+        659,
+        760
+      ],
+      "nativeSize": [
+        224,
+        106
+      ]
+    },
+    {
+      "id": "house",
+      "sourceBox": [
+        726,
+        657,
+        974,
+        761
+      ],
+      "nativeSize": [
+        248,
+        104
+      ]
+    },
+    {
+      "id": "clinic",
+      "sourceBox": [
+        1013,
+        659,
+        1263,
+        761
+      ],
+      "nativeSize": [
+        250,
+        102
+      ]
+    }
+  ],
+  "limitation": "Native location crops are about 240x105. Card PSD is layout only, not recovered HD detail. Text is editable Unity UI; location artwork is a single image layer, not decomposed building parts."
+}

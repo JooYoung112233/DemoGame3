@@ -1,0 +1,145 @@
+{
+  "canvas": [
+    1920,
+    1080
+  ],
+  "nativeBackground": [
+    1672,
+    941
+  ],
+  "characters": [
+    {
+      "name": "explorer-cap",
+      "xy": [
+        291,
+        371
+      ],
+      "size": [
+        210,
+        246
+      ]
+    },
+    {
+      "name": "explorer-ponytail",
+      "xy": [
+        516,
+        439
+      ],
+      "size": [
+        151,
+        178
+      ]
+    }
+  ],
+  "ui": [
+    {
+      "name": "title-paper",
+      "rect": [
+        110,
+        80,
+        670,
+        347.998638529612
+      ]
+    },
+    {
+      "name": "new-game",
+      "rect": [
+        1220,
+        332,
+        550,
+        86
+      ]
+    },
+    {
+      "name": "continue",
+      "rect": [
+        1220,
+        434,
+        550,
+        86
+      ]
+    },
+    {
+      "name": "load",
+      "rect": [
+        1220,
+        536,
+        550,
+        86
+      ]
+    },
+    {
+      "name": "settings",
+      "rect": [
+        1220,
+        638,
+        550,
+        86
+      ]
+    },
+    {
+      "name": "exit",
+      "rect": [
+        1220,
+        740,
+        550,
+        74
+      ]
+    }
+  ],
+  "titleRotationDegrees": 1.3,
+  "font": "Assets/Art/FrontEnd/Fonts/Gaegu/Gaegu-Bold.ttf",
+  "textBaked": false,
+  "limits": [
+    "Background and characters retain original native resolution; 2x layout PSD is not new detail.",
+    "City environment is one layer, not every building individually.",
+    "PSD layout excludes runtime text and state tint and leaves title paper unrotated.",
+    "Character fringe needs recheck if moved far from original background."
+  ],
+  "bodyFont": "Assets/Art/FrontEnd/Fonts/Gaegu/Gaegu-Regular.ttf",
+  "buttonInternal": {
+    "iconLeft": 91,
+    "iconBox": [
+      64,
+      64
+    ],
+    "labelLeft": 166,
+    "labelFontSize": 42,
+    "sourceButtonWidth": 397,
+    "runtimeButtonWidth": 550
+  },
+  "controlsSource": "approved mockups 20 and 19; source papers/ink separated, hidden ink areas repaired with source paper",
+  "titlePaper": {
+    "file": "title-paper-stepped.png",
+    "rect": [
+      110,
+      80,
+      670,
+      347.998638529612
+    ],
+    "subtitleRect": [
+      64,
+      168,
+      280,
+      98
+    ],
+    "subtitle": "다시, 살아갈\n준비를 합니다.",
+    "projectRect": [
+      64,
+      30,
+      542,
+      30
+    ],
+    "titleRect": [
+      60,
+      72,
+      548,
+      82
+    ],
+    "titleFontSize": 72,
+    "alignment": "optical left alignment; title side bearing compensated by 4px; UpperLeft",
+    "projectFontSize": 24,
+    "subtitleFontSize": 34,
+    "subtitleLineSpacing": 1.12
+  }
+}

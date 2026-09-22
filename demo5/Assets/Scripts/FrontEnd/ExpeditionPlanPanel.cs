@@ -1,0 +1,33 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Demo5.NightRun;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+namespace Demo5.FrontEnd {
+ public sealed class ExpeditionPlanPanel:MonoBehaviour {
+  [Serializable] public sealed class Destination {public string Id,Name; [TextArea]public string Description,Resources,Unknown;public int OneWayMinutes;public string Risk;public bool Accessible=true,IsHome;public Sprite Picture;public Sprite[] ResourceIcons;public string[] ResourceLabels;}
+  public Destination[] Destinations; public Button[] Markers;public Graphic[] PinFills;public Image[] MarkerPapers;
+  public GameObject View; public GameObject[] HideWhileOpen;public Button Back,Pack;public Text Clock,PlaceName,Travel,Risk,Resources,Unknown,Description,Selection,Hint,PackLabel;public Image Picture;public Image[] ResourceImages;public Text[] ResourceNames;public Sprite[] HomePictures;
+  public RectTransform MemberContent;public ScrollRect MemberScroll;public ExpeditionMemberCard MemberPrefab;
+  [Min(1)] public int MaximumParty=6;
+  public IReadOnlyList<ExpeditionMemberCard> Cards=>cards;public IReadOnlyCollection<Adventurer> Selected=>selected;
+  public Destination Current=>Destinations!=null&&destination>=0&&destination<Destinations.Length?Destinations[destination]:null;
+  public bool IsOpen=>View&&View.activeSelf;
+  readonly List<ExpeditionMemberCard> cards=new List<ExpeditionMemberCard>();readonly HashSet<Adventurer> selected=new HashSet<Adventurer>();Adventurer[] people=Array.Empty<Adventurer>();SettlementController owner;bool[] hidden;int destination=1;
+  public void Initialize(SettlementController c){owner=c;View.SetActive(false);Back.onClick.AddListener(Close);Pack.onClick.AddListener(OpenPacking);for(int i=0;i<Markers.Length;i++){int index=i;Markers[i].onClick.AddListener(()=>{destination=index;Refresh();});}}
+  public void Open(){if(IsOpen||owner.IsPopupOpen||(owner.WorkPanel&&owner.WorkPanel.IsOpen)||(owner.CraftPanel&&owner.CraftPanel.IsOpen)||(owner.InventoryPanel&&owner.InventoryPanel.IsOpen))return;people=owner.Campaign?.Party.ToArray()??Array.Empty<Adventurer>();if(owner.Campaign!=null){var home=Destinations.FirstOrDefault(d=>d.IsHome);if(home!=null){home.Name=owner.Campaign.Home.Name;int homeIndex=Array.IndexOf(owner.Campaign.Sites,owner.Campaign.Home);if(HomePictures!=null&&homeIndex>=0&&homeIndex<HomePictures.Length)home.Picture=HomePictures[homeIndex];}}selected.RemoveWhere(p=>!people.Contains(p)||!Eligible(p));hidden=HideWhileOpen.Select(g=>g.activeSelf).ToArray();foreach(var g in HideWhileOpen)g.SetActive(false);owner.Main.interactable=false;owner.Main.blocksRaycasts=false;View.SetActive(true);Clock.text=owner.Clock.text;foreach(var card in cards){card.gameObject.SetActive(false);Destroy(card.gameObject);}cards.Clear();for(int i=0;i<people.Length;i++){var member=people[i];var card=Instantiate(MemberPrefab,MemberContent);card.Button.onClick.AddListener(()=>Toggle(member));cards.Add(card);}Refresh();Canvas.ForceUpdateCanvases();LayoutRebuilder.ForceRebuildLayoutImmediate(MemberContent);MemberScroll.horizontalNormalizedPosition=0;EventSystem.current?.SetSelectedGameObject(Back.gameObject);}
+  bool Eligible(Adventurer p)=>p.Health>0&&!owner.IsAssigned(p);
+  void Toggle(Adventurer p){if(!Eligible(p))return;if(!selected.Remove(p)&&selected.Count<MaximumParty)selected.Add(p);Refresh();}
+  public void Refresh(){selected.RemoveWhere(p=>!Eligible(p));for(int i=0;i<cards.Count;i++){var p=people[i];var card=cards[i];var data=owner.Roster.Candidates.FirstOrDefault(d=>d.Id==PartySelectionSession.Selected.ElementAtOrDefault(i))??owner.Roster.Candidates.FirstOrDefault(d=>d.DisplayName==p.Name);bool chosen=selected.Contains(p);card.Name.text=p.Name;card.Portrait.sprite=data?.Portrait;card.Health.text=p.Health+" / "+p.MaxHealth;card.HealthFill.fillAmount=p.MaxHealth>0?(float)p.Health/p.MaxHealth:0;card.Role.text=data?.TraitTitle??p.Role;card.State.text=p.Health<=0?"참여 불가":owner.IsAssigned(p)?"작업 예약 중":chosen?"원정 참여":"참여 선택";card.Check.gameObject.SetActive(chosen);card.Paper.color=chosen?new Color(1,.8f,.43f):Color.white;card.Button.interactable=Eligible(p)&&(chosen||selected.Count<MaximumParty);}
+   var d=Current;if(d==null){Pack.interactable=false;return;}PlaceName.text=d.Name;Travel.text=d.IsHome?"현재 거점":!d.Accessible?"이동 경로 미확인":"편도 "+d.OneWayMinutes+"분 · 왕복 "+d.OneWayMinutes*2+"분";Risk.text="위험도  "+d.Risk;Resources.text=d.ResourceIcons==null||d.ResourceIcons.Length==0?d.Resources:"";Unknown.text=d.Unknown;Description.text=d.Description;Picture.sprite=d.Picture;Picture.enabled=d.Picture;for(int r=0;r<ResourceImages.Length;r++){bool visible=d.ResourceIcons!=null&&r<d.ResourceIcons.Length;ResourceImages[r].gameObject.SetActive(visible);ResourceNames[r].text=visible&&d.ResourceLabels!=null&&r<d.ResourceLabels.Length?d.ResourceLabels[r]:"";if(visible)ResourceImages[r].sprite=d.ResourceIcons[r];}for(int i=0;i<Markers.Length;i++){bool active=i==destination;PinFills[i].color=active?new Color(1,.78f,.32f):new Color(.88f,.84f,.73f);MarkerPapers[i].color=active?new Color(1,.8f,.43f):Color.white;}
+   Selection.text=selected.Count==0?"선택한 대원 없음":string.Join(" · ",people.Where(selected.Contains).Select(p=>p.Name))+"  ("+selected.Count+"명)";
+   Pack.interactable=owner.Campaign!=null&&d.Accessible&&!d.IsHome&&selected.Count>0&&selected.Count<=MaximumParty&&selected.All(Eligible);PackLabel.text="짐 꾸리기";Hint.text=d.IsHome?"지도에서 원정 목적지를 선택하세요.":!d.Accessible?"아직 경로가 확인되지 않았습니다.":selected.Count==0?"원정에 참여할 대원을 선택하세요.":"준비 중에는 시간이 흐르지 않습니다.";
+  }
+  void OpenPacking(){Refresh();if(!Pack.interactable)return;var party=people.Where(selected.Contains).ToArray();var target=Current;Close();owner.PackingPanel.Open(party,target,Open);}
+  public void Close(){if(!IsOpen)return;View.SetActive(false);for(int i=0;i<HideWhileOpen.Length;i++)HideWhileOpen[i].SetActive(hidden[i]);owner.Main.interactable=true;owner.Main.blocksRaycasts=true;EventSystem.current?.SetSelectedGameObject(owner.Exit.gameObject);}
+  void Update(){if(!IsOpen)return;if(selected.Any(p=>!Eligible(p)))Refresh();if(Keyboard.current!=null&&Keyboard.current.escapeKey.wasPressedThisFrame)Close();}
+ }
+}

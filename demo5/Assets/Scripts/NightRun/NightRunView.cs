@@ -31,6 +31,7 @@ namespace Demo5.NightRun
         {
             font=Font.CreateDynamicFontFromOSFont(new[]{"Malgun Gothic","Apple SD Gothic Neo","Noto Sans CJK KR","Arial"},28);
             if(font==null)font=Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");Build();Restart();
+            var prepared=Demo5.FrontEnd.PartySelectionSession.Take();if(prepared!=null){Campaign=prepared;Refresh();}
         }
         public void Restart(){Visit=null;Campaign=new CampaignState();State=new RunState();Selected=0;SelectedOrder=Order.Move;Refresh();}
         public void Begin(){if(Campaign.Stage!=JourneyStage.Expedition)return;State.Start();AutoSelect();Refresh();}

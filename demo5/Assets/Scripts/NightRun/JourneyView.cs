@@ -41,7 +41,7 @@ namespace Demo5.NightRun
                 Label(b.transform,site.Name,25,30,540,56,38,Ink);
                 Label(b.transform,site.Description+"\n\n시작 보급품 "+site.Supplies+" · 탄약 "+site.Ammo+"\n휴식 체력 +"+site.Recovery+"\n\n이곳에 정착하기 →",25,114,540,269,26,Ink);
             }
-            MakeButton(homesPage.transform,"BackToParty",46,866,470,78,"← 모험가 다시 선택",()=>{Campaign.BackToParty();Refresh();});
+            MakeButton(homesPage.transform,"BackToParty",46,866,470,78,"← 모험가 다시 선택",()=>{if(Campaign.UsesFrontEndSelection)UnityEngine.SceneManagement.SceneManager.LoadScene("PartySelection");else{Campaign.BackToParty();Refresh();}});
             Label(homesPage.transform,"현재 생존지 배경은 공통 시안 1종입니다.",675,876,1185,55,26,Cream,TextAnchor.MiddleRight);
             homePage=Group(journeyRoot.transform,"Settlement");Box(homePage.transform,"SettlementFooter",24,778,1872,184,PanelColor);
             homeResources=Label(homePage.transform,"",50,798,430,138,28,Cream);homeMembers=Label(homePage.transform,"",510,798,620,138,25,Cream);

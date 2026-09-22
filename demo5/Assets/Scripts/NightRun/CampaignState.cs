@@ -8,10 +8,10 @@ namespace Demo5.NightRun
     public sealed class Adventurer
     {
         public readonly string Name, Role, Description;
-        public readonly int MaxHealth, Aim;
+        public readonly int MaxHealth, Aim, BagCapacity;
         public int Health;
-        public Adventurer(string name, string role, string description, int health, int aim)
-        { Name = name; Role = role; Description = description; Health = MaxHealth = health; Aim = aim; }
+        public Adventurer(string name, string role, string description, int health, int aim,int bagCapacity=3)
+        { Name = name; Role = role; Description = description; Health = MaxHealth = health; Aim = aim; BagCapacity=bagCapacity; }
     }
     public sealed class HomeSite
     {
@@ -22,6 +22,12 @@ namespace Demo5.NightRun
     }
     public sealed class CampaignState
     {
+        public bool UsesFrontEndSelection {get;}
+        public CampaignState(Adventurer[] candidates=null,bool usesFrontEndSelection=false)
+        {
+            if(candidates!=null){if(candidates.Length<2)throw new ArgumentException("At least two candidates required.");Candidates=(Adventurer[])candidates.Clone();}
+            UsesFrontEndSelection=usesFrontEndSelection;
+        }
         public JourneyStage Stage { get; private set; } = JourneyStage.Party;
         public readonly Adventurer[] Candidates = {
             new Adventurer("민서", "정찰수", "균형 잡힌 체력과 조준", 5, 5),
@@ -65,6 +71,20 @@ namespace Demo5.NightRun
             Home = Sites[index]; Supplies = Home.Supplies; Ammo = Home.Ammo;
             Stage = JourneyStage.Settlement; Message = Home.Name + "에 자리를 잡았다. 첫 수색을 준비하자."; return true;
         }
+        public int MinuteOfDay {get;private set;}=540;
+        public bool IsFieldExpedition {get;private set;}
+        public string FieldDestination {get;private set;}
+        public string ClockText=>"DAY "+Day+"\n"+(MinuteOfDay/60).ToString("00")+":"+(MinuteOfDay%60).ToString("00");
+        void AdvanceTravel(int minutes){int total=MinuteOfDay+minutes;Day+=total/1440;MinuteOfDay=total%1440;}
+        public bool BeginFieldExpedition(string destination,Adventurer[] participants,int minutes){
+            if(Stage!=JourneyStage.Settlement||IsFieldExpedition||string.IsNullOrEmpty(destination)||participants==null||participants.Length==0||minutes<0||participants.Distinct().Count()!=participants.Length||participants.Any(p=>!Party.Contains(p)||p.Health<=0))return false;
+            IsFieldExpedition=true;FieldDestination=destination;Stage=JourneyStage.Expedition;AdvanceTravel(minutes);return true;
+        }
+        public bool AdjustFieldResource(string id,int delta){if(!IsFieldExpedition||Stage!=JourneyStage.Expedition)return false;if(id=="supplies"){if(Supplies+delta<0)return false;Supplies+=delta;return true;}if(id=="ammo"){if(Ammo+delta<0)return false;Ammo+=delta;return true;}return false;}
+        public bool EndFieldExpedition(int minutes){
+            if(!IsFieldExpedition||Stage!=JourneyStage.Expedition||minutes<0)return false;
+            AdvanceTravel(minutes);IsFieldExpedition=false;FieldDestination=null;Stage=JourneyStage.Settlement;return true;
+        }
         public bool Depart(Func<double> random = null)
         {
             if (Stage != JourneyStage.Settlement || !Party.Any(p => p.Health > 0)) return false;
@@ -101,3 +121,4 @@ namespace Demo5.NightRun
         }
     }
 }
+

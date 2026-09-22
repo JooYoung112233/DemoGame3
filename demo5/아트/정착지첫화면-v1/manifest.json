@@ -1,0 +1,67 @@
+{
+  "source": "../UI전체시안-v1/04-거점기본화면.png",
+  "crops": {
+    "icon-bed": [
+      424,
+      241,
+      462,
+      272
+    ],
+    "icon-water": [
+      681,
+      250,
+      708,
+      286
+    ],
+    "icon-work": [
+      984,
+      225,
+      1026,
+      269
+    ],
+    "icon-storage": [
+      1265,
+      164,
+      1306,
+      203
+    ],
+    "icon-exit": [
+      1519,
+      281,
+      1558,
+      316
+    ],
+    "icon-advance": [
+      237,
+      40,
+      275,
+      76
+    ],
+    "icon-journal": [
+      1598,
+      27,
+      1635,
+      66
+    ],
+    "standee-scout": [
+      656,
+      413,
+      758,
+      585
+    ],
+    "standee-medic": [
+      808,
+      437,
+      903,
+      592
+    ]
+  },
+  "backgroundSource": "../../Assets/Art/Backgrounds/shelter-unlit-v2.png",
+  "limitations": [
+    "Existing clean shelter is reused, not a pixel-identical reconstruction of mockup 04.",
+    "Background is one painted layer; furniture is not separately editable.",
+    "Only two standee bodies; other roles temporarily share the scout body.",
+    "Native icons and standees are small source crops, not HD final artwork.",
+    "Lighting is applied by Unity URP Light2D, not exported into PNG."
+  ]
+}
