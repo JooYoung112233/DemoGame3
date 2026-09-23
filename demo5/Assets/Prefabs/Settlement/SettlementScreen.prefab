@@ -141,6 +141,7 @@ RectTransform:
   - {fileID: 4109658707264053501}
   - {fileID: 7275696551935491969}
   - {fileID: 6438688187391062046}
+  - {fileID: 762186024440288843}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -197,6 +198,7 @@ MonoBehaviour:
   ReturnPanel: {fileID: 5695870364928580153}
   WorkPanel: {fileID: 5425194091723808323}
   CraftPanel: {fileID: 1474840541620923625}
+  CookingPanel: {fileID: 1085569944099042752}
   InventoryPanel: {fileID: 1149895620741766500}
   ExpeditionPanel: {fileID: 5132398006488844858}
   PackingPanel: {fileID: 6103437479835382590}
@@ -1774,6 +1776,147 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7d51b2c1fbfeec4e8ad9f5a74763dbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Demo5.FrontEnd.ExpeditionPlanPanel
+--- !u!1001 &3996589649117978949
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8192355553580800052}
+    m_Modifications:
+    - target: {fileID: 1130703641946555698, guid: 8d3dad28b148c6642a4339d8074bf460, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1130703641946555698, guid: 8d3dad28b148c6642a4339d8074bf460, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1197918269872079996, guid: 8d3dad28b148c6642a4339d8074bf460, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1197918269872079996, guid: 8d3dad28b148c6642a4339d8074bf460, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4460086707217889038, guid: 8d3dad28b148c6642a4339d8074bf460, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4460086707217889038, guid: 8d3dad28b148c6642a4339d8074bf460, type: 3}
+      propertyPath: m_Pivot.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4460086707217889038, guid: 8d3dad28b148c6642a4339d8074bf460, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4460086707217889038, guid: 8d3dad28b148c6642a4339d8074bf460, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4460086707217889038, guid: 8d3dad28b148c6642a4339d8074bf460, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4460086707217889038, guid: 8d3dad28b148c6642a4339d8074bf460, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4460086707217889038, guid: 8d3dad28b148c6642a4339d8074bf460, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 4460086707217889038, guid: 8d3dad28b148c6642a4339d8074bf460, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 1080
+      objectReference: {fileID: 0}
+    - target: {fileID: 4460086707217889038, guid: 8d3dad28b148c6642a4339d8074bf460, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4460086707217889038, guid: 8d3dad28b148c6642a4339d8074bf460, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4460086707217889038, guid: 8d3dad28b148c6642a4339d8074bf460, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4460086707217889038, guid: 8d3dad28b148c6642a4339d8074bf460, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4460086707217889038, guid: 8d3dad28b148c6642a4339d8074bf460, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4460086707217889038, guid: 8d3dad28b148c6642a4339d8074bf460, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4460086707217889038, guid: 8d3dad28b148c6642a4339d8074bf460, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4460086707217889038, guid: 8d3dad28b148c6642a4339d8074bf460, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4460086707217889038, guid: 8d3dad28b148c6642a4339d8074bf460, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4460086707217889038, guid: 8d3dad28b148c6642a4339d8074bf460, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4460086707217889038, guid: 8d3dad28b148c6642a4339d8074bf460, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4460086707217889038, guid: 8d3dad28b148c6642a4339d8074bf460, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5817203213073951456, guid: 8d3dad28b148c6642a4339d8074bf460, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5817203213073951456, guid: 8d3dad28b148c6642a4339d8074bf460, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8058969552484343412, guid: 8d3dad28b148c6642a4339d8074bf460, type: 3}
+      propertyPath: m_Name
+      value: CookingPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 8058969552484343412, guid: 8d3dad28b148c6642a4339d8074bf460, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8d3dad28b148c6642a4339d8074bf460, type: 3}
+--- !u!224 &762186024440288843 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4460086707217889038, guid: 8d3dad28b148c6642a4339d8074bf460, type: 3}
+  m_PrefabInstance: {fileID: 3996589649117978949}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1085569944099042752 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4063941214468248709, guid: 8d3dad28b148c6642a4339d8074bf460, type: 3}
+  m_PrefabInstance: {fileID: 3996589649117978949}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74a791bc6fc89234fb0338a9c84ee96e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Demo5.FrontEnd.SettlementCookingPanel
 --- !u!1001 &4372988135140203771
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3374,7 +3517,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 54a10d81fb6b3544e872a11289712b88, type: 3}
     - target: {fileID: 5351917083384756824, guid: 116161a4f6dc8c847a5d98cb1ab0505d, type: 3}
       propertyPath: m_Text
-      value: "\uBE44\uCD95 \uBB3C\uC790"
+      value: "\uC2DD\uB7C9 \uC900\uBE44"
       objectReference: {fileID: 0}
     - target: {fileID: 5399950665016875749, guid: 116161a4f6dc8c847a5d98cb1ab0505d, type: 3}
       propertyPath: m_Name

@@ -24,6 +24,7 @@ namespace Demo5.FrontEnd
         public readonly System.Collections.Generic.List<string> ActivityLog=new System.Collections.Generic.List<string>();
         public SettlementWorkPanel WorkPanel;
         public SettlementCraftPanel CraftPanel;
+        public SettlementCookingPanel CookingPanel;
         public SettlementInventoryPanel InventoryPanel;
         public ExpeditionPlanPanel ExpeditionPanel;
         public ExpeditionPackingPanel PackingPanel;
@@ -39,12 +40,13 @@ namespace Demo5.FrontEnd
             if(Campaign!=null)Campaign.TimeAdvanced+=OnTimeAdvanced;
             if(WorkPanel)WorkPanel.Initialize(this);
             if(CraftPanel)CraftPanel.Initialize(this);
+            if(CookingPanel)CookingPanel.Initialize(this);
             if(InventoryPanel)InventoryPanel.Initialize(this);
             if(ExpeditionPanel)ExpeditionPanel.Initialize(this);
             if(PackingPanel)PackingPanel.Initialize(this);
             if(ArrivalPanel)ArrivalPanel.Initialize(this);
             Bed.onClick.AddListener(()=>{if(WorkPanel)WorkPanel.Open();else Show("침대","잠시 몸을 눕힐 수 있는 자리입니다.\n\n현재 쉬고 있는 동료는 없습니다.");});
-            Stock.onClick.AddListener(()=>{if(InventoryPanel)InventoryPanel.Open();else Show("비축 물자",StockText());});Cabinet.onClick.AddListener(()=>{if(InventoryPanel)InventoryPanel.Open();else Show("공용 보관함",StockText());});
+            Stock.onClick.AddListener(()=>{if(CookingPanel)CookingPanel.Open();else if(InventoryPanel)InventoryPanel.Open();else Show("비축 물자",StockText());});Cabinet.onClick.AddListener(()=>{if(InventoryPanel)InventoryPanel.Open();else Show("공용 보관함",StockText());});
             Workbench.onClick.AddListener(()=>{if(CraftPanel)CraftPanel.Open();else Show("작업대","도구와 재료를 펼칠 수 있는 공간입니다.\n\n현재 진행 중인 작업은 없습니다.");});
             Exit.onClick.AddListener(()=>{if(ExpeditionPanel)ExpeditionPanel.Open();else Show("출입구","이곳에서 외부 탐색을 준비합니다.\n\n나서기 전 동료의 상태와 비축 물자를 확인하세요.");});
             Advance.onClick.AddListener(()=>{if(TimePanel)TimePanel.Open();});
