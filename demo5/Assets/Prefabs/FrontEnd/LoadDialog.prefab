@@ -142,7 +142,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: eebbcec3ac1ec7d418a7cc040924d46e, type: 3}
+    m_Font: {fileID: 12800000, guid: 8b64facf09f834240964f9d2e36344ec, type: 3}
     m_FontSize: 42
     m_FontStyle: 0
     m_BestFit: 0
@@ -221,8 +221,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 8519a25d9ad9af54bbb0f6f0c7f0c619, type: 3}
-    m_FontSize: 62
+    m_Font: {fileID: 12800000, guid: 8b64facf09f834240964f9d2e36344ec, type: 3}
+    m_FontSize: 50
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
@@ -404,10 +404,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Close
       objectReference: {fileID: 0}
+    - target: {fileID: 4187141862703410895, guid: 56614b4c253cad240a33955619ceec32, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 8b64facf09f834240964f9d2e36344ec, type: 3}
     - target: {fileID: 8737039687203091047, guid: 56614b4c253cad240a33955619ceec32, type: 3}
       propertyPath: m_Text
       value: "\uB3CC\uC544\uAC00\uAE30"
       objectReference: {fileID: 0}
+    - target: {fileID: 8737039687203091047, guid: 56614b4c253cad240a33955619ceec32, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 8b64facf09f834240964f9d2e36344ec, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

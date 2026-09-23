@@ -10,7 +10,7 @@ public static class BuildExpeditionPacking {
  const string P="Assets/Prefabs/Settlement/",A="Assets/Art/PartySelection/",E="Assets/Art/ExpeditionPlan/";static Font font;
  static RectTransform R(string n,Transform p,float x,float y,float w,float h){var r=new GameObject(n,typeof(RectTransform)).GetComponent<RectTransform>();r.SetParent(p,false);r.anchorMin=r.anchorMax=r.pivot=new Vector2(0,1);r.anchoredPosition=new Vector2(x,-y);r.sizeDelta=new Vector2(w,h);return r;}
  static Image I(string n,Transform p,float x,float y,float w,float h,string path=null){var im=R(n,p,x,y,w,h).gameObject.AddComponent<Image>();if(path!=null)im.sprite=AssetDatabase.LoadAssetAtPath<Sprite>(path);im.raycastTarget=false;return im;}
- static Text T(string n,Transform p,float x,float y,float w,float h,string s,int size=30,bool light=false){var t=R(n,p,x,y,w,h).gameObject.AddComponent<Text>();t.font=font;t.fontStyle=FontStyle.Bold;t.fontSize=size;t.text=s;t.color=light?new Color(.96f,.93f,.85f):new Color(.045f,.065f,.06f);t.alignment=TextAnchor.MiddleLeft;t.raycastTarget=false;return t;}
+ static Text T(string n,Transform p,float x,float y,float w,float h,string s,int size=30,bool light=false){var t=R(n,p,x,y,w,h).gameObject.AddComponent<Text>();t.font=font;t.fontStyle=FontStyle.Normal;t.fontSize=size;t.text=s;t.color=light?new Color(.96f,.93f,.85f):new Color(.045f,.065f,.06f);t.alignment=TextAnchor.MiddleLeft;t.raycastTarget=false;return t;}
  static Button B(string n,Transform p,float x,float y,float w,float h,string label,int size=32){var im=I(n,p,x,y,w,h,A+"footer-paper.png");im.raycastTarget=true;var b=im.gameObject.AddComponent<Button>();b.targetGraphic=im;T("Label",im.transform,6,0,w-12,h,label,size).alignment=TextAnchor.MiddleCenter;return b;}
  static GameObject Save(GameObject g,string name){var asset=PrefabUtility.SaveAsPrefabAsset(g,P+name+".prefab");Object.DestroyImmediate(g);return asset;}
  static Sprite S(string name)=>AssetDatabase.LoadAssetAtPath<Sprite>(E+name+".png");
@@ -24,7 +24,7 @@ public static class BuildExpeditionPacking {
  }
  public static string Build(){
   if(EditorApplication.isPlaying)throw new Exception("Stop Play first");
-  font=AssetDatabase.LoadAssetAtPath<Font>("Assets/Art/FrontEnd/Fonts/Gaegu/Gaegu-Bold.ttf");
+  font=AssetDatabase.LoadAssetAtPath<Font>("Assets/funflow_font/TWD-AS_FUNFLOW SURVIVOR_Font/펀플로 생존자.ttf");
   var root=R("ExpeditionPackingPanel",null,0,0,1920,1080);var c=root.gameObject.AddComponent<ExpeditionPackingPanel>();c.View=root.gameObject;
   var w=R("Workspace",root,0,0,1920,1080);c.Workspace=w.gameObject.AddComponent<CanvasGroup>();
   var bg=I("Background",w,0,0,1920,1080,A+"teal-texture.png");bg.raycastTarget=true;

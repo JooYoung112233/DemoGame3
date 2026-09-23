@@ -9,7 +9,7 @@ public static class PolishPartyTypography
     {
         if(EditorApplication.isPlaying)throw new Exception("Stop Play before changing prefabs");
         for(int i=0;i<UnityEngine.SceneManagement.SceneManager.sceneCount;i++)if(UnityEngine.SceneManagement.SceneManager.GetSceneAt(i).isDirty)throw new Exception("Preserve unsaved scene changes first");
-        var font=AssetDatabase.LoadAssetAtPath<Font>("Assets/Art/FrontEnd/Fonts/Gaegu/Gaegu-Bold.ttf");
+        var font=AssetDatabase.LoadAssetAtPath<Font>("Assets/funflow_font/TWD-AS_FUNFLOW SURVIVOR_Font/펀플로 생존자.ttf");
         foreach(var name in new[]{"SelectionHeader","CandidateCard","CandidateDetails","NavigationButton","ContinueButton","PartySelectionScreen"})
         {
             string path="Assets/Prefabs/PartySelection/"+name+".prefab";var root=PrefabUtility.LoadPrefabContents(path);
@@ -26,6 +26,6 @@ public static class PolishPartyTypography
             }finally{PrefabUtility.UnloadPrefabContents(root);}
         }
         AssetDatabase.SaveAssets();EditorSceneManager.OpenScene("Assets/Scenes/PartySelection.unity");
-        return "All party selection text uses Gaegu Bold; detail body 30px, card descriptions 22px. Layout and imagery preserved.";
+        return "All party selection text uses FUNFLOW Survivor; detail body 30px, card descriptions 22px. Layout and imagery preserved.";
     }
 }

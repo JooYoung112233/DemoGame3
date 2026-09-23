@@ -9,15 +9,15 @@ public static class BuildSearch {
  const string P="Assets/Prefabs/Settlement/",A="Assets/Art/PartySelection/";static Font font;
  static RectTransform R(string n,Transform p,float x,float y,float w,float h){var r=new GameObject(n,typeof(RectTransform)).GetComponent<RectTransform>();r.SetParent(p,false);r.anchorMin=r.anchorMax=r.pivot=new Vector2(0,1);r.anchoredPosition=new Vector2(x,-y);r.sizeDelta=new Vector2(w,h);return r;}
  static Image I(string n,Transform p,float x,float y,float w,float h,string path=null){var im=R(n,p,x,y,w,h).gameObject.AddComponent<Image>();if(path!=null)im.sprite=AssetDatabase.LoadAssetAtPath<Sprite>(path);im.raycastTarget=false;return im;}
- static Text T(string n,Transform p,float x,float y,float w,float h,string s,int size=28,bool light=true){var t=R(n,p,x,y,w,h).gameObject.AddComponent<Text>();t.font=font;t.fontStyle=FontStyle.Bold;t.fontSize=size;t.text=s;t.color=light?new Color(.96f,.93f,.85f):new Color(.045f,.065f,.06f);t.alignment=TextAnchor.MiddleLeft;t.raycastTarget=false;return t;}
+ static Text T(string n,Transform p,float x,float y,float w,float h,string s,int size=28,bool light=true){var t=R(n,p,x,y,w,h).gameObject.AddComponent<Text>();t.font=font;t.fontStyle=FontStyle.Normal;t.fontSize=size;t.text=s;t.color=light?new Color(.96f,.93f,.85f):new Color(.045f,.065f,.06f);t.alignment=TextAnchor.MiddleLeft;t.raycastTarget=false;return t;}
  static Button B(string n,Transform p,float x,float y,float w,float h,string label,int size=32){var im=I(n,p,x,y,w,h,A+"footer-paper.png");im.raycastTarget=true;var b=im.gameObject.AddComponent<Button>();b.targetGraphic=im;T("Label",im.transform,8,0,w-16,h,label,size,false).alignment=TextAnchor.MiddleCenter;return b;}
  static GameObject Save(GameObject g,string name){var asset=PrefabUtility.SaveAsPrefabAsset(g,P+name+".prefab");Object.DestroyImmediate(g);return asset;}
  public static string Build(){
  if(EditorApplication.isPlaying)throw new Exception("Stop first");for(int i=0;i<UnityEngine.SceneManagement.SceneManager.sceneCount;i++)if(UnityEngine.SceneManagement.SceneManager.GetSceneAt(i).isDirty)throw new Exception("Unsaved scene");
- font=AssetDatabase.LoadAssetAtPath<Font>("Assets/Art/FrontEnd/Fonts/Gaegu/Gaegu-Bold.ttf");
+ font=AssetDatabase.LoadAssetAtPath<Font>("Assets/funflow_font/TWD-AS_FUNFLOW SURVIVOR_Font/펀플로 생존자.ttf");
  var member=R("SearchWorkerCard",null,0,0,132,126);var card=member.gameObject.AddComponent<ExpeditionMemberCard>();card.Paper=member.gameObject.AddComponent<Image>();card.Paper.sprite=AssetDatabase.LoadAssetAtPath<Sprite>(A+"card-paper.png");card.Button=member.gameObject.AddComponent<Button>();card.Button.targetGraphic=card.Paper;card.Portrait=I("Portrait",member,24,7,84,77);card.Portrait.preserveAspect=true;card.Name=T("Name",member,5,86,122,34,"",26,false);card.Name.alignment=TextAnchor.MiddleCenter;var ca=Save(member.gameObject,"SearchWorkerCard");
  var root=R("ExpeditionSearchPanel",null,0,0,1920,1080);var c=root.gameObject.AddComponent<ExpeditionSearchPanel>();c.View=root.gameObject;
- var dim=I("Dim",root,0,0,1920,1080);dim.color=new Color(0,0,0,.38f);dim.raycastTarget=true;
+ var dim=I("Dim",root,0,0,1920,1080);dim.color=new Color(0,0,0,.97f);dim.raycastTarget=true;
  var main=R("Workspace",root,0,0,1920,1080);c.Workspace=main.gameObject.AddComponent<CanvasGroup>();
  I("Panel",main,28,238,654,694,A+"card-paper.png").color=new Color(.1f,.14f,.14f,.98f);
  I("TitlePaper",main,48,250,270,62,A+"footer-paper.png");c.Title=T("Title",main,68,250,230,62,"물자 상자",36,false);

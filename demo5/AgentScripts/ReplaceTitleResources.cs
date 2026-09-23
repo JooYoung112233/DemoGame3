@@ -65,7 +65,7 @@ public static class ReplaceTitleResources
         {
             text.font=(text.name=="Title"||text.name=="Label")?font:bodyFont;
             text.verticalOverflow=VerticalWrapMode.Overflow;
-            // Gaegu Bold is the explicitly allowed similar runtime typeface.
+            // FUNFLOW Survivor is the explicitly allowed similar runtime typeface.
             if(text.name=="Arrow")text.fontSize=48;
             else if(text.name=="Title")text.fontSize=root.name.StartsWith("TitleMenu")?96:62;
             else if(text.name=="Label")text.fontSize=46;
@@ -112,7 +112,7 @@ public static class ReplaceTitleResources
         for(int i=0;i<UnityEngine.SceneManagement.SceneManager.sceneCount;i++)if(UnityEngine.SceneManagement.SceneManager.GetSceneAt(i).isDirty)throw new InvalidOperationException("Preserve unsaved scene changes first.");
         Directory.CreateDirectory(Art);
         foreach(var name in new[]{"title-paper","title-paper-stepped","button-paper-reference","button-gold-reference","city-clean","explorer-cap","explorer-ponytail","icon-new-game","icon-continue","icon-settings","icon-load","icon-exit","icon-arrow"})File.Copy("아트/시작화면-v2/개별-PNG/"+name+".png",Art+name+".png",true);
-        AssetDatabase.Refresh();font=AssetDatabase.LoadAssetAtPath<Font>("Assets/Art/FrontEnd/Fonts/Gaegu/Gaegu-Bold.ttf");bodyFont=AssetDatabase.LoadAssetAtPath<Font>("Assets/Art/FrontEnd/Fonts/Gaegu/Gaegu-Regular.ttf");if(!font||!bodyFont)throw new Exception("Missing packaged font");
+        AssetDatabase.Refresh();font=AssetDatabase.LoadAssetAtPath<Font>("Assets/funflow_font/TWD-AS_FUNFLOW SURVIVOR_Font/펀플로 생존자.ttf");bodyFont=AssetDatabase.LoadAssetAtPath<Font>("Assets/funflow_font/TWD-AS_FUNFLOW SURVIVOR_Font/펀플로 생존자.ttf");if(!font||!bodyFont)throw new Exception("Missing packaged font");
         title=Import("title-paper");steppedTitle=Import("title-paper-stepped");button=Import("button-paper-reference");gold=Import("button-gold-reference");var city=Import("city-clean");var cap=Import("explorer-cap");var pony=Import("explorer-ponytail");
         foreach(var name in new[]{"icon-new-game","icon-continue","icon-settings","icon-load","icon-exit","icon-arrow"})Import(name);
         foreach(var name in new[]{"PaperButton","SettingsDialog","LoadDialog","ConfirmDialog","TitleMenu"})
@@ -141,6 +141,6 @@ public static class ReplaceTitleResources
         var scene=EditorSceneManager.OpenScene("Assets/Scenes/StartMenu.unity");
         var viewport=Object.FindAnyObjectByType<TitleViewport>();viewport.FontOverride=font;viewport.RefreshFont();
         EditorUtility.SetDirty(viewport);EditorSceneManager.SaveScene(scene);AssetDatabase.SaveAssets();
-        return "PASS: outer layout preserved; source paper and source icons applied; internal button alignment matches reference proportions; Gaegu Bold assigned.";
+        return "PASS: outer layout preserved; source paper and source icons applied; internal button alignment matches reference proportions; FUNFLOW Survivor assigned.";
     }
 }

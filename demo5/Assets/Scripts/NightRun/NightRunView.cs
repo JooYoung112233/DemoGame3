@@ -27,9 +27,10 @@ namespace Demo5.NightRun
         static readonly Color Cream=Hex("DED2B7"),Ink=Hex("262B27"),Muted=Hex("ADBAAF"),Gold=Hex("DBC281"),Teal=Hex("79ABA0"),Red=Hex("BD7567");
         static readonly Color PanelColor=new Color(.065f,.09f,.085f,.92f),Background=new Color(.03f,.05f,.045f,.72f);
         static Color Hex(string s){ColorUtility.TryParseHtmlString("#"+s,out var c);return c;}
+        public Font FontOverride;
         void Awake()
         {
-            font=Font.CreateDynamicFontFromOSFont(new[]{"Malgun Gothic","Apple SD Gothic Neo","Noto Sans CJK KR","Arial"},28);
+            font=FontOverride?FontOverride:Font.CreateDynamicFontFromOSFont(new[]{"Malgun Gothic","Apple SD Gothic Neo","Noto Sans CJK KR","Arial"},28);
             if(font==null)font=Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");Build();Restart();
             var prepared=Demo5.FrontEnd.PartySelectionSession.Take();if(prepared!=null){Campaign=prepared;Refresh();}
         }

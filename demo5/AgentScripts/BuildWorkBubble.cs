@@ -10,12 +10,12 @@ public static class BuildWorkBubble {
  const string P="Assets/Prefabs/Settlement/",A="Assets/Art/PartySelection/",E="Assets/Art/ExpeditionPlan/";static Font font;
  static RectTransform R(string n,Transform p,float x,float y,float w,float h){var r=new GameObject(n,typeof(RectTransform)).GetComponent<RectTransform>();r.SetParent(p,false);r.anchorMin=r.anchorMax=r.pivot=new Vector2(0,1);r.anchoredPosition=new Vector2(x,-y);r.sizeDelta=new Vector2(w,h);return r;}
  static Image I(string n,Transform p,float x,float y,float w,float h,string path=null){var im=R(n,p,x,y,w,h).gameObject.AddComponent<Image>();if(path!=null)im.sprite=AssetDatabase.LoadAssetAtPath<Sprite>(path);im.raycastTarget=false;return im;}
- static Text T(string n,Transform p,float x,float y,float w,float h,string s,int size=30,bool light=false){var t=R(n,p,x,y,w,h).gameObject.AddComponent<Text>();t.font=font;t.fontStyle=FontStyle.Bold;t.fontSize=size;t.text=s;t.color=light?new Color(.96f,.93f,.85f):new Color(.045f,.065f,.06f);t.alignment=TextAnchor.MiddleLeft;t.raycastTarget=false;return t;}
+ static Text T(string n,Transform p,float x,float y,float w,float h,string s,int size=30,bool light=false){var t=R(n,p,x,y,w,h).gameObject.AddComponent<Text>();t.font=font;t.fontStyle=FontStyle.Normal;t.fontSize=size;t.text=s;t.color=light?new Color(.96f,.93f,.85f):new Color(.045f,.065f,.06f);t.alignment=TextAnchor.MiddleLeft;t.raycastTarget=false;return t;}
  static Button B(string n,Transform p,float x,float y,float w,float h,string label,int size=32){var im=I(n,p,x,y,w,h,A+"footer-paper.png");im.raycastTarget=true;var b=im.gameObject.AddComponent<Button>();b.targetGraphic=im;T("Label",im.transform,6,0,w-12,h,label,size).alignment=TextAnchor.MiddleCenter;return b;}
  static GameObject Save(GameObject g,string name){var asset=PrefabUtility.SaveAsPrefabAsset(g,P+name+".prefab");Object.DestroyImmediate(g);return asset;}
  static Sprite S(string name)=>AssetDatabase.LoadAssetAtPath<Sprite>(E+name+".png");
  public static string Build(){
-  if(EditorApplication.isPlaying)throw new Exception("Stop first");font=AssetDatabase.LoadAssetAtPath<Font>("Assets/Art/FrontEnd/Fonts/Gaegu/Gaegu-Bold.ttf");
+  if(EditorApplication.isPlaying)throw new Exception("Stop first");font=AssetDatabase.LoadAssetAtPath<Font>("Assets/funflow_font/TWD-AS_FUNFLOW SURVIVOR_Font/펀플로 생존자.ttf");
   var root=R("WorkBubble",null,0,0,0,0);var c=root.gameObject.AddComponent<SettlementWorkBubble>();
   var visual=R("Visual",root,-120,-42,240,84);c.Visual=visual.gameObject;I("Paper",visual,0,0,240,84,A+"card-paper.png");
   var tail=I("Tail",visual,188,75,19,19,A+"count-paper.png");tail.rectTransform.localRotation=Quaternion.Euler(0,0,45);tail.transform.SetAsFirstSibling();

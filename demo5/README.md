@@ -1,3 +1,5 @@
+최신 제작 순서: [비전투 우선 제작 계획](기획/비전투-우선-제작계획.md). 전투 개선은 비전투 순환 검수 이후 진행한다.
+
 # demo5 — Night Expedition
 
 ## 최신 작업: 징후와 조우 선택
@@ -93,3 +95,4 @@ unity command run_script --file AgentScripts/BuildPlayer.cs --entry BuildPlayer.
 
 ## 폐상가 도착 — 2026-09-22
 출발 확인·도착 페이드·사물 설명·현장 가방·귀환 연결. [범위와 검증](기획/탐색도착-구현.md). 수색/턴 진행은 후속 단계.
+

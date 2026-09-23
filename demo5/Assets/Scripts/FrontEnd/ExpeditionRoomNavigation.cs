@@ -13,13 +13,14 @@ namespace Demo5.FrontEnd {
   public Vector3 ArcadeDoor=new Vector3(8.2f,-.3f,0),CorridorDoor=new Vector3(-7,-.2f,0);
   public int CurrentRoom{get;private set;}
   public int Noise{get;private set;}
-  public void SpendSearchTurn(int noise){Turns++;Noise=Mathf.Max(0,Noise+noise);RefreshLabels();}
+  [Min(1)] public int MinutesPerTurn=10;
+  public void SpendSearchTurn(int noise){Turns++;owner.SpendFieldTime(MinutesPerTurn);Noise=Mathf.Max(0,Noise+noise);RefreshLabels();}
   public int Turns{get;private set;}
   public bool CorridorVisited{get;private set;}
   public IReadOnlyCollection<int> Inspected=>inspected;
   readonly HashSet<int> inspected=new HashSet<int>();ExpeditionArrivalPanel owner;int pending=-1;
   public void Initialize(ExpeditionArrivalPanel panel){owner=panel;CorridorBack.onClick.AddListener(AskMove);LockedDoor.onClick.AddListener(()=>owner.OpenPopup("잠긴 철문","문이 잠겨 있습니다.\n안쪽은 보이지 않습니다."));OfficeDoor.onClick.AddListener(()=>owner.OpenPopup("닫힌 문","문틈으로는 안쪽을 확인하기 어렵습니다.\n지금은 들어갈 수 없습니다."));owner.ReturnConfirm.onClick.AddListener(ConfirmMove);}
-  public void ResetVisit(){CurrentRoom=Turns=Noise=0;CorridorVisited=false;pending=-1;inspected.Clear();ApplyRoom();}
+  public void ResetVisit(){CurrentRoom=Turns=Noise=0;pending=-1;ApplyRoom();}
   public void MarkInspected(int index){inspected.Add(index);RefreshLabels();}
   public void CancelPending(){pending=-1;}
   public void AskMove(){
@@ -28,7 +29,7 @@ namespace Demo5.FrontEnd {
    owner.OpenPopup(pending==1?"복도로 이동할까요?":"오락실로 돌아갈까요?","원정대 전체 이동 · 1턴\n\n"+(pending==1&&!CorridorVisited?"아직 방문하지 않은 공간입니다.\n문 너머의 내부는 들어간 뒤 확인할 수 있습니다.":"이미 방문한 방입니다.\n챙긴 물건과 확인한 사물 정보는 유지됩니다."));
    owner.ReturnConfirm.gameObject.SetActive(true);owner.ReturnConfirm.GetComponentInChildren<Text>().text="이동 · 1턴";
   }
-  public void ConfirmMove(){if(pending<0||!owner.IsOpen||owner.InTransit||!owner.Popup.activeSelf)return;int next=pending;pending=-1;owner.ClosePopup();owner.SetRoomTransit(true);Turns++;RefreshLabels();StartCoroutine(Travel(next));}
+  public void ConfirmMove(){if(pending<0||!owner.IsOpen||owner.InTransit||!owner.Popup.activeSelf)return;int next=pending;pending=-1;owner.ClosePopup();owner.SetRoomTransit(true);Turns++;owner.SpendFieldTime(MinutesPerTurn);RefreshLabels();StartCoroutine(Travel(next));}
   IEnumerator Travel(int next){
    var pawns=new List<Transform>();var starts=new List<Vector3>();foreach(Transform p in owner.PawnRoot){pawns.Add(p);starts.Add(p.localPosition);}
    Vector3 door=CurrentRoom==0?ArcadeDoor:CorridorDoor;

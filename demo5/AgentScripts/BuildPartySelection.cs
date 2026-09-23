@@ -40,7 +40,7 @@ public static class BuildPartySelection
         foreach(var f in Directory.GetFiles("아트/모험가선택-v1/개별-PNG","*.png"))File.Copy(f,Art+Path.GetFileName(f),true);
         AssetDatabase.Refresh();
         foreach(var f in Directory.GetFiles(Art,"*.png")){var t=(TextureImporter)AssetImporter.GetAtPath(f.Replace('\\','/'));t.textureType=TextureImporterType.Sprite;t.spriteImportMode=SpriteImportMode.Single;t.alphaIsTransparency=true;t.mipmapEnabled=false;t.textureCompression=TextureImporterCompression.Uncompressed;t.maxTextureSize=4096;t.SaveAndReimport();}
-        bold=AssetDatabase.LoadAssetAtPath<Font>("Assets/Art/FrontEnd/Fonts/Gaegu/Gaegu-Bold.ttf");regular=AssetDatabase.LoadAssetAtPath<Font>("Assets/Art/FrontEnd/Fonts/Gaegu/Gaegu-Regular.ttf");
+        bold=AssetDatabase.LoadAssetAtPath<Font>("Assets/funflow_font/TWD-AS_FUNFLOW SURVIVOR_Font/펀플로 생존자.ttf");regular=AssetDatabase.LoadAssetAtPath<Font>("Assets/funflow_font/TWD-AS_FUNFLOW SURVIVOR_Font/펀플로 생존자.ttf");
         var roster=AssetDatabase.LoadAssetAtPath<PartyRoster>("Assets/Data/PartyRoster.asset");
         if(!roster){roster=ScriptableObject.CreateInstance<PartyRoster>();AssetDatabase.CreateAsset(roster,"Assets/Data/PartyRoster.asset");
             string[] ids={"scout","mechanic","medic","cook","researcher","guard"},names={"탐험가 1","정비공","의무관","요리사","연구자","경비원"},traits={"새로운 곳을 찾는 데\n능숙하다.","망가진 것을\n고칠 수 있다.","부상을 돌보고\n지켜본다.","식재료를 조금 더\n활용한다.","새로운 정보를\n기록한다.","주변을 경계하고\n지킨다."};int[] bags={3,4,3,4,3,4},health={3,3,4,4,3,4};

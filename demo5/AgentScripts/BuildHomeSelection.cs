@@ -27,7 +27,7 @@ public static class BuildHomeSelection
         Directory.CreateDirectory(P);Directory.CreateDirectory("Assets/Art/HomeSelection");
         foreach(var f in Directory.GetFiles("아트/정착지선택-v1/개별-PNG","*.png"))File.Copy(f,"Assets/Art/HomeSelection/"+Path.GetFileName(f),true);
         AssetDatabase.Refresh();foreach(var f in Directory.GetFiles("Assets/Art/HomeSelection","*.png")){var t=(TextureImporter)AssetImporter.GetAtPath(f.Replace('\\','/'));t.textureType=TextureImporterType.Sprite;t.spriteImportMode=SpriteImportMode.Single;t.alphaIsTransparency=true;t.mipmapEnabled=false;t.textureCompression=TextureImporterCompression.Uncompressed;t.SaveAndReimport();}
-        font=AssetDatabase.LoadAssetAtPath<Font>("Assets/Art/FrontEnd/Fonts/Gaegu/Gaegu-Bold.ttf");
+        font=AssetDatabase.LoadAssetAtPath<Font>("Assets/funflow_font/TWD-AS_FUNFLOW SURVIVOR_Font/펀플로 생존자.ttf");
         var scene=EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);
         var camera=new GameObject("Main Camera",typeof(Camera),typeof(AudioListener)).GetComponent<Camera>();camera.tag="MainCamera";camera.orthographic=true;camera.transform.position=new Vector3(0,0,-10);camera.clearFlags=CameraClearFlags.SolidColor;camera.backgroundColor=new Color(.055f,.095f,.105f);
         new GameObject("EventSystem",typeof(EventSystem),typeof(InputSystemUIInputModule)).GetComponent<InputSystemUIInputModule>().AssignDefaultActions();

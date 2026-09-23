@@ -75,7 +75,10 @@ namespace Demo5.NightRun
         public bool IsFieldExpedition {get;private set;}
         public string FieldDestination {get;private set;}
         public string ClockText=>"DAY "+Day+"\n"+(MinuteOfDay/60).ToString("00")+":"+(MinuteOfDay%60).ToString("00");
-        void AdvanceTravel(int minutes){int total=MinuteOfDay+minutes;Day+=total/1440;MinuteOfDay=total%1440;}
+        public event Action<int> TimeAdvanced;
+        void AdvanceTravel(int minutes){int total=MinuteOfDay+minutes;Day+=total/1440;MinuteOfDay=total%1440;if(minutes>0)TimeAdvanced?.Invoke(minutes);}
+        public bool AdvanceSettlementTime(int minutes){if(Stage!=JourneyStage.Settlement||minutes<=0||minutes>10080)return false;AdvanceTravel(minutes);return true;}
+        public bool AdvanceFieldTime(int minutes){if(!IsFieldExpedition||Stage!=JourneyStage.Expedition||minutes<=0||minutes>1440)return false;AdvanceTravel(minutes);return true;}
         public bool BeginFieldExpedition(string destination,Adventurer[] participants,int minutes){
             if(Stage!=JourneyStage.Settlement||IsFieldExpedition||string.IsNullOrEmpty(destination)||participants==null||participants.Length==0||minutes<0||participants.Distinct().Count()!=participants.Length||participants.Any(p=>!Party.Contains(p)||p.Health<=0))return false;
             IsFieldExpedition=true;FieldDestination=destination;Stage=JourneyStage.Expedition;AdvanceTravel(minutes);return true;

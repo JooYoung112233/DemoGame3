@@ -8,11 +8,12 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 namespace Demo5.FrontEnd {
  public sealed class SettlementInventoryPanel:MonoBehaviour {
-  [Serializable] public sealed class Item { public string Id,Name; [TextArea]public string Description; public Sprite Icon; public int Category; }
+  [Serializable] public sealed class Item { public string Id,Name; [TextArea]public string Description; public Sprite Icon; public int Category; [Min(0)] public int Recovery; [Min(1)] public int UseCost=1,UseMinutes=10; }
   public Item[] Items;
   public GameObject View,QuantityPopup; public GameObject[] HideWhileOpen;
   public CanvasGroup Workspace;
   public Text HeaderClock,HeaderLocation;
+  public Button Use;
   public Button CloseButton,ToBag,ToStock,Move,Minus,Plus,Max,Confirm,Cancel,PrevMember,NextMember;
   public Button[] Tabs; public InventorySlot[] MemberCards;
   public RectTransform StockContent,BagContent; public ScrollRect StockScroll,BagScroll;
@@ -24,7 +25,7 @@ namespace Demo5.FrontEnd {
   Adventurer[] expeditionPeople; Action returnToPlan;
   int member,category,page,quantity=1; string selected; bool fromBag;
   public bool IsOpen=>View&&View.activeSelf; public int MemberIndex=>member;
-  public void Initialize(SettlementController c){owner=c;View.SetActive(false);QuantityPopup.SetActive(false);CloseButton.onClick.AddListener(Close);ToBag.onClick.AddListener(()=>{if(!fromBag)AskMove();});ToStock.onClick.AddListener(()=>{if(fromBag)AskMove();});Move.onClick.AddListener(AskMove);Minus.onClick.AddListener(()=>{quantity=Math.Max(1,quantity-1);RefreshQuantity();});Plus.onClick.AddListener(()=>{quantity=Math.Min(Maximum(),quantity+1);RefreshQuantity();});Max.onClick.AddListener(()=>{quantity=Maximum();RefreshQuantity();});Confirm.onClick.AddListener(Transfer);Cancel.onClick.AddListener(Dismiss);PrevMember.onClick.AddListener(()=>{page--;RefreshMembers();});NextMember.onClick.AddListener(()=>{page++;RefreshMembers();});for(int i=0;i<Tabs.Length;i++){int index=i;Tabs[i].onClick.AddListener(()=>{category=index;selected=null;Refresh();Reset(StockScroll);});}}
+  public void Initialize(SettlementController c){owner=c;if(Use)Use.onClick.AddListener(()=>UseSelected());View.SetActive(false);QuantityPopup.SetActive(false);CloseButton.onClick.AddListener(Close);ToBag.onClick.AddListener(()=>{if(!fromBag)AskMove();});ToStock.onClick.AddListener(()=>{if(fromBag)AskMove();});Move.onClick.AddListener(AskMove);Minus.onClick.AddListener(()=>{quantity=Math.Max(1,quantity-1);RefreshQuantity();});Plus.onClick.AddListener(()=>{quantity=Math.Min(Maximum(),quantity+1);RefreshQuantity();});Max.onClick.AddListener(()=>{quantity=Maximum();RefreshQuantity();});Confirm.onClick.AddListener(Transfer);Cancel.onClick.AddListener(Dismiss);PrevMember.onClick.AddListener(()=>{page--;RefreshMembers();});NextMember.onClick.AddListener(()=>{page++;RefreshMembers();});for(int i=0;i<Tabs.Length;i++){int index=i;Tabs[i].onClick.AddListener(()=>{category=index;selected=null;Refresh();Reset(StockScroll);});}}
   Dictionary<string,int> Bag(Adventurer p){if(!bags.TryGetValue(p,out var bag)){bag=new Dictionary<string,int>();bags.Add(p,bag);}return bag;}
   public int BagCount(int index,string id)=>index>=0&&index<people.Length&&Bag(people[index]).TryGetValue(id,out int n)?n:0;
   public int CountFor(Adventurer person,string id)=>Bag(person).TryGetValue(id,out int n)?n:0;
@@ -33,6 +34,17 @@ namespace Demo5.FrontEnd {
   public bool MoveFor(Adventurer person,string id,int count,bool toBag){if(count<1||count>TransferLimit(person,id,toBag))return false;if(id!="supplies"&&id!="ammo"){var material=owner.CraftPanel.Materials.FirstOrDefault(x=>x.Id==id);if(material==null)return false;material.Initial+=toBag?-count:count;}Bag(person)[id]=CountFor(person,id)+(toBag?count:-count);return true;}
   public bool TransferField(Adventurer person,string id,int count,bool take){if(!owner.Campaign.IsFieldExpedition||!owner.ArrivalPanel.Participants.Contains(person)||person.Health<=0||count<=0||!Items.Any(i=>i.Id==id))return false;if(take&&CountFor(person,id)==0&&SlotsFor(person)>=person.BagCapacity)return false;if(!take&&CountFor(person,id)<count)return false;if((id=="supplies"||id=="ammo")&&!owner.Campaign.AdjustFieldResource(id,take?count:-count))return false;Bag(person)[id]=CountFor(person,id)+(take?count:-count);return true;}
   int Allocated(string id)=>bags.Values.Sum(b=>b.TryGetValue(id,out int n)?n:0);
+  public int FieldExchangeLimit(Adventurer source,Adventurer target,string id){
+   var a=owner.ArrivalPanel;
+   if(!owner.Campaign.IsFieldExpedition||!a.IsOpen||a.InTransit||a.Popup.activeSelf||(a.Encounter&&a.Encounter.IsOpen)||(a.Search&&a.Search.IsOpen)||(a.Loot&&a.Loot.IsOpen)||source==null||target==null||source==target||source.Health<=0||target.Health<=0||!a.Participants.Contains(source)||!a.Participants.Contains(target)||!Items.Any(i=>i.Id==id))return 0;
+   return CountFor(target,id)==0&&SlotsFor(target)>=target.BagCapacity?0:CountFor(source,id);
+  }
+  public bool ExchangeField(Adventurer source,Adventurer target,string id,int count){
+   if(count<1||count>FieldExchangeLimit(source,target,id))return false;
+   // Moving between bags does not change campaign totals, stock, time or noise.
+   int held=CountFor(source,id),received=CountFor(target,id);if(received>int.MaxValue-count)return false;
+   Bag(source)[id]=held-count;Bag(target)[id]=received+count;owner.ArrivalPanel.RefreshFieldBags();return true;
+  }
   public int StockCount(string id){if(id=="supplies")return Math.Max(0,(owner.Campaign?.Supplies??0)-Allocated(id));if(id=="ammo")return Math.Max(0,(owner.Campaign?.Ammo??0)-Allocated(id));return owner.CraftPanel?owner.CraftPanel.Available(id):0;}
   public int UsedSlots(int index)=>Bag(people[index]).Count(k=>k.Value>0);
   public void Open(int index=0){if(owner.Campaign?.Stage!=JourneyStage.Settlement||IsOpen||owner.IsPopupOpen||(owner.WorkPanel&&owner.WorkPanel.IsOpen)||(owner.CraftPanel&&owner.CraftPanel.IsOpen))return;people=expeditionPeople??owner.Campaign?.Party.ToArray()??Array.Empty<Adventurer>();member=Mathf.Clamp(index,0,Math.Max(0,people.Length-1));page=member/MemberCards.Length;category=0;selected=null;if(HeaderClock)HeaderClock.text=owner.Clock.text;if(HeaderLocation)HeaderLocation.text=owner.Location.text;returnFocus=EventSystem.current?.currentSelectedGameObject;hidden=HideWhileOpen.Select(g=>g.activeSelf).ToArray();foreach(var g in HideWhileOpen)g.SetActive(false);owner.Main.interactable=false;owner.Main.blocksRaycasts=false;View.SetActive(true);Workspace.interactable=true;Workspace.blocksRaycasts=true;Notice.text="거점에서만 창고와 이동 가능.";Refresh();Reset(StockScroll);Reset(BagScroll);EventSystem.current?.SetSelectedGameObject(CloseButton.gameObject);}
@@ -48,7 +60,36 @@ namespace Demo5.FrontEnd {
   void AddSlot(Item item,int count,bool bag,RectTransform content,List<InventorySlot> rows){var row=Instantiate(SlotPrefab,content);row.Bind(item.Icon,item.Name,count,selected==item.Id&&fromBag==bag);row.Button.onClick.AddListener(()=>{selected=item.Id;fromBag=bag;RefreshSelection();});rows.Add(row);}
   void RefreshSelection(){var visible=Items.Where(i=>(category==0||i.Category==category)&&StockCount(i.Id)>0).ToArray();for(int i=0;i<stockRows.Count;i++)stockRows[i].Selection.enabled=!fromBag&&visible[i].Id==selected;var held=Items.Where(i=>BagCount(member,i.Id)>0).ToArray();for(int i=0;i<bagRows.Count;i++)bagRows[i].Selection.enabled=fromBag&&i<held.Length&&held[i].Id==selected;RefreshDetail();}
   void RefreshMembers(){for(int i=0;i<MemberCards.Length;i++){int index=page*MemberCards.Length+i;var card=MemberCards[i];card.gameObject.SetActive(index<people.Length);if(index>=people.Length)continue;int originalIndex=Array.IndexOf(owner.Campaign.Party.ToArray(),people[index]);var id=PartySelectionSession.Selected.ElementAtOrDefault(originalIndex);var data=owner.Roster.Candidates.FirstOrDefault(x=>x.Id==id)??owner.Roster.Candidates.FirstOrDefault(x=>x.DisplayName==people[index].Name);card.Bind(data?.Portrait,people[index].Name,0,index==member);card.Paper.color=index==member?new Color(1,.8f,.43f):Color.white;card.Button.onClick.RemoveAllListeners();card.Button.onClick.AddListener(()=>{member=index;selected=null;Refresh();Reset(BagScroll);});}PrevMember.gameObject.SetActive(page>0);NextMember.gameObject.SetActive((page+1)*MemberCards.Length<people.Length);}
-  void RefreshDetail(){var item=Items.FirstOrDefault(i=>i.Id==selected);DetailTitle.text=item?.Name??"물건 선택";DetailIcon.sprite=item?.Icon;DetailIcon.enabled=item!=null;Description.text=item?.Description??"창고나 가방의 물건을\n눌러 확인하세요.";Location.text=item==null?"":fromBag?"보관 위치 · 개인 가방":"보관 위치 · 공용 창고";ToBag.interactable=item!=null&&!fromBag&&Maximum()>0;ToStock.interactable=item!=null&&fromBag&&Maximum()>0;Move.interactable=item!=null&&Maximum()>0;Move.transform.Find("Label").GetComponent<Text>().text=fromBag?"창고로 옮기기":"가방에 넣기";if(item!=null&&!fromBag&&Maximum()==0)Location.text="가방이 가득 찼습니다.";}
+  void RefreshDetail(){var item=Items.FirstOrDefault(i=>i.Id==selected);DetailTitle.text=item?.Name??"물건 선택";DetailIcon.sprite=item?.Icon;DetailIcon.enabled=item!=null;Description.text=item?.Description??"창고나 가방의 물건을\n눌러 확인하세요.";Location.text=item==null?"":fromBag?"보관 위치 · 개인 가방":"보관 위치 · 공용 창고";ToBag.interactable=item!=null&&!fromBag&&Maximum()>0;ToStock.interactable=item!=null&&fromBag&&Maximum()>0;Move.interactable=item!=null&&Maximum()>0;Move.transform.Find("Label").GetComponent<Text>().text=fromBag?"창고로 옮기기":"가방에 넣기";if(item!=null&&!fromBag&&Maximum()==0)Location.text="가방이 가득 찼습니다.";RefreshUse(item);}
+  string UseBlock(Item item){
+   if(item==null||item.Recovery<=0)return "사용할 수 없는 물건입니다.";
+   if(!IsOpen||QuantityPopup.activeSelf||owner.Campaign?.Stage!=JourneyStage.Settlement||member<0||member>=people.Length)return "정착지에서만 처치할 수 있습니다.";
+   var p=people[member];if(p.Health<=0)return "행동 불능 · 처치 불가";
+   if(p.Health>=p.MaxHealth)return "체력이 가득 찼습니다.";
+   if(owner.IsAssigned(p))return "작업 종료 후 처치 가능";
+   if(item.UseCost<1||item.UseMinutes<1||item.UseMinutes>10080)return "처치 설정을 확인하세요.";
+   if((fromBag?CountFor(p,item.Id):StockCount(item.Id))<item.UseCost)return "재료 부족 · 보관 위치 확인";
+   if(!fromBag&&!owner.CraftPanel.Materials.Any(m=>m.Id==item.Id))return "사용할 재료가 없습니다.";
+   return null;
+  }
+  void RefreshUse(Item item){
+   if(!Use)return;Use.interactable=UseBlock(item)==null;Use.GetComponentInChildren<Text>().text=item!=null&&item.Recovery>0?"응급 처치":"사용";
+   if(item==null||item.Recovery<=0||people.Length==0)return;
+   var p=people[member];Description.text=item.Name+" "+item.UseCost+"개 · "+item.UseMinutes+"분\n체력 "+p.Health+" → "+Math.Min(p.MaxHealth,p.Health+item.Recovery)+" / "+p.MaxHealth;
+   Location.text=UseBlock(item)??(fromBag?"개인 가방 재료 사용":"공용 창고 재료 사용");
+  }
+  public bool UseSelected(){
+   var item=Items.FirstOrDefault(i=>i.Id==selected);if(UseBlock(item)!=null)return false;
+   var p=people[member];int before=p.Health;
+   if(fromBag)Bag(p)[item.Id]=CountFor(p,item.Id)-item.UseCost;
+   else owner.CraftPanel.Materials.First(m=>m.Id==item.Id).Initial-=item.UseCost;
+   p.Health=Math.Min(p.MaxHealth,p.Health+item.Recovery);
+   owner.Campaign.AdvanceSettlementTime(item.UseMinutes);
+   string result=p.Name+" · 응급 처치 · 체력 "+before+" → "+p.Health;
+   owner.ActivityLog.Add(owner.Campaign.ClockText.Replace("\n"," ")+" · "+result);
+   Notice.text=result+" · "+item.Name+" -"+item.UseCost+" · "+item.UseMinutes+"분";
+   owner.RefreshMembers();Refresh();return true;
+  }
   int Maximum(){if(selected==null||people.Length==0)return 0;if(fromBag)return BagCount(member,selected);if(BagCount(member,selected)==0&&UsedSlots(member)>=people[member].BagCapacity)return 0;return StockCount(selected);}
   void AskMove(){if(Maximum()<1)return;quantity=1;QuantityTitle.text=Items.First(i=>i.Id==selected).Name+" 옮기기";QuantityPopup.SetActive(true);Workspace.interactable=false;Workspace.blocksRaycasts=false;RefreshQuantity();EventSystem.current?.SetSelectedGameObject(Confirm.gameObject);}
   void RefreshQuantity(){int maximum=Maximum();quantity=Mathf.Clamp(quantity,0,maximum);QuantityValue.text=quantity.ToString();QuantityHint.text=(fromBag?"개인 가방 → 공용 창고":"공용 창고 → "+people[member].Name+" 가방")+"\n이동 가능 "+maximum+"개";Minus.interactable=quantity>1;Plus.interactable=quantity<maximum;Max.interactable=maximum>0;Confirm.interactable=quantity>0;}

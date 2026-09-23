@@ -21,7 +21,7 @@ public static class PolishHomeIcons
         foreach(var f in Directory.GetFiles("아트/정착지선택-v1/개별-PNG","icon-*.png")){string path="Assets/Art/HomeSelection/"+Path.GetFileName(f);File.Copy(f,path,true);AssetDatabase.ImportAsset(path);var t=(TextureImporter)AssetImporter.GetAtPath(path);t.textureType=TextureImporterType.Sprite;t.spriteImportMode=SpriteImportMode.Single;t.alphaIsTransparency=true;t.mipmapEnabled=false;t.textureCompression=TextureImporterCompression.Uncompressed;t.SaveAndReimport();}
         string[] icons={"icon-supplies","icon-ammo","icon-recovery"};
         var stat=Rect("ResourceIconValue",null,0,0,102,48);Icon("Icon",stat,0,8,32,32,Art(icons[0]));
-        var text=Rect("Value",stat,43,0,54,48).gameObject.AddComponent<Text>();text.font=AssetDatabase.LoadAssetAtPath<Font>("Assets/Art/FrontEnd/Fonts/Gaegu/Gaegu-Bold.ttf");text.fontSize=32;text.alignment=TextAnchor.MiddleLeft;text.color=new Color(.06f,.095f,.095f);text.text="0";text.raycastTarget=false;
+        var text=Rect("Value",stat,43,0,54,48).gameObject.AddComponent<Text>();text.font=AssetDatabase.LoadAssetAtPath<Font>("Assets/funflow_font/TWD-AS_FUNFLOW SURVIVOR_Font/펀플로 생존자.ttf");text.fontSize=32;text.alignment=TextAnchor.MiddleLeft;text.color=new Color(.06f,.095f,.095f);text.text="0";text.raycastTarget=false;
         var item=PrefabUtility.SaveAsPrefabAsset(stat.gameObject,P+"ResourceIconValue.prefab");Object.DestroyImmediate(stat.gameObject);
         Edit("HomeCandidateCard",g=>{
             var c=g.GetComponent<HomeCandidateCard>();var values=new Text[3];

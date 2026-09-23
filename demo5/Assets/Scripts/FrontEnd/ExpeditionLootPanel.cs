@@ -7,9 +7,10 @@ using UnityEngine.UI;
 namespace Demo5.FrontEnd {
  public sealed class ExpeditionLootPanel:MonoBehaviour {
   [Serializable] public sealed class Drop {public string Id;public int Count=1;[Range(0,100)]public int Chance=70;}
-  [Serializable] public sealed class Site {public Drop[] Drops;}
-  public sealed class SearchState {public int Progress,Required,Pace,Bonus,Duty;public bool Complete;public readonly Dictionary<string,int> Loot=new Dictionary<string,int>();}
+  [Serializable] public sealed class Site {public Drop[] Drops;public string RequiredTool;}
+  public sealed class SearchState {public int Progress,Required,Pace,Bonus,Duty;public bool Complete,Opened;public readonly Dictionary<string,int> Loot=new Dictionary<string,int>();}
   public Site[] Sites;public GameObject View,LeaveReview;public CanvasGroup Workspace;
+  [Range(0,100)]public int LightBonus=20;
   public RectTransform Members,FieldContent,BagContent;public ExpeditionMemberCard MemberPrefab;public InventorySlot SlotPrefab;
   public Text Title,BagTitle,Capacity,DetailTitle,Description,Quantity,Message,Empty,LeaveBody;
   public Image DetailIcon;public Button Back,Minus,Plus,Max,Transfer,LeaveCancel,LeaveConfirm;
@@ -18,9 +19,26 @@ namespace Demo5.FrontEnd {
   readonly string[] hiddenNames={"ArrivalPaper","ArrivalTitle","Status","Hint","Return","Members","TurnPaper","TurnLabel","RoutePaper","RouteLabel"};bool[] hiddenStates; ExpeditionArrivalPanel arrival;int site,member,quantity=1;string selected;bool fromBag;
   public bool IsOpen=>View.activeSelf;public Adventurer Current=>arrival.Participants[member];
   public SearchState State(int index){if(!states.TryGetValue(index,out var s)){s=new SearchState();states.Add(index,s);}return s;}
+  // Read-only guidance: do not create search state or roll unknown rewards.
+  public bool MaterialAvailability(string id,out int unfinished,out int remaining){
+   unfinished=remaining=0;bool known=false;
+   for(int i=0;i<Sites.Length;i++){
+    bool candidate=Sites[i].Drops.Any(d=>d.Id==id&&d.Chance>0&&d.Count>0);known|=candidate;
+    states.TryGetValue(i,out var s);
+    if(s!=null&&s.Complete){if(s.Loot.TryGetValue(id,out int count))remaining+=Math.Max(0,count);}
+    else if(candidate)unfinished++;
+   }
+   return known||remaining>0;
+  }
   public void Initialize(ExpeditionArrivalPanel a){arrival=a;View.SetActive(false);LeaveReview.SetActive(false);Back.onClick.AddListener(AskClose);Minus.onClick.AddListener(()=>{quantity=Math.Max(1,quantity-1);Detail();});Plus.onClick.AddListener(()=>{quantity=Math.Min(Limit(),quantity+1);Detail();});Max.onClick.AddListener(()=>{quantity=Limit();Detail();});Transfer.onClick.AddListener(Move);LeaveCancel.onClick.AddListener(Dismiss);LeaveConfirm.onClick.AddListener(Close);}
-  public bool Advance(int index,int pace,Adventurer worker,int duty=0){if(!arrival.IsOpen||arrival.InTransit||(arrival.Encounter&&arrival.Encounter.IsOpen)||arrival.Rooms.CurrentRoom!=0||index<0||index>=Sites.Length||pace<0||pace>2||worker==null||worker.Health<=0||!arrival.Participants.Contains(worker))return false;var s=State(index);if(s.Complete)return false;if(s.Progress==0){s.Pace=pace;s.Duty=duty;s.Required=pace+1;s.Bonus=duty==0&&arrival.Participants.Count(p=>p.Health>0)>1?10:0;}s.Progress++;arrival.Rooms.SpendSearchTurn(Math.Max(0,3-s.Pace-(s.Duty==1&&arrival.Participants.Count(p=>p.Health>0)>1?1:0)));
-   if(s.Progress>=s.Required){s.Complete=true;foreach(var drop in Sites[index].Drops){int chance=Mathf.Clamp(drop.Chance+(s.Pace-1)*15+s.Bonus,0,100);if(UnityEngine.Random.Range(0,100)<chance)s.Loot[drop.Id]=(s.Loot.TryGetValue(drop.Id,out int n)?n:0)+drop.Count;}}return true;}
+  public bool CanSearch(int index,Adventurer worker){if(index<0||index>=Sites.Length||worker==null||worker.Health<=0||!arrival.Participants.Contains(worker))return false;return State(index).Opened||string.IsNullOrEmpty(Sites[index].RequiredTool)||arrival.Inventory.CountFor(worker,Sites[index].RequiredTool)>0;}
+  public static int ChanceFor(Drop drop,int pace,int bonus)=>Mathf.Clamp(drop.Chance+(pace-1)*15+bonus,0,100);
+  public Adventurer LightSupport(Adventurer worker)=>worker==null?null:arrival.Participants.FirstOrDefault(p=>p!=worker&&p.Health>0&&arrival.Inventory.CountFor(p,"flashlight")>0);
+  public bool CanSupport(int duty,Adventurer worker)=>duty==0||duty==1&&arrival.Participants.Count(p=>p.Health>0)>1||duty==2&&LightSupport(worker)!=null;
+  public int BonusFor(int index,int duty)=>State(index).Progress>0?State(index).Bonus:duty==2?LightBonus:duty==0&&arrival.Participants.Count(p=>p.Health>0)>1?10:0;
+  public int NoiseFor(int pace,int duty)=>Math.Max(0,3-pace-(duty==1&&arrival.Participants.Count(p=>p.Health>0)>1?1:0));
+  public bool Advance(int index,int pace,Adventurer worker,int duty=0){if(!arrival.IsOpen||arrival.InTransit||(arrival.Encounter&&arrival.Encounter.IsOpen)||arrival.Rooms.CurrentRoom!=0||index<0||index>=Sites.Length||pace<0||pace>2||worker==null||worker.Health<=0||!arrival.Participants.Contains(worker))return false;var s=State(index);if(s.Complete||!CanSearch(index,worker)||!CanSupport(s.Progress>0?s.Duty:duty,worker))return false;s.Opened=true;if(s.Progress==0){s.Pace=pace;s.Duty=duty;s.Required=pace+1;s.Bonus=BonusFor(index,duty);}s.Progress++;arrival.Rooms.SpendSearchTurn(NoiseFor(s.Pace,s.Duty));
+   if(s.Progress>=s.Required){s.Complete=true;foreach(var drop in Sites[index].Drops){int chance=ChanceFor(drop,s.Pace,s.Bonus);if(UnityEngine.Random.Range(0,100)<chance)s.Loot[drop.Id]=(s.Loot.TryGetValue(drop.Id,out int n)?n:0)+drop.Count;}}return true;}
   public void Open(int index){if(!arrival.IsOpen||arrival.InTransit||(arrival.Encounter&&arrival.Encounter.IsOpen)||IsOpen||!State(index).Complete)return;site=index;hiddenStates=hiddenNames.Select(n=>arrival.Main.transform.Find(n).gameObject.activeSelf).ToArray();foreach(var n in hiddenNames)arrival.Main.transform.Find(n).gameObject.SetActive(false);member=0;selected=null;fromBag=false;quantity=1;View.SetActive(true);LeaveReview.SetActive(false);Workspace.interactable=Workspace.blocksRaycasts=true;arrival.Main.interactable=arrival.Main.blocksRaycasts=false;Title.text=arrival.ObjectNames[site]+" · 발견한 물건";Rebuild();}
   static void Clear<T>(List<T> rows)where T:Component{foreach(var r in rows){r.gameObject.SetActive(false);UnityEngine.Object.Destroy(r.gameObject);}rows.Clear();}
   public void Rebuild(){var inv=arrival.Inventory;Clear(Cards);for(int i=0;i<arrival.Participants.Count;i++){int k=i;var p=arrival.Participants[i];var c=Instantiate(MemberPrefab,Members);c.Name.text=p.Name;c.Portrait.sprite=arrival.Cards[i].Portrait.sprite;c.Paper.color=member==i?new Color(1,.78f,.37f):Color.white;c.Button.interactable=p.Health>0;c.Button.onClick.AddListener(()=>{member=k;quantity=1;Rebuild();});Cards.Add(c);}
