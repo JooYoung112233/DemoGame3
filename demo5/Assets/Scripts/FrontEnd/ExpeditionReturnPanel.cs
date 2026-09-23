@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using Demo5.NightRun;
 namespace Demo5.FrontEnd {
- public sealed class ExpeditionReturnPanel:MonoBehaviour {
+ public sealed partial class ExpeditionReturnPanel:MonoBehaviour {
   public GameObject View;public GameObject[] HideWhileOpen;
   public Button Back,StoreAll,InspectBags;public Text Heading,Overview,Body,Notice;public ScrollRect Scroll;
   public ReturnMemberRow MemberPrefab;public ReturnItemRow ItemPrefab;
@@ -16,7 +16,7 @@ namespace Demo5.FrontEnd {
   readonly List<ReturnMemberRow> memberRows=new List<ReturnMemberRow>();readonly List<ReturnItemRow> itemRows=new List<ReturnItemRow>();
   readonly List<MemberResult> memberResults=new List<MemberResult>();readonly List<ItemResult> itemResults=new List<ItemResult>();
   sealed class MemberResult {public Sprite Portrait;public string Name;public int Before,After,Maximum;}
-  sealed class ItemResult {public Sprite Icon;public string Name;public int Before,After;}
+  sealed class ItemResult {public Sprite Icon;public string Id,Name;public int Before,After;}
   int elapsedMinutes;
   public bool IsOpen=>View&&View.activeSelf;public bool HasReport{get;private set;}
   SettlementController owner;bool[] hidden;Adventurer[] party=Array.Empty<Adventurer>();
@@ -29,7 +29,7 @@ namespace Demo5.FrontEnd {
    int elapsed=(owner.Campaign.Day-1)*1440+owner.Campaign.MinuteOfDay-start;
    elapsedMinutes=elapsed;overview=destination+" → "+owner.Campaign.Home.Name+"  ·  "+elapsed+"분 경과";
    memberResults.Clear();itemResults.Clear();foreach(var p in party){int index=Array.IndexOf(owner.Campaign.Party.ToArray(),p);var id=PartySelectionSession.Selected.ElementAtOrDefault(index);var data=owner.Roster.Candidates.FirstOrDefault(x=>x.Id==id)??owner.Roster.Candidates.FirstOrDefault(x=>x.DisplayName==p.Name);memberResults.Add(new MemberResult{Portrait=data?.Portrait,Name=p.Name,Before=health[p],After=p.Health,Maximum=p.MaxHealth});}
-   foreach(var item in owner.InventoryPanel.Items){int before=party.Sum(p=>initial[p][item.Id]),after=party.Sum(p=>owner.InventoryPanel.CountFor(p,item.Id));if(before!=0||after!=0)itemResults.Add(new ItemResult{Icon=item.Icon,Name=item.Name,Before=before,After=after});}
+   foreach(var item in owner.InventoryPanel.Items){int before=party.Sum(p=>initial[p][item.Id]),after=party.Sum(p=>owner.InventoryPanel.CountFor(p,item.Id));if(before!=0||after!=0)itemResults.Add(new ItemResult{Id=item.Id,Icon=item.Icon,Name=item.Name,Before=before,After=after});}
    var lines=new List<string>();foreach(var p in party){lines.Add(p.Name+"  ·  체력 "+health[p]+" → "+p.Health+" / "+p.MaxHealth);var items=new List<string>();foreach(var item in owner.InventoryPanel.Items){int before=initial[p][item.Id],after=owner.InventoryPanel.CountFor(p,item.Id);if(before==0&&after==0)continue;int change=after-before;items.Add(item.Name+"  "+before+" → "+after+(change==0?"":"  ("+(change>0?"+":"")+change+")"));}lines.Add(items.Count==0?"휴대품 없음":string.Join("\n",items));lines.Add("");}
    report=string.Join("\n",lines)+"\n출발 → 귀환 시점의 휴대 수량입니다.\n변화량은 획득·사용·현장에 두기를 합산합니다.";HasReport=true;Open();
   }
@@ -40,8 +40,8 @@ namespace Demo5.FrontEnd {
    foreach(var data in itemResults){var row=Instantiate(ItemPrefab,ItemContent);row.Bind(data.Icon,data.Name,data.Before,data.After);itemRows.Add(row);}
    MemberCount.text=memberResults.Count+"명";ItemCount.text=itemResults.Count+"종";EmptyItems.gameObject.SetActive(itemResults.Count==0);
   }
-  void Refresh(){int count=party.Sum(p=>owner.InventoryPanel.Items.Sum(i=>owner.InventoryPanel.CountFor(p,i.Id)));StoreAll.interactable=count>0;Notice.text=count>0?"휴대품 "+count+"개 · 출발 때 챙긴 물건까지 모두 보관합니다.":"정리 완료 · 원정대의 가방이 비었습니다.";}
-  void Unpack(){if(!IsOpen)return;foreach(var p in party)foreach(var item in owner.InventoryPanel.Items){int count=owner.InventoryPanel.CountFor(p,item.Id);if(count>0)owner.InventoryPanel.MoveFor(p,item.Id,count,false);}Refresh();}
+  void Refresh(){int count=party.Sum(p=>owner.InventoryPanel.Items.Sum(i=>owner.InventoryPanel.CountFor(p,i.Id)));StoreAll.interactable=count>0;Notice.text=count>0?"휴대품 "+count+"개 · "+(owner.Development?owner.Development.StockSummary:"")+" · 초과분은 가방 유지":"정리 완료 · 원정대의 가방이 비었습니다.";}
+  void Unpack(){if(!IsOpen)return;foreach(var p in party)foreach(var item in owner.InventoryPanel.Items){int count=owner.InventoryPanel.TransferLimit(p,item.Id,false);if(count>0)owner.InventoryPanel.MoveFor(p,item.Id,count,false);}Refresh();}
   public void Close(){if(!IsOpen)return;View.SetActive(false);for(int i=0;i<HideWhileOpen.Length;i++)HideWhileOpen[i].SetActive(hidden[i]);owner.Main.interactable=owner.Main.blocksRaycasts=true;EventSystem.current?.SetSelectedGameObject(owner.Journal.gameObject);}
   void Update(){if(IsOpen&&Keyboard.current!=null&&Keyboard.current.escapeKey.wasPressedThisFrame)Close();}
  }

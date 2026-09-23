@@ -18,6 +18,9 @@ namespace Demo5.FrontEnd
         public Slider Volume;
         public Toggle Fullscreen;
         public Text VolumeValue, ConfirmTitle, ConfirmBody, LoadMessage;
+        public GameSettingsDialog SettingsDialog;
+        public SaveSlotPanel SaveSlots;
+        public SettlementController SaveCatalog;
         [Header("Scene routing")]
         public string NewGameScene = "NightExpedition";
         [Range(0, 1)] public float FadeSeconds = .35f;
@@ -25,6 +28,7 @@ namespace Demo5.FrontEnd
         GameObject activeModal, returnFocus;
         float previousVolume;
         bool transitioning;
+        int closedFrame=-1;
         public bool IsTransitioning => transitioning;
         public string OpenModalName => activeModal ? activeModal.name : "";
 
@@ -34,23 +38,24 @@ namespace Demo5.FrontEnd
             Fade.alpha = 0; Fade.blocksRaycasts = false;
             AudioListener.volume = Mathf.Clamp01(PlayerPrefs.GetFloat(VolumeKey, 1));
             if (PlayerPrefs.HasKey(FullscreenKey)) Screen.fullScreen = PlayerPrefs.GetInt(FullscreenKey) == 1;
-            // No campaign save service exists yet. Never imply that a dummy save can be resumed.
-            ContinueButton.interactable = false;
+            ContinueButton.interactable = SaveCatalog && CampaignSaveStore.Latest(SaveCatalog)!=null;
+            ContinueButton.onClick.AddListener(ContinueGame);
             NewGameButton.onClick.AddListener(StartNewGame);
             SettingsButton.onClick.AddListener(OpenSettings);
             LoadButton.onClick.AddListener(OpenLoad);
             ExitButton.onClick.AddListener(OpenQuit);
-            SettingsApply.onClick.AddListener(ApplySettings);
-            SettingsCancel.onClick.AddListener(CancelSettings);
-            LoadClose.onClick.AddListener(CloseModal);
+            if(SettingsDialog){SettingsDialog.Initialize();SettingsDialog.Closed+=CloseModal;}
+            else {SettingsApply.onClick.AddListener(ApplySettings);SettingsCancel.onClick.AddListener(CancelSettings);Volume.onValueChanged.AddListener(PreviewVolume);}
+            if(SaveSlots){SaveSlots.Initialize();SaveSlots.Closed+=CloseModal;SaveSlots.LoadRequested+=LoadGame;}
+            else LoadClose.onClick.AddListener(CloseModal);
             ConfirmCancel.onClick.AddListener(CloseModal);
             ConfirmAccept.onClick.AddListener(ConfirmQuit);
-            Volume.onValueChanged.AddListener(PreviewVolume);
         }
         void Start() { Focus(NewGameButton.gameObject); }
         void Update()
         {
-            if (transitioning || Keyboard.current == null || !Keyboard.current.escapeKey.wasPressedThisFrame) return;
+            if (transitioning || closedFrame==Time.frameCount || Keyboard.current == null || !Keyboard.current.escapeKey.wasPressedThisFrame) return;
+            if((SettingsDialog && activeModal==SettingsPanel)||(SaveSlots && activeModal==LoadPanel))return;
             if (activeModal == SettingsPanel) CancelSettings();
             else if (activeModal) CloseModal();
             else OpenQuit();
@@ -70,6 +75,7 @@ namespace Demo5.FrontEnd
             Fullscreen.SetIsOnWithoutNotify(Screen.fullScreen);
             VolumeValue.text = Mathf.RoundToInt(previousVolume * 100) + "%";
             ShowModal(SettingsPanel, Volume.gameObject);
+            if(SettingsDialog)SettingsDialog.Open();
         }
         void PreviewVolume(float value)
         {
@@ -79,6 +85,7 @@ namespace Demo5.FrontEnd
         }
         public void ApplySettings()
         {
+            if(SettingsDialog){SettingsDialog.Confirm();return;}
             if (activeModal != SettingsPanel) return;
             AudioListener.volume = Volume.value;
             Screen.fullScreen = Fullscreen.isOn;
@@ -88,6 +95,7 @@ namespace Demo5.FrontEnd
         }
         public void CancelSettings()
         {
+            if(SettingsDialog){SettingsDialog.CancelChanges();return;}
             if (activeModal != SettingsPanel) return;
             AudioListener.volume = previousVolume; CloseModal();
         }
@@ -96,6 +104,7 @@ namespace Demo5.FrontEnd
             if (activeModal || transitioning) return;
             LoadMessage.text = "저장된 여정이 없습니다.";
             ShowModal(LoadPanel, LoadClose.gameObject);
+            if(SaveSlots)SaveSlots.Open(SaveCatalog);
         }
         public void OpenQuit()
         {
@@ -108,6 +117,7 @@ namespace Demo5.FrontEnd
         {
             if (transitioning || !activeModal) return;
             activeModal.SetActive(false); activeModal = null;
+            closedFrame=Time.frameCount;
             Menu.interactable = true; Menu.blocksRaycasts = true;
             Focus(returnFocus ? returnFocus : NewGameButton.gameObject);
         }
@@ -131,6 +141,27 @@ namespace Demo5.FrontEnd
             transitioning = true; Menu.interactable = false; Fade.blocksRaycasts = true;
             Focus(null); StartCoroutine(EnterJourney());
         }
+        public void ContinueGame()
+        {
+            if(transitioning || activeModal || !SaveCatalog)return;
+            var latest=CampaignSaveStore.Latest(SaveCatalog);
+            if(latest==null){ContinueButton.interactable=false;OpenLoad();return;}
+            LoadGame(latest.Data);
+        }
+        public void LoadGame(CampaignSaveData data)
+        {
+            if(transitioning)return;
+            try {
+                if(!Application.CanStreamedLevelBeLoaded("Settlement"))throw new System.InvalidOperationException("정착지 화면을 열 수 없습니다.");
+                CampaignPersistence.Prepare(data,SaveCatalog);
+                transitioning=true;Menu.interactable=false;Fade.blocksRaycasts=true;Focus(null);StartCoroutine(EnterSavedJourney());
+            } catch(System.Exception e){if(!activeModal)OpenLoad();if(SaveSlots)SaveSlots.Hint.text=e.Message;else LoadMessage.text=e.Message;}
+        }
+        IEnumerator EnterSavedJourney()
+        {
+            float elapsed=0;while(elapsed<FadeSeconds){elapsed+=Time.unscaledDeltaTime;Fade.alpha=Mathf.Clamp01(elapsed/Mathf.Max(.01f,FadeSeconds));yield return null;}
+            yield return SceneManager.LoadSceneAsync("Settlement");
+        }
         IEnumerator EnterJourney()
         {
             float elapsed = 0;
@@ -139,6 +170,6 @@ namespace Demo5.FrontEnd
             yield return SceneManager.LoadSceneAsync(NewGameScene);
         }
         static void Focus(GameObject target) { if (EventSystem.current) EventSystem.current.SetSelectedGameObject(target); }
-        void OnDisable() { if (activeModal == SettingsPanel) AudioListener.volume = previousVolume; }
+        void OnDisable() { if (!SettingsDialog && activeModal == SettingsPanel) AudioListener.volume = previousVolume; }
     }
 }

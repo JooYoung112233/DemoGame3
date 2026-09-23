@@ -14,7 +14,7 @@ public static class VerifyHomeSelection
 {
     public static string Open(){Check(!EditorApplication.isPlaying,"Stop first");UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/Scenes/HomeSelection.unity");return "HomeSelection open.";}
     static void Check(bool value,string msg){if(!value)throw new Exception(msg);}
-    static void Click(Button b){Check(b.IsActive()&&b.IsInteractable(),"Unavailable "+b.name);Canvas.ForceUpdateCanvases();b.GetComponentInParent<Canvas>().worldCamera?.Render();var r=(RectTransform)b.transform;var canvas=b.GetComponentInParent<Canvas>();var e=new PointerEventData(EventSystem.current){position=RectTransformUtility.WorldToScreenPoint(canvas.worldCamera,r.TransformPoint(r.rect.center)),button=PointerEventData.InputButton.Left};var hits=new List<RaycastResult>();EventSystem.current.RaycastAll(e,hits);Check(hits.Count>0&&hits[0].gameObject.GetComponentInParent<Button>()==b,"Blocked "+b.name);ExecuteEvents.Execute(b.gameObject,e,ExecuteEvents.pointerClickHandler);}
+    static void Click(Button b){Check(b.IsActive()&&b.IsInteractable(),"Unavailable "+b.name);Canvas.ForceUpdateCanvases();var r=(RectTransform)b.transform;var canvas=b.GetComponentInParent<Canvas>();var e=new PointerEventData(EventSystem.current){position=RectTransformUtility.WorldToScreenPoint(canvas.worldCamera,r.TransformPoint(r.rect.center)),button=PointerEventData.InputButton.Left};var hits=new List<RaycastResult>();EventSystem.current.RaycastAll(e,hits);Check(hits.Count>0&&hits[0].gameObject.GetComponentInParent<Button>()==b,"Blocked "+b.name);ExecuteEvents.Execute(b.gameObject,e,ExecuteEvents.pointerClickHandler);}
     static async Task<HomeSelectionController> Enter()
     {
         SceneManager.LoadScene("PartySelection");await Task.Delay(300);var p=Object.FindAnyObjectByType<PartySelectionController>();PartySelectionSession.Clear();p.Refresh();Click(p.Cards[0].Button);Click(p.Cards[2].Button);Click(p.Continue);await Task.Delay(300);return Object.FindAnyObjectByType<HomeSelectionController>();
@@ -29,15 +29,15 @@ public static class VerifyHomeSelection
             Check(c.PartyNames.Select(t=>t.text).SequenceEqual(c.Campaign.Party.Select(p=>p.Name)),"Party labels");
             Click(c.Cards[(index+1)%3].Button);Click(c.Cards[index].Button);
             Check(c.SelectedIndex==index&&c.Cards.Count(card=>card.SelectedBorder.activeSelf)==1&&c.Cards[index].Check.activeSelf,"Single selected card");
-            var site=c.Campaign.Sites[index];Check(c.Resources.text.Contains(site.Ammo.ToString())&&c.LocationName.text==site.Name,"Summary");
+            var site=c.Campaign.Sites[index];Check(c.ResourceValues[0].text.Contains("수색")&&c.LocationName.text==site.Name,"Summary");
             Canvas.ForceUpdateCanvases();foreach(var t in c.GetComponentsInChildren<Text>())Check(t.preferredHeight<=t.rectTransform.rect.height+1,"Text overflow: "+t.name);
             Click(c.Continue);await Task.Delay(400);var game=Object.FindAnyObjectByType<SettlementController>();
             Check(game&&game.Campaign.Stage==JourneyStage.Settlement&&game.Campaign.Home.Name==site.Name,"Home destination");
-            Check(game.Campaign.Supplies==site.Supplies&&game.Campaign.Ammo==site.Ammo&&game.Campaign.Home.Recovery==site.Recovery,"Start resources mismatch");
+            Check(game.Introduction.Step==0&&game.Campaign.Supplies==0&&game.Campaign.Ammo==0&&game.Campaign.Home.Recovery==site.Recovery,"Start resources mismatch");
             Check(game.Campaign.Chosen.SequenceEqual(new[]{0,2}),"Party lost on settlement");
         }
         var last=await Enter();Click(last.Back);await Task.Delay(300);var party=Object.FindAnyObjectByType<PartySelectionController>();Check(party.SelectedCount==2&&party.Cards[0].Check.activeSelf&&party.Cards[2].Check.activeSelf,"Return selection lost");
         Click(party.Continue);await Task.Delay(300);Click(Object.FindAnyObjectByType<HomeSelectionController>().Cards[0].Button);
-        return "PASS: no-party guard, two-person transfer, all 3 site buttons via raycast, one selected/check, text bounds, all start-resource values and party preserved in settlement, back navigation. Screenshot ready: garage selected.";
+        return "PASS: no-party guard, two-person transfer, all 3 site buttons via raycast, one selected/check, text bounds, all 3 homes start with empty supplies/ammo and introduction step 0, party preserved, back navigation. Screenshot ready: garage selected.";
     }
 }

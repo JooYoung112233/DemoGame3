@@ -20,7 +20,7 @@ namespace Demo5.NightRun
         public HomeSite(string name, string description, int supplies, int ammo, int recovery)
         { Name = name; Description = description; Supplies = supplies; Ammo = ammo; Recovery = recovery; }
     }
-    public sealed class CampaignState
+    public sealed partial class CampaignState
     {
         public bool UsesFrontEndSelection {get;}
         public CampaignState(Adventurer[] candidates=null,bool usesFrontEndSelection=false)
@@ -29,16 +29,16 @@ namespace Demo5.NightRun
             UsesFrontEndSelection=usesFrontEndSelection;
         }
         public JourneyStage Stage { get; private set; } = JourneyStage.Party;
-        public readonly Adventurer[] Candidates = {
+        public Adventurer[] Candidates {get;private set;} = new Adventurer[] {
             new Adventurer("민서", "정찰수", "균형 잡힌 체력과 조준", 5, 5),
             new Adventurer("도윤", "운반꾼", "튼튼한 체력으로 위험 감수", 7, 0),
             new Adventurer("하린", "사수", "낮은 체력 · 높은 사격 명중률", 4, 15),
             new Adventurer("태오", "경비원", "안정적인 체력", 6, 0)
         };
         public readonly HomeSite[] Sites = {
-            new HomeSite("폐정비소", "작업대와 남은 탄약이 있는 공간", 2, 6, 2),
-            new HomeSite("작은 주택", "남은 식료품을 챙겨 시작하는 집", 4, 3, 2),
-            new HomeSite("옛 진료소", "회복하기 좋은 조용한 대피처", 2, 3, 3)
+            new HomeSite("폐정비소", "녹슨 작업대를 되살릴 수 있는 공간", 2, 6, 2),
+            new HomeSite("작은 주택", "잠자리와 찬장을 먼저 살펴볼 집", 4, 3, 2),
+            new HomeSite("옛 진료소", "비어 있는 처치실을 정리할 대피처", 2, 3, 3)
         };
         public List<int> Chosen { get; } = new List<int>();
         public HomeSite Home { get; private set; }
@@ -70,6 +70,11 @@ namespace Demo5.NightRun
             if (Stage != JourneyStage.HomeChoice || index < 0 || index >= Sites.Length) return false;
             Home = Sites[index]; Supplies = Home.Supplies; Ammo = Home.Ammo;
             Stage = JourneyStage.Settlement; Message = Home.Name + "에 자리를 잡았다. 첫 수색을 준비하자."; return true;
+        }
+        public void BeginSettlementIntroduction()
+        {
+            Supplies=Ammo=0;
+            foreach(var p in Party) p.Health=Math.Max(1,p.MaxHealth-1);
         }
         public int MinuteOfDay {get;private set;}=540;
         public bool IsFieldExpedition {get;private set;}
@@ -124,4 +129,5 @@ namespace Demo5.NightRun
         }
     }
 }
+
 

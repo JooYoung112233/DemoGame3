@@ -523,6 +523,7 @@ GameObject:
   - component: {fileID: 5078757372452489461}
   - component: {fileID: 437918312781250042}
   - component: {fileID: 4460361511559999104}
+  - component: {fileID: 926451302124059721}
   m_Layer: 0
   m_Name: Portrait
   m_TagString: Untagged
@@ -546,8 +547,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 42, y: -35}
-  m_SizeDelta: {x: 106, y: 155}
+  m_AnchoredPosition: {x: 35, y: -47}
+  m_SizeDelta: {x: 120, y: 131}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &437918312781250042
 CanvasRenderer:
@@ -579,7 +580,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 74e964fc235e1904b8956813444a6bc9, type: 3}
   m_Type: 0
-  m_PreserveAspect: 1
+  m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -587,6 +588,152 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &926451302124059721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6517902887175797545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6da43b0056a17ca4399ed38473623ea2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Demo5.FrontEnd.BattlePortraitFit
+  Crops:
+  - Sprite: {fileID: 21300000, guid: b1d230446365ade44a204083346e23b6, type: 3}
+    Area:
+      serializedVersion: 2
+      x: 0.046153847
+      y: 0.009345794
+      width: 0.7923077
+      height: 0.97196263
+  - Sprite: {fileID: 21300000, guid: 4532be1ba405411458195b7ad75e67d7, type: 3}
+    Area:
+      serializedVersion: 2
+      x: 0.044444446
+      y: 0.009433962
+      width: 0.77037036
+      height: 0.9528302
+  - Sprite: {fileID: 21300000, guid: 1190c245401076d44a2a52c63674a584, type: 3}
+    Area:
+      serializedVersion: 2
+      x: 0.0234375
+      y: 0.009433962
+      width: 0.8359375
+      height: 0.9433962
+  - Sprite: {fileID: 21300000, guid: 103ebc697b188294b8a8c5dcfc9c9f2b, type: 3}
+    Area:
+      serializedVersion: 2
+      x: 0.1
+      y: 0.009345794
+      width: 0.71428573
+      height: 0.91588783
+  - Sprite: {fileID: 21300000, guid: d029537b4e1ddbc4e8f72d31c18ad646, type: 3}
+    Area:
+      serializedVersion: 2
+      x: 0.073529415
+      y: 0.009433962
+      width: 0.77205884
+      height: 0.9528302
+  - Sprite: {fileID: 21300000, guid: 307d0a624101af7458e196b677f82ac1, type: 3}
+    Area:
+      serializedVersion: 2
+      x: 0.028571429
+      y: 0.009433962
+      width: 0.75
+      height: 0.9528302
+  - Sprite: {fileID: 21300000, guid: 74e964fc235e1904b8956813444a6bc9, type: 3}
+    Area:
+      serializedVersion: 2
+      x: 0.051948052
+      y: 0.5603448
+      width: 0.64935064
+      height: 0.39655173
+  - Sprite: {fileID: 21300000, guid: eecd340184ed89d44a673d82c460ba1a, type: 3}
+    Area:
+      serializedVersion: 2
+      x: 0.07918969
+      y: 0.28004143
+      width: 0.8609576
+      height: 0.7102901
+  - Sprite: {fileID: 21300000, guid: 015e00e6ec7913b4684f71e55ee893ff, type: 3}
+    Area:
+      serializedVersion: 2
+      x: 0.26703498
+      y: 0.52562153
+      width: 0.51473296
+      height: 0.42465472
+  - Sprite: {fileID: 21300000, guid: 7e0b76e8ae2517244a0ec43459f4966d, type: 3}
+    Area:
+      serializedVersion: 2
+      x: 0.016574586
+      y: 0.17914367
+      width: 0.9723757
+      height: 0.8022099
+  - Sprite: {fileID: 21300000, guid: 11eda076866ef2b42a2a99ed55c3e78a, type: 3}
+    Area:
+      serializedVersion: 2
+      x: 0.08563536
+      y: 0.22196135
+      width: 0.89871085
+      height: 0.7414364
+  - Sprite: {fileID: 21300000, guid: e09ce22819e14f549bbd0168e9c9233d, type: 3}
+    Area:
+      serializedVersion: 2
+      x: 0.042357273
+      y: 0.19551103
+      width: 0.9290976
+      height: 0.76650554
+  - Sprite: {fileID: 21300000, guid: 0202276594aa41948b7038c27dfccfdf, type: 3}
+    Area:
+      serializedVersion: 2
+      x: 0.046040516
+      y: 0.21878448
+      width: 0.9134438
+      height: 0.75359124
+  - Sprite: {fileID: 21300000, guid: e3c0d3601da8d5e4abb183500dce84ba, type: 3}
+    Area:
+      serializedVersion: 2
+      x: 0.023941068
+      y: 0.19937842
+      width: 0.951197
+      height: 0.7847376
+  - Sprite: {fileID: 21300000, guid: 91504dd9791947445a9695b0131af4ee, type: 3}
+    Area:
+      serializedVersion: 2
+      x: 0.017495396
+      y: 0.12845305
+      width: 0.9723757
+      height: 0.6823204
+  - Sprite: {fileID: 21300000, guid: c100ff3deb1dbba48a10c5ccf3529b07, type: 3}
+    Area:
+      serializedVersion: 2
+      x: 0.03038674
+      y: 0.17348063
+      width: 0.946593
+      height: 0.7809393
+  - Sprite: {fileID: 21300000, guid: e5bdee4c8b851f94382b7042bdde041b, type: 3}
+    Area:
+      serializedVersion: 2
+      x: 0.022099448
+      y: 0.1973066
+      width: 0.9604052
+      height: 0.79233426
+  - Sprite: {fileID: 21300000, guid: 58a453eef3544dc44abeeec74eeb3ebc, type: 3}
+    Area:
+      serializedVersion: 2
+      x: 0.06445672
+      y: 0.26837015
+      width: 0.86924493
+      height: 0.7171271
+  - Sprite: {fileID: 21300000, guid: 0436091b70fa00648b88faee6ef021e8, type: 3}
+    Area:
+      serializedVersion: 2
+      x: 0.03222836
+      y: 0.1957873
+      width: 0.93462247
+      height: 0.7710635
 --- !u!1 &7479656793833941409
 GameObject:
   m_ObjectHideFlags: 0

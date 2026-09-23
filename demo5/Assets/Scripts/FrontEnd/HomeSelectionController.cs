@@ -13,6 +13,7 @@ namespace Demo5.FrontEnd
         public Text[] PartyNames;
         public Text LocationName,LocationDescription,Resources,Hint;
         public GameObject ResourceIcons;
+        public Text[] ResourceValues;
         public Button Back,Continue;
         public string PartyScene="PartySelection",DestinationScene="NightExpedition";
         public CampaignState Campaign{get;private set;}
@@ -39,9 +40,10 @@ namespace Demo5.FrontEnd
             Continue.interactable=Campaign!=null&&SelectedIndex>=0&&!leaving;
             Hint.text=Campaign==null?"먼저 함께할 두 사람을 선택하세요.":SelectedIndex<0?"처음 머물 정착지를 선택하세요.":sites[SelectedIndex].Name+"에서 두 사람의 여정을 시작합니다.";
             LocationName.text=SelectedIndex<0?"돌아올 곳을 정해주세요":sites[SelectedIndex].Name;
-            LocationDescription.text=SelectedIndex<0?"장소 카드를 누르면 시작 자원과\n정착지의 특징을 확인할 수 있습니다.":sites[SelectedIndex].Description;
-            Resources.text=SelectedIndex<0?"장소마다 시작 보급품과 탄약,\n휴식 시 회복량이 다릅니다.":"시작 보급품  "+sites[SelectedIndex].Supplies+"\n시작 탄약  "+sites[SelectedIndex].Ammo+"\n휴식 시 체력  +"+sites[SelectedIndex].Recovery;
+            LocationDescription.text=SelectedIndex<0?"머물 곳을 고른 뒤 직접 살펴보고\n쓸 수 있는 시설을 마련합니다.":sites[SelectedIndex].Description;
+            Resources.text=SelectedIndex<0?"남은 물자는 수색으로 확보하고\n시설은 하나씩 정리합니다.":"시작 보급품  "+sites[SelectedIndex].Supplies+"\n시작 탄약  "+sites[SelectedIndex].Ammo+"\n휴식 시 체력  +"+sites[SelectedIndex].Recovery;
             if(ResourceIcons)ResourceIcons.SetActive(SelectedIndex>=0);
+            if(ResourceValues!=null&&ResourceValues.Length==3){Resources.gameObject.SetActive(SelectedIndex<0);if(SelectedIndex>=0){var site=sites[SelectedIndex];ResourceValues[0].text="잔여 물자 · 수색 필요";ResourceValues[1].text="시설 · 직접 정리";ResourceValues[2].text="휴식 시 체력  +"+site.Recovery;}}
         }
         public void GoBack(){if(leaving)return;leaving=true;PartySelectionSession.Pending=null;SceneManager.LoadScene(PartyScene);}
         public void Confirm()

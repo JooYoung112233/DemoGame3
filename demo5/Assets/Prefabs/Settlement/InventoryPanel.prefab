@@ -7093,6 +7093,8 @@ MonoBehaviour:
   Items:
   - Id: supplies
     Name: "\uBCF4\uAE09\uD488"
+    UseVerb: "\uC751\uAE09 \uCC98\uCE58"
+    FieldUsable: 0
     Description: "\uB3D9\uB8CC\uB4E4\uC758 \uC0DD\uD65C\uC5D0 \uC4F0\uB294\n\uACF5\uC6A9 \uBCF4\uAE09 \uBB3C\uC790\uC785\uB2C8\uB2E4."
     Icon: {fileID: 21300000, guid: 39c268ad336a100408449219f1984938, type: 3}
     Category: 1
@@ -7101,6 +7103,8 @@ MonoBehaviour:
     UseMinutes: 10
   - Id: ammo
     Name: "\uD0C4\uC57D"
+    UseVerb: "\uC751\uAE09 \uCC98\uCE58"
+    FieldUsable: 0
     Description: "\uC678\uBD80 \uC6D0\uC815\uC5D0 \uB300\uBE44\uD574\n\uCC59\uACA8 \uB450\uB294 \uD0C4\uC57D\uC785\uB2C8\uB2E4."
     Icon: {fileID: 21300000, guid: a6af2a85d69fff441bcfff7a3ceec828, type: 3}
     Category: 2
@@ -7109,6 +7113,8 @@ MonoBehaviour:
     UseMinutes: 10
   - Id: wood
     Name: "\uB098\uBB34 \uD310\uC790"
+    UseVerb: "\uC751\uAE09 \uCC98\uCE58"
+    FieldUsable: 0
     Description: "\uC2DC\uC124 \uC218\uB9AC\uC640 \uB3C4\uAD6C\n\uC81C\uC791\uC5D0 \uC4F0\uB294 \uC7AC\uB8CC\uC785\uB2C8\uB2E4."
     Icon: {fileID: 21300000, guid: db0b8e3fe54d1b94fb7cd6f5fecbc2b4, type: 3}
     Category: 3
@@ -7117,6 +7123,8 @@ MonoBehaviour:
     UseMinutes: 10
   - Id: rope
     Name: "\uBC27\uC904"
+    UseVerb: "\uC751\uAE09 \uCC98\uCE58"
+    FieldUsable: 0
     Description: "\uBB3C\uAC74\uC744 \uBB36\uAC70\uB098\n\uC218\uB9AC\uC5D0 \uC4F0\uB294 \uB048\uC785\uB2C8\uB2E4."
     Icon: {fileID: 21300000, guid: 531a2993b5d1e554da93129de1acd9d6, type: 3}
     Category: 3
@@ -7125,6 +7133,8 @@ MonoBehaviour:
     UseMinutes: 10
   - Id: nails
     Name: "\uBABB"
+    UseVerb: "\uC751\uAE09 \uCC98\uCE58"
+    FieldUsable: 0
     Description: "\uB098\uBB34\uC640 \uBD80\uD488\uC744\n\uACE0\uC815\uD558\uB294 \uC7AC\uB8CC\uC785\uB2C8\uB2E4."
     Icon: {fileID: 21300000, guid: 7757063897dbe7b45a2025151263e158, type: 3}
     Category: 3
@@ -7133,6 +7143,8 @@ MonoBehaviour:
     UseMinutes: 10
   - Id: scrap
     Name: "\uACE0\uCCA0"
+    UseVerb: "\uC751\uAE09 \uCC98\uCE58"
+    FieldUsable: 0
     Description: "\uBABB\uC774\uB098 \uC791\uC740 \uBD80\uD488\uC744\n\uB9CC\uB4E4 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
     Icon: {fileID: 21300000, guid: b4e1bb11ef1099a499798de5f9f8882a, type: 3}
     Category: 3
@@ -7141,6 +7153,8 @@ MonoBehaviour:
     UseMinutes: 10
   - Id: cloth
     Name: "\uCC9C \uC870\uAC01"
+    UseVerb: "\uC751\uAE09 \uCC98\uCE58"
+    FieldUsable: 0
     Description: "\uC5EE\uC5B4\uC11C \uB048\uC744 \uB9CC\uB4E4 \uC218\n\uC788\uB294 \uCC9C \uC870\uAC01\uC785\uB2C8\uB2E4."
     Icon: {fileID: 21300000, guid: 7defa06f3cc68e64fb07318d4adeebaf, type: 3}
     Category: 3
@@ -7149,6 +7163,8 @@ MonoBehaviour:
     UseMinutes: 10
   - Id: prybar
     Name: "\uAC04\uC774 \uC9C0\uB81B\uB300"
+    UseVerb: "\uC751\uAE09 \uCC98\uCE58"
+    FieldUsable: 0
     Description: "\uC624\uB77D\uAE30 \uC815\uBE44\uD310\uC744 \uC5EC\uB294 \uB3C4\uAD6C\uC785\uB2C8\uB2E4.\n\uC218\uC0C9 \uB2F4\uB2F9\uC790\uC758 \uAC00\uBC29\uC5D0 \uB123\uC5B4\uC8FC\uC138\uC694."
     Icon: {fileID: 21300000, guid: d75f7fc2786a60342ae2a89c6db9004c, type: 3}
     Category: 2
@@ -7157,10 +7173,82 @@ MonoBehaviour:
     UseMinutes: 10
   - Id: flashlight
     Name: "\uC190\uC804\uB4F1"
+    UseVerb: "\uC751\uAE09 \uCC98\uCE58"
+    FieldUsable: 0
     Description: "\uC218\uC0C9 \uB2F4\uB2F9\uC790 \uC678 \uB3D9\uB8CC\uAC00 \uD734\uB300\uD558\uBA74\n\uC870\uBA85 \uC9C0\uC6D0\uC744 \uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4.\n\uD604\uC7AC\uB294 \uC7AC\uC0AC\uC6A9 \uB3C4\uAD6C\uC785\uB2C8\uB2E4."
     Icon: {fileID: 21300000, guid: dc5caba5ecfda5d418e644d3c18f843b, type: 3}
     Category: 3
     Recovery: 0
+    UseCost: 1
+    UseMinutes: 10
+  - Id: food
+    Name: "\uC2DD\uC7AC\uB8CC"
+    UseVerb: "\uBA39\uAE30"
+    FieldUsable: 0
+    Description: "\uC2DD\uB7C9 \uC900\uBE44\uC5D0 \uC0AC\uC6A9\uD558\uB294 \uC7AC\uB8CC\uC785\uB2C8\uB2E4.\n\uC218\uC0C9\uC73C\uB85C \uCC3E\uC544 \uAC00\uBC29\uC5D0 \uB2F4\uC744 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
+    Icon: {fileID: 21300000, guid: 39c268ad336a100408449219f1984938, type: 3}
+    Category: 1
+    Recovery: 0
+    UseCost: 1
+    UseMinutes: 10
+  - Id: water
+    Name: "\uBB3C"
+    UseVerb: "\uBA39\uAE30"
+    FieldUsable: 0
+    Description: "\uC2DD\uB7C9 \uC900\uBE44\uC5D0 \uC0AC\uC6A9\uD558\uB294 \uC7AC\uB8CC\uC785\uB2C8\uB2E4.\n\uC218\uC0C9\uC73C\uB85C \uCC3E\uC544 \uAC00\uBC29\uC5D0 \uB2F4\uC744 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
+    Icon: {fileID: 21300000, guid: 54a10d81fb6b3544e872a11289712b88, type: 3}
+    Category: 1
+    Recovery: 0
+    UseCost: 1
+    UseMinutes: 10
+  - Id: can
+    Name: "\uD1B5\uC870\uB9BC"
+    UseVerb: "\uBA39\uAE30"
+    FieldUsable: 0
+    Description: "\uC2DD\uB7C9 \uC900\uBE44\uC5D0 \uC0AC\uC6A9\uD558\uB294 \uC7AC\uB8CC\uC785\uB2C8\uB2E4.\n\uC218\uC0C9\uC73C\uB85C \uCC3E\uC544 \uAC00\uBC29\uC5D0 \uB2F4\uC744 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
+    Icon: {fileID: 21300000, guid: 39c268ad336a100408449219f1984938, type: 3}
+    Category: 1
+    Recovery: 0
+    UseCost: 1
+    UseMinutes: 10
+  - Id: meal
+    Name: "\uC870\uB9AC\uD55C \uC2DD\uC0AC"
+    UseVerb: "\uBA39\uAE30"
+    FieldUsable: 0
+    Description: "\uC815\uCC29\uC9C0\uC5D0\uC11C \uBA39\uB294 \uC2DD\uC0AC\uC785\uB2C8\uB2E4.\n1\uAC1C \xB7 10\uBD84 \xB7 \uCCB4\uB825 +1"
+    Icon: {fileID: 21300000, guid: 39c268ad336a100408449219f1984938, type: 3}
+    Category: 1
+    Recovery: 1
+    UseCost: 1
+    UseMinutes: 10
+  - Id: ration
+    Name: "\uC6D0\uC815 \uB3C4\uC2DC\uB77D"
+    UseVerb: "\uBA39\uAE30"
+    FieldUsable: 1
+    Description: "\uC815\uCC29\uC9C0 \uB610\uB294 \uD0D0\uD5D8 \uC911 \uBA39\uB294 \uB3C4\uC2DC\uB77D\uC785\uB2C8\uB2E4.\n1\uAC1C \xB7 10\uBD84 \xB7 \uCCB4\uB825 +1"
+    Icon: {fileID: 21300000, guid: 687f0aa7a33c3114cbcfb2e3c1634e32, type: 3}
+    Category: 1
+    Recovery: 1
+    UseCost: 1
+    UseMinutes: 10
+  - Id: raw-water
+    Name: "\uBBF8\uC815\uC218 \uBB3C"
+    UseVerb: "\uC751\uAE09 \uCC98\uCE58"
+    FieldUsable: 0
+    Description: "\uC791\uC5C5\uB300\uC5D0\uC11C \uC815\uC218\uD560 \uC7AC\uB8CC\uC785\uB2C8\uB2E4.\n\uC815\uC218 \uD6C4 \uC870\uB9AC\uC640 \uBD95\uB300 \uC81C\uC791\uC5D0 \uC0AC\uC6A9"
+    Icon: {fileID: 21300000, guid: 54a10d81fb6b3544e872a11289712b88, type: 3}
+    Category: 3
+    Recovery: 0
+    UseCost: 1
+    UseMinutes: 10
+  - Id: bandage
+    Name: "\uBD95\uB300"
+    UseVerb: "\uCE58\uB8CC"
+    FieldUsable: 1
+    Description: "\uC815\uCC29\uC9C0\uC640 \uD0D0\uD5D8 \uC911 \uC0AC\uC6A9\uD558\uB294 \uCE58\uB8CC\uD488\n1\uAC1C \xB7 10\uBD84 \xB7 \uCCB4\uB825 +2"
+    Icon: {fileID: 21300000, guid: 7defa06f3cc68e64fb07318d4adeebaf, type: 3}
+    Category: 3
+    Recovery: 2
     UseCost: 1
     UseMinutes: 10
   View: {fileID: 9089696589145603419}

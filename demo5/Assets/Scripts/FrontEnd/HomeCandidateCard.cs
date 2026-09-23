@@ -10,7 +10,7 @@ namespace Demo5.FrontEnd
         public GameObject SelectedBorder,Check;
         public void Bind(HomeSite site,bool selected,UnityEngine.Events.UnityAction onClick)
         {
-            Name.text=site.Name;Supplies.text=site.Supplies.ToString();Ammo.text=site.Ammo.ToString();Recovery.text="+"+site.Recovery;
+            Name.text=site.Name;Supplies.text="?";Ammo.text="?";Recovery.text="+"+site.Recovery;
             Description.text=site.Description;SelectedBorder.SetActive(selected);Check.SetActive(selected);
             Button.onClick.RemoveAllListeners();Button.onClick.AddListener(onClick);
         }

@@ -1,0 +1,11 @@
+using System.Linq;using UnityEngine;using UnityEngine.UI;using UnityEditor;using Demo5.FrontEnd;using Object=UnityEngine.Object;
+public static class FixBagPaletteAndPortraits {
+ static Color ink=new Color(.05f,.07f,.06f);
+ static void Fit(Image image){var fit=image.GetComponent<BattlePortraitFit>();if(!fit)fit=image.gameObject.AddComponent<BattlePortraitFit>();fit.Crops=AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Settlement/BattleTurnCard.prefab").GetComponent<BattleTurnCard>().Portrait.GetComponent<BattlePortraitFit>().Crops;image.SetVerticesDirty();}
+ static void Card(ExpeditionMemberCard c){Fit(c.Portrait);c.Portrait.rectTransform.anchoredPosition=new Vector2(12,-13);c.Portrait.rectTransform.sizeDelta=new Vector2(50,50);}
+ static void Apply(ExpeditionBagPanel b){var root=b.Workspace.transform.Find("TabLayout");foreach(var i in root.GetComponentsInChildren<Image>(true)){if(i.name=="Section")i.color=Color.white;if(i.name=="ProfileDivider")i.color=new Color(.2f,.25f,.21f,.3f);if(i.name=="Rail")i.color=new Color(.18f,.25f,.2f,.18f);if(i.name=="Handle")i.color=new Color(.22f,.34f,.29f);}
+ foreach(var t in root.GetComponentsInChildren<Text>(true)){if(t.name!="Hint"&&t!=b.Message)t.color=ink;}Fit(b.ProfilePortrait);b.ProfilePortrait.rectTransform.anchoredPosition=new Vector2(120,-286);b.ProfilePortrait.rectTransform.sizeDelta=new Vector2(108,176);
+ foreach(var c in b.LeftCards.Concat(b.RightCards))Card(c);Canvas.ForceUpdateCanvases();}
+ public static string Run(){foreach(var name in new[]{"FieldBagOwnerTab","FieldBagRecipient"}){var path="Assets/Prefabs/Settlement/"+name+".prefab";var g=PrefabUtility.LoadPrefabContents(path);try{Card(g.GetComponent<ExpeditionMemberCard>());PrefabUtility.SaveAsPrefabAsset(g,path);}finally{PrefabUtility.UnloadPrefabContents(g);}}
+ const string bag="Assets/Prefabs/Settlement/ExpeditionBagPanel.prefab";var root=PrefabUtility.LoadPrefabContents(bag);try{Apply(root.GetComponent<ExpeditionBagPanel>());PrefabUtility.SaveAsPrefabAsset(root,bag);}finally{PrefabUtility.UnloadPrefabContents(root);}AssetDatabase.SaveAssets();var live=Object.FindAnyObjectByType<ExpeditionBagPanel>(FindObjectsInactive.Include);if(live)Apply(live);return "Saved cream paper panels/dark content text; visible-ink-centered owner and recipient portraits; aligned profile portrait.";}
+}

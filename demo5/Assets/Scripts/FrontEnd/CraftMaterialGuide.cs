@@ -17,6 +17,7 @@ namespace Demo5.FrontEnd {
    var people=o.Campaign.Party.ToArray();int held=people.Sum(p=>o.InventoryPanel.CountFor(p,focus));
    bool blocked=c.FacilityDone(r)||(r.Category!=0&&c.Orders.Any(x=>x.Recipe.Id==r.Id));
    if(blocked){Source.text="이미 완료했거나 진행 중인 시설입니다.";ActionLabel.text="진행 상태 확인";Action.interactable=false;return;}
+   var condition=c.ConstructionBlock(r);if(condition!=null){Source.text=condition;ActionLabel.text="선행 조건 확인";Action.interactable=false;return;}
    if(missing==0){Source.text="이 재료는 충분합니다.\n나머지 재료와 담당자를 확인하세요.";ActionLabel.text="재료 준비 완료";Action.interactable=false;return;}
    if(held>0){bagIndex=System.Array.FindIndex(people,p=>o.InventoryPanel.CountFor(p,focus)>0);Source.text="개인 가방에 총 "+held+"개 보관 중\n제작에 쓰려면 창고로 옮겨주세요.";ActionLabel.text="가방 정리";}
    else if(c.Recipes.Any(x=>x.Id==focus&&x!=r)){craftId=focus;Source.text="제작대에서 만들 수 있는 재료입니다.\n제작법의 재료와 시간을 확인하세요.";ActionLabel.text="제작법 보기";}
@@ -32,3 +33,4 @@ namespace Demo5.FrontEnd {
   void Go(){if(!craft||!craft.IsOpen||craft.CancelPopup.activeSelf||!Action.interactable)return;if(bagIndex>=0){int index=bagIndex;craft.Close();owner.InventoryPanel.Open(index);}else if(craftId!=null)craft.FocusRecipe(craftId);else if(search){craft.Close();owner.ExpeditionPanel.Open();}}
  }
 }
+

@@ -1,0 +1,411 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d950e645dd9bb54e92da22d2af176ba, type: 3}
+  m_Name: BattleCreatures
+  m_EditorClassIdentifier: Assembly-CSharp::Demo5.FrontEnd.BattleCreatureRoster
+  Creatures:
+  - Id: 01-door-bearer
+    Name: "\uBB38\uC9C0\uAE30"
+    Body: {fileID: 21300000, guid: eecd340184ed89d44a673d82c460ba1a, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 86
+      y: 16
+      width: 935
+      height: 1418
+    Height: 2
+    Hover: 0
+    Health: 6
+    Armor: 0
+    FrontArmor: 2
+    ShotArmor: 0
+    ShotEvasion: 0
+    Damage: 1
+    HitChance: 70
+    StartDepth: 1
+    HoldDepth: 0
+    Attack: 1
+    Gait: 2
+    Cover: 1
+    Weight: 1
+    AttackName: "\uBC00\uCE58\uAE30"
+    WindupName: "\uBB38\uC744 \uC138\uC6C0"
+    Trait: "\uC815\uBA74 \uBC29\uC5B4 +2"
+    Counter: "\uC606 \uC904\uC5D0\uC11C \uCE58\uBA74 \uBB38\uC9DD\uC774 \uBABB \uB9C9\uC74C"
+    Accent: {r: 0.8, g: 0.68, b: 0.52, a: 1}
+    WindupSound: {fileID: 8300000, guid: dceb6618823d2304aa41e2185e5fffdb, type: 3}
+    StrikeSound: {fileID: 0}
+    ImpactSound: {fileID: 8300000, guid: 1028ff0ad9625ed4c95660d2745291e9, type: 3}
+    Pitch: 0.95
+  - Id: 02-listener
+    Name: "\uADC0\uAE30\uC6B8\uC784"
+    Body: {fileID: 21300000, guid: 015e00e6ec7913b4684f71e55ee893ff, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 290
+      y: 51
+      width: 559
+      height: 1325
+    Height: 2.35
+    Hover: 0
+    Health: 4
+    Armor: 0
+    FrontArmor: 0
+    ShotArmor: 0
+    ShotEvasion: 0
+    Damage: 2
+    HitChance: 60
+    StartDepth: 2
+    HoldDepth: 0
+    Attack: 2
+    Gait: 0
+    Cover: 0
+    Weight: 1
+    AttackName: "\uB0B4\uB824\uCE58\uAE30"
+    WindupName: "\uADC0 \uAE30\uC6B8\uC784"
+    Trait: "\uCD1D\uC18C\uB9AC\uB97C \uCAD3\uC74C"
+    Counter: "\uC3DC \uB4A4 \uC790\uB9AC\uB97C \uC62E\uAE30\uBA74 \uD5DB\uCE69\uB2C8\uB2E4"
+    Accent: {r: 0.86, g: 0.82, b: 0.72, a: 1}
+    WindupSound: {fileID: 8300000, guid: ca678ed6f06822644a4bba035b11d823, type: 3}
+    StrikeSound: {fileID: 8300000, guid: 4afc7700509a1e24f9c099370cbd751d, type: 3}
+    ImpactSound: {fileID: 0}
+    Pitch: 1
+  - Id: 03-under-table
+    Name: "\uC2DD\uD0C1\uBC11"
+    Body: {fileID: 21300000, guid: 7e0b76e8ae2517244a0ec43459f4966d, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 18
+      y: 28
+      width: 1056
+      height: 1393
+    Height: 1.4
+    Hover: 0
+    Health: 3
+    Armor: 1
+    FrontArmor: 0
+    ShotArmor: 0
+    ShotEvasion: 0
+    Damage: 2
+    HitChance: 70
+    StartDepth: 1
+    HoldDepth: 0
+    Attack: 3
+    Gait: 0
+    Cover: 0
+    Weight: 1
+    AttackName: "\uB36E\uCE58\uAE30"
+    WindupName: "\uC6C5\uD06C\uB9BC"
+    Trait: "\uB450 \uC904 \uC548\uC73C\uB85C \uB3C4\uC57D"
+    Counter: "\uD55C \uC904 \uBB3C\uB7EC\uB098\uBA74 \uB2FF\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4"
+    Accent: {r: 0.76, g: 0.6, b: 0.44, a: 1}
+    WindupSound: {fileID: 8300000, guid: 59ae655e154105e42a23c5de2beae174, type: 3}
+    StrikeSound: {fileID: 0}
+    ImpactSound: {fileID: 8300000, guid: 2c4b5eef597f64143ab4eed8b5a140aa, type: 3}
+    Pitch: 1
+  - Id: 04-seam-hound
+    Name: "\uD2C8\uC0C8\uAC1C"
+    Body: {fileID: 21300000, guid: 11eda076866ef2b42a2a99ed55c3e78a, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 93
+      y: 66
+      width: 976
+      height: 1329
+    Height: 1.5
+    Hover: 0
+    Health: 3
+    Armor: 0
+    FrontArmor: 0
+    ShotArmor: 0
+    ShotEvasion: 0
+    Damage: 2
+    HitChance: 70
+    StartDepth: 2
+    HoldDepth: 0
+    Attack: 4
+    Gait: 1
+    Cover: 0
+    Weight: 1
+    AttackName: "\uB3CC\uC9C4"
+    WindupName: "\uBAB8\uC744 \uB0AE\uCDA4"
+    Trait: "\uAC00\uB85C\uC904 \uB3CC\uC9C4 \xB7 \uBE48\uD2C8"
+    Counter: "\uC606 \uC904\uB85C \uBE44\uD0A4\uBA74 \uD5DB\uB3CC\uC9C4 \xB7 \uBE48\uD2C8"
+    Accent: {r: 0.92, g: 0.88, b: 0.76, a: 1}
+    WindupSound: {fileID: 8300000, guid: 35e46465d7f084a46b4dcc4382d90ef0, type: 3}
+    StrikeSound: {fileID: 8300000, guid: 25dc949e3ac28e94d87417d92e342790, type: 3}
+    ImpactSound: {fileID: 0}
+    Pitch: 1
+  - Id: 05-laundry
+    Name: "\uB110\uB9B0\uAC83"
+    Body: {fileID: 21300000, guid: e09ce22819e14f549bbd0168e9c9233d, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 46
+      y: 51
+      width: 1009
+      height: 1342
+    Height: 1.75
+    Hover: 0.22
+    Health: 4
+    Armor: 0
+    FrontArmor: 0
+    ShotArmor: 1
+    ShotEvasion: 0
+    Damage: 1
+    HitChance: 70
+    StartDepth: 1
+    HoldDepth: 0
+    Attack: 5
+    Gait: 0
+    Cover: 0
+    Weight: 1
+    AttackName: "\uD718\uAC10\uAE30"
+    WindupName: "\uCC9C\uC744 \uD3BC\uCE68"
+    Trait: "\uC0AC\uACA9 \uD53C\uD574 -1"
+    Counter: "\uCC9C\uC774 \uB36E\uCE60 \uC904\uC5D0\uC11C \uBC97\uC5B4\uB098\uC138\uC694"
+    Accent: {r: 0.72, g: 0.78, b: 0.84, a: 1}
+    WindupSound: {fileID: 8300000, guid: a7bf531077ca83047a2c71e2102a65f0, type: 3}
+    StrikeSound: {fileID: 8300000, guid: a7bf531077ca83047a2c71e2102a65f0, type: 3}
+    ImpactSound: {fileID: 0}
+    Pitch: 0.9
+  - Id: 06-meter-keeper
+    Name: "\uACC4\uB7C9\uC6D0"
+    Body: {fileID: 21300000, guid: 0202276594aa41948b7038c27dfccfdf, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 50
+      y: 32
+      width: 992
+      height: 1376
+    Height: 1.85
+    Hover: 0
+    Health: 4
+    Armor: 1
+    FrontArmor: 0
+    ShotArmor: 0
+    ShotEvasion: 0
+    Damage: 2
+    HitChance: 70
+    StartDepth: 2
+    HoldDepth: 1
+    Attack: 6
+    Gait: 2
+    Cover: 0
+    Weight: 1
+    AttackName: "\uBC29\uC804"
+    WindupName: "\uC804\uC120 \uC5F0\uACB0"
+    Trait: "\uBD99\uC740 \uB450 \uCE78 \uAC10\uC804"
+    Counter: "\uC5F0\uACB0\uB41C \uB450 \uCE78\uC5D0\uC11C \uBC97\uC5B4\uB098\uC138\uC694"
+    Accent: {r: 0.64, g: 0.9, b: 1, a: 1}
+    WindupSound: {fileID: 8300000, guid: a37ed4cdd027efb439703f4c4721baf1, type: 3}
+    StrikeSound: {fileID: 8300000, guid: ff05c00c6bf0680479b22d28d89d9a9d, type: 3}
+    ImpactSound: {fileID: 0}
+    Pitch: 1
+  - Id: 07-moth-nest
+    Name: "\uBA3C\uC9C0\uB465\uC9C0"
+    Body: {fileID: 21300000, guid: e3c0d3601da8d5e4abb183500dce84ba, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 26
+      y: 26
+      width: 1033
+      height: 1399
+    Height: 1.5
+    Hover: 0.35
+    Health: 3
+    Armor: 0
+    FrontArmor: 0
+    ShotArmor: 0
+    ShotEvasion: 20
+    Damage: 1
+    HitChance: 65
+    StartDepth: 2
+    HoldDepth: 0
+    Attack: 7
+    Gait: 1
+    Cover: 0
+    Weight: 1
+    AttackName: "\uB4A4\uB36E\uAE30"
+    WindupName: "\uB0A0\uAC2F\uC9D3"
+    Trait: "\uC606\uAE4C\uC9C0 \uB36E\uCE68"
+    Counter: "\uBD99\uC5B4 \uC11C\uC9C0 \uB9C8\uC138\uC694 \xB7 \uADFC\uC811\uC774 \uC798 \uB4EC"
+    Accent: {r: 0.68, g: 0.72, b: 0.68, a: 1}
+    WindupSound: {fileID: 0}
+    StrikeSound: {fileID: 8300000, guid: 48e3ea045c70bb1498daefcdb821caf0, type: 3}
+    ImpactSound: {fileID: 0}
+    Pitch: 1
+  - Id: 08-puddle
+    Name: "\uACE0\uC778\uC0AC\uB78C"
+    Body: {fileID: 21300000, guid: 91504dd9791947445a9695b0131af4ee, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 19
+      y: 186
+      width: 1056
+      height: 988
+    Height: 1.15
+    Hover: 0
+    Health: 5
+    Armor: 0
+    FrontArmor: 0
+    ShotArmor: 1
+    ShotEvasion: 0
+    Damage: 1
+    HitChance: 70
+    StartDepth: 1
+    HoldDepth: 0
+    Attack: 8
+    Gait: 2
+    Cover: 0
+    Weight: 1
+    AttackName: "\uBC1C\uBAA9\uC7A1\uAE30"
+    WindupName: "\uBB3C\uC774 \uBC88\uC9D0"
+    Trait: "\uC0AC\uACA9 \uD53C\uD574 -1 \xB7 \uBB36\uC74C"
+    Counter: "\uBB3C\uACB0 \uBC88\uC9C4 \uCE78\uC5D0\uC11C \uBC97\uC5B4\uB098\uC138\uC694"
+    Accent: {r: 0.52, g: 0.64, b: 0.76, a: 1}
+    WindupSound: {fileID: 8300000, guid: 51ab212ce047f8c418e44c5b1e403fce, type: 3}
+    StrikeSound: {fileID: 8300000, guid: 0b254a4c683f7b9479eb9f8540d7c19c, type: 3}
+    ImpactSound: {fileID: 0}
+    Pitch: 1
+  - Id: 09-stairback
+    Name: "\uACC4\uB2E8\uB4F1"
+    Body: {fileID: 21300000, guid: c100ff3deb1dbba48a10c5ccf3529b07, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 33
+      y: 57
+      width: 1028
+      height: 1325
+    Height: 1.75
+    Hover: 0
+    Health: 6
+    Armor: 2
+    FrontArmor: 0
+    ShotArmor: 0
+    ShotEvasion: 0
+    Damage: 2
+    HitChance: 70
+    StartDepth: 1
+    HoldDepth: 0
+    Attack: 9
+    Gait: 2
+    Cover: 0
+    Weight: 1
+    AttackName: "\uBB34\uB108\uC9D0"
+    WindupName: "\uAE30\uC6B8\uC5B4\uC9D0"
+    Trait: "\uBC29\uC5B4 2 \xB7 \uB4A4\uC5D0 \uBE48\uD2C8"
+    Counter: "\uAE30\uC6B0\uB294 \uCABD\uC744 \uBE44\uC6B0\uACE0 \uBE48\uD2C8\uC5D0 \uCE58\uAE30"
+    Accent: {r: 0.7, g: 0.7, b: 0.64, a: 1}
+    WindupSound: {fileID: 8300000, guid: dceb6618823d2304aa41e2185e5fffdb, type: 3}
+    StrikeSound: {fileID: 8300000, guid: b424c89785d840a4992515b8fded56f3, type: 3}
+    ImpactSound: {fileID: 0}
+    Pitch: 0.85
+  - Id: 10-twin-coat
+    Name: "\uACB9\uCE5C\uC774\uC6C3"
+    Body: {fileID: 21300000, guid: e5bdee4c8b851f94382b7042bdde041b, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 24
+      y: 16
+      width: 1043
+      height: 1417
+    Height: 1.95
+    Hover: 0
+    Health: 5
+    Armor: 0
+    FrontArmor: 0
+    ShotArmor: 0
+    ShotEvasion: 0
+    Damage: 1
+    HitChance: 70
+    StartDepth: 1
+    HoldDepth: 0
+    Attack: 10
+    Gait: 0
+    Cover: 0
+    Weight: 1
+    AttackName: "\uACB9\uCCD0\uCE58\uAE30"
+    WindupName: "\uB450 \uBA38\uB9AC"
+    Trait: "\uB450 \uCE78 \uC5F0\uB2EC\uC544"
+    Counter: "\uD45C\uC2DC\uB41C \uB450 \uCE78\uC744 \uBAA8\uB450 \uD53C\uD558\uC138\uC694"
+    Accent: {r: 0.82, g: 0.8, b: 0.76, a: 1}
+    WindupSound: {fileID: 8300000, guid: 701b3544d7402ab418daddb21d5dda8e, type: 3}
+    StrikeSound: {fileID: 0}
+    ImpactSound: {fileID: 0}
+    Pitch: 1
+  - Id: 11-root-receiver
+    Name: "\uC218\uC2E0\uBAA9"
+    Body: {fileID: 21300000, guid: 58a453eef3544dc44abeeec74eeb3ebc, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 70
+      y: 22
+      width: 944
+      height: 1405
+    Height: 1.75
+    Hover: 0
+    Health: 3
+    Armor: 0
+    FrontArmor: 0
+    ShotArmor: 0
+    ShotEvasion: 0
+    Damage: 0
+    HitChance: 70
+    StartDepth: 2
+    HoldDepth: 2
+    Attack: 11
+    Gait: 3
+    Cover: 0
+    Weight: 1
+    AttackName: "\uBC29\uC1A1"
+    WindupName: "\uC7A1\uC74C"
+    Trait: "\uB450 \uCC28\uB840\uB9C8\uB2E4 \uC18C\uC74C"
+    Counter: "\uC18C\uC74C\uC744 \uD0A4\uC6B0\uAE30 \uC804\uC5D0 \uC4F0\uB7EC\uB728\uB9AC\uAE30"
+    Accent: {r: 0.56, g: 0.82, b: 0.72, a: 1}
+    WindupSound: {fileID: 8300000, guid: f539cf1f97d15cf4083e4a504f679f4b, type: 3}
+    StrikeSound: {fileID: 8300000, guid: f539cf1f97d15cf4083e4a504f679f4b, type: 3}
+    ImpactSound: {fileID: 0}
+    Pitch: 1
+  - Id: 12-bellied-cart
+    Name: "\uBE48\uC218\uB808"
+    Body: {fileID: 21300000, guid: 0436091b70fa00648b88faee6ef021e8, type: 3}
+    Visible:
+      serializedVersion: 2
+      x: 35
+      y: 37
+      width: 1015
+      height: 1363
+    Height: 1.55
+    Hover: 0
+    Health: 5
+    Armor: 1
+    FrontArmor: 0
+    ShotArmor: 0
+    ShotEvasion: 0
+    Damage: 1
+    HitChance: 70
+    StartDepth: 2
+    HoldDepth: 0
+    Attack: 12
+    Gait: 0
+    Cover: 0
+    Weight: 1
+    AttackName: "\uBC15\uCE58\uAE30"
+    WindupName: "\uC090\uAC71\uC784"
+    Trait: "\uAC00\uB85C\uC904 \uC804\uCCB4 \uBC00\uCE68"
+    Counter: "\uD55C \uC904\uC5D0 \uBAB0\uB824 \uC11C\uC9C0 \uB9C8\uC138\uC694"
+    Accent: {r: 0.74, g: 0.74, b: 0.7, a: 1}
+    WindupSound: {fileID: 8300000, guid: 2bcf038e1bae117489f46cbea4071129, type: 3}
+    StrikeSound: {fileID: 8300000, guid: 2bcf038e1bae117489f46cbea4071129, type: 3}
+    ImpactSound: {fileID: 8300000, guid: 05bb90e680020ee439ced91ea1c40ad6, type: 3}
+    Pitch: 1

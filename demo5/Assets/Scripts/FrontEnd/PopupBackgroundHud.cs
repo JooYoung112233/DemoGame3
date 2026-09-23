@@ -5,10 +5,11 @@ namespace Demo5.FrontEnd {
   CanvasGroup hud;float previousAlpha;
   void OnEnable(){
    if(!Application.isPlaying)return;
+   var battle=GetComponentInParent<ExpeditionBattlePanel>();
    var arrival=GetComponentInParent<ExpeditionArrivalPanel>();
    var settlement=GetComponentInParent<SettlementController>();
    if(!settlement)settlement=FindAnyObjectByType<SettlementController>();
-   hud=arrival?arrival.Main:settlement?settlement.Main:null;
+   hud=battle?battle.Workspace:arrival?arrival.Main:settlement?settlement.Main:null;
    if(!hud||transform.IsChildOf(hud.transform)){hud=null;return;}
    previousAlpha=hud.alpha;hud.alpha=0;
   }
