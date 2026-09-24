@@ -17,6 +17,7 @@ namespace Demo5.FrontEnd {
   void AddRow(Sprite icon,string title,string detail,string result,bool complete){var row=Instantiate(RowPrefab,Content);row.Bind(icon,title,detail,result,complete);rows.Add(row);}
   SettlementController owner;int minutes=30;
   public bool IsOpen=>View&&View.activeSelf;
+  public int SelectedMinutes=>minutes;
   public void Initialize(SettlementController value){owner=value;View.SetActive(false);CloseButton.onClick.AddListener(Close);Confirm.onClick.AddListener(Advance);for(int i=0;i<Choices.Length;i++){int k=i;Choices[i].onClick.AddListener(()=>{minutes=k==0?15:k==1?30:k==2?60:NextCompletion();Refresh();});}}
   public int NextCompletion()=>owner.WorkPanel.Orders.Select(o=>o.Minutes).Concat(owner.CraftPanel.Orders.Select(o=>o.Minutes)).Concat(owner.CookingPanel.Orders.Select(o=>o.Minutes)).DefaultIfEmpty(0).Min();
   public void Open(){if(owner.Introduction&&!owner.Introduction.Allows(3))return;if(IsOpen||owner.Campaign?.Stage!=JourneyStage.Settlement||owner.IsPopupOpen||owner.WorkPanel.IsOpen||owner.CraftPanel.IsOpen||owner.InventoryPanel.IsOpen)return;minutes=30;hidden=HideWhileOpen.Select(g=>g.activeSelf).ToArray();foreach(var g in HideWhileOpen)g.SetActive(false);owner.Main.interactable=owner.Main.blocksRaycasts=false;View.SetActive(true);Refresh();EventSystem.current?.SetSelectedGameObject(CloseButton.gameObject);}

@@ -1918,6 +1918,10 @@ PrefabInstance:
       propertyPath: m_FontData.m_LineSpacing
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4178202710424388716, guid: 5f34655638c26a04099742cf1840a67e, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 2100000, guid: eadc018dfda5d9b408a870f48c05e433, type: 2}
     - target: {fileID: 4534290543667041984, guid: 5f34655638c26a04099742cf1840a67e, type: 3}
       propertyPath: m_SizeDelta.y
       value: 256
@@ -2046,6 +2050,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -32
       objectReference: {fileID: 0}
+    - target: {fileID: 8754558813421512812, guid: 5f34655638c26a04099742cf1840a67e, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 2100000, guid: eadc018dfda5d9b408a870f48c05e433, type: 2}
     - target: {fileID: 8866946474214056188, guid: 5f34655638c26a04099742cf1840a67e, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2074,7 +2082,13 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8173991600064238289, guid: 5f34655638c26a04099742cf1840a67e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6331568455269594585}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8513082196001794617, guid: 5f34655638c26a04099742cf1840a67e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3689700381643542387}
+    - targetCorrespondingSourceObject: {fileID: 8683862497370240496, guid: 5f34655638c26a04099742cf1840a67e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4852770321331332159}
   m_SourcePrefab: {fileID: 100100000, guid: 5f34655638c26a04099742cf1840a67e, type: 3}
 --- !u!114 &2394703336292929716 stripped
 MonoBehaviour:
@@ -2092,7 +2106,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4178202710424388716, guid: 5f34655638c26a04099742cf1840a67e, type: 3}
   m_PrefabInstance: {fileID: 1782578940653864609}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 7969248446318619800}
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
@@ -2130,12 +2144,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
+--- !u!1 &6935465312369439569 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8683862497370240496, guid: 5f34655638c26a04099742cf1840a67e, type: 3}
+  m_PrefabInstance: {fileID: 1782578940653864609}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4852770321331332159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6935465312369439569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a021562532576944fbf77d5ba72b9e83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Demo5.FrontEnd.PaperPortraitStyle
+  StyleMaterial: {fileID: 2100000, guid: eadc018dfda5d9b408a870f48c05e433, type: 2}
 --- !u!114 &7044349728662040269 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8754558813421512812, guid: 5f34655638c26a04099742cf1840a67e, type: 3}
   m_PrefabInstance: {fileID: 1782578940653864609}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 6935465312369439569}
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
@@ -2157,6 +2189,24 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8173991600064238289, guid: 5f34655638c26a04099742cf1840a67e, type: 3}
   m_PrefabInstance: {fileID: 1782578940653864609}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7969248446318619800 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8513082196001794617, guid: 5f34655638c26a04099742cf1840a67e, type: 3}
+  m_PrefabInstance: {fileID: 1782578940653864609}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3689700381643542387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7969248446318619800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a021562532576944fbf77d5ba72b9e83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Demo5.FrontEnd.PaperPortraitStyle
+  StyleMaterial: {fileID: 2100000, guid: eadc018dfda5d9b408a870f48c05e433, type: 2}
 --- !u!114 &8415458654256919547 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7815233082935244122, guid: 5f34655638c26a04099742cf1840a67e, type: 3}

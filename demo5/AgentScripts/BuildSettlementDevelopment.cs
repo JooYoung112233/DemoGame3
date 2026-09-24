@@ -50,6 +50,8 @@ public static class BuildSettlementDevelopment
  }
  public static string Run(){
   if(EditorApplication.isPlaying||EditorSceneManager.GetActiveScene().isDirty)throw new Exception("Stop Play and preserve scene first");
+  // Superseded once applied: it recreates DevelopmentOpen/ResearchHotspot that later facility builders refined, and rewrites profiles and recipes. Loot tables: BuildBalance1.Run.
+  var built=AssetDatabase.LoadAssetAtPath<GameObject>(P+"SettlementScreen.prefab");if(built&&built.GetComponent<SettlementDevelopment>()&&built.GetComponent<SettlementController>().Main.transform.Find("ResearchHotspot"))throw new Exception("Superseded: settlement development already built (re-running would reset the refined facility buttons). Loot tables live in BuildBalance1.cs");
   Profiles();Edit("CraftWorkPanel",g=>Recipes(g.GetComponent<SettlementCraftPanel>()));
   Edit("SettlementScreen",g=>{
    var c=g.GetComponent<SettlementController>();var d=g.GetComponent<SettlementDevelopment>();if(!d)d=g.AddComponent<SettlementDevelopment>();c.Development=d;
@@ -61,15 +63,13 @@ public static class BuildSettlementDevelopment
    foreach(var i in d.ResearchButton.GetComponentsInChildren<Image>(true))if(i.name=="Icon")i.sprite=AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Art/Settlement/icon-journal.png");
    var body=c.PopupBody;body.fontSize=28;
    var sites=c.ArrivalPanel.Loot.Sites;
-   sites[0].RequiredTool="";sites[0].Drops=new[]{Drop("wood",10),Drop("scrap",8),Drop("cloth",4)};
-   sites[1].RequiredTool="";sites[1].Drops=new[]{Drop("food",4),Drop("water",4),Drop("scrap",5)};
-   sites[5].Drops=new[]{Drop("wood",14),Drop("cloth",8),Drop("scrap",10),Drop("raw-water",4)};
+   sites[0].RequiredTool="";sites[1].RequiredTool="";
+   // Site loot tables (0/1/4/5/6/7) are owned by BuildBalance1.cs (기획/밸런스-1차.md §3-3).
   });
   var shader=Shader.Find("Demo5/GroundShadow");if(!shader||ShaderUtil.ShaderHasError(shader))throw new Exception("Shadow shader error");
   var shadow=AssetDatabase.LoadAssetAtPath<Material>("Assets/Settings/GroundShadow.mat");if(!shadow){shadow=new Material(shader);AssetDatabase.CreateAsset(shadow,"Assets/Settings/GroundShadow.mat");}
   Edit("SettlementWorld",g=>Pawns(g,shadow));Edit("FieldPawn",g=>Pawns(g,shadow));
   AssetDatabase.SaveAssets();var scene=EditorSceneManager.OpenScene("Assets/Scenes/Settlement.unity");EditorSceneManager.SaveScene(scene);
-  return "Saved six named profiles; 5 restoration + 3 research + warehouse expansion projects; early guaranteed salvage; pawn facing and floor shadows.";
+  return "Saved six named profiles; 5 restoration + 3 research + warehouse expansion projects; site tools cleared (loot: BuildBalance1); pawn facing and floor shadows.";
  }
- static ExpeditionLootPanel.Drop Drop(string id,int n)=>new ExpeditionLootPanel.Drop{Id=id,Count=n,Chance=100};
 }

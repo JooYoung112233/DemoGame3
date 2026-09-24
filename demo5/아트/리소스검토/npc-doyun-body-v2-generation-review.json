@@ -1,0 +1,57 @@
+{
+  "asset": "npc-doyun-body-v2",
+  "status": "review-only; not imported because requested true-alpha output failed",
+  "mode": "builtin image_gen",
+  "createdDate": "2026-09-25",
+  "referenceImages": [
+    {
+      "path": "Assets/Art/Settlement/standee-scout.png",
+      "role": "body proportions"
+    },
+    {
+      "path": "Assets/Art/Settlement/standee-medic.png",
+      "role": "body proportions"
+    },
+    {
+      "path": "Assets/Art/Tokens/npc-doyun-body.png",
+      "role": "identity and pose"
+    }
+  ],
+  "attempts": [
+    {
+      "path": "C:/Users/power/.codex/generated_images/01a0d401-74e7-76c1-8c20-e36de4e3e2cd/exec-2f7a95bf-ba4f-47e6-85d7-ebffb67dadfc.png",
+      "prompt": "Use case: style-transfer.\nAsset type: one full-body black silhouette NPC body sprite for a Unity survival board game, genuine transparent PNG.\nInput image 1 (scout) and image 2 (medic): authoritative EXISTING GAME BODY PROPORTION references only. Match their substantial broad torso, large adult head, thick arms, shorter sturdy legs and heavy shoes. Do not copy their hat, ponytail, paper outline, base, background or baked texture.\nInput image 3 (Doyun): IDENTITY AND POSE reference. Re-draw this ONE adult man in the compact stout proportions of images 1 and 2. Keep his short untidy hair profile facing right, slightly forward head, backpack bulge behind his left shoulder, bent left arm gripping a shoulder strap, right arm lowered holding the small tool satchel beside his right thigh, and relaxed two-foot stance. Preserve the distinctive overall gesture and props, but rebuild the anatomy.\nCRITICAL PROPORTIONS: approximately 4.5 to 5 head-heights from hair crown to soles. Noticeably large head, broad dense chest and waist, thick upper arms and forearms, short thick legs and substantial shoes. Adult stocky illustrated board-game pawn, not a child, not a thin realistic adult, not a bobblehead. Make visible overall silhouette width about 50% to 58% of its visible full height including backpack and satchel. Re-draw all volume naturally, never stretch an existing drawing sideways. Upper body must have the visual weight of the original scout. Small healthy gap between legs reads clearly.\nRendering: ENTIRE FIGURE AND PROPS ARE ONE UNIFORM SOLID BLACK #000000 silhouette. No face features, no eyes, no seams, no clothing detail, no shading, no highlights, no gradients, no colored light, no halo, no translucency inside the opaque body. Only the clean organic contour and transparent gaps convey identity. Clean antialiasing confined to the outer contour.\nComposition: single isolated full-body figure centered on a portrait canvas with safe transparent margin above the complete hair and below BOTH complete shoes. Nothing cropped anywhere. Body only: NO paper rim, NO outline/stroke, NO stand/base/platform, NO floor or shadow, NO scenery, NO labels or text. Real alpha transparency, not black/white/checkerboard background. Maximum supported native portrait resolution; aim for 2048x3072 or higher, with visible figure at least 1536 pixels tall if supported. Do not upscale or crop.",
+      "validation": {
+        "width": 1024,
+        "height": 1536,
+        "zeroAlphaPixels": 0,
+        "opaquePixels": 1572864,
+        "result": "FAIL: baked checker backdrop, gray arm interior"
+      }
+    },
+    {
+      "path": "C:/Users/power/.codex/generated_images/01a0d401-74e7-76c1-8c20-e36de4e3e2cd/exec-5696c2c5-a1d8-40c9-9815-f1c47f90fb9e.png",
+      "prompt": "Use case: background-extraction.\nEdit this ONE game standee figure. Keep exactly its full-body pose, stout body proportions, large head, tousled hair, backpack, gripping bent arm, lower hand and satchel, full shoes, and full uncropped framing.\nREQUIRED OUTPUT: genuine RGBA PNG with actual ALPHA TRANSPARENCY around the figure and in gaps. Completely remove every visible gray/white checkerboard square and every background line. The checkerboard in the input is a baked image error; it must NOT be redrawn or retained. Background pixels must have alpha=0, not white, not black, not a checkerboard or another painted backdrop.\nMake every solid interior pixel of the body, hair, arms, hands, clothing, backpack, strap and satchel the exact same opaque black #000000. Remove the grey arm and strap detail: they merge into the uniformly black silhouette. No lighting, glow, texture or shading. Keep only the outer silhouette and genuine transparent holes. Clean antialias at contour only.\nNo rim, outline, base, floor, shadow or text. Do not crop any hair or shoe, do not stretch or resize the person. Transparent PNG sprite, one figure, native maximum resolution.",
+      "validation": {
+        "width": 1024,
+        "height": 1536,
+        "pixelFormat": "Format24bppRgb",
+        "result": "FAIL: no alpha channel"
+      }
+    },
+    {
+      "path": "C:/Users/power/.codex/generated_images/01a0d401-74e7-76c1-8c20-e36de4e3e2cd/exec-3325d3f2-5ef0-49ae-b6c5-4c6d094a53e7.png",
+      "prompt": "Create ONE production game sprite with TRANSPARENT BACKGROUND, actual PNG alpha channel.\nImage 1 is Doyun's existing sprite and supplies identity only: adult man facing right, tousled hair, backpack on his back, one bent arm gripping his backpack strap, the other hand hanging down holding a small tool bag. Image 2 is the existing scout and supplies thick compact adult body proportions ONLY.\nRedraw Doyun with a visibly larger head, broad dense torso, much thicker arms and shorter stout legs like the scout. About 4.5–5 heads tall, body plus bags about 52% as wide as full standing height. Short strong adult, not slim, not a child, naturally redrawn anatomy.\nThe entire man and all of his clothes and belongings are uniformly opaque jet black, a solid silhouette with absolutely no internal drawing, gray tones, texture or light. Shape alone shows the hairstyle, backpack, bent arm, bag and two chunky shoes.\nFull standing figure: all hair, all bags, both feet intact; generously leave transparent space all around him. Body only. No base, no outline, no shadow. Everything outside the silhouette and between the legs is fully transparent. Native maximum-resolution portrait PNG.",
+      "validation": {
+        "width": 1024,
+        "height": 1536,
+        "pixelFormat": "Format24bppRgb",
+        "result": "FAIL alpha; shape candidate only: compact adult, roughly 4.6 heads, stout torso/limbs; gray arm interior remains"
+      }
+    }
+  ],
+  "sourceCopy": "아트/리소스검토/npc-doyun-body-v2-rejected-checker.png",
+  "gameAssetWritten": false,
+  "manipulation": "No pixel editing, recolor, crop, resize, or upscaling performed.",
+  "nativeResolutionNote": "Requested maximum portrait original; builtin returned only 1024x1536, visible figure below 1536px."
+}

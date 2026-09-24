@@ -15,6 +15,8 @@ public static class ConnectCorridorSearch
   var root=PrefabUtility.LoadPrefabContents(path);
   try {
    var a=root.GetComponent<SettlementController>().ArrivalPanel;
+   // A re-run would truncate Sites/Objects to 6 (dropping the storage and den sites) and restore the old corridor tables.
+   if(a.Loot.Sites.Length>6)throw new Exception("Superseded: storage/den sites exist; loot tables live in BuildBalance1.cs");
    var buttons=a.Objects.Take(4).ToList();
    var names=a.ObjectNames.Take(4).ToList();var descriptions=a.ObjectDescriptions.Take(4).ToList();
    string[] titles={"복도 배전함","복도 보관 상자"};

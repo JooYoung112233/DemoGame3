@@ -173,6 +173,8 @@ public static class VerifyCreatureBattle
         Check(s.Units[1].Depth == 2, "Starts at the back");
         var lone = new FieldBattleState(new[] { new Adventurer("A", "", "", 4, 0) }, 1, p => 0, p => false, () => 99, new FieldBattleRules { MaxReinforcements = 0 }, new[] { radio });
         lone.Guard(); Check(lone.Outcome == FieldBattleOutcome.Victory, "A broadcaster with nobody left to call ends the fight");
+        var capped = new FieldBattleState(new[] { new Adventurer("A", "", "", 4, 0) }, 1, p => 0, p => false, () => 99, new FieldBattleRules { MaxEnemies = 1, MaxReinforcements = 1 }, new[] { radio });
+        capped.Guard(); Check(capped.Outcome == FieldBattleOutcome.Victory, "A broadcaster the enemy cap stops from calling ends the fight too");
         Pass(s); Enemy(s, "tune"); Check(s.Units[1].Pending != null && !s.DangerCells().Any() && s.Units[1].Depth == 2, "Tuning marks nothing, does not move");
         // The tuning turn is the warning: the broadcast raises the alarm and the called creature joins as the next round opens.
         Pass(s); Enemy(s, "broadcast"); Check(s.Noise == 3 && s.Events.Any(x => x.Kind == BattleEventKind.Alarm) && s.Events.Any(x => x.Kind == BattleEventKind.Reinforce), "Broadcast noise calls a reinforcement");
@@ -330,7 +332,7 @@ public static class VerifyCreatureBattle
     static readonly Dictionary<string, ((int, int) enemy, (int, int) stay, (int, int) other)> Stages = new Dictionary<string, ((int, int), (int, int), (int, int))>
     {
         ["01-door-bearer"] = ((0, 1), (0, 1), (0, 0)), ["02-listener"] = ((1, 1), (0, 1), (1, 0)), ["03-under-table"] = ((0, 1), (0, 1), (1, 2)),
-        ["04-seam-hound"] = ((1, 1), (1, 1), (0, 0)), ["05-laundry"] = ((1, 1), (0, 1), (2, 1)), ["06-meter-keeper"] = ((1, 1), (0, 1), (0, 2)),
+        ["04-seam-hound"] = ((1, 1), (1, 1), (0, 0)), ["05-laundry"] = ((0, 1), (0, 1), (2, 1)), ["06-meter-keeper"] = ((1, 1), (0, 1), (0, 2)),
         ["07-moth-nest"] = ((0, 1), (0, 1), (0, 2)), ["08-puddle"] = ((0, 1), (0, 1), (1, 0)), ["09-stairback"] = ((0, 1), (0, 1), (0, 0)),
         ["10-twin-coat"] = ((0, 1), (0, 1), (1, 2)), ["11-root-receiver"] = ((2, 1), (0, 1), (1, 0)), ["12-bellied-cart"] = ((1, 2), (0, 2), (1, 2)),
     };
@@ -341,6 +343,8 @@ public static class VerifyCreatureBattle
         if (e < 0 || !s.CanAttack(e, true)) { await Tap(b.Guard); return; }
         var u = s.Units[e]; if (!b.Ranged) { await Tap(b.Shoot); b.Escape(); }
         await TapCell(b, true, u.Depth, u.Lane); if (!b.Execute.interactable) { await Tap(b.Guard); return; }
+        // Never kill the creature in a clip: its strike is what the clip is for.
+        if (hit && s.ExpectedDamage(e, true) >= u.Health) hit = false;
         int chance = s.HitChance(e, true); Rig(v => hit ? v[0] < chance && v[1] >= s.Rules.CriticalChance : v[0] >= chance, 2); await Tap(b.Execute);
     }
     public static async Task<string> Gallery(string only = null)
@@ -379,5 +383,26 @@ public static class VerifyCreatureBattle
             return "Captured to " + Shots + " · " + string.Join(", ", log);
         }
         finally { UnityEngine.Random.state = before; b.Presentation.Speed = speed; b.ActionPause = pause; }
+    }
+
+    // Review stills for turn clarity: the enemy banner, the party banner, a pointer link, and aiming without enemy lines.
+    public static async Task<string> PhaseShots()
+    {
+        var a = Arrival; var b = a.Encounter.Battle; Check(b.IsOpen, "Open a battle first"); var roster = Roster(b);
+        float speed = b.Presentation.Speed, pause = b.ActionPause; var before = UnityEngine.Random.state;
+        try
+        {
+            b.Presentation.Speed = 1; b.ActionPause = .3f;
+            await Stage(b, roster.Find("09-stairback"), (0, 1), (0, 1), (1, 2)); var s = b.State; await Until(() => !b.Busy, 4000, "turn");
+            await Tap(b.Guard); await Until(() => !b.Busy, 6000, "ally 2"); await Tap(b.Guard);
+            await Until(() => b.PhaseBanner.gameObject.activeSelf && b.PhaseBanner.Group.alpha > .97f, 4000, "enemy banner"); await Still(b, "phase-1-enemy-banner");
+            await Until(() => b.PhaseBanner.gameObject.activeSelf && b.PhaseBanner.Title.text == b.AllyPhaseTitle && b.PhaseBanner.Group.alpha > .97f, 12000, "ally banner"); await Still(b, "phase-2-ally-banner");
+            await Until(() => !b.PhaseBanner.gameObject.activeSelf, 4000, "banner gone"); await Task.Delay(300); await Still(b, "phase-3-marked-at-rest");
+            var e = s.Units.Last(); int cell = 9 + e.Lane * 3 + e.Depth; b.Hover(cell, true); await Task.Delay(500); await Still(b, "phase-4-pointer-link"); b.Hover(cell, false);
+            await Tap(b.Shoot); b.ScriptedPointer = true; b.ScriptedPointerPosition = b.AimPoint(s.Units.Count - 1); await Task.Delay(600); await Still(b, "phase-5-aim-without-enemy-lines");
+            b.ScriptedPointer = false; b.Escape();
+            return "Captured phase stills to " + Shots;
+        }
+        finally { b.ScriptedPointer = false; UnityEngine.Random.state = before; b.Presentation.Speed = speed; b.ActionPause = pause; }
     }
 }

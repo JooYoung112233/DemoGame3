@@ -37,6 +37,8 @@ namespace Demo5.FrontEnd
         public BattleEdgeFlash EdgeFlash;
         public Material FlashMaterial;
         public float FloatRise = 74, FloatDuration = .9f;
+        [Tooltip("방어 글자 시작점: 가슴에서 아래로 (머리 위 이름표와 겹치지 않게)")]
+        public float GuardWordDrop = 26;
         [Range(0, 1)] public float EdgeAlpha = .28f;
         [Header("색")]
         public Color Cream = new Color(.97f, .93f, .82f);
@@ -206,11 +208,11 @@ namespace Demo5.FrontEnd
         }
         IEnumerator Topple(int unit, BattlePawnView v, Vector3 dir)
         {
-            panel.PawnDown(unit); float away = v.Enemy ? -1 : 1;
+            panel.PawnDown(unit); v.ClearPose(); float away = v.Enemy ? -1 : 1;
             // Below the damage number so the two words never stack.
             Text(v.Enemy ? "쓰러짐" : "행동 불능", v.Enemy ? Cream : Danger, panel.FxPoint(v.transform.position) + Vector2.up * 18, .9f);
             float start = v.Angle; v.Sway = 0; v.Shove = Vector3.zero; var drift = dir.normalized * .18f;
-            yield return Tween(ToppleDuration, u => { float k = u * u; v.Angle = Mathf.Lerp(start, away * 86, k); v.Lift = -.04f * k; v.Offset = drift * k; });
+            yield return Tween(ToppleDuration, u => { float k = u * u; v.Angle = Mathf.Lerp(start, away * 86, k); v.Lift = -.04f * k; v.Offset = drift * k; v.Sway = 0; v.Shove = Vector3.zero; });
             Sound(Fall); Shake(KillShake * .5f); StartCoroutine(BurstRoutine(panel.FxPoint(v.transform.position), Muted, .9f, .3f));
             yield return Tween(FadeDuration, u => v.Alpha = 1 - u);
             v.gameObject.SetActive(false);
@@ -218,7 +220,7 @@ namespace Demo5.FrontEnd
         IEnumerator Brace(int unit)
         {
             var v = panel.PawnView(unit); if (!v) yield break;
-            Sound(Block, .75f, 1.12f); Text("방어", Guarded, panel.FxPoint(v.Head), .95f); StartCoroutine(ShieldPop(v));
+            Sound(Block, .75f, 1.12f); Text("방어", Guarded, panel.FxPoint(v.Chest) + Vector2.down * GuardWordDrop, .95f); StartCoroutine(ShieldPop(v));
             yield return Tween(.14f, u => { v.Lift = .06f * Out(u); v.Squash = Mathf.Lerp(1, .93f, u); });
             yield return Tween(.18f, u => { v.Lift = .06f * (1 - u * u); v.Squash = Mathf.LerpUnclamped(.93f, 1, OutBack(u)); });
             v.Lift = 0; v.Squash = 1;

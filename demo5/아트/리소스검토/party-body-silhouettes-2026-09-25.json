@@ -1,0 +1,152 @@
+{
+  "date": "2026-09-25",
+  "tool": "built-in image_gen__imagegen",
+  "scope": "Four missing adult full-body silhouettes only. Shared paper rim/base and flat black runtime material are integrated separately by root agent.",
+  "actualAlphaVerified": true,
+  "resamplingPerformed": false,
+  "layering": "One alpha body per file. No baked rim, base, floor shadow or interior facial/clothing layers. Shared rim/base are independent native game elements.",
+  "assets": [
+    {
+      "id": "cook",
+      "identityReference": "Assets/Art/PartySelection/portrait-cook.png",
+      "masterPng": "아트/리소스검토/party-cook-body-source.png",
+      "unityPng": "Assets/Art/Tokens/party-cook-body.png",
+      "selectedGeneratedPath": "C:\\Users\\power\\.codex\\generated_images\\01a0d401-a1cc-7b30-9525-0197856a1c65\\exec-68bc44a9-3e27-4b0c-a4ff-7837709e4328.png",
+      "prompt": "Use case: stylized-concept. Asset type: a production Unity 2D upright human paper-pawn BODY sprite. The supplied portrait is IDENTITY reference only, not a background or composition to copy. Extend that exact head/hair silhouette into one complete standing full-body adult, head to both soles. Subject: an adult woman with the same compact high rear hair bun and swept fringe shown in portrait-cook, rounded shoulders, an everyday hooded jacket, practical straight trousers and boots. A simple apron hem may define the outer shape but no interior apron line. Small hands relaxed near the hips; no pot, spoon or weapon. Turn the whole figure slightly toward screen right in a restrained three-quarter stance. Natural adult 6.8-head-tall proportions, not chibi, broad readable outer shapes, both legs visible and feet on the same baseline. Uniform flat solid nearly black fill #171b1a throughout the entire figure. Identity is conveyed solely by the outer contour and true transparent negative spaces between limbs; absolutely zero eyes, skin, face detail, clothing seams, fabric texture, folds, shading, rim light or highlights. NO outline, NO light paper border, NO pedestal, NO base, NO ground shadow, NO floor. Center one figure with 8% clear margin, maximum native portrait resolution; target visible figure 1536–2048px tall. Background MUST be genuinely transparent PNG alpha; all empty space including around and between legs has alpha zero. This is an isolated silhouette cutout layer, no background color, no grid pattern and no display mockup. No labels, text or other objects.",
+      "extractionPrompt": null,
+      "rejectedAttempts": [],
+      "validation": {
+        "id": "cook",
+        "width": 978,
+        "height": 1608,
+        "alphaBoundsAt16": {
+          "x": 247,
+          "y": 29,
+          "width": 497,
+          "height": 1549
+        },
+        "clearPixels": 1101566,
+        "partialPixels": 468690,
+        "opaquePixels": 2368,
+        "sha256": "37866F3BAAEE12DA85640D45DAFE06746A5A776F2B584D30523047C9440D3DFF",
+        "pixelFormat": "RGBA8",
+        "masterMatchesUnityCopy": true,
+        "bodyInteriorAlphaSample": 254,
+        "sourceAlphaEdgesPreserved": true
+      },
+      "resolutionStatus": "Native visible figure exceeds 1536 px minimum target."
+    },
+    {
+      "id": "mechanic",
+      "identityReference": "Assets/Art/PartySelection/portrait-mechanic.png",
+      "masterPng": "아트/리소스검토/party-mechanic-body-source.png",
+      "unityPng": "Assets/Art/Tokens/party-mechanic-body.png",
+      "selectedGeneratedPath": "C:\\Users\\power\\.codex\\generated_images\\01a0d401-a1cc-7b30-9525-0197856a1c65\\exec-74ca4c81-165b-45ce-b9d4-ce06342e797b.png",
+      "prompt": "Use case: stylized-concept. Asset type: a production Unity 2D upright human paper-pawn BODY sprite. The supplied portrait is IDENTITY reference only, not a background or composition to copy. Extend that exact head/hair silhouette into one complete standing full-body adult, head to both soles. Subject: an adult with the same slightly tousled short spiky hair and raised hooded-jacket collar shown in portrait-mechanic, sturdy work jacket, straight work trousers and boots. One compact tool pouch at the outer right hip, visible only through its silhouette contour. Hands relaxed and free; no weapon. Turn the whole figure slightly toward screen right in a restrained three-quarter stance. Natural adult 6.8-head-tall proportions, not chibi, broad readable outer shapes, both legs visible and feet on the same baseline. Uniform flat solid nearly black fill #171b1a throughout the entire figure. Identity is conveyed solely by the outer contour and true transparent negative spaces between limbs; absolutely zero eyes, skin, face detail, clothing seams, fabric texture, folds, shading, rim light or highlights. NO outline, NO light paper border, NO pedestal, NO base, NO ground shadow, NO floor. Center one figure with 8% clear margin, maximum native portrait resolution; target visible figure 1536–2048px tall. Background MUST be genuinely transparent PNG alpha; all empty space including around and between legs has alpha zero. This is an isolated silhouette cutout layer, no background color, no grid pattern and no display mockup. No labels, text or other objects.",
+      "extractionPrompt": "Remove the background. Keep only the black human silhouette, completely unchanged. Deliver a transparent background PNG cutout, with no floor or shadow.",
+      "rejectedAttempts": [
+        {
+          "path": "C:\\Users\\power\\.codex\\generated_images\\01a0d401-a1cc-7b30-9525-0197856a1c65\\exec-7291ed3c-fbad-4166-b237-d384ed13a796.png",
+          "prompt": "Deliver a transparent PNG cutout with a genuine alpha channel. Empty pixels must have alpha=0. Create a single dark human silhouette asset only; no background art of any kind. Use case: stylized-concept. Asset type: a production Unity 2D upright human paper-pawn BODY sprite. The supplied portrait is IDENTITY reference only, not a background or composition to copy. Extend that exact head/hair silhouette into one complete standing full-body adult, head to both soles. Subject: an adult with the same slightly tousled short spiky hair and raised hooded-jacket collar shown in portrait-mechanic, sturdy work jacket, straight work trousers and boots. One compact tool pouch at the outer right hip, visible only through its silhouette contour. Hands relaxed and free; no weapon. Turn the whole figure slightly toward screen right in a restrained three-quarter stance. Natural adult 6.8-head-tall proportions, not chibi, broad readable outer shapes, both legs visible and feet on the same baseline. Uniform flat solid nearly black fill #171b1a throughout the entire figure. Identity is conveyed solely by the outer contour and true transparent negative spaces between limbs; absolutely zero eyes, skin, face detail, clothing seams, fabric texture, folds, shading, rim light or highlights. NO outline, NO light paper border, NO pedestal, NO base, NO ground shadow, NO floor. Center one figure with 8% clear margin, maximum native portrait resolution; target visible figure 1536–2048px tall. Background MUST be genuinely transparent PNG alpha; all empty space including around and between legs has alpha zero. This is an isolated silhouette cutout layer, no background color, no grid pattern and no display mockup. No labels, text or other objects. The generated file will be loaded as a sprite, so background transparency is an essential technical requirement. Maintain head identity from the provided reference portrait while drawing the full-body figure.",
+          "reason": "Opaque checker background; not copied into project Assets."
+        },
+        {
+          "path": "C:\\Users\\power\\.codex\\generated_images\\01a0d401-a1cc-7b30-9525-0197856a1c65\\exec-ae83d3d6-706e-4e27-aa53-770771e20be9.png",
+          "prompt": "Edit this transparent silhouette cutout. Preserve the actual transparent alpha outside the figure. Replace only the cap and ponytail outer shape with slightly tousled short spiky hair. Make this figure a sturdy adult mechanic with compact jacket, straight work trousers and a small block-shaped tool pouch hanging from the hip silhouette. Every part of the character is the same flat nearly black color #171b1a, with no internal markings at all. Keep the original upright complete full-body stance, natural adult proportions, clean black outer boundary, and the whole figure from head to both soles. NO outline, NO pedestal, NO floor, NO shadow. Output genuine transparent PNG alpha as the original input, not a visualized backdrop. Tall native image with actual body height at least1536 pixels.",
+          "reason": "Opaque checker background; not copied into project Assets."
+        }
+      ],
+      "validation": {
+        "id": "mechanic",
+        "width": 1024,
+        "height": 1536,
+        "alphaBoundsAt16": {
+          "x": 262,
+          "y": 38,
+          "width": 497,
+          "height": 1439
+        },
+        "clearPixels": 1154699,
+        "partialPixels": 418165,
+        "opaquePixels": 0,
+        "sha256": "8A87B648B9AB82516630BAB2F0EE2599F109ECCAD80201B1BF7FDD81D63BB174",
+        "pixelFormat": "RGBA8",
+        "masterMatchesUnityCopy": true,
+        "bodyInteriorAlphaSample": 254,
+        "sourceAlphaEdgesPreserved": true
+      },
+      "resolutionStatus": "Native visible figure 1439 px falls short of 1536 px minimum target. Preserved original unscaled; not a 1536+ body master."
+    },
+    {
+      "id": "guard",
+      "identityReference": "Assets/Art/PartySelection/portrait-guard.png",
+      "masterPng": "아트/리소스검토/party-guard-body-source.png",
+      "unityPng": "Assets/Art/Tokens/party-guard-body.png",
+      "selectedGeneratedPath": "C:\\Users\\power\\.codex\\generated_images\\01a0d401-a1cc-7b30-9525-0197856a1c65\\exec-62769a8b-7171-4341-96d0-f3bf2fd14b47.png",
+      "prompt": "Use case: stylized-concept. Asset type: a production Unity 2D upright human paper-pawn BODY sprite. The supplied portrait is IDENTITY reference only, not a background or composition to copy. Extend that exact head/hair silhouette into one complete standing full-body adult, head to both soles. Subject: an adult woman with the same baseball cap bill facing right and small low ponytail/bunched hair at the back as portrait-guard, substantial hooded jacket, straight trousers and sturdy shoes. Vigilant but relaxed neutral stance, both hands lowered; no weapon. Turn the whole figure slightly toward screen right in a restrained three-quarter stance. Natural adult 6.8-head-tall proportions, not chibi, broad readable outer shapes, both legs visible and feet on the same baseline. Uniform flat solid nearly black fill #171b1a throughout the entire figure. Identity is conveyed solely by the outer contour and true transparent negative spaces between limbs; absolutely zero eyes, skin, face detail, clothing seams, fabric texture, folds, shading, rim light or highlights. NO outline, NO light paper border, NO pedestal, NO base, NO ground shadow, NO floor. Center one figure with 8% clear margin, maximum native portrait resolution; target visible figure 1536–2048px tall. Background MUST be genuinely transparent PNG alpha; all empty space including around and between legs has alpha zero. This is an isolated silhouette cutout layer, no background color, no grid pattern and no display mockup. No labels, text or other objects.",
+      "extractionPrompt": null,
+      "rejectedAttempts": [],
+      "validation": {
+        "id": "guard",
+        "width": 887,
+        "height": 1774,
+        "alphaBoundsAt16": {
+          "x": 165,
+          "y": 80,
+          "width": 560,
+          "height": 1629
+        },
+        "clearPixels": 981681,
+        "partialPixels": 589609,
+        "opaquePixels": 2248,
+        "sha256": "C59ED8E435DD96AD309BE72EB6AF9A3DD5A1C6029A461660A8BFB46EF99672E0",
+        "pixelFormat": "RGBA8",
+        "masterMatchesUnityCopy": true,
+        "bodyInteriorAlphaSample": 254,
+        "sourceAlphaEdgesPreserved": true
+      },
+      "resolutionStatus": "Native visible figure exceeds 1536 px minimum target."
+    },
+    {
+      "id": "researcher",
+      "identityReference": "Assets/Art/PartySelection/portrait-researcher.png",
+      "masterPng": "아트/리소스검토/party-researcher-body-source.png",
+      "unityPng": "Assets/Art/Tokens/party-researcher-body.png",
+      "selectedGeneratedPath": "C:\\Users\\power\\.codex\\generated_images\\01a0d401-a1cc-7b30-9525-0197856a1c65\\exec-2926947d-53bf-499c-8766-1967d63f50d2.png",
+      "prompt": "Use case: stylized-concept. Asset type: a production Unity 2D upright human paper-pawn BODY sprite. The supplied portrait is IDENTITY reference only, not a background or composition to copy. Extend that exact head/hair silhouette into one complete standing full-body adult, head to both soles. Subject: an adult man with the same messy short side-parted hair and rectangular spectacles in profile as portrait-researcher, raised jacket collar, everyday fitted coat and trousers with simple shoes. Glasses appear ONLY as a tiny dark protrusion along the facial silhouette, never bright interior frames. Holding a compact closed notebook against one outside hip, only identifiable by its outer contour. Turn the whole figure slightly toward screen right in a restrained three-quarter stance. Natural adult 6.8-head-tall proportions, not chibi, broad readable outer shapes, both legs visible and feet on the same baseline. Uniform flat solid nearly black fill #171b1a throughout the entire figure. Identity is conveyed solely by the outer contour and true transparent negative spaces between limbs; absolutely zero eyes, skin, face detail, clothing seams, fabric texture, folds, shading, rim light or highlights. NO outline, NO light paper border, NO pedestal, NO base, NO ground shadow, NO floor. Center one figure with 8% clear margin, maximum native portrait resolution; target visible figure 1536–2048px tall. Background MUST be genuinely transparent PNG alpha; all empty space including around and between legs has alpha zero. This is an isolated silhouette cutout layer, no background color, no grid pattern and no display mockup. No labels, text or other objects.",
+      "extractionPrompt": "Remove the background. Keep only the black human silhouette, completely unchanged. Deliver a transparent background PNG cutout, with no floor or shadow.",
+      "rejectedAttempts": [
+        {
+          "path": "C:\\Users\\power\\.codex\\generated_images\\01a0d401-a1cc-7b30-9525-0197856a1c65\\exec-1bd55f18-1bc3-4547-862a-dd6fb1194b3a.png",
+          "prompt": "Deliver a transparent PNG cutout with a genuine alpha channel. Empty pixels must have alpha=0. Create a single dark human silhouette asset only; no background art of any kind. Use case: stylized-concept. Asset type: a production Unity 2D upright human paper-pawn BODY sprite. The supplied portrait is IDENTITY reference only, not a background or composition to copy. Extend that exact head/hair silhouette into one complete standing full-body adult, head to both soles. Subject: an adult man with the same messy short side-parted hair and rectangular spectacles in profile as portrait-researcher, raised jacket collar, everyday fitted coat and trousers with simple shoes. Glasses appear ONLY as a tiny dark protrusion along the facial silhouette, never bright interior frames. Holding a compact closed notebook against one outside hip, only identifiable by its outer contour. Turn the whole figure slightly toward screen right in a restrained three-quarter stance. Natural adult 6.8-head-tall proportions, not chibi, broad readable outer shapes, both legs visible and feet on the same baseline. Uniform flat solid nearly black fill #171b1a throughout the entire figure. Identity is conveyed solely by the outer contour and true transparent negative spaces between limbs; absolutely zero eyes, skin, face detail, clothing seams, fabric texture, folds, shading, rim light or highlights. NO outline, NO light paper border, NO pedestal, NO base, NO ground shadow, NO floor. Center one figure with 8% clear margin, maximum native portrait resolution; target visible figure 1536–2048px tall. Background MUST be genuinely transparent PNG alpha; all empty space including around and between legs has alpha zero. This is an isolated silhouette cutout layer, no background color, no grid pattern and no display mockup. No labels, text or other objects. The generated file will be loaded as a sprite, so background transparency is an essential technical requirement. Maintain head identity from the provided reference portrait while drawing the full-body figure.",
+          "reason": "Opaque checker background; not copied into project Assets."
+        },
+        {
+          "path": "C:\\Users\\power\\.codex\\generated_images\\01a0d401-a1cc-7b30-9525-0197856a1c65\\exec-7672c7d3-62c0-4b20-bb83-2bfec3beac45.png",
+          "prompt": "Edit this transparent silhouette cutout. Preserve the actual transparent alpha outside the figure. Replace the cap and ponytail with slightly messy short hair of a male adult researcher, tiny rectangular eyeglass profile protrusion in the dark nose contour. Slightly narrow the jacket to an everyday long coat. Put a small closed rectangular notebook in a lowered hand along outer hip shape. Every part including notebook and glasses is the SAME flat near black #171b1a with no internal lines whatsoever. Keep upright complete full-body stance and both soles, natural adult proportions, clean black boundary. NO outline, NO pedestal, NO floor or shadow. Output genuine transparent PNG alpha exactly like input, no visible backdrop. Tall native image, body at least1536 pixels.",
+          "reason": "Opaque checker background; not copied into project Assets."
+        }
+      ],
+      "validation": {
+        "id": "researcher",
+        "width": 887,
+        "height": 1774,
+        "alphaBoundsAt16": {
+          "x": 171,
+          "y": 35,
+          "width": 544,
+          "height": 1680
+        },
+        "clearPixels": 1050406,
+        "partialPixels": 519524,
+        "opaquePixels": 3608,
+        "sha256": "804001BC9F61052CB1102F47E810BB15B3BC67BBE4BF82A0ACE4E7A69FAAB55C",
+        "pixelFormat": "RGBA8",
+        "masterMatchesUnityCopy": true,
+        "bodyInteriorAlphaSample": 254,
+        "sourceAlphaEdgesPreserved": true
+      },
+      "resolutionStatus": "Native visible figure exceeds 1536 px minimum target."
+    }
+  ]
+}

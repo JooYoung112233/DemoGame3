@@ -1,0 +1,11 @@
+type	issue	x	y	w	h	font	interactable	path	text
+text		494	238.0001	932	59.99994	40	False	SettlementCanvas/SettlementScreen/SettlementNightEvent/Title	문밖에서, 세 번
+text		100.0001	978	369.9999	67.99998	27	False	SettlementCanvas/SettlementScreen/SettlementNightEvent/Back/Label	나중에 결정하기
+text		494	590	932	240	23	False	SettlementCanvas/SettlementScreen/SettlementNightEvent/Result	선택할 때만 시간이 흐릅니다. 진행 중인 작업도 함께 진행됩니다.
+text		494	324	932	266	28	False	SettlementCanvas/SettlementScreen/SettlementNightEvent/Body	문 너머에서 두드리는 소리가 세 번 들렸다. / 잠시 뒤, 같은 간격으로 다시 세 번. /  / 관리표의 문장이 떠오른다. / <color=#713C29>‘안에서 두드려도 대답하지 말 것.’</color> /  / 문은 닫혀 있다. 어떻게 확인할까?
+text		104.0001	32	492	72	34	False	SettlementCanvas/SettlementScreen/SettlementNightEvent/PopupHeading/Label	정착지 · 밤의 사건
+text		514	662	892	62	27	False	SettlementCanvas/SettlementScreen/SettlementNightEvent/Choices/Listen/Label	대답 없이 귀 기울이기     · 15분
+text		514	750	892	62	27	False	SettlementCanvas/SettlementScreen/SettlementNightEvent/Choices/Look/Label	불빛을 가리고 살피기     · 30분
+button		494	746	932	69.99997	0	True	SettlementCanvas/SettlementScreen/SettlementNightEvent/Choices/Look	불빛을 가리고 살피기     · 30분
+button		494	658	932	69.99997	0	True	SettlementCanvas/SettlementScreen/SettlementNightEvent/Choices/Listen	대답 없이 귀 기울이기     · 15분
+button		79.99998	973.9999	410	75.99998	0	True	SettlementCanvas/SettlementScreen/SettlementNightEvent/Back	나중에 결정하기

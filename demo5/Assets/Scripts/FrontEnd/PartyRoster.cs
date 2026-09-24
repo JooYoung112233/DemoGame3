@@ -5,6 +5,7 @@ namespace Demo5.FrontEnd
     [Serializable] public sealed class PartyCandidate
     {
         public string Id,DisplayName;
+        public bool AvailableAtStart;
         public string RoleTitle;
         [TextArea] public string FirstLine,WorkLine,RestLine;
         [TextArea] public string Description;
@@ -15,7 +16,63 @@ namespace Demo5.FrontEnd
         public int Aim;
         [Range(1,100)] public int CookingTimePercent=100, CraftTimePercent=100;
         public Sprite Portrait;
+        public Sprite Body;
+        [Min(.1f)] public float BodyScale=1;
+        // Editor-authored alpha bounds, relative to Body.rect; no readable texture is needed in a Player.
+        public Rect BodyVisiblePixels;
     }
     [CreateAssetMenu(menuName="Demo5/Party roster")]
-    public sealed class PartyRoster : ScriptableObject { public PartyCandidate[] Candidates; }
+    public sealed class PartyRoster : ScriptableObject
+    {
+        public PartyCandidate[] Candidates;
+
+        public Sprite BodyFor(string id,Sprite scoutFallback,Sprite medicFallback)
+        {
+            var candidate=Array.Find(Candidates??Array.Empty<PartyCandidate>(),c=>c!=null&&c.Id==id);
+            if(candidate!=null&&candidate.Body)return candidate.Body;
+            return id=="medic"&&medicFallback?medicFallback:scoutFallback;
+        }
+
+        public Rect VisiblePixelsFor(Sprite sprite)
+        {
+            if(!sprite)return default;
+            var candidate=Array.Find(Candidates??Array.Empty<PartyCandidate>(),c=>c!=null&&c.Body==sprite&&c.BodyVisiblePixels.width>0&&c.BodyVisiblePixels.height>0);
+            return candidate!=null?candidate.BodyVisiblePixels:new Rect(0,0,sprite.rect.width,sprite.rect.height);
+        }
+
+        public float BodyScaleFor(Sprite sprite)
+        {
+            if(!sprite)return 1;
+            var candidate=Array.Find(Candidates??Array.Empty<PartyCandidate>(),c=>c!=null&&c.Body==sprite);
+            float scale=candidate?.BodyScale??1;
+            return scale>0&&!float.IsInfinity(scale)?scale:1;
+        }
+
+        public void ApplyBody(SpriteRenderer target,string id,Sprite scoutFallback,Sprite medicFallback)
+        {
+            if(!target)return;
+            var next=BodyFor(id,scoutFallback,medicFallback);
+            if(!next||target.sprite==next)return;
+            var previous=target.sprite;
+            if(previous)
+            {
+                // A wide source canvas must not shrink the next actor or move its feet off the shared base.
+                var oldBounds=VisiblePixelsFor(previous);var nextBounds=VisiblePixelsFor(next);
+                var position=target.transform.localPosition;var oldScale=target.transform.localScale;
+                // Normalize the previous actor first so swapping scaled bodies never compounds their size.
+                float height=oldBounds.height*Mathf.Abs(oldScale.y)/previous.pixelsPerUnit/BodyScaleFor(previous)*BodyScaleFor(next);
+                float facing=target.flipX?-1:1;
+                float center=position.x+(oldBounds.center.x-previous.pivot.x)*oldScale.x*facing/previous.pixelsPerUnit;
+                float oldBottom=target.flipY?previous.pivot.y-oldBounds.yMax:oldBounds.y-previous.pivot.y;
+                float foot=position.y+oldBottom*oldScale.y/previous.pixelsPerUnit;
+                float scale=height*next.pixelsPerUnit/nextBounds.height;
+                float xScale=scale*(oldScale.x<0?-1:1);
+                float nextBottom=target.flipY?next.pivot.y-nextBounds.yMax:nextBounds.y-next.pivot.y;
+                target.transform.localScale=new Vector3(xScale,scale,oldScale.z);
+                target.transform.localPosition=new Vector3(center-(nextBounds.center.x-next.pivot.x)*xScale*facing/next.pixelsPerUnit,
+                    foot-nextBottom*scale/next.pixelsPerUnit,position.z);
+            }
+            target.sprite=next;
+        }
+    }
 }

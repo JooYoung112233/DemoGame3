@@ -15,6 +15,7 @@ MonoBehaviour:
   Candidates:
   - Id: scout
     DisplayName: "\uC724\uC11C\uC9C4"
+    AvailableAtStart: 1
     RoleTitle: "\uC804\uC9C1 \uD0DD\uBC30\uAE30\uC0AC"
     FirstLine: "\uB3CC\uC544\uC62C \uAE38\uBD80\uD130 \uBCF4\uC790."
     WorkLine: "\uAE08\uBC29 \uB05D\uB0B4\uACE0 \uAE38\uC744 \uBCF4\uC790."
@@ -29,8 +30,17 @@ MonoBehaviour:
     CookingTimePercent: 100
     CraftTimePercent: 100
     Portrait: {fileID: 21300000, guid: 307d0a624101af7458e196b677f82ac1, type: 3}
+    Body: {fileID: 21300000, guid: 632c024209512f149bab349e3bcac364, type: 3}
+    BodyScale: 1
+    BodyVisiblePixels:
+      serializedVersion: 2
+      x: 11
+      y: 9
+      width: 72
+      height: 153
   - Id: mechanic
     DisplayName: "\uAC15\uAE30\uC12D"
+    AvailableAtStart: 0
     RoleTitle: "\uC218\uB9AC\uAE30\uC0AC"
     FirstLine: "\uACE0\uCE60 \uC218 \uC788\uC73C\uBA74 \uACE0\uCCD0\uC57C\uC9C0."
     WorkLine: "\uC774 \uB098\uC0AC\uB3C4 \uC4F8 \uB370\uAC00 \uC788\uC5B4."
@@ -45,8 +55,17 @@ MonoBehaviour:
     CookingTimePercent: 100
     CraftTimePercent: 80
     Portrait: {fileID: 21300000, guid: 1190c245401076d44a2a52c63674a584, type: 3}
+    Body: {fileID: -1215926292749581975, guid: 9d90415bedcd64040b2d649d061cd814, type: 3}
+    BodyScale: 1
+    BodyVisiblePixels:
+      serializedVersion: 2
+      x: 2
+      y: 2
+      width: 645
+      height: 1521
   - Id: medic
     DisplayName: "\uD55C\uD574\uC778"
+    AvailableAtStart: 1
     RoleTitle: "\uBC29\uBB38 \uAC04\uBCD1\uC778"
     FirstLine: "\uB2E4\uCE5C \uB370\uBD80\uD130 \uBCF4\uC5EC\uC918\uC694."
     WorkLine: "\uC11C\uB450\uB974\uB2E4 \uB2E4\uCE58\uC9C0 \uB9C8\uC694."
@@ -61,8 +80,17 @@ MonoBehaviour:
     CookingTimePercent: 100
     CraftTimePercent: 100
     Portrait: {fileID: 21300000, guid: 103ebc697b188294b8a8c5dcfc9c9f2b, type: 3}
+    Body: {fileID: 21300000, guid: 0ea86762928cf15449bd441f9e5cf942, type: 3}
+    BodyScale: 1
+    BodyVisiblePixels:
+      serializedVersion: 2
+      x: 12
+      y: 5
+      width: 67
+      height: 142
   - Id: cook
     DisplayName: "\uC624\uC815\uC740"
+    AvailableAtStart: 0
     RoleTitle: "\uAE09\uC2DD \uC870\uB9AC\uC6D0"
     FirstLine: "\uC77C\uB2E8 \uBB58 \uC880 \uBA39\uACE0 \uC598\uAE30\uD574."
     WorkLine: "\uBE48\uC18D\uC73C\uB85C \uC77C\uD558\uC9C0 \uB9C8."
@@ -77,8 +105,17 @@ MonoBehaviour:
     CookingTimePercent: 80
     CraftTimePercent: 100
     Portrait: {fileID: 21300000, guid: b1d230446365ade44a204083346e23b6, type: 3}
+    Body: {fileID: 7885695980795071780, guid: 7d8c57983aeebc64dadba9233de2798d, type: 3}
+    BodyScale: 1
+    BodyVisiblePixels:
+      serializedVersion: 2
+      x: 2
+      y: 2
+      width: 553
+      height: 1515
   - Id: researcher
     DisplayName: "\uBC31\uC18C\uB2F4"
+    AvailableAtStart: 0
     RoleTitle: "\uAE30\uB85D \uAD00\uB9AC\uC0AC"
     FirstLine: "\uC5B4\uC81C\uB3C4 \uC774\uB7AC\uB294\uC9C0 \uC801\uC5B4\uB458\uAC8C."
     WorkLine: "\uC21C\uC11C\uB97C \uC801\uC5B4\uB450\uBA74 \uB3FC."
@@ -93,8 +130,17 @@ MonoBehaviour:
     CookingTimePercent: 100
     CraftTimePercent: 100
     Portrait: {fileID: 21300000, guid: d029537b4e1ddbc4e8f72d31c18ad646, type: 3}
+    Body: {fileID: -6994970304369487763, guid: ea8044f91daa5254eb259701d9f5754b, type: 3}
+    BodyScale: 1
+    BodyVisiblePixels:
+      serializedVersion: 2
+      x: 2
+      y: 2
+      width: 692
+      height: 1469
   - Id: guard
     DisplayName: "\uC784\uD0DC\uC624"
+    AvailableAtStart: 0
     RoleTitle: "\uC57C\uAC04 \uACBD\uBE44\uC6D0"
     FirstLine: "\uB2E4 \uB4E4\uC5B4\uC654\uC9C0? \uBB38 \uB2EB\uB294\uB2E4."
     WorkLine: "\uB05D\uB098\uBA74 \uB0B4\uAC00 \uD655\uC778\uD560\uAC8C."
@@ -109,3 +155,11 @@ MonoBehaviour:
     CookingTimePercent: 100
     CraftTimePercent: 100
     Portrait: {fileID: 21300000, guid: 4532be1ba405411458195b7ad75e67d7, type: 3}
+    Body: {fileID: -600881206616826866, guid: 380858e1d46a08049a4c8d5a01f8b418, type: 3}
+    BodyScale: 1
+    BodyVisiblePixels:
+      serializedVersion: 2
+      x: 2
+      y: 2
+      width: 659
+      height: 1452

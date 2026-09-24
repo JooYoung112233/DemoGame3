@@ -43,6 +43,7 @@ namespace Demo5.FrontEnd
         public IReadOnlyList<CraftOrderRow> OrderRows=>orderRows;
         public IReadOnlyList<CraftCostRow> CostRows=>costs;
         SettlementController owner;
+        public string SelectedRecipeId=>selected?.Id;
         Adventurer[] people=Array.Empty<Adventurer>();
         Recipe selected;
         int category,worker=-1,quantity=1;

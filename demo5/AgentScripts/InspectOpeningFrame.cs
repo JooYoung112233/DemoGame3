@@ -1,0 +1,4 @@
+using System.Linq;using UnityEngine;using Demo5.FrontEnd;
+public static class InspectOpeningFrame{public static string Run(){var c=Object.FindAnyObjectByType<SettlementController>();return "screen="+Screen.width+"x"+Screen.height+" canvas="+c.Opening.View.GetComponentInParent<Canvas>().pixelRect+" root="+c.Opening.View.transform.position+" scale="+c.Opening.View.transform.lossyScale+" render="+string.Join(";",c.Opening.View.GetComponentsInChildren<UnityEngine.UI.Graphic>().Select(g=>g.name+" color="+g.color+" cull="+g.canvasRenderer.cull+" alpha="+g.canvasRenderer.GetAlpha()+" material="+g.material.name))+"\n"+string.Join("\n",c.Opening.View.transform.Cast<Transform>().Select(t=>t.name+" active="+t.gameObject.activeInHierarchy+" rect="+((RectTransform)t).anchoredPosition+" size="+((RectTransform)t).sizeDelta));}}
+
+

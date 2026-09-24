@@ -22,8 +22,10 @@ public static class BuildExpeditionPacking {
   var rail=I("Rail",view,w-7,0,7,h);rail.color=new Color(1,1,1,.12f);var handle=I("Handle",rail.transform,0,0,7,100,A+"footer-paper.png");handle.raycastTarget=true;var bar=rail.gameObject.AddComponent<Scrollbar>();bar.targetGraphic=handle;bar.handleRect=handle.rectTransform;bar.direction=Scrollbar.Direction.BottomToTop;scroll.verticalScrollbar=bar;scroll.verticalScrollbarVisibility=ScrollRect.ScrollbarVisibility.AutoHide;
   var hint=R("MoreBelow",root,x+w-34,y+h-20,24,17);hint.gameObject.AddComponent<CanvasRenderer>();hint.gameObject.AddComponent<RoundedDownArrow>().raycastTarget=false;var visibility=hint.gameObject.AddComponent<CanvasGroup>();var indicator=hint.gameObject.AddComponent<ScrollMoreIndicator>();indicator.Scroll=scroll;indicator.Visibility=visibility;return scroll;
  }
+ // STALE since 2026-09-25: this rebuild names Tab1 '보급품' (the retired supplies item; BuildRetireSupplies renamed that food/water tab '식량') and drops later packing edits; do not rerun.
+ static void RefuseAfterSuppliesRetired(){var inv=AssetDatabase.LoadAssetAtPath<GameObject>(P+"InventoryPanel.prefab");var p=inv?inv.GetComponent<SettlementInventoryPanel>():null;if(p&&p.Items!=null&&!Array.Exists(p.Items,i=>i.Id=="supplies"))throw new Exception("Superseded: supplies retired 2026-09-25 (BuildRetireSupplies). BuildExpeditionPacking would bring back the '보급품' tab; do not rerun.");}
  public static string Build(){
-  if(EditorApplication.isPlaying)throw new Exception("Stop Play first");
+  if(EditorApplication.isPlaying)throw new Exception("Stop Play first");RefuseAfterSuppliesRetired();
   font=AssetDatabase.LoadAssetAtPath<Font>("Assets/funflow_font/TWD-AS_FUNFLOW SURVIVOR_Font/펀플로 생존자.ttf");
   var root=R("ExpeditionPackingPanel",null,0,0,1920,1080);var c=root.gameObject.AddComponent<ExpeditionPackingPanel>();c.View=root.gameObject;
   var w=R("Workspace",root,0,0,1920,1080);c.Workspace=w.gameObject.AddComponent<CanvasGroup>();

@@ -248,8 +248,8 @@ MonoBehaviour:
   m_SelectionSources:
     rid: 2213526298883522813
   m_FalloffIntensity: 0.5
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.96
+  m_Color: {r: 0.94, g: 0.98, b: 1, a: 1}
+  m_Intensity: 0.9
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
   m_ApplyToSortingLayers: 00000000i
@@ -309,6 +309,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7877418366918930813}
+  - component: {fileID: 60127898061714561}
   m_Layer: 0
   m_Name: ExpeditionWorld
   m_TagString: Untagged
@@ -335,6 +336,97 @@ Transform:
   - {fileID: 3316555668817247850}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &60127898061714561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5926021652204999509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15dbbb23e0a201441a1fa6a60feb69f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Demo5.FrontEnd.ExplorationRoomPresentation
+  Ambient: {fileID: 6886739629753172753}
+  EntranceLight: {fileID: 1708705243980614494}
+  PawnRoot: {fileID: 3316555668817247850}
+  RoomLights:
+  - Room: 0
+    Label: "\uC624\uB77D\uC2E4 \xB7 \uC624\uB978\uCABD \uCD9C\uC785\uAD6C"
+    AmbientIntensity: 0.9
+    AmbientColor: {r: 0.94, g: 0.98, b: 1, a: 1}
+    EntrancePosition: {x: 7.2, y: 1.8}
+    EntranceIntensity: 0.23
+    EntranceColor: {r: 0.78, g: 0.88, b: 1, a: 1}
+    EntranceRadius: 3
+  - Room: 1
+    Label: "\uBCF5\uB3C4 \xB7 \uC67C\uCABD \uBB38"
+    AmbientIntensity: 0.88
+    AmbientColor: {r: 0.9, g: 0.95, b: 1, a: 1}
+    EntrancePosition: {x: -8.5, y: 1.4}
+    EntranceIntensity: 0.2
+    EntranceColor: {r: 0.8, g: 0.89, b: 1, a: 1}
+    EntranceRadius: 3.2
+  - Room: 2
+    Label: "\uBCF4\uAD00\uC2E4 \xB7 \uC67C\uCABD \uBB38"
+    AmbientIntensity: 0.86
+    AmbientColor: {r: 0.98, g: 0.96, b: 0.89, a: 1}
+    EntrancePosition: {x: -8.5, y: 1.3}
+    EntranceIntensity: 0.22
+    EntranceColor: {r: 0.95, g: 0.92, b: 0.83, a: 1}
+    EntranceRadius: 3.4
+  Routes:
+  - Label: "\uC678\uBD80 \u2192 \uC624\uB77D\uC2E4"
+    FromRoom: -1
+    ToRoom: 0
+    DepartureDoor: {x: 8.2, y: -0.4}
+    FloorWaypoint: {x: 8.05, y: -1.95}
+    DepartureQueue: {x: 0, y: -0.23}
+    ArrivalDoor: {x: 8.2, y: -0.4}
+    ArrivalFormation: {x: 0, y: -1.82}
+    FormationStep: {x: 1.25, y: 0}
+    CenterFormation: 1
+  - Label: "\uC624\uB77D\uC2E4 \u2192 \uBCF5\uB3C4"
+    FromRoom: 0
+    ToRoom: 1
+    DepartureDoor: {x: 8.2, y: -0.4}
+    FloorWaypoint: {x: 8.05, y: -1.95}
+    DepartureQueue: {x: 0, y: -0.23}
+    ArrivalDoor: {x: -8.55, y: -0.7}
+    ArrivalFormation: {x: -1.8, y: -1.72}
+    FormationStep: {x: 1.25, y: 0}
+    CenterFormation: 1
+  - Label: "\uBCF5\uB3C4 \u2192 \uC624\uB77D\uC2E4"
+    FromRoom: 1
+    ToRoom: 0
+    DepartureDoor: {x: -8.55, y: -0.7}
+    FloorWaypoint: {x: -7.75, y: -1.6}
+    DepartureQueue: {x: 0, y: -0.23}
+    ArrivalDoor: {x: 8.2, y: -0.4}
+    ArrivalFormation: {x: 0, y: -1.82}
+    FormationStep: {x: 1.25, y: 0}
+    CenterFormation: 1
+  - Label: "\uBCF5\uB3C4 \u2192 \uBCF4\uAD00\uC2E4"
+    FromRoom: 1
+    ToRoom: 2
+    DepartureDoor: {x: 2.2, y: 0.12}
+    FloorWaypoint: {x: 2.2, y: -1.45}
+    DepartureQueue: {x: 0, y: -0.23}
+    ArrivalDoor: {x: -8.55, y: -0.7}
+    ArrivalFormation: {x: -0.5, y: -1.75}
+    FormationStep: {x: 1.25, y: 0}
+    CenterFormation: 1
+  - Label: "\uBCF4\uAD00\uC2E4 \u2192 \uBCF5\uB3C4 \uC911\uC559 \uCCA0\uBB38"
+    FromRoom: 2
+    ToRoom: 1
+    DepartureDoor: {x: -8.55, y: -0.7}
+    FloorWaypoint: {x: -7.75, y: -1.6}
+    DepartureQueue: {x: 0, y: -0.23}
+    ArrivalDoor: {x: 2.2, y: 0.12}
+    ArrivalFormation: {x: 2.2, y: -1.72}
+    FormationStep: {x: 1.25, y: 0}
+    CenterFormation: 1
 --- !u!1 &6832257490198020696
 GameObject:
   m_ObjectHideFlags: 0

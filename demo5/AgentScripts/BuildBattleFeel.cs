@@ -56,14 +56,14 @@ public static class BuildBattleFeel
         h.SegmentTemplate = Picture(Bottom("SegmentTemplate", h.Segments, 0, 0, 10, 10), A + "paper-texture.png", Color.white);
         h.Guard = Graphic<BattleShieldIcon>(Bottom("Guard", hud, -69, -1, 18, 21), Sage).gameObject;
         h.Name = Label(Bottom("Name", hud, 0, 21, 184, 26), "탐험가 1", 19, Cream); Outline(h.Name, 1.6f);
-        var intent = Bottom("Intent", hud, 0, 52, 138, 32); h.Intent = intent.gameObject;
-        Picture(Bottom("Paper", intent, 0, 0, 138, 32), A + "footer-paper.png", Cream);
+        var intent = Bottom("Intent", hud, 0, 52, 152, 32); h.Intent = intent.gameObject;
+        Picture(Bottom("Paper", intent, 0, 0, 152, 32), A + "footer-paper.png", Cream);
         h.IntentClaw = Graphic<BattleSlashGraphic>(Bottom("Claw", intent, -48, 5, 22, 22), Danger); h.IntentClaw.Angle = -62; h.IntentClaw.Width = .22f;
         h.IntentArrow = Graphic<BattleChevronGraphic>(Bottom("Arrow", intent, -48, 6, 20, 20), Ink);
-        h.IntentLabel = Label(Bottom("Label", intent, 12, 1, 104, 30), "물기 70%", 18, Ink);
-        var danger = Bottom("Danger", hud, 0, 52, 104, 32); h.Danger = danger.gameObject;
-        Picture(Bottom("Paper", danger, 0, 0, 104, 32), A + "footer-paper.png", Danger);
-        h.DangerLabel = Label(Bottom("Label", danger, 0, 1, 100, 30), "! 70%", 19, Cream);
+        h.IntentLabel = Label(Bottom("Label", intent, 16, 1, 112, 30), "물기 70%", 18, Ink);
+        var danger = Bottom("Danger", hud, 0, 52, 124, 32); h.Danger = danger.gameObject;
+        Picture(Bottom("Paper", danger, 0, 0, 124, 32), A + "footer-paper.png", Danger);
+        h.DangerLabel = Label(Bottom("Label", danger, 0, 1, 120, 30), "! 70%", 19, Cream);
         var aim = Bottom("Aim", hud, 0, 88, 118, 30); h.Aim = aim.gameObject;
         Picture(Bottom("Paper", aim, 0, 0, 118, 30), A + "footer-paper.png", Ochre);
         h.AimLabel = Label(Bottom("Label", aim, 0, 1, 114, 28), "명중 75%", 18, Ink);
@@ -107,7 +107,8 @@ public static class BuildBattleFeel
             Picture(TopLeft("Track", gauge, 66, 11, 152, 13), null, new Color(.02f, .03f, .03f, .9f));
             c.NoiseFill = Picture(TopLeft("Fill", gauge, 68, 13, 148, 9), A + "paper-texture.png", Ochre);
             c.NoiseFill.type = Image.Type.Filled; c.NoiseFill.fillMethod = Image.FillMethod.Horizontal; c.NoiseFill.fillAmount = 0;
-            c.NoiseValue = Label(TopLeft("Value", gauge, 226, 0, 82, 34), "0 / 4", 20, Cream, TextAnchor.MiddleLeft);
+            // Static placeholders read the rules so the editor view never shows stale numbers (runtime overwrites them anyway).
+            c.NoiseValue = Label(TopLeft("Value", gauge, 226, 0, 82, 34), "0 / " + c.Rules.ReinforcementNoise, 20, Cream, TextAnchor.MiddleLeft);
 
             var audio = root.GetComponent<AudioSource>(); if (!audio) audio = root.AddComponent<AudioSource>();
             audio.playOnAwake = false; audio.spatialBlend = 0; audio.loop = false;
@@ -122,7 +123,8 @@ public static class BuildBattleFeel
             c.RetreatBody = c.RetreatReview.transform.Find("Body").GetComponent<Text>();
             c.ActionPause = .3f; c.ResultDelay = .5f;
             foreach (var cell in c.Cells) if (!cell.GetComponent<BattleCellHover>()) cell.gameObject.AddComponent<BattleCellHover>();
-            string[] names = { "Melee", "Shoot", "Guard" }, descriptions = { "전열 · 피해 2", "피해 3 · 소음 +2", "물릴 확률 -40%p" };
+            string[] names = { "Melee", "Shoot", "Guard" }, descriptions = { string.Format(c.MeleeDescription, c.Rules.MeleeDamage),
+                string.Format(c.ShootDescription, c.Rules.ShotDamage, c.Rules.ShotNoise), string.Format(c.GuardDescription, c.Rules.GuardHitPenalty, c.Rules.GuardStrikeReduction) };
             for (int i = 0; i < names.Length; i++) workspace.Find(names[i] + "/Description").GetComponent<Text>().text = descriptions[i];
             PrefabUtility.SaveAsPrefabAsset(root, P + "ExpeditionBattlePanel.prefab");
         }

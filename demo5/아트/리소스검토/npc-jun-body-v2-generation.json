@@ -1,0 +1,46 @@
+{
+  "id": "jun",
+  "prompts": [
+    {
+      "step": "initial-rejected-slender",
+      "prompt": "Transparent background PNG sprite, one single black cutout figure.\nRedraw Bae Jun from reference 2 in the thick compact adult proportions of reference 1 (the approved mechanic): large head, broad dense torso, short thick arms and legs, chunky shoes, about 4.5–5 heads tall and overall width around half the standing height.\nKeep Jun's identity and pose: chin-length untidy bob hair, hood-down jacket, head slightly lowered facing right, both forearms folded around a photo envelope against the chest, small satchel at the hip. Keep a youthful adult appearance through the contour.\nUniform solid black silhouette, contour only. Complete uncropped body including all hair and both shoes, centered with empty margin. Body only, no base or outline. Largest native portrait resolution."
+    },
+    {
+      "step": "body-redraw",
+      "prompt": "Transparent background PNG sprite, one single black cutout figure.\nUse the APPROVED MECHANIC in image 1 as the body-shape template. Redraw that same thick torso, large head, short broad arms, short heavy legs and big shoes into Bae Jun. Maintain the mechanic's actual anatomical thickness throughout. A compact adult, about 4.5 heads tall.\nJun's distinguishing details from image 2: chin-length untidy bob, head bowed slightly to the right, hood-down jacket, both thick forearms folded around an envelope at the chest, one modest hip satchel. Remove the mechanic's tool belt. The satchel stays small; the BODY ITSELF is broad and stout.\nUniform black silhouette with no interior detail. Entire hair-to-shoes figure visible with margin, body only, no base or outline. Largest native portrait resolution."
+    },
+    {
+      "step": "transparent-background-extraction",
+      "prompt": "Remove the background from this character image and give me a transparent-background PNG cutout. Keep the entire person, envelope and satchel exactly as drawn. Do not crop them."
+    }
+  ],
+  "source": "C:/Users/power/.codex/generated_images/01a0d401-74e7-76c1-8c20-e36de4e3e2cd/exec-9b4ef519-2152-451a-a76c-6f764c2b6651.png",
+  "nativeSize": [
+    1024,
+    1536
+  ],
+  "alphaBounds": [
+    253,
+    53,
+    830,
+    1442
+  ],
+  "visibleSize": [
+    578,
+    1390
+  ],
+  "widthHeightRatio": 0.416,
+  "alphaZero": 1034844,
+  "alphaPartial": 538020,
+  "alphaFull": 0,
+  "notes": "Initial narrow result rejected. Redraw enlarged head, thickened torso, forearms and legs; hip satchel remains modest. Accepted only as source pending root in-game review. Body alpha is near-opaque (>=250 for 517807 dark interior pixels); no fully 255 pixels. RGB of near-opaque body is 0..1.",
+  "gameAsset": "Assets/Art/Tokens/npc-jun-body-v2.png",
+  "sourceCopy": "아트/리소스검토/npc-jun-body-v2-source.png",
+  "mode": "builtin image_gen",
+  "date": "2026-09-25",
+  "pixelFormat": "Format32bppArgb",
+  "cornerAlpha": 0,
+  "reference": "Assets/Art/Tokens/party-mechanic-body-v2.png",
+  "originalIdentity": "Assets/Art/Tokens/npc-jun-body.png",
+  "processing": "Original output bytes copied; no external pixel edit, recolor, resize, stretching, crop, or upscale. No Unity, meta, prefab, shader, mapping or gameplay edits."
+}

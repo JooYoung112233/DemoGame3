@@ -25,8 +25,10 @@ public static class PolishSettlementHud
   var visual=b.GetComponent<RosterArrowVisual>()??b.gameObject.AddComponent<RosterArrowVisual>();visual.Button=b;visual.Group=fade;
   b.transition=Selectable.Transition.ColorTint;var colors=b.colors;colors.normalColor=Color.white;colors.highlightedColor=new Color(1,.82f,.49f);colors.selectedColor=Color.white;colors.disabledColor=Color.white;b.colors=colors;
  }
+ // STALE since 2026-09-25: the ResourceHud has 2 slots at 1430,24,278,72 (BuildRetireSupplies); Apply loops Value_0..2 and moves the HUD to 1338/410. Do not rerun.
+ static void RefuseAfterSuppliesRetired(){var hud=AssetDatabase.LoadAssetAtPath<GameObject>(P+"ResourceHud.prefab");if(hud&&!hud.transform.Find("Value_0"))throw new Exception("Superseded: supplies retired 2026-09-25 (BuildRetireSupplies). PolishSettlementHud expects the old 3-slot ResourceHud; do not rerun.");}
  public static string Apply(){
-  if(EditorApplication.isPlaying)throw new Exception("Stop first");for(int i=0;i<UnityEngine.SceneManagement.SceneManager.sceneCount;i++)if(UnityEngine.SceneManagement.SceneManager.GetSceneAt(i).isDirty)throw new Exception("Unsaved scene");
+  if(EditorApplication.isPlaying)throw new Exception("Stop first");RefuseAfterSuppliesRetired();for(int i=0;i<UnityEngine.SceneManagement.SceneManager.sceneCount;i++)if(UnityEngine.SceneManagement.SceneManager.GetSceneAt(i).isDirty)throw new Exception("Unsaved scene");
   Edit("DayPanel",g=>{Rect(g.transform,0,0,196,104);Pos(g.transform,"Clock",20,8,156,88);Style(g.transform,"Clock",28);});
   Edit("AdvanceButton",g=>{Rect(g.transform,0,0,220,56);Pos(g.transform,"AdvanceIcon",18,14,28,28);Pos(g.transform,"Label",58,0,148,56);Style(g.transform,"Label",26,TextAnchor.MiddleCenter);});
   Edit("ResourceHud",g=>{Rect(g.transform,0,0,410,72);for(int i=0;i<3;i++){Pos(g.transform,"Icon_"+i,18+i*132,22,28,28);Pos(g.transform,"Value_"+i,56+i*132,10,70,52);var t=Style(g.transform,"Value_"+i,28);t.resizeTextForBestFit=true;t.resizeTextMinSize=20;t.resizeTextMaxSize=28;}});

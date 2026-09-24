@@ -90,6 +90,20 @@ namespace Demo5.FrontEnd
             if (best < 0 && hover >= 9) { int d = hover % 3, l = hover % 9 / 3; best = State.Units.FindIndex(u => u.Enemy && u.Alive && u.Depth == d && u.Lane == l); }
             return best;
         }
+        // The ally standee under the pointer (nearer lanes win overlaps); otherwise the one standing on the hovered cell.
+        int HoveredAlly()
+        {
+            int best = -1, bestLane = -1;
+            if (pointerKnown)
+                for (int i = 0; i < State.Units.Count && i < bodies.Count; i++)
+                {
+                    var u = State.Units[i]; if (u.Enemy || !u.Alive || down[i] || !views[i]) continue;
+                    var r = BodyRect(i); r.xMin -= 10; r.xMax += 10;
+                    if (r.Contains(pointer) && views[i].Lane > bestLane) { best = i; bestLane = views[i].Lane; }
+                }
+            if (best < 0 && hover >= 0 && hover < 9) best = State.Units.FindIndex(u => !u.Enemy && u.Alive && u.Depth == hover % 3 && u.Lane == hover / 3);
+            return best;
+        }
         void PlaceAim()
         {
             if (!AimLayer) return;
@@ -156,10 +170,11 @@ namespace Demo5.FrontEnd
         string IntentLine(EnemyIntent intent)
         {
             var c = State.Units[intent.Enemy].Creature; string attack = c != null ? c.AttackName : "공격";
-            string Names() => intent.HitCount == 0 ? "빈 칸" : string.Join(", ", intent.Hits.Select(h => State.Units[h.Target].Name));
+            // One name fits the hover card; more become "첫 이름 외 N명" (the linked lines show each one).
+            string Names() => intent.HitCount == 0 ? "빈 칸" : intent.HitCount == 1 ? State.Units[intent.Hits[0].Target].Name : State.Units[intent.Hits[0].Target].Name + " 외 " + (intent.HitCount - 1) + "명";
             switch (intent.Kind)
             {
-                case EnemyIntentKind.Attack: return (intent.Attack == CreatureAttack.Swarm && c != null ? attack : "물기") + " → " + Names() + " " + intent.Chance + "%";
+                case EnemyIntentKind.Attack: return AttackLabel(intent.Enemy, intent.Attack, true) + " → " + Names() + " " + intent.Chance + "%";
                 case EnemyIntentKind.Advance: return "전진";
                 case EnemyIntentKind.Shift: return "옆 줄로 이동";
                 case EnemyIntentKind.Wait: return intent.Resting ? "숨을 고름" : "틈을 노림";

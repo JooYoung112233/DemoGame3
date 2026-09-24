@@ -1,0 +1,15 @@
+{
+  "tool": "built-in image_gen__imagegen",
+  "date": "2026-09-25",
+  "source": "아트/리소스검토/npc-doyun-body-v2-source.png",
+  "unity": "Assets/Art/Tokens/npc-doyun-body-v2.png",
+  "generatedSource": "C:/Users/power/.codex/generated_images/01a0cd6d-cbac-7072-8ee8-71dfdbf76b45/exec-96ab003e-d5f6-4e34-a922-80bdd782f120.png",
+  "prompt": "Remove the background from this character image and give me a transparent-background PNG cutout. Keep the entire man and his bags exactly as drawn. Do not crop him.",
+  "reference": "아트/리소스검토/npc-doyun-body-v2-rejected-checker.png",
+  "note": "Stocky body design from earlier generation retained; built-in tool removed backdrop. Native RGBA1024x1536. File copied byte-for-byte. No code pixel edits, cropping, recoloring or upscaling. Source retains some internal shading; approved common in-game shader renders uniform black ink.",
+  "failedRootAttempt": {
+    "prompt": "Create a transparent PNG game sprite. Reference 1 is the required stocky body style. Reference 2 is Doyun's identity. Draw Doyun as a compact, sturdy adult black silhouette like reference 1: big head, broad chest, thick arms, short strong legs and broad shoes, about 4.5 heads tall. Keep Doyun's right-facing messy hair, backpack, hand gripping its strap, and small bag carried in the other hand. Full figure with clear margin around head, hands and both feet. Flat nearly black #171b1a throughout, silhouette only, no internal details, no outline, no base or shadow. Background transparent. Individual portrait PNG master at maximum native resolution, visible figure at least 1536 pixels tall. Preserve the entire uncropped figure.",
+    "source": "C:/Users/power/.codex/generated_images/01a0cd6d-cbac-7072-8ee8-71dfdbf76b45/exec-c8799aab-12b0-4279-b77d-c2909a3b4ddf.png",
+    "reason": "RGB baked checker and elongated proportions; unused."
+  }
+}

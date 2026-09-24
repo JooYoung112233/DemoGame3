@@ -25,27 +25,31 @@ namespace Demo5.FrontEnd
         public string FocusedCandidateId {get;private set;}
         public string TitleScene="StartMenu",DestinationScene="HomeSelection";
         int page;bool leaving;
+        PartyCandidate[] StartingCandidates=>Roster.Candidates.Where(c=>c.AvailableAtStart).ToArray();
+        bool FixedOpeningPair=>StartingCandidates.Length==2;
         public int SelectedCount=>PartySelectionSession.Selected.Count;
         public int Page=>page;
         public void Preview(string id)
         {
             if(leaving)return;
-            var candidate=Roster.Candidates.FirstOrDefault(c=>c.Id==id);
+            var candidate=StartingCandidates.FirstOrDefault(c=>c.Id==id);
             if(candidate==null)return;
             FocusedCandidateId=id;
             if(Details)Details.Bind(candidate,PartySelectionSession.Selected.Contains(id));
         }
         void Awake()
         {
-            PartySelectionSession.Selected.RemoveAll(id=>!Roster.Candidates.Any(c=>c.Id==id));
+            PartySelectionSession.Selected.RemoveAll(id=>!StartingCandidates.Any(c=>c.Id==id));
+            if(FixedOpeningPair){PartySelectionSession.Selected.Clear();PartySelectionSession.Selected.AddRange(StartingCandidates.Select(c=>c.Id));}
             Previous.onClick.AddListener(()=>ShowPage(page-1));NextPage.onClick.AddListener(()=>ShowPage(page+1));
             Back.onClick.AddListener(GoBack);Continue.onClick.AddListener(Confirm);Refresh();
         }
         void ShowPage(int requested)
-        {if(leaving)return;page=Mathf.Clamp(requested,0,Mathf.Max(0,(Roster.Candidates.Length-1)/Cards.Length));Refresh();if(Roster.Candidates.Length>0)Preview(Roster.Candidates[page*Cards.Length].Id);}
+        {if(leaving)return;var candidates=StartingCandidates;page=Mathf.Clamp(requested,0,Mathf.Max(0,(candidates.Length-1)/Cards.Length));Refresh();if(candidates.Length>0)Preview(candidates[page*Cards.Length].Id);}
         public void Toggle(string id)
         {
-            if(leaving||!Roster.Candidates.Any(c=>c.Id==id))return;
+            if(leaving||!StartingCandidates.Any(c=>c.Id==id))return;
+            if(FixedOpeningPair){Preview(id);return;}
             FocusedCandidateId=id;
             var selected=PartySelectionSession.Selected;
             if(selected.Contains(id)){selected.Remove(id);Message.text="함께할 두 사람을 선택하세요.";}
@@ -55,23 +59,26 @@ namespace Demo5.FrontEnd
         }
         public void Refresh()
         {
-            int pages=Mathf.Max(1,(Roster.Candidates.Length+Cards.Length-1)/Cards.Length);
+            var candidates=StartingCandidates;
+            int pages=Mathf.Max(1,(candidates.Length+Cards.Length-1)/Cards.Length);
             for(int i=0;i<Cards.Length;i++)
             {
-                int index=page*Cards.Length+i;Cards[i].gameObject.SetActive(index<Roster.Candidates.Length);
-                if(index>=Roster.Candidates.Length)continue;
-                var candidate=Roster.Candidates[index];string id=candidate.Id;
+                int index=page*Cards.Length+i;Cards[i].gameObject.SetActive(index<candidates.Length);
+                if(index>=candidates.Length)continue;
+                var candidate=candidates[index];string id=candidate.Id;
                 Cards[i].Bind(candidate,PartySelectionSession.Selected.Contains(id),()=>Toggle(id),()=>Preview(id));
             }
             SelectionCount.text=SelectedCount+" / 2";Continue.interactable=SelectedCount==2&&!leaving;
             Previous.interactable=page>0&&!leaving;NextPage.interactable=page+1<pages&&!leaving;
+            Previous.gameObject.SetActive(pages>1);NextPage.gameObject.SetActive(pages>1);
             PageNumber.text=pages>1?(page+1)+" / "+pages:"";
-            if(Roster.Candidates.Length>0)Preview(Roster.Candidates.Any(c=>c.Id==FocusedCandidateId)?FocusedCandidateId:Roster.Candidates[0].Id);
+            if(FixedOpeningPair)Message.text="인물을 누르면 소개를 볼 수 있습니다. 다른 생존자는 여정 중에 만납니다.";
+            if(candidates.Length>0)Preview(candidates.Any(c=>c.Id==FocusedCandidateId)?FocusedCandidateId:candidates[0].Id);
         }
         public void GoBack(){if(leaving)return;leaving=true;SceneManager.LoadScene(TitleScene);}
         public void Confirm()
         {
-            if(leaving||SelectedCount!=2)return;
+            if(leaving||SelectedCount!=2||PartySelectionSession.Selected.Any(id=>!StartingCandidates.Any(c=>c.Id==id)))return;
             if(!Application.CanStreamedLevelBeLoaded(DestinationScene)){Message.text="다음 화면을 열 수 없습니다.";return;}
             var candidates=Roster.Candidates.Select(c=>new Adventurer(c.DisplayName,string.IsNullOrEmpty(c.RoleTitle)?c.DisplayName:c.RoleTitle,c.Description,c.Health,c.Aim,c.BagCapacity)).ToArray();
             var campaign=new CampaignState(candidates,true);

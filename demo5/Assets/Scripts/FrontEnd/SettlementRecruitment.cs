@@ -16,7 +16,7 @@ namespace Demo5.FrontEnd
    PartySelectionSession.Selected.Add(id);page=(Campaign.Party.Count()-1)/Members.Length;RefreshMembers();
    ActivityLog.Add(Campaign.ClockText.Replace("\n"," ")+" · "+data.DisplayName+" 합류");NoticeTitle.text="새 정착민";NoticeBody.text=data.DisplayName+"이 함께 생활합니다.";return true;
   }
-  void RefreshStandees(){var people=Campaign?.Party.ToArray()??Array.Empty<Adventurer>();for(int i=0;i<StandeeObjects.Length;i++){StandeeObjects[i].SetActive(i<people.Length);if(i<people.Length)StandeeBodies[i].sprite=PartySelectionSession.Selected.ElementAtOrDefault(i)=="medic"?MedicBody:ScoutBody;}}
+  void RefreshStandees(){var people=Campaign?.Party.ToArray()??Array.Empty<Adventurer>();for(int i=0;i<StandeeObjects.Length;i++){StandeeObjects[i].SetActive(i<people.Length);if(i<people.Length)Roster.ApplyBody(StandeeBodies[i],PartySelectionSession.Selected.ElementAtOrDefault(i),ScoutBody,MedicBody);}}
  }
  public sealed partial class SettlementVisitorPanel
  {

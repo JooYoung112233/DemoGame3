@@ -57,6 +57,8 @@ MonoBehaviour:
   ArtworkFacesRight: 1
   MotionThreshold: 0.0005
   TeleportDistance: 2
+  TurnDistance: 0.12
+  HorizontalIntentRatio: 0.35
 --- !u!210 &6863418097940241060
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -280,6 +282,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3884384087439174396}
   - component: {fileID: 369116896328741196}
+  - component: {fileID: 1793000863487387074}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -328,7 +331,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c023e504d4c8f744ea523056d393903f, type: 2}
+  - {fileID: 2100000, guid: decf42d0a6e4a1e4a92554ca507fe5f7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -362,6 +365,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!114 &1793000863487387074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6310271374408946911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3bcbb7c70fc43741ab0d1a019302aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Demo5.FrontEnd.PaperStandeeStyle
+  StyleMaterial: {fileID: 2100000, guid: decf42d0a6e4a1e4a92554ca507fe5f7, type: 2}
+  LegacyPaperSprites:
+  - {fileID: 21300000, guid: 632c024209512f149bab349e3bcac364, type: 3}
+  - {fileID: 21300000, guid: 0ea86762928cf15449bd441f9e5cf942, type: 3}
+  LegacyPaperCutoff: 0.38
 --- !u!1 &7346716012787771752
 GameObject:
   m_ObjectHideFlags: 0

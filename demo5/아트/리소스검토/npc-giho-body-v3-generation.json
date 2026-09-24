@@ -1,0 +1,50 @@
+{
+  "id": "giho",
+  "version": "v3",
+  "date": "2026-09-25",
+  "mode": "builtin image_gen",
+  "generated": "C:/Users/power/.codex/generated_images/01a0d401-74e7-76c1-8c20-e36de4e3e2cd/exec-9bf6cd03-38b3-424a-8eb4-82657276afda.png",
+  "nativeSize": [
+    1024,
+    1536
+  ],
+  "pixelFormat": "Format32bppArgb",
+  "cornerAlpha": 0,
+  "alpha0": 1168343,
+  "alphaPartial": 404521,
+  "alphaFull": 0,
+  "visibleBounds": [
+    336,
+    63,
+    754,
+    1462
+  ],
+  "notes": "Plain trousers, rounded smaller shoes and closer stance. Clipboard was incorrectly shifted inside/left during redraw; two targeted corrections restored it to the image-right contour under the face. Final torso reads noticeably more side-on/narrower than v2, so root must inspect it at the shared original 1.72 display height before final adoption. Width/height is not the anatomical target.",
+  "prompts": [
+    {
+      "step": "partial anatomy redraw",
+      "prompt": "Edit the NPC in image 1 to match the understated survivor anatomy of the original game figures in images 2 and 3.\nKeep Giho's receding short hair, right-facing head, clipboard held under his bent arm, vest contour, middle-aged solid build and standing gesture.\nRefine his exaggerated lower body into plain trouser legs: modest smooth knees, gently tapered calves, small simple rounded everyday shoes, and relaxed feet standing closer together like the original scout. Remove the massive boot toe blocks and balloon-like calf and knee shapes. Bring the torso to the same slight three-quarter side angle as the originals while retaining his sturdy individual build. He should look like an ordinary clothed adult survivor, neither tall and thin nor a toy with inflated limbs.\nOne uniformly black cutout figure, contour only. Full uncropped hair-to-shoes body with empty margin. Body only, without paper rim or base. Transparent background PNG."
+    },
+    {
+      "step": "clipboard correction attempt",
+      "prompt": "Edit image 1 only: restore the clipboard pose from image 2. The clipboard is tucked under the arm on the RIGHT side of the picture, and its rectangular top corner protrudes beyond the person's right torso outline, just as in image 2. Restore that arm/clipboard arrangement rather than drawing an interior outline.\nKeep image 1's refined plain trouser legs, small rounded shoes, close-foot stance, head, healthy adult body proportions and side angle exactly the same. Change only the clipboard position and its holding arm.\nA uniform solid black body-and-clipboard silhouette with no interior lines. One entire uncropped figure, empty margin, no base or border. Transparent background PNG."
+    },
+    {
+      "step": "clipboard position correction",
+      "prompt": "Precise small edit of this figure: move ONLY the clipboard and its holding hand to the OTHER side, the far-right edge of the picture beneath his face. The clipboard's top-right rectangular corner must stick out to the right of his chest at about image position x=740,y=475. The left edge of his back should have no clipboard. He hugs it close to his front with one bent forearm. Keep the clipboard visible as an angular outer silhouette.\nPreserve all other anatomy, his head, torso, plain trouser legs, small shoes, stance and full-body composition exactly. Solid black cutout with no inside outlines, entire figure uncropped. Transparent PNG."
+    },
+    {
+      "step": "background extraction",
+      "prompt": "Remove the background from this character image and give me a transparent-background PNG cutout. Keep the entire man and his clipboard exactly as drawn. Do not crop him."
+    }
+  ],
+  "references": [
+    "Assets/Art/Tokens/npc-giho-body-v2.png",
+    "Assets/Art/Settlement/standee-scout.png",
+    "Assets/Art/Settlement/standee-medic.png"
+  ],
+  "asset": "Assets/Art/Tokens/npc-giho-body-v3.png",
+  "sourceCopy": "아트/리소스검토/npc-giho-body-v3-source.png",
+  "processing": "Original imagegen bytes copied; no external pixel editing, crop, stretching, resize, recolor or upscale. Previous versions preserved. No Unity, code or meta changes.",
+  "status": "Delivered source for root in-game anatomy/size validation"
+}

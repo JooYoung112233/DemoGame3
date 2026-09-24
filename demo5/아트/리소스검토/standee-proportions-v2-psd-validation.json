@@ -1,0 +1,362 @@
+{
+  "generatedAt": "2026-09-24T19:22:34.094Z",
+  "tool": "PackageStandeeLayers.cjs",
+  "manifest": "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\standee-proportions-v2-layer-exports.json",
+  "codecBoundaryCasesPassed": 32,
+  "count": 7,
+  "totalPsdBytes": 9482580,
+  "sourcePixelsModified": false,
+  "mergedImageCompositedByPackager": false,
+  "results": [
+    {
+      "id": "mechanic-v2",
+      "psd": "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\standee-mechanic-v2-native-layers.psd",
+      "width": 1704,
+      "height": 2575,
+      "bytes": 1542831,
+      "sha256": "79bb2f87848164dda01accf2bdc843f11a33b09155fd4cf69d4aea5bc6b67ca6",
+      "compression": "PSD v1 PackBits RLE per channel row",
+      "independentLayers": [
+        {
+          "name": "Body Ink",
+          "png": "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\standee-mechanic-v2-ink-layer.png",
+          "sha256": "f25419cc6050d26498b78a77656602abe8215323fb8298d640754d99c491340b"
+        },
+        {
+          "name": "Paper Rim",
+          "png": "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\standee-mechanic-v2-paper-layer.png",
+          "sha256": "bc797cfcbf8a0798cce4ded0e6eb49603fb1628f4d65f4a334936a3bbb0b292c"
+        },
+        {
+          "name": "Shared Base",
+          "png": "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\standee-mechanic-v2-base-layer.png",
+          "sha256": "be45d655daca5f533809084dff63f62891dacd3f5b2055ca4c1080d43cfdcbe2"
+        }
+      ],
+      "mergedPng": "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\standee-mechanic-v2-composite.png",
+      "mergedPngSha256": "2fee084c8d69544d69a4088536600f4d5bb9b95baa574cd3027efa3196991f96",
+      "originalSource": "E:\\personalProject\\Demo3\\demo5\\Assets\\Art\\Tokens\\party-mechanic-body-v2.png",
+      "originalSourceSha256": "3c500de57511c6cf99018a1a952f87042bcd164f7675d8993d556de68b6ae182",
+      "originalSourceDimensions": [
+        887,
+        1774
+      ],
+      "sourceSpriteDimensions": [
+        738,
+        1609
+      ],
+      "sourceSpriteRect": {
+        "x": 87,
+        "y": 78,
+        "width": 738,
+        "height": 1609
+      },
+      "importedTextureDimensions": [
+        887,
+        1774
+      ],
+      "validation": "PSD header, layer names/order, all four RGBA channels of each layer, and merged RGBA roundtrip exactly match unchanged PNGs.",
+      "note": "Native Unity component renders in an editable PSD container. Original source PNG remains separate and unchanged. Padding is not new detail; no enlargement, detail restoration, recoloring, or background removal is performed by packaging."
+    },
+    {
+      "id": "cook-v2",
+      "psd": "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\standee-cook-v2-native-layers.psd",
+      "width": 1619,
+      "height": 2466,
+      "bytes": 1423505,
+      "sha256": "bd93698cc7dcb74b851c7016823157f0df1e82f2727ee1c6fac7b8b168ff8ea7",
+      "compression": "PSD v1 PackBits RLE per channel row",
+      "independentLayers": [
+        {
+          "name": "Body Ink",
+          "png": "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\standee-cook-v2-ink-layer.png",
+          "sha256": "30208a2b98426ca0a90fab1c8a46109dcc4c577e39f935e26a36b41153874255"
+        },
+        {
+          "name": "Paper Rim",
+          "png": "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\standee-cook-v2-paper-layer.png",
+          "sha256": "80aede7f1b1c83d0352304fffe18296f8d9f054737dd4683398c3bc6a65e59df"
+        },
+        {
+          "name": "Shared Base",
+          "png": "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\standee-cook-v2-base-layer.png",
+          "sha256": "c8e2fa4d1646367c3746ee398077cf59ec7c749dd97db2600f7bb8bcc54c8a75"
+        }
+      ],
+      "mergedPng": "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\standee-cook-v2-composite.png",
+      "mergedPngSha256": "f96b8ce48e7b6e5751d099358166ef9e69c701c121b44072e46b0474fcec93ef",
+      "originalSource": "E:\\personalProject\\Demo3\\demo5\\Assets\\Art\\Tokens\\party-cook-body-v2.png",
+      "originalSourceSha256": "7aa89c29d4659547a0c9270df6eccb074b5231a38f7b449c655de26064f9fafd",
+      "originalSourceDimensions": [
+        992,
+        1586
+      ],
+      "sourceSpriteDimensions": [
+        663,
+        1510
+      ],
+      "sourceSpriteRect": {
+        "x": 165,
+        "y": 36,
+        "width": 663,
+        "height": 1510
+      },
+      "importedTextureDimensions": [
+        992,
+        1586
+      ],
+      "validation": "PSD header, layer names/order, all four RGBA channels of each layer, and merged RGBA roundtrip exactly match unchanged PNGs.",
+      "note": "Native Unity component renders in an editable PSD container. Original source PNG remains separate and unchanged. Padding is not new detail; no enlargement, detail restoration, recoloring, or background removal is performed by packaging."
+    },
+    {
+      "id": "researcher-v2",
+      "psd": "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\standee-researcher-v2-native-layers.psd",
+      "width": 1646,
+      "height": 2423,
+      "bytes": 1402379,
+      "sha256": "3a8765aa027e38b99b98151fcb72b1c083382933d174d87c8b2f7e528f9547a2",
+      "compression": "PSD v1 PackBits RLE per channel row",
+      "independentLayers": [
+        {
+          "name": "Body Ink",
+          "png": "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\standee-researcher-v2-ink-layer.png",
+          "sha256": "8ce1218cc3225010be62c1757ead1ae70652dc31f767bb0be4920634dd012317"
+        },
+        {
+          "name": "Paper Rim",
+          "png": "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\standee-researcher-v2-paper-layer.png",
+          "sha256": "bc76e9d88b1857f0d438bbf85802d7b4c0fb474888f810584c0c28a3b0015ee2"
+        },
+        {
+          "name": "Shared Base",
+          "png": "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\standee-researcher-v2-base-layer.png",
+          "sha256": "ace56e975b0ddb6f5229a56487e5718a192507ba30ce822f1087848676d05b07"
+        }
+      ],
+      "mergedPng": "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\standee-researcher-v2-composite.png",
+      "mergedPngSha256": "9d1acaf27a5df5c9fbb7943df07d2c45b64f4f9d1b569364d17897198fbf519d",
+      "originalSource": "E:\\personalProject\\Demo3\\demo5\\Assets\\Art\\Tokens\\party-researcher-body-v2.png",
+      "originalSourceSha256": "b413e725353b4924531585ebc1f974bb805bd33f60be88233533c7ee74d19bed",
+      "originalSourceDimensions": [
+        992,
+        1586
+      ],
+      "sourceSpriteDimensions": [
+        696,
+        1473
+      ],
+      "sourceSpriteRect": {
+        "x": 142,
+        "y": 65,
+        "width": 696,
+        "height": 1473
+      },
+      "importedTextureDimensions": [
+        992,
+        1586
+      ],
+      "validation": "PSD header, layer names/order, all four RGBA channels of each layer, and merged RGBA roundtrip exactly match unchanged PNGs.",
+      "note": "Native Unity component renders in an editable PSD container. Original source PNG remains separate and unchanged. Padding is not new detail; no enlargement, detail restoration, recoloring, or background removal is performed by packaging."
+    },
+    {
+      "id": "guard-v2",
+      "psd": "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\standee-guard-v2-native-layers.psd",
+      "width": 1523,
+      "height": 2316,
+      "bytes": 1268271,
+      "sha256": "002e1f524b347f6efc4fbb98aa21a045bfe983d6b781fe6988a2271c2a91609e",
+      "compression": "PSD v1 PackBits RLE per channel row",
+      "independentLayers": [
+        {
+          "name": "Body Ink",
+          "png": "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\standee-guard-v2-ink-layer.png",
+          "sha256": "eaf35d022f293a3f18447aef7d528929a06d5c411fdbb3ae76439743cd2d84b6"
+        },
+        {
+          "name": "Paper Rim",
+          "png": "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\standee-guard-v2-paper-layer.png",
+          "sha256": "8a56ecb40c160f122ef4cc5b483d09ce731904435101053d6e1a4774693ea5dd"
+        },
+        {
+          "name": "Shared Base",
+          "png": "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\standee-guard-v2-base-layer.png",
+          "sha256": "00c8f808eded87b05c55b8863f93240606496b251d0b68128e4eabe5744bc844"
+        }
+      ],
+      "mergedPng": "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\standee-guard-v2-composite.png",
+      "mergedPngSha256": "a5e9cb1aa204e50d0050945ed552588c6e9b0cf1bd1f1e04ea4a0761ec0ce48e",
+      "originalSource": "E:\\personalProject\\Demo3\\demo5\\Assets\\Art\\Tokens\\party-guard-body-v2.png",
+      "originalSourceSha256": "6274eda6cab9ff922f84bfd5b25e66874495a82adc9898014b7c99afa89648b9",
+      "originalSourceDimensions": [
+        1024,
+        1536
+      ],
+      "sourceSpriteDimensions": [
+        663,
+        1456
+      ],
+      "sourceSpriteRect": {
+        "x": 207,
+        "y": 37,
+        "width": 663,
+        "height": 1456
+      },
+      "importedTextureDimensions": [
+        1024,
+        1536
+      ],
+      "validation": "PSD header, layer names/order, all four RGBA channels of each layer, and merged RGBA roundtrip exactly match unchanged PNGs.",
+      "note": "Native Unity component renders in an editable PSD container. Original source PNG remains separate and unchanged. Padding is not new detail; no enlargement, detail restoration, recoloring, or background removal is performed by packaging."
+    },
+    {
+      "id": "npc-doyun-v2",
+      "psd": "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\standee-npc-doyun-v2-native-layers.psd",
+      "width": 1556,
+      "height": 2232,
+      "bytes": 1260287,
+      "sha256": "aa504e7485a6097873d6f26aba0835c5e493aec412a6b1f4678cc97ece84f44f",
+      "compression": "PSD v1 PackBits RLE per channel row",
+      "independentLayers": [
+        {
+          "name": "Body Ink",
+          "png": "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\standee-npc-doyun-v2-ink-layer.png",
+          "sha256": "c1e4fe7585073dcce5c13916b72bee719a8a23ed4441955bb98bf72a721afe8d"
+        },
+        {
+          "name": "Paper Rim",
+          "png": "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\standee-npc-doyun-v2-paper-layer.png",
+          "sha256": "6833a6d68828d610a38c5d1059c0f519cd1e726a3c360d2d0363a81d6b5ee9fe"
+        },
+        {
+          "name": "Shared Base",
+          "png": "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\standee-npc-doyun-v2-base-layer.png",
+          "sha256": "d9c84b1e30e0e33688188516fd1c04ebdbf55b1d807f1ca099dd7ebc6245c85b"
+        }
+      ],
+      "mergedPng": "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\standee-npc-doyun-v2-composite.png",
+      "mergedPngSha256": "9af4dd604dba87f42fccf9ad6736fe04821d8d926d09dc986d36eb6d0874b6b9",
+      "originalSource": "E:\\personalProject\\Demo3\\demo5\\Assets\\Art\\Tokens\\npc-doyun-body-v2.png",
+      "originalSourceSha256": "cfe6a5e1649892436908ed782a30ece184cd007fa10cb1f3081334d7fba19dbf",
+      "originalSourceDimensions": [
+        1024,
+        1536
+      ],
+      "sourceSpriteDimensions": [
+        728,
+        1404
+      ],
+      "sourceSpriteRect": {
+        "x": 157,
+        "y": 82,
+        "width": 728,
+        "height": 1404
+      },
+      "importedTextureDimensions": [
+        1024,
+        1536
+      ],
+      "validation": "PSD header, layer names/order, all four RGBA channels of each layer, and merged RGBA roundtrip exactly match unchanged PNGs.",
+      "note": "Native Unity component renders in an editable PSD container. Original source PNG remains separate and unchanged. Padding is not new detail; no enlargement, detail restoration, recoloring, or background removal is performed by packaging."
+    },
+    {
+      "id": "npc-jun-v2",
+      "psd": "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\standee-npc-jun-v2-native-layers.psd",
+      "width": 1448,
+      "height": 2260,
+      "bytes": 1210074,
+      "sha256": "8a81f96cc747cd71391fbd63c253925c34eb0559470641347856f604eb233bd5",
+      "compression": "PSD v1 PackBits RLE per channel row",
+      "independentLayers": [
+        {
+          "name": "Body Ink",
+          "png": "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\standee-npc-jun-v2-ink-layer.png",
+          "sha256": "6e73fdb1c7ad4e6726ccfffe849bb1aef521a9d7f3db14d61cd1f4441f3c9f57"
+        },
+        {
+          "name": "Paper Rim",
+          "png": "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\standee-npc-jun-v2-paper-layer.png",
+          "sha256": "949e2f36506f07a2a47dc255cdde7bab946d8753a87c6b10a9e2cd396e79f6e8"
+        },
+        {
+          "name": "Shared Base",
+          "png": "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\standee-npc-jun-v2-base-layer.png",
+          "sha256": "ee1adcdfc478bbf5878da5eeb3c19902017d132f0ed449a25ec11c8a6895908d"
+        }
+      ],
+      "mergedPng": "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\standee-npc-jun-v2-composite.png",
+      "mergedPngSha256": "be381bba7f97441751b74ec381ff23245540fdf157f75e348d77ecf7572a36ed",
+      "originalSource": "E:\\personalProject\\Demo3\\demo5\\Assets\\Art\\Tokens\\npc-jun-body-v2.png",
+      "originalSourceSha256": "2ebe8ef6c6e71317aa457f54ceeb3c3a93d46627b28f8e40d8a0d86d46d361a8",
+      "originalSourceDimensions": [
+        1024,
+        1536
+      ],
+      "sourceSpriteDimensions": [
+        582,
+        1394
+      ],
+      "sourceSpriteRect": {
+        "x": 251,
+        "y": 91,
+        "width": 582,
+        "height": 1394
+      },
+      "importedTextureDimensions": [
+        1024,
+        1536
+      ],
+      "validation": "PSD header, layer names/order, all four RGBA channels of each layer, and merged RGBA roundtrip exactly match unchanged PNGs.",
+      "note": "Native Unity component renders in an editable PSD container. Original source PNG remains separate and unchanged. Padding is not new detail; no enlargement, detail restoration, recoloring, or background removal is performed by packaging."
+    },
+    {
+      "id": "npc-giho-v2",
+      "psd": "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\standee-npc-giho-v2-native-layers.psd",
+      "width": 1621,
+      "height": 2427,
+      "bytes": 1375233,
+      "sha256": "1bdc08a962236d72849036cba075f00f9430ddb18e7e5b0a894cc421bcda728d",
+      "compression": "PSD v1 PackBits RLE per channel row",
+      "independentLayers": [
+        {
+          "name": "Body Ink",
+          "png": "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\standee-npc-giho-v2-ink-layer.png",
+          "sha256": "dc5aedf9bf566a8bc6e8f239c705b53f4a944d5fda3d8640e911ce9dadac5b50"
+        },
+        {
+          "name": "Paper Rim",
+          "png": "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\standee-npc-giho-v2-paper-layer.png",
+          "sha256": "fdb9ad62607854634296d95ca135ba743829991e3dc7524f0ca7d42d331ea8c9"
+        },
+        {
+          "name": "Shared Base",
+          "png": "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\standee-npc-giho-v2-base-layer.png",
+          "sha256": "8074a3fdef1d47930a595100868e4e0e7f2a68998b97a7fed880b127064819fe"
+        }
+      ],
+      "mergedPng": "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\standee-npc-giho-v2-composite.png",
+      "mergedPngSha256": "3c482a983e60f4b1fe0a4bb25ff429a486bcd33d9bea0a6b5d64578a2138ac2d",
+      "originalSource": "E:\\personalProject\\Demo3\\demo5\\Assets\\Art\\Tokens\\npc-giho-body-v2.png",
+      "originalSourceSha256": "cdaa5965c38d1e496cb9f849fc9f6cdd18ef47ee2ad8a54ebb2cf8e044ad0f88",
+      "originalSourceDimensions": [
+        930,
+        1692
+      ],
+      "sourceSpriteDimensions": [
+        739,
+        1545
+      ],
+      "sourceSpriteRect": {
+        "x": 99,
+        "y": 92,
+        "width": 739,
+        "height": 1545
+      },
+      "importedTextureDimensions": [
+        930,
+        1692
+      ],
+      "validation": "PSD header, layer names/order, all four RGBA channels of each layer, and merged RGBA roundtrip exactly match unchanged PNGs.",
+      "note": "Native Unity component renders in an editable PSD container. Original source PNG remains separate and unchanged. Padding is not new detail; no enlargement, detail restoration, recoloring, or background removal is performed by packaging."
+    }
+  ]
+}

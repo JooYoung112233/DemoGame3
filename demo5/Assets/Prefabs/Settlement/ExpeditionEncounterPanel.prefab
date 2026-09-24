@@ -453,6 +453,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd9a985e6951efa4b83796dac3d05c48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Demo5.FrontEnd.ExpeditionEncounterPanel
+  Battle: {fileID: 0}
   View: {fileID: 1814880597908049725}
   Review: {fileID: 9137623222539415533}
   Banner: {fileID: 0}
@@ -468,12 +469,13 @@ MonoBehaviour:
   Confirm: {fileID: 4027865492766605449}
   Cancel: {fileID: 6862033673921435837}
   Members: {fileID: 2792652792977759480}
-  BaseChance: 15
-  MaximumChance: 70
+  BaseChance: 10
+  MaximumChance: 45
   WaitChance: 65
-  NoiseThreshold: 2
-  ChancePerNoise: 7
-  GraceSearches: 2
+  NoiseThreshold: 4
+  ChancePerNoise: 4
+  GraceSearches: 3
+  MaxRandomEnemies: 1
 --- !u!1 &1856484177814871536
 GameObject:
   m_ObjectHideFlags: 0
@@ -674,7 +676,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "1\uD134 \xB7 \uAC10\uC5FC\uC790\uAC00 \uC9C0\uB098\uAC00\uAE38 \uAE30\uB2E4\uB9BD\uB2C8\uB2E4."
+  m_Text: "1\uD134 \xB7 \uBB34\uC5B8\uAC00 \uC9C0\uB098\uAC00\uAE38 \uAE30\uB2E4\uB9BD\uB2C8\uB2E4."
 --- !u!1 &2869226383716015186
 GameObject:
   m_ObjectHideFlags: 0
@@ -686,6 +688,7 @@ GameObject:
   - component: {fileID: 3669171227287536394}
   - component: {fileID: 3253096365042104530}
   - component: {fileID: 7235542448969074321}
+  - component: {fileID: 7738887674071431923}
   m_Layer: 0
   m_Name: EnemySilhouette
   m_TagString: Untagged
@@ -732,7 +735,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: eadc018dfda5d9b408a870f48c05e433, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -740,7 +743,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 74e964fc235e1904b8956813444a6bc9, type: 3}
+  m_Sprite: {fileID: -8611554932772835907, guid: 89fe3ff7ebc60db45941d1d69d17aca0, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -750,6 +753,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7738887674071431923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2869226383716015186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a021562532576944fbf77d5ba72b9e83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Demo5.FrontEnd.PaperPortraitStyle
+  StyleMaterial: {fileID: 2100000, guid: eadc018dfda5d9b408a870f48c05e433, type: 2}
 --- !u!1 &3006622176217319187
 GameObject:
   m_ObjectHideFlags: 0

@@ -40,7 +40,12 @@ namespace Demo5.FrontEnd {
    foreach(var data in itemResults){var row=Instantiate(ItemPrefab,ItemContent);row.Bind(data.Icon,data.Name,data.Before,data.After);itemRows.Add(row);}
    MemberCount.text=memberResults.Count+"명";ItemCount.text=itemResults.Count+"종";EmptyItems.gameObject.SetActive(itemResults.Count==0);
   }
-  void Refresh(){int count=party.Sum(p=>owner.InventoryPanel.Items.Sum(i=>owner.InventoryPanel.CountFor(p,i.Id)));StoreAll.interactable=count>0;Notice.text=count>0?"휴대품 "+count+"개 · "+(owner.Development?owner.Development.StockSummary:"")+" · 초과분은 가방 유지":"정리 완료 · 원정대의 가방이 비었습니다.";}
+  void Refresh(){
+   int count=party.Sum(p=>owner.InventoryPanel.Items.Sum(i=>owner.InventoryPanel.CountFor(p,i.Id)));
+   bool canStore=party.Any(p=>owner.InventoryPanel.Items.Any(i=>owner.InventoryPanel.TransferLimit(p,i.Id,false)>0));
+   StoreAll.interactable=canStore;
+   Notice.text=count==0?"정리 완료 · 원정대의 가방이 비었습니다.":!canStore?"창고가 가득 찼습니다 · 휴대품은 가방에 유지됩니다 · ‘가방별 정리’에서 확인하세요.":"휴대품 "+count+"개 · "+(owner.Development?owner.Development.StockSummary:"")+" · 초과분은 가방 유지";
+  }
   void Unpack(){if(!IsOpen)return;foreach(var p in party)foreach(var item in owner.InventoryPanel.Items){int count=owner.InventoryPanel.TransferLimit(p,item.Id,false);if(count>0)owner.InventoryPanel.MoveFor(p,item.Id,count,false);}Refresh();}
   public void Close(){if(!IsOpen)return;View.SetActive(false);for(int i=0;i<HideWhileOpen.Length;i++)HideWhileOpen[i].SetActive(hidden[i]);owner.Main.interactable=owner.Main.blocksRaycasts=true;EventSystem.current?.SetSelectedGameObject(owner.Journal.gameObject);}
   void Update(){if(IsOpen&&Keyboard.current!=null&&Keyboard.current.escapeKey.wasPressedThisFrame)Close();}

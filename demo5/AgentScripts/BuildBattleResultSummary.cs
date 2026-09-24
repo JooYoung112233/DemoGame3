@@ -17,7 +17,8 @@ public static class BuildBattleResultSummary {
  }
  public static string TuneLive(){
  var summary=Object.FindAnyObjectByType<BattleResultSummary>(FindObjectsInactive.Include);var root=summary.transform.Find("SummaryContent");
- Place(root.Find("Used"),1096,379,500,232);Place(root.Find("Used/Viewport"),0,0,478,232);Place(root.Find("Used/ScrollTrack"),486,0,12,232);
+ // 210 = three 62px rows + two 12px gaps, so a list at rest never shows a sliver of a fourth row.
+ Place(root.Find("Used"),1096,379,500,210);Place(root.Find("Used/Viewport"),0,0,478,210);Place(root.Find("Used/ScrollTrack"),486,0,12,210);
  Place(root.Find("GainedHeading"),1096,635,478,42);Place(root.Find("Gained"),1096,687,500,66);Place(root.Find("Gained/Viewport"),0,0,478,66);Place(root.Find("Gained/ScrollTrack"),486,0,12,66);Place(root.Find("GainedEmpty"),1096,687,460,66);
  foreach(var bar in summary.GetComponentsInChildren<Scrollbar>(true))bar.handleRect.sizeDelta=Vector2.zero;
  Canvas.ForceUpdateCanvases();return "Live scroll tracks and three-row usage list corrected.";
@@ -38,7 +39,7 @@ public static class BuildBattleResultSummary {
  I("StatsPaper",root,306,243,1308,61,Color.white,paper);summary.Stats=T("Stats",root,328,248,1260,50,"",25);
  T("MembersHeading",root,310,325,700,42,"대원 상태",29);T("UsedHeading",root,1096,325,478,42,"사용한 물품",29);
  I("Divider",root,1068,332,2,414,new Color(.3f,.32f,.26f,.28f));
- summary.Members=List("Members",root,306,379,744,374,170);summary.Used=List("Used",root,1096,379,500,232,62);
+ summary.Members=List("Members",root,306,379,744,374,170);summary.Used=List("Used",root,1096,379,500,210,62);
  T("GainedHeading",root,1096,635,478,42,"이번 전투 획득",29);summary.Gained=List("Gained",root,1096,687,500,66,62);
  summary.UsedEmpty=T("UsedEmpty",root,1096,388,450,52,"",22);summary.UsedEmpty.color=muted;
  summary.GainedEmpty=T("GainedEmpty",root,1096,687,460,66,"",21);summary.GainedEmpty.color=muted;

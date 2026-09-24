@@ -12,6 +12,7 @@ namespace Demo5.FrontEnd {
   public Text LeftTitle,RightTitle,LeftCapacity,RightCapacity,DetailTitle,Description,Quantity,Message,EmptyLeft,EmptyRight,UseHint;
   public PartyRoster Roster;public Text ProfileName,ProfileRole,ProfileHealth,ProfileState,ProfileTrait,ProfileCharacteristics;public Image ProfilePortrait,ProfileHealthBar;
   public Image DetailIcon;public Button Back,Minus,Plus,Max,Transfer,Use;
+  [Header("사용 안내 (2줄 유지)")] public string TurnSuffix="1턴";[Tooltip("장소 판이 없을 때(첫 방문) 둘째 줄")] public string FirstVisitUseLine="선택한 가방 주인이 사용합니다 · 소음 없음";
   public readonly List<ExpeditionMemberCard> LeftCards=new List<ExpeditionMemberCard>(),RightCards=new List<ExpeditionMemberCard>();
   public readonly List<InventorySlot> LeftRows=new List<InventorySlot>(),RightRows=new List<InventorySlot>();
   ExpeditionArrivalPanel arrival;int left,right=-1,quantity=1;string selected;
@@ -40,8 +41,8 @@ namespace Demo5.FrontEnd {
   void Detail(){var item=arrival.Inventory.Items.FirstOrDefault(i=>i.Id==selected);DetailTitle.text=item?.Name??"물품 선택";Description.text=item?.Description??"가방에서 물품을 선택하세요.\n동료 이름을 누르면 바로 전달합니다.";DetailIcon.sprite=item?.Icon;DetailIcon.enabled=item!=null;
    int held=Held();quantity=Mathf.Clamp(quantity,1,Math.Max(1,held));Quantity.text=quantity.ToString();Minus.interactable=quantity>1;Plus.interactable=quantity<held;Max.interactable=held>0;
    Use.gameObject.SetActive(item!=null&&item.FieldUsable);Use.interactable=IsOpen&&arrival.Inventory.FieldUseBlock(Source,selected)==null;
-   Use.GetComponentInChildren<Text>().text=item!=null&&item.FieldUsable?Source.Name+" · "+item.UseVerb:"";
-   UseHint.text=item==null?"":!item.FieldUsable?"직접 사용하는 물품이 아닙니다. 동료에게 전달할 수 있습니다.":Source.Name+" · 체력 "+Source.Health+" → "+Math.Min(Source.MaxHealth,Source.Health+item.Recovery)+"  |  "+item.UseCost+"개 · "+arrival.Rooms.MinutesPerTurn+"분\n"+(arrival.Inventory.FieldUseBlock(Source,selected)??"선택한 가방 주인이 사용합니다. 소음 없음");
+   Use.GetComponentInChildren<Text>().text=item!=null&&item.FieldUsable?Source.Name+" · "+item.UseVerb+" · "+TurnSuffix:"";
+   UseHint.text=item==null?"":!item.FieldUsable?"직접 사용하는 물품이 아닙니다. 동료에게 전달할 수 있습니다.":Source.Name+" · 체력 "+Source.Health+" → "+Math.Min(Source.MaxHealth,Source.Health+item.Recovery)+"  |  "+item.UseCost+"개 · "+TurnSuffix+" · "+arrival.Rooms.MinutesPerTurn+"분\n"+(arrival.Inventory.FieldUseBlock(Source,selected)??(arrival.Threat?arrival.Threat.ItemTurnLine():null)??FirstVisitUseLine);
    Message.text=selected==null?"대원 탭으로 가방을 바꾸고, 전달할 물품을 선택하세요.":"받을 동료의 이름을 누르면 "+quantity+"개 전달 · 시간과 소음 소모 없음";
    Recipients();Canvas.ForceUpdateCanvases();LayoutRebuilder.ForceRebuildLayoutImmediate(RightMembers);
   }

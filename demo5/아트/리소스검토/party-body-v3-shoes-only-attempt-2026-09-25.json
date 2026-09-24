@@ -1,0 +1,28 @@
+{
+  "date": "2026-09-25",
+  "tool": "built-in image_gen__imagegen",
+  "scope": "One shoes-only edit attempt per researcher/guard, using v2 as the sole target. No additional geometry attempt or cutout after identity-preservation failure.",
+  "status": "Rejected: neither result preserved the body and identity above the ankles.",
+  "proposedFallback": "Keep v2 researcher/guard bodies unchanged, accepting their remaining boot exaggeration. Root decides and applies Unity references.",
+  "gameFilesChanged": false,
+  "previousV3Backups": [
+    "아트/리소스검토/party-researcher-body-v3-rejected-slim-source.png",
+    "아트/리소스검토/party-guard-body-v3-rejected-slim-source.png"
+  ],
+  "attempts": [
+    {
+      "id": "researcher",
+      "target": "E:/personalProject/Demo3/demo5/Assets/Art/Tokens/party-researcher-body-v2.png",
+      "prompt": "Edit only the two shoes below the ankles in this image. Shorten their projecting toe/sole shapes by about 15–20%, making the shoes slightly smaller without moving their floor baseline or changing the ankles. Keep everything above the ankles exactly unchanged: the entire head, hair, neck, torso, arms, hands, clothing, legs, their lengths and thicknesses, posture, facing direction and any held object. Do not redraw, slim, stretch or rotate the body. Preserve the full uncropped figure and the original canvas proportions. Keep flat black silhouette and transparent PNG background. No border, base, shadow or added object.",
+      "output": "C:/Users/power/.codex/generated_images/01a0d401-a1cc-7b30-9525-0197856a1c65/exec-d586d103-8b89-40f2-96c1-231d12a68187.png",
+      "reason": "Glasses and notebook lost; arms/hands changed to pockets. Above-ankle invariants failed. RGB checker background also present."
+    },
+    {
+      "id": "guard",
+      "target": "E:/personalProject/Demo3/demo5/Assets/Art/Tokens/party-guard-body-v2.png",
+      "prompt": "Edit only the two shoes below the ankles in this image. Shorten their projecting toe/sole shapes by about 15–20%, making the shoes slightly smaller without moving their floor baseline or changing the ankles. Keep everything above the ankles exactly unchanged: the entire head, hair, neck, torso, arms, hands, clothing, legs, their lengths and thicknesses, posture, facing direction and any held object. Do not redraw, slim, stretch or rotate the body. Preserve the full uncropped figure and the original canvas proportions. Keep flat black silhouette and transparent PNG background. No border, base, shadow or added object.",
+      "output": "C:/Users/power/.codex/generated_images/01a0d401-a1cc-7b30-9525-0197856a1c65/exec-4ba30556-8033-4e6d-ae60-87de788e035c.png",
+      "reason": "Woman with cap and ponytail replaced by different male figure holding a phone. Identity, clothes and pose invariants failed. RGB checker background also present."
+    }
+  ]
+}

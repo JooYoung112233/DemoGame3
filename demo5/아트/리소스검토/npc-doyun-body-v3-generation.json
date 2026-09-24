@@ -1,0 +1,43 @@
+{
+  "id": "doyun",
+  "generated": "C:/Users/power/.codex/generated_images/01a0d401-74e7-76c1-8c20-e36de4e3e2cd/exec-0a4cf605-5ea8-4317-9cc3-344db548bb76.png",
+  "shapeSource": "C:/Users/power/.codex/generated_images/01a0d401-74e7-76c1-8c20-e36de4e3e2cd/exec-e18763c8-66e6-4a62-9948-818b8d3fa9bb.png",
+  "bounds": [
+    204,
+    30,
+    804,
+    1455
+  ],
+  "alpha0": 1104440,
+  "alphaPartial": 468424,
+  "notes": "Plain tapered trouser legs, modest rounded shoes and relaxed close-foot stance. Existing backpack and lowered tool bag remain. Source contains gray arm/strap interior; runtime common black material ignores interior RGB.",
+  "mode": "builtin image_gen",
+  "version": "v3",
+  "date": "2026-09-25",
+  "nativeSize": [
+    1024,
+    1536
+  ],
+  "pixelFormat": "Format32bppArgb",
+  "cornerAlpha": 0,
+  "alphaFull": 0,
+  "prompts": [
+    {
+      "step": "partial anatomy redraw",
+      "prompt": "Edit the NPC in image 1 to match the understated survivor anatomy of the original game figures in images 2 and 3.\nKeep Doyun's untidy hair, right-facing head, backpack, one hand gripping the shoulder strap, other hand holding his small tool bag, and his quiet standing gesture.\nRefine his silhouette: plain trouser legs with gently tapered calves, smooth modest knees, small simple rounded everyday shoes, and a relaxed close-foot stance like the original scout. Reduce the oversized boot toes, swollen knee shapes and puffed lower legs. Give the torso the same slight three-quarter side angle and ordinary clothed volume as the original figures. Keep a solid healthy adult build; do not make him tall or thin.\nOne uniformly black cutout figure, contour only. Full uncropped hair-to-shoes body with empty margin. Body only, without paper rim or base. Transparent background PNG."
+    },
+    {
+      "step": "background extraction",
+      "prompt": "Remove the background from this character image and give me a transparent-background PNG cutout. Keep the entire man and his bags exactly as drawn. Do not crop him."
+    }
+  ],
+  "references": [
+    "Assets/Art/Tokens/npc-doyun-body-v2.png",
+    "Assets/Art/Settlement/standee-scout.png",
+    "Assets/Art/Settlement/standee-medic.png"
+  ],
+  "asset": "Assets/Art/Tokens/npc-doyun-body-v3.png",
+  "sourceCopy": "아트/리소스검토/npc-doyun-body-v3-source.png",
+  "processing": "Imagegen output bytes copied without external pixel modification. No cropping, stretching, recoloring, resizing or upscaling. Prior versions preserved. No Unity/meta/code changes.",
+  "status": "Delivered source for root in-game scale/anatomy validation"
+}

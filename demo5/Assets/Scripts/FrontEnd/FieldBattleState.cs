@@ -45,7 +45,8 @@ namespace Demo5.FrontEnd
         [Tooltip("방어 중 받는 피해 감소. 물기 피해 이상이면 완전히 막는다.")]
         [Min(0)] public int GuardReduction = 0;
         [Header("소음과 증원")]
-        [Min(1)] public int ReinforcementNoise = 4;
+        [Tooltip("전투 소음이 이 값 × (증원 수 + 1)에 닿으면 다음 라운드에 증원. 사격 소음 2 기준: 두 명이 1발씩(소음 4)은 증원 없음, 3발째(소음 6)에 증원")]
+        [Min(1)] public int ReinforcementNoise = 5;
         [Min(0)] public int MaxReinforcements = 1;
         [Range(1, 9)] public int MaxEnemies = 3;
         [Tooltip("승리 후 탐험 소음 = 이 값 + 전투 소음 × 전달 비율")]
@@ -359,7 +360,8 @@ namespace Demo5.FrontEnd
             if (!PlayerTurn) return false;
             Events.Clear();
             foreach (var threat in RetreatThreats()) Bite(threat.Enemy, threat.Target, threat.Chance, true);
-            Outcome = FieldBattleOutcome.Retreated; Message = "원정대가 복도로 물러납니다."; return true;
+            // The rules do not know the room: the arcade retreat leaves through the exit, the corridor one falls back to the arcade.
+            Outcome = FieldBattleOutcome.Retreated; Message = "원정대가 물러납니다."; return true;
         }
 
         public bool EnemyStep()
@@ -423,6 +425,8 @@ namespace Demo5.FrontEnd
             }
             return result;
         }
+        // Who a creature's marked strike reaches on the board as it stands now (empty when it has none).
+        public List<BattleHit> PendingHits(int e) => e >= 0 && e < Units.Count && Units[e].Enemy && Units[e].Alive && Units[e].Pending != null ? Resolve(e, Units[e].Pending, Board.From(Units)) : new List<BattleHit>();
         // Every ally cell a committed strike will land on (the marked danger cells).
         public IEnumerable<int> DangerCells() => Units.Where(u => u.Enemy && u.Alive && u.Pending != null).SelectMany(u => u.Pending.Cells).Distinct();
 
@@ -713,7 +717,7 @@ namespace Demo5.FrontEnd
             Events.Add(ev);
             string name = c?.AttackName ?? "공격";
             if (p.Attack == CreatureAttack.Broadcast) { ev.Noise = Rules.BroadcastNoise; Message = me.Name + " · " + name + " · 소음 +" + ev.Noise; AddNoise(ev.Noise); return; }
-            Message = me.Name + " · " + name + (ev.Whiff ? " · 빗나감" : " → " + string.Join(", ", hits.Select(h => Units[h.Target].Name + " " + (h.Damage > 0 ? "피해 " + h.Damage : "버팀")
+            Message = me.Name + " · " + name + (ev.Whiff ? " · 빗나감" : " → " + string.Join(", ", hits.Select(h => Units[h.Target].Name + (h.Damage > 0 ? " 피해 " + h.Damage : h.Braced ? " 버팀" : "")
                 + (h.Killed ? " 행동 불능" : h.Pushed ? " 밀려남" : h.Collided ? " 부딪힘" : h.Bound ? " 묶임" : h.Veiled ? " 시야 가림" : ""))))
                 + (ev.Staggered ? " · 빈틈" : "");
         }
@@ -820,7 +824,9 @@ namespace Demo5.FrontEnd
             RaiseAlarm();
         }
         // Anything that can still hurt someone, or a broadcaster that can still call help.
-        bool Hostile(Unit u) => u.Creature == null || u.Creature.Attack != CreatureAttack.Broadcast || ReinforcementPending || ReinforcementsLeft;
+        // A call is only possible while a reinforcement is left and the enemy cap has room (the same test RaiseAlarm makes).
+        bool Hostile(Unit u) => u.Creature == null || u.Creature.Attack != CreatureAttack.Broadcast || ReinforcementPending
+            || (ReinforcementsLeft && Units.Count(x => x.Enemy && x.Alive) < Rules.MaxEnemies);
         void Advance()
         {
             Actions++;

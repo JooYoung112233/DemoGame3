@@ -1,0 +1,544 @@
+{
+  "status": "PASS",
+  "utc": "2026-09-24T19:42:58.5974597Z",
+  "error": null,
+  "scope": "Seven visually selected human body PNGs (four v3, three v2), import metadata, roster/battle/story references and NPC prefab geometry. No scene or gameplay execution.",
+  "limitation": "Alpha >=32 must be wholly inside the sprite rect and clear of the source canvas edge. Alpha 1–31 outside the rect is recorded as transparent-edge tolerance. This does not judge faces, hands, pose, anatomy, or whether the generated art depicts a complete person.",
+  "alphaThreshold": 32,
+  "sources": [
+    {
+      "path": "Assets/Art/Tokens/party-mechanic-body-v3.png",
+      "width": 967,
+      "height": 1627,
+      "spriteCount": 1,
+      "metadataSpriteCount": 1,
+      "alphaBounds": {
+        "x": 141.0,
+        "y": 61.0,
+        "width": 645.0,
+        "height": 1521.0
+      },
+      "nonzeroAlphaBounds": {
+        "x": 138.0,
+        "y": 59.0,
+        "width": 651.0,
+        "height": 1526.0
+      },
+      "spriteRect": {
+        "x": 139.0,
+        "y": 59.0,
+        "width": 649.0,
+        "height": 1525.0
+      },
+      "visiblePixelsInSprite": {
+        "x": 2.0,
+        "y": 2.0,
+        "width": 645.0,
+        "height": 1521.0
+      },
+      "clearPixels": 952273,
+      "visiblePixels": 610206,
+      "outsideVisiblePixels": 0,
+      "outsideFaintPixels": 18,
+      "maxOutsideAlpha": 1,
+      "visiblePixelsTouchSourceEdge": false,
+      "fullRectMesh": true,
+      "noImportDownscale": true
+    },
+    {
+      "path": "Assets/Art/Tokens/party-cook-body-v3.png",
+      "width": 992,
+      "height": 1585,
+      "spriteCount": 1,
+      "metadataSpriteCount": 1,
+      "alphaBounds": {
+        "x": 220.0,
+        "y": 33.0,
+        "width": 553.0,
+        "height": 1515.0
+      },
+      "nonzeroAlphaBounds": {
+        "x": 0.0,
+        "y": 30.0,
+        "width": 775.0,
+        "height": 1520.0
+      },
+      "spriteRect": {
+        "x": 218.0,
+        "y": 31.0,
+        "width": 557.0,
+        "height": 1519.0
+      },
+      "visiblePixelsInSprite": {
+        "x": 2.0,
+        "y": 2.0,
+        "width": 553.0,
+        "height": 1515.0
+      },
+      "clearPixels": 1032121,
+      "visiblePixels": 527349,
+      "outsideVisiblePixels": 0,
+      "outsideFaintPixels": 5,
+      "maxOutsideAlpha": 1,
+      "visiblePixelsTouchSourceEdge": false,
+      "fullRectMesh": true,
+      "noImportDownscale": true
+    },
+    {
+      "path": "Assets/Art/Tokens/party-researcher-body-v2.png",
+      "width": 992,
+      "height": 1586,
+      "spriteCount": 1,
+      "metadataSpriteCount": 1,
+      "alphaBounds": {
+        "x": 144.0,
+        "y": 67.0,
+        "width": 692.0,
+        "height": 1469.0
+      },
+      "nonzeroAlphaBounds": {
+        "x": 0.0,
+        "y": 65.0,
+        "width": 838.0,
+        "height": 1489.0
+      },
+      "spriteRect": {
+        "x": 142.0,
+        "y": 65.0,
+        "width": 696.0,
+        "height": 1473.0
+      },
+      "visiblePixelsInSprite": {
+        "x": 2.0,
+        "y": 2.0,
+        "width": 692.0,
+        "height": 1469.0
+      },
+      "clearPixels": 910306,
+      "visiblePixels": 651457,
+      "outsideVisiblePixels": 0,
+      "outsideFaintPixels": 16,
+      "maxOutsideAlpha": 1,
+      "visiblePixelsTouchSourceEdge": false,
+      "fullRectMesh": true,
+      "noImportDownscale": true
+    },
+    {
+      "path": "Assets/Art/Tokens/party-guard-body-v2.png",
+      "width": 1024,
+      "height": 1536,
+      "spriteCount": 1,
+      "metadataSpriteCount": 1,
+      "alphaBounds": {
+        "x": 209.0,
+        "y": 39.0,
+        "width": 659.0,
+        "height": 1452.0
+      },
+      "nonzeroAlphaBounds": {
+        "x": 65.0,
+        "y": 37.0,
+        "width": 805.0,
+        "height": 1480.0
+      },
+      "spriteRect": {
+        "x": 207.0,
+        "y": 37.0,
+        "width": 663.0,
+        "height": 1456.0
+      },
+      "visiblePixelsInSprite": {
+        "x": 2.0,
+        "y": 2.0,
+        "width": 659.0,
+        "height": 1452.0
+      },
+      "clearPixels": 984698,
+      "visiblePixels": 576552,
+      "outsideVisiblePixels": 0,
+      "outsideFaintPixels": 16,
+      "maxOutsideAlpha": 1,
+      "visiblePixelsTouchSourceEdge": false,
+      "fullRectMesh": true,
+      "noImportDownscale": true
+    },
+    {
+      "path": "Assets/Art/Tokens/npc-doyun-body-v3.png",
+      "width": 1024,
+      "height": 1536,
+      "spriteCount": 1,
+      "metadataSpriteCount": 1,
+      "alphaBounds": {
+        "x": 204.0,
+        "y": 80.0,
+        "width": 601.0,
+        "height": 1426.0
+      },
+      "nonzeroAlphaBounds": {
+        "x": 202.0,
+        "y": 77.0,
+        "width": 605.0,
+        "height": 1432.0
+      },
+      "spriteRect": {
+        "x": 202.0,
+        "y": 78.0,
+        "width": 605.0,
+        "height": 1430.0
+      },
+      "visiblePixelsInSprite": {
+        "x": 2.0,
+        "y": 2.0,
+        "width": 601.0,
+        "height": 1426.0
+      },
+      "clearPixels": 1104440,
+      "visiblePixels": 458834,
+      "outsideVisiblePixels": 0,
+      "outsideFaintPixels": 8,
+      "maxOutsideAlpha": 1,
+      "visiblePixelsTouchSourceEdge": false,
+      "fullRectMesh": true,
+      "noImportDownscale": true
+    },
+    {
+      "path": "Assets/Art/Tokens/npc-jun-body-v3.png",
+      "width": 1024,
+      "height": 1536,
+      "spriteCount": 1,
+      "metadataSpriteCount": 1,
+      "alphaBounds": {
+        "x": 294.0,
+        "y": 89.0,
+        "width": 473.0,
+        "height": 1385.0
+      },
+      "nonzeroAlphaBounds": {
+        "x": 291.0,
+        "y": 86.0,
+        "width": 479.0,
+        "height": 1390.0
+      },
+      "spriteRect": {
+        "x": 292.0,
+        "y": 87.0,
+        "width": 477.0,
+        "height": 1389.0
+      },
+      "visiblePixelsInSprite": {
+        "x": 2.0,
+        "y": 2.0,
+        "width": 473.0,
+        "height": 1385.0
+      },
+      "clearPixels": 1150411,
+      "visiblePixels": 413079,
+      "outsideVisiblePixels": 0,
+      "outsideFaintPixels": 22,
+      "maxOutsideAlpha": 2,
+      "visiblePixelsTouchSourceEdge": false,
+      "fullRectMesh": true,
+      "noImportDownscale": true
+    },
+    {
+      "path": "Assets/Art/Tokens/npc-giho-body-v2.png",
+      "width": 930,
+      "height": 1692,
+      "spriteCount": 1,
+      "metadataSpriteCount": 1,
+      "alphaBounds": {
+        "x": 101.0,
+        "y": 94.0,
+        "width": 735.0,
+        "height": 1541.0
+      },
+      "nonzeroAlphaBounds": {
+        "x": 98.0,
+        "y": 91.0,
+        "width": 740.0,
+        "height": 1547.0
+      },
+      "spriteRect": {
+        "x": 99.0,
+        "y": 92.0,
+        "width": 739.0,
+        "height": 1545.0
+      },
+      "visiblePixelsInSprite": {
+        "x": 2.0,
+        "y": 2.0,
+        "width": 735.0,
+        "height": 1541.0
+      },
+      "clearPixels": 892957,
+      "visiblePixels": 670513,
+      "outsideVisiblePixels": 0,
+      "outsideFaintPixels": 43,
+      "maxOutsideAlpha": 2,
+      "visiblePixelsTouchSourceEdge": false,
+      "fullRectMesh": true,
+      "noImportDownscale": true
+    }
+  ],
+  "party": [
+    {
+      "id": "mechanic",
+      "spritePath": "Assets/Art/Tokens/party-mechanic-body-v3.png",
+      "expectedScale": 1.0,
+      "configuredScale": 1.0,
+      "resolvedScale": 1.0,
+      "visiblePixels": {
+        "x": 2.0,
+        "y": 2.0,
+        "width": 645.0,
+        "height": 1521.0
+      }
+    },
+    {
+      "id": "cook",
+      "spritePath": "Assets/Art/Tokens/party-cook-body-v3.png",
+      "expectedScale": 1.0,
+      "configuredScale": 1.0,
+      "resolvedScale": 1.0,
+      "visiblePixels": {
+        "x": 2.0,
+        "y": 2.0,
+        "width": 553.0,
+        "height": 1515.0
+      }
+    },
+    {
+      "id": "researcher",
+      "spritePath": "Assets/Art/Tokens/party-researcher-body-v2.png",
+      "expectedScale": 1.0,
+      "configuredScale": 1.0,
+      "resolvedScale": 1.0,
+      "visiblePixels": {
+        "x": 2.0,
+        "y": 2.0,
+        "width": 692.0,
+        "height": 1469.0
+      }
+    },
+    {
+      "id": "guard",
+      "spritePath": "Assets/Art/Tokens/party-guard-body-v2.png",
+      "expectedScale": 1.0,
+      "configuredScale": 1.0,
+      "resolvedScale": 1.0,
+      "visiblePixels": {
+        "x": 2.0,
+        "y": 2.0,
+        "width": 659.0,
+        "height": 1452.0
+      }
+    },
+    {
+      "id": "scout",
+      "spritePath": "Assets/Art/Settlement/standee-scout.png",
+      "expectedScale": 1.0,
+      "configuredScale": 1.0,
+      "resolvedScale": 1.0,
+      "visiblePixels": {
+        "x": 11.0,
+        "y": 9.0,
+        "width": 72.0,
+        "height": 153.0
+      }
+    },
+    {
+      "id": "medic",
+      "spritePath": "Assets/Art/Settlement/standee-medic.png",
+      "expectedScale": 1.0,
+      "configuredScale": 1.0,
+      "resolvedScale": 1.0,
+      "visiblePixels": {
+        "x": 12.0,
+        "y": 5.0,
+        "width": 67.0,
+        "height": 142.0
+      }
+    }
+  ],
+  "npcs": [
+    {
+      "id": "doyun",
+      "prefab": "Assets/Prefabs/Settlement/Npc_doyun.prefab",
+      "spritePath": "Assets/Art/Tokens/npc-doyun-body-v3.png",
+      "expectedHeight": 1.72,
+      "actualHeight": 1.72000015,
+      "footY": 0.035,
+      "centerX": 0.0,
+      "scaleX": 0.120617114,
+      "scaleY": 0.120617114,
+      "commonStyle": true,
+      "noLegacyPaperRemoval": true,
+      "noSpriteMask": true
+    },
+    {
+      "id": "jun",
+      "prefab": "Assets/Prefabs/Settlement/Npc_jun.prefab",
+      "spritePath": "Assets/Art/Tokens/npc-jun-body-v3.png",
+      "expectedHeight": 1.72,
+      "actualHeight": 1.72000015,
+      "footY": 0.035,
+      "centerX": 0.0,
+      "scaleX": 0.12418773,
+      "scaleY": 0.12418773,
+      "commonStyle": true,
+      "noLegacyPaperRemoval": true,
+      "noSpriteMask": true
+    },
+    {
+      "id": "giho",
+      "prefab": "Assets/Prefabs/Settlement/Npc_giho.prefab",
+      "spritePath": "Assets/Art/Tokens/npc-giho-body-v2.png",
+      "expectedHeight": 1.72,
+      "actualHeight": 1.72,
+      "footY": 0.035,
+      "centerX": 0.0,
+      "scaleX": 0.111615837,
+      "scaleY": 0.111615837,
+      "commonStyle": true,
+      "noLegacyPaperRemoval": true,
+      "noSpriteMask": true
+    }
+  ],
+  "checkedReferences": [
+    "Assets/Prefabs/Settlement/ExpeditionBattlePanel.prefab: revised party sprite bounds",
+    "Assets/Prefabs/Settlement/SettlementScreen.prefab: revised party sprite bounds",
+    "Assets/Prefabs/Settlement/ExpeditionArrivalPanel.prefab: Doyun world prefab and both portrait references",
+    "Assets/Prefabs/Settlement/SettlementScreen.prefab: Doyun world prefab and both portrait references"
+  ],
+  "pngFiles": [
+    {
+      "path": "Assets/Art/Settlement/standee-scout.png",
+      "sha256Before": "26f1821df261c83db1128b24de0c13723898046c7ae5b3c48f606c41b1e790d7",
+      "sha256After": "26f1821df261c83db1128b24de0c13723898046c7ae5b3c48f606c41b1e790d7",
+      "existsBefore": true,
+      "existsAfter": true,
+      "unchanged": true
+    },
+    {
+      "path": "Assets/Art/Settlement/standee-medic.png",
+      "sha256Before": "5779128d10a2c233990d465c780ddad9fc5ed3e9f994c944e1b8511d5f716bf8",
+      "sha256After": "5779128d10a2c233990d465c780ddad9fc5ed3e9f994c944e1b8511d5f716bf8",
+      "existsBefore": true,
+      "existsAfter": true,
+      "unchanged": true
+    },
+    {
+      "path": "Assets/Art/Tokens/party-mechanic-body.png",
+      "sha256Before": "8a87b648b9ab82516630bab2f0ee2599f109eccad80201b1bf7fdd81d63bb174",
+      "sha256After": "8a87b648b9ab82516630bab2f0ee2599f109eccad80201b1bf7fdd81d63bb174",
+      "existsBefore": true,
+      "existsAfter": true,
+      "unchanged": true
+    },
+    {
+      "path": "Assets/Art/Tokens/party-cook-body.png",
+      "sha256Before": "37866f3baaee12da85640d45dafe06746a5a776f2b584d30523047c9440d3dff",
+      "sha256After": "37866f3baaee12da85640d45dafe06746a5a776f2b584d30523047c9440d3dff",
+      "existsBefore": true,
+      "existsAfter": true,
+      "unchanged": true
+    },
+    {
+      "path": "Assets/Art/Tokens/party-researcher-body.png",
+      "sha256Before": "804001bc9f61052cb1102f47e810bb15b3bc67bbe4bf82a0ace4e7a69faab55c",
+      "sha256After": "804001bc9f61052cb1102f47e810bb15b3bc67bbe4bf82a0ace4e7a69faab55c",
+      "existsBefore": true,
+      "existsAfter": true,
+      "unchanged": true
+    },
+    {
+      "path": "Assets/Art/Tokens/party-guard-body.png",
+      "sha256Before": "c59ed8e435dd96ad309be72eb6af9a3dd5a1c6029a461660a8bfb46ef99672e0",
+      "sha256After": "c59ed8e435dd96ad309be72eb6af9a3dd5a1c6029a461660a8bfb46ef99672e0",
+      "existsBefore": true,
+      "existsAfter": true,
+      "unchanged": true
+    },
+    {
+      "path": "Assets/Art/Tokens/npc-doyun-body.png",
+      "sha256Before": "37ddc49b321a985da41b94132c83f10f7d22f72ceb538979fbb7332469d2ee1e",
+      "sha256After": "37ddc49b321a985da41b94132c83f10f7d22f72ceb538979fbb7332469d2ee1e",
+      "existsBefore": true,
+      "existsAfter": true,
+      "unchanged": true
+    },
+    {
+      "path": "Assets/Art/Tokens/npc-jun-body.png",
+      "sha256Before": "7b2c0918da44c0396604b57a50c5bda365e755ee4c617f6090b6af7987d167eb",
+      "sha256After": "7b2c0918da44c0396604b57a50c5bda365e755ee4c617f6090b6af7987d167eb",
+      "existsBefore": true,
+      "existsAfter": true,
+      "unchanged": true
+    },
+    {
+      "path": "Assets/Art/Tokens/npc-giho-body.png",
+      "sha256Before": "9fd1ec1a465549a558cfc9c470e9d8fe2f220f412f0c3f789e639f83b0699115",
+      "sha256After": "9fd1ec1a465549a558cfc9c470e9d8fe2f220f412f0c3f789e639f83b0699115",
+      "existsBefore": true,
+      "existsAfter": true,
+      "unchanged": true
+    },
+    {
+      "path": "Assets/Art/Tokens/party-mechanic-body-v3.png",
+      "sha256Before": "cc7636e831ff5fc898db638a2759c0da2cfce3a353cdd82de760b941db690be7",
+      "sha256After": "cc7636e831ff5fc898db638a2759c0da2cfce3a353cdd82de760b941db690be7",
+      "existsBefore": true,
+      "existsAfter": true,
+      "unchanged": true
+    },
+    {
+      "path": "Assets/Art/Tokens/party-cook-body-v3.png",
+      "sha256Before": "9a45172637e982afa8e4442f1edf8aa6b42e7ab072cffcef56d373daef4b33ce",
+      "sha256After": "9a45172637e982afa8e4442f1edf8aa6b42e7ab072cffcef56d373daef4b33ce",
+      "existsBefore": true,
+      "existsAfter": true,
+      "unchanged": true
+    },
+    {
+      "path": "Assets/Art/Tokens/party-researcher-body-v2.png",
+      "sha256Before": "b413e725353b4924531585ebc1f974bb805bd33f60be88233533c7ee74d19bed",
+      "sha256After": "b413e725353b4924531585ebc1f974bb805bd33f60be88233533c7ee74d19bed",
+      "existsBefore": true,
+      "existsAfter": true,
+      "unchanged": true
+    },
+    {
+      "path": "Assets/Art/Tokens/party-guard-body-v2.png",
+      "sha256Before": "6274eda6cab9ff922f84bfd5b25e66874495a82adc9898014b7c99afa89648b9",
+      "sha256After": "6274eda6cab9ff922f84bfd5b25e66874495a82adc9898014b7c99afa89648b9",
+      "existsBefore": true,
+      "existsAfter": true,
+      "unchanged": true
+    },
+    {
+      "path": "Assets/Art/Tokens/npc-doyun-body-v3.png",
+      "sha256Before": "7212825de41519f08ee6e0d5371dc7778eef14cd392615a2bdb52c198570aee1",
+      "sha256After": "7212825de41519f08ee6e0d5371dc7778eef14cd392615a2bdb52c198570aee1",
+      "existsBefore": true,
+      "existsAfter": true,
+      "unchanged": true
+    },
+    {
+      "path": "Assets/Art/Tokens/npc-jun-body-v3.png",
+      "sha256Before": "e1fb5a0080595055e5848fdc66eae4d2950e7bb03dc729c313f1f1705da4fc73",
+      "sha256After": "e1fb5a0080595055e5848fdc66eae4d2950e7bb03dc729c313f1f1705da4fc73",
+      "existsBefore": true,
+      "existsAfter": true,
+      "unchanged": true
+    },
+    {
+      "path": "Assets/Art/Tokens/npc-giho-body-v2.png",
+      "sha256Before": "cdaa5965c38d1e496cb9f849fc9f6cdd18ef47ee2ad8a54ebb2cf8e044ad0f88",
+      "sha256After": "cdaa5965c38d1e496cb9f849fc9f6cdd18ef47ee2ad8a54ebb2cf8e044ad0f88",
+      "existsBefore": true,
+      "existsAfter": true,
+      "unchanged": true
+    }
+  ],
+  "pngBytesUnchangedDuringVerification": true
+}

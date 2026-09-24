@@ -45,11 +45,11 @@ namespace Demo5.FrontEnd
                 case CreatureAttack.Pounce: v.SetPose(5, .8f, -.02f, 1.2f, 22, 0, glow, snap); break;     // legs drawn in, shivering
                 case CreatureAttack.Charge: v.SetPose(11, .88f, 0, 1, 26, 0, glow, snap); break;          // nose down, restless
                 case CreatureAttack.Veil: v.SetPose(0, .88f, .12f, 2.4f, 3, 0, glow, snap); break;        // spread wide, billowing
-                case CreatureAttack.Wire: v.SetPose(-6, 1, 0, .5f, 30, .35f, glow, snap); break;          // cable raised, humming
+                case CreatureAttack.Wire: v.SetPose(-6, 1, 0, .5f, 30, .14f, glow, snap); break;          // cable raised, humming (a faint charge, not a fill)
                 case CreatureAttack.Grab: v.SetPose(0, .84f, -.03f, .7f, 4, 0, glow, snap); break;        // spreading flat
                 case CreatureAttack.Collapse: v.SetPose(12, 1, 0, 1, 13, 0, glow, snap); break;           // creaking over
                 case CreatureAttack.Twin: v.SetPose(0, 1, 0, 6, 2.2f, 0, glow, snap); break;              // heads pulling apart
-                case CreatureAttack.Broadcast: v.SetPose(0, 1, 0, 2.2f, 34, .3f, glow, snap); break;      // antennae buzzing
+                case CreatureAttack.Broadcast: v.SetPose(0, 1, 0, 2.2f, 34, .12f, glow, snap); break;     // antennae buzzing
                 case CreatureAttack.Ram: v.SetPose(-8, .97f, 0, 1.4f, 36, 0, glow, snap); break;          // wheels rattling
             }
         }
@@ -149,7 +149,7 @@ namespace Demo5.FrontEnd
             foreach (var h in e.Hits.Where(h => h.Collided))
             {
                 var t = panel.PawnView(h.Target); if (!t) continue; knocked = true;
-                Text("부딪힘", Danger, panel.FxPoint(t.Head), .85f); StartCoroutine(Wobble(t, -1, HitTilt * .8f, -dir, KnockDistance * .6f));
+                Text("부딪힘", Danger, panel.FxPoint(t.Head), .85f); if (!h.Killed) StartCoroutine(Wobble(t, -1, HitTilt * .8f, -dir, KnockDistance * .6f));
                 StartCoroutine(BurstRoutine(panel.FxPoint(t.transform.position) + Vector2.up * 20, Muted, .8f, .25f));
             }
             if (knocked) { Sound(Collide ? Collide : Impact, .9f, .85f); Shake(HitShake); yield return Freeze(HitStop); }

@@ -138,7 +138,7 @@ public static class BuildBattleItems
         grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount; grid.constraintCount = 4;
         drawer.SlotPrefab = slotAsset.GetComponent<BattleItemSlot>();
         var detail = Picture(TL("DetailPaper", drawerRoot, 21, 428, 536, 332), A + "card-paper.png", Cream).rectTransform;
-        drawer.DetailIcon = Picture(TL("DetailIcon", detail, 18, 16, 92, 72), A + "icon-bag.png", Ink); drawer.DetailIcon.preserveAspect = true;
+        drawer.DetailIcon = Picture(TL("DetailIcon", detail, 18, 16, 92, 72), A + "icon-bag.png", Color.white); drawer.DetailIcon.preserveAspect = true;
         drawer.DetailName = Label(TL("DetailName", detail, 124, 8, 396, 48), "붕대", 30, Ink);
         drawer.DetailDescription = Label(TL("DetailDescription", detail, 124, 54, 400, 58), "치료 · 체력 +2", 20, Ink, TextAnchor.UpperLeft, true);
         Picture(TL("Divider", detail, 18, 120, 500, 3), null, new Color(Ink.r, Ink.g, Ink.b, .55f));

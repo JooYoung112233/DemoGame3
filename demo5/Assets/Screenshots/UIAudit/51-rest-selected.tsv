@@ -1,0 +1,32 @@
+type	issue	x	y	w	h	font	interactable	path	text
+text		198	453	176	58	32	False	SettlementCanvas/SettlementScreen/RestWorkPanel/TaskPaper/RosterViewport/Rows/WorkAssigneeRow(Clone)/Name	윤서진
+text		104.0001	32	492	72	34	False	SettlementCanvas/SettlementScreen/RestWorkPanel/PopupHeading/Label	바닥 잠자리 · 임시 휴식
+text		92.00008	973.9999	386	75.99998	34	False	SettlementCanvas/SettlementScreen/RestWorkPanel/Close/Label	돌아가기
+text		398.0001	874	305.9999	46.00003	31	False	SettlementCanvas/SettlementScreen/RestWorkPanel/TaskPaper/Effect	완료 시 체력 +1
+text		108.0001	228	608	46	29	False	SettlementCanvas/SettlementScreen/RestWorkPanel/TaskPaper/Description	잠시 몸을 쉬게 할 동료를 고르세요.
+text		198	545	176	58	32	False	SettlementCanvas/SettlementScreen/RestWorkPanel/TaskPaper/RosterViewport/Rows/WorkAssigneeRow(Clone)/Name	강기섭
+text		1406	32	418.0001	72	34	False	SettlementCanvas/SettlementScreen/RestWorkPanel/FacilityImprove/Label	침대 복구
+text		169.0001	285	221.9999	70	36	False	SettlementCanvas/SettlementScreen/RestWorkPanel/TaskPaper/ShortRest/Label	짧은 휴식
+text		1467	786	352.0001	106	34	False	SettlementCanvas/SettlementScreen/RestWorkPanel/SelectedMember/Description	잠시 쉬며 / 숨을 돌립니다.
+text		187	150.0001	245	66.99994	42	False	SettlementCanvas/SettlementScreen/RestWorkPanel/TaskPaper/Heading	침대 · 휴식
+text		106	388	589.9999	48	32	False	SettlementCanvas/SettlementScreen/RestWorkPanel/TaskPaper/AssigneeHeading	담당자
+text		374.0001	450	150.9999	36	24	False	SettlementCanvas/SettlementScreen/RestWorkPanel/TaskPaper/RosterViewport/Rows/WorkAssigneeRow(Clone)/Condition	체력 3 / 3
+text		528.0001	461	105	48	26	False	SettlementCanvas/SettlementScreen/RestWorkPanel/TaskPaper/RosterViewport/Rows/WorkAssigneeRow(Clone)/State	대기 중
+text		374.0001	542	150.9999	36	24	False	SettlementCanvas/SettlementScreen/RestWorkPanel/TaskPaper/RosterViewport/Rows/WorkAssigneeRow(Clone)/Condition	체력 2 / 3
+text		1454	973.9999	386.0001	75.99998	34	False	SettlementCanvas/SettlementScreen/RestWorkPanel/StartRest/Label	휴식 시작
+text		1446	490	216	56	32	False	SettlementCanvas/SettlementScreen/RestWorkPanel/SelectedMember/Heading	선택된 대원
+text		1610	697	210.0001	46	29	False	SettlementCanvas/SettlementScreen/RestWorkPanel/SelectedMember/Health	체력 2 / 3
+text		528.0001	553	105	48	26	False	SettlementCanvas/SettlementScreen/RestWorkPanel/TaskPaper/RosterViewport/Rows/WorkAssigneeRow(Clone)/State	대기 중
+text		483	285	222	70	36	False	SettlementCanvas/SettlementScreen/RestWorkPanel/TaskPaper/Sleep/Label	수면
+text		163	809	335	45.99998	31	False	SettlementCanvas/SettlementScreen/RestWorkPanel/TaskPaper/DurationLabel	예상 시간
+text		112.0001	874	250	46.00003	31	False	SettlementCanvas/SettlementScreen/RestWorkPanel/TaskPaper/EffectLabel	휴식 종류
+text		1610	565	222.0001	59	38	False	SettlementCanvas/SettlementScreen/RestWorkPanel/SelectedMember/Name	강기섭
+text		1610	632	210.0001	62.00003	21	False	SettlementCanvas/SettlementScreen/RestWorkPanel/SelectedMember/State	대기 중
+text		510	809	194	45.99998	31	False	SettlementCanvas/SettlementScreen/RestWorkPanel/TaskPaper/Duration	약 60분
+button		104.0001	533	588	83.99997	0	True	SettlementCanvas/SettlementScreen/RestWorkPanel/TaskPaper/RosterViewport/Rows/WorkAssigneeRow(Clone)	강기섭 체력 2 / 3 대기 중
+button		79.99998	973.9999	410	75.99998	0	True	SettlementCanvas/SettlementScreen/RestWorkPanel/Close	돌아가기
+button		102	285	300	70	0	True	SettlementCanvas/SettlementScreen/RestWorkPanel/TaskPaper/ShortRest	짧은 휴식
+button		104.0001	441	588	84	0	True	SettlementCanvas/SettlementScreen/RestWorkPanel/TaskPaper/RosterViewport/Rows/WorkAssigneeRow(Clone)	윤서진 체력 3 / 3 대기 중
+button		416	285	300	70	0	False	SettlementCanvas/SettlementScreen/RestWorkPanel/TaskPaper/Sleep	수면
+button		1442	973.9999	410	75.99998	0	True	SettlementCanvas/SettlementScreen/RestWorkPanel/StartRest	휴식 시작
+button		1390	32	449.9999	72	0	True	SettlementCanvas/SettlementScreen/RestWorkPanel/FacilityImprove	침대 복구

@@ -9,6 +9,9 @@ using Object=UnityEngine.Object;
 public static class ConnectStorageRoom {
  public static string Run(){
   if(EditorApplication.isPlaying||EditorSceneManager.GetActiveScene().isDirty)throw new Exception("Stop and preserve dirty scene");
+  // A re-run would truncate Sites/Objects to 8 (dropping the den shelf) and restore the old storage tables.
+  var current=AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Settlement/SettlementScreen.prefab").GetComponent<SettlementController>();
+  if(current.ArrivalPanel.Loot.Sites.Length>8)throw new Exception("Superseded: den site exists; loot tables live in BuildBalance1.cs");
   AssetDatabase.Refresh();var importer=(TextureImporter)AssetImporter.GetAtPath("Assets/Art/ExpeditionArrival/storage.png");importer.textureType=TextureImporterType.Sprite;importer.spritePixelsPerUnit=100;importer.maxTextureSize=4096;importer.mipmapEnabled=false;importer.textureCompression=TextureImporterCompression.Uncompressed;importer.SaveAndReimport();
   const string path="Assets/Prefabs/Settlement/SettlementScreen.prefab";var g=PrefabUtility.LoadPrefabContents(path);
   try {

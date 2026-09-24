@@ -1,0 +1,247 @@
+{
+  "date": "2026-09-25",
+  "tool": "built-in image_gen__imagegen",
+  "purpose": "Redraw four party bodies with existing scout/medic adult board-game standee proportions; do not crop or horizontally stretch.",
+  "sharedStyle": "Flat black body only. Existing shared rim/base remains an independent Unity layer. No source image transformation.",
+  "resamplingPerformed": false,
+  "assets": [
+    {
+      "id": "mechanic",
+      "status": "Root approved proportion/style on 2026-09-25; unchanged PNG retained",
+      "source": "아트/리소스검토/party-mechanic-body-v2-source.png",
+      "unityCandidate": "Assets/Art/Tokens/party-mechanic-body-v2.png",
+      "generatedSource": "C:/Users/power/.codex/generated_images/01a0d401-a1cc-7b30-9525-0197856a1c65/exec-2338e353-5294-49a7-b550-c44d7c726120.png",
+      "references": [
+        "E:/personalProject/Demo3/demo5/Assets/Art/Settlement/standee-scout.png",
+        "E:/personalProject/Demo3/demo5/Assets/Art/Settlement/standee-medic.png",
+        "E:/personalProject/Demo3/demo5/Assets/Art/Tokens/party-mechanic-body.png",
+        "E:/personalProject/Demo3/demo5/Assets/Art/PartySelection/portrait-mechanic.png"
+      ],
+      "prompt": "Use case: style-transfer. Produce ONE new full-body mechanic silhouette PNG for a Unity paper-standee game. Image1 scout and Image2 medic are the mandatory BODY PROPORTION references: stout adult board-game pieces, large head, broad padded torso, short thick arms and legs, about 4.5–5 heads tall. Image3 is the old mechanic edit target: keep the same right-facing three-quarter stance, tousled short spiky hair, raised work-jacket collar, relaxed lowered hands, work trousers, boots, and compact hip tool pouch. Image4 is his head/identity reference. Redraw the actual anatomy to the scout/medic proportions: enlarge head, widen chest and hips substantially, shorten and thicken limbs, larger broad boots. Do NOT merely stretch the tall body sideways. He must look like a stocky adult miniature, not a slim real-proportion man and not a toddler. The entire visible body including arms should have width/height between 0.47 and 0.58. Preserve his distinctive hair and jacket shape. Full head-to-sole figure centered, both hands and boots completely visible, no crop anywhere. Entire character and pouch are ONE uniform flat nearly-black silhouette #171b1a. Outer contour alone expresses identity; zero eyes, face features, folds, seams, shading, highlights, texture or internal detail. Output only the black BODY cutout with a genuine transparent PNG alpha background. NO paper rim, NO outline, NO base, NO pedestal, NO ground shadow, NO floor, NO white background, NO checkerboard pixels. Do not copy the background or paper border from references. Make an individual large native portrait master, ideally 1280×2048 or larger with the visible body 1800px tall and 5% transparent margin. Never upscale a small source. One figure only, no labels or text.",
+      "validation": {
+        "mode": "RGBA",
+        "width": 887,
+        "height": 1774,
+        "alphaMin": 0,
+        "alphaMax": 255,
+        "clearPixels": 812056,
+        "partialPixels": 759224,
+        "opaquePixels": 2258,
+        "alphaBoundsAt16": [
+          88,
+          88,
+          824,
+          1694
+        ],
+        "alphaBoundsAt128": [
+          89,
+          89,
+          823,
+          1693
+        ],
+        "bodyWidth": 736,
+        "bodyHeight": 1606,
+        "widthHeightRatio": 0.45828144458281445,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "sha256": "3c500de57511c6cf99018a1a952f87042bcd164f7675d8993d556de68b6ae182"
+      },
+      "limitation": "Visible width/height 0.458 is slightly below nominal 0.47–0.58 target; head and limb anatomy were redrawn to much stockier proportions. Native 1606px visible height meets 1536px minimum. No cropping, recoloring, resizing or background removal performed."
+    },
+    {
+      "id": "cook",
+      "status": "True-alpha candidate complete; pending root visual integration check",
+      "source": "아트/리소스검토/party-cook-body-v2-source.png",
+      "unityCandidate": "Assets/Art/Tokens/party-cook-body-v2.png",
+      "generatedSource": "C:/Users/power/.codex/generated_images/01a0d401-a1cc-7b30-9525-0197856a1c65/exec-afeb447e-85d0-4c7c-b583-691d4211764c.png",
+      "referencesReviewed": [
+        "E:/personalProject/Demo3/demo5/Assets/Art/Tokens/party-mechanic-body-v2.png",
+        "E:/personalProject/Demo3/demo5/Assets/Art/Settlement/standee-scout.png",
+        "E:/personalProject/Demo3/demo5/Assets/Art/Settlement/standee-medic.png",
+        "E:/personalProject/Demo3/demo5/Assets/Art/Tokens/party-cook-body.png",
+        "E:/personalProject/Demo3/demo5/Assets/Art/PartySelection/portrait-cook.png"
+      ],
+      "prompt": "Create one isolated full-body black silhouette cutout for a paper board-game piece, on a genuinely transparent PNG background. Subject: a sturdy adult woman cook, viewed in a calm three-quarter stance facing screen right. Distinctive compact high bun at the back of her head and swept curved fringe. She wears a thick hooded jacket, simple apron hanging to mid-thigh, practical loose trousers and broad work boots, with both hands hanging loosely beside her hips. No tools. Match compact 4.5–5-head-tall adult miniature proportions: conspicuously large head, wide rounded torso, thick short arms and short solid legs. Body width approximately half the full standing height. She must be stocky and grounded, not lanky, not realistic fashion proportions and not a child. Preserve natural asymmetry of her stance and individual bun/apron silhouette. The ENTIRE figure is one perfectly uniform flat #171b1a black fill, with no eyes, facial details, internal lines, garment seams, shading or texture. Identity expressed only by outer silhouette. BODY ONLY: do not draw any border, paper rim, base, pedestal, floor or shadow. Complete head, hands, apron and both soles entirely visible and uncropped. Place centrally with small clear margins, isolated genuine alpha=0 around the whole silhouette and between the legs. Produce a large native portrait master ideally 1280×2048 with actual figure 1800px tall, no upscaling. One single figure, no text, no panel or sheet.",
+      "transparentExtractionPrompt": null,
+      "generationMode": "Final new generation without input images after viewing identity and proportion references",
+      "rejectedAttempts": [
+        {
+          "file": "C:/Users/power/.codex/generated_images/01a0d401-a1cc-7b30-9525-0197856a1c65/exec-648ef298-06c6-4187-8e73-9ce94fae7642.png",
+          "prompt": "Use case: style-transfer. Produce ONE new complete full-body silhouette PNG for a Unity paper-standee game. Input Image1 is the approved mechanic-v2 PROPORTION/STYLE anchor; Image2 scout and Image3 medic are the original mandatory BODY PROPORTION references. These are stout ADULT board-game pieces: large head, broad padded torso, short thick arms and legs, about 4.5–5 heads tall. Image4 is this character's old body EDIT TARGET: preserve its head identity, clothing identity, facing direction and role props while REDRAWING the anatomy to the anchor. Image5 is this character's head/identity reference. Subject: an adult woman cook. Keep her compact high rear hair bun, swept fringe and right-facing head profile; rounded hooded jacket shoulders; simple apron hem over the front with no inner apron lines; relaxed lowered hands, practical trousers and boots. No pot, spoon or weapon. A substantial rounded torso and apron give her an individual silhouette. Redraw actual anatomy: enlarge the head, broaden the chest and hips, shorten and thicken the limbs. Do NOT just stretch the old image sideways and do not copy the mechanic's hair or costume. Keep the distinctive silhouette of this individual adult. Target visible-body width/height near 0.50–0.55, sufficiently stout like the approved mechanic. FULL figure from hair tip through both soles, hands and props entirely visible, centered with clear margins and absolutely NO CROPPING. The entire character and any prop are the SAME uniform flat nearly-black #171b1a; identity comes only from the outer contour and transparent gaps. NO facial details, inner glasses line, clothing folds, seams, lighting, highlights, texture or shading. BODY ONLY, with genuine PNG alpha=0 outside. NO paper rim, outline, pedestal, base, floor, cast shadow, background color or checkerboard pixels. Do not copy the reference backgrounds or paper borders. Individual large native portrait master, ideally 1280×2048 or larger with visible body 1800px tall and 5% clear margin. Never upscale a small source. One figure, no sheet, no labels, no text.",
+          "reason": "RGB checkerboard output, not copied to Assets"
+        },
+        {
+          "file": "C:/Users/power/.codex/generated_images/01a0d401-a1cc-7b30-9525-0197856a1c65/exec-243d5646-21cb-4dff-a006-230d1657f8d9.png",
+          "prompt": "Remove the entire background. Keep only the complete black human silhouette, unchanged in shape and proportions. Deliver a genuine transparent-background PNG cutout with alpha=0 outside the silhouette and in its gaps. Keep the full head and both boots uncropped; no floor, shadow, rim, base or backdrop.",
+          "reason": "Transparent extraction returned RGB checkerboard again; not copied to Assets"
+        }
+      ],
+      "validation": {
+        "mode": "RGBA",
+        "alphaMin": 0,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "width": 992,
+        "height": 1586,
+        "alphaMax": 255,
+        "clearPixels": 948304,
+        "partialPixels": 624429,
+        "opaquePixels": 579,
+        "alphaBoundsAt16": [
+          166,
+          41,
+          826,
+          1548
+        ],
+        "alphaBoundsAt128": [
+          167,
+          42,
+          825,
+          1548
+        ],
+        "bodyWidth": 660,
+        "bodyHeight": 1507,
+        "widthHeightRatio": 0.43795620437956206,
+        "sha256": "7aa89c29d4659547a0c9270df6eccb074b5231a38f7b449c655de26064f9fafd"
+      },
+      "limitation": "Native visible figure 1507px is 29px below the 1536px target. Original native pixels preserved, no upscaling, recoloring, cropping or code-based background removal. Body W:H=0.438; scout/medic-like large head and stout limbs redrawn in image_gen."
+    },
+    {
+      "id": "researcher",
+      "status": "True-alpha candidate complete; pending root visual integration check",
+      "source": "아트/리소스검토/party-researcher-body-v2-source.png",
+      "unityCandidate": "Assets/Art/Tokens/party-researcher-body-v2.png",
+      "generatedSource": "C:/Users/power/.codex/generated_images/01a0d401-a1cc-7b30-9525-0197856a1c65/exec-61c0c0d8-e780-4b82-a1db-0c8a5d2f5cec.png",
+      "referencesReviewed": [
+        "E:/personalProject/Demo3/demo5/Assets/Art/Tokens/party-mechanic-body-v2.png",
+        "E:/personalProject/Demo3/demo5/Assets/Art/Settlement/standee-scout.png",
+        "E:/personalProject/Demo3/demo5/Assets/Art/Settlement/standee-medic.png",
+        "E:/personalProject/Demo3/demo5/Assets/Art/Tokens/party-researcher-body.png",
+        "E:/personalProject/Demo3/demo5/Assets/Art/PartySelection/portrait-researcher.png"
+      ],
+      "prompt": "Use case: style-transfer. Produce ONE new complete full-body silhouette PNG for a Unity paper-standee game. Input Image1 is the approved mechanic-v2 PROPORTION/STYLE anchor; Image2 scout and Image3 medic are the original mandatory BODY PROPORTION references. These are stout ADULT board-game pieces: large head, broad padded torso, short thick arms and legs, about 4.5–5 heads tall. Image4 is this character's old body EDIT TARGET: preserve its head identity, clothing identity, facing direction and role props while REDRAWING the anatomy to the anchor. Image5 is this character's head/identity reference. Subject: an adult man researcher. Keep his short side-parted slightly tousled hair, right-facing three-quarter head, and tiny rectangular-spectacle protrusion on the nose outline ONLY. Raised jacket collar and practical thigh-length coat. Keep a small closed rectangular notebook in the lowered screen-left hand at the outer hip, his other hand relaxed. The notebook is only a black contour, no page line. Use a broad boxy coat, large head, thick short limbs and simple broad shoes; do not make him thin or lanky. Redraw actual anatomy: enlarge the head, broaden the chest and hips, shorten and thicken the limbs. Do NOT just stretch the old image sideways and do not copy the mechanic's hair or costume. Keep the distinctive silhouette of this individual adult. Target visible-body width/height near 0.50–0.55, sufficiently stout like the approved mechanic. FULL figure from hair tip through both soles, hands and props entirely visible, centered with clear margins and absolutely NO CROPPING. The entire character and any prop are the SAME uniform flat nearly-black #171b1a; identity comes only from the outer contour and transparent gaps. NO facial details, inner glasses line, clothing folds, seams, lighting, highlights, texture or shading. BODY ONLY, with genuine PNG alpha=0 outside. NO paper rim, outline, pedestal, base, floor, cast shadow, background color or checkerboard pixels. Do not copy the reference backgrounds or paper borders. Individual large native portrait master, ideally 1280×2048 or larger with visible body 1800px tall and 5% clear margin. Never upscale a small source. One figure, no sheet, no labels, no text.",
+      "transparentExtractionPrompt": "Remove the entire background. Keep only the complete black human silhouette, unchanged in shape and proportions. Deliver a genuine transparent-background PNG cutout with alpha=0 outside the silhouette and in its gaps. Keep the full head and both boots uncropped; no floor, shadow, rim, base or backdrop.",
+      "generationMode": "Redraw with five visual references, then built-in transparent extraction",
+      "rejectedAttempts": [
+        {
+          "file": "C:/Users/power/.codex/generated_images/01a0d401-a1cc-7b30-9525-0197856a1c65/exec-bde8640c-c526-4622-8bfd-7ff49d72e3e2.png",
+          "prompt": "Use case: style-transfer. Produce ONE new complete full-body silhouette PNG for a Unity paper-standee game. Input Image1 is the approved mechanic-v2 PROPORTION/STYLE anchor; Image2 scout and Image3 medic are the original mandatory BODY PROPORTION references. These are stout ADULT board-game pieces: large head, broad padded torso, short thick arms and legs, about 4.5–5 heads tall. Image4 is this character's old body EDIT TARGET: preserve its head identity, clothing identity, facing direction and role props while REDRAWING the anatomy to the anchor. Image5 is this character's head/identity reference. Subject: an adult man researcher. Keep his short side-parted slightly tousled hair, right-facing three-quarter head, and tiny rectangular-spectacle protrusion on the nose outline ONLY. Raised jacket collar and practical thigh-length coat. Keep a small closed rectangular notebook in the lowered screen-left hand at the outer hip, his other hand relaxed. The notebook is only a black contour, no page line. Use a broad boxy coat, large head, thick short limbs and simple broad shoes; do not make him thin or lanky. Redraw actual anatomy: enlarge the head, broaden the chest and hips, shorten and thicken the limbs. Do NOT just stretch the old image sideways and do not copy the mechanic's hair or costume. Keep the distinctive silhouette of this individual adult. Target visible-body width/height near 0.50–0.55, sufficiently stout like the approved mechanic. FULL figure from hair tip through both soles, hands and props entirely visible, centered with clear margins and absolutely NO CROPPING. The entire character and any prop are the SAME uniform flat nearly-black #171b1a; identity comes only from the outer contour and transparent gaps. NO facial details, inner glasses line, clothing folds, seams, lighting, highlights, texture or shading. BODY ONLY, with genuine PNG alpha=0 outside. NO paper rim, outline, pedestal, base, floor, cast shadow, background color or checkerboard pixels. Do not copy the reference backgrounds or paper borders. Individual large native portrait master, ideally 1280×2048 or larger with visible body 1800px tall and 5% clear margin. Never upscale a small source. One figure, no sheet, no labels, no text.",
+          "reason": "RGB checkerboard output, not copied to Assets"
+        }
+      ],
+      "validation": {
+        "mode": "RGBA",
+        "alphaMin": 0,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "width": 992,
+        "height": 1586,
+        "alphaMax": 255,
+        "clearPixels": 910306,
+        "partialPixels": 661939,
+        "opaquePixels": 1067,
+        "alphaBoundsAt16": [
+          144,
+          49,
+          836,
+          1519
+        ],
+        "alphaBoundsAt128": [
+          144,
+          50,
+          836,
+          1518
+        ],
+        "bodyWidth": 692,
+        "bodyHeight": 1470,
+        "widthHeightRatio": 0.4707482993197279,
+        "sha256": "b413e725353b4924531585ebc1f974bb805bd33f60be88233533c7ee74d19bed"
+      },
+      "limitation": "Native visible figure 1470px is 66px below the 1536px target. Original native pixels preserved, no upscaling, recoloring, cropping or code-based background removal. Body W:H=0.471; scout/medic-like large head and stout limbs redrawn in image_gen."
+    },
+    {
+      "id": "guard",
+      "status": "True-alpha candidate complete; pending root visual integration check",
+      "source": "아트/리소스검토/party-guard-body-v2-source.png",
+      "unityCandidate": "Assets/Art/Tokens/party-guard-body-v2.png",
+      "generatedSource": "C:/Users/power/.codex/generated_images/01a0d401-a1cc-7b30-9525-0197856a1c65/exec-f3568ad2-c0ee-402d-bdc6-03d9b7dc91f8.png",
+      "referencesReviewed": [
+        "E:/personalProject/Demo3/demo5/Assets/Art/Tokens/party-mechanic-body-v2.png",
+        "E:/personalProject/Demo3/demo5/Assets/Art/Settlement/standee-scout.png",
+        "E:/personalProject/Demo3/demo5/Assets/Art/Settlement/standee-medic.png",
+        "E:/personalProject/Demo3/demo5/Assets/Art/Tokens/party-guard-body.png",
+        "E:/personalProject/Demo3/demo5/Assets/Art/PartySelection/portrait-guard.png"
+      ],
+      "prompt": "Use case: style-transfer. Produce ONE new complete full-body silhouette PNG for a Unity paper-standee game. Input Image1 is the approved mechanic-v2 PROPORTION/STYLE anchor; Image2 scout and Image3 medic are the original mandatory BODY PROPORTION references. These are stout ADULT board-game pieces: large head, broad padded torso, short thick arms and legs, about 4.5–5 heads tall. Image4 is this character's old body EDIT TARGET: preserve its head identity, clothing identity, facing direction and role props while REDRAWING the anatomy to the anchor. Image5 is this character's head/identity reference. Subject: an adult woman guard. Keep her baseball cap with its bill pointing screen-right and small low ponytail/bunched hair at the back, substantial hooded jacket, practical trousers, sturdy boots. Her body is in a restrained right-facing three-quarter stance, both hands down and relaxed, vigilant but not fighting, both feet set solidly apart. Preserve her cap and hair profile, with a broad substantial torso and thick shorter limbs. No weapon and no added equipment. Redraw actual anatomy: enlarge the head, broaden the chest and hips, shorten and thicken the limbs. Do NOT just stretch the old image sideways and do not copy the mechanic's hair or costume. Keep the distinctive silhouette of this individual adult. Target visible-body width/height near 0.50–0.55, sufficiently stout like the approved mechanic. FULL figure from hair tip through both soles, hands and props entirely visible, centered with clear margins and absolutely NO CROPPING. The entire character and any prop are the SAME uniform flat nearly-black #171b1a; identity comes only from the outer contour and transparent gaps. NO facial details, inner glasses line, clothing folds, seams, lighting, highlights, texture or shading. BODY ONLY, with genuine PNG alpha=0 outside. NO paper rim, outline, pedestal, base, floor, cast shadow, background color or checkerboard pixels. Do not copy the reference backgrounds or paper borders. Individual large native portrait master, ideally 1280×2048 or larger with visible body 1800px tall and 5% clear margin. Never upscale a small source. One figure, no sheet, no labels, no text.",
+      "transparentExtractionPrompt": "Remove the entire background. Keep only the complete black human silhouette, unchanged in shape and proportions. Deliver a genuine transparent-background PNG cutout with alpha=0 outside the silhouette and in its gaps. Keep the full head and both boots uncropped; no floor, shadow, rim, base or backdrop.",
+      "generationMode": "Redraw with five visual references, then built-in transparent extraction",
+      "rejectedAttempts": [
+        {
+          "file": "C:/Users/power/.codex/generated_images/01a0d401-a1cc-7b30-9525-0197856a1c65/exec-2146cf9b-7936-4d57-984a-0464cd2a0ad5.png",
+          "prompt": "Use case: style-transfer. Produce ONE new complete full-body silhouette PNG for a Unity paper-standee game. Input Image1 is the approved mechanic-v2 PROPORTION/STYLE anchor; Image2 scout and Image3 medic are the original mandatory BODY PROPORTION references. These are stout ADULT board-game pieces: large head, broad padded torso, short thick arms and legs, about 4.5–5 heads tall. Image4 is this character's old body EDIT TARGET: preserve its head identity, clothing identity, facing direction and role props while REDRAWING the anatomy to the anchor. Image5 is this character's head/identity reference. Subject: an adult woman guard. Keep her baseball cap with its bill pointing screen-right and small low ponytail/bunched hair at the back, substantial hooded jacket, practical trousers, sturdy boots. Her body is in a restrained right-facing three-quarter stance, both hands down and relaxed, vigilant but not fighting, both feet set solidly apart. Preserve her cap and hair profile, with a broad substantial torso and thick shorter limbs. No weapon and no added equipment. Redraw actual anatomy: enlarge the head, broaden the chest and hips, shorten and thicken the limbs. Do NOT just stretch the old image sideways and do not copy the mechanic's hair or costume. Keep the distinctive silhouette of this individual adult. Target visible-body width/height near 0.50–0.55, sufficiently stout like the approved mechanic. FULL figure from hair tip through both soles, hands and props entirely visible, centered with clear margins and absolutely NO CROPPING. The entire character and any prop are the SAME uniform flat nearly-black #171b1a; identity comes only from the outer contour and transparent gaps. NO facial details, inner glasses line, clothing folds, seams, lighting, highlights, texture or shading. BODY ONLY, with genuine PNG alpha=0 outside. NO paper rim, outline, pedestal, base, floor, cast shadow, background color or checkerboard pixels. Do not copy the reference backgrounds or paper borders. Individual large native portrait master, ideally 1280×2048 or larger with visible body 1800px tall and 5% clear margin. Never upscale a small source. One figure, no sheet, no labels, no text.",
+          "reason": "RGB checkerboard output, not copied to Assets"
+        }
+      ],
+      "validation": {
+        "mode": "RGBA",
+        "alphaMin": 0,
+        "corners": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "width": 1024,
+        "height": 1536,
+        "alphaMax": 254,
+        "clearPixels": 984698,
+        "partialPixels": 588166,
+        "opaquePixels": 0,
+        "alphaBoundsAt16": [
+          208,
+          45,
+          868,
+          1497
+        ],
+        "alphaBoundsAt128": [
+          209,
+          45,
+          867,
+          1496
+        ],
+        "bodyWidth": 660,
+        "bodyHeight": 1452,
+        "widthHeightRatio": 0.45454545454545453,
+        "sha256": "6274eda6cab9ff922f84bfd5b25e66874495a82adc9898014b7c99afa89648b9"
+      },
+      "limitation": "Native visible figure 1452px is 84px below the 1536px target. Original native pixels preserved, no upscaling, recoloring, cropping or code-based background removal. Body W:H=0.455; scout/medic-like large head and stout limbs redrawn in image_gen."
+    }
+  ],
+  "validationSummary": {
+    "selectedBodies": 4,
+    "trueAlphaBodies": 4,
+    "visibleHeightTargetMet": [
+      "mechanic"
+    ],
+    "nativeHeightDeficits": {
+      "cook": 29,
+      "researcher": 66,
+      "guard": 84
+    },
+    "allOriginalsPreserved": true,
+    "existingAssetsOverwritten": false,
+    "noProgrammaticRasterTransforms": true
+  }
+}

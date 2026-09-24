@@ -41,7 +41,7 @@ public static class BuildCreatureBattle
         new Spec { Id = "06-meter-keeper", Name = "계량원", Attack = CreatureAttack.Wire, Gait = CreatureGait.Slow, Health = 4, Armor = 1, Damage = 2, Start = 2, Height = 1.85f,
             AttackName = "방전", Windup = "전선 연결", Trait = "붙은 두 칸 감전", Counter = "연결된 두 칸에서 벗어나세요", WindupSound = "creature-hum", StrikeSound = "creature-zap", Accent = C(.64f, .9f, 1f) },
         new Spec { Id = "07-moth-nest", Name = "먼지둥지", Attack = CreatureAttack.Swarm, Gait = CreatureGait.Fast, Health = 3, Evasion = 20, Damage = 1, Hit = 65, Start = 2, Height = 1.5f, Hover = .35f,
-            AttackName = "뒤덮기", Windup = "날갯짓", Trait = "옆까지 덮침", Counter = "붙어 서지 마세요 · 근접이 잘 듬", StrikeSound = "creature-flutter", Accent = C(.68f, .72f, .68f) },
+            AttackName = "뒤덮기", Windup = "날갯짓", Trait = "옆까지 덮침", Counter = "붙어 서지 마세요 · 근접이 잘 듦", StrikeSound = "creature-flutter", Accent = C(.68f, .72f, .68f) },
         new Spec { Id = "08-puddle", Name = "고인사람", Attack = CreatureAttack.Grab, Gait = CreatureGait.Slow, Health = 5, ShotArmor = 1, Damage = 1, Start = 1, Height = 1.15f,
             AttackName = "발목잡기", Windup = "물이 번짐", Trait = "사격 피해 -1 · 묶음", Counter = "물결 번진 칸에서 벗어나세요", WindupSound = "creature-drip", StrikeSound = "creature-splash", Accent = C(.52f, .64f, .76f) },
         new Spec { Id = "09-stairback", Name = "계단등", Attack = CreatureAttack.Collapse, Gait = CreatureGait.Slow, Health = 6, Armor = 2, Damage = 2, Start = 1, Height = 1.75f,
@@ -131,6 +131,8 @@ public static class BuildCreatureBattle
             if (panel.Creatures != roster) { panel.Creatures = roster; changes.Add("roster"); }
             var show = panel.Presentation;
             if (show && !show.Collide) { show.Collide = Clip("creature-collide"); changes.Add("collide sound"); }
+            // The guard card keeps its one-line wording (the strike effect is explained in the hint when a marked cell is under the actor).
+            if (panel.GuardDescription == "물림 -{0}%p · 예고 -{1}") { panel.GuardDescription = "물릴 확률 -{0}%p"; changes.Add("guard card wording restored"); }
             string threat = panel.RetreatThreatBody.Replace("감염자 {0}마리가", "적 {0}마리가"), quiet = panel.RetreatQuietBody.Replace("붙어 있는 감염자가", "붙어 있는 적이");
             if (threat != panel.RetreatThreatBody || quiet != panel.RetreatQuietBody) { panel.RetreatThreatBody = threat; panel.RetreatQuietBody = quiet; changes.Add("retreat wording"); }
             int added = AddCrops(panelRoot, crops); if (added > 0) changes.Add("nested portrait crops +" + added);

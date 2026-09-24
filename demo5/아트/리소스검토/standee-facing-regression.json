@@ -1,0 +1,4942 @@
+{
+  "utc": "2026-09-24T20:10:04.3257814Z",
+  "result": "PASS",
+  "sample": "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\standee-facing-regression-sample.png",
+  "methodology": "Native URP renders: orthographic 180px and perspective 120px body height; four SpriteRenderer flipX/Y states. Separate ink and complete-paper alpha are compared with the unflipped render mirrored around the canvas center. Solid source cores from the built-in URP Sprite-Unlit shader must remain covered (1px raster tolerance). Legacy scout/medic reference cores exclude their baked light paper. No bases, shadows or gameplay scripts enter pixel measurements. This tests renderer fidelity, not approval of the anatomical proportions in an original drawing.",
+  "bodies": 22,
+  "cases": 176,
+  "sourceFilesUnchanged": true,
+  "activeSceneUnchanged": true,
+  "playStateUnchanged": true,
+  "checks": [
+    {
+      "id": "party-scout",
+      "source": "Assets/Art/Settlement/standee-scout.png",
+      "projection": "orthographic",
+      "facing": "--",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 9510,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 209,
+        "y": 38,
+        "width": 85,
+        "height": 179
+      },
+      "paperBounds": {
+        "x": 207,
+        "y": 35,
+        "width": 89,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-scout",
+      "source": "Assets/Art/Settlement/standee-scout.png",
+      "projection": "orthographic",
+      "facing": "X-",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 4.07308744E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 9510,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 218,
+        "y": 38,
+        "width": 85,
+        "height": 179
+      },
+      "paperBounds": {
+        "x": 216,
+        "y": 35,
+        "width": 89,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-scout",
+      "source": "Assets/Art/Settlement/standee-scout.png",
+      "projection": "orthographic",
+      "facing": "-Y",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 9510,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 209,
+        "y": 39,
+        "width": 85,
+        "height": 179
+      },
+      "paperBounds": {
+        "x": 207,
+        "y": 36,
+        "width": 89,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-scout",
+      "source": "Assets/Art/Settlement/standee-scout.png",
+      "projection": "orthographic",
+      "facing": "XY",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 9510,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 218,
+        "y": 39,
+        "width": 85,
+        "height": 179
+      },
+      "paperBounds": {
+        "x": 216,
+        "y": 36,
+        "width": 89,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-mechanic",
+      "source": "Assets/Art/Tokens/party-mechanic-body-v3.png",
+      "projection": "orthographic",
+      "facing": "--",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 8404,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 218,
+        "y": 38,
+        "width": 76,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 215,
+        "y": 36,
+        "width": 82,
+        "height": 184
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-mechanic",
+      "source": "Assets/Art/Tokens/party-mechanic-body-v3.png",
+      "projection": "orthographic",
+      "facing": "X-",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 4.616869E-07,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 8404,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 218,
+        "y": 38,
+        "width": 76,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 215,
+        "y": 36,
+        "width": 82,
+        "height": 184
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-mechanic",
+      "source": "Assets/Art/Tokens/party-mechanic-body-v3.png",
+      "projection": "orthographic",
+      "facing": "-Y",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 8404,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 218,
+        "y": 38,
+        "width": 76,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 215,
+        "y": 36,
+        "width": 82,
+        "height": 184
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-mechanic",
+      "source": "Assets/Art/Tokens/party-mechanic-body-v3.png",
+      "projection": "orthographic",
+      "facing": "XY",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 8404,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 218,
+        "y": 38,
+        "width": 76,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 215,
+        "y": 36,
+        "width": 82,
+        "height": 184
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-medic",
+      "source": "Assets/Art/Settlement/standee-medic.png",
+      "projection": "orthographic",
+      "facing": "--",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 8700,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 211,
+        "y": 36,
+        "width": 85,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 209,
+        "y": 33,
+        "width": 89,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-medic",
+      "source": "Assets/Art/Settlement/standee-medic.png",
+      "projection": "orthographic",
+      "facing": "X-",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 8700,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 216,
+        "y": 36,
+        "width": 85,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 214,
+        "y": 33,
+        "width": 89,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-medic",
+      "source": "Assets/Art/Settlement/standee-medic.png",
+      "projection": "orthographic",
+      "facing": "-Y",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 8700,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 211,
+        "y": 40,
+        "width": 85,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 209,
+        "y": 38,
+        "width": 89,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-medic",
+      "source": "Assets/Art/Settlement/standee-medic.png",
+      "projection": "orthographic",
+      "facing": "XY",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 8700,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 216,
+        "y": 40,
+        "width": 85,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 214,
+        "y": 38,
+        "width": 89,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-cook",
+      "source": "Assets/Art/Tokens/party-cook-body-v3.png",
+      "projection": "orthographic",
+      "facing": "--",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 7314,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 223,
+        "y": 38,
+        "width": 66,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 221,
+        "y": 36,
+        "width": 70,
+        "height": 184
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-cook",
+      "source": "Assets/Art/Tokens/party-cook-body-v3.png",
+      "projection": "orthographic",
+      "facing": "X-",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 5.29512363E-07,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 7314,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 223,
+        "y": 38,
+        "width": 66,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 221,
+        "y": 36,
+        "width": 70,
+        "height": 184
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-cook",
+      "source": "Assets/Art/Tokens/party-cook-body-v3.png",
+      "projection": "orthographic",
+      "facing": "-Y",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 5.29512363E-07,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 7314,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 223,
+        "y": 38,
+        "width": 66,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 221,
+        "y": 36,
+        "width": 70,
+        "height": 184
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-cook",
+      "source": "Assets/Art/Tokens/party-cook-body-v3.png",
+      "projection": "orthographic",
+      "facing": "XY",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 5.29512363E-07,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 7314,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 223,
+        "y": 38,
+        "width": 66,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 221,
+        "y": 36,
+        "width": 70,
+        "height": 184
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-researcher",
+      "source": "Assets/Art/Tokens/party-researcher-body-v2.png",
+      "projection": "orthographic",
+      "facing": "--",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 9624,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 214,
+        "y": 38,
+        "width": 84,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 211,
+        "y": 36,
+        "width": 90,
+        "height": 184
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-researcher",
+      "source": "Assets/Art/Tokens/party-researcher-body-v2.png",
+      "projection": "orthographic",
+      "facing": "X-",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 1.61149319E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 9624,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 214,
+        "y": 38,
+        "width": 84,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 211,
+        "y": 36,
+        "width": 90,
+        "height": 184
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-researcher",
+      "source": "Assets/Art/Tokens/party-researcher-body-v2.png",
+      "projection": "orthographic",
+      "facing": "-Y",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 9624,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 214,
+        "y": 38,
+        "width": 84,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 211,
+        "y": 36,
+        "width": 90,
+        "height": 184
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-researcher",
+      "source": "Assets/Art/Tokens/party-researcher-body-v2.png",
+      "projection": "orthographic",
+      "facing": "XY",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 1.61149319E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 9624,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 214,
+        "y": 38,
+        "width": 84,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 211,
+        "y": 36,
+        "width": 90,
+        "height": 184
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-guard",
+      "source": "Assets/Art/Tokens/party-guard-body-v2.png",
+      "projection": "orthographic",
+      "facing": "--",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 8694,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 215,
+        "y": 38,
+        "width": 82,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 213,
+        "y": 36,
+        "width": 86,
+        "height": 184
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-guard",
+      "source": "Assets/Art/Tokens/party-guard-body-v2.png",
+      "projection": "orthographic",
+      "facing": "X-",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 1.33674644E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 8694,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 215,
+        "y": 38,
+        "width": 82,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 213,
+        "y": 36,
+        "width": 86,
+        "height": 184
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-guard",
+      "source": "Assets/Art/Tokens/party-guard-body-v2.png",
+      "projection": "orthographic",
+      "facing": "-Y",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 2.22791073E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 8694,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 215,
+        "y": 38,
+        "width": 82,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 213,
+        "y": 36,
+        "width": 86,
+        "height": 184
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-guard",
+      "source": "Assets/Art/Tokens/party-guard-body-v2.png",
+      "projection": "orthographic",
+      "facing": "XY",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 1.33674644E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 8694,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 215,
+        "y": 38,
+        "width": 82,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 213,
+        "y": 36,
+        "width": 86,
+        "height": 184
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-01-door-bearer",
+      "source": "Assets/Art/Creatures/V1/01-door-bearer.png",
+      "projection": "orthographic",
+      "facing": "--",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 12697,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 198,
+        "y": 38,
+        "width": 119,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 195,
+        "y": 36,
+        "width": 124,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-01-door-bearer",
+      "source": "Assets/Art/Creatures/V1/01-door-bearer.png",
+      "projection": "orthographic",
+      "facing": "X-",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 12697,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 195,
+        "y": 38,
+        "width": 119,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 193,
+        "y": 36,
+        "width": 124,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-01-door-bearer",
+      "source": "Assets/Art/Creatures/V1/01-door-bearer.png",
+      "projection": "orthographic",
+      "facing": "-Y",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 3.04280633E-07,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 12697,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 198,
+        "y": 38,
+        "width": 119,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 195,
+        "y": 35,
+        "width": 124,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-01-door-bearer",
+      "source": "Assets/Art/Creatures/V1/01-door-bearer.png",
+      "projection": "orthographic",
+      "facing": "XY",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 9.1284187E-07,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 12697,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 195,
+        "y": 38,
+        "width": 119,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 193,
+        "y": 35,
+        "width": 124,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-02-listener",
+      "source": "Assets/Art/Creatures/V1/02-listener.png",
+      "projection": "orthographic",
+      "facing": "--",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 5051,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 222,
+        "y": 37,
+        "width": 76,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 219,
+        "y": 34,
+        "width": 81,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-02-listener",
+      "source": "Assets/Art/Creatures/V1/02-listener.png",
+      "projection": "orthographic",
+      "facing": "X-",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 5.96322934E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 5051,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 214,
+        "y": 37,
+        "width": 76,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 212,
+        "y": 34,
+        "width": 81,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-02-listener",
+      "source": "Assets/Art/Creatures/V1/02-listener.png",
+      "projection": "orthographic",
+      "facing": "-Y",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 2.236211E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 5051,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 222,
+        "y": 39,
+        "width": 76,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 219,
+        "y": 37,
+        "width": 81,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-02-listener",
+      "source": "Assets/Art/Creatures/V1/02-listener.png",
+      "projection": "orthographic",
+      "facing": "XY",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 7.45403668E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 5051,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 214,
+        "y": 39,
+        "width": 76,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 212,
+        "y": 37,
+        "width": 81,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-03-under-table",
+      "source": "Assets/Art/Creatures/V1/03-under-table.png",
+      "projection": "orthographic",
+      "facing": "--",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 8388,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 188,
+        "y": 38,
+        "width": 137,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 186,
+        "y": 36,
+        "width": 141,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-03-under-table",
+      "source": "Assets/Art/Creatures/V1/03-under-table.png",
+      "projection": "orthographic",
+      "facing": "X-",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 4.526802E-07,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 8388,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 187,
+        "y": 38,
+        "width": 137,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 185,
+        "y": 36,
+        "width": 141,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-03-under-table",
+      "source": "Assets/Art/Creatures/V1/03-under-table.png",
+      "projection": "orthographic",
+      "facing": "-Y",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 1.81072085E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 8388,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 188,
+        "y": 38,
+        "width": 137,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 186,
+        "y": 35,
+        "width": 141,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-03-under-table",
+      "source": "Assets/Art/Creatures/V1/03-under-table.png",
+      "projection": "orthographic",
+      "facing": "XY",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 4.526802E-07,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 8388,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 187,
+        "y": 38,
+        "width": 137,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 185,
+        "y": 35,
+        "width": 141,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-04-seam-hound",
+      "source": "Assets/Art/Creatures/V1/04-seam-hound.png",
+      "projection": "orthographic",
+      "facing": "--",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 6317,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 195,
+        "y": 39,
+        "width": 132,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 193,
+        "y": 37,
+        "width": 137,
+        "height": 184
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-04-seam-hound",
+      "source": "Assets/Art/Creatures/V1/04-seam-hound.png",
+      "projection": "orthographic",
+      "facing": "X-",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 1.76065635E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 6317,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 185,
+        "y": 39,
+        "width": 132,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 182,
+        "y": 37,
+        "width": 137,
+        "height": 184
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-04-seam-hound",
+      "source": "Assets/Art/Creatures/V1/04-seam-hound.png",
+      "projection": "orthographic",
+      "facing": "-Y",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 1.76065635E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 6317,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 195,
+        "y": 37,
+        "width": 132,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 193,
+        "y": 35,
+        "width": 137,
+        "height": 184
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-04-seam-hound",
+      "source": "Assets/Art/Creatures/V1/04-seam-hound.png",
+      "projection": "orthographic",
+      "facing": "XY",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 2.34754179E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 6317,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 185,
+        "y": 37,
+        "width": 132,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 182,
+        "y": 35,
+        "width": 137,
+        "height": 184
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-05-laundry",
+      "source": "Assets/Art/Creatures/V1/05-laundry.png",
+      "projection": "orthographic",
+      "facing": "--",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 9994,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 189,
+        "y": 38,
+        "width": 136,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 187,
+        "y": 35,
+        "width": 140,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-05-laundry",
+      "source": "Assets/Art/Creatures/V1/05-laundry.png",
+      "projection": "orthographic",
+      "facing": "X-",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 3.77618562E-07,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 9994,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 187,
+        "y": 38,
+        "width": 136,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 185,
+        "y": 35,
+        "width": 140,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-05-laundry",
+      "source": "Assets/Art/Creatures/V1/05-laundry.png",
+      "projection": "orthographic",
+      "facing": "-Y",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 3.77618562E-07,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 9994,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 189,
+        "y": 38,
+        "width": 136,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 187,
+        "y": 36,
+        "width": 140,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-05-laundry",
+      "source": "Assets/Art/Creatures/V1/05-laundry.png",
+      "projection": "orthographic",
+      "facing": "XY",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 3.77618562E-07,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 9994,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 187,
+        "y": 38,
+        "width": 136,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 185,
+        "y": 36,
+        "width": 140,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-06-meter-keeper",
+      "source": "Assets/Art/Creatures/V1/06-meter-keeper.png",
+      "projection": "orthographic",
+      "facing": "--",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 14435,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 192,
+        "y": 38,
+        "width": 129,
+        "height": 179
+      },
+      "paperBounds": {
+        "x": 189,
+        "y": 35,
+        "width": 135,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-06-meter-keeper",
+      "source": "Assets/Art/Creatures/V1/06-meter-keeper.png",
+      "projection": "orthographic",
+      "facing": "X-",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 14435,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 191,
+        "y": 38,
+        "width": 129,
+        "height": 179
+      },
+      "paperBounds": {
+        "x": 188,
+        "y": 35,
+        "width": 135,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-06-meter-keeper",
+      "source": "Assets/Art/Creatures/V1/06-meter-keeper.png",
+      "projection": "orthographic",
+      "facing": "-Y",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 14435,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 192,
+        "y": 39,
+        "width": 129,
+        "height": 179
+      },
+      "paperBounds": {
+        "x": 189,
+        "y": 36,
+        "width": 135,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-06-meter-keeper",
+      "source": "Assets/Art/Creatures/V1/06-meter-keeper.png",
+      "projection": "orthographic",
+      "facing": "XY",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 14435,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 191,
+        "y": 39,
+        "width": 129,
+        "height": 179
+      },
+      "paperBounds": {
+        "x": 188,
+        "y": 36,
+        "width": 135,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-07-moth-nest",
+      "source": "Assets/Art/Creatures/V1/07-moth-nest.png",
+      "projection": "orthographic",
+      "facing": "--",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 8120,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 190,
+        "y": 38,
+        "width": 132,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 187,
+        "y": 36,
+        "width": 138,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-07-moth-nest",
+      "source": "Assets/Art/Creatures/V1/07-moth-nest.png",
+      "projection": "orthographic",
+      "facing": "X-",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 4.630498E-07,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 8120,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 190,
+        "y": 38,
+        "width": 132,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 187,
+        "y": 36,
+        "width": 138,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-07-moth-nest",
+      "source": "Assets/Art/Creatures/V1/07-moth-nest.png",
+      "projection": "orthographic",
+      "facing": "-Y",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 9.260996E-07,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 8120,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 190,
+        "y": 38,
+        "width": 132,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 187,
+        "y": 35,
+        "width": 138,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-07-moth-nest",
+      "source": "Assets/Art/Creatures/V1/07-moth-nest.png",
+      "projection": "orthographic",
+      "facing": "XY",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 8120,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 190,
+        "y": 38,
+        "width": 132,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 187,
+        "y": 35,
+        "width": 138,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-08-puddle",
+      "source": "Assets/Art/Creatures/V1/08-puddle.png",
+      "projection": "orthographic",
+      "facing": "--",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 16819,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 161,
+        "y": 30,
+        "width": 192,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 158,
+        "y": 28,
+        "width": 197,
+        "height": 184
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-08-puddle",
+      "source": "Assets/Art/Creatures/V1/08-puddle.png",
+      "projection": "orthographic",
+      "facing": "X-",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 6.8695E-07,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 16819,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 159,
+        "y": 30,
+        "width": 192,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 157,
+        "y": 28,
+        "width": 197,
+        "height": 184
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-08-puddle",
+      "source": "Assets/Art/Creatures/V1/08-puddle.png",
+      "projection": "orthographic",
+      "facing": "-Y",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 1.14491672E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 16819,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 161,
+        "y": 46,
+        "width": 192,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 158,
+        "y": 44,
+        "width": 197,
+        "height": 184
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-08-puddle",
+      "source": "Assets/Art/Creatures/V1/08-puddle.png",
+      "projection": "orthographic",
+      "facing": "XY",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 1.60288334E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 16819,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 159,
+        "y": 46,
+        "width": 192,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 157,
+        "y": 44,
+        "width": 197,
+        "height": 184
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-09-stairback",
+      "source": "Assets/Art/Creatures/V1/09-stairback.png",
+      "projection": "orthographic",
+      "facing": "--",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 9396,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 187,
+        "y": 37,
+        "width": 139,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 184,
+        "y": 35,
+        "width": 145,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-09-stairback",
+      "source": "Assets/Art/Creatures/V1/09-stairback.png",
+      "projection": "orthographic",
+      "facing": "X-",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 2.02330443E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 9396,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 186,
+        "y": 37,
+        "width": 139,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 183,
+        "y": 35,
+        "width": 145,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-09-stairback",
+      "source": "Assets/Art/Creatures/V1/09-stairback.png",
+      "projection": "orthographic",
+      "facing": "-Y",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 2.42796523E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 9396,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 187,
+        "y": 39,
+        "width": 139,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 184,
+        "y": 36,
+        "width": 145,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-09-stairback",
+      "source": "Assets/Art/Creatures/V1/09-stairback.png",
+      "projection": "orthographic",
+      "facing": "XY",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 2.02330443E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 9396,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 186,
+        "y": 39,
+        "width": 139,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 183,
+        "y": 36,
+        "width": 145,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-10-twin-coat",
+      "source": "Assets/Art/Creatures/V1/10-twin-coat.png",
+      "projection": "orthographic",
+      "facing": "--",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 11829,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 190,
+        "y": 38,
+        "width": 132,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 188,
+        "y": 36,
+        "width": 137,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-10-twin-coat",
+      "source": "Assets/Art/Creatures/V1/10-twin-coat.png",
+      "projection": "orthographic",
+      "facing": "X-",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 1.96520614E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 11829,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 190,
+        "y": 38,
+        "width": 132,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 187,
+        "y": 36,
+        "width": 137,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-10-twin-coat",
+      "source": "Assets/Art/Creatures/V1/10-twin-coat.png",
+      "projection": "orthographic",
+      "facing": "-Y",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 6.550687E-07,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 11829,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 190,
+        "y": 38,
+        "width": 132,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 188,
+        "y": 35,
+        "width": 137,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-10-twin-coat",
+      "source": "Assets/Art/Creatures/V1/10-twin-coat.png",
+      "projection": "orthographic",
+      "facing": "XY",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 1.96520614E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 11829,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 190,
+        "y": 38,
+        "width": 132,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 187,
+        "y": 35,
+        "width": 137,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-11-root-receiver",
+      "source": "Assets/Art/Creatures/V1/11-root-receiver.png",
+      "projection": "orthographic",
+      "facing": "--",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 5180,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 195,
+        "y": 38,
+        "width": 121,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 193,
+        "y": 36,
+        "width": 126,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-11-root-receiver",
+      "source": "Assets/Art/Creatures/V1/11-root-receiver.png",
+      "projection": "orthographic",
+      "facing": "X-",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 2.16223225E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 5180,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 196,
+        "y": 38,
+        "width": 121,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 193,
+        "y": 36,
+        "width": 126,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-11-root-receiver",
+      "source": "Assets/Art/Creatures/V1/11-root-receiver.png",
+      "projection": "orthographic",
+      "facing": "-Y",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 2.16223225E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 5180,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 195,
+        "y": 38,
+        "width": 121,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 193,
+        "y": 35,
+        "width": 126,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-11-root-receiver",
+      "source": "Assets/Art/Creatures/V1/11-root-receiver.png",
+      "projection": "orthographic",
+      "facing": "XY",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 2.88297633E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 5180,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 196,
+        "y": 38,
+        "width": 121,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 193,
+        "y": 35,
+        "width": 126,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-12-bellied-cart",
+      "source": "Assets/Art/Creatures/V1/12-bellied-cart.png",
+      "projection": "orthographic",
+      "facing": "--",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 8957,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 189,
+        "y": 37,
+        "width": 134,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 186,
+        "y": 35,
+        "width": 139,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-12-bellied-cart",
+      "source": "Assets/Art/Creatures/V1/12-bellied-cart.png",
+      "projection": "orthographic",
+      "facing": "X-",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 4.10807525E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 8957,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 189,
+        "y": 37,
+        "width": 134,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 187,
+        "y": 35,
+        "width": 139,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-12-bellied-cart",
+      "source": "Assets/Art/Creatures/V1/12-bellied-cart.png",
+      "projection": "orthographic",
+      "facing": "-Y",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 8.2161506E-07,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 8957,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 189,
+        "y": 39,
+        "width": 134,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 186,
+        "y": 36,
+        "width": 139,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-12-bellied-cart",
+      "source": "Assets/Art/Creatures/V1/12-bellied-cart.png",
+      "projection": "orthographic",
+      "facing": "XY",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 3.69726763E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 8957,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 189,
+        "y": 39,
+        "width": 134,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 187,
+        "y": 36,
+        "width": 139,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "npc-doyun",
+      "source": "Assets/Art/Tokens/npc-doyun-body-v3.png",
+      "projection": "orthographic",
+      "facing": "--",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 7170,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 218,
+        "y": 38,
+        "width": 76,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 216,
+        "y": 36,
+        "width": 80,
+        "height": 184
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "npc-doyun",
+      "source": "Assets/Art/Tokens/npc-doyun-body-v3.png",
+      "projection": "orthographic",
+      "facing": "X-",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 2.69931752E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 7170,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 218,
+        "y": 38,
+        "width": 76,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 216,
+        "y": 36,
+        "width": 80,
+        "height": 184
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "npc-doyun",
+      "source": "Assets/Art/Tokens/npc-doyun-body-v3.png",
+      "projection": "orthographic",
+      "facing": "-Y",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 7170,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 218,
+        "y": 38,
+        "width": 76,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 216,
+        "y": 36,
+        "width": 80,
+        "height": 184
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "npc-doyun",
+      "source": "Assets/Art/Tokens/npc-doyun-body-v3.png",
+      "projection": "orthographic",
+      "facing": "XY",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 2.69931752E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 7170,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 218,
+        "y": 38,
+        "width": 76,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 216,
+        "y": 36,
+        "width": 80,
+        "height": 184
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "npc-jun",
+      "source": "Assets/Art/Tokens/npc-jun-body-v3.png",
+      "projection": "orthographic",
+      "facing": "--",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 6847,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 225,
+        "y": 38,
+        "width": 62,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 223,
+        "y": 35,
+        "width": 66,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "npc-jun",
+      "source": "Assets/Art/Tokens/npc-jun-body-v3.png",
+      "projection": "orthographic",
+      "facing": "X-",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 4.506255E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 6847,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 225,
+        "y": 38,
+        "width": 62,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 223,
+        "y": 35,
+        "width": 66,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "npc-jun",
+      "source": "Assets/Art/Tokens/npc-jun-body-v3.png",
+      "projection": "orthographic",
+      "facing": "-Y",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 1.6898457E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 6847,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 225,
+        "y": 38,
+        "width": 62,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 223,
+        "y": 36,
+        "width": 66,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "npc-jun",
+      "source": "Assets/Art/Tokens/npc-jun-body-v3.png",
+      "projection": "orthographic",
+      "facing": "XY",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 4.506255E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 6847,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 225,
+        "y": 38,
+        "width": 62,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 223,
+        "y": 36,
+        "width": 66,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "npc-giho",
+      "source": "Assets/Art/Tokens/npc-giho-body-v2.png",
+      "projection": "orthographic",
+      "facing": "--",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 9031,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 213,
+        "y": 38,
+        "width": 86,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 211,
+        "y": 35,
+        "width": 90,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "npc-giho",
+      "source": "Assets/Art/Tokens/npc-giho-body-v2.png",
+      "projection": "orthographic",
+      "facing": "X-",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 9031,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 213,
+        "y": 38,
+        "width": 86,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 211,
+        "y": 35,
+        "width": 90,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "npc-giho",
+      "source": "Assets/Art/Tokens/npc-giho-body-v2.png",
+      "projection": "orthographic",
+      "facing": "-Y",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 9031,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 213,
+        "y": 38,
+        "width": 86,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 211,
+        "y": 36,
+        "width": 90,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "npc-giho",
+      "source": "Assets/Art/Tokens/npc-giho-body-v2.png",
+      "projection": "orthographic",
+      "facing": "XY",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 9031,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 213,
+        "y": 38,
+        "width": 86,
+        "height": 180
+      },
+      "paperBounds": {
+        "x": 211,
+        "y": 36,
+        "width": 90,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "infected-fallback",
+      "source": "Assets/Art/Tokens/infected-body-v4.png",
+      "projection": "orthographic",
+      "facing": "--",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 6954,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 217,
+        "y": 38,
+        "width": 78,
+        "height": 179
+      },
+      "paperBounds": {
+        "x": 214,
+        "y": 35,
+        "width": 84,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "infected-fallback",
+      "source": "Assets/Art/Tokens/infected-body-v4.png",
+      "projection": "orthographic",
+      "facing": "X-",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 5.51867231E-07,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 6954,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 217,
+        "y": 38,
+        "width": 78,
+        "height": 179
+      },
+      "paperBounds": {
+        "x": 214,
+        "y": 35,
+        "width": 84,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "infected-fallback",
+      "source": "Assets/Art/Tokens/infected-body-v4.png",
+      "projection": "orthographic",
+      "facing": "-Y",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 6954,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 217,
+        "y": 39,
+        "width": 78,
+        "height": 179
+      },
+      "paperBounds": {
+        "x": 214,
+        "y": 36,
+        "width": 84,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "infected-fallback",
+      "source": "Assets/Art/Tokens/infected-body-v4.png",
+      "projection": "orthographic",
+      "facing": "XY",
+      "requestedBodyPixels": 180.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 5.51867231E-07,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 6954,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 217,
+        "y": 39,
+        "width": 78,
+        "height": 179
+      },
+      "paperBounds": {
+        "x": 214,
+        "y": 36,
+        "width": 84,
+        "height": 185
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-scout",
+      "source": "Assets/Art/Settlement/standee-scout.png",
+      "projection": "perspective-distance-15",
+      "facing": "--",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 4247,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 225,
+        "y": 68,
+        "width": 56,
+        "height": 119
+      },
+      "paperBounds": {
+        "x": 222,
+        "y": 65,
+        "width": 62,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-scout",
+      "source": "Assets/Art/Settlement/standee-scout.png",
+      "projection": "perspective-distance-15",
+      "facing": "X-",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 4247,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 231,
+        "y": 68,
+        "width": 56,
+        "height": 119
+      },
+      "paperBounds": {
+        "x": 228,
+        "y": 65,
+        "width": 62,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-scout",
+      "source": "Assets/Art/Settlement/standee-scout.png",
+      "projection": "perspective-distance-15",
+      "facing": "-Y",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 4247,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 225,
+        "y": 69,
+        "width": 56,
+        "height": 119
+      },
+      "paperBounds": {
+        "x": 222,
+        "y": 66,
+        "width": 62,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-scout",
+      "source": "Assets/Art/Settlement/standee-scout.png",
+      "projection": "perspective-distance-15",
+      "facing": "XY",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 4247,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 231,
+        "y": 69,
+        "width": 56,
+        "height": 119
+      },
+      "paperBounds": {
+        "x": 228,
+        "y": 66,
+        "width": 62,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-mechanic",
+      "source": "Assets/Art/Tokens/party-mechanic-body-v3.png",
+      "projection": "perspective-distance-15",
+      "facing": "--",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 3734,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 231,
+        "y": 68,
+        "width": 50,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 228,
+        "y": 66,
+        "width": 56,
+        "height": 124
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-mechanic",
+      "source": "Assets/Art/Tokens/party-mechanic-body-v3.png",
+      "projection": "perspective-distance-15",
+      "facing": "X-",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 1.0388261E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 3734,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 231,
+        "y": 68,
+        "width": 50,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 228,
+        "y": 66,
+        "width": 56,
+        "height": 124
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-mechanic",
+      "source": "Assets/Art/Tokens/party-mechanic-body-v3.png",
+      "projection": "perspective-distance-15",
+      "facing": "-Y",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 3734,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 231,
+        "y": 68,
+        "width": 50,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 228,
+        "y": 66,
+        "width": 56,
+        "height": 124
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-mechanic",
+      "source": "Assets/Art/Tokens/party-mechanic-body-v3.png",
+      "projection": "perspective-distance-15",
+      "facing": "XY",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 1.0388261E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 3734,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 231,
+        "y": 68,
+        "width": 50,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 228,
+        "y": 66,
+        "width": 56,
+        "height": 124
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-medic",
+      "source": "Assets/Art/Settlement/standee-medic.png",
+      "projection": "perspective-distance-15",
+      "facing": "--",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 3861,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 226,
+        "y": 66,
+        "width": 56,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 224,
+        "y": 64,
+        "width": 61,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-medic",
+      "source": "Assets/Art/Settlement/standee-medic.png",
+      "projection": "perspective-distance-15",
+      "facing": "X-",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 2.90116041E-05,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 3861,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 230,
+        "y": 66,
+        "width": 56,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 227,
+        "y": 64,
+        "width": 61,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-medic",
+      "source": "Assets/Art/Settlement/standee-medic.png",
+      "projection": "perspective-distance-15",
+      "facing": "-Y",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 3861,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 226,
+        "y": 70,
+        "width": 56,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 224,
+        "y": 67,
+        "width": 61,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-medic",
+      "source": "Assets/Art/Settlement/standee-medic.png",
+      "projection": "perspective-distance-15",
+      "facing": "XY",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 2.90116041E-05,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 3861,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 230,
+        "y": 70,
+        "width": 56,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 227,
+        "y": 67,
+        "width": 61,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-cook",
+      "source": "Assets/Art/Tokens/party-cook-body-v3.png",
+      "projection": "perspective-distance-15",
+      "facing": "--",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 3239,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 234,
+        "y": 68,
+        "width": 44,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 232,
+        "y": 66,
+        "width": 48,
+        "height": 124
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-cook",
+      "source": "Assets/Art/Tokens/party-cook-body-v3.png",
+      "projection": "perspective-distance-15",
+      "facing": "X-",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 1.19523577E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 3239,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 234,
+        "y": 68,
+        "width": 44,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 232,
+        "y": 66,
+        "width": 48,
+        "height": 124
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-cook",
+      "source": "Assets/Art/Tokens/party-cook-body-v3.png",
+      "projection": "perspective-distance-15",
+      "facing": "-Y",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 1.19523577E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 3239,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 234,
+        "y": 68,
+        "width": 44,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 232,
+        "y": 66,
+        "width": 48,
+        "height": 124
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-cook",
+      "source": "Assets/Art/Tokens/party-cook-body-v3.png",
+      "projection": "perspective-distance-15",
+      "facing": "XY",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 1.19523577E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 3239,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 234,
+        "y": 68,
+        "width": 44,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 232,
+        "y": 66,
+        "width": 48,
+        "height": 124
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-researcher",
+      "source": "Assets/Art/Tokens/party-researcher-body-v2.png",
+      "projection": "perspective-distance-15",
+      "facing": "--",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 4275,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 228,
+        "y": 68,
+        "width": 56,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 225,
+        "y": 66,
+        "width": 62,
+        "height": 124
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-researcher",
+      "source": "Assets/Art/Tokens/party-researcher-body-v2.png",
+      "projection": "perspective-distance-15",
+      "facing": "X-",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 4275,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 228,
+        "y": 68,
+        "width": 56,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 225,
+        "y": 66,
+        "width": 62,
+        "height": 124
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-researcher",
+      "source": "Assets/Art/Tokens/party-researcher-body-v2.png",
+      "projection": "perspective-distance-15",
+      "facing": "-Y",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 4275,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 228,
+        "y": 68,
+        "width": 56,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 225,
+        "y": 66,
+        "width": 62,
+        "height": 124
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-researcher",
+      "source": "Assets/Art/Tokens/party-researcher-body-v2.png",
+      "projection": "perspective-distance-15",
+      "facing": "XY",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 9.06092566E-07,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 4275,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 228,
+        "y": 68,
+        "width": 56,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 225,
+        "y": 66,
+        "width": 62,
+        "height": 124
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-guard",
+      "source": "Assets/Art/Tokens/party-guard-body-v2.png",
+      "projection": "perspective-distance-15",
+      "facing": "--",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 3864,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 229,
+        "y": 68,
+        "width": 54,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 226,
+        "y": 66,
+        "width": 60,
+        "height": 124
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-guard",
+      "source": "Assets/Art/Tokens/party-guard-body-v2.png",
+      "projection": "perspective-distance-15",
+      "facing": "X-",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 4.006711E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 3864,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 229,
+        "y": 68,
+        "width": 54,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 226,
+        "y": 66,
+        "width": 60,
+        "height": 124
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-guard",
+      "source": "Assets/Art/Tokens/party-guard-body-v2.png",
+      "projection": "perspective-distance-15",
+      "facing": "-Y",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 2.00335558E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 3864,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 229,
+        "y": 68,
+        "width": 54,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 226,
+        "y": 66,
+        "width": 60,
+        "height": 124
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "party-guard",
+      "source": "Assets/Art/Tokens/party-guard-body-v2.png",
+      "projection": "perspective-distance-15",
+      "facing": "XY",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 6.010067E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 3864,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 229,
+        "y": 68,
+        "width": 54,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 226,
+        "y": 66,
+        "width": 60,
+        "height": 124
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-01-door-bearer",
+      "source": "Assets/Art/Creatures/V1/01-door-bearer.png",
+      "projection": "perspective-distance-15",
+      "facing": "--",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 5644,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 217,
+        "y": 68,
+        "width": 79,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 215,
+        "y": 66,
+        "width": 84,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-01-door-bearer",
+      "source": "Assets/Art/Creatures/V1/01-door-bearer.png",
+      "projection": "perspective-distance-15",
+      "facing": "X-",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 5644,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 216,
+        "y": 68,
+        "width": 79,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 213,
+        "y": 66,
+        "width": 84,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-01-door-bearer",
+      "source": "Assets/Art/Creatures/V1/01-door-bearer.png",
+      "projection": "perspective-distance-15",
+      "facing": "-Y",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 5644,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 217,
+        "y": 68,
+        "width": 79,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 215,
+        "y": 65,
+        "width": 84,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-01-door-bearer",
+      "source": "Assets/Art/Creatures/V1/01-door-bearer.png",
+      "projection": "perspective-distance-15",
+      "facing": "XY",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 5644,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 216,
+        "y": 68,
+        "width": 79,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 213,
+        "y": 65,
+        "width": 84,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-02-listener",
+      "source": "Assets/Art/Creatures/V1/02-listener.png",
+      "projection": "perspective-distance-15",
+      "facing": "--",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 2235,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 233,
+        "y": 67,
+        "width": 51,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 231,
+        "y": 65,
+        "width": 55,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-02-listener",
+      "source": "Assets/Art/Creatures/V1/02-listener.png",
+      "projection": "perspective-distance-15",
+      "facing": "X-",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 1.67088569E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 2235,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 228,
+        "y": 67,
+        "width": 51,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 226,
+        "y": 65,
+        "width": 55,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-02-listener",
+      "source": "Assets/Art/Creatures/V1/02-listener.png",
+      "projection": "perspective-distance-15",
+      "facing": "-Y",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 2235,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 233,
+        "y": 69,
+        "width": 51,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 231,
+        "y": 66,
+        "width": 55,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-02-listener",
+      "source": "Assets/Art/Creatures/V1/02-listener.png",
+      "projection": "perspective-distance-15",
+      "facing": "XY",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 2235,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 228,
+        "y": 69,
+        "width": 51,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 226,
+        "y": 66,
+        "width": 55,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-03-under-table",
+      "source": "Assets/Art/Creatures/V1/03-under-table.png",
+      "projection": "perspective-distance-15",
+      "facing": "--",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 3739,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 211,
+        "y": 68,
+        "width": 91,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 208,
+        "y": 66,
+        "width": 96,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-03-under-table",
+      "source": "Assets/Art/Creatures/V1/03-under-table.png",
+      "projection": "perspective-distance-15",
+      "facing": "X-",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 1.01885394E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 3739,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 210,
+        "y": 68,
+        "width": 91,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 208,
+        "y": 66,
+        "width": 96,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-03-under-table",
+      "source": "Assets/Art/Creatures/V1/03-under-table.png",
+      "projection": "perspective-distance-15",
+      "facing": "-Y",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 3739,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 211,
+        "y": 68,
+        "width": 91,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 208,
+        "y": 65,
+        "width": 96,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-03-under-table",
+      "source": "Assets/Art/Creatures/V1/03-under-table.png",
+      "projection": "perspective-distance-15",
+      "facing": "XY",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 3739,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 210,
+        "y": 68,
+        "width": 91,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 208,
+        "y": 65,
+        "width": 96,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-04-seam-hound",
+      "source": "Assets/Art/Creatures/V1/04-seam-hound.png",
+      "projection": "perspective-distance-15",
+      "facing": "--",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 2812,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 215,
+        "y": 69,
+        "width": 88,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 213,
+        "y": 66,
+        "width": 92,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-04-seam-hound",
+      "source": "Assets/Art/Creatures/V1/04-seam-hound.png",
+      "projection": "perspective-distance-15",
+      "facing": "X-",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 1.31994909E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 2812,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 209,
+        "y": 69,
+        "width": 88,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 207,
+        "y": 66,
+        "width": 92,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-04-seam-hound",
+      "source": "Assets/Art/Creatures/V1/04-seam-hound.png",
+      "projection": "perspective-distance-15",
+      "facing": "-Y",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 1.31994909E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 2812,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 215,
+        "y": 67,
+        "width": 88,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 213,
+        "y": 65,
+        "width": 92,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-04-seam-hound",
+      "source": "Assets/Art/Creatures/V1/04-seam-hound.png",
+      "projection": "perspective-distance-15",
+      "facing": "XY",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 2812,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 209,
+        "y": 67,
+        "width": 88,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 207,
+        "y": 65,
+        "width": 92,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-05-laundry",
+      "source": "Assets/Art/Creatures/V1/05-laundry.png",
+      "projection": "perspective-distance-15",
+      "facing": "--",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 4446,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 212,
+        "y": 68,
+        "width": 90,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 209,
+        "y": 66,
+        "width": 95,
+        "height": 124
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-05-laundry",
+      "source": "Assets/Art/Creatures/V1/05-laundry.png",
+      "projection": "perspective-distance-15",
+      "facing": "X-",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 4446,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 210,
+        "y": 68,
+        "width": 90,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 208,
+        "y": 66,
+        "width": 95,
+        "height": 124
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-05-laundry",
+      "source": "Assets/Art/Creatures/V1/05-laundry.png",
+      "projection": "perspective-distance-15",
+      "facing": "-Y",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 8.515893E-07,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 4446,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 212,
+        "y": 68,
+        "width": 90,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 209,
+        "y": 66,
+        "width": 95,
+        "height": 124
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-05-laundry",
+      "source": "Assets/Art/Creatures/V1/05-laundry.png",
+      "projection": "perspective-distance-15",
+      "facing": "XY",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 4446,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 210,
+        "y": 68,
+        "width": 90,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 208,
+        "y": 66,
+        "width": 95,
+        "height": 124
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-06-meter-keeper",
+      "source": "Assets/Art/Creatures/V1/06-meter-keeper.png",
+      "projection": "perspective-distance-15",
+      "facing": "--",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 6404,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 213,
+        "y": 68,
+        "width": 87,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 211,
+        "y": 65,
+        "width": 91,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-06-meter-keeper",
+      "source": "Assets/Art/Creatures/V1/06-meter-keeper.png",
+      "projection": "perspective-distance-15",
+      "facing": "X-",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 6404,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 212,
+        "y": 68,
+        "width": 87,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 210,
+        "y": 65,
+        "width": 91,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-06-meter-keeper",
+      "source": "Assets/Art/Creatures/V1/06-meter-keeper.png",
+      "projection": "perspective-distance-15",
+      "facing": "-Y",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 6.04154764E-07,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 6404,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 213,
+        "y": 68,
+        "width": 87,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 211,
+        "y": 66,
+        "width": 91,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-06-meter-keeper",
+      "source": "Assets/Art/Creatures/V1/06-meter-keeper.png",
+      "projection": "perspective-distance-15",
+      "facing": "XY",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 6.04154764E-07,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 6404,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 212,
+        "y": 68,
+        "width": 87,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 210,
+        "y": 66,
+        "width": 91,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-07-moth-nest",
+      "source": "Assets/Art/Creatures/V1/07-moth-nest.png",
+      "projection": "perspective-distance-15",
+      "facing": "--",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 3615,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 212,
+        "y": 68,
+        "width": 88,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 209,
+        "y": 66,
+        "width": 94,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-07-moth-nest",
+      "source": "Assets/Art/Creatures/V1/07-moth-nest.png",
+      "projection": "perspective-distance-15",
+      "facing": "X-",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 3615,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 212,
+        "y": 68,
+        "width": 88,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 209,
+        "y": 66,
+        "width": 94,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-07-moth-nest",
+      "source": "Assets/Art/Creatures/V1/07-moth-nest.png",
+      "projection": "perspective-distance-15",
+      "facing": "-Y",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 3615,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 212,
+        "y": 68,
+        "width": 88,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 209,
+        "y": 65,
+        "width": 94,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-07-moth-nest",
+      "source": "Assets/Art/Creatures/V1/07-moth-nest.png",
+      "projection": "perspective-distance-15",
+      "facing": "XY",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 3615,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 212,
+        "y": 68,
+        "width": 88,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 209,
+        "y": 65,
+        "width": 94,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-08-puddle",
+      "source": "Assets/Art/Creatures/V1/08-puddle.png",
+      "projection": "perspective-distance-15",
+      "facing": "--",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 7485,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 192,
+        "y": 63,
+        "width": 129,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 190,
+        "y": 60,
+        "width": 133,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-08-puddle",
+      "source": "Assets/Art/Creatures/V1/08-puddle.png",
+      "projection": "perspective-distance-15",
+      "facing": "X-",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 5.149795E-07,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 7485,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 191,
+        "y": 63,
+        "width": 129,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 189,
+        "y": 60,
+        "width": 133,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-08-puddle",
+      "source": "Assets/Art/Creatures/V1/08-puddle.png",
+      "projection": "perspective-distance-15",
+      "facing": "-Y",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 7485,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 192,
+        "y": 73,
+        "width": 129,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 190,
+        "y": 71,
+        "width": 133,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-08-puddle",
+      "source": "Assets/Art/Creatures/V1/08-puddle.png",
+      "projection": "perspective-distance-15",
+      "facing": "XY",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 7485,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 191,
+        "y": 73,
+        "width": 129,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 189,
+        "y": 71,
+        "width": 133,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-09-stairback",
+      "source": "Assets/Art/Creatures/V1/09-stairback.png",
+      "projection": "perspective-distance-15",
+      "facing": "--",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 4185,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 210,
+        "y": 68,
+        "width": 93,
+        "height": 119
+      },
+      "paperBounds": {
+        "x": 207,
+        "y": 65,
+        "width": 98,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-09-stairback",
+      "source": "Assets/Art/Creatures/V1/09-stairback.png",
+      "projection": "perspective-distance-15",
+      "facing": "X-",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 4185,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 209,
+        "y": 68,
+        "width": 93,
+        "height": 119
+      },
+      "paperBounds": {
+        "x": 207,
+        "y": 65,
+        "width": 98,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-09-stairback",
+      "source": "Assets/Art/Creatures/V1/09-stairback.png",
+      "projection": "perspective-distance-15",
+      "facing": "-Y",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 4185,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 210,
+        "y": 69,
+        "width": 93,
+        "height": 119
+      },
+      "paperBounds": {
+        "x": 207,
+        "y": 66,
+        "width": 98,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-09-stairback",
+      "source": "Assets/Art/Creatures/V1/09-stairback.png",
+      "projection": "perspective-distance-15",
+      "facing": "XY",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 1.81933126E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 4185,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 209,
+        "y": 69,
+        "width": 93,
+        "height": 119
+      },
+      "paperBounds": {
+        "x": 207,
+        "y": 66,
+        "width": 98,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-10-twin-coat",
+      "source": "Assets/Art/Creatures/V1/10-twin-coat.png",
+      "projection": "perspective-distance-15",
+      "facing": "--",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 5254,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 212,
+        "y": 68,
+        "width": 88,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 210,
+        "y": 66,
+        "width": 93,
+        "height": 124
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-10-twin-coat",
+      "source": "Assets/Art/Creatures/V1/10-twin-coat.png",
+      "projection": "perspective-distance-15",
+      "facing": "X-",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 5254,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 212,
+        "y": 68,
+        "width": 88,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 209,
+        "y": 66,
+        "width": 93,
+        "height": 124
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-10-twin-coat",
+      "source": "Assets/Art/Creatures/V1/10-twin-coat.png",
+      "projection": "perspective-distance-15",
+      "facing": "-Y",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 5254,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 212,
+        "y": 68,
+        "width": 88,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 210,
+        "y": 66,
+        "width": 93,
+        "height": 124
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-10-twin-coat",
+      "source": "Assets/Art/Creatures/V1/10-twin-coat.png",
+      "projection": "perspective-distance-15",
+      "facing": "XY",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 5254,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 212,
+        "y": 68,
+        "width": 88,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 209,
+        "y": 66,
+        "width": 93,
+        "height": 124
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-11-root-receiver",
+      "source": "Assets/Art/Creatures/V1/11-root-receiver.png",
+      "projection": "perspective-distance-15",
+      "facing": "--",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 2296,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 216,
+        "y": 68,
+        "width": 80,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 213,
+        "y": 66,
+        "width": 86,
+        "height": 124
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-11-root-receiver",
+      "source": "Assets/Art/Creatures/V1/11-root-receiver.png",
+      "projection": "perspective-distance-15",
+      "facing": "X-",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 1.62855838E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 2296,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 216,
+        "y": 68,
+        "width": 80,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 213,
+        "y": 66,
+        "width": 86,
+        "height": 124
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-11-root-receiver",
+      "source": "Assets/Art/Creatures/V1/11-root-receiver.png",
+      "projection": "perspective-distance-15",
+      "facing": "-Y",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 1.62855838E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 2296,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 216,
+        "y": 68,
+        "width": 80,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 213,
+        "y": 66,
+        "width": 86,
+        "height": 124
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-11-root-receiver",
+      "source": "Assets/Art/Creatures/V1/11-root-receiver.png",
+      "projection": "perspective-distance-15",
+      "facing": "XY",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 1.62855838E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 2296,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 216,
+        "y": 68,
+        "width": 80,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 213,
+        "y": 66,
+        "width": 86,
+        "height": 124
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-12-bellied-cart",
+      "source": "Assets/Art/Creatures/V1/12-bellied-cart.png",
+      "projection": "perspective-distance-15",
+      "facing": "--",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 4004,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 211,
+        "y": 68,
+        "width": 90,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 209,
+        "y": 65,
+        "width": 94,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-12-bellied-cart",
+      "source": "Assets/Art/Creatures/V1/12-bellied-cart.png",
+      "projection": "perspective-distance-15",
+      "facing": "X-",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 9.244622E-07,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 4004,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 211,
+        "y": 68,
+        "width": 90,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 209,
+        "y": 65,
+        "width": 94,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-12-bellied-cart",
+      "source": "Assets/Art/Creatures/V1/12-bellied-cart.png",
+      "projection": "perspective-distance-15",
+      "facing": "-Y",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 4004,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 211,
+        "y": 68,
+        "width": 90,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 209,
+        "y": 66,
+        "width": 94,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "creature-12-bellied-cart",
+      "source": "Assets/Art/Creatures/V1/12-bellied-cart.png",
+      "projection": "perspective-distance-15",
+      "facing": "XY",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 0.9997643,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 1.84848864E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 4004,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 211,
+        "y": 68,
+        "width": 90,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 209,
+        "y": 66,
+        "width": 94,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "npc-doyun",
+      "source": "Assets/Art/Tokens/npc-doyun-body-v3.png",
+      "projection": "perspective-distance-15",
+      "facing": "--",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 3197,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 231,
+        "y": 68,
+        "width": 50,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 228,
+        "y": 66,
+        "width": 56,
+        "height": 124
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "npc-doyun",
+      "source": "Assets/Art/Tokens/npc-doyun-body-v3.png",
+      "projection": "perspective-distance-15",
+      "facing": "X-",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 3197,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 231,
+        "y": 68,
+        "width": 50,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 228,
+        "y": 66,
+        "width": 56,
+        "height": 124
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "npc-doyun",
+      "source": "Assets/Art/Tokens/npc-doyun-body-v3.png",
+      "projection": "perspective-distance-15",
+      "facing": "-Y",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 3197,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 231,
+        "y": 68,
+        "width": 50,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 228,
+        "y": 66,
+        "width": 56,
+        "height": 124
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "npc-doyun",
+      "source": "Assets/Art/Tokens/npc-doyun-body-v3.png",
+      "projection": "perspective-distance-15",
+      "facing": "XY",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 3197,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 231,
+        "y": 68,
+        "width": 50,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 228,
+        "y": 66,
+        "width": 56,
+        "height": 124
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "npc-jun",
+      "source": "Assets/Art/Tokens/npc-jun-body-v3.png",
+      "projection": "perspective-distance-15",
+      "facing": "--",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 3044,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 236,
+        "y": 68,
+        "width": 40,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 233,
+        "y": 65,
+        "width": 46,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "npc-jun",
+      "source": "Assets/Art/Tokens/npc-jun-body-v3.png",
+      "projection": "perspective-distance-15",
+      "facing": "X-",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 7.646868E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 3044,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 236,
+        "y": 68,
+        "width": 40,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 233,
+        "y": 65,
+        "width": 46,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "npc-jun",
+      "source": "Assets/Art/Tokens/npc-jun-body-v3.png",
+      "projection": "perspective-distance-15",
+      "facing": "-Y",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 2.548956E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 3044,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 236,
+        "y": 68,
+        "width": 40,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 233,
+        "y": 66,
+        "width": 46,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "npc-jun",
+      "source": "Assets/Art/Tokens/npc-jun-body-v3.png",
+      "projection": "perspective-distance-15",
+      "facing": "XY",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 7.646868E-06,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 3044,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 236,
+        "y": 68,
+        "width": 40,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 233,
+        "y": 66,
+        "width": 46,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "npc-giho",
+      "source": "Assets/Art/Tokens/npc-giho-body-v2.png",
+      "projection": "perspective-distance-15",
+      "facing": "--",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 4005,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 227,
+        "y": 68,
+        "width": 58,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 225,
+        "y": 66,
+        "width": 62,
+        "height": 124
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "npc-giho",
+      "source": "Assets/Art/Tokens/npc-giho-body-v2.png",
+      "projection": "perspective-distance-15",
+      "facing": "X-",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 4005,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 227,
+        "y": 68,
+        "width": 58,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 225,
+        "y": 66,
+        "width": 62,
+        "height": 124
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "npc-giho",
+      "source": "Assets/Art/Tokens/npc-giho-body-v2.png",
+      "projection": "perspective-distance-15",
+      "facing": "-Y",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 9.699651E-07,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 4005,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 227,
+        "y": 68,
+        "width": 58,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 225,
+        "y": 66,
+        "width": 62,
+        "height": 124
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "npc-giho",
+      "source": "Assets/Art/Tokens/npc-giho-body-v2.png",
+      "projection": "perspective-distance-15",
+      "facing": "XY",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 4005,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 227,
+        "y": 68,
+        "width": 58,
+        "height": 120
+      },
+      "paperBounds": {
+        "x": 225,
+        "y": 66,
+        "width": 62,
+        "height": 124
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "infected-fallback",
+      "source": "Assets/Art/Tokens/infected-body-v4.png",
+      "projection": "perspective-distance-15",
+      "facing": "--",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 3097,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 230,
+        "y": 68,
+        "width": 52,
+        "height": 119
+      },
+      "paperBounds": {
+        "x": 227,
+        "y": 65,
+        "width": 58,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "infected-fallback",
+      "source": "Assets/Art/Tokens/infected-body-v4.png",
+      "projection": "perspective-distance-15",
+      "facing": "X-",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 3097,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 230,
+        "y": 68,
+        "width": 52,
+        "height": 119
+      },
+      "paperBounds": {
+        "x": 227,
+        "y": 65,
+        "width": 58,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "infected-fallback",
+      "source": "Assets/Art/Tokens/infected-body-v4.png",
+      "projection": "perspective-distance-15",
+      "facing": "-Y",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 3097,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 230,
+        "y": 69,
+        "width": 52,
+        "height": 119
+      },
+      "paperBounds": {
+        "x": 227,
+        "y": 66,
+        "width": 58,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    },
+    {
+      "id": "infected-fallback",
+      "source": "Assets/Art/Tokens/infected-body-v4.png",
+      "projection": "perspective-distance-15",
+      "facing": "XY",
+      "requestedBodyPixels": 120.0,
+      "inkMirrorIoU": 1.0,
+      "paperMirrorIoU": 1.0,
+      "inkMeanAlphaError": 0.0,
+      "inkBoundsError": 0,
+      "paperBoundsError": 0,
+      "referenceCorePixels": 3097,
+      "missingReferenceCorePixels": 0,
+      "inkBounds": {
+        "x": 230,
+        "y": 69,
+        "width": 52,
+        "height": 119
+      },
+      "paperBounds": {
+        "x": 227,
+        "y": 66,
+        "width": 58,
+        "height": 125
+      },
+      "verticesInFrame": true,
+      "passed": true
+    }
+  ],
+  "failures": []
+}

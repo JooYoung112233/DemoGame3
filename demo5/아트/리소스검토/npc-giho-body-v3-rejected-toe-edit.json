@@ -1,0 +1,17 @@
+{
+  "id": "giho",
+  "version": "v3-toe-edit-rejected",
+  "date": "2026-09-25",
+  "mode": "builtin image_gen",
+  "prompt": "Make a very small local edit to this exact character: shorten only the protruding front toe of each boot by about 18%, making the toes slightly less bulky and gently rounded. Keep both heels and ankle positions fixed.\nEverything above the ankles must remain exactly as drawn: same head size, hair, torso width, arms, clipboard position, legs' thickness and length, knees, stance and viewing angle. Do not redraw, slim, lengthen, rotate or rescale the man. Do not change his silhouette anywhere except the front tips of the two shoes.\nKeep the complete original figure and canvas, with no cropping. Transparent-background PNG cutout.",
+  "reference": "Assets/Art/Tokens/npc-giho-body-v2.png",
+  "generated": "C:/Users/power/.codex/generated_images/01a0d401-74e7-76c1-8c20-e36de4e3e2cd/exec-16a716b7-a92a-43b3-856f-22ea1cdcdc34.png",
+  "sourceCopy": "아트/리소스검토/npc-giho-body-v3-rejected-toe-edit.png",
+  "status": "REJECTED",
+  "reason": "Requested only ~18% boot-toe shortening, but generated image changed the side-profile head/nose, hair, shoulder volume, arm and leg contours; local-edit invariant failed.",
+  "recommendation": "Use intact v2 rather than this failed whole-body redraw.",
+  "followup": "No further generation or background extraction attempted, per parent limit. Assets and current v3 source were not overwritten.",
+  "preservedRejectedV3": "아트/리소스검토/npc-giho-body-v3-rejected-slim-source.png",
+  "preservedRejectedV3SHA256": "AFFC243D26F2CAC5805AA98BCD327CDC2944D039514D1B3597FA20B1C056BB90",
+  "processing": "Byte-copy only. No external image manipulation, Unity, meta or code edits."
+}

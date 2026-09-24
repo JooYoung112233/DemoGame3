@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 352411192802551706}
   - component: {fileID: 388332555124268891}
   - component: {fileID: 6582211181264805724}
+  - component: {fileID: 2994627549320852832}
   m_Layer: 0
   m_Name: Portrait
   m_TagString: Untagged
@@ -58,7 +59,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: eadc018dfda5d9b408a870f48c05e433, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -131,13 +132,13 @@ MonoBehaviour:
       y: 0.009433962
       width: 0.75
       height: 0.9528302
-  - Sprite: {fileID: 21300000, guid: 74e964fc235e1904b8956813444a6bc9, type: 3}
+  - Sprite: {fileID: -8611554932772835907, guid: 89fe3ff7ebc60db45941d1d69d17aca0, type: 3}
     Area:
       serializedVersion: 2
-      x: 0.051948052
-      y: 0.5603448
-      width: 0.64935064
-      height: 0.39655173
+      x: 0.0035149385
+      y: 0.51816076
+      width: 0.9929701
+      height: 0.48029366
   - Sprite: {fileID: 21300000, guid: eecd340184ed89d44a673d82c460ba1a, type: 3}
     Area:
       serializedVersion: 2
@@ -222,6 +223,19 @@ MonoBehaviour:
       y: 0.1957873
       width: 0.93462247
       height: 0.7710635
+--- !u!114 &2994627549320852832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 168734060141688030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a021562532576944fbf77d5ba72b9e83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Demo5.FrontEnd.PaperPortraitStyle
+  StyleMaterial: {fileID: 2100000, guid: eadc018dfda5d9b408a870f48c05e433, type: 2}
 --- !u!1 &889511324656930767
 GameObject:
   m_ObjectHideFlags: 0

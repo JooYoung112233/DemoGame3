@@ -22,8 +22,10 @@ public static class PolishSettlement
     static SpriteRenderer Layer(SpriteRenderer source,string name,float dy,float sx,float sy,Color color,int order){
         var old=source.transform.parent.Find(name);if(old)Object.DestroyImmediate(old.gameObject);var go=new GameObject(name,typeof(SpriteRenderer));go.transform.SetParent(source.transform.parent,false);go.transform.position=source.transform.position+new Vector3(0,dy,0);go.transform.localScale=new Vector3(source.transform.localScale.x*sx,source.transform.localScale.y*sy,1);var r=go.GetComponent<SpriteRenderer>();r.sprite=source.sprite;r.sharedMaterial=source.sharedMaterial;r.color=color;r.sortingOrder=order;return r;
     }
+    // STALE since 2026-09-25: the ResourceHud has 2 slots (Icon_Ammo/Value_Ammo, Icon_Party/Value_Party; BuildRetireSupplies) and Apply loops Value_0..2; do not rerun.
+    static void RefuseAfterSuppliesRetired(){var hud=AssetDatabase.LoadAssetAtPath<GameObject>(P+"ResourceHud.prefab");if(hud&&!hud.transform.Find("Value_0"))throw new Exception("Superseded: supplies retired 2026-09-25 (BuildRetireSupplies). PolishSettlement expects the old 3-slot ResourceHud; do not rerun.");}
     public static string Apply(){
-        if(EditorApplication.isPlaying)throw new Exception("Stop first");for(int i=0;i<UnityEngine.SceneManagement.SceneManager.sceneCount;i++)if(UnityEngine.SceneManagement.SceneManager.GetSceneAt(i).isDirty)throw new Exception("Unsaved scene changes");
+        if(EditorApplication.isPlaying)throw new Exception("Stop first");RefuseAfterSuppliesRetired();for(int i=0;i<UnityEngine.SceneManagement.SceneManager.sceneCount;i++)if(UnityEngine.SceneManagement.SceneManager.GetSceneAt(i).isDirty)throw new Exception("Unsaved scene changes");
         Edit("DayPanel",g=>{Texts(g);Size(g.transform,"Clock",40);Rect(g.transform,"Clock",24,8,166,98);});
         Edit("AdvanceButton",g=>{Texts(g);Size(g.transform,"Label",34);});
         Edit("ResourceHud",g=>{Texts(g);for(int i=0;i<3;i++){Size(g.transform,"Value_"+i,38);g.transform.Find("Value_"+i).GetComponent<Text>().alignment=TextAnchor.MiddleLeft;Rect(g.transform,"Value_"+i,62+i*116,8,52,62);Rect(g.transform,"Icon_"+i,18+i*116,21,36,36);}});

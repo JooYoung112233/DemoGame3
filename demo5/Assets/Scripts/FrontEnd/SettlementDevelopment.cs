@@ -29,7 +29,7 @@ namespace Demo5.FrontEnd
             ResearchButton.onClick.AddListener(() => { Open(); owner.CraftPanel.FocusRecipe(State.Research ? "research-tools" : "build-research"); });
         }
         public void Open() { owner.CraftPanel.Open(); owner.CraftPanel.FocusRecipe(NextProject); }
-        public string NextProject => !State.Workbench ? "build-bench" : State.Warehouse == 0 ? "build-stock" : !State.Bed ? "build-bed" : !State.Cooker ? "build-cooker" : !State.Research ? "build-research" : !State.Tools ? "research-tools" : !State.Comfort ? "research-comfort" : !State.Storage ? "research-storage" : "expand-stock";
+        public string NextProject => State.Warehouse == 0 ? "build-stock" : !State.Workbench ? "build-bench" : !State.Bed ? "build-bed" : !State.Cooker ? "build-cooker" : !State.Research ? "build-research" : !State.Tools ? "research-tools" : !State.Comfort ? "research-comfort" : !State.Storage ? "research-storage" : "expand-stock";
         public bool IsDone(string id)
         {
             switch(id) {
@@ -79,7 +79,7 @@ namespace Demo5.FrontEnd
         {
             if (!owner || owner.Campaign == null) return;
             bool show = owner.Main.gameObject.activeInHierarchy && owner.Main.interactable && (!owner.Introduction || owner.Introduction.Allows(5));
-            OpenButton.gameObject.SetActive(show); ResearchButton.gameObject.SetActive(show);
+            OpenButton.gameObject.SetActive(show && (!owner.Opening || !owner.Opening.Active)); ResearchButton.gameObject.SetActive(show && State.Research);
             OpenLabel.text = "시설 복구 · 연구";
         }
     }

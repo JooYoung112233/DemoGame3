@@ -1,0 +1,42 @@
+{
+  "id": "giho",
+  "prompts": [
+    {
+      "step": "body-redraw",
+      "prompt": "Transparent background PNG sprite, one single black cutout figure.\nRedraw Nam Giho from reference 2 with the approved mechanic's compact broad build from reference 1. A stocky middle-aged adult, very large head, wide square shoulders, barrel chest and broad waist, thick arms, short heavy legs, broad boots. Approximately 4.5 head-heights tall; make the overall silhouette 55% as wide as its full height.\nPreserve Giho's receding very short hair, right-facing three-quarter stance, chunky vest shape, clipboard tucked under one elbow and other hand slightly lifted. All identity is conveyed by the outside contour.\nUniform solid black throughout. Whole body fully visible from hair to both soles, centered with empty margin. Body only, no outline or base. Largest native portrait resolution."
+    },
+    {
+      "step": "transparent-background-extraction",
+      "prompt": "Remove the background from this character image and give me a transparent-background PNG cutout. Keep the entire man and his clipboard exactly as drawn. Do not crop him."
+    }
+  ],
+  "source": "C:/Users/power/.codex/generated_images/01a0d401-74e7-76c1-8c20-e36de4e3e2cd/exec-f2f40eba-460a-4a12-9448-8a4a1780603e.png",
+  "nativeSize": [
+    930,
+    1692
+  ],
+  "alphaBounds": [
+    101,
+    57,
+    835,
+    1597
+  ],
+  "visibleSize": [
+    735,
+    1541
+  ],
+  "widthHeightRatio": 0.477,
+  "alphaZero": 892957,
+  "alphaPartial": 677604,
+  "alphaFull": 2999,
+  "notes": "Broad dense torso, thick limbs, heavy shoes, clipboard and original stance preserved. Body near-opaque interior RGB is 0..1. Source pending root in-game review.",
+  "gameAsset": "Assets/Art/Tokens/npc-giho-body-v2.png",
+  "sourceCopy": "아트/리소스검토/npc-giho-body-v2-source.png",
+  "mode": "builtin image_gen",
+  "date": "2026-09-25",
+  "pixelFormat": "Format32bppArgb",
+  "cornerAlpha": 0,
+  "reference": "Assets/Art/Tokens/party-mechanic-body-v2.png",
+  "originalIdentity": "Assets/Art/Tokens/npc-giho-body.png",
+  "processing": "Original output bytes copied; no external pixel edit, recolor, resize, stretching, crop, or upscale. No Unity, meta, prefab, shader, mapping or gameplay edits."
+}

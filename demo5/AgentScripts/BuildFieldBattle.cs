@@ -89,7 +89,7 @@ public static class BuildFieldBattle
 
         var action=R("BattleActionCard",null,0,0,235,92);var ab=I("Paper",action,0,0,235,92,A+"card-paper.png");ab.raycastTarget=true;var actionButton=action.gameObject.AddComponent<Button>();actionButton.targetGraphic=ab;
         I("Icon",action,14,16,56,57,"Assets/Art/CraftWorkPanel/prybar.png").preserveAspect=true;
-        T("Label",action,82,5,142,41,"근접",27);T("Description",action,82,48,142,34,"전열 · 피해 2",18);
+        T("Label",action,82,0,142,41,"근접",27);T("Description",action,82,37,142,53,"전열 · 피해 2",17);
         var actionAsset=Save(action.gameObject,"BattleActionCard");
 
         var result=R("BattleResultPanel",null,0,0,1920,1080);var dim=I("Dim",result,0,0,1920,1080);dim.color=new Color(0,0,0,.74f);dim.raycastTarget=true;
@@ -131,7 +131,7 @@ public static class BuildFieldBattle
         var u=Instance(unitAsset,workspace,28,808);c.ActorName=u.transform.Find("Name").GetComponent<Text>();c.ActorInfo=u.transform.Find("Info").GetComponent<Text>();c.ActorPortrait=u.transform.Find("Portrait").GetComponent<Image>();c.ActorHealth=u.transform.Find("Health").GetComponent<Image>();
         var t=Instance(targetAsset,workspace,634,808);c.TargetName=t.transform.Find("Name").GetComponent<Text>();c.TargetInfo=t.transform.Find("Info").GetComponent<Text>();c.Chance=t.transform.Find("Chance").GetComponent<Text>();c.TargetPortrait=t.transform.Find("Portrait").GetComponent<Image>();c.TargetHealth=t.transform.Find("Health").GetComponent<Image>();
         I("ActionHeading",workspace,1240,752,280,52,A+"footer-paper.png");T("ActionTitle",workspace,1260,754,240,48,"행동 선택",31);
-        string[] names={"Melee","Shoot","Guard","Items"},labels={"근접","사격","방어","아이템"},descs={"전열 · 피해 2","탄약 1 · 피해 3","다음 피해 -1","다음 화면 예정"};
+        string[] names={"Melee","Shoot","Guard","Items"},labels={"근접","사격","방어","아이템"},descs={"전열 · 피해 2","탄약 1 · 피해 3","물릴 확률 -40%p\n예고 피해 -1","다음 화면 예정"};
         string[] icons={"Assets/Art/CraftWorkPanel/prybar.png","Assets/Art/HomeSelection/icon-ammo.png",A+"icon-heart.png",A+"icon-bag.png"};
         var buttons=new Button[4];
         for(int i=0;i<4;i++){var g=Instance(actionAsset,workspace,1240+(i%2)*247,808+(i/2)*102);g.name=names[i];g.transform.Find("Label").GetComponent<Text>().text=labels[i];g.transform.Find("Description").GetComponent<Text>().text=descs[i];g.transform.Find("Icon").GetComponent<Image>().sprite=AssetDatabase.LoadAssetAtPath<Sprite>(icons[i]);buttons[i]=g.GetComponent<Button>();}

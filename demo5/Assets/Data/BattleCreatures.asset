@@ -29,14 +29,14 @@ MonoBehaviour:
     FrontArmor: 2
     ShotArmor: 0
     ShotEvasion: 0
-    Damage: 1
+    Damage: 2
     HitChance: 70
     StartDepth: 1
     HoldDepth: 0
     Attack: 1
     Gait: 2
     Cover: 1
-    Weight: 1
+    Weight: 2
     AttackName: "\uBC00\uCE58\uAE30"
     WindupName: "\uBB38\uC744 \uC138\uC6C0"
     Trait: "\uC815\uBA74 \uBC29\uC5B4 +2"
@@ -57,19 +57,19 @@ MonoBehaviour:
       height: 1325
     Height: 2.35
     Hover: 0
-    Health: 4
+    Health: 6
     Armor: 0
     FrontArmor: 0
     ShotArmor: 0
     ShotEvasion: 0
     Damage: 2
-    HitChance: 60
-    StartDepth: 2
+    HitChance: 75
+    StartDepth: 1
     HoldDepth: 0
     Attack: 2
     Gait: 0
     Cover: 0
-    Weight: 1
+    Weight: 0
     AttackName: "\uB0B4\uB824\uCE58\uAE30"
     WindupName: "\uADC0 \uAE30\uC6B8\uC784"
     Trait: "\uCD1D\uC18C\uB9AC\uB97C \uCAD3\uC74C"
@@ -102,7 +102,7 @@ MonoBehaviour:
     Attack: 3
     Gait: 0
     Cover: 0
-    Weight: 1
+    Weight: 3
     AttackName: "\uB36E\uCE58\uAE30"
     WindupName: "\uC6C5\uD06C\uB9BC"
     Trait: "\uB450 \uC904 \uC548\uC73C\uB85C \uB3C4\uC57D"
@@ -135,7 +135,7 @@ MonoBehaviour:
     Attack: 4
     Gait: 1
     Cover: 0
-    Weight: 1
+    Weight: 3
     AttackName: "\uB3CC\uC9C4"
     WindupName: "\uBAB8\uC744 \uB0AE\uCDA4"
     Trait: "\uAC00\uB85C\uC904 \uB3CC\uC9C4 \xB7 \uBE48\uD2C8"
@@ -156,19 +156,19 @@ MonoBehaviour:
       height: 1342
     Height: 1.75
     Hover: 0.22
-    Health: 4
+    Health: 5
     Armor: 0
     FrontArmor: 0
     ShotArmor: 1
     ShotEvasion: 0
-    Damage: 1
+    Damage: 2
     HitChance: 70
     StartDepth: 1
     HoldDepth: 0
     Attack: 5
     Gait: 0
     Cover: 0
-    Weight: 1
+    Weight: 3
     AttackName: "\uD718\uAC10\uAE30"
     WindupName: "\uCC9C\uC744 \uD3BC\uCE68"
     Trait: "\uC0AC\uACA9 \uD53C\uD574 -1"
@@ -189,19 +189,19 @@ MonoBehaviour:
       height: 1376
     Height: 1.85
     Hover: 0
-    Health: 4
-    Armor: 1
+    Health: 5
+    Armor: 0
     FrontArmor: 0
     ShotArmor: 0
     ShotEvasion: 0
     Damage: 2
     HitChance: 70
-    StartDepth: 2
-    HoldDepth: 1
+    StartDepth: 1
+    HoldDepth: 0
     Attack: 6
     Gait: 2
     Cover: 0
-    Weight: 1
+    Weight: 2
     AttackName: "\uBC29\uC804"
     WindupName: "\uC804\uC120 \uC5F0\uACB0"
     Trait: "\uBD99\uC740 \uB450 \uCE78 \uAC10\uC804"
@@ -228,17 +228,17 @@ MonoBehaviour:
     ShotArmor: 0
     ShotEvasion: 20
     Damage: 1
-    HitChance: 65
+    HitChance: 75
     StartDepth: 2
     HoldDepth: 0
     Attack: 7
     Gait: 1
     Cover: 0
-    Weight: 1
+    Weight: 3
     AttackName: "\uB4A4\uB36E\uAE30"
     WindupName: "\uB0A0\uAC2F\uC9D3"
     Trait: "\uC606\uAE4C\uC9C0 \uB36E\uCE68"
-    Counter: "\uBD99\uC5B4 \uC11C\uC9C0 \uB9C8\uC138\uC694 \xB7 \uADFC\uC811\uC774 \uC798 \uB4EC"
+    Counter: "\uBD99\uC5B4 \uC11C\uC9C0 \uB9C8\uC138\uC694 \xB7 \uADFC\uC811\uC774 \uC798 \uB4E6"
     Accent: {r: 0.68, g: 0.72, b: 0.68, a: 1}
     WindupSound: {fileID: 0}
     StrikeSound: {fileID: 8300000, guid: 48e3ea045c70bb1498daefcdb821caf0, type: 3}
@@ -260,14 +260,14 @@ MonoBehaviour:
     FrontArmor: 0
     ShotArmor: 1
     ShotEvasion: 0
-    Damage: 1
+    Damage: 2
     HitChance: 70
     StartDepth: 1
     HoldDepth: 0
     Attack: 8
     Gait: 2
     Cover: 0
-    Weight: 1
+    Weight: 2
     AttackName: "\uBC1C\uBAA9\uC7A1\uAE30"
     WindupName: "\uBB3C\uC774 \uBC88\uC9D0"
     Trait: "\uC0AC\uACA9 \uD53C\uD574 -1 \xB7 \uBB36\uC74C"
@@ -289,7 +289,7 @@ MonoBehaviour:
     Height: 1.75
     Hover: 0
     Health: 6
-    Armor: 2
+    Armor: 1
     FrontArmor: 0
     ShotArmor: 0
     ShotEvasion: 0
@@ -303,7 +303,7 @@ MonoBehaviour:
     Weight: 1
     AttackName: "\uBB34\uB108\uC9D0"
     WindupName: "\uAE30\uC6B8\uC5B4\uC9D0"
-    Trait: "\uBC29\uC5B4 2 \xB7 \uB4A4\uC5D0 \uBE48\uD2C8"
+    Trait: "\uBC29\uC5B4 1 \xB7 \uB4A4\uC5D0 \uBE48\uD2C8"
     Counter: "\uAE30\uC6B0\uB294 \uCABD\uC744 \uBE44\uC6B0\uACE0 \uBE48\uD2C8\uC5D0 \uCE58\uAE30"
     Accent: {r: 0.7, g: 0.7, b: 0.64, a: 1}
     WindupSound: {fileID: 8300000, guid: dceb6618823d2304aa41e2185e5fffdb, type: 3}
@@ -326,14 +326,14 @@ MonoBehaviour:
     FrontArmor: 0
     ShotArmor: 0
     ShotEvasion: 0
-    Damage: 1
+    Damage: 2
     HitChance: 70
     StartDepth: 1
     HoldDepth: 0
     Attack: 10
     Gait: 0
     Cover: 0
-    Weight: 1
+    Weight: 2
     AttackName: "\uACB9\uCCD0\uCE58\uAE30"
     WindupName: "\uB450 \uBA38\uB9AC"
     Trait: "\uB450 \uCE78 \uC5F0\uB2EC\uC544"
@@ -366,7 +366,7 @@ MonoBehaviour:
     Attack: 11
     Gait: 3
     Cover: 0
-    Weight: 1
+    Weight: 0
     AttackName: "\uBC29\uC1A1"
     WindupName: "\uC7A1\uC74C"
     Trait: "\uB450 \uCC28\uB840\uB9C8\uB2E4 \uC18C\uC74C"
@@ -388,18 +388,18 @@ MonoBehaviour:
     Height: 1.55
     Hover: 0
     Health: 5
-    Armor: 1
+    Armor: 0
     FrontArmor: 0
     ShotArmor: 0
     ShotEvasion: 0
-    Damage: 1
+    Damage: 2
     HitChance: 70
-    StartDepth: 2
+    StartDepth: 1
     HoldDepth: 0
     Attack: 12
     Gait: 0
     Cover: 0
-    Weight: 1
+    Weight: 2
     AttackName: "\uBC15\uCE58\uAE30"
     WindupName: "\uC090\uAC71\uC784"
     Trait: "\uAC00\uB85C\uC904 \uC804\uCCB4 \uBC00\uCE68"

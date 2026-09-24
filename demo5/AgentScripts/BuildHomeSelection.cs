@@ -20,9 +20,12 @@ public static class BuildHomeSelection
     static Text T(string name,Transform parent,float x,float y,float w,float h,string text,int size){var t=R(name,parent,x,y,w,h).gameObject.AddComponent<Text>();t.font=font;t.text=text;t.fontSize=size;t.color=ink;t.raycastTarget=false;t.lineSpacing=1.08f;return t;}
     static Button B(string name,Transform parent,float x,float y,float w,string text){var im=I(name,parent,x,y,w,78,Art("footer-paper"));im.raycastTarget=true;var b=im.gameObject.AddComponent<Button>();b.targetGraphic=im;var colors=b.colors;colors.highlightedColor=new Color(1,.94f,.8f);colors.selectedColor=Color.white;colors.disabledColor=new Color(.6f,.6f,.6f);b.colors=colors;T("Label",im.transform,15,0,w-30,78,text,32).alignment=TextAnchor.MiddleCenter;return b;}
     public static string RefreshArtwork(){File.Copy("아트/정착지선택-v1/개별-PNG/garage.png","Assets/Art/HomeSelection/garage.png",true);AssetDatabase.ImportAsset("Assets/Art/HomeSelection/garage.png",ImportAssetOptions.ForceUpdate);return "Removed source check-badge edge from garage crop; layout unchanged.";}
+    // STALE since 2026-09-25: this rebuild writes the '보급품' card labels and the HomeDetails default '장소마다 시작 보급품과 탄약'
+    // (the retired supplies item; BuildRetireSupplies replaced the HomeDetails text) and drops the later HomeSelection alignment; do not rerun.
+    static void RefuseAfterSuppliesRetired(){var inv=AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Settlement/InventoryPanel.prefab");var p=inv?inv.GetComponent<SettlementInventoryPanel>():null;if(p&&p.Items!=null&&!Array.Exists(p.Items,i=>i.Id=="supplies"))throw new Exception("Superseded: supplies retired 2026-09-25 (BuildRetireSupplies). BuildHomeSelection would bring back the '보급품' texts; do not rerun.");}
     public static string Build()
     {
-        if(EditorApplication.isPlaying)throw new Exception("Stop Play first");
+        if(EditorApplication.isPlaying)throw new Exception("Stop Play first");RefuseAfterSuppliesRetired();
         for(int i=0;i<UnityEngine.SceneManagement.SceneManager.sceneCount;i++)if(UnityEngine.SceneManagement.SceneManager.GetSceneAt(i).isDirty)throw new Exception("Preserve unsaved scene edits first");
         Directory.CreateDirectory(P);Directory.CreateDirectory("Assets/Art/HomeSelection");
         foreach(var f in Directory.GetFiles("아트/정착지선택-v1/개별-PNG","*.png"))File.Copy(f,"Assets/Art/HomeSelection/"+Path.GetFileName(f),true);

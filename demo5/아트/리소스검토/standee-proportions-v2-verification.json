@@ -1,0 +1,15 @@
+{
+    "status": "PASS",
+    "utc": "2026-09-24T19:21:49.3425043Z",
+    "error": "",
+    "scope": "Seven v2 human body PNGs, import metadata, roster/battle/story references and NPC prefab geometry. No scene or gameplay execution.",
+    "limitation": "Alpha >=32 must be wholly inside the sprite rect and clear of the source canvas edge. Alpha 1–31 outside the rect is recorded as transparent-edge tolerance. This does not judge faces, hands, pose, anatomy, or whether the generated art depicts a complete person.",
+    "alphaThreshold": 32,
+    "checkedReferences": [
+        "Assets/Prefabs/Settlement/ExpeditionBattlePanel.prefab: revised party sprite bounds",
+        "Assets/Prefabs/Settlement/SettlementScreen.prefab: revised party sprite bounds",
+        "Assets/Prefabs/Settlement/ExpeditionArrivalPanel.prefab: Doyun world prefab and both portrait references",
+        "Assets/Prefabs/Settlement/SettlementScreen.prefab: Doyun world prefab and both portrait references"
+    ],
+    "pngBytesUnchangedDuringVerification": true
+}

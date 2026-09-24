@@ -1,0 +1,43 @@
+{
+  "id": "jun",
+  "generated": "C:/Users/power/.codex/generated_images/01a0d401-74e7-76c1-8c20-e36de4e3e2cd/exec-0715a8d7-29f3-48e7-b346-f7ed42f0e9d3.png",
+  "shapeSource": "C:/Users/power/.codex/generated_images/01a0d401-74e7-76c1-8c20-e36de4e3e2cd/exec-30c7ff42-0120-4b67-aff4-f69f8232b2e0.png",
+  "bounds": [
+    294,
+    62,
+    766,
+    1446
+  ],
+  "alpha0": 1150411,
+  "alphaPartial": 422453,
+  "notes": "Removed balloon knees and oversized boot toes. Retained bowed bob-haired head, hood, envelope-holding arm position and modest satchel. Width/height is recorded only as evidence, not an anatomical target.",
+  "mode": "builtin image_gen",
+  "version": "v3",
+  "date": "2026-09-25",
+  "nativeSize": [
+    1024,
+    1536
+  ],
+  "pixelFormat": "Format32bppArgb",
+  "cornerAlpha": 0,
+  "alphaFull": 0,
+  "prompts": [
+    {
+      "step": "partial anatomy redraw",
+      "prompt": "Edit the NPC in image 1 to match the understated survivor anatomy of the original game figures in images 2 and 3.\nKeep Jun's chin-length untidy hair, bowed right-facing head, hood-down jacket, both forearms holding a photo envelope against the chest, small hip satchel, and quiet standing pose.\nRefine the silhouette with plain trouser legs, softly tapered calves, modest smooth knees, small simple rounded shoes and the relaxed stance of the originals. Reduce the oversized toe blocks, puffed knee joints and swollen calves. The torso has an ordinary healthy clothed volume and the originals' slight three-quarter side angle. Do not make Jun tall or thin; keep the natural fullness of the existing survivors.\nOne uniformly black cutout figure, contour only. Full uncropped hair-to-shoes body with empty margin. Body only, without paper rim or base. Transparent background PNG."
+    },
+    {
+      "step": "background extraction",
+      "prompt": "Remove the background from this character image and give me a transparent-background PNG cutout. Keep the entire person, envelope and satchel exactly as drawn. Do not crop them."
+    }
+  ],
+  "references": [
+    "Assets/Art/Tokens/npc-jun-body-v2.png",
+    "Assets/Art/Settlement/standee-scout.png",
+    "Assets/Art/Settlement/standee-medic.png"
+  ],
+  "asset": "Assets/Art/Tokens/npc-jun-body-v3.png",
+  "sourceCopy": "아트/리소스검토/npc-jun-body-v3-source.png",
+  "processing": "Imagegen output bytes copied without external pixel modification. No cropping, stretching, recoloring, resizing or upscaling. Prior versions preserved. No Unity/meta/code changes.",
+  "status": "Delivered source for root in-game scale/anatomy validation"
+}

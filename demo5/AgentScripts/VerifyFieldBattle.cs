@@ -26,6 +26,20 @@ public static class VerifyFieldBattle
  static void ClickNow(Button button){Check(button.IsActive()&&button.IsInteractable(),"Unavailable "+button.name);ExecuteEvents.Execute(button.gameObject,new PointerEventData(EventSystem.current){button=PointerEventData.InputButton.Left},ExecuteEvents.pointerClickHandler);}
  static Task TapCell(ExpeditionBattlePanel b,bool enemy,int depth,int lane){var p=ExpeditionBattlePanel.Point(enemy,depth,lane);return Tap(b.CellButtons[(enemy?9:0)+lane*3+depth],new Vector2(p.x,-p.y));}
  static void Bounds(GameObject root){Canvas.ForceUpdateCanvases();foreach(var t in root.GetComponentsInChildren<Text>())if(t.horizontalOverflow==HorizontalWrapMode.Wrap&&!t.resizeTextForBestFit)Check(t.preferredHeight<=t.rectTransform.rect.height+1,"Text overflow "+t.name+" "+t.preferredHeight+" / "+t.rectTransform.rect.height+": "+t.text);}
+ // Action cards (2026-09-25 two-line slot): each description sits inside its card, is fully generated (Truncate drops a line that does not fit)
+ // in at most two lines, and the guard card reads exactly the two lines of GuardDescription (물릴 확률 / 예고 피해).
+ static void Cards(ExpeditionBattlePanel battle)
+ {
+  Canvas.ForceUpdateCanvases();
+  foreach(var card in new[]{battle.Melee,battle.Shoot,battle.Guard,battle.Items})
+  {
+   var d=card.transform.Find("Description").GetComponent<Text>();var r=d.rectTransform;
+   Check(-r.anchoredPosition.y+r.rect.height<=((RectTransform)card.transform).rect.height,"Description leaves the card "+card.name+": bottom "+(-r.anchoredPosition.y+r.rect.height)+" / "+((RectTransform)card.transform).rect.height);
+   var full=new TextGenerator();full.Populate(d.text,d.GetGenerationSettings(new Vector2(r.rect.width,10000)));
+   Check(d.cachedTextGenerator.lineCount==full.lineCount&&full.lineCount<=2,"Card text truncated or over two lines "+card.name+": shown "+d.cachedTextGenerator.lineCount+" / needed "+full.lineCount+": "+d.text);
+   if(card==battle.Guard)Check(full.lineCount==2&&d.text==string.Format(battle.GuardDescription,battle.Rules.GuardHitPenalty,battle.Rules.GuardStrikeReduction),"Guard card reads the two GuardDescription lines: "+d.text);
+  }
+ }
  static async Task Until(Func<bool> done,int milliseconds,string what){var watch=Stopwatch.StartNew();while(!done()){if(watch.ElapsedMilliseconds>milliseconds)throw new Exception("Timeout: "+what);await Task.Delay(30);}}
  // Seed UnityEngine.Random so the next rolls satisfy a condition (hit, crit, miss...). Presentation jitter uses its own generator.
  static void Rig(Func<int[],bool> accept,int count){for(int seed=1;seed<200000;seed++){UnityEngine.Random.InitState(seed);var v=new int[count];for(int i=0;i<count;i++)v[i]=UnityEngine.Random.Range(0,100);if(accept(v)){UnityEngine.Random.InitState(seed);return;}}throw new Exception("No seed");}
@@ -35,7 +49,8 @@ public static class VerifyFieldBattle
  {
   int r=99;Func<int> roll=()=>r;
   var a=new Adventurer("A","scout","",4,0);var b=new Adventurer("B","medic","",4,0);int ammo=2;
-  var s=new FieldBattleState(new[]{a,b},1,p=>p==a?ammo:0,p=>{if(p!=a||ammo<=0)return false;ammo--;return true;},roll);var rules=s.Rules;var e=s.Units[2];
+  // Threshold pinned at 4 so two shots still exercise the alarm, arrival, advance and retreat path below (shipped default is 5, checked further down).
+  var s=new FieldBattleState(new[]{a,b},1,p=>p==a?ammo:0,p=>{if(p!=a||ammo<=0)return false;ammo--;return true;},roll,new FieldBattleRules{ReinforcementNoise=4});var rules=s.Rules;var e=s.Units[2];
   Check(e.Enemy&&e.Depth==1&&e.Lane==0&&e.Health==rules.EnemyHealth,"Infected starts one row back");
   Check(!s.Move(0,2),"Occupied cell accepted");Check(s.Move(1,0)&&!s.Move(2,0),"Move limit");Check(!s.Attack(2,false),"Melee from rear");
   Check(s.Attack(2,true)&&ammo==1&&s.AmmoSpent==1&&e.Health==rules.EnemyHealth&&s.Noise==rules.ShotNoise,"Miss spends ammo and makes noise");
@@ -71,7 +86,7 @@ public static class VerifyFieldBattle
   Check(t.HitChance(1,false)==0&&t.HitChance(1,true)>0,"Melee lane reach");t.Units[1].Lane=1;Check(t.HitChance(1,false)==t.Rules.MeleeHitChance,"Adjacent lane melee");
 
   // Review fixes: no alarm on the killing shot; forecast target survives an earlier bite; no sidestep ping-pong; alarm respects the cap.
-  var steady=new FieldBattleRules{CriticalChance=0};a=new Adventurer("A","","",4,0);b=new Adventurer("B","","",4,0);
+  var steady=new FieldBattleRules{CriticalChance=0,ReinforcementNoise=4};a=new Adventurer("A","","",4,0);b=new Adventurer("B","","",4,0);
   s=new FieldBattleState(new[]{a,b},1,p=>5,p=>true,()=>0,steady);
   Check(s.Attack(2,true)&&s.Attack(2,true)&&s.Outcome==FieldBattleOutcome.Victory&&!s.ReinforcementPending&&!s.Events.Any(v=>v.Kind==BattleEventKind.Alarm),"Killing shot must not call a reinforcement");
   r=99;a=new Adventurer("A","","",4,0);b=new Adventurer("B","","",4,0);s=new FieldBattleState(new[]{a,b},2,p=>0,p=>false,roll);
@@ -84,6 +99,11 @@ public static class VerifyFieldBattle
   var back=s.PredictIntents().Single(p=>p.Enemy==4);Check(back.Kind==EnemyIntentKind.Shift&&back.Lane==0,"Blocked infected sidesteps toward an open front cell");
   s=new FieldBattleState(new[]{new Adventurer("A","","",4,0)},2,p=>5,p=>true,()=>99,new FieldBattleRules{MaxEnemies=2,ReinforcementNoise=2});
   Check(s.Attack(2,true)&&s.Noise==2&&!s.ReinforcementPending,"No alarm while the infected cap is full");
+  // Shipped rules (balance pass 1): two members firing once each stay quiet enough; the third shot calls help. Roll 99 always misses.
+  a=new Adventurer("A","","",4,0);b=new Adventurer("B","","",4,0);var shipped=new FieldBattleRules();s=new FieldBattleState(new[]{a,b},1,p=>5,p=>true,()=>99,shipped);
+  Check(s.Attack(2,true)&&s.Attack(2,true)&&s.Current.Enemy&&s.Noise==2*shipped.ShotNoise&&!s.ReinforcementPending&&!s.Events.Any(v=>v.Kind==BattleEventKind.Alarm),"Default rules: one shot each calls no reinforcement");
+  Check(s.EnemyStep()&&s.Actor==0&&s.Round==2&&!s.ReinforcementPending,"Default rules: still quiet after the enemy phase");
+  Check(s.Attack(2,true)&&s.Noise==3*shipped.ShotNoise&&s.ReinforcementPending&&s.Events.Any(v=>v.Kind==BattleEventKind.Alarm),"Default rules: the third shot calls one");
 
   // Battle items: treat a wounded ally, clamp to max, spend the action, refuse full HP / enemies / failed consumption.
   a=new Adventurer("A","","",4,0){Health=1};b=new Adventurer("B","","",4,0);int used=0;
@@ -97,14 +117,17 @@ public static class VerifyFieldBattle
   a=new Adventurer("A","","",1,0);r=99;s=new FieldBattleState(new[]{a},1,p=>0,p=>false,roll);s.Guard();s.EnemyStep();
   Check(s.Attack(1,false)&&s.Current.Enemy,"Miss hands over the turn");r=0;s.EnemyStep();
   Check(s.Outcome==FieldBattleOutcome.Defeat&&a.Health==0,"Persistent defeat");
-  return "PASS: battle items (treat/clamp/refuse/consume), armor and hit factors, spawn rows, stable forecast target, no alarm on the killing shot or over the cap, blocked sidestep, move limits, front/lane melee reach, ammo+noise on miss, infected advance, live bite forecast and move preview, depth bite penalty, reinforcement alarm/arrival, persistent damage, guard lowers bite chance and reads as a block, retreat bites that cannot knock out, crit kill/push, front ally cover, victory/defeat/retreat terminal guards.";
+  return "PASS: shipped threshold (one shot each = no reinforcement, third shot = one), battle items (treat/clamp/refuse/consume), armor and hit factors, spawn rows, stable forecast target, no alarm on the killing shot or over the cap, blocked sidestep, move limits, front/lane melee reach, ammo+noise on miss, infected advance, live bite forecast and move preview, depth bite penalty, reinforcement alarm/arrival, persistent damage, guard lowers bite chance and reads as a block, retreat bites that cannot knock out, crit kill/push, front ally cover, victory/defeat/retreat terminal guards.";
  }
 
  // New game -> two adventurers -> first home -> settlement. The intro tutorial gate is lifted for this fixture.
  public static async Task<string> Enter()
  {
   Check(Application.isPlaying,"Play first");SceneManager.LoadScene("PartySelection");await Task.Delay(800);
-  var p=Object.FindAnyObjectByType<PartySelectionController>();PartySelectionSession.Clear();p.Refresh();await Tap(p.Cards[0].Button);await Tap(p.Cards[2].Button);await Tap(p.Continue);await Task.Delay(800);
+  // The opening pair is preselected and fixed; older builds let any two be picked.
+  var p=Object.FindAnyObjectByType<PartySelectionController>();if(PartySelectionSession.Selected.Count!=2){PartySelectionSession.Clear();p.Refresh();}await Task.Delay(100);
+  foreach(var card in p.Cards.Where(x=>x.gameObject.activeInHierarchy&&x.Button.IsInteractable())){if(PartySelectionSession.Selected.Count>=2)break;await Tap(card.Button);}
+  await Tap(p.Continue);await Task.Delay(800);
   var h=Object.FindAnyObjectByType<HomeSelectionController>();await Tap(h.Cards[0].Button);await Tap(h.Continue);await Task.Delay(900);
   var c=Object.FindAnyObjectByType<SettlementController>();Check(c&&c.Campaign!=null,"Settlement missing");
   if(c.Introduction)c.Introduction.Restore(10);await Task.Delay(300);
@@ -132,7 +155,7 @@ public static class VerifyFieldBattle
   var battle=e.Battle;Check(battle.IsOpen&&!a.Main.gameObject.activeSelf&&!a.PawnRoot.gameObject.activeSelf,"Battle input/world gate");Check(battle.Cells.Length==18,"Formation size");
   Check(battle.Presentation&&battle.HudLayer&&battle.FxLayer&&battle.NoiseGauge,"Feel layer wired");
   Check(battle.HudLayer.GetComponentsInChildren<BattlePawnHud>().Length==battle.State.Units.Count,"One HUD per standee");
-  Bounds(battle.View);await Tap(battle.Shoot);battle.Escape();Check(!battle.Aiming&&battle.Ranged,"Shoot selected without aiming");EventSystem.current.SetSelectedGameObject(null);
+  Bounds(battle.View);Cards(battle);await Tap(battle.Shoot);battle.Escape();Check(!battle.Aiming&&battle.Ranged,"Shoot selected without aiming");EventSystem.current.SetSelectedGameObject(null);
   // Serialized rules must match the reviewed defaults, or the game silently runs other numbers than the tests and simulation.
   var defaults=new FieldBattleRules();var drift=typeof(FieldBattleRules).GetFields().Where(f=>!Equals(f.GetValue(battle.Rules),f.GetValue(defaults))).Select(f=>f.Name).ToArray();
   Check(drift.Length==0,"Battle rules differ from the reviewed defaults (run SyncBattleRules.Apply or update the defaults): "+string.Join(", ",drift));
@@ -254,18 +277,32 @@ public static class VerifyFieldBattle
   }
   finally{UnityEngine.Random.state=beforeRandom;b.ActionPause=pause;b.Presentation.Speed=speed;}
  }
+ // The fixture fights in the arcade (room 0, Begin taps Objects[0]). Its way back is the exit, so a battle retreat ends the expedition
+ // exactly like the encounter's own retreat (EncounterPanel.FinishBattle -> ArrivalPanel.FinishReturn): travel minutes, no exploration turn.
+ // It closes the expedition, so run Enter + BeginPreview again before any later battle flow.
  public static async Task<string> RetreatFlow()
  {
-  var a=Arrival;var b=a.Encounter.Battle;Check(b.IsOpen,"Preview first");int turns=a.Rooms.Turns,noise=a.Rooms.Noise;float speed=b.Presentation.Speed;b.Presentation.Speed=8;
+  var a=Arrival;var b=a.Encounter.Battle;Check(b.IsOpen,"Preview first");Check(a.Rooms.CurrentRoom==0&&b.RetreatsHome,"Fixture fights in the arcade (room 0)");
+  var c=Object.FindAnyObjectByType<SettlementController>();var site=c.ExpeditionPanel.Destinations.First(d=>d.Id==c.Campaign.FieldDestination);
+  int turns=a.Rooms.Turns,clock=c.Campaign.Day*1440+c.Campaign.MinuteOfDay;float speed=b.Presentation.Speed;b.Presentation.Speed=8;
   try
   {
    await Until(()=>!b.Busy,4000,"first turn");
-   await Tap(b.Retreat);Bounds(b.RetreatReview);Check(b.RetreatBody.text.Contains("복도"),"Retreat body");b.Escape();Check(!b.RetreatReview.activeSelf&&b.IsOpen&&a.Rooms.Turns==turns,"Esc retreat cost");
+   var cost=b.Retreat.transform.Find("Cost");Check(cost&&cost.GetComponent<Text>().text==b.RetreatHomeCost,"Retreat cost reads the home return: "+(cost?cost.GetComponent<Text>().text:"no Cost"));
+   await Tap(b.Retreat);Bounds(b.RetreatReview);var threats=b.State.RetreatThreats().Count;
+   var expected=string.Format(threats==0?b.RetreatHomeQuietBody:b.RetreatHomeThreatBody,threats,b.Rules.RetreatHitChance,a.Rooms.RetreatRoomName,b.Rules.EnemyDamage);
+   Check(b.RetreatBody.text==expected&&b.RetreatBody.text.Contains("거점")&&!b.RetreatBody.text.Contains("1턴")&&!b.RetreatBody.text.Contains("적 0마리"),"Retreat body is the home variant: "+b.RetreatBody.text);
+   b.Escape();Check(!b.RetreatReview.activeSelf&&b.IsOpen&&a.Rooms.Turns==turns,"Esc retreat cost");
    await Tap(b.Retreat);await Tap(b.RetreatConfirm);await Until(()=>b.Result.activeSelf,8000,"retreat result");await Task.Delay(150);Bounds(b.Result);
-   Check(b.State.Units.Where(u=>!u.Enemy).All(u=>u.Health>=1),"Retreat knocked someone out");int resultNoise=b.State.ResultNoise;
-   await Tap(b.ResultContinue);b.ResultContinue.onClick.Invoke();await Task.Delay(2400);
-   Check(a.Rooms.CurrentRoom==1&&a.Rooms.Turns==turns+1&&a.Rooms.Noise==noise+resultNoise&&!b.IsOpen&&!a.Encounter.IsOpen,"Retreat destination/cost");
-   return "PASS: retreat cancel/Esc free, parting-bite disclosure, confirm and result, nobody knocked out, duplicate continue ignored, corridor transition costs exactly one turn.";
+   Check(b.State.Units.Where(u=>!u.Enemy).All(u=>u.Health>=1),"Retreat knocked someone out");
+   var consequences=b.Result.GetComponent<BattleResultSummary>().Consequences.text;
+   Check(b.ResultContinueLabel.text==b.RetreatHomeLabel,"Continue reads the home return: "+b.ResultContinueLabel.text);
+   Check(consequences.Contains("거점")&&consequences.Contains(site.OneWayMinutes+"분")&&!consequences.Contains("탐험 1턴")&&!consequences.Contains("총성"),"Result: home return with travel time, no exploration turn or gunfire: "+consequences);
+   await Tap(b.ResultContinue);b.ResultContinue.onClick.Invoke();await Task.Delay(600);
+   Check(!b.IsOpen&&!a.Encounter.IsOpen&&!a.IsOpen&&!c.Campaign.IsFieldExpedition&&c.Campaign.Stage==JourneyStage.Settlement,"Retreat from the arcade ends the expedition");
+   Check(a.Rooms.Turns==turns&&c.Campaign.Day*1440+c.Campaign.MinuteOfDay-clock==site.OneWayMinutes,"Home return spends the travel minutes, not an exploration turn");
+   Check(!c.ReturnPanel||c.ReturnPanel.IsOpen,"Return report opens");
+   return "PASS: arcade retreat reads '"+b.RetreatHomeCost+"' / home review ("+(threats==0?"quiet":threats+" parting blows")+"), Esc free, nobody knocked out, result '"+b.RetreatHomeLabel+"' without an exploration turn or gunfire, duplicate continue ignored, expedition ended with "+site.OneWayMinutes+" travel minutes and the return report open.";
   }
   finally{b.Presentation.Speed=speed;}
  }
@@ -318,7 +355,7 @@ public static class VerifyFieldBattle
   catch{recorder.Running=false;await Task.Delay(120);foreach(var f in recorder.Frames)Object.Destroy(f);recorder.Frames.Clear();throw;}
   recorder.Running=false;await Task.Delay(120);return recorder.Save(Path.Combine(Shots,clip));
  }
- // Scripted exchange at real speed: shot, guard, advance; crit melee kill, noisy shot, reinforcement; guard, miss, bite.
+ // Scripted exchange at real speed: shot, guard, advance; crit melee kill, noisy shots (a third one when the threshold needs it), reinforcement; guard, miss, bite.
  public static async Task<string> Showcase()
  {
   var a=Arrival;var b=a.Encounter.Battle;Check(b.IsOpen&&b.State.Units.Count(u=>u.Enemy)==2,"BeginShowcase first");var s=b.State;var beforeRandom=UnityEngine.Random.state;var log=new List<string>();
@@ -346,7 +383,15 @@ public static class VerifyFieldBattle
     await Until(()=>!b.Busy,8000,"ally 2 second turn");
     int next=s.Units.FindIndex(u=>u.Enemy&&u.Alive);if(next<0)return;await TapCell(b,true,s.Units[next].Depth,s.Units[next].Lane);await Tap(b.Shoot);
     if(!b.Execute.interactable){await Tap(b.Guard);return;}
-    Rig(v=>v[0]<s.HitChance(next,true)&&v[1]>=s.Rules.CriticalChance,2);await Tap(b.Execute);}));
+    Rig(v=>v[0]<s.HitChance(next,true)&&v[1]>=s.Rules.CriticalChance,2);await Tap(b.Execute);
+    // Threshold 5: melee + two shots (noise 4) stay quiet. Fire one more that leaves its target standing (noise 6),
+    // then let the round turn over so the reinforcement walks in before the '04-reinforced-round' still.
+    if(s.Reinforcements>0||s.ReinforcementPending)return;
+    await Until(()=>!b.Busy||s.Outcome!=FieldBattleOutcome.Playing,10000,"ally 1 third turn");if(s.Outcome!=FieldBattleOutcome.Playing||!s.PlayerTurn)return;
+    int loud=s.Units.FindIndex(u=>u.Enemy&&u.Alive);if(loud<0)return;await TapCell(b,true,s.Units[loud].Depth,s.Units[loud].Lane);await Tap(b.Shoot);
+    if(!b.Execute.interactable){await Tap(b.Guard);return;}
+    int odds=s.HitChance(loud,true);bool stands=s.Units[loud].Health>s.ExpectedDamage(loud,true);Rig(v=>stands?v[0]<odds&&v[1]>=s.Rules.CriticalChance:v[0]>=odds,2);await Tap(b.Execute);log.Add("extra shot, noise "+s.Noise);
+    await Until(()=>!b.Busy||s.Outcome!=FieldBattleOutcome.Playing,10000,"ally 2 guard");if(s.Outcome==FieldBattleOutcome.Playing&&s.PlayerTurn)await Tap(b.Guard);}));
    log.Add("after clip2: noise "+s.Noise+" reinforcements "+s.Reinforcements+" enemies "+s.Units.Count(u=>u.Enemy&&u.Alive));
    await Task.Delay(300);await Still(b,"04-reinforced-round");
    if(s.Outcome==FieldBattleOutcome.Playing)

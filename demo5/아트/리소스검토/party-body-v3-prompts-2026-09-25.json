@@ -1,0 +1,152 @@
+{
+  "date": "2026-09-25",
+  "tool": "built-in image_gen__imagegen",
+  "version": "v3",
+  "scope": "Cook, researcher and guard only; mechanic is authored separately by root.",
+  "direction": "Follow the original scout/medic quiet trouser contours, small rounded shoes and modest three-quarter side pose. Reduce exaggerated knees, ankle folds, boot soles and wide stance. Preserve head/clothing identity and role props. Judge visually, not by a target width-height ratio.",
+  "sourcePixels": "Native generated PNGs copied unchanged. No cropping, recoloring, resampling or programmatic background removal. V1/V2 sources remain preserved.",
+  "contextReference": "아트/리소스검토/standee-proportions-v2-field-1920x1080.png",
+  "assets": [
+    {
+      "id": "cook",
+      "source": "아트/리소스검토/party-cook-body-v3-source.png",
+      "unityCandidate": "Assets/Art/Tokens/party-cook-body-v3.png",
+      "references": [
+        "E:/personalProject/Demo3/demo5/Assets/Art/Tokens/party-cook-body-v2.png",
+        "E:/personalProject/Demo3/demo5/Assets/Art/Settlement/standee-scout.png",
+        "E:/personalProject/Demo3/demo5/Assets/Art/Settlement/standee-medic.png"
+      ],
+      "prompt": "Edit Image1, the cook body silhouette. Image2 and Image3 are the original scout and medic, the mandatory visual proportion and pose references. Keep this character's identity: Preserve her tied bun, swept fringe, jacket hood and apron hem. Keep the hands resting beside her hips. She remains the same woman cook. Correct the over-exaggerated body contour of Image1 so this adult survivor belongs beside Image2/3. Turn the torso slightly more toward screen right, into the same modest three-quarter side stance as the references, rather than a square frontal pose. Use a relaxed everyday jacket silhouette, simple trouser legs with quiet nearly straight contours, and small plain rounded closed shoes. Remove the inflated knee bulges, stacked ankle folds, bulky mitten-like cuffs, exaggerated boot soles, flared feet and overly wide stance from Image1. Feet should sit naturally under the body with a modest gap and only a subtle step offset. Keep comfortable body volume and normal adult survivor proportions; do not turn the character into a skinny figure or elongate the legs. The head identity, clothing identity and role prop must remain recognizable; express them only through the outer contour. Draw one consistent flat black #171b1a silhouette with NO facial details, interior lines, highlights, garment texture or shading. Whole character from hair/cap top to both shoe soles visible, with hands and prop entirely included. Never crop any part of the body. No paper border, no outline, no base, no pedestal, no floor and no shadow. The output must be an actual transparent-background PNG, with zero-alpha empty space. One individual native high-resolution full-body image, as large as the tool can natively generate; ideally the visible figure is at least 1536 pixels tall. Do not upscale or horizontally stretch the old image.",
+      "firstRgbCandidate": "C:/Users/power/.codex/generated_images/01a0d401-a1cc-7b30-9525-0197856a1c65/exec-40047a3d-0cad-4f1f-85af-721e4ebe1ea9.png",
+      "correctivePrompt": "Remove the background from this character image and give me a transparent-background PNG cutout. Keep the entire woman exactly as drawn. Do not crop her.",
+      "correctiveRgbCandidate": null,
+      "finalTransparencyPrompt": "Remove the background from this character image and give me a transparent-background PNG cutout. Keep the entire woman exactly as drawn. Do not crop her.",
+      "generatedSource": "C:/Users/power/.codex/generated_images/01a0d401-a1cc-7b30-9525-0197856a1c65/exec-d391899c-2849-43cd-bb1f-85f9e9e5d260.png",
+      "visualStatus": "Candidate ready for root Unity comparison; not claiming final user art approval.",
+      "notes": "Bun, hood and apron preserved.",
+      "validation": {
+        "mode": "RGBA",
+        "width": 992,
+        "height": 1585,
+        "alphaMin": 0,
+        "alphaMax": 255,
+        "clearPixels": 1032121,
+        "partialPixels": 539439,
+        "opaquePixels": 760,
+        "alphaBoundsAt16": [
+          220,
+          37,
+          773,
+          1552
+        ],
+        "alphaBoundsAt128": [
+          220,
+          37,
+          773,
+          1552
+        ],
+        "bodyWidth": 553,
+        "bodyHeight": 1515,
+        "sourceAndUnityByteIdentical": true,
+        "sha256": "9a45172637e982afa8e4442f1edf8aa6b42e7ab072cffcef56d373daef4b33ce"
+      },
+      "resolutionNote": "Native visible figure 1515px tall; target1536 deficit 21px. Original pixels retained without upscale."
+    },
+    {
+      "id": "researcher",
+      "source": "아트/리소스검토/party-researcher-body-v3-source.png",
+      "unityCandidate": "Assets/Art/Tokens/party-researcher-body-v3.png",
+      "references": [
+        "E:/personalProject/Demo3/demo5/Assets/Art/Tokens/party-researcher-body-v2.png",
+        "E:/personalProject/Demo3/demo5/Assets/Art/Settlement/standee-scout.png",
+        "E:/personalProject/Demo3/demo5/Assets/Art/Settlement/standee-medic.png"
+      ],
+      "prompt": "Edit Image1, the researcher body silhouette. Image2 and Image3 are the original scout and medic, the mandatory visual proportion and pose references. Keep this character's identity: Preserve his swept short hair, subtle glasses at the facial outer contour, raised coat collar and closed notebook in the lowered screen-left hand. He remains the same man researcher. The notebook is flat black with no bright inner edge. Correct the over-exaggerated body contour of Image1 so this adult survivor belongs beside Image2/3. Turn the torso slightly more toward screen right, into the same modest three-quarter side stance as the references, rather than a square frontal pose. Use a relaxed everyday jacket silhouette, simple trouser legs with quiet nearly straight contours, and small plain rounded closed shoes. Remove the inflated knee bulges, stacked ankle folds, bulky mitten-like cuffs, exaggerated boot soles, flared feet and overly wide stance from Image1. Feet should sit naturally under the body with a modest gap and only a subtle step offset. Keep comfortable body volume and normal adult survivor proportions; do not turn the character into a skinny figure or elongate the legs. The head identity, clothing identity and role prop must remain recognizable; express them only through the outer contour. Draw one consistent flat black #171b1a silhouette with NO facial details, interior lines, highlights, garment texture or shading. Whole character from hair/cap top to both shoe soles visible, with hands and prop entirely included. Never crop any part of the body. No paper border, no outline, no base, no pedestal, no floor and no shadow. The output must be an actual transparent-background PNG, with zero-alpha empty space. One individual native high-resolution full-body image, as large as the tool can natively generate; ideally the visible figure is at least 1536 pixels tall. Do not upscale or horizontally stretch the old image.",
+      "firstRgbCandidate": "C:/Users/power/.codex/generated_images/01a0d401-a1cc-7b30-9525-0197856a1c65/exec-33a83dbe-9944-4a2e-95ea-eafb1d46e385.png",
+      "correctivePrompt": "Remove the background and the backpack on the character's back. This character has NO backpack. Give me a transparent-background PNG cutout of the whole man. Keep the character's head, clothes, pose, shoes, glasses and notebook exactly as drawn; change only the newly added backpack silhouette and background. Do not crop any part of the figure.",
+      "correctiveRgbCandidate": "C:/Users/power/.codex/generated_images/01a0d401-a1cc-7b30-9525-0197856a1c65/exec-18d51885-45f9-458e-b26a-7d49ae047ea6.png",
+      "finalTransparencyPrompt": "Remove the background from this character image and give me a transparent-background PNG cutout. Keep the entire character exactly as drawn. Do not crop the character.",
+      "generatedSource": "C:/Users/power/.codex/generated_images/01a0d401-a1cc-7b30-9525-0197856a1c65/exec-4ab97438-d290-4096-ac09-9cc7dff1d339.png",
+      "visualStatus": "Rejected in same-size Unity comparison: legs appear too long and head/torso too slim compared with v2 and original party.",
+      "notes": "First generator copied a backpack from proportion references. Unrequested backpack removed with image_gen before final transparent extraction.",
+      "validation": {
+        "mode": "RGBA",
+        "width": 993,
+        "height": 1584,
+        "alphaMin": 0,
+        "alphaMax": 255,
+        "clearPixels": 1139448,
+        "partialPixels": 430370,
+        "opaquePixels": 3094,
+        "alphaBoundsAt16": [
+          263,
+          68,
+          753,
+          1499
+        ],
+        "alphaBoundsAt128": [
+          263,
+          69,
+          753,
+          1498
+        ],
+        "bodyWidth": 490,
+        "bodyHeight": 1431,
+        "sourceAndUnityByteIdentical": true,
+        "sha256": "6918406ddece4b15eca19c18d03267401ab9a5258b8b19528ff827885abff8aa"
+      },
+      "resolutionNote": "Native visible figure 1431px tall; target1536 deficit 105px. Original pixels retained without upscale.",
+      "rejectedSlimBackup": "아트/리소스검토/party-researcher-body-v3-rejected-slim-source.png",
+      "backupSha256": "6918406ddece4b15eca19c18d03267401ab9a5258b8b19528ff827885abff8aa",
+      "laterAttemptReport": "아트/리소스검토/party-body-v3-shoes-only-attempt-2026-09-25.json"
+    },
+    {
+      "id": "guard",
+      "source": "아트/리소스검토/party-guard-body-v3-source.png",
+      "unityCandidate": "Assets/Art/Tokens/party-guard-body-v3.png",
+      "references": [
+        "E:/personalProject/Demo3/demo5/Assets/Art/Tokens/party-guard-body-v2.png",
+        "E:/personalProject/Demo3/demo5/Assets/Art/Settlement/standee-scout.png",
+        "E:/personalProject/Demo3/demo5/Assets/Art/Settlement/standee-medic.png"
+      ],
+      "prompt": "Edit Image1, the guard body silhouette. Image2 and Image3 are the original scout and medic, the mandatory visual proportion and pose references. Keep this character's identity: Preserve her baseball cap, its bill facing right, small low ponytail and hooded practical jacket. Keep both hands down. She remains the same woman guard. Correct the over-exaggerated body contour of Image1 so this adult survivor belongs beside Image2/3. Turn the torso slightly more toward screen right, into the same modest three-quarter side stance as the references, rather than a square frontal pose. Use a relaxed everyday jacket silhouette, simple trouser legs with quiet nearly straight contours, and small plain rounded closed shoes. Remove the inflated knee bulges, stacked ankle folds, bulky mitten-like cuffs, exaggerated boot soles, flared feet and overly wide stance from Image1. Feet should sit naturally under the body with a modest gap and only a subtle step offset. Keep comfortable body volume and normal adult survivor proportions; do not turn the character into a skinny figure or elongate the legs. The head identity, clothing identity and role prop must remain recognizable; express them only through the outer contour. Draw one consistent flat black #171b1a silhouette with NO facial details, interior lines, highlights, garment texture or shading. Whole character from hair/cap top to both shoe soles visible, with hands and prop entirely included. Never crop any part of the body. No paper border, no outline, no base, no pedestal, no floor and no shadow. The output must be an actual transparent-background PNG, with zero-alpha empty space. One individual native high-resolution full-body image, as large as the tool can natively generate; ideally the visible figure is at least 1536 pixels tall. Do not upscale or horizontally stretch the old image.",
+      "firstRgbCandidate": "C:/Users/power/.codex/generated_images/01a0d401-a1cc-7b30-9525-0197856a1c65/exec-8885d497-bbdb-4207-bb3a-f9e55dd8b5b7.png",
+      "correctivePrompt": "Remove the background and the backpack on the character's back. This character has NO backpack. Give me a transparent-background PNG cutout of the whole woman. Keep the character's head, clothes, pose, shoes, cap and ponytail exactly as drawn; change only the newly added backpack silhouette and background. Do not crop any part of the figure.",
+      "correctiveRgbCandidate": "C:/Users/power/.codex/generated_images/01a0d401-a1cc-7b30-9525-0197856a1c65/exec-fbbd2d35-7667-4ef8-9751-64c0affdc04e.png",
+      "finalTransparencyPrompt": "Remove the background from this character image and give me a transparent-background PNG cutout. Keep the entire character exactly as drawn. Do not crop the character.",
+      "generatedSource": "C:/Users/power/.codex/generated_images/01a0d401-a1cc-7b30-9525-0197856a1c65/exec-bfd3285a-b532-4140-b78b-2a5c36e34fe4.png",
+      "visualStatus": "Rejected in same-size Unity comparison: legs appear too long and head/torso too slim compared with v2 and original party.",
+      "notes": "First generator copied a backpack from proportion references. Unrequested backpack removed with image_gen before final transparent extraction.",
+      "validation": {
+        "mode": "RGBA",
+        "width": 1024,
+        "height": 1536,
+        "alphaMin": 0,
+        "alphaMax": 254,
+        "clearPixels": 1163944,
+        "partialPixels": 408920,
+        "opaquePixels": 0,
+        "alphaBoundsAt16": [
+          313,
+          24,
+          778,
+          1463
+        ],
+        "alphaBoundsAt128": [
+          314,
+          25,
+          778,
+          1462
+        ],
+        "bodyWidth": 465,
+        "bodyHeight": 1439,
+        "sourceAndUnityByteIdentical": true,
+        "sha256": "ee143a64dfa5033704c31afb853c91bf40b7510db43498c1994264fddf40d5a5"
+      },
+      "resolutionNote": "Native visible figure 1439px tall; target1536 deficit 97px. Original pixels retained without upscale.",
+      "rejectedSlimBackup": "아트/리소스검토/party-guard-body-v3-rejected-slim-source.png",
+      "backupSha256": "ee143a64dfa5033704c31afb853c91bf40b7510db43498c1994264fddf40d5a5",
+      "laterAttemptReport": "아트/리소스검토/party-body-v3-shoes-only-attempt-2026-09-25.json"
+    }
+  ]
+}

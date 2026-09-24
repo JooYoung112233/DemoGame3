@@ -43,6 +43,8 @@ namespace Demo5.NightRun
         public List<int> Chosen { get; } = new List<int>();
         public HomeSite Home { get; private set; }
         public int Day { get; private set; } = 1;
+        // Supplies (and HomeSite.Supplies, Settle, Return, Rest, PrepareAmmo) belong to the unreachable NightExpedition prototype.
+        // The FrontEnd game retired the supplies item on 2026-09-25 (save v14): it no longer shows, uses or saves this counter.
         public int Supplies { get; private set; }
         public int Ammo { get; private set; }
         public RunState ActiveRun { get; private set; }
@@ -76,6 +78,8 @@ namespace Demo5.NightRun
             Supplies=Ammo=0;
             foreach(var p in Party) p.Health=Math.Max(1,p.MaxHealth-1);
         }
+        // A found, logged stock gain during settlement (introduction search); never a free default.
+        public bool AddSettlementAmmo(int n){if(Stage!=JourneyStage.Settlement||n<0)return false;Ammo+=n;return true;}
         public int MinuteOfDay {get;private set;}=540;
         public bool IsFieldExpedition {get;private set;}
         public string FieldDestination {get;private set;}
@@ -88,7 +92,8 @@ namespace Demo5.NightRun
             if(Stage!=JourneyStage.Settlement||IsFieldExpedition||string.IsNullOrEmpty(destination)||participants==null||participants.Length==0||minutes<0||participants.Distinct().Count()!=participants.Length||participants.Any(p=>!Party.Contains(p)||p.Health<=0))return false;
             IsFieldExpedition=true;FieldDestination=destination;Stage=JourneyStage.Expedition;AdvanceTravel(minutes);return true;
         }
-        public bool AdjustFieldResource(string id,int delta){if(!IsFieldExpedition||Stage!=JourneyStage.Expedition)return false;if(id=="supplies"){if(Supplies+delta<0)return false;Supplies+=delta;return true;}if(id=="ammo"){if(Ammo+delta<0)return false;Ammo+=delta;return true;}return false;}
+        // FrontEnd field bags: only ammo is a campaign counter (the supplies item was retired 2026-09-25).
+        public bool AdjustFieldResource(string id,int delta){if(!IsFieldExpedition||Stage!=JourneyStage.Expedition)return false;if(id=="ammo"){if(Ammo+delta<0)return false;Ammo+=delta;return true;}return false;}
         public bool EndFieldExpedition(int minutes){
             if(!IsFieldExpedition||Stage!=JourneyStage.Expedition||minutes<0)return false;
             AdvanceTravel(minutes);IsFieldExpedition=false;FieldDestination=null;Stage=JourneyStage.Settlement;return true;

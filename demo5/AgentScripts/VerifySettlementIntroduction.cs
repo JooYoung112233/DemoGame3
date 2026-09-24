@@ -61,7 +61,7 @@ public static class VerifySettlementIntroduction
         await Tap(c.Introduction.Action);Check(c.Introduction.Step==8&&c.CraftPanel.Available("food")==4,"Pantry discovery");
         await Tap(c.Stock);Check(c.CookingPanel.RecipeRows.Count==1,"Too many initial meals");await Tap(c.CookingPanel.WorkerRows[0].Button);await Tap(c.CookingPanel.Confirm);await CompleteWork();
         Check(c.Introduction.Step==9&&c.CraftPanel.Available("meal")>0&&c.Exit.gameObject.activeSelf&&!c.VisitorPanel.OpenButton.gameObject.activeSelf,"Meal and expedition unlock");
-        var saved=CampaignPersistence.Capture(c);saved.Version=8;saved.IntroductionStep=0;CampaignPersistence.Upgrade(saved,c);Check(saved.Version==9&&saved.IntroductionStep==10,"Legacy migration locks old player");
+        var saved=CampaignPersistence.Capture(c);saved.Version=8;saved.IntroductionStep=0;CampaignPersistence.Upgrade(saved,c);Check(saved.Version==CampaignPersistence.CurrentVersion&&saved.IntroductionStep==10,"Legacy migration locks old player");
         return "PASS actual UI path through survey/search, file save/load without duplicate grants, rest/craft/cooking completion, staged menus, old-save migration; ready for expedition";
     }
     public static async Task<string> Return()
