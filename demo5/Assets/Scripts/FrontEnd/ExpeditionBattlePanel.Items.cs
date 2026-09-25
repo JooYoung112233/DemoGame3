@@ -46,7 +46,7 @@ namespace Demo5.FrontEnd
             var person = State.Current.Person;
             var carried = arrival.Inventory.Items.Where(i => arrival.Inventory.CountFor(person, i.Id) > 0).ToList();
             itemId = carried.Where(i => BattleUsable(i) && arrival.Inventory.CountFor(person, i.Id) >= i.UseCost && Enumerable.Range(0, State.Units.Count).Any(u => CanTreatWith(i.Id, u)))
-                .OrderByDescending(i => i.Recovery).Select(i => i.Id).FirstOrDefault() ?? carried.OrderByDescending(BattleUsable).Select(i => i.Id).FirstOrDefault();
+                .OrderByDescending(i => State.ItemRecovery(i.Recovery,i.Id)).Select(i => i.Id).FirstOrDefault() ?? carried.OrderByDescending(BattleUsable).Select(i => i.Id).FirstOrDefault();
             itemTarget = DefaultTreatTarget();
             SetItemLayout(true); Refresh();
         }
@@ -102,11 +102,12 @@ namespace Demo5.FrontEnd
                 slots[k].Bind(item?.Icon, item != null ? arrival.Inventory.CountFor(person, item.Id) : 0, item != null && item.Id == itemId, item == null && k >= person.BagCapacity, BattleUsable(item));
             }
             var data = ItemData(itemId); bool usable = BattleUsable(data);
+            int recovery = data == null ? 0 : State.ItemRecovery(data.Recovery,data.Id);
             Drawer.DetailIcon.sprite = data?.Icon; Drawer.DetailIcon.enabled = data != null && data.Icon;
             Drawer.DetailName.text = data?.Name ?? "가방이 비어 있습니다";
             Drawer.DetailDescription.text = data == null ? "전투 중에는 이 대원의 가방만 쓸 수 있습니다."
                 : !usable ? "전투 중에는 쓸 수 없는 물건입니다."
-                : (SelfOnly(data.Id) ? "스스로 " : "") + data.UseVerb + " · 체력 +" + data.Recovery + (string.IsNullOrEmpty(data.Description) ? "" : "\n" + data.Description.Split('\n')[0]);
+                : (SelfOnly(data.Id) ? "스스로 " : "") + data.UseVerb + " · 체력 +" + recovery + (string.IsNullOrEmpty(data.Description) ? "" : "\n" + data.Description.Split('\n')[0]);
 
             var allies = Enumerable.Range(0, State.Units.Count).Where(i => !State.Units[i].Enemy && State.Units[i].Alive && !down[i]).ToList();
             if (Drawer.ChipGrid && allies.Count > 2)
@@ -134,7 +135,7 @@ namespace Demo5.FrontEnd
             bool can = usable && targetOk && CanTreatWith(itemId, itemTarget) && arrival.Inventory.CountFor(person, itemId) >= data.UseCost;
             if (targetOk && PreviewBefore && PreviewAfter)
             {
-                var t = State.Units[itemTarget]; int before = shown[itemTarget], after = can ? Mathf.Min(t.Maximum, before + data.Recovery) : before;
+                var t = State.Units[itemTarget]; int before = shown[itemTarget], after = can ? Mathf.Min(t.Maximum, before + recovery) : before;
                 PreviewBefore.Bind(Portrait(t), t.Name, before, t.Maximum, false, true); PreviewAfter.Bind(Portrait(t), t.Name, after, t.Maximum, false, true);
             }
             Drawer.Use.interactable = ItemInput && can;
@@ -143,7 +144,7 @@ namespace Demo5.FrontEnd
                 : !targetOk ? "대상을 고르세요."
                 : SelfOnly(data.Id) && itemTarget != State.Actor ? "자기 자신에게만 쓸 수 있습니다."
                 : !State.CanTreat(itemTarget) ? State.Units[itemTarget].Name + " · 체력이 가득 찼습니다."
-                : State.Units[itemTarget].Name + " 체력 " + shown[itemTarget] + " → " + Mathf.Min(State.Units[itemTarget].Maximum, shown[itemTarget] + data.Recovery) + " · " + data.Name + " -" + data.UseCost;
+                : State.Units[itemTarget].Name + " 체력 " + shown[itemTarget] + " → " + Mathf.Min(State.Units[itemTarget].Maximum, shown[itemTarget] + recovery) + " · " + data.Name + " -" + data.UseCost;
 
             if (OrderContent && OrderCardPrefab)
             {
@@ -154,6 +155,7 @@ namespace Demo5.FrontEnd
                     bool active = k < order.Count; if (orderCards[k].gameObject.activeSelf != active) orderCards[k].gameObject.SetActive(active);
                     if (!active) continue;
                     var u = State.Units[order[k]]; orderCards[k].Portrait.sprite = Portrait(u); orderCards[k].Label.text = u.Enemy ? u.Name.Replace("감염자", "적") : u.Name;
+                    orderCards[k].SetRole(u.Enemy,u.Creature);
                     orderCards[k].Paper.color = order[k] == State.Actor ? new Color(1, .78f, .38f) : u.Enemy ? new Color(.83f, .43f, .34f) : new Color(.78f, .78f, .74f);
                 }
             }
@@ -168,7 +170,7 @@ namespace Demo5.FrontEnd
             if (!ItemInput) return;
             var data = ItemData(itemId); if (!BattleUsable(data) || !CanTreatWith(itemId, itemTarget)) { RefreshItems(); return; }
             var person = State.Current.Person; int actor = State.Actor; string id = itemId; int cost = data.UseCost;
-            if (!State.UseItem(itemTarget, data.Recovery, () => arrival.Inventory.TransferField(person, id, cost, false))) { RefreshItems(); return; }
+            if (!State.UseItem(itemTarget, data.Recovery, () => arrival.Inventory.TransferField(person, id, cost, false),id)) { RefreshItems(); return; }
             itemMode = false; panTarget = 0; SetItemLayout(false);
             StartCoroutine(RunAfterPan(actor));
         }

@@ -8,6 +8,9 @@ using UnityEngine.UI;
 using Object=UnityEngine.Object;
 
 // No scene, save or navigation mutation: inactive game components and disposable active UI targets.
+// 말 놓기 (2026-09-25): with a pawn board the guide points at pawns, silhouettes and '턴 진행' (VerifyPawnFlow.Tutorial, VerifyTutorialClarity
+// .FirstTrip). This fixture has no board, so it checks the fallback: one real doorway / the crate / the exit at a time, with the guide's
+// current words, in the field banner (FieldPosition: its serialized place, the top centre in SettlementScreen).
 public static class VerifyTutorialRoomReturn
 {
     static void Check(bool value,string message){if(!value)throw new InvalidOperationException(message);}
@@ -67,11 +70,12 @@ public static class VerifyTutorialRoomReturn
                     Room(rooms,room);a.Objects[0].gameObject.SetActive(room==0);a.Return.gameObject.SetActive(room==0);
                     rooms.CorridorBack.gameObject.SetActive(room==1);rooms.StorageBack.gameObject.SetActive(room==2);
                     Refresh(g);var target=room==2?rooms.StorageBack:room==1?rooms.CorridorBack:complete?a.Return:a.Objects[0];
+                    Check(!FieldPawnBoard.For(a),"Fixture: no pawn board (the fallback targets)");
                     Check(g.Target==target&&g.Target.IsActive()&&g.Target.IsInteractable()&&g.Banner.activeSelf&&g.Marker.gameObject.activeSelf,"Wrong or unavailable tutorial target in room "+room+", complete="+complete);
-                    string expected=room==2?"복도로 돌아가는 문을 누르세요. 다음은 오락실입니다.":room==1?(complete?"오락실로 돌아가는 문을 누르세요. 출구에서 거점으로 귀환합니다.":"오락실로 돌아가는 문을 누르세요. 입구 상자는 오락실에 있습니다."):(complete?"챙긴 물건을 가지고 ‘거점으로 귀환’을 누르세요.":"입구의 상자를 눌러 담당자를 선택하세요.");
+                    string expected=room==2?"출구는 오락실에 있습니다.\n먼저 복도로 돌아갑시다.":room==1?(complete?"들어온 문으로 돌아갑시다.\n오락실에 거점으로 가는 출구가 있습니다.":"자재 상자는 입구 쪽에 있습니다.\n오락실로 돌아갑시다."):(complete?"가방에 담은 물건만 가져갑니다.\n출구를 눌러 거처로 돌아가세요.":"?는 아직 조사하지 않은 곳입니다.\n빛나는 상자를 눌러 수색하세요.");
                     Check(g.Instruction.text==expected,"Wrong room-specific direction: "+g.Instruction.text);
                     var banner=(RectTransform)g.Banner.transform;
-                    Check(banner.anchoredPosition==new Vector2(80,-776)&&banner.sizeDelta==new Vector2(480,148),"Field guide does not fit the existing lower-left paper.");
+                    Check(banner.anchoredPosition==g.FieldPosition&&banner.sizeDelta==g.FieldSize&&g.FieldSize==new Vector2(480,148),"Field guide is not at its field place (FieldPosition): "+banner.anchoredPosition);
                     Check(g.Title.fontSize==26&&g.Instruction.fontSize==22&&g.Title.rectTransform.sizeDelta==new Vector2(432,40)&&g.Instruction.rectTransform.sizeDelta==new Vector2(432,78),"Field guide text geometry is wrong.");
                     Check(g.Title.preferredHeight<=40.1f&&g.Instruction.preferredHeight<=78.1f,"Field guide text overflows.");
                     if(room!=0)
@@ -101,7 +105,7 @@ public static class VerifyTutorialRoomReturn
             Check(g.Title.fontSize==32&&g.Instruction.fontSize==24&&g.Title.rectTransform.sizeDelta==new Vector2(602,42)&&g.Instruction.rectTransform.sizeDelta==new Vector2(602,72),"Popup failed to restore original text layout/fonts.");a.Popup.SetActive(false);
             Check(JsonUtility.ToJson(owner.Opening.State)==openingBefore,"Guidance changed opening/save progression.");
             owner.Opening.State.FirstReturn=true;Refresh(g);Check(!g.Target&&!g.Banner.activeSelf,"First-trip guide returned after first return.");
-            return "PASS: first-search and completed-search guidance targets storage→corridor→arcade one active door at a time; door frame/spotlight/arrow follow marker+caption while full click area stays intact; inactive/disabled doors hide guidance; field guide fits lower-left 480×148 paper with 26/22 text and popup restores original geometry/fonts; movement freedom, turns/noise and opening/search progression unchanged.";
+            return "PASS: first-search and completed-search guidance targets storage→corridor→arcade one active door at a time; door frame/spotlight/arrow follow marker+caption while full click area stays intact; inactive/disabled doors hide guidance; field guide fits its 480×148 paper (FieldPosition) with 26/22 text and popup restores original geometry/fonts; movement freedom, turns/noise and opening/search progression unchanged.";
         }
         finally{Object.DestroyImmediate(root);Object.DestroyImmediate(ui);}
     }

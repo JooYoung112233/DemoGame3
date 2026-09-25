@@ -94,7 +94,7 @@ public static class VerifyExplorationKnowledge
             Check(a.Popup.activeSelf&&!a.ReturnConfirm.gameObject.activeSelf&&a.PopupBody.text.Contains("지렛대"),"Missing tool should explain the lock without offering travel.");a.ClosePopup();
             var bags=(Dictionary<Adventurer,Dictionary<string,int>>)typeof(SettlementInventoryPanel).GetField("bags",BindingFlags.Instance|BindingFlags.NonPublic).GetValue(inventory);
             bags[people[0]]=new Dictionary<string,int>{{"prybar",1}};rooms.AskStorage();
-            Check(a.PopupBody.text.Contains("잠금 해제 1턴 + 이동 1턴 · 20분")&&a.PopupBody.text.Contains("소음 +2 · 도구 소모 없음"),"Locked storage omitted combined unlock/travel cost.");a.ClosePopup();
+            Check(a.PopupBody.text.Contains("잠금 해제 1턴 + 이동 1턴 · 20분")&&a.PopupBody.text.Contains("소음 +3 · 도구 소모 없음"),"Locked storage omitted combined unlock/travel cost.");a.ClosePopup();
             Check(!rooms.StorageUnlocked&&inventory.CountFor(people[0],"prybar")==1,"Cancel opened lock or consumed tool.");
             rooms.RestoreSaved(new CampaignSaveData{CorridorVisited=true,StorageUnlocked=true,Inspected=Array.Empty<string>()});rooms.AskStorage();
             Check(a.PopupBody.text.Contains("1턴 · 10분")&&a.PopupBody.text.Contains("소음 없음")&&!a.PopupBody.text.Contains("방문한 방"),"Open unvisited storage cost/knowledge wording is wrong.");a.ClosePopup();

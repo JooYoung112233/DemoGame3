@@ -6,6 +6,11 @@ namespace Demo5.FrontEnd {
   public Image Icon;public Text Title,Counts,Source,ActionLabel;public Button Action;
   SettlementController owner;SettlementCraftPanel craft;SettlementCraftPanel.Recipe recipe;int quantity;string focus;int bagIndex=-1;string craftId;bool search;
   public string FocusId=>focus;
+  static int Batches(SettlementCraftPanel.Recipe r,int needed)=>Mathf.Max(1,Mathf.CeilToInt((float)needed/r.ProducedCount));
+  static bool CanSupply(SettlementCraftPanel c,SettlementCraftPanel.Recipe r,int needed)=>r.Costs.GroupBy(x=>x.MaterialId).All(g=>c.Available(g.Key)>=g.Sum(x=>x.Count)*Batches(r,needed));
+  public static SettlementCraftPanel.Recipe FindSourceRecipe(SettlementCraftPanel c,string output,SettlementCraftPanel.Recipe current,int needed=1)=>c.Recipes
+   .Where(r=>r.Category==0&&r.ProducedId==output&&r!=current&&c.IsRecipeUnlocked(r)&&c.ConstructionBlock(r)==null)
+   .OrderByDescending(r=>CanSupply(c,r,needed)).ThenBy(r=>r.Minutes*Batches(r,needed)).FirstOrDefault();
   void Awake(){Action.onClick.AddListener(Go);}
   public void Select(string id){focus=id;Refresh(owner,craft,recipe,quantity);}
   public void Refresh(SettlementController o,SettlementCraftPanel c,SettlementCraftPanel.Recipe r,int q){
@@ -19,8 +24,9 @@ namespace Demo5.FrontEnd {
    if(blocked){Source.text="이미 완료했거나 진행 중인 시설입니다.";ActionLabel.text="진행 상태 확인";Action.interactable=false;return;}
    var condition=c.ConstructionBlock(r);if(condition!=null){Source.text=condition;ActionLabel.text="선행 조건 확인";Action.interactable=false;return;}
    if(missing==0){Source.text="이 재료는 충분합니다.\n나머지 재료와 담당자를 확인하세요.";ActionLabel.text="재료 준비 완료";Action.interactable=false;return;}
+   var sourceRecipe=FindSourceRecipe(c,focus,r,missing);
    if(held>0){bagIndex=System.Array.FindIndex(people,p=>o.InventoryPanel.CountFor(p,focus)>0);Source.text="개인 가방에 총 "+held+"개 보관 중\n제작에 쓰려면 창고로 옮겨주세요.";ActionLabel.text="가방 정리";}
-   else if(c.Recipes.Any(x=>x.Id==focus&&x!=r)){craftId=focus;Source.text="제작대에서 만들 수 있는 재료입니다.\n제작법의 재료와 시간을 확인하세요.";ActionLabel.text="제작법 보기";}
+   else if(sourceRecipe!=null){craftId=sourceRecipe.Id;Source.text=CanSupply(c,sourceRecipe,missing)?"현재 재료로 제작할 수 있습니다.\n"+sourceRecipe.Name+" · "+c.ProductSummary(sourceRecipe,Batches(sourceRecipe,missing)):"제작법: "+sourceRecipe.Name+"\n추가 재료가 필요합니다.";ActionLabel.text="제작법 보기";}
    else if(o.ArrivalPanel.Loot.MaterialAvailability(focus,out int unfinished,out int remaining)){
     search=unfinished>0||remaining>0;
     Source.text=remaining>0?"폐상가 현장에 "+remaining+"개 남겨둠\n"+(unfinished>0?"추가 수색 가능 · 미완료 "+unfinished+"곳":"다시 방문해 남은 물건을 챙길 수 있습니다."):

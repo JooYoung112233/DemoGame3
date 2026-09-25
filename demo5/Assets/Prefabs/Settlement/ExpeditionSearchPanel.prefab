@@ -176,7 +176,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4501024488144694303
 RectTransform:
   m_ObjectHideFlags: 0
@@ -372,7 +372,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2797708138609221698
 RectTransform:
   m_ObjectHideFlags: 0
@@ -651,7 +651,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3441125456821179996
 RectTransform:
   m_ObjectHideFlags: 0
@@ -669,7 +669,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 80, y: -755}
+  m_AnchoredPosition: {x: 80, y: -695}
   m_SizeDelta: {x: 194, y: 48}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &2498223129483221659
@@ -1100,7 +1100,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 80, y: -538}
+  m_AnchoredPosition: {x: 80, y: -478}
   m_SizeDelta: {x: 604, y: 34}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &1382797678004632595
@@ -1144,7 +1144,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uB2F4\uB2F9\uC790 \xB7 \uC606\uC73C\uB85C \uB118\uACA8 \uC120\uD0DD"
+  m_Text: "\uB193\uC778 \uB300\uC6D0 \uC5C6\uC74C \xB7 \uB300\uC6D0 \uB9D0\uC744 \uC774 \uC0AC\uBB3C\uC5D0 \uB193\uC73C\uC138\uC694"
 --- !u!1 &4076041964758189824
 GameObject:
   m_ObjectHideFlags: 0
@@ -1322,7 +1322,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5643322736590925628
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1340,7 +1340,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 80, y: -578}
+  m_AnchoredPosition: {x: 80, y: -518}
   m_SizeDelta: {x: 606, y: 132}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2683794822224528802
@@ -1711,6 +1711,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61a3b12fef1fca74ab0674fbf2803cba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Demo5.FrontEnd.ExpeditionSearchPanel
+  ReadOnlyWindow: 1
+  Placed: {fileID: 1027151408950877466}
+  ReadPlaced: "\uB193\uC778 \uB300\uC6D0 \xB7 {0}"
+  ReadNobody: "\uB193\uC778 \uB300\uC6D0 \uC5C6\uC74C \xB7 \uB300\uC6D0 \uB9D0\uC744 \uC774 \uC0AC\uBB3C\uC5D0 \uB193\uC73C\uC138\uC694"
+  ReadLead: "{0} \uC218\uC0C9"
+  ReadHelper: '{0} {1}'
+  ReadTogether: "\uD568\uAED8"
+  ReadWatch: "\uB9DD\uBCF4\uAE30"
+  ReadLight: "\uC870\uBA85"
+  ReadSeparator: " \xB7 "
+  ReadPaused: "{0} \xB7 \uBA48\uCDA4 ({1})"
+  ReadCostPlanned: "\uC218\uC0C9\uB3C4 {0} / {1}\uD134 \u2192 {2} / {1}  \xB7  \uC774\uBC88 \uD134 \uC18C\uC74C +{3}"
+  ReadCostIdle: "\uC218\uC0C9\uB3C4 {0} / {1}\uD134  \xB7  \uB204\uC801 \uC18C\uC74C {2}"
+  ReadToolOpened: "\uB36E\uAC1C \uAC1C\uBC29 \uC644\uB8CC \xB7 \uB3C4\uAD6C \uC5C6\uC774 \uC7AC\uAC1C \uAC00\uB2A5"
+  ReadToolHeld: "{0} \xB7 \uB2F4\uB2F9 \uAC00\uBC29\uC5D0 \uC788\uC74C \xB7 \uC18C\uBAA8 \uC5C6\uC74C"
+  ReadToolNeeded: "{0} \uD544\uC694 \xB7 \uAC00\uC9C4 \uB300\uC6D0\uC744 \uB193\uC73C\uC138\uC694"
+  ReadNoTool: "\uB3C4\uAD6C \uC5C6\uC774 \uC218\uC0C9 \uAC00\uB2A5"
+  ReadNotice: "\uC77D\uAE30 \uC804\uC6A9 \xB7 \uC218\uC0C9\uC740 \uB300\uC6D0 \uB9D0\uC744 \uC774 \uC0AC\uBB3C\uC5D0 \uB193\uC544 \uB9E1\uAE41\uB2C8\uB2E4.\n\uC2DC\uAC04\uC740 '\uD134 \uC9C4\uD589'\uC73C\uB85C\uB9CC \uD750\uB985\uB2C8\uB2E4."
   View: {fileID: 5593222629227923366}
   Review: {fileID: 8961213514735100672}
   Workspace: {fileID: 7272617029837648136}
@@ -1721,6 +1739,7 @@ MonoBehaviour:
   Equipment: {fileID: 4200538281864157760}
   ReviewBody: {fileID: 6095470157342642575}
   Notice: {fileID: 1182871486990357336}
+  ObjectNoise: {fileID: 3543803177287528105}
   ToolIcon: {fileID: 3729094832193493258}
   ObjectIcon: {fileID: 1645792371607274422}
   ObjectIcons:
@@ -1741,6 +1760,18 @@ MonoBehaviour:
   - {fileID: 5928369200129502706}
   MemberContent: {fileID: 6444532025959911167}
   MemberPrefab: {fileID: 7163737707934174824, guid: ff159fdf33474db409d1f00ff2f91123, type: 3}
+  NoiseLine: "\uC0AC\uBB3C \uC18C\uC74C {0} \xB7 \uAE30\uBCF8 {1}\uD134"
+  NoiseLoudSuffix: " \xB7 \uD070 \uC18C\uB9AC"
+  NoiseQuietLine: "\uC18C\uC74C \uC5C6\uC74C \xB7 \uAE30\uBCF8 {1}\uD134 \xB7 \uB9DD\uBCF4\uAE30 \uD544\uC694 \uC5C6\uC74C"
+  ReviewNoise: "\uC18C\uC74C {0}"
+  ReviewQuiet: "\uC18C\uC74C \uC5C6\uC74C"
+  FirstCost: "\uC218\uC0C9\uB3C4 {0} / {1}\uD134  \xB7  \uB204\uC801 \uC18C\uC74C {2}"
+  FirstTogether: "\uD568\uAED8 \uC218\uC0C9 \xB7 1\uD134 \uBE68\uB9AC"
+  FirstAlone: "\uD63C\uC790 \uC218\uC0C9 \xB7 \uD568\uAED8\uD560 \uB3D9\uB8CC \uC5C6\uC74C"
+  FirstWatch: "\uB9DD\uBCF4\uAE30 \xB7 \uC18C\uC74C {0}\u2192{1}"
+  FirstWatchAlone: "\uB9DD\uBCF4\uAE30 \xB7 \uB9DD\uBCFC \uB3D9\uB8CC \uC5C6\uC74C \xB7 \uC18C\uC74C {0}"
+  FirstLight: "{0} \xB7 \uC870\uBA85 +{1}%p"
+  FirstLightNobody: "\uC9C0\uC6D0\uC790 \uC5C6\uC74C"
 --- !u!114 &5537017025633406867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1771,7 +1802,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7979924178912573419
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1886,7 +1917,7 @@ GameObject:
   - component: {fileID: 4017337230348725690}
   - component: {fileID: 3543803177287528105}
   m_Layer: 0
-  m_Name: PaceHeading
+  m_Name: ObjectNoise
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1952,7 +1983,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC218\uC0C9 \uBC29\uC2DD"
+  m_Text: "\uC0AC\uBB3C \uC18C\uC74C"
 --- !u!1 &6734454603144319090
 GameObject:
   m_ObjectHideFlags: 0
@@ -2170,7 +2201,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5014933235558722724
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2187,7 +2218,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 80, y: -716}
+  m_AnchoredPosition: {x: 80, y: -656}
   m_SizeDelta: {x: 604, y: 32}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &727350374107707493
@@ -2400,7 +2431,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3040485881137933367
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2418,7 +2449,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 488, y: -755}
+  m_AnchoredPosition: {x: 488, y: -695}
   m_SizeDelta: {x: 194, y: 48}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &87854440914052700
@@ -2521,7 +2552,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4187729539668063391
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2539,7 +2570,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 284, y: -755}
+  m_AnchoredPosition: {x: 284, y: -695}
   m_SizeDelta: {x: 194, y: 48}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &1188118654650859574
@@ -2796,7 +2827,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3560369367789036401
 RectTransform:
   m_ObjectHideFlags: 0

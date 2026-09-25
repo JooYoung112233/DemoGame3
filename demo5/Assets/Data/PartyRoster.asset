@@ -16,19 +16,32 @@ MonoBehaviour:
   - Id: scout
     DisplayName: "\uC724\uC11C\uC9C4"
     AvailableAtStart: 1
+    UnlockRule: 0
+    UnlockHint: "\uCC98\uC74C\uBD80\uD130 \uD568\uAED8\uD558\uB294 \uB300\uC6D0"
+    UnlockOrder: 0
     RoleTitle: "\uC804\uC9C1 \uD0DD\uBC30\uAE30\uC0AC"
+    CombatRole: "\uAE30\uB3D9"
+    CombatTraitSummary: "\uC774\uB3D9 \uD6C4 \uBA85\uC911 +10%p\n\uC0AC\uACA9\xB7\uADFC\uC811 \uBAA8\uB450 \uC801\uC6A9"
     FirstLine: "\uB3CC\uC544\uC62C \uAE38\uBD80\uD130 \uBCF4\uC790."
     WorkLine: "\uAE08\uBC29 \uB05D\uB0B4\uACE0 \uAE38\uC744 \uBCF4\uC790."
     RestLine: "\uAE68\uC6B0\uB294 \uAC74 \uC78A\uC9C0 \uB9C8."
     Description: "\uAE38\uC744 \uAE30\uC5B5\uD558\uB294\n\uC131\uAE09\uD55C \uAE38\uC7A1\uC774"
-    TraitTitle: "\uAE38\uC744 \uC77D\uB294 \uC0AC\uB78C"
-    TraitDescription: "\uAC00\uBC29 3\uCE78 \xB7 \uCCB4\uB825 3\n\uC9C0\uB984\uAE38\uACFC \uCD9C\uC785\uAD6C\uB97C \uBA3C\uC800 \uCC3E\uB294\uB2E4."
-    Characteristics: "\uC2B5\uAD00 \xB7 \uCD9C\uAD6C\uBD80\uD130 \uD655\uC778\uD55C\uB2E4.\n\uC57D\uC810 \xB7 \uAE30\uB2E4\uB9AC\uB294 \uB370 \uC11C\uD234\uB2E4."
-    BagCapacity: 3
-    Health: 3
+    TraitTitle: "\uBC1C \uBE60\uB978 \uB300\uC751"
+    TraitDescription: "\uC774\uB3D9\uD55C \uCC28\uB840 \uBA85\uC911 +10%p\n\uC0AC\uACA9\xB7\uADFC\uC811 \uBAA8\uB450 \uC801\uC6A9"
+    Characteristics: "\uC2B5\uAD00 \xB7 \uB0AF\uC120 \uBC29\uC5D0\uC11C\uB3C4 \uCD9C\uAD6C\uBD80\uD130 \uBCF8\uB2E4.\n\uC131\uACA9 \xB7 \uAE30\uB2E4\uB9AC\uAE30\uBCF4\uB2E4 \uBA3C\uC800 \uC6C0\uC9C1\uC778\uB2E4.\n\uC6B4\uC6A9 \xB7 \uC801\uC758 \uC608\uACE0 \uCE78\uC744 \uD53C\uD574 \uC6C0\uC9C1\uC774\uACE0 \uACF5\uACA9\uD55C\uB2E4."
+    BagCapacity: 4
+    Health: 6
     Aim: 0
     CookingTimePercent: 100
     CraftTimePercent: 100
+    ResearchTimePercent: 100
+    Traits:
+      MoveHitBonus: 10
+      BandageRecoveryBonus: 0
+      FoodRecoveryBonus: 0
+      ArmoredMeleeBonus: 0
+      StaggerDamageBonus: 0
+      GuardDamageReduction: 0
     Portrait: {fileID: 21300000, guid: 307d0a624101af7458e196b677f82ac1, type: 3}
     Body: {fileID: 21300000, guid: 632c024209512f149bab349e3bcac364, type: 3}
     BodyScale: 1
@@ -41,19 +54,32 @@ MonoBehaviour:
   - Id: mechanic
     DisplayName: "\uAC15\uAE30\uC12D"
     AvailableAtStart: 0
+    UnlockRule: 1
+    UnlockHint: "\uC791\uC5C5\uB300\uB97C \uBCF5\uAD6C\uD558\uBA74 \uB9CC\uB0A0 \uAE30\uD68C\uAC00 \uC0DD\uAE41\uB2C8\uB2E4."
+    UnlockOrder: 2
     RoleTitle: "\uC218\uB9AC\uAE30\uC0AC"
+    CombatRole: "\uB3CC\uD30C"
+    CombatTraitSummary: "\uC7A5\uAC11 \uC801 \uADFC\uC811 \uD53C\uD574 +1\n\uC0AC\uACA9 \uBA85\uC911 \u22125%p"
     FirstLine: "\uACE0\uCE60 \uC218 \uC788\uC73C\uBA74 \uACE0\uCCD0\uC57C\uC9C0."
     WorkLine: "\uC774 \uB098\uC0AC\uB3C4 \uC4F8 \uB370\uAC00 \uC788\uC5B4."
     RestLine: "\uACF5\uAD6C\uB294 \uAC70\uAE30 \uB194\uB46C."
     Description: "\uBABB \uD558\uB098\uB3C4 \uCC59\uAE30\uB294\n\uBB34\uB69D\uB69D\uD55C \uC218\uB9AC\uAFBC"
-    TraitTitle: "\uC190\uC5D0 \uBC34 \uC218\uB9AC"
-    TraitDescription: "\uC81C\uC791 \uC2DC\uAC04 \u221220%\n\uAC00\uBC29 4\uCE78 \xB7 \uCCB4\uB825 3"
-    Characteristics: "\uC2B5\uAD00 \xB7 \uB098\uC0AC\uB97C \uC8FC\uBA38\uB2C8\uC5D0 \uBAA8\uC740\uB2E4.\n\uC57D\uC810 \xB7 \uACE0\uC7A5 \uB09C \uAC78 \uBABB \uBC84\uB9B0\uB2E4."
-    BagCapacity: 4
-    Health: 3
-    Aim: 0
+    TraitTitle: "\uC4F8\uBAA8\uB97C \uCC3E\uB294 \uC190"
+    TraitDescription: "\uC77C\uBC18 \uC81C\uC791 \uC2DC\uAC04 \u221220% \xB7 \uC5F0\uAD6C \uC81C\uC678\n\uC7A5\uAC11\uC774 \uB0A8\uC740 \uC801\uC5D0\uAC8C \uADFC\uC811 \uD53C\uD574 +1"
+    Characteristics: "\uC2B5\uAD00 \xB7 \uB9DD\uAC00\uC9C4 \uBB3C\uAC74\uC758 \uB098\uC0AC\uBD80\uD130 \uCC59\uAE34\uB2E4.\n\uC57D\uC810 \xB7 \uC0AC\uACA9 \uBA85\uC911 \u22125%p.\n\uC6B4\uC6A9 \xB7 \uD070 \uAC00\uBC29\uC5D0 \uACF5\uAD6C\xB7\uC7AC\uB8CC\uB97C \uB098\uB220 \uB2F4\uB294\uB2E4."
+    BagCapacity: 5
+    Health: 6
+    Aim: -5
     CookingTimePercent: 100
     CraftTimePercent: 80
+    ResearchTimePercent: 100
+    Traits:
+      MoveHitBonus: 0
+      BandageRecoveryBonus: 0
+      FoodRecoveryBonus: 0
+      ArmoredMeleeBonus: 1
+      StaggerDamageBonus: 0
+      GuardDamageReduction: 0
     Portrait: {fileID: 21300000, guid: 1190c245401076d44a2a52c63674a584, type: 3}
     Body: {fileID: -1215926292749581975, guid: 9d90415bedcd64040b2d649d061cd814, type: 3}
     BodyScale: 1
@@ -66,19 +92,32 @@ MonoBehaviour:
   - Id: medic
     DisplayName: "\uD55C\uD574\uC778"
     AvailableAtStart: 1
+    UnlockRule: 0
+    UnlockHint: "\uCC98\uC74C\uBD80\uD130 \uD568\uAED8\uD558\uB294 \uB300\uC6D0"
+    UnlockOrder: 1
     RoleTitle: "\uBC29\uBB38 \uAC04\uBCD1\uC778"
+    CombatRole: "\uCE58\uB8CC"
+    CombatTraitSummary: "\uC0AC\uC6A9\uD55C \uBD95\uB300 \uD68C\uBCF5 +1\n\uC0AC\uACA9 \uBA85\uC911 \u22125%p"
     FirstLine: "\uB2E4\uCE5C \uB370\uBD80\uD130 \uBCF4\uC5EC\uC918\uC694."
     WorkLine: "\uC11C\uB450\uB974\uB2E4 \uB2E4\uCE58\uC9C0 \uB9C8\uC694."
     RestLine: "\uC870\uAE08\uB9CC \uB208\uC744 \uBD99\uC77C\uAC8C\uC694."
     Description: "\uB0A8\uBD80\uD130 \uC0B4\uD53C\uB294\n\uC870\uC6A9\uD55C \uAC04\uBCD1\uC778"
-    TraitTitle: "\uCE68\uCC29\uD55C \uB3CC\uBD04"
-    TraitDescription: "\uAC00\uBC29 3\uCE78 \xB7 \uCCB4\uB825 4\n\uB9D0\uBCF4\uB2E4 \uC548\uC0C9\uC744 \uBA3C\uC800 \uC0B4\uD540\uB2E4."
-    Characteristics: "\uC2B5\uAD00 \xB7 \uB3D9\uB8CC\uC758 \uC190\uC744 \uC0B4\uD540\uB2E4.\n\uC57D\uC810 \xB7 \uC790\uAE30 \uD53C\uB85C\uB97C \uC228\uAE34\uB2E4."
+    TraitTitle: "\uCE68\uCC29\uD55C \uCC98\uCE58"
+    TraitDescription: "\uC0AC\uC6A9\uD558\uB294 \uBD95\uB300 \uD68C\uBCF5 +1\n\uC804\uD22C\uC5D0\uC11C\uB294 \uB3D9\uB8CC \uCC98\uCE58\uC5D0\uB3C4 \uC801\uC6A9"
+    Characteristics: "\uC2B5\uAD00 \xB7 \uB300\uB2F5\uBCF4\uB2E4 \uC190 \uB5A8\uB9BC\uC744 \uBA3C\uC800 \uC0B4\uD540\uB2E4.\n\uC57D\uC810 \xB7 \uC0AC\uACA9 \uBA85\uC911 \u22125%p.\n\uC6B4\uC6A9 \xB7 \uBD95\uB300\uB97C \uC790\uC2E0\uC758 \uAC00\uBC29\uC5D0 \uCC59\uACA8 \uB3D9\uB8CC\uB97C \uB3D5\uB294\uB2E4."
     BagCapacity: 3
-    Health: 4
-    Aim: 0
+    Health: 6
+    Aim: -5
     CookingTimePercent: 100
     CraftTimePercent: 100
+    ResearchTimePercent: 100
+    Traits:
+      MoveHitBonus: 0
+      BandageRecoveryBonus: 1
+      FoodRecoveryBonus: 0
+      ArmoredMeleeBonus: 0
+      StaggerDamageBonus: 0
+      GuardDamageReduction: 0
     Portrait: {fileID: 21300000, guid: 103ebc697b188294b8a8c5dcfc9c9f2b, type: 3}
     Body: {fileID: 21300000, guid: 0ea86762928cf15449bd441f9e5cf942, type: 3}
     BodyScale: 1
@@ -91,19 +130,32 @@ MonoBehaviour:
   - Id: cook
     DisplayName: "\uC624\uC815\uC740"
     AvailableAtStart: 0
+    UnlockRule: 2
+    UnlockHint: "\uC870\uB9AC\uB300\uB97C \uBCF5\uAD6C\uD558\uBA74 \uB9CC\uB0A0 \uAE30\uD68C\uAC00 \uC0DD\uAE41\uB2C8\uB2E4."
+    UnlockOrder: 3
     RoleTitle: "\uAE09\uC2DD \uC870\uB9AC\uC6D0"
+    CombatRole: "\uBCF4\uAE09"
+    CombatTraitSummary: "\uC9C1\uC811 \uBA39\uB294 \uC2DD\uB7C9 \uD68C\uBCF5 +1\n\uC0AC\uACA9 \uBA85\uC911 \u221210%p"
     FirstLine: "\uC77C\uB2E8 \uBB58 \uC880 \uBA39\uACE0 \uC598\uAE30\uD574."
     WorkLine: "\uBE48\uC18D\uC73C\uB85C \uC77C\uD558\uC9C0 \uB9C8."
     RestLine: "\uBD88 \uAED0\uB294\uC9C0\uB9CC \uBD10\uC918."
     Description: "\uD55C \uB07C\uB97C \uCC59\uAE30\uB294\n\uB4E0\uB4E0\uD55C \uC870\uB9AC\uC6D0"
-    TraitTitle: "\uC775\uC219\uD55C \uC190\uB180\uB9BC"
-    TraitDescription: "\uB530\uB73B\uD55C \uC2DD\uC0AC\xB7\uC2A4\uD29C \uC870\uB9AC \u221220%\n\uAC00\uBC29 4\uCE78 \xB7 \uCCB4\uB825 4"
-    Characteristics: "\uC2B5\uAD00 \xB7 \uC778\uC6D0\uBD80\uD130 \uC138\uC5B4\uBCF8\uB2E4.\n\uC57D\uC810 \xB7 \uB0A8\uAE30\uB294 \uC74C\uC2DD\uC744 \uBABB \uBCF8\uB2E4."
+    TraitTitle: "\uD55C \uB07C\uC758 \uD798"
+    TraitDescription: "\uD5C8\uC6A9\uB41C \uC694\uB9AC \uC2DC\uAC04 \u221220%\n\uC9C1\uC811 \uBA39\uB294 \uD734\uB300\uC2DD\uB7C9\xB7\uC2DD\uC0AC \uD68C\uBCF5 +1"
+    Characteristics: "\uC2B5\uAD00 \xB7 \uBA39\uAE30 \uC804\uC5D0 \uC0AC\uB78C \uC218\uBD80\uD130 \uC13C\uB2E4.\n\uC57D\uC810 \xB7 \uC0AC\uACA9 \uBA85\uC911 \u221210%p.\n\uC6B4\uC6A9 \xB7 \uC2DD\uB7C9\uC73C\uB85C \uC790\uC2E0\uC758 \uCCB4\uB825\uC744 \uAD00\uB9AC\uD55C\uB2E4."
     BagCapacity: 4
-    Health: 4
-    Aim: 0
+    Health: 7
+    Aim: -10
     CookingTimePercent: 80
     CraftTimePercent: 100
+    ResearchTimePercent: 100
+    Traits:
+      MoveHitBonus: 0
+      BandageRecoveryBonus: 0
+      FoodRecoveryBonus: 1
+      ArmoredMeleeBonus: 0
+      StaggerDamageBonus: 0
+      GuardDamageReduction: 0
     Portrait: {fileID: 21300000, guid: b1d230446365ade44a204083346e23b6, type: 3}
     Body: {fileID: 7885695980795071780, guid: 7d8c57983aeebc64dadba9233de2798d, type: 3}
     BodyScale: 1
@@ -116,19 +168,32 @@ MonoBehaviour:
   - Id: researcher
     DisplayName: "\uBC31\uC18C\uB2F4"
     AvailableAtStart: 0
+    UnlockRule: 4
+    UnlockHint: "\uC5F0\uAD6C\uC640 \uAE30\uB85D\uC744 \uC774\uC5B4\uAC00\uBA74 \uB9CC\uB0A0 \uAE30\uD68C\uAC00 \uC0DD\uAE41\uB2C8\uB2E4."
+    UnlockOrder: 5
     RoleTitle: "\uAE30\uB85D \uAD00\uB9AC\uC0AC"
+    CombatRole: "\uBD84\uC11D"
+    CombatTraitSummary: "\uBE48\uD2C8 \uC801 \uD53C\uD574 +1\n\uC0AC\uACA9 \uBA85\uC911 +5%p"
     FirstLine: "\uC5B4\uC81C\uB3C4 \uC774\uB7AC\uB294\uC9C0 \uC801\uC5B4\uB458\uAC8C."
     WorkLine: "\uC21C\uC11C\uB97C \uC801\uC5B4\uB450\uBA74 \uB3FC."
     RestLine: "\uC774 \uC904\uB9CC \uC801\uACE0 \uC274\uAC8C."
     Description: "\uC774\uC0C1\uD55C \uD754\uC801\uC744\n\uC801\uC5B4\uB450\uB294 \uAE30\uB85D\uAC00"
-    TraitTitle: "\uC9C0\uC6CC\uC9C0\uC9C0 \uC54A\uB294 \uAE30\uB85D"
-    TraitDescription: "\uAC00\uBC29 3\uCE78 \xB7 \uCCB4\uB825 3\n\uC5B4\uC81C\uC640 \uB2EC\uB77C\uC9C4 \uD754\uC801\uC744 \uC801\uB294\uB2E4."
-    Characteristics: "\uC2B5\uAD00 \xB7 \uB0A0\uC9DC\uC640 \uC704\uCE58\uB97C \uC801\uB294\uB2E4.\n\uC57D\uC810 \xB7 \uAE30\uB85D\uC5D0 \uBAB0\uB450\uD558\uBA74 \uB454\uD574\uC9C4\uB2E4."
+    TraitTitle: "\uBE48\uD2C8\uC744 \uC77D\uB294 \uAE30\uB85D"
+    TraitDescription: "\uC5F0\uAD6C \uC2DC\uAC04 \u221230%\n\uBE48\uD2C8 \uC0C1\uD0DC\uC778 \uC801\uC5D0\uAC8C \uD53C\uD574 +1"
+    Characteristics: "\uC2B5\uAD00 \xB7 \uC5B4\uC81C\uC640 \uB2EC\uB77C\uC9C4 \uC790\uB9AC\uB97C \uD45C\uC2DC\uD55C\uB2E4.\n\uC57D\uC810 \xB7 \uCCB4\uB825 5\uCE78\uC73C\uB85C \uC624\uB798 \uBC84\uD2F0\uAE30 \uC5B4\uB835\uB2E4.\n\uC6B4\uC6A9 \xB7 \uD070 \uACF5\uACA9\uC744 \uD53C\uD55C \uB4A4 \uC0DD\uAE34 \uBE48\uD2C8\uC744 \uB178\uB9B0\uB2E4."
     BagCapacity: 3
-    Health: 3
-    Aim: 0
+    Health: 5
+    Aim: 5
     CookingTimePercent: 100
     CraftTimePercent: 100
+    ResearchTimePercent: 70
+    Traits:
+      MoveHitBonus: 0
+      BandageRecoveryBonus: 0
+      FoodRecoveryBonus: 0
+      ArmoredMeleeBonus: 0
+      StaggerDamageBonus: 1
+      GuardDamageReduction: 0
     Portrait: {fileID: 21300000, guid: d029537b4e1ddbc4e8f72d31c18ad646, type: 3}
     Body: {fileID: -6994970304369487763, guid: ea8044f91daa5254eb259701d9f5754b, type: 3}
     BodyScale: 1
@@ -141,19 +206,32 @@ MonoBehaviour:
   - Id: guard
     DisplayName: "\uC784\uD0DC\uC624"
     AvailableAtStart: 0
+    UnlockRule: 3
+    UnlockHint: "\uCD94\uAC00 \uC7A0\uC790\uB9AC\uB97C \uC900\uBE44\uD558\uBA74 \uB9CC\uB0A0 \uAE30\uD68C\uAC00 \uC0DD\uAE41\uB2C8\uB2E4."
+    UnlockOrder: 4
     RoleTitle: "\uC57C\uAC04 \uACBD\uBE44\uC6D0"
+    CombatRole: "\uBC84\uD300"
+    CombatTraitSummary: "\uBC29\uC5B4 \uC911 \uD53C\uD574 \uCD94\uAC00 \u22121\n\uAC00\uBC29\uC740 2\uCE78"
     FirstLine: "\uB2E4 \uB4E4\uC5B4\uC654\uC9C0? \uBB38 \uB2EB\uB294\uB2E4."
     WorkLine: "\uB05D\uB098\uBA74 \uB0B4\uAC00 \uD655\uC778\uD560\uAC8C."
     RestLine: "\uC18C\uB9AC \uB098\uBA74 \uBC14\uB85C \uAE68\uC6CC."
     Description: "\uBB38\uC744 \uB2E4\uC2DC \uBCF4\uB294\n\uC7A0 \uBABB \uB4DC\uB294 \uACBD\uBE44"
-    TraitTitle: "\uB9C8\uC9C0\uB9C9 \uD655\uC778"
-    TraitDescription: "\uAC00\uBC29 4\uCE78 \xB7 \uCCB4\uB825 4\n\uC0AC\uB78C\uC774 \uBAA8\uB450 \uB3CC\uC544\uC654\uB294\uC9C0 \uC13C\uB2E4."
-    Characteristics: "\uC2B5\uAD00 \xB7 \uC7A0\uAE08\uC7A5\uCE58\uB97C \uB450 \uBC88 \uBCF8\uB2E4.\n\uC57D\uC810 \xB7 \uC791\uC740 \uC18C\uB9AC\uC5D0\uB3C4 \uC7A0\uC774 \uAE6C\uB2E4."
-    BagCapacity: 4
-    Health: 4
+    TraitTitle: "\uBB38\uC744 \uC9C0\uD0A4\uB294 \uC0AC\uB78C"
+    TraitDescription: "\uBC29\uC5B4 \uC911 \uBC1B\uB294 \uD53C\uD574 \uCD94\uAC00 \u22121\n\uBB3C\uAE30\uC640 \uC608\uACE0 \uACF5\uACA9 \uBAA8\uB450 \uC801\uC6A9"
+    Characteristics: "\uC2B5\uAD00 \xB7 \uB9C8\uC9C0\uB9C9 \uC0AC\uB78C\uC774 \uB4E4\uC5B4\uC628 \uB4A4 \uBB38\uC744 \uB2EB\uB294\uB2E4.\n\uC57D\uC810 \xB7 \uAC1C\uC778 \uAC00\uBC29\uC774 2\uCE78\uC73C\uB85C \uC791\uB2E4.\n\uC6B4\uC6A9 \xB7 \uD53C\uD560 \uC218 \uC5C6\uB294 \uACF5\uACA9\uC5D0 \uBC29\uC5B4\uB85C \uBC84\uD2F4\uB2E4."
+    BagCapacity: 2
+    Health: 8
     Aim: 0
     CookingTimePercent: 100
     CraftTimePercent: 100
+    ResearchTimePercent: 100
+    Traits:
+      MoveHitBonus: 0
+      BandageRecoveryBonus: 0
+      FoodRecoveryBonus: 0
+      ArmoredMeleeBonus: 0
+      StaggerDamageBonus: 0
+      GuardDamageReduction: 1
     Portrait: {fileID: 21300000, guid: 4532be1ba405411458195b7ad75e67d7, type: 3}
     Body: {fileID: -600881206616826866, guid: 380858e1d46a08049a4c8d5a01f8b418, type: 3}
     BodyScale: 1

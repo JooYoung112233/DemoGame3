@@ -10,6 +10,8 @@ namespace Demo5.FrontEnd
         public float MotionThreshold=.0005f,TeleportDistance=2f;
         [Min(.01f)] public float TurnDistance=.12f;
         [Range(0,1)] public float HorizontalIntentRatio=.35f;
+        // Added to the depth order (0 = by the feet only): a tie-break for pawns standing on the same line, or a carried copy drawn on top.
+        [Tooltip("발 높이로 정한 그리기 순서에 더하는 값 (0 = 발 높이만 · 같은 줄에 선 말의 순서, 들고 가는 실루엣)")] public int SortingBias;
         Vector3 previous;
         float pendingTravel;
         int pendingDirection;
@@ -46,7 +48,7 @@ namespace Demo5.FrontEnd
         void LateUpdate()
         {
             ObservePosition(transform.position);
-            if(group&&Foot)group.sortingOrder=1000-Mathf.RoundToInt((Foot.position.y+5.4f)*100);
+            if(group&&Foot)group.sortingOrder=1000-Mathf.RoundToInt((Foot.position.y+5.4f)*100)+SortingBias;
         }
     }
 }

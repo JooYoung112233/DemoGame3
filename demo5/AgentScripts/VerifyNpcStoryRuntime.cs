@@ -12,6 +12,9 @@ using UnityEngine.SceneManagement;
 using Object=UnityEngine.Object;
 
 // End-to-end UI/turn/save review. Production save files are never read or written.
+// 말 놓기 (2026-09-25, 기획/탐험-말놓기-조작-재설계.md): the trace is observed by a member's pawn placed beside it (FieldPawnTest.Observe:
+// the board's own rules) and '턴 진행'; before anyone looked at it a press on the trace only asks for a pawn (no window). From stage 1 on
+// the trace opens the conversation as before.
 public static class VerifyNpcStoryRuntime
 {
     static void Check(bool value,string message){if(!value)throw new InvalidOperationException(message);}
@@ -27,17 +30,25 @@ public static class VerifyNpcStoryRuntime
     }
     static async Task Click(Button button)
     {
+        for(int w=0;w<20&&!Takes(button);w++)await Task.Delay(50); // a window that just opened lays out over a few frames
         ExecuteEvents.Execute(button.gameObject,Hit(button),ExecuteEvents.pointerClickHandler);await Task.Delay(80);
+    }
+    static bool Takes(Button button)
+    {
+        if(!button||!button.IsActive()||!button.IsInteractable())return false;var canvas=button.GetComponentInParent<Canvas>();var camera=canvas.renderMode==RenderMode.ScreenSpaceOverlay?null:canvas.worldCamera;
+        var r=(RectTransform)button.transform;var data=new PointerEventData(EventSystem.current){position=RectTransformUtility.WorldToScreenPoint(camera,r.TransformPoint(r.rect.center))};
+        var hits=new List<RaycastResult>();EventSystem.current.RaycastAll(data,hits);return hits.Count>0&&hits[0].gameObject.GetComponentInParent<Button>()==button;
     }
     public static async Task<string> Start()
     {
         Check(Application.isPlaying,"Enter Play first.");
+        FieldIdleConfirm.AutoAccept=true; // members left idle hush without the question (VerifyIdleConfirm tests it)
         CampaignSaveStore.TestDirectory=Path.GetFullPath("Temp/NpcStoryRuntimeSlots");PartySelectionSession.Clear();
         SceneManager.LoadScene("PartySelection");await Task.Delay(600);
         var p=Object.FindAnyObjectByType<PartySelectionController>();
         foreach(var card in p.Cards.Where(x=>x.gameObject.activeInHierarchy&&x.Button.IsInteractable())){if(PartySelectionSession.Selected.Count>=2)break;card.Button.onClick.Invoke();}
         p.Continue.onClick.Invoke();await Task.Delay(600);var home=Object.FindAnyObjectByType<HomeSelectionController>();home.Cards[0].Button.onClick.Invoke();home.Continue.onClick.Invoke();await Task.Delay(750);
-        C.Introduction.Restore(10);await Depart();
+        C.Introduction.Restore(10);{var story=C.GetComponent<SettlementTutorialNarrative>();if(story)story.Restore(new SavedTutorialNarrative{SeenMask=SavedTutorialNarrative.AllSeen,PendingBeat=-1});}/* the tutorial story has its own test: its Dim never covers this fixture */await Depart();
         Check(C.ArrivalPanel.Story&&C.ArrivalPanel.Story.State.VisitCount==1&&!C.ArrivalPanel.Story.Clue.gameObject.activeSelf,"NPC clue leaked into first visit.");
         C.ArrivalPanel.Story.Open();Check(!C.ArrivalPanel.Story.IsOpen,"First visit story bypass.");
         Check(C.ArrivalPanel.FinishReturn(),"First return failed.");await Task.Delay(100);
@@ -48,6 +59,9 @@ public static class VerifyNpcStoryRuntime
         Check(a.Story.Clue.gameObject.activeSelf&&a.Story.ObserveBlock(ExpeditionNpcStory.ObservationId)==FieldPause.None,"Clue did not unlock after intro.");
         return "PASS first visit hidden, second visit intro owns focus, clue unlocks after closing intro. Ready in arcade.";
     }
+    static async Task BoardReady(ExpeditionArrivalPanel a){for(int i=0;i<60&&!FieldPawnTest.Ready(a);i++)await Task.Delay(50);Check(FieldPawnTest.Ready(a),"The pawn board is not ready.");}
+    // A member's pawn beside the trace (no time), then '턴 진행' looks at it (the conversation opens when the turn is safe).
+    static async Task ObserveBy(ExpeditionArrivalPanel a,int member){await BoardReady(a);Check(FieldPawnTest.Observe(a,member),"No place beside the trace for member "+member+": "+FieldPawnTest.Describe(a));await Task.Delay(80);}
     static async Task Depart()
     {
         var c=C;if(c.ReturnPanel.IsOpen){c.ReturnPanel.Close();await Task.Delay(100);}c.Opening.Evaluate();
@@ -134,7 +148,7 @@ public static class VerifyNpcStoryRuntime
     public static async Task<string> Dialogue()
     {
         await Start();var a=C.ArrivalPanel;var s=a.Story;
-        await Click(s.Clue);await Click(s.Members[0]);await Click(s.Choices[0]);await Click(a.Threat.Planner.TurnButton);await Task.Delay(150);
+        await ObserveBy(a,0);await Click(a.Threat.Planner.TurnButton);await Task.Delay(150);
         Check(s.IsOpen&&s.State.Stage==1,"Observation did not open the first reading beat.");
         await ReadFirstDialogue(s,"npc-dialogue-input",true,1,0);
         return "PASS: body clicks advance one reading beat; choices hidden until their beat; early direct Choose ignored; Advance/body ignored while choosing; close/reopen preserves the same line; identity hidden until badge; one UI submit advances exactly one beat (actual keyboard delivery not tested); reading costs no time/noise/items.";
@@ -143,12 +157,13 @@ public static class VerifyNpcStoryRuntime
     {
         var c=C;var a=c.ArrivalPanel;var s=a.Story;var planner=a.Threat.Planner;
         int minute=c.Campaign.MinuteOfDay,turn=a.Rooms.Turns;string inventory=Inventory();
-        await Click(s.Clue);Check(s.IsOpen&&!a.Main.interactable&&!a.Main.blocksRaycasts&&s.InvestigationLayout.activeInHierarchy&&!s.DialogueLayout.activeInHierarchy,"Investigation popup did not isolate input.");
-        Check(!planner.Run()&&!a.Threat.CanAct&&a.Rooms.Turns==turn,"Popup permits a hidden turn.");
-        Check(s.Speaker.text=="생활 흔적"&&!s.Body.text.Contains("장도윤")&&!s.VisiblePawn,"Identity appears before observation.");
-        await Click(s.Members[0]);Layout();await Shot("npc-doyun-observation");
-        await Click(s.Choices[0]);Check(!s.IsOpen&&planner.Plan.Observations.Count==1&&a.Rooms.Turns==turn&&c.Campaign.MinuteOfDay==minute,"Assign spent time or did not close.");
-        planner.Plan.Assign(new FieldOrder{Site=1,Lead=1,Pace=2,Duty=0,Solo=true});planner.Refresh();
+        await BoardReady(a);var board=FieldPawnTest.Board(a);
+        await Click(s.Clue);Check(!s.IsOpen&&planner.Plan.Observations.Count==0&&a.Rooms.Turns==turn&&(!board||a.Status.text==board.Texts.PickFirst),"A press on the trace before anyone looked at it must ask for a pawn: "+a.Status.text);
+        Check(!s.VisiblePawn,"Identity appears before observation.");
+        var place=FieldPawnTest.Option(a,0,FieldPawnTest.ObserveKey());Check(place!=null&&place.Enabled&&place.Label==planner.PlaceTexts.Observe,"The trace offers a pawn place: "+(place!=null?place.Label:"none"));
+        await ObserveBy(a,0);await Shot("npc-doyun-observation");
+        Check(!s.IsOpen&&planner.Plan.Observations.Count==1&&a.Rooms.Turns==turn&&c.Campaign.MinuteOfDay==minute,"Placing beside the trace spent time or opened a window.");
+        Check(FieldPawnTest.Lead(a,1,1),"The other pawn searches the table alone");/* alone: the table's 2 turns */
         int progress=a.Loot.State(1).Progress;
         var outlook=planner.Forecast(planner.Plan);Check(outlook.check.Observations.Count==1&&outlook.check.Runs.Count==1&&!outlook.check.HushedAll,"Observation and search did not coexist.");
         await Click(planner.TurnButton);await Task.Delay(150);
@@ -227,17 +242,18 @@ public static class VerifyNpcStoryRuntime
             PartySelectionSession.Selected.Add(data.Id);
         }
         C.RefreshMembers();await Depart();if(C.ArrivalPanel.Popup.activeSelf)C.ArrivalPanel.ClosePopup();await Task.Delay(60);
-        var story=C.ArrivalPanel.Story;await Click(story.Clue);
-        Check(story.Members.Count(b=>b.gameObject.activeInHierarchy)==6,"Six member names not available.");
+        var story=C.ArrivalPanel.Story;var arrival=C.ArrivalPanel;await BoardReady(arrival);
+        for(int m=0;m<6;m++)Check(FieldPawnTest.Option(arrival,m,FieldPawnTest.ObserveKey())?.Enabled==true,"Member "+m+" cannot take the place beside the trace.");
         try
         {
+            var board=FieldPawnTest.Board(arrival);
             await ReviewedResolutions(async wh=>
             {
-                foreach(var button in story.Members)await Click(button);Layout();
-                Hit(story.Choices[0]);Hit(story.Back);
-                await Shot("npc-dialogue-six-investigation-"+wh.x+"x"+wh.y);
+                // A pawn held: its silhouette beside the trace is a real Button at every screen ratio.
+                board.Cancel();board.Hold(5);await Task.Delay(300);var ghost=FieldPawnTest.Ghost(arrival,FieldPawnTest.ObserveKey());Check(ghost,"No silhouette beside the trace");Hit(ghost);
+                await Shot("npc-trace-six-silhouette-"+wh.x+"x"+wh.y);board.Cancel();
             });
-            await Click(story.Choices[0]);await Click(C.ArrivalPanel.Threat.Planner.TurnButton);await Task.Delay(150);
+            await ObserveBy(arrival,0);await Click(arrival.Threat.Planner.TurnButton);await Task.Delay(150);
             DialogueAt(story,1,0,0,"주변");UnknownIdentity(story);
             await ReviewDialogueResolutions(story,"narration");
             await Click(story.ContinueSurface);DialogueAt(story,1,0,1,"?",true);UnknownIdentity(story);
@@ -296,7 +312,7 @@ public static class VerifyNpcStoryRuntime
         var state=new FieldSiteState(a.Threat.Rules,()=>99,false,3);state.MoveParty(0);state.EndTurn(0,false);
         typeof(ExpeditionSiteThreat).GetProperty("State").SetValue(a.Threat,state);a.Threat.Refresh();
         Check(state.Incoming,"Fixture did not put resident at incoming door.");
-        s.Open();s.SelectMember(0);s.Choose(0);await Task.Delay(50);
+        await ObserveBy(a,0);
         Check(planner.Run(),"Incoming observation rejected.");await Task.Delay(100);
         Check(a.Encounter.IsOpen&&!s.IsOpen&&s.State.Stage==1&&s.State.PendingDialogue,"Encounter did not take precedence over pending dialogue.");
         // Existing battle-resolution public path clears this fixture's encounter; no battle balance is modified.
@@ -306,23 +322,16 @@ public static class VerifyNpcStoryRuntime
     }
     public static async Task<string> ReassignSearch()
     {
-        await Start();var a=C.ArrivalPanel;var s=a.Story;var planner=a.Threat.Planner;
-        await Click(s.Clue);await Click(s.Members[0]);await Click(s.Choices[0]);
-        a.Search.Open(1);await Task.Delay(100);var search=a.Search;
-        Check(search.IsOpen&&search.Worker==a.Participants[1],"Search did not prefer the idle member.");
-        Check(search.Cards[0].Action&&search.Cards[0].Action.text.Contains("관찰")&&search.Cards[0].Paper.color==planner.BusyTint,"Observation member looks free in search.");
-        await Click(search.Cards[0].Button);
-        Check(search.Notice.text.Contains("관찰"),"Changing observation lead lacks notice.");
-        await Click(search.Choose);
-        Check(search.ReviewBody.text.Contains("관찰"),"Confirmation omits displaced observation.");
-        Canvas.ForceUpdateCanvases();Check(search.ReviewBody.preferredHeight<=search.ReviewBody.rectTransform.rect.height+2,"Observation warning clips review text.");
+        await Start();var a=C.ArrivalPanel;var s=a.Story;var planner=a.Threat.Planner;var rules=FieldPawnTest.Rules(a);
+        await ObserveBy(a,0);Check(planner.Plan.Observations.Count==1&&FieldPawnTest.ActionOf(a,0)==FieldAction.Observe,"Pawn 0 beside the trace.");
+        // The read-only 07 of the table does not offer member 0 anything: it only shows who is placed there (nobody yet).
+        Check(FieldPawnTest.Detail(a,1)&&a.Search.ReadOnly&&a.Search.PlacedLine==a.Search.ReadNobody,"07 is read only: "+a.Search.PlacedLine);await Click(a.Search.Back);
+        int turns=a.Rooms.Turns;
+        Check(FieldPawnTest.Lead(a,0,1),"Pawn 0 moved onto the table");
+        Check(planner.Plan.Observations.Count==0&&s.State.Stage==0&&a.Rooms.Turns==turns&&rules.LastStatus.Contains(s.ObserveLabel(ExpeditionNpcStory.ObservationId)),"Moving the observer leaves the trace (the status says so), no time, no discovery: "+rules.LastStatus);
         await Shot("npc-doyun-reassignment");
-        await Click(search.Cancel);Check(planner.Plan.Observations.Count==1,"Cancelling changed live assignments.");
-        await Click(search.Back);await Click(s.Clue);
-        Check(s.Choices[1].gameObject.activeInHierarchy,"Cancel lost removable observation.");
-        s.Close();search.Open(1);await Task.Delay(70);await Click(search.Cards[0].Button);await Click(search.Choose);await Click(search.Confirm);
-        Check(planner.Plan.Observations.Count==0&&s.State.Stage==0,"Confirmed search leaves conflicting observation.");
-        return "PASS: assigned observer appears busy; reassignment and confirmation identify observation removal; cancel preserves it and confirm removes it without discovering NPC.";
+        Check(FieldPawnTest.Observe(a,0)&&planner.Plan.Observations.Count==1&&planner.Plan.Find(1)==null,"Back beside the trace: the table is left");
+        return "PASS: a placed observer moved onto an object leaves the trace (the status names it); moving back leaves the object; no time passes and nothing is discovered.";
     }
     public static async Task<string> InspectReview()
     {

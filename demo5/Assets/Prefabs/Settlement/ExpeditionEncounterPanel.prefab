@@ -469,11 +469,13 @@ MonoBehaviour:
   Confirm: {fileID: 4027865492766605449}
   Cancel: {fileID: 6862033673921435837}
   Members: {fileID: 2792652792977759480}
-  BaseChance: 10
+  BaseChance: 40
   MaximumChance: 45
   WaitChance: 65
-  NoiseThreshold: 4
-  ChancePerNoise: 4
+  WarnSearches: 2
+  ChancePerSearch: 5
+  NoiseThreshold: 0
+  ChancePerNoise: 5
   GraceSearches: 3
   MaxRandomEnemies: 1
 --- !u!1 &1856484177814871536
@@ -1425,7 +1427,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 810, y: 172}
+  m_SizeDelta: {x: 810, y: 230}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2426531980881242969
 MonoBehaviour:
@@ -1564,7 +1566,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 1030, y: -774}
-  m_SizeDelta: {x: 810, y: 180}
+  m_SizeDelta: {x: 810, y: 232}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &5588960453982168488
 MonoBehaviour:

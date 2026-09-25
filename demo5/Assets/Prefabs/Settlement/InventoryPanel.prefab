@@ -7241,6 +7241,86 @@ MonoBehaviour:
     Recovery: 2
     UseCost: 1
     UseMinutes: 10
+  - Id: fuel
+    Name: "\uC5F0\uB8CC\uD1B5"
+    UseVerb: 
+    FieldUsable: 0
+    Description: "\uC870\uB9AC\xB7\uC815\uC218\uC6A9 \uC5F0\uB8CC\n\uBAA9\uC7AC \uB300\uC2E0 \uC0AC\uC6A9"
+    Icon: {fileID: 21300000, guid: 15f1481a47bf35444bc8283111df5288, type: 3}
+    Category: 3
+    Recovery: 0
+    UseCost: 1
+    UseMinutes: 10
+  - Id: lubricant
+    Name: "\uC724\uD65C\uC720"
+    UseVerb: 
+    FieldUsable: 0
+    Description: "\uACF5\uAD6C \uC5F0\uAD6C \uD6C4 \uBABB \uAC00\uACF5\n\uC791\uC5C5\uB300 \uC81C\uC791 \uC7AC\uB8CC"
+    Icon: {fileID: 21300000, guid: 0e638083041a72146badd25d3aa15b3b, type: 3}
+    Category: 3
+    Recovery: 0
+    UseCost: 1
+    UseMinutes: 10
+  - Id: battery
+    Name: "\uAC74\uC804\uC9C0"
+    UseVerb: 
+    FieldUsable: 0
+    Description: "\uC190\uC804\uB4F1 \uC81C\uC791 \uC7AC\uB8CC\n\uACF5\uAD6C \uC5F0\uAD6C \uD6C4 \uC0AC\uC6A9"
+    Icon: {fileID: 21300000, guid: bb3220efe321f02409d8ab58e44a28e4, type: 3}
+    Category: 3
+    Recovery: 0
+    UseCost: 1
+    UseMinutes: 10
+  - Id: tobacco
+    Name: "\uB2F4\uBC30"
+    UseVerb: 
+    FieldUsable: 0
+    Description: "\uBC29\uBB38\uC790 \uAD50\uD658\uC6A9 \uAE30\uD638\uD488\n\uC120\uD638 \uC2DC \uAD50\uD658 \uAC00\uCE58 +1"
+    Icon: {fileID: 21300000, guid: d03b5b4750cbb3147b2d3e1d77ae1ea8, type: 3}
+    Category: 3
+    Recovery: 0
+    UseCost: 1
+    UseMinutes: 10
+  - Id: coffee
+    Name: "\uCEE4\uD53C"
+    UseVerb: 
+    FieldUsable: 0
+    Description: "\uBC29\uBB38\uC790 \uAD50\uD658\uC6A9 \uAE30\uD638\uD488\n\uC120\uD638 \uC2DC \uAD50\uD658 \uAC00\uCE58 +1"
+    Icon: {fileID: 21300000, guid: a75c07198d813a54dbe1089565f637b8, type: 3}
+    Category: 1
+    Recovery: 0
+    UseCost: 1
+    UseMinutes: 10
+  - Id: alcohol
+    Name: "\uC18C\uB3C5 \uC54C\uCF54\uC62C"
+    UseVerb: 
+    FieldUsable: 0
+    Description: "\uBD95\uB300 \uC81C\uC791\uC6A9 \uC18C\uB3C5\uC81C\n\uC791\uC5C5\uB300 \xB7 \uCC9C\uACFC \uD568\uAED8"
+    Icon: {fileID: 21300000, guid: 1c573d15e264fd74a9c14302cf1e90db, type: 3}
+    Category: 3
+    Recovery: 0
+    UseCost: 1
+    UseMinutes: 10
+  - Id: electrical-parts
+    Name: "\uC804\uAE30 \uBD80\uD488"
+    UseVerb: 
+    FieldUsable: 0
+    Description: "\uC190\uC804\uB4F1 \uC81C\uC791 \uC7AC\uB8CC\n\uACF5\uAD6C \uC5F0\uAD6C \uD6C4 \uC0AC\uC6A9"
+    Icon: {fileID: 21300000, guid: 932687e17eeec8a4c9e02072461dda01, type: 3}
+    Category: 3
+    Recovery: 0
+    UseCost: 1
+    UseMinutes: 10
+  - Id: weapon-parts
+    Name: "\uBB34\uAE30 \uBD80\uD488"
+    UseVerb: 
+    FieldUsable: 0
+    Description: "\uBC29\uBB38\uC790 \uAD50\uD658\uC6A9 \uBD80\uD488\n\uAD50\uD658 \uAC00\uCE58 6"
+    Icon: {fileID: 21300000, guid: 878937e2b0e8b8a448d5d0db246b225b, type: 3}
+    Category: 3
+    Recovery: 0
+    UseCost: 1
+    UseMinutes: 10
   View: {fileID: 9089696589145603419}
   QuantityPopup: {fileID: 7322406761821982840}
   HideWhileOpen: []

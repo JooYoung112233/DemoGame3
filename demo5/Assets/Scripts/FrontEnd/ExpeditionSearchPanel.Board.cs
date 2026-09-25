@@ -6,7 +6,9 @@ using UnityEngine.UI;
 
 namespace Demo5.FrontEnd
 {
-    // Site-board mode (2nd visit on): the 07 panel assigns a lead, a pace and a support role to one object; assigning costs no time.
+    // Site-board mode (2nd visit on): the 07 panel assigns a lead and a support role to one object; assigning costs no time.
+    // 말 놓기 (2026-09-25): retired — the window is read only on both visits (ReadOnly.cs); this partial is deleted in phase 2.
+    // No pace (2026-09-25): the object's own noise and turns come from the plan (FieldRun.Noise / Required), never recomputed here.
     // Confirm spends the turn only when every living member then has a running role, or the object's standing order is confirmed unchanged.
     public sealed partial class ExpeditionSearchPanel
     {
@@ -17,9 +19,10 @@ namespace Demo5.FrontEnd
         int prefer = -1; string notice;
 
         void ResetBoard() { Solo = false; prefer = -1; notice = null; }
-        void OnCard(Adventurer person) { if (Board) { BoardCard(person); return; } Worker = person; Refresh(); }
-        void OnDuty(int k) { if (Board) { BoardDuty(k); return; } Duty = k; Refresh(); }
-        public void RefreshBoard() { if (IsOpen && Board) BoardRefresh(); }
+        // 말 놓기: read only (ExpeditionSearchPanel.ReadOnly.cs) — a card or a role press changes nothing.
+        void OnCard(Adventurer person) { if (ReadOnly) return; if (Board) { BoardCard(person); return; } Worker = person; Refresh(); }
+        void OnDuty(int k) { if (ReadOnly) return; if (Board) { BoardDuty(k); return; } Duty = k; Refresh(); }
+        public void RefreshBoard() { if (!IsOpen) return; if (ReadOnly) ReadOnlyRefresh(); else if (Board) BoardRefresh(); }
         int Member(Adventurer p) => p == null ? -1 : arrival.Participants.ToList().IndexOf(p);
         // Observation ids are not search-site indices; keep this warning separate from FieldMoveNote.
         string ObservationMoveLine(int member)
@@ -34,7 +37,7 @@ namespace Demo5.FrontEnd
         void BoardOpen()
         {
             var plan = Planner.Plan; var standing = plan.Find(site); var facts = Planner.Facts(); ResetBoard();
-            if (standing != null && facts.Alive(standing.Lead)) { Worker = arrival.Participants[standing.Lead]; Pace = standing.Pace; Duty = standing.Duty; Solo = standing.Solo; return; }
+            if (standing != null && facts.Alive(standing.Lead)) { Worker = arrival.Participants[standing.Lead]; Duty = standing.Duty; Solo = standing.Solo; return; }
             if (arrival.Loot.State(site).Progress == 0 && !Assignments.ContainsKey(site)) Duty = 0;
             // The last lead of this object if idle, otherwise the first member with no slot this turn, then anyone not leading
             // (a busy member can still be picked by tapping; the panel says what they leave).
@@ -68,36 +71,38 @@ namespace Demo5.FrontEnd
         {
             var planner = Planner; var facts = planner.Facts(); var s = arrival.Loot.State(site); int lead = Member(Worker); var standing = planner.Plan.Find(site);
             var d = new BoardDraft { Offered = new bool[3], Notes = new List<FieldMoveNote>() };
-            if (s.Progress == 0 && lead >= 0) for (int i = 0; i < 3; i++) d.Offered[i] = (i != 1 || Pace == 0) && planner.Plan.CanOffer(i, site, lead, Pace, facts);
+            // CanOffer: someone free would be bound (never 망보기 on a silent object: FieldTurnPlan.Need).
+            if (s.Progress == 0 && lead >= 0) for (int i = 0; i < 3; i++) d.Offered[i] = planner.Plan.CanOffer(i, site, lead, facts);
             if (s.Progress == 0 && lead >= 0 && !Solo && !d.Offered[Duty] && d.Offered.Any(x => x)) Duty = System.Array.IndexOf(d.Offered, true);
             d.SoloShown = s.Progress == 0 && lead >= 0 && (Solo || !d.Offered.Any(x => x));
             d.Plan = planner.Plan.Clone();
             if (lead >= 0)
             {
-                d.Order = new FieldOrder { Site = site, Lead = lead, Pace = Pace, Duty = Duty, Solo = s.Progress == 0 ? d.SoloShown : standing != null && standing.Solo, Prefer = prefer, Support = standing != null ? standing.Support : -1 };
+                d.Order = new FieldOrder { Site = site, Lead = lead, Duty = Duty, Solo = s.Progress == 0 ? d.SoloShown : standing != null && standing.Solo, Prefer = prefer, Support = standing != null ? standing.Support : -1 };
                 d.Notes = d.Plan.Assign(d.Order);
             }
             else d.Plan.Release(site);
             var f = planner.Forecast(d.Plan); d.Check = f.check; d.Outlook = f.outlook; d.Pass = f.hushWouldPass;
             return d;
         }
-        // Once a search has started its pace and role are locked, so only the lead can change it.
+        // Once a search has started its role (and its turns) are locked, so only the lead can change it.
         bool Unchanged(FieldOrder order) { var standing = Planner.Plan.Find(site); return standing != null && order != null && standing.Lead == order.Lead && (arrival.Loot.State(site).Progress > 0 || standing.SameAs(order)); }
 
         void BoardRefresh()
         {
             var planner = Planner; var tx = planner.Texts; var s = arrival.Loot.State(site);
-            if (s.Progress > 0) { Pace = s.Pace; Duty = s.Duty; }
+            if (s.Progress > 0) Duty = s.Duty;
             var d = Draft(); var run = d.Check.RunFor(site); var pause = d.Check.PauseFor(site); var standing = planner.Plan.Find(site);
+            ShowObjectNoise();
             for (int i = 0; i < 3; i++)
             {
-                Paces[i].interactable = s.Progress == 0;
-                Paces[i].GetComponent<Image>().color = i == Pace ? planner.LeadTint : Color.white;
                 bool lit = i == Duty && (s.Progress > 0 ? Duty != 0 || s.Bonus > 0 : Worker != null && !d.SoloShown);
                 Duties[i].GetComponent<Image>().color = lit ? planner.LeadTint : Color.white;
                 Duties[i].interactable = s.Progress == 0 && Worker != null && d.Offered[i];
             }
-            if (DropPreview) DropPreview.Refresh(arrival, site, run != null ? run.Pace : Pace, run != null ? run.Duty : Duty, run != null ? run.Bonus : 0, run != null ? run.Noise : FieldTurnPlan.NoiseOf(Pace, false));
+            // The turns this search needs: the run's (함께 already counted), a started one's stored value, otherwise the object's base turns.
+            int required = run != null ? run.Required : s.Progress > 0 ? s.Required : arrival.Loot.SiteTurns(site);
+            if (DropPreview) DropPreview.Refresh(arrival, site, run != null ? run.Pace : s.Progress > 0 ? s.Pace : 1, run != null ? run.Duty : Duty, run != null ? run.Bonus : s.Progress > 0 ? s.Bonus : 0, run != null ? run.Noise : arrival.Loot.SiteNoise(site), required);
             for (int i = 0; i < Cards.Count && i < arrival.Participants.Count; i++)
             {
                 var person = arrival.Participants[i]; int at = i < d.Check.SiteOf.Length ? d.Check.SiteOf[i] : -1;
@@ -109,20 +114,21 @@ namespace Demo5.FrontEnd
                 Cards[i].SetAction(person.Health <= 0 ? tx.CardDown : lead ? tx.CardLead : helps ? (run.Duty == 2 ? tx.CardLight : run.Duty == 1 ? tx.CardWatch : tx.CardTogether) : busy ? tx.CardBusy : ear ? tx.CardListen : observes ? tx.TagObserve : null);
             }
             string tool = arrival.Loot.Sites[site].RequiredTool; var toolItem = arrival.Inventory.Items.FirstOrDefault(i => i.Id == tool);
-            bool required = !string.IsNullOrEmpty(tool), opened = s.Opened;
-            if (ToolIcon) { ToolIcon.gameObject.SetActive(required); ToolIcon.sprite = toolItem?.Icon; }
-            Equipment.text = !required ? "도구 없이 수색 가능" : opened ? "덮개 개방 완료 · 도구 없이 재개 가능" : (toolItem?.Name ?? tool) + " · " + (Worker == null ? "담당자 선택" : arrival.Inventory.CountFor(Worker, tool) > 0 ? "휴대 확인 · 소모 없음" : "담당자 가방에 필요");
+            bool needsTool = !string.IsNullOrEmpty(tool), opened = s.Opened;
+            if (ToolIcon) { ToolIcon.gameObject.SetActive(needsTool); ToolIcon.sprite = toolItem?.Icon; }
+            Equipment.text = !needsTool ? "도구 없이 수색 가능" : opened ? "덮개 개방 완료 · 도구 없이 재개 가능" : (toolItem?.Name ?? tool) + " · " + (Worker == null ? "담당자 선택" : arrival.Inventory.CountFor(Worker, tool) > 0 ? "휴대 확인 · 소모 없음" : "담당자 가방에 필요");
             // Cost: this object's progress and the whole room's noise this turn; then who supports it.
             string support = "";
             if (run != null)
             {
                 string who = run.Support >= 0 ? arrival.Participants[run.Support].Name : "";
                 support = run.Forfeits ? string.Format(tx.CostForfeit, run.Lost)
-                    : run.Support >= 0 ? (run.Duty == 2 ? string.Format(tx.CostLight, who, run.Bonus) : run.Duty == 1 ? string.Format(tx.CostWatch, who) : string.Format(tx.CostTogether, who, run.Bonus))
-                    : run.Duty == 1 ? tx.CostWatchBusy : Solo || s.Progress > 0 ? tx.CostSolo : tx.CostSoloBusy;
+                    : run.Support >= 0 ? (run.Duty == 2 ? string.Format(tx.CostLight, who, run.Bonus) : run.Duty == 1 ? string.Format(tx.CostWatch, who, arrival.Loot.SiteNoise(site), run.Noise)
+                        : run.Bonus > 0 ? string.Format(tx.CostTogetherBonus, who, run.Bonus) : string.Format(tx.CostTogether, who, run.Bonus))
+                    : run.Duty == 1 ? (arrival.Loot.CanWatch(site) ? tx.CostWatchBusy : tx.CostWatchSilent) : Solo || s.Progress > 0 ? tx.CostSolo : tx.CostSoloBusy;
             }
             else if (pause == FieldPause.NoLight) support = tx.CostLightNone;
-            Cost.text = string.Format(tx.CostLine, s.Progress, s.Progress > 0 ? s.Required : Pace + 1, d.Check.Noise) + "\n" + support;
+            Cost.text = string.Format(tx.CostLine, s.Progress, required, d.Check.Noise) + "\n" + support;
             // Choose: assign, continue (unchanged standing order), release, or why it cannot run.
             var label = Choose.GetComponentInChildren<Text>();
             if (Worker == null) { label.text = standing != null ? tx.ChooseRelease : tx.ChooseWorker; Choose.interactable = standing != null; }
@@ -158,7 +164,7 @@ namespace Demo5.FrontEnd
             string tool = arrival.Loot.Sites[site].RequiredTool;
             var lines = new List<string>
             {
-                string.Format(tx.ReviewTitle, Title.text, tx.PaceNames[Mathf.Clamp(run.Pace, 0, tx.PaceNames.Length - 1)]), "",
+                string.Format(tx.ReviewTitle, Title.text, NoiseLabel(run.Noise)), "",
                 string.Format(tx.ReviewLead, Worker.Name),
                 run.Support >= 0 ? string.Format(run.Duty == 2 ? tx.ReviewLight : run.Duty == 1 ? tx.ReviewWatch : tx.ReviewTogether, arrival.Participants[run.Support].Name) : Solo || s.Progress > 0 ? tx.ReviewSolo : tx.ReviewSoloBusy,
                 string.Format(tx.ReviewProgress, run.Before, run.After, run.Required) + (run.Completes ? tx.ReviewComplete : "") + (!string.IsNullOrEmpty(tool) && !s.Opened ? tx.ReviewOpens : "")

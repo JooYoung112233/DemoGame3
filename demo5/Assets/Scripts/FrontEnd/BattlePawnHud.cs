@@ -7,6 +7,7 @@ namespace Demo5.FrontEnd
     public sealed class BattlePawnHud : MonoBehaviour
     {
         public Text Name;
+        public BattleRoleBadge RoleBadge;
         public RectTransform Segments;
         public Image SegmentTemplate;
         public GameObject Aim, Intent, Danger, Guard;
@@ -33,8 +34,14 @@ namespace Demo5.FrontEnd
             health = current; lost = 0; preview = 0; Aim.SetActive(false); Intent.SetActive(false); Danger.SetActive(false); Guard.SetActive(false); Paint();
         }
         public int Health => health;
+        public void SetRole(bool enemy, BattleCreature creature)
+        {
+            if (!RoleBadge) return;
+            RoleBadge.gameObject.SetActive(enemy);
+            RoleBadge.SetRole(CreatureRoles.For(creature));
+        }
         // Visible stack height in canvas pixels: bar+name, then the intent/danger tag, then the aim tag.
-        public float ContentHeight => Aim.activeSelf ? 118 : Intent.activeSelf || Danger.activeSelf ? 84 : 48;
+        public float ContentHeight => Aim.activeSelf ? 118 : Intent.activeSelf || Danger.activeSelf ? 84 : 52;
         public void SetHealth(int value, bool animate)
         {
             value = Mathf.Clamp(value, 0, segments.Count);

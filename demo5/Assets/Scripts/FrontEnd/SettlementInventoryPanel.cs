@@ -81,7 +81,7 @@ namespace Demo5.FrontEnd {
   void RefreshUse(Item item){
    if(!Use)return;Use.interactable=UseBlock(item)==null;Use.GetComponentInChildren<Text>().text=item!=null&&item.Recovery>0?item.UseVerb:"사용";
    if(item==null||item.Recovery<=0||people.Length==0)return;
-   var p=people[member];Description.text=item.Name+" "+item.UseCost+"개 · "+item.UseMinutes+"분\n체력 "+p.Health+" → "+Math.Min(p.MaxHealth,p.Health+item.Recovery)+" / "+p.MaxHealth;
+   var p=people[member];Description.text=item.Name+" "+item.UseCost+"개 · "+item.UseMinutes+"분\n체력 "+p.Health+" → "+Math.Min(p.MaxHealth,p.Health+ItemRecovery(p,item.Id))+" / "+p.MaxHealth;
    Location.text=UseBlock(item)??(fromBag?"개인 가방 재료 사용":"공용 창고 재료 사용");
   }
   public bool UseSelected(){
@@ -90,7 +90,7 @@ namespace Demo5.FrontEnd {
    var p=people[member];int before=p.Health;
    if(fromBag)Bag(p)[item.Id]=CountFor(p,item.Id)-item.UseCost;
    else owner.CraftPanel.Materials.First(m=>m.Id==item.Id).Initial-=item.UseCost;
-   p.Health=Math.Min(p.MaxHealth,p.Health+item.Recovery);
+   p.Health=Math.Min(p.MaxHealth,p.Health+ItemRecovery(p,item.Id));
    owner.Campaign.AdvanceSettlementTime(item.UseMinutes);
    string result=p.Name+" · "+item.UseVerb+" · 체력 "+before+" → "+p.Health;
    owner.ActivityLog.Add(owner.Campaign.ClockText.Replace("\n"," ")+" · "+result);

@@ -1,4 +1,5 @@
 using System;
+using Demo5.NightRun;
 using UnityEngine;
 namespace Demo5.FrontEnd
 {
@@ -6,7 +7,12 @@ namespace Demo5.FrontEnd
     {
         public string Id,DisplayName;
         public bool AvailableAtStart;
+        public CharacterUnlockRule UnlockRule;
+        public string UnlockHint;
+        public int UnlockOrder;
         public string RoleTitle;
+        public string CombatRole;
+        [TextArea(1,2)] public string CombatTraitSummary;
         [TextArea] public string FirstLine,WorkLine,RestLine;
         [TextArea] public string Description;
         public string TraitTitle;
@@ -15,11 +21,27 @@ namespace Demo5.FrontEnd
         [Min(1)] public int BagCapacity=3,Health=3;
         public int Aim;
         [Range(1,100)] public int CookingTimePercent=100, CraftTimePercent=100;
+        [Range(1,100)] public int ResearchTimePercent=100;
+        public HumanTraits Traits = new HumanTraits();
         public Sprite Portrait;
         public Sprite Body;
         [Min(.1f)] public float BodyScale=1;
         // Editor-authored alpha bounds, relative to Body.rect; no readable texture is needed in a Player.
         public Rect BodyVisiblePixels;
+
+        public Adventurer CreateAdventurer()
+        {
+            var member = new Adventurer(DisplayName, string.IsNullOrEmpty(RoleTitle) ? DisplayName : RoleTitle, Description, Health, Aim, BagCapacity);
+            ApplyTraits(member);
+            return member;
+        }
+        // Save loading preserves the saved numeric state and reattaches current ID capabilities.
+        public void ApplyTraits(Adventurer member) { if (member != null) member.ApplyTraits(Traits); }
+        public int WorkTimePercent(bool cooking, bool research = false)
+        {
+            int value = cooking ? CookingTimePercent : research ? ResearchTimePercent : CraftTimePercent;
+            return value <= 0 ? 100 : Math.Max(1, Math.Min(100, value));
+        }
     }
     [CreateAssetMenu(menuName="Demo5/Party roster")]
     public sealed class PartyRoster : ScriptableObject

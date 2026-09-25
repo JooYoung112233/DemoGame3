@@ -25,7 +25,7 @@ public static class VerifyExpeditionReturn {
  public static async Task<string> Revisit(){
   var c=Object.FindAnyObjectByType<SettlementController>();if(c.ReturnPanel.IsOpen)c.ReturnPanel.Close();var a=c.ArrivalPanel;var party=c.Campaign.Party.ToArray();var place=c.ExpeditionPanel.Destinations.First(x=>x.Id=="mall");
   Check(a.Begin(party,place),"Departure");await Task.Delay(850);a.Rooms.MarkInspected(0);
-  Check(a.Loot.Advance(0,2,party[0]),"Partial search");var state=a.Loot.State(0);Check(state.Progress==1&&!state.Complete,"Partial progress");
+  int crateTurns=a.Loot.Sites[0].Turns;a.Loot.Sites[0].Turns=3;/* 함께 on a 3-turn fixture: 2 turns, one stays partial */Check(a.Loot.Advance(0,1,party[0]),"Partial search");a.Loot.Sites[0].Turns=crateTurns;var state=a.Loot.State(0);Check(state.Progress==1&&!state.Complete,"Partial progress");
   a.Rooms.AskMove();await Task.Delay(120);await Tap(a.ReturnConfirm);await Task.Delay(2200);Check(a.Rooms.CurrentRoom==1,"Corridor arrival");a.Rooms.AskMove();await Task.Delay(120);await Tap(a.ReturnConfirm);await Task.Delay(2200);
   await Tap(a.Return);await Tap(a.ReturnConfirm);await Tap(c.ReturnPanel.Back);
   Check(a.Begin(party,place),"Revisit departure");await Task.Delay(850);

@@ -9,11 +9,13 @@ namespace Demo5.FrontEnd
     /// A room object remains the click target. Only its small paper mark is shown
     /// at rest; details appear on pointer hover, keyboard focus, or held Alt.
     /// FieldThreatMarker children remain independent and are never hidden here.
+    /// A right press (the Button ignores it) goes to the pawn board (FieldPawnBoard.RightPress):
+    /// an object's 07 window, a door's heard log, the trace's note, or letting go of a held pawn.
     /// </summary>
     [DisallowMultipleComponent]
     public sealed class ExplorationHotspot : MonoBehaviour,
         IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler,
-        ICanvasRaycastFilter
+        ICanvasRaycastFilter, IPointerClickHandler
     {
         public ExpeditionArrivalPanel Arrival;
         public Button Button;
@@ -51,6 +53,12 @@ namespace Demo5.FrontEnd
         public void OnSelect(BaseEventData eventData) { keyboardFocus = true; RefreshPresentation(); }
         public void OnDeselect(BaseEventData eventData) { keyboardFocus = false; RefreshPresentation(); }
         public bool IsRaycastLocationValid(Vector2 screenPoint, Camera eventCamera) => WorldInputAllowed;
+        // Right press only: the Button takes the left press (ExpeditionArrivalPanel.Press / the door hooks).
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            if (eventData.button != PointerEventData.InputButton.Right || !WorldInputAllowed) return;
+            var board = FieldPawnBoard.For(Arrival); if (board && board.isActiveAndEnabled) board.RightPress(this);
+        }
 
         public void RefreshPresentation()
         {

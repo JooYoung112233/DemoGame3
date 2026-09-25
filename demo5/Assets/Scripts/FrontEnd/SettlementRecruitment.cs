@@ -10,8 +10,8 @@ namespace Demo5.FrontEnd
   public bool RecruitResident(string id)
   {
    var data=Roster.Candidates.FirstOrDefault(p=>p.Id==id);
-   if(data==null||Campaign==null||Campaign.Stage!=JourneyStage.Settlement||Campaign.IsFieldExpedition||PartySelectionSession.Selected.Contains(id)||PartySelectionSession.Selected.Count!=Campaign.Party.Count()||!CraftPanel.CanAcceptResidents(1))return false;
-   var member=new Adventurer(data.DisplayName,string.IsNullOrEmpty(data.RoleTitle)?data.DisplayName:data.RoleTitle,data.Description,data.Health,data.Aim,data.BagCapacity);
+   if(data==null||Campaign==null||Campaign.Stage!=JourneyStage.Settlement||Campaign.IsFieldExpedition||!IsCharacterUnlocked(id)||PartySelectionSession.Selected.Contains(id)||PartySelectionSession.Selected.Count!=Campaign.Party.Count()||!CraftPanel.CanAcceptResidents(1))return false;
+   var member=data.CreateAdventurer();
    if(!Campaign.AddResident(member,CraftPanel.ResidentCapacity))return false;
    PartySelectionSession.Selected.Add(id);page=(Campaign.Party.Count()-1)/Members.Length;RefreshMembers();
    ActivityLog.Add(Campaign.ClockText.Replace("\n"," ")+" · "+data.DisplayName+" 합류");NoticeTitle.text="새 정착민";NoticeBody.text=data.DisplayName+"이 함께 생활합니다.";return true;
@@ -29,12 +29,13 @@ namespace Demo5.FrontEnd
   public string RecruitId=>state.RecruitId;
   public bool HasRecruited=>state.Recruited;
   PartyCandidate RecruitData=>owner.Roster.Candidates.FirstOrDefault(p=>p.Id==state.RecruitId);
-  string NextRecruitId()=>owner.Roster.Candidates.FirstOrDefault(p=>!PartySelectionSession.Selected.Contains(p.Id))?.Id;
+  string NextRecruitId()=>owner.Roster.Candidates.Where(p=>!p.AvailableAtStart&&!PartySelectionSession.Selected.Contains(p.Id)&&owner.IsCharacterUnlocked(p.Id)).OrderBy(p=>p.UnlockOrder).FirstOrDefault()?.Id;
   void InitializeRecruitment(){RecruitPage.SetActive(false);InspectRecruit.onClick.AddListener(OpenRecruit);RecruitBack.onClick.AddListener(ReturnToConversation);RecruitAction.onClick.AddListener(RequestRecruit);}
   string RecruitBlock(string id,int visit)
   {
    if(owner.Campaign==null||owner.Campaign.Stage!=JourneyStage.Settlement||!IsPresent||visit!=state.VisitDay)return "방문이 끝났습니다.";
    if(state.Recruited||id!=state.RecruitId||string.IsNullOrEmpty(id)||PartySelectionSession.Selected.Contains(id))return "합류할 후보가 없습니다.";
+   if(!owner.IsCharacterUnlocked(id))return "아직 만날 조건이 갖춰지지 않았습니다.";
    if(!owner.CraftPanel.CanAcceptResidents(1))return "거주 공간이 부족합니다. 옆방 거주 준비가 필요합니다.";
    return null;
   }
@@ -47,7 +48,7 @@ namespace Demo5.FrontEnd
    RecruitName.text=data?.DisplayName??"방문자";RecruitPortrait.sprite=data?.Portrait;RecruitPortrait.enabled=RecruitPortrait.sprite;
    RecruitHealth.text=data==null?"체력  —":"체력  "+data.Health+" / "+data.Health;
    RecruitBag.text=data==null?"개인 가방  —":"개인 가방  "+data.BagCapacity+"칸";
-   RecruitDetails.text=data==null?"소개할 후보가 없습니다.":data.RoleTitle+"\n“"+data.FirstLine+"”";
+   RecruitDetails.text=data==null?"소개할 후보가 없습니다.":data.RoleTitle+"\n"+data.TraitDescription+"\n“"+data.FirstLine+"”";
    var reason=RecruitBlock(state.RecruitId,state.VisitDay);RecruitAction.interactable=reason==null;
    RecruitHousing.text="거주 인원  "+owner.Campaign.Party.Count()+" / "+owner.CraftPanel.ResidentCapacity+"명";
    RecruitHousing.color=reason==null?new Color(.13f,.32f,.2f):new Color(.55f,.15f,.1f);

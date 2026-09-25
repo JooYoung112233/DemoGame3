@@ -7,7 +7,7 @@ namespace Demo5.FrontEnd
     {
         public bool SideRoomConnected{get;private set;}
         public bool SideRoomReady{get;private set;}
-        [Min(1)] public int SideRoomPlaces=2;
+        [Min(1)] public int SideRoomPlaces=3;
         public Button HousingButton;
         public Text HousingLabel;
         public int ResidentCapacity=>3+(SideRoomReady?Mathf.Max(1,SideRoomPlaces):0);

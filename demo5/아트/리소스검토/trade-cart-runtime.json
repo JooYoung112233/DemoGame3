@@ -1,0 +1,20 @@
+{
+  "utc": "2026-09-25T06:50:57.8613712Z",
+  "result": "PASS",
+  "checks": [
+    "Actual item/page/cart +/-/review/cancel/confirm raycasts: two goods on each side, exact prices, no changes before confirmation, atomic commit once, page-preserved cart.",
+    "Empty/one-sided/underfunded offers blocked; same good cannot appear on both sides; actual stock and 99 limits clamp; clear/removal move no stock.",
+    "Quote rejects changed price, depleted visitor stock, newly reserved recipe inputs, full warehouse including late capacity change, and ended visit without partial stock changes. Reservation/capacity changes are explicit isolated fixtures.",
+    "Committed mixed-cart-compatible inventory/22 stock records survive isolated current-version save and reopen; demand remains stable; unconfirmed cart is not persisted.",
+    "Generic dismissal review restores its text and hides cart rows after trade review; cancel keeps visitor and inventory unchanged.",
+    "Native 1920×1080 and 1280×800: all catalog pages, 22-kind cart per side, visible scrollbar, wheel-to-last-row +/- hits, row bounds/text, shortage and balanced notices; icon-row confirmation counts/totals/bounds and confirm/cancel hits. Four original screenshots saved.",
+    "Zero stock hides every catalog item, resets pagination and retains clear empty-cart instructions with confirmation disabled."
+  ],
+  "screenshots": [
+    "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\trade-cart-1920x1080.png",
+    "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\trade-cart-review-1920x1080.png",
+    "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\trade-cart-1280x800.png",
+    "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\trade-cart-review-1280x800.png"
+  ],
+  "failure": null
+}

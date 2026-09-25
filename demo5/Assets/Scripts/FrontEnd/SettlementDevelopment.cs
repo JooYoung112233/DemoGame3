@@ -79,7 +79,11 @@ namespace Demo5.FrontEnd
         {
             if (!owner || owner.Campaign == null) return;
             bool show = owner.Main.gameObject.activeInHierarchy && owner.Main.interactable && (!owner.Introduction || owner.Introduction.Allows(5));
-            OpenButton.gameObject.SetActive(show && (!owner.Opening || !owner.Opening.Active)); ResearchButton.gameObject.SetActive(show && State.Research);
+            bool storyAction=false;
+            if(owner.TutorialSkipped&&owner.Opening&&owner.Opening.Active){owner.Opening.Evaluate();storyAction=owner.Opening.CurrentAction>=4;}
+            // These buttons share the notice footer. Keep the genuine record/event reachable;
+            // the workbench itself still opens construction while a story action is offered.
+            OpenButton.gameObject.SetActive(show && (owner.TutorialSkipped&&!storyAction || !owner.Opening || !owner.Opening.Active)); ResearchButton.gameObject.SetActive(show && State.Research);
             OpenLabel.text = "시설 복구 · 연구";
         }
     }

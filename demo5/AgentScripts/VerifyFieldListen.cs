@@ -12,6 +12,9 @@ using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
 // 문에 귀 대기 1차: pure rules (edit mode) and real screens (play mode, after VerifyFieldListen.Enter or VerifyFieldTurnPlan.Enter).
+// 말 놓기 (2026-09-25, 기획/탐험-말놓기-조작-재설계.md): listening is a member's pawn placed at a door (FieldPawnTest: the board's own
+// rules); the door popup has no listen button, the heard lines are the door's log (right press) and its markers; the first visit has no
+// listening (doors only gather); a hush turn is '턴 진행' with nobody placed.
 public static class VerifyFieldListen
 {
     static void Check(bool ok, string message) { if (!ok) throw new Exception(message); }
@@ -42,7 +45,7 @@ public static class VerifyFieldListen
         var f = new Fake(2); var plan = new FieldTurnPlan(); plan.AssignListen(1, C); var k = plan.Check(f);
         Check(k.Actions[1] == FieldAction.Listen && k.DoorOf[1] == C && k.Noise == 0 && k.Hushing == 1 && !k.HushedAll && !k.Full && k.ListenerAt(C) == 1, "Listen slot");
         plan.Assign(O(1, 0, solo: true)); k = plan.Check(f);
-        Check(k.Full && k.Runs.Count == 1 && k.RunFor(1).Support < 0 && k.Noise == FieldTurnPlan.NoiseOf(1, false), "Search + listen = full");
+        Check(k.Full && k.Runs.Count == 1 && k.RunFor(1).Support < 0 && k.Noise == FieldTurnPlan.SearchNoise(f.Site(1).Noise, false), "Search + listen = full");
         var one = new Fake(1); plan = new FieldTurnPlan(); plan.AssignListen(0, C); Check(plan.Check(one).Full, "A lone listener is full");
         var s = Site(gauge: 2); var h = s.Copy(); s.EndTurn(0, false); h.EndTurn(0, true); Check(s.Gauge == 2 && h.Gauge == 1, "Listening gives no gauge relief");
         s = Site(danger: 2, remembered: A); s.EndTurn(0, false); s.EndTurn(0, false); Check(s.Incoming, "Incoming");
@@ -158,6 +161,7 @@ public static class VerifyFieldListen
     // ---- Play mode ----
     static async Task Tap(Button button)
     {
+        for (int i = 0; i < 20 && button && !(button.IsActive() && button.IsInteractable()); i++) await Task.Delay(50); // enabled on the next LateUpdate
         Check(button && button.IsActive() && button.IsInteractable(), "Unavailable " + (button ? button.name : "null")); Hit(button);
         var data = new PointerEventData(EventSystem.current) { position = ScreenPoint((RectTransform)button.transform), button = PointerEventData.InputButton.Left };
         ExecuteEvents.Execute(button.gameObject, data, ExecuteEvents.pointerClickHandler); await Task.Delay(110);
@@ -199,7 +203,10 @@ public static class VerifyFieldListen
         await Tap(p.Continue); await Task.Delay(800);
         var h = Object.FindAnyObjectByType<HomeSelectionController>(); await Tap(h.Cards[0].Button); await Tap(h.Continue); await Task.Delay(900);
         var c = Object.FindAnyObjectByType<SettlementController>(); Check(c && c.Campaign != null, "Settlement missing");
-        if (c.Introduction) c.Introduction.Restore(10); await Task.Delay(300);
+        if (c.Introduction) c.Introduction.Restore(10);
+        // The tutorial story beats have their own test (VerifyTutorialStory): mark them seen so they never cover this fixture.
+        var story = c.GetComponent<SettlementTutorialNarrative>(); if (story) story.Restore(new SavedTutorialNarrative { SeenMask = SavedTutorialNarrative.AllSeen, PendingBeat = -1 });
+        await Task.Delay(300);
         return "Settlement " + c.Campaign.Home.Name + " · " + string.Join(", ", c.Campaign.Party.Select(x => x.Name));
     }
     static async Task<ExpeditionArrivalPanel> Depart(SettlementController c)
@@ -209,101 +216,108 @@ public static class VerifyFieldListen
         Check(c.ArrivalPanel.IsOpen && !c.ArrivalPanel.InTransit, "Arrived"); return c.ArrivalPanel;
     }
     static async Task CloseLoot(ExpeditionArrivalPanel a) { if (a.Loot.IsOpen) { await Tap(a.Loot.Back); await Task.Delay(120); if (a.Loot.LeaveReview.activeSelf) await Tap(a.Loot.LeaveConfirm); await Task.Delay(150); } }
-    static async Task Search(ExpeditionArrivalPanel a, int site, int pace)
+    static async Task Ready(ExpeditionArrivalPanel a) => await Until(() => FieldPawnTest.Ready(a), 3000, "board ready");
+    // One search turn on the object: member 0's pawn leads it (solo) or two pawns (co-op), then '턴 진행' (no pace since 2026-09-25).
+    static async Task Search(ExpeditionArrivalPanel a, int site, bool solo)
     {
-        a.Inspect(site); await Until(() => a.Search.IsOpen, 2000, "search " + site); await Task.Delay(150);
-        await Tap(a.Search.Paces[pace]); await Tap(a.Search.Choose); await Tap(a.Search.Confirm); await Task.Delay(350);
+        await Ready(a);
+        if (FieldPawnTest.Check(a)?.RunFor(site) == null) Check(solo ? FieldPawnTest.Lead(a, 0, site) : FieldPawnTest.Coop(a, site), "Pawns on " + a.ObjectNames[site] + ": " + FieldPawnTest.Describe(a));
+        await Tap(a.Threat.Planner.TurnButton); await Task.Delay(350);
         await CloseLoot(a); if (a.Search.IsOpen) await Tap(a.Search.Back); await Task.Delay(150);
     }
-    static async Task Door(ExpeditionArrivalPanel a, Button door) { door.onClick.Invoke(); await Task.Delay(200); Check(a.Popup.activeSelf, "Door popup"); }
-    // Site board: a door confirm reserves the move for the next turn; '턴 진행' makes it (ExpeditionRoomNavigation.Queue.cs).
-    static async Task Reserved(ExpeditionArrivalPanel a) { if (a.Rooms.HasQueuedMove) await Tap(a.Threat.Planner.TurnButton); }
+    // The hush turn: nobody placed, '턴 진행' (AutoAccept: no idle question).
+    static async Task Hush(ExpeditionArrivalPanel a) { await Ready(a); FieldPawnTest.Clear(a); await Tap(a.Threat.Planner.TurnButton); await Task.Delay(300); }
+    // Every living pawn at the door onto `next`, '턴 진행', the walk.
+    static async Task Move(ExpeditionArrivalPanel a, int next) { await Ready(a); Check(FieldPawnTest.Gather(a, next), "Everyone at the door: " + FieldPawnTest.Describe(a)); await Tap(a.Threat.Planner.TurnButton); await Until(() => a.Encounter.IsOpen || !a.InTransit && a.Rooms.CurrentRoom == next, 6000, "move"); await Task.Delay(400); }
+    // A right press on a door hotspot: its heard log (FieldPawnBoard.RightPress), never the move popup.
+    static async Task DoorLog(ExpeditionArrivalPanel a, Button door)
+    {
+        var data = new PointerEventData(EventSystem.current) { position = ScreenPoint((RectTransform)door.transform), button = PointerEventData.InputButton.Right };
+        ExecuteEvents.Execute(door.gameObject, data, ExecuteEvents.pointerClickHandler); await Task.Delay(200); Check(a.Popup.activeSelf && !a.ReturnConfirm.gameObject.activeSelf, "Door log popup (no confirm)");
+    }
 
-    // First visit: the door popups are exactly as before and nothing of listening shows.
+    // First visit (it sleeps): no listening anywhere (doors only gather), the door log says so, the den door offers nothing.
     public static async Task<string> FirstVisitGuard()
     {
         var c = Object.FindAnyObjectByType<SettlementController>(); Check(c && c.Campaign != null, "Run Enter first");
-        var a = await Depart(c); var t = a.Threat; var pl = t.Planner; Check(!pl.Active, "Asleep");
-        await Door(a, a.Objects[3]);
-        Check(a.PopupBody.text.StartsWith("원정대 전체 이동 · 1턴 · 10분") && !a.PopupBody.text.Contains("귀") && !pl.ListenButton.gameObject.activeSelf && Label(a.ReturnConfirm) == "이동 · 1턴", "Old popup: " + a.PopupBody.text);
-        await Still(a, "50-first-visit-door");
-        await Tap(a.PopupBack); Check(pl.Plan.Listens.Count == 0 && pl.Reports.Count == 0 && t.DoorMarkers.All(m => !m.gameObject.activeSelf || m.Label.text != t.ListenPending), "No listening");
-        await Door(a, a.Objects[3]); await Tap(a.ReturnConfirm); await Until(() => !a.InTransit && a.Rooms.CurrentRoom == C, 6000, "move"); await Task.Delay(400);
-        await Door(a, a.Rooms.OfficeDoor); Check(!pl.ListenButton.gameObject.activeSelf, "Sleeping den: no listen"); await Tap(a.PopupBack);
-        return "PASS first visit: popups unchanged, no listen button, no listening";
+        var a = await Depart(c); var t = a.Threat; var pl = t.Planner; Check(!pl.Active && pl.Placing, "Asleep, pawns placed"); await Ready(a);
+        foreach (int m in FieldPawnTest.Living(a))
+        {
+            var door = FieldPawnTest.Options(a, m).Where(o => o.Door >= 0).ToList();
+            Check(door.Count == 1 && door[0].Kind == FieldSpotKind.Gather && door[0].Door == C, "Member " + m + ": the exit only gathers (" + string.Join(",", door.Select(o => o.Kind)) + ")");
+        }
+        var b = FieldPawnTest.Board(a); await DoorLog(a, a.Objects[3]);
+        Check(a.PopupBody.text.Contains(b.Texts.DoorLogAsleep.Split('\n')[0]), "Door log on the first visit: " + a.PopupBody.text);
+        await Still(a, "50-first-visit-door"); a.ClosePopup(); await Task.Delay(100);
+        Check(pl.Plan.Listens.Count == 0 && pl.Reports.Count == 0 && pl.DoorLog.Count == 0 && t.DoorMarkers.All(m => !m.gameObject.activeSelf || m.Label.text != t.ListenPending), "No listening");
+        await Move(a, C);
+        Check(FieldPawnTest.Options(a, 0).All(o => o.Door != D && o.Key != FieldPawnTest.SearchKey(t.DenSite)), "Sleeping den: no listening, no shelf");
+        return "PASS first visit: doors only gather, the door log says it sleeps, no listening, nothing at the den";
     }
 
     public static async Task<string> Showcase()
     {
+        FieldIdleConfirm.AutoAccept = true; // members left idle hush without the question (VerifyIdleConfirm tests it)
         var c = Object.FindAnyObjectByType<SettlementController>(); Check(c && c.Campaign != null, "Run Enter first");
-        var a = await Depart(c); var t = a.Threat; var pl = t.Planner; var tx = pl.Texts; var log = new List<string>();
+        var a = await Depart(c); var t = a.Threat; var pl = t.Planner; var tx = pl.Texts; var px = pl.PlaceTexts; var log = new List<string>();
         if (c.Opening) c.Opening.State.Enabled = false; // review fixture: a later visit comes after the opening chapter
-        t.ReviewWake(1, 2, 6); await Task.Delay(250); Check(pl.Active, "Awake");
+        t.ReviewWake(1, 2, 6); await Task.Delay(250); Check(pl.Active, "Awake"); await Ready(a);
         string B = a.Participants[1].Name; var exit = Marker(t, A, C);
-        // S1 the exit popup offers the idle member (B) at the door.
-        await Door(a, a.Objects[3]); await Until(() => pl.ListenButton.gameObject.activeSelf, 1000, "listen button");
-        Check(pl.ListenTitle.text == string.Format(tx.ListenTitle, B) && pl.ListenSubtitle.text == tx.ListenBreaksHush, "Offer: " + pl.ListenTitle.text + " / " + pl.ListenSubtitle.text);
-        Near(OnScreen((RectTransform)pl.ListenButton.transform), 700, 645, 520, 66, "listen");
-        Hit(pl.ListenButton); Hit(a.PopupBack); Hit(a.ReturnConfirm); Fits(pl.ListenTitle, pl.ListenSubtitle, a.PopupBody);
-        var body = OnScreen(a.PopupBody.rectTransform); Check(body.y + body.height / 2 + a.PopupBody.preferredHeight / 2 <= OnScreen((RectTransform)pl.ListenButton.transform).y - 4, "Body clear of the button");
-        await Still(a, "51-door-popup-offer");
-        // S2 assign: no time.
+        // S1 the exit offers B's pawn a listening place (the first pawn at an empty door).
+        var offer = FieldPawnTest.Option(a, 1, FieldPawnTest.DoorKey(C), FieldSpotKind.Listen);
+        Check(offer != null && offer.Enabled && offer.Label == px.Listen && offer.Glyph == ActionGlyph.Kind.Listen, "Listen place at the exit: " + (offer != null ? offer.Label : "none"));
+        // S2 place: no time.
         int turns = a.Rooms.Turns, clock = t.State.TurnsUsed, minute = c.Campaign.MinuteOfDay;
-        await Tap(pl.ListenButton); await Task.Delay(150);
-        Check(!a.Popup.activeSelf && a.Rooms.Turns == turns && t.State.TurnsUsed == clock && c.Campaign.MinuteOfDay == minute, "Assign is free");
-        Check(a.Cards[1].Action.text == tx.TagListen && a.Cards[1].Role.text == string.Format(tx.RoleListen, "복도") && exit.Label.text == t.ListenPending && pl.Chip.text.Contains(string.Format(tx.ChipListening, 1)) && pl.TurnSubtitle.text == tx.TurnSubtitle, "Listening shown: " + exit.Label.text + " / " + pl.Chip.text);
+        Check(FieldPawnTest.Listen(a, 1, C), "B's pawn at the exit"); await Task.Delay(150);
+        Check(!a.Popup.activeSelf && a.Rooms.Turns == turns && t.State.TurnsUsed == clock && c.Campaign.MinuteOfDay == minute, "Placing is free");
+        Check(a.Cards[1].Action.text == tx.TagListen && a.Cards[1].Role.text == string.Format(tx.RoleListen, "복도") && exit.Label.text == t.ListenPending && pl.Chip.text.Contains(string.Format(tx.ChipListening, 1)), "Listening shown: " + exit.Label.text + " / " + pl.Chip.text);
         await Still(a, "52-listening-set");
-        // S3 A searches the table fast while B listens: full plan, one turn.
-        a.Inspect(0); await Until(() => a.Search.IsOpen, 2000, "search"); await Task.Delay(150); var s = a.Search;
-        Check(s.Worker == a.Participants[0] && s.Cost.text.Contains(tx.CostSoloBusy) && s.Notice.text == string.Format(tx.NoticeListenBusy, B) && s.Cards[1].Action.text == tx.CardListen, "07 with a listener: " + s.Cost.text + " / " + s.Notice.text);
-        await Tap(s.Paces[0]); await Tap(s.Choose); Check(s.ReviewBody.text.Contains(tx.ReviewRunFull) && Label(s.Confirm) == tx.ConfirmRun, "Full: " + s.ReviewBody.text);
-        await Still(a, "53-search-with-listener");
-        await Tap(s.Confirm); await Task.Delay(350); await CloseLoot(a); if (s.IsOpen) await Tap(s.Back);
+        // S3 A searches 오락기 뒤판 (noise 3, prybar fixture) while B listens: everyone has a job, one loud turn.
+        if (c.InventoryPanel.CountFor(a.Participants[0], "prybar") == 0) Check(c.InventoryPanel.TransferField(a.Participants[0], "prybar", 1, true), "Prybar fixture");
+        // Fixture: the machine done in one turn (a single loud turn, as the old one-turn lure), so the listen turn below is quiet.
+        int machineTurns = a.Loot.Sites[2].Turns; a.Loot.Sites[2].Turns = 1;
+        Check(FieldPawnTest.Lead(a, 0, 2) && FieldIdleConfirm.IdleMembers(pl).Count == 0, "A on the machine: nobody idle");
+        Check(FieldPawnTest.Detail(a, 2) && a.Search.PlacedLine.Contains(a.Participants[0].Name), "07 (read only) names A: " + a.Search.PlacedLine);
+        await Still(a, "53-search-with-listener"); await Tap(a.Search.Back);
+        await Tap(pl.TurnButton); await Task.Delay(350); await CloseLoot(a); if (a.Search.IsOpen) await Tap(a.Search.Back); a.Loot.Sites[2].Turns = machineTurns;
         var st = t.State; Check(a.Rooms.Turns == turns + 1 && st.Danger == 2 && st.Gauge == 1 && st.Remembered == A && st.Next == C && pl.LastMismatch == "" && pl.Plan.Listens.Count == 1, "After the loud turn " + st.Danger + "/" + st.Gauge + " " + pl.LastMismatch);
         Check(pl.TryReport(C, out var r, out _) && !r.Present && exit.Label.text == t.HeardQuiet, "Heard nothing yet: " + exit.Label.text);
-        log.Add("assign free, full plan, quiet");
+        log.Add("placing free, everyone busy, quiet");
         // S4 listen turn: it comes out into the corridor and will stop; the step after is into our room.
         var e = st.Copy(); e.MoveParty(A); e.EndTurn(0, false); var want = e.ListenAt(C);
-        await Tap(pl.TurnButton); await Task.Delay(300);
+        await Ready(a); await Tap(pl.TurnButton); await Task.Delay(300);
         Check(pl.TryReport(C, out r, out int who) && r.Equals(want) && who == 1 && r.Present && r.Next == C && r.ThenIn && st.Gauge == 1 && pl.LastMismatch == "", "Heard: " + r + " want " + want);
         Check(exit.Label.text == t.HeardSoon && exit.Paper.color == exit.SoonPaper && a.Status.text == string.Format(t.StatusHeard, "복도", t.NextStop) + "\n" + t.StatusHeardHere && pl.Chip.text.Contains(tx.ChipSoon), "Soon: " + exit.Label.text + " / " + a.Status.text + " / " + pl.Chip.text);
         Fits(a.Status, exit.Label);
         await Still(a, "54-heard-soon");
-        // S5 the exit popup warns and offers the release.
-        await Door(a, a.Objects[3]); await Until(() => pl.ListenButton.gameObject.activeSelf, 1000, "release button");
-        Check(a.PopupBody.text.Contains(tx.MoveHeardMeet) && pl.ListenTitle.text == string.Format(tx.ListenReleaseTitle, B), "Popup: " + a.PopupBody.text);
-        Hit(pl.ListenButton); Fits(a.PopupBody, pl.ListenTitle, pl.ListenSubtitle); body = OnScreen(a.PopupBody.rectTransform);
-        Check(body.y + body.height / 2 + a.PopupBody.preferredHeight / 2 <= OnScreen((RectTransform)pl.ListenButton.transform).y - 4, "Body clear of the button (heard line)");
-        await Still(a, "55-door-popup-heard");
-        turns = a.Rooms.Turns; await Tap(a.PopupBack); Check(a.Rooms.Turns == turns, "Back is free");
-        // S6/S7 hush twice: the red one-turn warning, then it passes by. The listener stays assigned; hushing does not listen.
-        await Task.Delay(300); await Tap(t.Hush); await Task.Delay(300);
-        Check(exit.Label.text == t.Incoming && pl.Plan.Listens.Count == 1 && !pl.TryReport(C, out _, out _) && pl.Chip.text.Contains(tx.ChipMeetPass), "Incoming: " + exit.Label.text + " / " + pl.Chip.text);
+        // S5 the door's log (right press) keeps both turns, newest first; looking is free.
+        var entries = pl.DoorLog.For(A, C); Check(entries.Count == 2 && entries[0].Member == 1 && pl.DoorLog.Line(entries[0], st.TurnsUsed).StartsWith(pl.DoorLog.AgeNow), "Log: " + string.Join(" / ", entries.Select(x => pl.DoorLog.Line(x, st.TurnsUsed))));
+        turns = a.Rooms.Turns; await DoorLog(a, a.Objects[3]);
+        Check(a.PopupBody.text.Contains(pl.DoorLog.Line(entries[0], st.TurnsUsed)) && a.PopupBody.text.Contains(B), "Log popup: " + a.PopupBody.text);
+        Fits(a.PopupBody); await Still(a, "55-door-log"); a.ClosePopup(); Check(a.Rooms.Turns == turns, "Looking is free");
+        // S6/S7 hush twice (B's pawn taken off: nobody placed): the red one-turn warning, then it passes by. The log stays.
+        Check(FieldPawnTest.Unassign(a, 1) && pl.Plan.Listens.Count == 0 && (!exit.gameObject.activeSelf || exit.Label.text != t.ListenPending), "B off the door");
+        await Hush(a);
+        Check(exit.Label.text == t.Incoming && !pl.TryReport(C, out _, out _) && (pl.Chip.text.Contains(tx.ChipPass) || pl.Chip.text.Contains(tx.ChipMeetPass)), "Incoming (nobody placed = the hush, so it passes by): " + exit.Label.text + " / " + pl.Chip.text);
         await Still(a, "56-incoming-hush");
-        await Task.Delay(300); await Tap(t.Hush); await Task.Delay(300);
-        Check(st.PassedBy && st.Visible && pl.Plan.Listens.Count == 1 && st.Gauge == 0, "Passed by");
+        await Hush(a);
+        Check(st.PassedBy && st.Visible && st.Gauge == 0 && pl.DoorLog.For(A, C).Count == 2, "Passed by; the log kept");
         await Still(a, "57-passed-by");
-        // S8 release from the popup.
-        await Door(a, a.Objects[3]); await Until(() => pl.ListenButton.gameObject.activeSelf, 1000, "release"); turns = a.Rooms.Turns;
-        await Tap(pl.ListenButton); await Task.Delay(150); Check(pl.Plan.Listens.Count == 0 && a.Rooms.Turns == turns && (!exit.gameObject.activeSelf || exit.Label.text != t.ListenPending), "Released: listens " + pl.Plan.Listens.Count + " turns " + a.Rooms.Turns + "/" + turns + " tag " + exit.gameObject.activeSelf + " " + exit.Label.text); // the pass-by line keeps the status paper
-        log.Add("soon/meet line/hush keeps/pass-by/release");
-        // S9 the den: listen while it is home.
-        await Door(a, a.Objects[3]); await Tap(a.ReturnConfirm); await Reserved(a); await Until(() => !a.InTransit && a.Rooms.CurrentRoom == C, 6000, "to corridor"); await Task.Delay(400);
-        t.ReviewWake(2, 0, 0); await Task.Delay(250);
-        await Door(a, a.Rooms.OfficeDoor); await Until(() => pl.ListenButton.gameObject.activeSelf, 1000, "den listen");
-        Check(pl.ListenTitle.text == string.Format(tx.ListenTitle, B) && pl.ListenSubtitle.text == tx.ListenBreaksHush, "Den offer");
-        Hit(pl.ListenButton); Hit(a.PopupBack); Fits(a.PopupBody, pl.ListenTitle, pl.ListenSubtitle); body = OnScreen(a.PopupBody.rectTransform);
-        Check(body.y + body.height / 2 + a.PopupBody.preferredHeight / 2 <= OnScreen((RectTransform)pl.ListenButton.transform).y - 4, "Den body clear of the button");
-        await Still(a, "58-den-popup");
-        await Tap(pl.ListenButton); await Task.Delay(150); await Task.Delay(250); await Tap(pl.TurnButton); await Task.Delay(300);
-        var den = Marker(t, C, D);
-        Check(pl.TryReport(D, out r, out _) && r.Present && r.Resident == ResidentState.Den && r.Next == D && r.Then == D && den.Label.text == t.HeardStay
-            && a.Status.text == string.Format(t.StatusHeard, "관리실", t.NextStay) + "\n" + string.Format(t.StatusHeardThen, t.ThenStay), "Den heard: " + r + " / " + den.Label.text + " / " + a.Status.text);
+        log.Add("soon/log/hush/pass-by");
+        // S9 the den: a pawn at its door listens while it is home (listen only: the den is never a move).
+        await Move(a, C);
+        t.ReviewWake(2, 0, 0); await Task.Delay(250); await Ready(a);
+        var den = FieldPawnTest.Options(a, 1).Where(o => o.Door == D).ToList();
+        Check(den.Count == 1 && den[0].Kind == FieldSpotKind.Listen, "Den door: listen only (" + string.Join(",", den.Select(o => o.Kind)) + ")");
+        Check(FieldPawnTest.Listen(a, 1, D), "B at the den door"); await Still(a, "58-den-listen");
+        await Tap(pl.TurnButton); await Task.Delay(300);
+        var denMark = Marker(t, C, D);
+        Check(pl.TryReport(D, out r, out _) && r.Present && r.Resident == ResidentState.Den && r.Next == D && r.Then == D && denMark.Label.text == t.HeardStay
+            && a.Status.text == string.Format(t.StatusHeard, "관리실", t.NextStay) + "\n" + string.Format(t.StatusHeardThen, t.ThenStay), "Den heard: " + r + " / " + denMark.Label.text + " / " + a.Status.text);
         await Still(a, "59-den-heard");
-        await Door(a, a.Rooms.CorridorBack); await Until(() => pl.ListenButton.gameObject.activeSelf, 1000, "back door");
-        Check(pl.ListenTitle.text == string.Format(tx.ListenTitle, a.Participants[0].Name) && pl.ListenSubtitle.text == tx.ListenQuiet && a.PopupBody.text.Contains(tx.MoveSuffix.Trim()), "Second door: " + pl.ListenTitle.text + " / " + pl.ListenSubtitle.text);
-        await Tap(a.PopupBack);
-        a.Rooms.LockedDoor.onClick.Invoke(); await Task.Delay(200); Check(!pl.ListenButton.gameObject.activeSelf, "Locked storage: no listen"); if (a.Popup.activeSelf) await Tap(a.PopupBack);
+        var back = FieldPawnTest.Option(a, 0, FieldPawnTest.DoorKey(A), FieldSpotKind.Listen);
+        Check(back != null && back.Enabled, "The back door offers A a listening place");
+        Check(!FieldPawnTest.Options(a, 0).Any(o => o.Door == S && o.Kind == FieldSpotKind.Listen), "Locked storage: nothing to listen at");
         log.Add("den home heard, back door offers A, locked door none");
         return "PASS showcase · " + string.Join(" · ", log) + " · stills " + Shots;
     }
@@ -311,25 +325,31 @@ public static class VerifyFieldListen
     // Without a listener the chip does not reveal the step after next; walking into a room just heard to hold it says so.
     public static async Task<string> KnownWalkIn()
     {
+        FieldIdleConfirm.AutoAccept = true; // members left idle hush without the question (VerifyIdleConfirm tests it)
         var c = Object.FindAnyObjectByType<SettlementController>(); Check(c && c.Campaign != null, "Run Enter first");
         var a = await Depart(c); var t = a.Threat; var pl = t.Planner; var tx = pl.Texts;
         if (c.Opening) c.Opening.State.Enabled = false;
         t.ReviewWake(1, 2, 6); await Task.Delay(250);
-        await Search(a, 0, 0); var st = t.State; Check(st.Danger == 2 && st.Next == C, "Lured");
-        await Task.Delay(300); await Tap(t.Hush); await Task.Delay(300);
-        Check(pl.Forecast(pl.Plan).outlook.Incoming && !pl.Chip.text.Contains(tx.ChipSoon) && pl.Chip.text.Contains(tx.ChipHushAll), "No free two-turn warning: " + pl.Chip.text);
+        // 오락기 뒤판 (noise 3, prybar fixture) alone: its first turn is loud and it stays unfinished for the second lure below.
+        if (c.InventoryPanel.CountFor(a.Participants[0], "prybar") == 0) Check(c.InventoryPanel.TransferField(a.Participants[0], "prybar", 1, true), "Prybar fixture");
+        await Search(a, 2, true); var st = t.State; Check(st.Danger == 2 && st.Next == C, "Lured");
+        await Hush(a);
+        // Nobody listens: the point is no free two-turn warning.
+        Check(pl.Forecast(pl.Plan).outlook.Incoming && !pl.Chip.text.Contains(tx.ChipSoon), "No free two-turn warning: " + pl.Chip.text);
         await Still(a, "60-no-free-warning");
         // Start over for the walk-in: lure, then listen as it steps into the corridor and stops.
         t.ReviewWake(1, 2, 6); await Task.Delay(250); pl.Reset();
-        await Search(a, 1, 0); st = t.State; Check(st.Danger == 2 && st.Next == C, "Lured again " + st.Danger + " " + st.Next);
-        await Door(a, a.Objects[3]); await Until(() => pl.ListenButton.gameObject.activeSelf, 1000, "listen"); await Tap(pl.ListenButton); await Task.Delay(300);
-        await Tap(pl.TurnButton); await Task.Delay(300);
+        await Search(a, 2, true); st = t.State; Check(st.Danger == 2 && st.Next == C, "Lured again (the machine's second turn) " + st.Danger + " " + st.Next);
+        await Ready(a); Check(FieldPawnTest.Listen(a, 1, C), "B at the exit"); await Tap(pl.TurnButton); await Task.Delay(300);
         Check(pl.TryReport(C, out var r, out _) && r.Present && r.Next == C, "Heard it stop: " + r);
         await Still(a, "61-heard-stop");
-        await Door(a, a.Objects[3]); Check(a.PopupBody.text.Contains(tx.MoveHeardMeet), "Warned");
-        await Tap(a.ReturnConfirm); await Reserved(a); await Until(() => a.Encounter.IsOpen || !a.InTransit && a.Rooms.CurrentRoom == C, 6000, "walk in"); await Task.Delay(400);
+        // Everyone at the exit: the move's preview warns (the move view's second line), '턴 진행' walks in.
+        await Ready(a); Check(FieldPawnTest.Gather(a, C), "Everyone at the exit"); await Task.Delay(200);
+        var view = a.Main.GetComponentInChildren<FieldMoveQueueView>(true); Check(view && pl.Chip.text.Contains(view.ChipMeets), "Warned: " + pl.Chip.text);
+        await Tap(pl.TurnButton); await Until(() => a.Encounter.IsOpen || !a.InTransit && a.Rooms.CurrentRoom == C, 6000, "walk in"); await Task.Delay(400);
         Check(a.Encounter.IsOpen && st.Surprise && a.Encounter.View.GetComponentsInChildren<Text>(true).Any(x => x.text.Contains(t.HeardSurpriseBody.Split('\n')[0])), "Known walk-in");
         await Still(a, "62-known-walk-in");
         return "PASS known walk-in: no free two-turn warning; heard, warned, walked in, met as heard";
     }
+
 }

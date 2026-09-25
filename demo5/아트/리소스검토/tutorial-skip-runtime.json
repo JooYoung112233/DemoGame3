@@ -1,0 +1,19 @@
+{
+  "result": "PASS",
+  "checks": [
+    "Actual arrival dialogue skip applies remaining preparation once (40 minutes, cloth 1, water 1 and configured ammo), keeps full health and all real story/facility/companion/room facts, exposes free-play controls and preserves actual crafting locks. Repeating skip is inert.",
+    "Isolated disk write/read and actual scene reload preserve skipped state, resources, clock and gameplay; no fresh arrival fade or tutorial dialogue returns.",
+    "Actual first departure/return remains the first sleeping-threat visit. Actual second departure wakes the site normally, suppresses board/battle lessons, preserves visit counts and leaves the hidden NPC discoverable; returning still records genuine first-return progress.",
+    "Skip and its hint appear only in the initial beat. Later dialogue, its restored save, discovery and the settlement menu never offer it; a direct late call is inert.",
+    "A final fresh campaign still shows the ordinary arrival dialogue at step 0; skipping is campaign-local, not a global preference."
+  ],
+  "screenshots": [
+    "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\tutorial-skip-dialogue-1920x1080.png",
+    "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\tutorial-skip-dialogue-1280x800.png",
+    "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\tutorial-skip-second-visit.png",
+    "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\tutorial-skip-later-dialogue-hidden.png",
+    "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\tutorial-skip-menu-removed.png"
+  ],
+  "failure": null,
+  "note": "Disposable original-pair campaigns, isolated Temp slots. Raycast clicks exercise initial-only skip, normal preparation, departure/return and revisiting. Later dialogues and their restored saves reject skip; menu entry is absent. Screenshots require separate visual inspection."
+}

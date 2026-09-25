@@ -10,6 +10,8 @@ namespace Demo5.NightRun
         public readonly string Name, Role, Description;
         public readonly int MaxHealth, Aim, BagCapacity;
         public int Health;
+        public HumanTraits Traits { get; private set; } = new HumanTraits();
+        public void ApplyTraits(HumanTraits traits) { Traits = traits?.Copy() ?? new HumanTraits(); }
         public Adventurer(string name, string role, string description, int health, int aim,int bagCapacity=3)
         { Name = name; Role = role; Description = description; Health = MaxHealth = health; Aim = aim; BagCapacity=bagCapacity; }
     }
@@ -76,7 +78,7 @@ namespace Demo5.NightRun
         public void BeginSettlementIntroduction()
         {
             Supplies=Ammo=0;
-            foreach(var p in Party) p.Health=Math.Max(1,p.MaxHealth-1);
+            // Arrival is not a damage event. Rest becomes useful after actual injuries.
         }
         // A found, logged stock gain during settlement (introduction search); never a free default.
         public bool AddSettlementAmmo(int n){if(Stage!=JourneyStage.Settlement||n<0)return false;Ammo+=n;return true;}

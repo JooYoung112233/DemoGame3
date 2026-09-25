@@ -10,7 +10,7 @@ namespace Demo5.FrontEnd
     public sealed class SettlementGameMenu:MonoBehaviour
     {
         public GameObject View,Page,Review;
-        public Button OpenButton,Resume,Save,Load,Settings,Title,Confirm,Cancel;
+        public Button OpenButton,Resume,Save,Load,Settings,Title,Confirm,Cancel,SkipTutorial;
         public Text Hint;
         public GameSettingsDialog SettingsDialog;
         public SaveSlotPanel SavePanel;
@@ -22,6 +22,7 @@ namespace Demo5.FrontEnd
         {
             owner=c;View.SetActive(false);Review.SetActive(false);GameSettings.ApplySaved();SettingsDialog.Initialize();SavePanel.Initialize();
             OpenButton.onClick.AddListener(Open);Resume.onClick.AddListener(Close);
+            if(SkipTutorial)SkipTutorial.gameObject.SetActive(false);
             Save.onClick.AddListener(()=>OpenSlots(true));Load.onClick.AddListener(()=>OpenSlots(false));
             Settings.onClick.AddListener(()=>{Page.SetActive(false);View.transform.Find("Dim").gameObject.SetActive(false);SettingsDialog.Open();});
             SettingsDialog.Closed+=RestorePage;SavePanel.Closed+=RestorePage;SavePanel.LoadRequested+=LoadData;

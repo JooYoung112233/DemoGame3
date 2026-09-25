@@ -64,6 +64,8 @@ namespace Demo5.FrontEnd
         public bool Free { get; private set; }
         public IReadOnlyList<Shown> Placed => shown;
         public bool TryGet(string key, out Shown result) { foreach (var s in shown) if (s.Key == key) { result = s; return true; } result = default; return false; }
+        // The target whose search note (FieldSearchNote) is open: its bubble keeps the ring and portraits, the note shows the line.
+        public string MutedLabel { get; set; }
         public AssignmentBubble BubbleFor(string key) => TryGet(key, out var s) ? s.Bubble : null;
         public Vector2 OffsetFor(int site) { if (Placements != null) foreach (var p in Placements) if (p != null && p.Site == site) return p.Offset; return Vector2.zero; }
         public Rect Area { get { var r = ((RectTransform)transform).rect; return new Rect(r.xMin + RoomArea.x, r.yMax - RoomArea.y - RoomArea.height, RoomArea.width, RoomArea.height); } }
@@ -238,11 +240,12 @@ namespace Demo5.FrontEnd
                 var b = pool[i]; if (!b) continue;
                 if (i >= items.Count) { b.Hide(); continue; }
                 var it = items[i]; float from = 0; bool anim = p < 1 && animFrom.TryGetValue(it.Key, out from);
+                string label = it.Key == MutedLabel ? "" : it.Label;
                 // While the ring fills, the 'this turn' cells wait; they come back once it is full.
-                b.Show(it.Portraits, it.Glyph, it.Label, it.Done, anim ? 0 : it.Next, it.Total, it.Tone);
+                b.Show(it.Portraits, it.Glyph, label, it.Done, anim ? 0 : it.Next, it.Total, it.Tone);
                 b.SetProgress(anim ? Mathf.Lerp(from, it.Done, p) : it.Done);
                 var scale = Vector3.Scale(BaseScale(b), new Vector3(it.Scale, it.Scale, 1)); if (b.Rect.localScale != scale) b.Rect.localScale = scale;
-                Layout(b, it.Label);
+                Layout(b, label);
                 shown.Add(Place(b, it, area));
             }
             if (p >= 1 && animFrom.Count > 0) animFrom.Clear();

@@ -1492,6 +1492,12 @@ MonoBehaviour:
   LessonPointerBounce: 12
   LessonPointerSpeed: 5
   LessonPointerSize: {x: 58, y: 70}
+  ActorRoleBadge: {fileID: 2724365554465560138}
+  TargetRoleBadge: {fileID: 405072288921064571}
+  ActorRoleLabel: {fileID: 269331311406602997}
+  TargetRoleLabel: {fileID: 3097533416074392439}
+  ActorTactic: {fileID: 8019688418123921836}
+  TargetTactic: {fileID: 4612987794394470230}
   VisibleBounds:
   - Sprite: {fileID: -8611554932772835907, guid: 89fe3ff7ebc60db45941d1d69d17aca0, type: 3}
     Pixels:
@@ -3485,6 +3491,7 @@ GameObject:
   - component: {fileID: 6520673570479889397}
   - component: {fileID: 7920786681149152790}
   - component: {fileID: 2156661689228494042}
+  - component: {fileID: 1989484182451874232}
   m_Layer: 0
   m_Name: Turns
   m_TagString: Untagged
@@ -3529,11 +3536,11 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: 12
+  m_Spacing: 6
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
-  m_ChildControlWidth: 0
-  m_ChildControlHeight: 0
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
@@ -3549,8 +3556,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
-  m_HorizontalFit: 2
+  m_HorizontalFit: 1
   m_VerticalFit: 0
+--- !u!114 &1989484182451874232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5313015249237730824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.LayoutElement
+  m_IgnoreLayout: 0
+  m_MinWidth: 852
+  m_MinHeight: -1
+  m_PreferredWidth: -1
+  m_PreferredHeight: -1
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 0
+  m_MaxWidth: -1
+  m_MaxHeight: -1
 --- !u!1 &5500971176959209784
 GameObject:
   m_ObjectHideFlags: 0
@@ -6780,6 +6809,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6026564ef4b609e4b85c7ffa451f2da5, type: 3}
+--- !u!114 &405072288921064571 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 292348756159597549, guid: 6026564ef4b609e4b85c7ffa451f2da5, type: 3}
+  m_PrefabInstance: {fileID: 113076785768636310}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75931a310b9241642b0ae65d7d113790, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Demo5.FrontEnd.BattleRoleBadge
 --- !u!114 &522209247806988263 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 481595127863738481, guid: 6026564ef4b609e4b85c7ffa451f2da5, type: 3}
@@ -6807,6 +6847,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2326094547369202219, guid: 6026564ef4b609e4b85c7ffa451f2da5, type: 3}
   m_PrefabInstance: {fileID: 113076785768636310}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3097533416074392439 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3129188685746089185, guid: 6026564ef4b609e4b85c7ffa451f2da5, type: 3}
+  m_PrefabInstance: {fileID: 113076785768636310}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
 --- !u!114 &4357190400529576214 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4460361511559999104, guid: 6026564ef4b609e4b85c7ffa451f2da5, type: 3}
@@ -6818,6 +6869,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+--- !u!114 &4612987794394470230 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4725724381707061440, guid: 6026564ef4b609e4b85c7ffa451f2da5, type: 3}
+  m_PrefabInstance: {fileID: 113076785768636310}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
 --- !u!224 &5620098506457183399 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5507659818074139441, guid: 6026564ef4b609e4b85c7ffa451f2da5, type: 3}
@@ -7298,6 +7360,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 73bfb7230cef36847a830e7d150a917a, type: 3}
+--- !u!114 &269331311406602997 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1442722811152442530, guid: 73bfb7230cef36847a830e7d150a917a, type: 3}
+  m_PrefabInstance: {fileID: 1709485108674690647}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
 --- !u!224 &1301741888855453406 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 408131019399909513, guid: 73bfb7230cef36847a830e7d150a917a, type: 3}
@@ -7314,6 +7387,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+--- !u!114 &2724365554465560138 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3636563995242342429, guid: 73bfb7230cef36847a830e7d150a917a, type: 3}
+  m_PrefabInstance: {fileID: 1709485108674690647}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75931a310b9241642b0ae65d7d113790, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Demo5.FrontEnd.BattleRoleBadge
 --- !u!114 &2934154116547248536 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4540044287321276367, guid: 73bfb7230cef36847a830e7d150a917a, type: 3}
@@ -7352,6 +7436,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+--- !u!114 &8019688418123921836 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8715282793250736123, guid: 73bfb7230cef36847a830e7d150a917a, type: 3}
+  m_PrefabInstance: {fileID: 1709485108674690647}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
 --- !u!1001 &2184098142364270952
 PrefabInstance:
   m_ObjectHideFlags: 0

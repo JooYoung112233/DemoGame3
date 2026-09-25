@@ -24,12 +24,13 @@ MonoBehaviour:
       height: 1418
     Height: 2
     Hover: 0
-    Health: 6
+    Role: 1
+    Health: 8
     Armor: 0
-    FrontArmor: 2
+    FrontArmor: 1
     ShotArmor: 0
     ShotEvasion: 0
-    Damage: 2
+    Damage: 1
     HitChance: 70
     StartDepth: 1
     HoldDepth: 0
@@ -37,10 +38,12 @@ MonoBehaviour:
     Gait: 2
     Cover: 1
     Weight: 2
+    MinRegionTier: 1
+    SuppressReinforcements: 0
     AttackName: "\uBC00\uCE58\uAE30"
     WindupName: "\uBB38\uC744 \uC138\uC6C0"
-    Trait: "\uC815\uBA74 \uBC29\uC5B4 +2"
-    Counter: "\uC606 \uC904\uC5D0\uC11C \uCE58\uBA74 \uBB38\uC9DD\uC774 \uBABB \uB9C9\uC74C"
+    Trait: "\uC815\uBA74 \uBC29\uC5B4 +1 \xB7 \uB4A4\uC758 \uC801\uC744 \uC5C4\uD3D0"
+    Counter: "\uC606 \uC904\uC5D0\uC11C \uACF5\uACA9\uD558\uBA74 \uC815\uBA74 \uBC29\uC5B4\uB97C \uD53C\uD569\uB2C8\uB2E4"
     Accent: {r: 0.8, g: 0.68, b: 0.52, a: 1}
     WindupSound: {fileID: 8300000, guid: dceb6618823d2304aa41e2185e5fffdb, type: 3}
     StrikeSound: {fileID: 0}
@@ -57,6 +60,7 @@ MonoBehaviour:
       height: 1325
     Height: 2.35
     Hover: 0
+    Role: 3
     Health: 6
     Armor: 0
     FrontArmor: 0
@@ -70,10 +74,12 @@ MonoBehaviour:
     Gait: 0
     Cover: 0
     Weight: 0
+    MinRegionTier: 0
+    SuppressReinforcements: 1
     AttackName: "\uB0B4\uB824\uCE58\uAE30"
     WindupName: "\uADC0 \uAE30\uC6B8\uC784"
-    Trait: "\uCD1D\uC18C\uB9AC\uB97C \uCAD3\uC74C"
-    Counter: "\uC3DC \uB4A4 \uC790\uB9AC\uB97C \uC62E\uAE30\uBA74 \uD5DB\uCE69\uB2C8\uB2E4"
+    Trait: "\uC0AC\uACA9\uD55C \uCE78\uC744 \uCD94\uC801 \xB7 \uC870\uC6A9\uD558\uBA74 \uADFC\uC811 \uACF5\uACA9"
+    Counter: "\uCD1D\uC744 \uC3DC \uB4A4 \uD45C\uC2DC\uB41C \uCE78\uC5D0\uC11C \uC774\uB3D9\uD558\uC138\uC694"
     Accent: {r: 0.86, g: 0.82, b: 0.72, a: 1}
     WindupSound: {fileID: 8300000, guid: ca678ed6f06822644a4bba035b11d823, type: 3}
     StrikeSound: {fileID: 8300000, guid: 4afc7700509a1e24f9c099370cbd751d, type: 3}
@@ -90,8 +96,9 @@ MonoBehaviour:
       height: 1393
     Height: 1.4
     Hover: 0
-    Health: 3
-    Armor: 1
+    Role: 2
+    Health: 5
+    Armor: 0
     FrontArmor: 0
     ShotArmor: 0
     ShotEvasion: 0
@@ -103,10 +110,12 @@ MonoBehaviour:
     Gait: 0
     Cover: 0
     Weight: 3
+    MinRegionTier: 1
+    SuppressReinforcements: 0
     AttackName: "\uB36E\uCE58\uAE30"
     WindupName: "\uC6C5\uD06C\uB9BC"
-    Trait: "\uB450 \uC904 \uC548\uC73C\uB85C \uB3C4\uC57D"
-    Counter: "\uD55C \uC904 \uBB3C\uB7EC\uB098\uBA74 \uB2FF\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4"
+    Trait: "\uAC00\uAE4C\uC6B4 \uCE78 \uB3C4\uC57D \xB7 \uBC29\uC5B4 \uC5C6\uC74C"
+    Counter: "\uD45C\uC2DC\uB41C \uCE78\uC5D0\uC11C \uBC97\uC5B4\uB098\uACE0 \uCC29\uC9C0 \uD6C4 \uACF5\uACA9\uD558\uC138\uC694"
     Accent: {r: 0.76, g: 0.6, b: 0.44, a: 1}
     WindupSound: {fileID: 8300000, guid: 59ae655e154105e42a23c5de2beae174, type: 3}
     StrikeSound: {fileID: 0}
@@ -123,12 +132,13 @@ MonoBehaviour:
       height: 1329
     Height: 1.5
     Hover: 0
-    Health: 3
+    Role: 2
+    Health: 4
     Armor: 0
     FrontArmor: 0
     ShotArmor: 0
     ShotEvasion: 0
-    Damage: 2
+    Damage: 3
     HitChance: 70
     StartDepth: 2
     HoldDepth: 0
@@ -136,10 +146,12 @@ MonoBehaviour:
     Gait: 1
     Cover: 0
     Weight: 3
+    MinRegionTier: 1
+    SuppressReinforcements: 0
     AttackName: "\uB3CC\uC9C4"
     WindupName: "\uBAB8\uC744 \uB0AE\uCDA4"
-    Trait: "\uAC00\uB85C\uC904 \uB3CC\uC9C4 \xB7 \uBE48\uD2C8"
-    Counter: "\uC606 \uC904\uB85C \uBE44\uD0A4\uBA74 \uD5DB\uB3CC\uC9C4 \xB7 \uBE48\uD2C8"
+    Trait: "\uBE60\uB978 \uB3CC\uC9C4 \xB7 \uACF5\uACA9 \uB4A4 \uD55C \uD134 \uBE48\uD2C8"
+    Counter: "\uC606 \uC904\uB85C \uD53C\uD55C \uB4A4 \uBE48\uD2C8\uC744 \uACF5\uACA9\uD558\uC138\uC694"
     Accent: {r: 0.92, g: 0.88, b: 0.76, a: 1}
     WindupSound: {fileID: 8300000, guid: 35e46465d7f084a46b4dcc4382d90ef0, type: 3}
     StrikeSound: {fileID: 8300000, guid: 25dc949e3ac28e94d87417d92e342790, type: 3}
@@ -156,23 +168,26 @@ MonoBehaviour:
       height: 1342
     Height: 1.75
     Hover: 0.22
+    Role: 4
     Health: 5
     Armor: 0
     FrontArmor: 0
     ShotArmor: 1
     ShotEvasion: 0
-    Damage: 2
+    Damage: 1
     HitChance: 70
     StartDepth: 1
     HoldDepth: 0
     Attack: 5
     Gait: 0
     Cover: 0
-    Weight: 3
+    Weight: 2
+    MinRegionTier: 2
+    SuppressReinforcements: 0
     AttackName: "\uD718\uAC10\uAE30"
     WindupName: "\uCC9C\uC744 \uD3BC\uCE68"
-    Trait: "\uC0AC\uACA9 \uD53C\uD574 -1"
-    Counter: "\uCC9C\uC774 \uB36E\uCE60 \uC904\uC5D0\uC11C \uBC97\uC5B4\uB098\uC138\uC694"
+    Trait: "\uD55C \uC904 \uC2DC\uC57C \uAC00\uB9BC \xB7 \uC0AC\uACA9 \uD53C\uD574 -1"
+    Counter: "\uCC9C\uC774 \uD3BC\uCCD0\uC9C4 \uC904\uC5D0\uC11C \uBC97\uC5B4\uB098\uC138\uC694"
     Accent: {r: 0.72, g: 0.78, b: 0.84, a: 1}
     WindupSound: {fileID: 8300000, guid: a7bf531077ca83047a2c71e2102a65f0, type: 3}
     StrikeSound: {fileID: 8300000, guid: a7bf531077ca83047a2c71e2102a65f0, type: 3}
@@ -189,7 +204,8 @@ MonoBehaviour:
       height: 1376
     Height: 1.85
     Hover: 0
-    Health: 5
+    Role: 3
+    Health: 4
     Armor: 0
     FrontArmor: 0
     ShotArmor: 0
@@ -202,10 +218,12 @@ MonoBehaviour:
     Gait: 2
     Cover: 0
     Weight: 2
+    MinRegionTier: 2
+    SuppressReinforcements: 0
     AttackName: "\uBC29\uC804"
     WindupName: "\uC804\uC120 \uC5F0\uACB0"
-    Trait: "\uBD99\uC740 \uB450 \uCE78 \uAC10\uC804"
-    Counter: "\uC5F0\uACB0\uB41C \uB450 \uCE78\uC5D0\uC11C \uBC97\uC5B4\uB098\uC138\uC694"
+    Trait: "\uC911\uC5F4\uBD80\uD130 \uC778\uC811\uD55C \uB450 \uCE78 \uAC10\uC804"
+    Counter: "\uC5F0\uACB0\uB41C \uB450 \uCE78\uC5D0\uC11C \uBC97\uC5B4\uB098\uACE0 \uAC00\uAE4C\uC774 \uBD99\uC73C\uC138\uC694"
     Accent: {r: 0.64, g: 0.9, b: 1, a: 1}
     WindupSound: {fileID: 8300000, guid: a37ed4cdd027efb439703f4c4721baf1, type: 3}
     StrikeSound: {fileID: 8300000, guid: ff05c00c6bf0680479b22d28d89d9a9d, type: 3}
@@ -222,23 +240,26 @@ MonoBehaviour:
       height: 1399
     Height: 1.5
     Hover: 0.35
-    Health: 3
+    Role: 4
+    Health: 4
     Armor: 0
     FrontArmor: 0
     ShotArmor: 0
     ShotEvasion: 20
     Damage: 1
-    HitChance: 75
+    HitChance: 70
     StartDepth: 2
     HoldDepth: 0
     Attack: 7
     Gait: 1
     Cover: 0
-    Weight: 3
+    Weight: 2
+    MinRegionTier: 1
+    SuppressReinforcements: 0
     AttackName: "\uB4A4\uB36E\uAE30"
     WindupName: "\uB0A0\uAC2F\uC9D3"
-    Trait: "\uC606\uAE4C\uC9C0 \uB36E\uCE68"
-    Counter: "\uBD99\uC5B4 \uC11C\uC9C0 \uB9C8\uC138\uC694 \xB7 \uADFC\uC811\uC774 \uC798 \uB4E6"
+    Trait: "\uBD99\uC740 \uB300\uC6D0\uAE4C\uC9C0 \uACF5\uACA9 \xB7 \uC0AC\uACA9 \uBA85\uC911 -20%p"
+    Counter: "\uB300\uC6D0 \uC0AC\uC774\uB97C \uBC8C\uB9AC\uC138\uC694 \xB7 \uADFC\uC811\uC5D0\uB294 \uD68C\uD53C \uC5C6\uC74C"
     Accent: {r: 0.68, g: 0.72, b: 0.68, a: 1}
     WindupSound: {fileID: 0}
     StrikeSound: {fileID: 8300000, guid: 48e3ea045c70bb1498daefcdb821caf0, type: 3}
@@ -255,12 +276,13 @@ MonoBehaviour:
       height: 988
     Height: 1.15
     Hover: 0
-    Health: 5
+    Role: 4
+    Health: 6
     Armor: 0
     FrontArmor: 0
     ShotArmor: 1
     ShotEvasion: 0
-    Damage: 2
+    Damage: 1
     HitChance: 70
     StartDepth: 1
     HoldDepth: 0
@@ -268,10 +290,12 @@ MonoBehaviour:
     Gait: 2
     Cover: 0
     Weight: 2
+    MinRegionTier: 2
+    SuppressReinforcements: 0
     AttackName: "\uBC1C\uBAA9\uC7A1\uAE30"
     WindupName: "\uBB3C\uC774 \uBC88\uC9D0"
-    Trait: "\uC0AC\uACA9 \uD53C\uD574 -1 \xB7 \uBB36\uC74C"
-    Counter: "\uBB3C\uACB0 \uBC88\uC9C4 \uCE78\uC5D0\uC11C \uBC97\uC5B4\uB098\uC138\uC694"
+    Trait: "\uB2E4\uC74C \uC774\uB3D9 \uBB36\uC74C \xB7 \uC0AC\uACA9 \uD53C\uD574 -1"
+    Counter: "\uBB3C\uACB0\uC774 \uBC88\uC9C4 \uCE78\uC744 \uD53C\uD558\uC138\uC694 \xB7 \uBB36\uC774\uBA74 \uBC29\uC5B4"
     Accent: {r: 0.52, g: 0.64, b: 0.76, a: 1}
     WindupSound: {fileID: 8300000, guid: 51ab212ce047f8c418e44c5b1e403fce, type: 3}
     StrikeSound: {fileID: 8300000, guid: 0b254a4c683f7b9479eb9f8540d7c19c, type: 3}
@@ -288,7 +312,8 @@ MonoBehaviour:
       height: 1325
     Height: 1.75
     Hover: 0
-    Health: 6
+    Role: 1
+    Health: 8
     Armor: 1
     FrontArmor: 0
     ShotArmor: 0
@@ -301,10 +326,12 @@ MonoBehaviour:
     Gait: 2
     Cover: 0
     Weight: 1
+    MinRegionTier: 3
+    SuppressReinforcements: 0
     AttackName: "\uBB34\uB108\uC9D0"
     WindupName: "\uAE30\uC6B8\uC5B4\uC9D0"
-    Trait: "\uBC29\uC5B4 1 \xB7 \uB4A4\uC5D0 \uBE48\uD2C8"
-    Counter: "\uAE30\uC6B0\uB294 \uCABD\uC744 \uBE44\uC6B0\uACE0 \uBE48\uD2C8\uC5D0 \uCE58\uAE30"
+    Trait: "\uBC29\uC5B4 1 \xB7 \uBB34\uB108\uC9C4 \uB4A4 \uBC29\uC5B4 0"
+    Counter: "\uC55E\uC758 \uB450 \uCE78\uC744 \uBE44\uC6B0\uACE0 \uBB34\uB108\uC9C4 \uB4A4 \uACF5\uACA9\uD558\uC138\uC694"
     Accent: {r: 0.7, g: 0.7, b: 0.64, a: 1}
     WindupSound: {fileID: 8300000, guid: dceb6618823d2304aa41e2185e5fffdb, type: 3}
     StrikeSound: {fileID: 8300000, guid: b424c89785d840a4992515b8fded56f3, type: 3}
@@ -321,7 +348,8 @@ MonoBehaviour:
       height: 1417
     Height: 1.95
     Hover: 0
-    Health: 5
+    Role: 2
+    Health: 6
     Armor: 0
     FrontArmor: 0
     ShotArmor: 0
@@ -334,10 +362,12 @@ MonoBehaviour:
     Gait: 0
     Cover: 0
     Weight: 2
+    MinRegionTier: 2
+    SuppressReinforcements: 0
     AttackName: "\uACB9\uCCD0\uCE58\uAE30"
     WindupName: "\uB450 \uBA38\uB9AC"
-    Trait: "\uB450 \uCE78 \uC5F0\uB2EC\uC544"
-    Counter: "\uD45C\uC2DC\uB41C \uB450 \uCE78\uC744 \uBAA8\uB450 \uD53C\uD558\uC138\uC694"
+    Trait: "\uB450 \uCE78 \uACF5\uACA9 \xB7 \uBC14\uB85C \uB4A4\uB3C4 \uB178\uB9BC"
+    Counter: "\uD55C \uCE78 \uD6C4\uD1F4\uB9CC \uD558\uC9C0 \uB9D0\uACE0 \uB450 \uD45C\uC2DC\uB97C \uD655\uC778\uD558\uC138\uC694"
     Accent: {r: 0.82, g: 0.8, b: 0.76, a: 1}
     WindupSound: {fileID: 8300000, guid: 701b3544d7402ab418daddb21d5dda8e, type: 3}
     StrikeSound: {fileID: 0}
@@ -354,7 +384,8 @@ MonoBehaviour:
       height: 1405
     Height: 1.75
     Hover: 0
-    Health: 3
+    Role: 5
+    Health: 4
     Armor: 0
     FrontArmor: 0
     ShotArmor: 0
@@ -366,11 +397,13 @@ MonoBehaviour:
     Attack: 11
     Gait: 3
     Cover: 0
-    Weight: 0
+    Weight: 1
+    MinRegionTier: 3
+    SuppressReinforcements: 0
     AttackName: "\uBC29\uC1A1"
     WindupName: "\uC7A1\uC74C"
-    Trait: "\uB450 \uCC28\uB840\uB9C8\uB2E4 \uC18C\uC74C"
-    Counter: "\uC18C\uC74C\uC744 \uD0A4\uC6B0\uAE30 \uC804\uC5D0 \uC4F0\uB7EC\uB728\uB9AC\uAE30"
+    Trait: "\uC774\uB3D9\xB7\uC9C1\uC811 \uD53C\uD574 \uC5C6\uC74C \xB7 \uBC29\uC1A1 \uC18C\uC74C +3"
+    Counter: "\uC18C\uC74C\uC73C\uB85C \uC99D\uC6D0\uC744 \uBD80\uB974\uAE30 \uC804\uC5D0 \uC4F0\uB7EC\uB728\uB9AC\uC138\uC694"
     Accent: {r: 0.56, g: 0.82, b: 0.72, a: 1}
     WindupSound: {fileID: 8300000, guid: f539cf1f97d15cf4083e4a504f679f4b, type: 3}
     StrikeSound: {fileID: 8300000, guid: f539cf1f97d15cf4083e4a504f679f4b, type: 3}
@@ -387,7 +420,8 @@ MonoBehaviour:
       height: 1363
     Height: 1.55
     Hover: 0
-    Health: 5
+    Role: 2
+    Health: 6
     Armor: 0
     FrontArmor: 0
     ShotArmor: 0
@@ -399,11 +433,13 @@ MonoBehaviour:
     Attack: 12
     Gait: 0
     Cover: 0
-    Weight: 2
+    Weight: 1
+    MinRegionTier: 3
+    SuppressReinforcements: 0
     AttackName: "\uBC15\uCE58\uAE30"
     WindupName: "\uC090\uAC71\uC784"
-    Trait: "\uAC00\uB85C\uC904 \uC804\uCCB4 \uBC00\uCE68"
-    Counter: "\uD55C \uC904\uC5D0 \uBAB0\uB824 \uC11C\uC9C0 \uB9C8\uC138\uC694"
+    Trait: "\uD55C \uC904 \uBC00\uCE68 \xB7 \uBD80\uB52A\uD788\uBA74 \uD53C\uD574 +1"
+    Counter: "\uC606 \uC904\uB85C \uD53C\uD558\uC138\uC694 \xB7 \uBC29\uC5B4\uD558\uBA74 \uBC00\uB9AC\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4"
     Accent: {r: 0.74, g: 0.74, b: 0.7, a: 1}
     WindupSound: {fileID: 8300000, guid: 2bcf038e1bae117489f46cbea4071129, type: 3}
     StrikeSound: {fileID: 8300000, guid: 2bcf038e1bae117489f46cbea4071129, type: 3}

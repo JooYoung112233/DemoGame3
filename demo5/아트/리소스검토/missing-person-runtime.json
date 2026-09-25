@@ -1,0 +1,16 @@
+{
+  "result": "PASS",
+  "checks": [
+    "Actual fresh game -> initial-only skip -> record -> corridor -> partial/full search -> deferred dialogue -> return -> disk save/reload mid-dialogue -> permanent record passed.",
+    "Reading preserves turns/noise; partial search and tutorial skip do not grant clue; completed return is not repeated. Version 18 upgrades without inferring discovery; invalid return line rejected."
+  ],
+  "shots": [
+    "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\missing-person-opening-1920x1080.png",
+    "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\missing-person-opening-1280x800.png",
+    "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\missing-person-discovery-1920x1080.png",
+    "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\missing-person-discovery-1280x800.png",
+    "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\missing-person-record-1920x1080.png",
+    "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\missing-person-record-1280x800.png"
+  ],
+  "failure": null
+}

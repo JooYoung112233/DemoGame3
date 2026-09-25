@@ -9,19 +9,36 @@ namespace Demo5.FrontEnd {
   public Text Body,EnemyLabel,Hint,ReviewBody,BannerText;
   public Button Fight,Wait,Retreat,Confirm,Cancel; public RectTransform Members;
   readonly string[] hiddenNames={"ArrivalPaper","ArrivalTitle","Status","Hint","Return","Members"};bool[] hiddenStates;
-  [Range(0,100)] public int BaseChance=15,MaximumChance=70,WaitChance=65;
-  [Min(0)]public int NoiseThreshold=2,ChancePerNoise=7,GraceSearches=2;
+  // 첫 방문 무작위 조우 (2026-09-25): by search turns, a loud object adds a little. WarnSearches search turns → the warning (no roll that turn);
+  // every later search rolls ChanceAt(search turn, noise so far). Values: AgentScripts/BuildSiteNoise.cs · tune with SimulateFieldSite.FirstVisit.
+  [Tooltip("경고 뒤 첫 수색의 조우 확률 (%)")][Range(0,100)] public int BaseChance=40;
+  [Tooltip("첫 방문 조우 확률의 최대 (%)")][Range(0,100)] public int MaximumChance=45;
+  [Range(0,100)] public int WaitChance=65;
+  [Tooltip("이만큼 수색한 턴에 경고 (그 턴은 조우를 굴리지 않음)")][Min(0)]public int WarnSearches=2;
+  [Tooltip("경고 뒤 수색 한 턴마다 더하는 확률 (%p)")][Min(0)]public int ChancePerSearch=5;
+  [Tooltip("경고에 필요한 누적 소음 (0 = 수색한 턴 수만으로 경고)")][Min(0)]public int NoiseThreshold=0;
+  [Tooltip("누적 소음 1당 더하는 확률 (%p) · 시끄러운 사물이 조금 더 올림")][Min(0)]public int ChancePerNoise=5;
+  [Tooltip("조우 뒤 굴리지 않는 수색 수")][Min(0)]public int GraceSearches=3;
   [Tooltip("첫 방문 무작위 조우의 최대 마리 수")][Min(1)]public int MaxRandomEnemies=1;
   public bool IsOpen=>View.activeSelf;public bool Warned{get;private set;}public int Cooldown{get;private set;}public int Rolls{get;private set;}
+  // Search turns this visit (one per turn that searched; the next search is Searches + 1).
+  public int Searches=>searches;
   Text risk; ExpeditionArrivalPanel arrival; System.Collections.Generic.IList<BattleCreature> pendingLineup; ExpeditionSiteThreat Threat=>arrival?arrival.Threat:null;int lastTurn=-1,searches,site,choice=-1,waitFailures;bool choosing;
   public void Initialize(ExpeditionArrivalPanel a){arrival=a;risk=a.Main.transform.Find("Risk").GetComponent<Text>();View.SetActive(false);Review.SetActive(false);Banner.SetActive(false);Fight.interactable=Battle!=null;if(Battle){Battle.Initialize(a,this);Fight.onClick.AddListener(()=>{if(IsOpen&&!Review.activeSelf&&!choosing){if(pendingLineup!=null)Battle.NextLineup=pendingLineup;Battle.Begin(EnemyCount);}});}Wait.onClick.AddListener(()=>Ask(0));Retreat.onClick.AddListener(()=>Ask(1));Cancel.onClick.AddListener(CancelChoice);Confirm.onClick.AddListener(Resolve);}
   public void ResetVisit(){risk.text="위험 · 미확인";lastTurn=-1;searches=Rolls=0;Cooldown=0;Warned=false;View.SetActive(false);Review.SetActive(false);Banner.SetActive(false);}
   public bool AfterSearch(int index){if(IsOpen||arrival.Rooms.Turns==lastTurn)return IsOpen;lastTurn=arrival.Rooms.Turns;searches++;if(Threat&&Threat.Active)return false;
    if(Cooldown>0){Cooldown--;return false;}
-   if(!Warned){if(arrival.Rooms.Noise>=NoiseThreshold){Warned=true;risk.text="위험 · 기척";Banner.SetActive(true);BannerText.text="… 가까운 곳에서 발소리가 들립니다.";}return false;}
-   if(searches<2)return false;Rolls++;int chance=Mathf.Clamp(BaseChance+arrival.Rooms.Noise*ChancePerNoise,0,MaximumChance);if(UnityEngine.Random.Range(0,100)>=chance)return false;
+   if(!Warned){if(WarnsAt(searches,arrival.Rooms.Noise)){Warned=true;risk.text="위험 · 기척";Banner.SetActive(true);BannerText.text="… 가까운 곳에서 발소리가 들립니다.";}return false;}
+   if(searches<2)return false;Rolls++;int chance=ChanceAt(searches,arrival.Rooms.Noise);if(UnityEngine.Random.Range(0,100)>=chance)return false;
    OpenView(index);Body.text="가까운 곳에서 무언가 움직입니다.\n수색을 멈추고 몸을 낮춥니다.";EnemyCount=UnityEngine.Random.Range(1,MaxRandomEnemies+1);EnemyLabel.text="무언가 "+EnemyCount;pendingLineup=null;Refresh();return true;
   }
+  // search: the visit's search turn (1 = first); noise: the noise heard so far (Rooms.Noise, this turn's included).
+  public bool WarnsAt(int search,int noise)=>WarnsAt(search,noise,WarnSearches,NoiseThreshold);
+  public int ChanceAt(int search,int noise)=>ChanceAt(search,noise,WarnSearches,BaseChance,ChancePerSearch,ChancePerNoise,MaximumChance);
+  public static bool WarnsAt(int search,int noise,int warnSearches,int noiseThreshold)=>search>=warnSearches&&noise>=noiseThreshold;
+  public static int ChanceAt(int search,int noise,int warnSearches,int baseChance,int perSearch,int perNoise,int maximum)=>Mathf.Clamp(baseChance+perSearch*Mathf.Max(0,search-warnSearches-1)+Mathf.Max(0,noise)*perNoise,0,maximum);
+  // The chance (%) that the next search meets something: 0 while it cannot (open, cooling down, not warned yet). FieldTurnWarning shows it.
+  public int NextChance(int noise)=>IsOpen||Cooldown>0||!Warned?0:ChanceAt(searches+1,noise);
   bool Board=>Threat&&Threat.Active;
   string RetreatTitle=>arrival.Rooms.CurrentRoom==0?"출구로 빠져나가기":arrival.Rooms.RetreatRoomName+"로 물러나기";
   void OpenView(int index){if(arrival.FieldBags&&arrival.FieldBags.IsOpen)arrival.FieldBags.Close();risk.text="위험 · 조우 중";site=index;waitFailures=0;choice=-1;choosing=false;if(arrival.Search.IsOpen)arrival.Search.Close();Banner.SetActive(false);hiddenStates=hiddenNames.Select(n=>arrival.Main.transform.Find(n).gameObject.activeSelf).ToArray();foreach(var n in hiddenNames)arrival.Main.transform.Find(n).gameObject.SetActive(false);foreach(Transform old in Members){old.gameObject.SetActive(false);Destroy(old.gameObject);}foreach(var source in arrival.Cards){var card=Instantiate(source,Members);card.Button.interactable=false;card.Role.text="조우 중";card.State.text="대기 중";}View.SetActive(true);Review.SetActive(false);Workspace.interactable=Workspace.blocksRaycasts=true;arrival.Main.interactable=arrival.Main.blocksRaycasts=false;}
@@ -41,7 +58,7 @@ namespace Demo5.FrontEnd {
    if(action==0&&Threat&&!Board)Threat.OnHidden();
    if(action==1){if(arrival.Rooms.CurrentRoom==0){arrival.FinishReturn();return;}arrival.Rooms.AskMove();arrival.Rooms.ConfirmMove();return;}
    if(Threat)Threat.Refresh();if(site<0)return;
-   if(arrival.Loot.State(site).Complete)arrival.Loot.Open(site);else arrival.Search.Open(site);
+   if(arrival.Loot.Peek(site,out var searched)&&searched.Complete)arrival.Loot.Open(site); // 말 놓기: its finds when that search completed, otherwise back on the room board
   }
   // Battle noise (gunshots plus the fight itself) carries into later encounter rolls.
   public void FinishBattle(bool retreat,int noise=2){
@@ -52,7 +69,7 @@ namespace Demo5.FrontEnd {
    if(retreat){arrival.Rooms.AddNoise(noise);if(arrival.Rooms.CurrentRoom==0){arrival.FinishReturn();return;}if(Threat)Threat.HearBattle(noise);arrival.Rooms.AskMove();arrival.Rooms.ConfirmMove();return;}
    arrival.Rooms.SpendSearchTurn(noise);
    if(site<0)return;
-   if(arrival.Loot.State(site).Complete)arrival.Loot.Open(site);else arrival.Search.Open(site);
+   if(arrival.Loot.Peek(site,out var searched)&&searched.Complete)arrival.Loot.Open(site); // 말 놓기: its finds when that search completed, otherwise back on the room board
   }
   public void Escape(){if(Battle&&Battle.IsOpen){Battle.Escape();return;}if(Review.activeSelf)CancelChoice();}
  }

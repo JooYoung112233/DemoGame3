@@ -13,6 +13,14 @@ namespace Demo5.FrontEnd {
   public PartyRoster Roster;public Text ProfileName,ProfileRole,ProfileHealth,ProfileState,ProfileTrait,ProfileCharacteristics;public Image ProfilePortrait,ProfileHealthBar;
   public Image DetailIcon;public Button Back,Minus,Plus,Max,Transfer,Use;
   [Header("사용 안내 (2줄 유지)")] public string TurnSuffix="1턴";[Tooltip("장소 판이 없을 때(첫 방문) 둘째 줄")] public string FirstVisitUseLine="선택한 가방 주인이 사용합니다 · 소음 없음";
+  // 말 놓기 (기획/탐험-말놓기-조작-재설계.md · 추가 결정): on the room board (FieldTurnPlanner.Placing, every visit) using an item is that member's
+  // action for the next '턴 진행' (FieldTurnPlanner.QueueUse); the same item again takes it back. Without the board it is used at once (1턴).
+  [Header("사용 안내 · 다음 '턴 진행' 때 사용 (말 놓기)")]
+  [Tooltip("사용 버튼과 첫 줄 끝")] public string QueueSuffix="다음 턴 행동";
+  [Tooltip("둘째 줄 · 예약 전")] public string QueueUseLine="'턴 진행' 때 사용 · 이 대원의 이번 턴 행동 · 소음 없음";
+  [Tooltip("둘째 줄 · 예약한 뒤")] public string QueuedUseLine="사용 예약됨 · 다시 누르면 취소";
+  [Tooltip("예약한 뒤 사용 버튼 ({0}: 대원)")] public string QueuedLabel="{0} · 사용 예약 취소";
+  FieldTurnPlanner Planner=>arrival&&arrival.Threat&&arrival.Threat.Planner&&arrival.Threat.Planner.Placing?arrival.Threat.Planner:null;
   public readonly List<ExpeditionMemberCard> LeftCards=new List<ExpeditionMemberCard>(),RightCards=new List<ExpeditionMemberCard>();
   public readonly List<InventorySlot> LeftRows=new List<InventorySlot>(),RightRows=new List<InventorySlot>();
   ExpeditionArrivalPanel arrival;int left,right=-1,quantity=1;string selected;
@@ -21,7 +29,9 @@ namespace Demo5.FrontEnd {
   Adventurer Person(int index)=>index>=0&&index<arrival.Participants.Count?arrival.Participants[index]:null;
   public void Initialize(ExpeditionArrivalPanel a){arrival=a;View.SetActive(false);Back.onClick.AddListener(Close);
    Minus.onClick.AddListener(()=>{quantity=Math.Max(1,quantity-1);Detail();});Plus.onClick.AddListener(()=>{quantity=Math.Min(Held(),quantity+1);Detail();});Max.onClick.AddListener(()=>{quantity=Math.Max(1,Held());Detail();});
-   Use.onClick.AddListener(()=>{if(IsOpen&&arrival.Inventory.UseFieldItem(Source,selected)){Refresh();Message.text=Source.Name+"이(가) 물품을 사용했습니다.";}else Detail();});
+   Use.onClick.AddListener(()=>{if(!IsOpen)return;var pl=Planner;
+    if(pl){if(!pl.UseQueued(left,selected)&&arrival.Inventory.FieldUseBlock(Source,selected)!=null){Detail();return;}string line=pl.QueueUse(left,selected);Detail();if(line.Length>0)Message.text=line;return;}
+    if(arrival.Inventory.UseFieldItem(Source,selected)){Refresh();Message.text=Source.Name+"이(가) 물품을 사용했습니다.";}else Detail();});
   }
   public void Open(int index){if(!arrival.IsOpen||arrival.InTransit||arrival.Popup.activeSelf||IsOpen||(arrival.Search&&arrival.Search.IsOpen)||(arrival.Loot&&arrival.Loot.IsOpen)||(arrival.Encounter&&arrival.Encounter.IsOpen))return;
    left=Mathf.Clamp(index,0,arrival.Participants.Count-1);right=-1;selected=null;quantity=1;View.SetActive(true);arrival.Main.interactable=arrival.Main.blocksRaycasts=false;Refresh();
@@ -40,9 +50,10 @@ namespace Demo5.FrontEnd {
   int Held()=>selected==null?0:arrival.Inventory.CountFor(Source,selected);
   void Detail(){var item=arrival.Inventory.Items.FirstOrDefault(i=>i.Id==selected);DetailTitle.text=item?.Name??"물품 선택";Description.text=item?.Description??"가방에서 물품을 선택하세요.\n동료 이름을 누르면 바로 전달합니다.";DetailIcon.sprite=item?.Icon;DetailIcon.enabled=item!=null;
    int held=Held();quantity=Mathf.Clamp(quantity,1,Math.Max(1,held));Quantity.text=quantity.ToString();Minus.interactable=quantity>1;Plus.interactable=quantity<held;Max.interactable=held>0;
-   Use.gameObject.SetActive(item!=null&&item.FieldUsable);Use.interactable=IsOpen&&arrival.Inventory.FieldUseBlock(Source,selected)==null;
-   Use.GetComponentInChildren<Text>().text=item!=null&&item.FieldUsable?Source.Name+" · "+item.UseVerb+" · "+TurnSuffix:"";
-   UseHint.text=item==null?"":!item.FieldUsable?"직접 사용하는 물품이 아닙니다. 동료에게 전달할 수 있습니다.":Source.Name+" · 체력 "+Source.Health+" → "+Math.Min(Source.MaxHealth,Source.Health+item.Recovery)+"  |  "+item.UseCost+"개 · "+TurnSuffix+" · "+arrival.Rooms.MinutesPerTurn+"분\n"+(arrival.Inventory.FieldUseBlock(Source,selected)??(arrival.Threat?arrival.Threat.ItemTurnLine():null)??FirstVisitUseLine);
+   var pl=Planner;bool queued=pl&&item!=null&&pl.UseQueued(left,item.Id);
+   Use.gameObject.SetActive(item!=null&&item.FieldUsable);Use.interactable=IsOpen&&(queued||arrival.Inventory.FieldUseBlock(Source,selected)==null);
+   Use.GetComponentInChildren<Text>().text=item!=null&&item.FieldUsable?(queued?string.Format(QueuedLabel,Source.Name):Source.Name+" · "+item.UseVerb+" · "+(pl?QueueSuffix:TurnSuffix)):"";
+   UseHint.text=item==null?"":!item.FieldUsable?"직접 사용하는 물품이 아닙니다. 동료에게 전달할 수 있습니다.":Source.Name+" · 체력 "+Source.Health+" → "+Math.Min(Source.MaxHealth,Source.Health+arrival.Inventory.ItemRecovery(Source,item.Id))+"  |  "+item.UseCost+"개 · "+(pl?QueueSuffix:TurnSuffix+" · "+arrival.Rooms.MinutesPerTurn+"분")+"\n"+(queued?QueuedUseLine:arrival.Inventory.FieldUseBlock(Source,selected)??(pl?QueueUseLine:(arrival.Threat?arrival.Threat.ItemTurnLine():null))??FirstVisitUseLine);
    Message.text=selected==null?"대원 탭으로 가방을 바꾸고, 전달할 물품을 선택하세요.":"받을 동료의 이름을 누르면 "+quantity+"개 전달 · 시간과 소음 소모 없음";
    Recipients();Canvas.ForceUpdateCanvases();LayoutRebuilder.ForceRebuildLayoutImmediate(RightMembers);
   }

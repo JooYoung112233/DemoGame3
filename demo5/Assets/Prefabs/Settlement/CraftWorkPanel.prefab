@@ -5917,9 +5917,44 @@ MonoBehaviour:
     Name: "\uBD95\uB300"
     Initial: 0
     Icon: {fileID: 21300000, guid: 7defa06f3cc68e64fb07318d4adeebaf, type: 3}
+  - Id: fuel
+    Name: "\uC5F0\uB8CC\uD1B5"
+    Initial: 0
+    Icon: {fileID: 21300000, guid: 15f1481a47bf35444bc8283111df5288, type: 3}
+  - Id: lubricant
+    Name: "\uC724\uD65C\uC720"
+    Initial: 0
+    Icon: {fileID: 21300000, guid: 0e638083041a72146badd25d3aa15b3b, type: 3}
+  - Id: battery
+    Name: "\uAC74\uC804\uC9C0"
+    Initial: 0
+    Icon: {fileID: 21300000, guid: bb3220efe321f02409d8ab58e44a28e4, type: 3}
+  - Id: tobacco
+    Name: "\uB2F4\uBC30"
+    Initial: 0
+    Icon: {fileID: 21300000, guid: d03b5b4750cbb3147b2d3e1d77ae1ea8, type: 3}
+  - Id: coffee
+    Name: "\uCEE4\uD53C"
+    Initial: 0
+    Icon: {fileID: 21300000, guid: a75c07198d813a54dbe1089565f637b8, type: 3}
+  - Id: alcohol
+    Name: "\uC18C\uB3C5 \uC54C\uCF54\uC62C"
+    Initial: 0
+    Icon: {fileID: 21300000, guid: 1c573d15e264fd74a9c14302cf1e90db, type: 3}
+  - Id: electrical-parts
+    Name: "\uC804\uAE30 \uBD80\uD488"
+    Initial: 0
+    Icon: {fileID: 21300000, guid: 932687e17eeec8a4c9e02072461dda01, type: 3}
+  - Id: weapon-parts
+    Name: "\uBB34\uAE30 \uBD80\uD488"
+    Initial: 0
+    Icon: {fileID: 21300000, guid: 878937e2b0e8b8a448d5d0db246b225b, type: 3}
   Recipes:
   - Id: prybar
     Name: "\uAC04\uC774 \uC9C0\uB81B\uB300"
+    OutputId: 
+    UnlockProject: 
+    OutputCount: 1
     Description: "\uC7A0\uAE34 \uD2C8\uC744 \uBC8C\uB9B4 \uB54C \uC4F0\uB294\n\uAC04\uB2E8\uD55C \uB3C4\uAD6C\uC785\uB2C8\uB2E4."
     Category: 0
     Minutes: 30
@@ -5933,6 +5968,9 @@ MonoBehaviour:
       Count: 2
   - Id: nails
     Name: "\uAC04\uC774 \uBABB"
+    OutputId: 
+    UnlockProject: 
+    OutputCount: 1
     Description: "\uACE0\uCCA0\uC744 \uB2E4\uB4EC\uC5B4 \uB9CC\uB4DC\uB294\n\uC218\uB9AC\uC6A9 \uBABB\uC785\uB2C8\uB2E4."
     Category: 0
     Minutes: 15
@@ -5942,6 +5980,9 @@ MonoBehaviour:
       Count: 1
   - Id: rope
     Name: "\uBC27\uC904"
+    OutputId: 
+    UnlockProject: 
+    OutputCount: 1
     Description: "\uCC9C \uC870\uAC01\uC744 \uC5EE\uC5B4\n\uD2BC\uD2BC\uD55C \uB048\uC744 \uB9CC\uB4ED\uB2C8\uB2E4."
     Category: 0
     Minutes: 20
@@ -5951,6 +5992,9 @@ MonoBehaviour:
       Count: 2
   - Id: flashlight
     Name: "\uC190\uC804\uB4F1"
+    OutputId: 
+    UnlockProject: 
+    OutputCount: 1
     Description: "\uB3D9\uB8CC\uC758 \uC218\uC0C9\uC744 \uC9C0\uC6D0\n\uAC00\uBC29\uC5D0 \uB123\uC5B4 \uC0AC\uC6A9"
     Category: 0
     Minutes: 30
@@ -5962,6 +6006,9 @@ MonoBehaviour:
       Count: 1
   - Id: water
     Name: "\uBB3C \uC815\uC218"
+    OutputId: 
+    UnlockProject: 
+    OutputCount: 1
     Description: "\uBBF8\uC815\uC218 \uBB3C \uCC98\uB9AC\n\uC644\uC131: \uBB3C 1\uAC1C"
     Category: 0
     Minutes: 20
@@ -5973,6 +6020,9 @@ MonoBehaviour:
       Count: 1
   - Id: bandage
     Name: "\uBD95\uB300 \uC81C\uC791"
+    OutputId: 
+    UnlockProject: 
+    OutputCount: 1
     Description: "\uC644\uC131: \uBD95\uB300 1\uAC1C\n\uC0AC\uC6A9: \uCCB4\uB825 +2"
     Category: 0
     Minutes: 15
@@ -5984,6 +6034,9 @@ MonoBehaviour:
       Count: 1
   - Id: build-stock
     Name: "\uCC3D\uACE0 \uBCF5\uAD6C"
+    OutputId: 
+    UnlockProject: 
+    OutputCount: 1
     Description: "\uBCF4\uAD00 12 \u2192 40\uAC1C\n\uD68C\uC218\uD488 \uC120\uBC18 \uBCF5\uAD6C"
     Category: 1
     Minutes: 40
@@ -5995,6 +6048,9 @@ MonoBehaviour:
       Count: 1
   - Id: build-bench
     Name: "\uC791\uC5C5\uB300 \uBCF5\uAD6C"
+    OutputId: 
+    UnlockProject: 
+    OutputCount: 1
     Description: "\uAE30\uBCF8 \uC81C\uC791 \uD574\uAE08\n\uBAA9\uC7AC\xB7\uACE0\uCCA0\uB85C \uBCF5\uAD6C"
     Category: 1
     Minutes: 60
@@ -6006,6 +6062,9 @@ MonoBehaviour:
       Count: 2
   - Id: build-bed
     Name: "\uC7A0\uC790\uB9AC \uBCF5\uAD6C"
+    OutputId: 
+    UnlockProject: 
+    OutputCount: 1
     Description: "\uC9E7\uC740 \uD734\uC2DD 60 \u2192 30\uBD84\n\uC218\uBA74 \uD574\uAE08"
     Category: 1
     Minutes: 50
@@ -6017,6 +6076,9 @@ MonoBehaviour:
       Count: 2
   - Id: build-cooker
     Name: "\uC870\uB9AC\uB300 \uBCF5\uAD6C"
+    OutputId: 
+    UnlockProject: 
+    OutputCount: 1
     Description: "\uC2DD\uB7C9 \uC870\uB9AC \uD574\uAE08\n\uC791\uC5C5\uB300 \uBCF5\uAD6C \uD544\uC694"
     Category: 1
     Minutes: 60
@@ -6028,6 +6090,9 @@ MonoBehaviour:
       Count: 2
   - Id: build-research
     Name: "\uC5F0\uAD6C\uB300 \uC124\uCE58"
+    OutputId: 
+    UnlockProject: 
+    OutputCount: 1
     Description: "\uC138 \uAC00\uC9C0 \uC5F0\uAD6C \uD574\uAE08\n\uC791\uC5C5\uB300 \uBCF5\uAD6C \uD544\uC694"
     Category: 1
     Minutes: 70
@@ -6041,6 +6106,9 @@ MonoBehaviour:
       Count: 1
   - Id: repair-bed
     Name: "\uCE68\uB300 \uC218\uB9AC"
+    OutputId: 
+    UnlockProject: 
+    OutputCount: 1
     Description: "\uD5D0\uAC70\uC6B4 \uCE68\uB300 \uD2C0\uC744\n\uB2E8\uB2E8\uD558\uAC8C \uACE0\uC815\uD569\uB2C8\uB2E4."
     Category: 1
     Minutes: 45
@@ -6052,6 +6120,9 @@ MonoBehaviour:
       Count: 2
   - Id: expand-stock
     Name: "\uCC3D\uACE0 \uD655\uC7A5"
+    OutputId: 
+    UnlockProject: 
+    OutputCount: 1
     Description: "\uBCF4\uAD00 40 \u2192 80\uAC1C\n\uBCF4\uAD00 \uC5F0\uAD6C \uD544\uC694"
     Category: 1
     Minutes: 90
@@ -6063,6 +6134,9 @@ MonoBehaviour:
       Count: 2
   - Id: research-tools
     Name: "\uACF5\uAD6C \uC5F0\uAD6C"
+    OutputId: 
+    UnlockProject: 
+    OutputCount: 1
     Description: "\uC791\uC5C5\uB300 Lv.2 \uD574\uAE08\n\uC606\uBC29 \uD655\uC7A5 \uD574\uAE08"
     Category: 2
     Minutes: 90
@@ -6074,6 +6148,9 @@ MonoBehaviour:
       Count: 1
   - Id: research-comfort
     Name: "\uC0DD\uD65C \uC5F0\uAD6C"
+    OutputId: 
+    UnlockProject: 
+    OutputCount: 1
     Description: "\uCE68\uB300\xB7\uC870\uB9AC\uB300 Lv.2\n\uAC1C\uC120 \uC81C\uC791\uBC95 \uD574\uAE08"
     Category: 2
     Minutes: 90
@@ -6085,6 +6162,9 @@ MonoBehaviour:
       Count: 2
   - Id: research-storage
     Name: "\uBCF4\uAD00 \uC5F0\uAD6C"
+    OutputId: 
+    UnlockProject: 
+    OutputCount: 1
     Description: "\uCC3D\uACE0 \uD655\uC7A5 \uD574\uAE08\n\uBCF4\uAD00 \uBC29\uC2DD \uC2DC\uD5D8"
     Category: 2
     Minutes: 75
@@ -6096,6 +6176,9 @@ MonoBehaviour:
       Count: 2
   - Id: upgrade-bench
     Name: "\uC791\uC5C5\uB300 \uAC1C\uC120"
+    OutputId: 
+    UnlockProject: 
+    OutputCount: 1
     Description: "\uB3C4\uAD6C\uB97C \uD3BC\uCE60 \uACF5\uAC04\uC744\n\uB113\uD788\uACE0 \uBCF4\uAC15\uD569\uB2C8\uB2E4."
     Category: 2
     Minutes: 90
@@ -6109,6 +6192,9 @@ MonoBehaviour:
       Count: 1
   - Id: upgrade-cooker
     Name: "\uC870\uB9AC\uB300 \uAC1C\uC120"
+    OutputId: 
+    UnlockProject: 
+    OutputCount: 1
     Description: "\uC870\uB9AC\uB300 Lv.1 \u2192 Lv.2"
     Category: 2
     Minutes: 60
@@ -6122,6 +6208,9 @@ MonoBehaviour:
       Count: 2
   - Id: open-side-room
     Name: "\uC606\uBC29 \uD1B5\uB85C \uC5F0\uACB0"
+    OutputId: 
+    UnlockProject: 
+    OutputCount: 1
     Description: "\uB9C9\uD78C \uD1B5\uB85C\uB97C \uC815\uB9AC\uD569\uB2C8\uB2E4."
     Category: 2
     Minutes: 45
@@ -6133,7 +6222,10 @@ MonoBehaviour:
       Count: 2
   - Id: prepare-side-room
     Name: "\uC606\uBC29 \uAC70\uC8FC \uC900\uBE44"
-    Description: "\uC5F0\uACB0\uB41C \uC606\uBC29\uC744 \uC815\uB9AC\uD569\uB2C8\uB2E4."
+    OutputId: 
+    UnlockProject: 
+    OutputCount: 1
+    Description: "\uCD94\uAC00 \uC7A0\uC790\uB9AC 3\uACF3\uC744 \uC900\uBE44\uD569\uB2C8\uB2E4.\n\uC644\uB8CC\uD558\uBA74 \uCD1D 6\uBA85\uC774 \uD568\uAED8 \uC9C0\uB0BC \uC218 \uC788\uC2B5\uB2C8\uB2E4."
     Category: 2
     Minutes: 90
     Icon: {fileID: 21300000, guid: fb398c4004bf8ad439c563e35617e15a, type: 3}
@@ -6144,6 +6236,62 @@ MonoBehaviour:
       Count: 3
     - MaterialId: nails
       Count: 2
+  - Id: water-fuel
+    Name: "\uC5F0\uB8CC \uC815\uC218"
+    OutputId: water
+    UnlockProject: build-bench
+    OutputCount: 2
+    Description: "\uC5F0\uB8CC\uB85C \uBB3C \uB053\uC774\uAE30\n\uBB3C 2\uAC1C \uC644\uC131"
+    Category: 0
+    Minutes: 20
+    Icon: {fileID: 21300000, guid: 54a10d81fb6b3544e872a11289712b88, type: 3}
+    Costs:
+    - MaterialId: raw-water
+      Count: 2
+    - MaterialId: fuel
+      Count: 1
+  - Id: bandage-alcohol
+    Name: "\uC18C\uB3C5 \uBD95\uB300"
+    OutputId: bandage
+    UnlockProject: build-bench
+    OutputCount: 1
+    Description: "\uCC9C\uC744 \uC18C\uB3C5\uD574 \uC81C\uC791\n\uBD95\uB300 1\uAC1C \uC644\uC131"
+    Category: 0
+    Minutes: 15
+    Icon: {fileID: 21300000, guid: 7defa06f3cc68e64fb07318d4adeebaf, type: 3}
+    Costs:
+    - MaterialId: cloth
+      Count: 1
+    - MaterialId: alcohol
+      Count: 1
+  - Id: flashlight-parts
+    Name: "\uBD80\uD488 \uC190\uC804\uB4F1"
+    OutputId: flashlight
+    UnlockProject: research-tools
+    OutputCount: 1
+    Description: "\uD68C\uC218 \uBD80\uD488 \uC870\uB9BD\n\uC190\uC804\uB4F1 1\uAC1C \uC644\uC131"
+    Category: 0
+    Minutes: 20
+    Icon: {fileID: 21300000, guid: dc5caba5ecfda5d418e644d3c18f843b, type: 3}
+    Costs:
+    - MaterialId: electrical-parts
+      Count: 1
+    - MaterialId: battery
+      Count: 1
+  - Id: nails-lubricant
+    Name: "\uC724\uD65C \uBABB"
+    OutputId: nails
+    UnlockProject: research-tools
+    OutputCount: 3
+    Description: "\uC724\uD65C\uC720\uB85C \uACE0\uCCA0 \uC808\uC57D\n\uBABB 3\uAC1C \uC644\uC131"
+    Category: 0
+    Minutes: 20
+    Icon: {fileID: 21300000, guid: 7757063897dbe7b45a2025151263e158, type: 3}
+    Costs:
+    - MaterialId: scrap
+      Count: 2
+    - MaterialId: lubricant
+      Count: 1
   MaterialGuide: {fileID: 768663538707623730}
   View: {fileID: 7028231924681501180}
   CancelPopup: {fileID: 8469297861114698028}
@@ -6182,7 +6330,7 @@ MonoBehaviour:
   CostPrefab: {fileID: 5550204902384665032, guid: 4f5146d8e6060ec4196fb66be0187849, type: 3}
   OrderPrefab: {fileID: 4979775000323642241, guid: 51919327522fe1349ba52e7ee63ca4b3, type: 3}
   CookerTimePercent: 80
-  SideRoomPlaces: 2
+  SideRoomPlaces: 3
   HousingButton: {fileID: 0}
   HousingLabel: {fileID: 0}
   TraitEffect: {fileID: 4616635401501910668}

@@ -36,7 +36,7 @@ public static class VerifySystemMenus
         Check(c.InventoryPanel.MoveFor(party[0],"ammo",2,true),"Pack ammo");
         Check(c.ArrivalPanel.Begin(party,c.ExpeditionPanel.Destinations.First(x=>x.Id=="mall")),"Start expedition");await Task.Delay(900);
         bool refused=false;try{CampaignPersistence.Capture(c);}catch(InvalidOperationException){refused=true;}Check(refused,"Field save accepted");c.GameMenu.Open();Check(!c.GameMenu.IsOpen,"Menu opened over expedition");
-        c.ArrivalPanel.Rooms.MarkInspected(0);Check(c.ArrivalPanel.Loot.Advance(0,2,party[0]),"Partial search");Check(c.ArrivalPanel.Loot.Advance(1,0,party[0]),"Complete table search");
+        c.ArrivalPanel.Rooms.MarkInspected(0);int crateTurns=c.ArrivalPanel.Loot.Sites[0].Turns;c.ArrivalPanel.Loot.Sites[0].Turns=3;/* 함께 on a 3-turn fixture: 2 turns, one stays partial */Check(c.ArrivalPanel.Loot.Advance(0,1,party[0]),"Partial search");c.ArrivalPanel.Loot.Sites[0].Turns=crateTurns;Check(c.ArrivalPanel.Loot.Advance(1,0,party[0]),"Complete table search");
         Check(c.InventoryPanel.TransferField(party[0],"wood",2,true),"Field wood");party[0].Health=1;
         await Tap(c.ArrivalPanel.Return);await Tap(c.ArrivalPanel.ReturnConfirm);Check(c.ReturnPanel.HasReport,"Return report");await Tap(c.ReturnPanel.Back);
         await Tap(c.Bed);await Tap(c.WorkPanel.Rows[0].Button);await Tap(c.WorkPanel.Confirm);

@@ -37,7 +37,7 @@ namespace Demo5.FrontEnd
         public bool LessonActive => lessonActive;
         public int LessonShooter => lessonShooter;
         public int LessonCell => lessonCell;
-        bool LessonAvailable => ResidentLesson && arrival && arrival.Threat && arrival.Threat.Active && !arrival.Threat.ResidentLessonShown;
+        bool LessonAvailable => ResidentLesson && arrival && !arrival.TutorialSkipped && arrival.Threat && arrival.Threat.Active && !arrival.Threat.ResidentLessonShown;
         // The shooter's own decision while it still stands on the marked cell (a push by another creature ends the instruction; the mark stays until the strike).
         bool LessonShooterTurn => State != null && State.PlayerTurn && State.Actor == lessonShooter && !State.Moved
             && FieldBattleState.CellOf(State.Current.Depth, State.Current.Lane) == lessonCell;

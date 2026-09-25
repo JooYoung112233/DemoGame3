@@ -12,6 +12,7 @@ namespace Demo5.FrontEnd
         public bool UnderConstruction(string id)=>orders.Any(o=>o.Recipe.Id==id);
         public string ConstructionBlock(Recipe recipe)
         {
+            if(recipe!=null&&!IsRecipeUnlocked(recipe))return "시설 복구·연구 필요";
             if(recipe==null)return null; var development=owner.Development?owner.Development.Block(recipe):null; if(development!=null)return development;
             var housing=HousingBlock(recipe);if(housing!=null)return housing;
             if(recipe.Category==0&&UnderConstruction("upgrade-bench"))return "작업대 공사 중";

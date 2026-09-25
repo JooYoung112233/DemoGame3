@@ -123,14 +123,16 @@ public static class VerifyFieldBattle
  // New game -> two adventurers -> first home -> settlement. The intro tutorial gate is lifted for this fixture.
  public static async Task<string> Enter()
  {
-  Check(Application.isPlaying,"Play first");SceneManager.LoadScene("PartySelection");await Task.Delay(800);
+  FieldIdleConfirm.AutoAccept=true;/* idle members hush without the question (VerifyIdleConfirm tests it) */Check(Application.isPlaying,"Play first");SceneManager.LoadScene("PartySelection");await Task.Delay(800);
   // The opening pair is preselected and fixed; older builds let any two be picked.
   var p=Object.FindAnyObjectByType<PartySelectionController>();if(PartySelectionSession.Selected.Count!=2){PartySelectionSession.Clear();p.Refresh();}await Task.Delay(100);
   foreach(var card in p.Cards.Where(x=>x.gameObject.activeInHierarchy&&x.Button.IsInteractable())){if(PartySelectionSession.Selected.Count>=2)break;await Tap(card.Button);}
   await Tap(p.Continue);await Task.Delay(800);
   var h=Object.FindAnyObjectByType<HomeSelectionController>();await Tap(h.Cards[0].Button);await Tap(h.Continue);await Task.Delay(900);
   var c=Object.FindAnyObjectByType<SettlementController>();Check(c&&c.Campaign!=null,"Settlement missing");
-  if(c.Introduction)c.Introduction.Restore(10);await Task.Delay(300);
+  if(c.Introduction)c.Introduction.Restore(10);
+  // The tutorial story (SettlementTutorialNarrative) has its own test: mark it read so its Dim never covers this fixture.
+  var story=c.GetComponent<SettlementTutorialNarrative>();if(story)story.Restore(new SavedTutorialNarrative{SeenMask=SavedTutorialNarrative.AllSeen,PendingBeat=-1});await Task.Delay(300);
   return "Settlement "+c.Campaign.Home.Name+" · "+string.Join(", ",c.Campaign.Party.Select(x=>x.Name+" "+x.Health+"/"+x.MaxHealth))+" · stock ammo "+c.InventoryPanel.StockCount("ammo");
  }
  public static Task<string> BeginPreview()=>Begin(0);
@@ -146,12 +148,12 @@ public static class VerifyFieldBattle
   var a=c.ArrivalPanel;Check(a.IsOpen,"Departure failed");
   // The ruined-start intro leaves no stock ammo: hand each member two field rounds (same path as picking ammo up on site).
   foreach(var p in a.Participants)if(c.InventoryPanel.CountFor(p,"ammo")==0)Check(c.InventoryPanel.TransferField(p,"ammo",2,true),"Field ammo fixture");
-  foreach(var p in a.Participants)if(c.InventoryPanel.CountFor(p,"bandage")==0)Check(c.InventoryPanel.TransferField(p,"bandage",1,true),"Field bandage fixture");var e=a.Encounter;var s=a.Search;int bas=e.BaseChance,max=e.MaximumChance,threshold=e.NoiseThreshold;var oldRandom=UnityEngine.Random.state;
-  try{e.BaseChance=e.MaximumChance=100;e.NoiseThreshold=0;UnityEngine.Random.InitState(5);await Tap(a.Objects[0]);await Tap(s.Cards[0].Button);await Tap(s.Paces[1]);for(int i=0;i<2;i++){await Tap(s.Choose);await Tap(s.Confirm);}Check(e.IsOpen,"No encounter");
+  foreach(var p in a.Participants)if(c.InventoryPanel.CountFor(p,"bandage")==0)Check(c.InventoryPanel.TransferField(p,"bandage",1,true),"Field bandage fixture");var e=a.Encounter;var s=a.Search;int bas=e.BaseChance,max=e.MaximumChance,threshold=e.NoiseThreshold,warnAt=e.WarnSearches,crateTurns=a.Loot.Sites[0].Turns;var oldRandom=UnityEngine.Random.state;
+  try{e.BaseChance=e.MaximumChance=100;e.NoiseThreshold=0;e.WarnSearches=1;a.Loot.Sites[0].Turns=3;/* 함께: 2 turns, warned on the first, met on the second */UnityEngine.Random.InitState(5);/* 말 놓기: two pawns on the crate, then 턴 진행 */for(int w=0;w<60&&!FieldPawnTest.Ready(a);w++)await Task.Delay(50);Check(FieldPawnTest.Coop(a,0),"Two pawns on the crate: "+FieldPawnTest.Describe(a));for(int i=0;i<2&&!e.IsOpen;i++){await Task.Delay(250);FieldIdleConfirm.Pass(()=>a.Threat.Planner.TurnButton.onClick.Invoke());await Task.Delay(150);}Check(e.IsOpen,"No encounter");
    // These flows exercise the shared battle UI against the rules' 감염자; creature types are covered by VerifyCreatureBattle.
    e.Battle.NextLineup=new List<BattleCreature>();
    if(forcedEnemies>0){Check(e.Fight.IsInteractable(),"Fight unavailable");e.Battle.Begin(forcedEnemies);await Task.Delay(120);}else await Tap(e.Fight);}
-  finally{e.BaseChance=bas;e.MaximumChance=max;e.NoiseThreshold=threshold;UnityEngine.Random.state=oldRandom;}
+  finally{e.BaseChance=bas;e.MaximumChance=max;e.NoiseThreshold=threshold;e.WarnSearches=warnAt;a.Loot.Sites[0].Turns=crateTurns;UnityEngine.Random.state=oldRandom;}
   var battle=e.Battle;Check(battle.IsOpen&&!a.Main.gameObject.activeSelf&&!a.PawnRoot.gameObject.activeSelf,"Battle input/world gate");Check(battle.Cells.Length==18,"Formation size");
   Check(battle.Presentation&&battle.HudLayer&&battle.FxLayer&&battle.NoiseGauge,"Feel layer wired");
   Check(battle.HudLayer.GetComponentsInChildren<BattlePawnHud>().Length==battle.State.Units.Count,"One HUD per standee");
@@ -168,7 +170,7 @@ public static class VerifyFieldBattle
  }
  public static async Task<string> ItemFlow()
  {
-  var a=Arrival;var b=a.Encounter.Battle;Check(b.IsOpen,"Preview first");float speed=b.Presentation.Speed,pause=b.ActionPause;b.Presentation.Speed=8;b.ActionPause=.01f;
+  FieldIdleConfirm.AutoAccept=true;/* idle members hush without the question (VerifyIdleConfirm tests it) */var a=Arrival;var b=a.Encounter.Battle;Check(b.IsOpen,"Preview first");float speed=b.Presentation.Speed,pause=b.ActionPause;b.Presentation.Speed=8;b.ActionPause=.01f;
   try
   {
    await Until(()=>!b.Busy,4000,"first turn");
@@ -192,7 +194,7 @@ public static class VerifyFieldBattle
  }
  public static async Task<string> AimFlow()
  {
-  var a=Arrival;var b=a.Encounter.Battle;Check(b.IsOpen,"Preview first");var beforeRandom=UnityEngine.Random.state;float speed=b.Presentation.Speed,pause=b.ActionPause;b.Presentation.Speed=8;b.ActionPause=.01f;
+  FieldIdleConfirm.AutoAccept=true;/* idle members hush without the question (VerifyIdleConfirm tests it) */var a=Arrival;var b=a.Encounter.Battle;Check(b.IsOpen,"Preview first");var beforeRandom=UnityEngine.Random.state;float speed=b.Presentation.Speed,pause=b.ActionPause;b.Presentation.Speed=8;b.ActionPause=.01f;
   try
   {
    await Until(()=>!b.Busy,4000,"first turn");
@@ -214,7 +216,7 @@ public static class VerifyFieldBattle
  // Review capture: pointer sweep and snap, aimed shot, item drawer and a bandage at real speed.
  public static async Task<string> ShowcaseAimItems()
  {
-  var a=Arrival;var b=a.Encounter.Battle;Check(b.IsOpen,"BeginShowcase first");var s=b.State;var beforeRandom=UnityEngine.Random.state;var log=new List<string>();
+  FieldIdleConfirm.AutoAccept=true;/* idle members hush without the question (VerifyIdleConfirm tests it) */var a=Arrival;var b=a.Encounter.Battle;Check(b.IsOpen,"BeginShowcase first");var s=b.State;var beforeRandom=UnityEngine.Random.state;var log=new List<string>();
   try
   {
    await Until(()=>!b.Busy,4000,"first turn");await Task.Delay(500);
@@ -282,7 +284,7 @@ public static class VerifyFieldBattle
  // It closes the expedition, so run Enter + BeginPreview again before any later battle flow.
  public static async Task<string> RetreatFlow()
  {
-  var a=Arrival;var b=a.Encounter.Battle;Check(b.IsOpen,"Preview first");Check(a.Rooms.CurrentRoom==0&&b.RetreatsHome,"Fixture fights in the arcade (room 0)");
+  FieldIdleConfirm.AutoAccept=true;/* idle members hush without the question (VerifyIdleConfirm tests it) */var a=Arrival;var b=a.Encounter.Battle;Check(b.IsOpen,"Preview first");Check(a.Rooms.CurrentRoom==0&&b.RetreatsHome,"Fixture fights in the arcade (room 0)");
   var c=Object.FindAnyObjectByType<SettlementController>();var site=c.ExpeditionPanel.Destinations.First(d=>d.Id==c.Campaign.FieldDestination);
   int turns=a.Rooms.Turns,clock=c.Campaign.Day*1440+c.Campaign.MinuteOfDay;float speed=b.Presentation.Speed;b.Presentation.Speed=8;
   try
@@ -358,7 +360,7 @@ public static class VerifyFieldBattle
  // Scripted exchange at real speed: shot, guard, advance; crit melee kill, noisy shots (a third one when the threshold needs it), reinforcement; guard, miss, bite.
  public static async Task<string> Showcase()
  {
-  var a=Arrival;var b=a.Encounter.Battle;Check(b.IsOpen&&b.State.Units.Count(u=>u.Enemy)==2,"BeginShowcase first");var s=b.State;var beforeRandom=UnityEngine.Random.state;var log=new List<string>();
+  FieldIdleConfirm.AutoAccept=true;/* idle members hush without the question (VerifyIdleConfirm tests it) */var a=Arrival;var b=a.Encounter.Battle;Check(b.IsOpen&&b.State.Units.Count(u=>u.Enemy)==2,"BeginShowcase first");var s=b.State;var beforeRandom=UnityEngine.Random.state;var log=new List<string>();
   try
   {
    await Until(()=>!b.Busy,4000,"first turn");await Task.Delay(500);

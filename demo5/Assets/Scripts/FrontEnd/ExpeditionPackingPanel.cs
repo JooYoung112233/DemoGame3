@@ -46,12 +46,12 @@ namespace Demo5.FrontEnd {
     var items=Inventory.Items.Where(i=>Inventory.CountFor(p,i.Id)>0).Select(i=>i.Name+" "+Inventory.CountFor(p,i.Id)).ToArray();
     return p.Name+"  ·  체력 "+p.Health+" / "+p.MaxHealth+"  ·  가방 "+Inventory.SlotsFor(p)+" / "+p.BagCapacity+"\n<color=#4D5145>"+(items.Length==0?"빈 가방 · 현장에서 물건을 담을 수 있습니다.":string.Join(" · ",items))+"</color>";
    }));
-   Depart.interactable=Valid()&&destination.Id=="mall";
-   if(DepartureNotice)DepartureNotice.text=destination.Id=="mall"?"출발하면 "+destination.OneWayMinutes+"분 경과 · 짐은 돌아가서 조정할 수 있습니다.":"이 장소로의 출발은 아직 준비되지 않았습니다.";
+   Depart.interactable=Valid()&&(destination.Id=="mall"||destination.Id==LaundryStoryVisit.DestinationId&&owner.Laundry&&owner.MissingPerson.State.RouteKnown);
+   if(DepartureNotice)DepartureNotice.text=(destination.Id=="mall"||destination.Id==LaundryStoryVisit.DestinationId)?"출발하면 "+destination.OneWayMinutes+"분 경과 · 짐은 돌아가서 조정할 수 있습니다.":"이 장소로의 출발은 아직 준비되지 않았습니다.";
    Review.SetActive(true);Workspace.interactable=false;Workspace.blocksRaycasts=false;
    Canvas.ForceUpdateCanvases();if(ReviewScroll){ReviewScroll.StopMovement();ReviewScroll.verticalNormalizedPosition=1;}
   }
-  void ConfirmDeparture(){if(!IsOpen||!Review.activeSelf||!Valid()||!owner.ArrivalPanel||destination.Id!="mall")return;Depart.interactable=false;if(!owner.ArrivalPanel.Begin(people,destination)){Depart.interactable=true;return;}onBack=null;HideReview();View.SetActive(false);}
+  void ConfirmDeparture(){if(!IsOpen||!Review.activeSelf||!Valid()||!owner.ArrivalPanel||(destination.Id!="mall"&&destination.Id!=LaundryStoryVisit.DestinationId))return;Depart.interactable=false;if(!(destination.Id==LaundryStoryVisit.DestinationId?owner.Laundry&&owner.Laundry.Begin(people,destination):owner.ArrivalPanel.Begin(people,destination))){Depart.interactable=true;return;}onBack=null;HideReview();View.SetActive(false);}
   public void HideReview(){Review.SetActive(false);Workspace.interactable=true;Workspace.blocksRaycasts=true;}
   public void Close(){if(!IsOpen)return;HideReview();View.SetActive(false);owner.Main.gameObject.SetActive(true);var callback=onBack;onBack=null;callback?.Invoke();}
   void Update(){if(IsOpen&&Keyboard.current!=null&&Keyboard.current.escapeKey.wasPressedThisFrame){if(Review.activeSelf)HideReview();else Close();}}

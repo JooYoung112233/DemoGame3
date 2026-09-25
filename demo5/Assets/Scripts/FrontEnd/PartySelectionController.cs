@@ -80,7 +80,7 @@ namespace Demo5.FrontEnd
         {
             if(leaving||SelectedCount!=2||PartySelectionSession.Selected.Any(id=>!StartingCandidates.Any(c=>c.Id==id)))return;
             if(!Application.CanStreamedLevelBeLoaded(DestinationScene)){Message.text="다음 화면을 열 수 없습니다.";return;}
-            var candidates=Roster.Candidates.Select(c=>new Adventurer(c.DisplayName,string.IsNullOrEmpty(c.RoleTitle)?c.DisplayName:c.RoleTitle,c.Description,c.Health,c.Aim,c.BagCapacity)).ToArray();
+            var candidates=Roster.Candidates.Select(c=>c.CreateAdventurer()).ToArray();
             var campaign=new CampaignState(candidates,true);
             foreach(var id in PartySelectionSession.Selected)campaign.Toggle(System.Array.FindIndex(Roster.Candidates,c=>c.Id==id));
             if(!campaign.ConfirmParty())return;

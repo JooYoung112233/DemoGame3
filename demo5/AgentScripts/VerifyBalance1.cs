@@ -15,6 +15,8 @@ using Object = UnityEngine.Object;
 // the unknown convenience store, the first-visit retreat from the arcade (home), the one-time site board intro on the second visit,
 // the 탄약·붕대 HUD, the danger/hunt status lines, the incoming warning in the move popup, hiding on the board as a hushed turn,
 // the den shelf closed on the turn the thing comes home, and rest for a downed member.
+// 말 놓기 (2026-09-25): the move is every pawn at the door (FieldPawnTest), whose move preview warns of a meeting; the den shelf is a
+// silhouette at the office door only while the den stays empty (no door popup).
 // Loot() (edit mode) checks the loot tables BuildBalance1 owns, as SettlementScreen.prefab resolves them.
 public static class VerifyBalance1
 {
@@ -23,7 +25,7 @@ public static class VerifyBalance1
 
     public static async Task<string> Showcase()
     {
-        var c = Object.FindAnyObjectByType<SettlementController>(); Check(c && c.Campaign != null, "Run VerifyFieldTurnPlan.Enter first");
+        FieldIdleConfirm.AutoAccept=true;/* idle members hush without the question (VerifyIdleConfirm tests it) */var c = Object.FindAnyObjectByType<SettlementController>(); Check(c && c.Campaign != null, "Run VerifyFieldTurnPlan.Enter first");
         var log = new List<string>();
 
         // 1. The convenience store: no route yet, so packing is not offered.
@@ -66,12 +68,13 @@ public static class VerifyBalance1
         t.ReviewWake(2, 3, 0); await Task.Delay(150); a.Rooms.SpendTurn(1, false); await Task.Delay(250);
         Check(t.State.Danger == 3 && a.Status.text == t.HuntLine, "Hunt line: " + a.Status.text);
         await Still(a, "07-추적-시작");
-        // Hunting, it steps into the corridor and heads here: the move popup says the door leads straight into it.
+        // Hunting, it steps into the corridor and heads here: everyone at the door, the move's preview says it leads straight into it.
         a.Rooms.SpendTurn(0, true); await Task.Delay(200); Check(t.State.ResidentRoom == C && t.State.Incoming, "Incoming from the corridor");
-        a.Rooms.AskMove(); await Task.Delay(200);
-        Check(a.Popup.activeSelf && a.PopupBody.text.Contains("문 너머에서 무언가 다가옵니다"), "Move warns: " + a.PopupBody.text);
+        await Until(() => FieldPawnTest.Ready(a), 3000, "board ready"); Check(FieldPawnTest.Gather(a, C), "Everyone at the door: " + FieldPawnTest.Describe(a)); await Task.Delay(200);
+        var view = a.Main.GetComponentInChildren<FieldMoveQueueView>(true);
+        Check(view && a.Rooms.QueuedMoveOutlook().Encounter && t.Planner.Chip.text.Contains(view.ChipMeets), "Move warns: " + t.Planner.Chip.text);
         await Still(a, "08-이동-경고");
-        await Tap(a.PopupBack); await Task.Delay(150);
+        FieldPawnTest.Clear(a); await Task.Delay(150); Check(!a.Rooms.HasQueuedMove, "Pawns taken off the door: no move");
         log.Add("danger/hunt/move warning");
 
         // 5. A meeting on the board: hiding is one hushed turn (no dice); at 위험도 2 it passes by.
@@ -91,15 +94,13 @@ public static class VerifyBalance1
         t.ReviewWake(0, 0, 0); await Task.Delay(150); await Move(a); Check(a.Rooms.CurrentRoom == C, "In the corridor");
         t.State.Driven(); t.Refresh(); int site = t.DenSite;
         for (int i = 0; i < t.Rules.GoneTurns - 2; i++) { a.Rooms.SpendTurn(0, true); await Task.Delay(100); }
-        Check(t.CanSearchSite(site), "Shelf open while it is away");
+        Check(t.CanSearchSite(site) && FieldPawnTest.Option(a, 0, FieldPawnTest.SearchKey(site))?.Enabled == true, "Shelf open while it is away (its silhouette at the office door)");
         a.Rooms.SpendTurn(0, true); await Task.Delay(200);
         Check(t.State.DenEmpty && !t.CanSearchSite(site) && a.Status.text == t.DenReturning, "Shelf closed on its way home: " + a.Status.text);
-        await Tap(a.Rooms.OfficeDoor); await Task.Delay(200);
-        Check(a.Popup.activeSelf && a.PopupBody.text == t.DenReturning && !a.Search.IsOpen, "Den door says it is coming home");
+        Check(FieldPawnTest.Option(a, 0, FieldPawnTest.SearchKey(site)) == null && !a.Popup.activeSelf && !a.Search.IsOpen, "No shelf silhouette while it comes home");
         Check(a.Main.GetComponentsInChildren<FieldThreatMarker>(false).Any(m => m.GetComponentsInChildren<Text>(false).Any(x => x.text == t.DenComing)), "Den marker says it is coming home");
         foreach (var m in a.Main.GetComponentsInChildren<FieldThreatMarker>(false)) if (m.Label && m.Paper) Check(m.Label.preferredWidth <= m.Paper.rectTransform.rect.width - 8, "Marker overflow: " + m.Label.text + " " + m.Label.preferredWidth + "/" + m.Paper.rectTransform.rect.width);
         await Still(a, "12-관리실-돌아오는중");
-        await Tap(a.PopupBack); await Task.Delay(150);
         a.Rooms.SpendTurn(0, true); await Task.Delay(150); Check(!t.State.DenEmpty, "Home again");
         log.Add("den shelf closed on the returning turn");
 
@@ -151,6 +152,14 @@ public static class VerifyBalance1
         var yaml = File.ReadAllText(path);
         Check(!yaml.Contains("Sites.Array.data[2].") && !yaml.Contains("Sites.Array.data[8]."), "SettlementScreen overrides Sites[2]/[8] (owned by ExpeditionArrivalPanel)");
 
+        // 속도 삭제와 사물 소음 (2026-09-25, BuildSiteNoise.Run): each object's noise per search turn and base turns, the lock, the first-visit encounter.
+        int[] noise = { 0, 0, 3, 0, 2, 1, 0, 1, 1 }, turns = { 2, 2, 2, 0, 2, 2, 2, 2, 2 };
+        Check(sites.Select(s => s.Noise).SequenceEqual(noise) && sites.Select(s => s.Turns).SequenceEqual(turns), "Noise " + string.Join(",", sites.Select(s => s.Noise)) + " / turns " + string.Join(",", sites.Select(s => s.Turns)) + " (run BuildSiteNoise.Run)");
+        Check(a.Rooms && a.Rooms.UnlockNoise == 3, "UnlockNoise " + (a.Rooms ? a.Rooms.UnlockNoise : -1));
+        var enc = a.Encounter;
+        Check(enc && enc.WarnSearches == 2 && enc.BaseChance == 40 && enc.ChancePerSearch == 5 && enc.ChancePerNoise == 5 && enc.MaximumChance == 45 && enc.NoiseThreshold == 0 && enc.GraceSearches == 3,
+            "First-visit encounter " + (enc ? enc.WarnSearches + "/" + enc.BaseChance + "/" + enc.ChancePerSearch + "/" + enc.ChancePerNoise + "/" + enc.MaximumChance + "/" + enc.NoiseThreshold + "/" + enc.GraceSearches : "missing"));
+
         // The opening chain (창고·작업대 복구, 밧줄, 못 ×2, 지렛대) from the real recipes: raw materials only, covered by the crate's 100% rows.
         var chain = new (string id, int times)[] { ("build-stock", 1), ("build-bench", 1), ("rope", 1), ("nails", 2), ("prybar", 1) };
         var made = chain.Select(x => x.id).ToArray(); var need = new Dictionary<string, int>();
@@ -166,7 +175,7 @@ public static class VerifyBalance1
         Check(unknown.Length == 0, "Unknown item ids: " + string.Join(",", unknown));
         var texts = a.ObjectDescriptions;
         Check(texts.Length == 9 && texts[1] == "낡은 탁자 위에 먹을 것과 물이 남아 있다.\n판자와 고철도 뜯어낼 수 있겠다." && texts[5] == "도구 없이 상자를 열어\n자재와 물을 살펴봅니다." && texts[6] == "남겨진 통조림과 물, 붕대를\n선반에서 찾아봅니다.", "Descriptions [1]/[5]/[6]: " + string.Join(" | ", texts));
-        return "PASS loot tables · 9 sites, rooms, prybar sites 2/4, tables 0-8, Sites[2]/[8] not overridden in SettlementScreen, crate covers the opening chain (" + string.Join(" ", need.Select(kv => kv.Key + " " + kv.Value)) + "), item ids, descriptions [1]/[5]/[6]";
+        return "PASS loot tables · 9 sites, rooms, prybar sites 2/4, tables 0-8, object noise 0,0,3,–,2,1,0,1,1 / 2 turns, lock 3, encounter 2/40/5/5/45, Sites[2]/[8] not overridden in SettlementScreen, crate covers the opening chain (" + string.Join(" ", need.Select(kv => kv.Key + " " + kv.Value)) + "), item ids, descriptions [1]/[5]/[6]";
     }
     static string Drops(ExpeditionLootPanel.Drop[] d) => d == null ? "" : string.Join(" ", d.Select(x => x.Id + " " + x.Count + "@" + x.Chance));
 
@@ -201,5 +210,11 @@ public static class VerifyBalance1
         await Tap(c.ExpeditionPanel.Pack); await Tap(c.PackingPanel.Ready); await Tap(c.PackingPanel.Depart); await Task.Delay(1100);
         Check(c.ArrivalPanel.IsOpen && !c.ArrivalPanel.InTransit, "Arrived"); return c.ArrivalPanel;
     }
-    static async Task Move(ExpeditionArrivalPanel a) { a.Rooms.AskMove(); await Task.Delay(150); await Tap(a.ReturnConfirm); if (a.Rooms.HasQueuedMove) await Tap(a.Threat.Planner.TurnButton); await Until(() => !a.InTransit, 6000, "move"); await Task.Delay(400); }
+    // Every pawn at the door onto the next room, '턴 진행', the walk.
+    static async Task Move(ExpeditionArrivalPanel a)
+    {
+        await Until(() => FieldPawnTest.Ready(a), 3000, "board ready"); int next = a.Rooms.CurrentRoom == A ? C : A;
+        Check(FieldPawnTest.Gather(a, next), "Everyone at the door: " + FieldPawnTest.Describe(a)); await Tap(a.Threat.Planner.TurnButton);
+        await Until(() => !a.InTransit, 6000, "move"); await Task.Delay(400);
+    }
 }

@@ -7,6 +7,10 @@ using UnityEngine.UI;
 namespace Demo5.FrontEnd
 {
     // One persistent encounter. Reading is free; observation belongs to the existing party turn.
+    // 말 놓기 (기획/탐험-말놓기-조작-재설계.md, 2026-09-25): the trace is observed by placing a member's pawn beside it (FieldPlacement's
+    // observe place) and '턴 진행'. Before anyone looked at it (stage 0) a left press on it assigns nobody: it asks for a pawn first, the
+    // same as any object (the pawn board's press hook); a right press shows what it is (FieldPawnBoard.RightPress). From stage 1 on a
+    // press opens the conversation as before (free). The stage-0 assignment window below is unreachable then (phase 2 deletes it).
     [DefaultExecutionOrder(150)]
     public sealed partial class ExpeditionNpcStory : MonoBehaviour
     {
@@ -24,6 +28,7 @@ namespace Demo5.FrontEnd
         [Tooltip("Original arcade floor; stays beside the machine, outside the party formation.")]
         public Vector3 NpcPosition = new Vector3(-7.1f, -1.15f, 0);
         public SavedNpcStory State = new SavedNpcStory();
+        [Tooltip("말 놓기 판이 없을 때 흔적(조사 전)을 누르면 상황판에 쓰는 안내")] [TextArea(2, 3)] public string ClueHint = "대원 말을 먼저 누르세요\n말을 누르고 흔적 옆 실루엣을 누르세요.";
         public bool IsOpen => View && View.activeSelf;
         public bool HasRecord => State.Stage > 0;
         public string DisplayName => State.Stage >= 2 ? "장도윤" : "?";
@@ -100,6 +105,7 @@ namespace Demo5.FrontEnd
         public void Open()
         {
             if (!FreeWorld || IsOpen || !Arrival.Main.interactable || Planner.Resolving || Planner.PendingLoot > 0 || !View) return;
+            if (State.Stage == 0 && Planner.Placing) { AskForPawn(); return; }
             previousFocus = EventSystem.current ? EventSystem.current.currentSelectedGameObject : null;
             State.PendingDialogue = false;
             if (State.Stage == 0)
@@ -110,6 +116,14 @@ namespace Demo5.FrontEnd
             Arrival.Main.interactable = Arrival.Main.blocksRaycasts = false;
             View.SetActive(true); RefreshPanel();
             if (State.Stage == 0) EventSystem.current?.SetSelectedGameObject(Back ? Back.gameObject : null);
+        }
+        // Stage 0 on the pawn board: the press goes where a door press goes first (FieldPawnBoard: nothing held → '대원 말을 먼저 누르세요'
+        // and the free members' rings pulse; a held pawn → its place beside the trace). Without a board the status paper says so.
+        void AskForPawn()
+        {
+            var hook = Arrival.Rooms ? Arrival.Rooms.DoorPressed : null;
+            if (hook != null && Clue && hook(Clue)) return;
+            if (Arrival.Status) Arrival.Status.text = ClueHint;
         }
         public void Close()
         {

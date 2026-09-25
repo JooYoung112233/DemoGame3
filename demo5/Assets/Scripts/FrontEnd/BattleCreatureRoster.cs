@@ -12,7 +12,10 @@ namespace Demo5.FrontEnd
         public List<BattleCreature> Creatures = new List<BattleCreature>();
 
         public BattleCreature Find(string id) => Creatures.FirstOrDefault(c => c != null && c.Id == id);
-        public IEnumerable<BattleCreature> Pool => Creatures.Where(c => c != null && c.Weight > 0);
+        // Existing callers are the opening site. New regions must explicitly opt into their tier;
+        // merely adding art/data to this roster must not expose every creature in the tutorial.
+        public IEnumerable<BattleCreature> Pool => PoolForTier(0);
+        public IEnumerable<BattleCreature> PoolForTier(int regionTier) => Creatures.Where(c => c != null && c.AvailableInRegion(regionTier));
 
         // Weighted pick. roll returns 0..99; two rolls give enough spread for a dozen types.
         public static BattleCreature Pick(IEnumerable<BattleCreature> pool, Func<int> roll, ICollection<BattleCreature> avoid = null)
@@ -25,10 +28,11 @@ namespace Demo5.FrontEnd
             return list[list.Count - 1];
         }
         // Distinct types for one encounter.
-        public List<BattleCreature> Lineup(int count, Func<int> roll)
+        public List<BattleCreature> Lineup(int count, Func<int> roll, int regionTier = 0)
         {
             var picked = new List<BattleCreature>();
-            for (int i = 0; i < count; i++) { var c = Pick(Pool, roll, picked); if (c != null) picked.Add(c); }
+            var available = PoolForTier(regionTier).ToList();
+            for (int i = 0; i < count; i++) { var c = Pick(available, roll, picked); if (c != null) picked.Add(c); }
             return picked;
         }
     }

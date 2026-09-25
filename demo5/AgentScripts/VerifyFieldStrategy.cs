@@ -12,6 +12,9 @@ using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
 // Site board 1차: rules of the thing that lives in 관리실, and a real-screen run of the lure → hush → den-shelf play.
+// 말 놓기 (2026-09-25, 기획/탐험-말놓기-조작-재설계.md): the search is a member's pawn on the object and '턴 진행'; a hush turn is '턴 진행' with
+// nobody placed (the '모두 숨죽이기' button is gone); the move is every pawn at the door; the den shelf is a silhouette at the office door
+// while the den stays empty (the 07 window only shows it).
 public static class VerifyFieldStrategy
 {
     static void Check(bool ok, string message) { if (!ok) throw new Exception(message); }
@@ -108,60 +111,68 @@ public static class VerifyFieldStrategy
         var prev = RenderTexture.active; RenderTexture.active = rt; var tex = new Texture2D(rt.width, rt.height, TextureFormat.RGB24, false); tex.ReadPixels(new UnityEngine.Rect(0, 0, rt.width, rt.height), 0, 0); tex.Apply(); RenderTexture.active = prev; Object.Destroy(raw); Object.Destroy(rt);
         Directory.CreateDirectory(Shots); File.WriteAllBytes(Path.Combine(Shots, name + ".png"), tex.EncodeToPNG()); Object.Destroy(tex); done.SetResult(true);
     }
+    static async Task Ready(ExpeditionArrivalPanel a) => await Until(() => FieldPawnTest.Ready(a), 3000, "board ready");
+    // One turn of member 0's pawn on the object (no pace since 2026-09-25: the pace argument is unused); the pawn is taken off after it.
     static async Task Search(ExpeditionArrivalPanel a, int site, int pace)
     {
-        a.Inspect(site); await Until(() => a.Search.IsOpen, 2000, "search panel " + site); await Task.Delay(150);
-        var s = a.Search; await Tap(s.Cards[0].Button); if (a.Loot.State(site).Progress == 0) await Tap(s.Paces[pace]);
-        await Tap(s.Choose); await Task.Delay(120); await Tap(s.Confirm); await Task.Delay(250);
+        await Ready(a); Check(FieldPawnTest.Lead(a, 0, site), "Pawn 0 on " + a.ObjectNames[site] + ": " + FieldPawnTest.Describe(a));
+        await Tap(a.Threat.Planner.TurnButton); await Task.Delay(250);
         if (a.Loot.IsOpen) { await Tap(a.Loot.Back); await Task.Delay(120); if (a.Loot.LeaveReview.activeSelf) await Tap(a.Loot.LeaveConfirm); }
         if (a.Search.IsOpen) { await Tap(a.Search.Back); }
-        await Task.Delay(200);
+        await Ready(a); FieldPawnTest.Clear(a); await Task.Delay(200);
     }
+    // The hush turn: nobody placed, '턴 진행' (AutoAccept: no idle question).
+    static async Task Hush(ExpeditionArrivalPanel a) { await Ready(a); FieldPawnTest.Clear(a); await Tap(a.Threat.Planner.TurnButton); }
+    // Every pawn at the door, '턴 진행', the walk.
     static async Task Move(ExpeditionArrivalPanel a)
     {
-        a.Rooms.AskMove(); await Task.Delay(150); await Tap(a.ReturnConfirm);
-        if (a.Rooms.HasQueuedMove) await Tap(a.Threat.Planner.TurnButton); // site board: the door reserves the move, '턴 진행' makes it
+        await Ready(a); int next = a.Rooms.CurrentRoom == A ? C : A;
+        Check(FieldPawnTest.Gather(a, next), "Everyone at the door: " + FieldPawnTest.Describe(a)); await Tap(a.Threat.Planner.TurnButton);
         await Until(() => !a.InTransit, 6000, "move"); await Task.Delay(400);
     }
     public static async Task<string> Showcase()
     {
-        var c = Object.FindAnyObjectByType<SettlementController>(); Check(c && c.Campaign != null, "Run VerifyFieldBattle.Enter first");
+        FieldIdleConfirm.AutoAccept = true; // hush turns: nobody placed, no question (VerifyIdleConfirm tests it)
+        var c = Object.FindAnyObjectByType<SettlementController>(); Check(c && c.Campaign != null, "Run VerifyFieldTurnPlan.Enter first");
         var log = new List<string>();
         // Real departure path (as the battle fixture does), no forced encounter.
-        var people = c.Campaign.Party.ToArray();
         await Tap(c.Exit); foreach (var card in c.ExpeditionPanel.Cards) if (!card.Check.gameObject.activeSelf) await Tap(card.Button);
         await Tap(c.ExpeditionPanel.Pack); await Tap(c.PackingPanel.Ready); await Tap(c.PackingPanel.Depart); await Task.Delay(1100);
-        var a = c.ArrivalPanel; var t = a.Threat; Check(a.IsOpen && t && t.State != null, "Arrived with the site board");
-        Check(t.State.Asleep && !t.Active && !t.Hush.gameObject.activeSelf && a.Rooms.TurnLabel.text.StartsWith("탐험"), "First visit: it sleeps, the old turn count and no hush");
+        var a = c.ArrivalPanel; var t = a.Threat; var pl = t.Planner; Check(a.IsOpen && t && t.State != null, "Arrived with the site board");
+        Check(t.State.Asleep && !t.Active && pl.Placing && (!t.Hush || !t.Hush.gameObject.activeSelf) && a.Rooms.TurnLabel.text.StartsWith("탐험"), "First visit: it sleeps, the old turn count, pawns placed, no hush button");
         await Still(a, "00-first-visit-asleep");
         // Review fixture: continue as a later visit (위험도 1, noise 2/4, site clock 6).
         if (c.Opening) c.Opening.State.Enabled = false; // review fixture: a later visit comes after the opening chapter
         t.ReviewWake(1, 2, 6); await Task.Delay(300);
-        Check(t.Active && t.Hush.gameObject.activeSelf && a.Rooms.TurnLabel.text.Contains("18"), "Awake: clock and hush shown: " + a.Rooms.TurnLabel.text);
+        Check(t.Active && a.Rooms.TurnLabel.text.Contains("18") && pl.TurnButton.gameObject.activeSelf, "Awake: clock shown: " + a.Rooms.TurnLabel.text);
         await Still(a, "01-later-visit-hud");
-        // T1: a fast search in the arcade is loud: the gauge overflows (위험도 2) and it remembers this room.
-        await Search(a, 0, 0); var s = t.State; log.Add("T1 noise " + s.LastNoise + " 위험도 " + s.Danger + " 기억 " + s.Remembered + " next " + s.Next);
+        // T1: 오락기 뒤판 (noise 3, prybar fixture) is loud: the gauge overflows (위험도 2) and it remembers this room.
+        if (c.InventoryPanel.CountFor(a.Participants[0], "prybar") == 0) Check(c.InventoryPanel.TransferField(a.Participants[0], "prybar", 1, true), "Prybar fixture");
+        await Search(a, 2, 0); var s = t.State; log.Add("T1 noise " + s.LastNoise + " 위험도 " + s.Danger + " 기억 " + s.Remembered + " next " + s.Next);
         Check(s.Danger == 2 && s.Remembered == A && s.Next == C, "Loud search lures it out");
         await Still(a, "02-loud-search-lures");
-        // T2: hush; it leaves the den into the corridor — footsteps at our door.
-        await Tap(t.Hush); await Task.Delay(400); log.Add("T2 room " + s.ResidentRoom + " heard " + s.Heard);
-        Check(s.ResidentRoom == C && s.Heard, "Heard next door");
+        // T2: hush (nobody placed); it leaves the den into the corridor — footsteps at our door.
+        await Hush(a); await Task.Delay(400); log.Add("T2 room " + s.ResidentRoom + " heard " + s.Heard);
+        Check(s.ResidentRoom == C && s.Heard && pl.LastCheck.HushedAll, "Heard next door");
         await Still(a, "03-footsteps-next-door");
         // T3: hush; it stops to listen, and its next step into the arcade is announced.
-        await Tap(t.Hush); await Task.Delay(400); log.Add("T3 incoming " + s.Incoming);
+        await Hush(a); await Task.Delay(400); log.Add("T3 incoming " + s.Incoming);
         Check(s.Incoming, "Announced a turn early");
         await Still(a, "04-announced-next-turn");
         // T4: everyone hushed: it walks in and passes by. It is here now, seen, and will stay a while.
-        await Tap(t.Hush); await Task.Delay(600); log.Add("T4 passed " + s.PassedBy + " visible " + s.Visible);
+        await Hush(a); await Task.Delay(600); log.Add("T4 passed " + s.PassedBy + " visible " + s.Visible);
         Check(s.PassedBy && s.Visible && !a.Encounter.IsOpen, "Passed by the hushed party");
         await Still(a, "05-passed-by");
-        // T5: slip into the corridor; the den is empty.
+        // T5: slip into the corridor (every pawn at the door); the den is empty.
         await Move(a); log.Add("T5 room " + a.Rooms.CurrentRoom + " den empty " + s.DenEmpty);
         Check(a.Rooms.CurrentRoom == C && s.DenEmpty && !a.Encounter.IsOpen && a.Status.text.StartsWith("관리실이 비었습니다"), "In the corridor with the den empty: " + a.Status.text);
         await Still(a, "06-den-empty");
-        // T6: the office door opens the den shelf search.
-        await Tap(a.Rooms.OfficeDoor); await Until(() => a.Search.IsOpen, 2000, "den search"); await Task.Delay(300);
+        // T6: the office door offers the den shelf silhouette while the den stays empty; the 07 window shows the shelf.
+        await Ready(a);
+        var shelf = FieldPawnTest.Option(a, 0, FieldPawnTest.SearchKey(t.DenSite), FieldSpotKind.Lead);
+        Check(shelf != null && shelf.Enabled && shelf.Anchor == a.Rooms.OfficeDoor && shelf.Label.StartsWith(pl.PlaceTexts.DenShelf.Split('{')[0]), "Den shelf silhouette at the office door: " + (shelf != null ? shelf.Label : "none"));
         Check(a.Loot.CanSearch(t.DenSite, a.Participants[0]), "Den shelf searchable");
+        Check(FieldPawnTest.Detail(a, t.DenSite) && a.Search.IsOpen && a.Search.ReadOnly, "The shelf's 07 window (read only)");
         await Still(a, "07-den-shelf");
         await Tap(a.Search.Back);
         return "PASS showcase · " + string.Join(" · ", log) + " · stills " + Shots;

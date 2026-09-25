@@ -119,7 +119,7 @@ namespace Demo5.FrontEnd
     }
 
     // Battle time is separate from exploration time: one resolved battle costs one exploration turn.
-    public sealed class FieldBattleState
+    public sealed partial class FieldBattleState
     {
         public sealed class Unit
         {
@@ -215,7 +215,7 @@ namespace Demo5.FrontEnd
             return armor;
         }
         // Damage an ally attack deals to this target after its armor.
-        public int ExpectedDamage(int target, bool ranged, bool critical = false) => Math.Max(0, DamageFor(ranged) + (critical ? Rules.CriticalBonus : 0) - ArmorOf(target, ranged));
+        public int ExpectedDamage(int target, bool ranged, bool critical = false) => Math.Max(0, DamageFor(ranged) + HumanDamageBonus(target, ranged) + (critical ? Rules.CriticalBonus : 0) - ArmorOf(target, ranged));
         // The terms behind HitChance, for the aim tooltip. Values are percentage points.
         public List<KeyValuePair<string, int>> HitFactors(int target, bool ranged)
         {
@@ -235,6 +235,7 @@ namespace Demo5.FrontEnd
         void AddModifiers(List<KeyValuePair<string, int>> list, int target, bool ranged)
         {
             var t = Units[target];
+            if (MovedHitBonus > 0) list.Add(new KeyValuePair<string, int>("발 빠른 대응", MovedHitBonus));
             if (t.Stagger > 0) list.Add(new KeyValuePair<string, int>("빈틈", Rules.StaggerHitBonus));
             if (Current.Veiled > 0) list.Add(new KeyValuePair<string, int>("시야 가림", -Rules.VeilPenalty));
             if (ranged && t.Creature != null && t.Creature.ShotEvasion > 0) list.Add(new KeyValuePair<string, int>("흩어짐", -t.Creature.ShotEvasion));
@@ -249,7 +250,7 @@ namespace Demo5.FrontEnd
         }
         int Modifiers(int target, bool ranged)
         {
-            var t = Units[target]; int m = 0;
+            var t = Units[target]; int m = MovedHitBonus;
             if (t.Stagger > 0) m += Rules.StaggerHitBonus;
             if (Current.Veiled > 0) m -= Rules.VeilPenalty;
             if (ranged && t.Creature != null) m -= t.Creature.ShotEvasion;
@@ -322,19 +323,19 @@ namespace Demo5.FrontEnd
         {
             if (!PlayerTurn) return false;
             Events.Clear();
-            Current.Guarding = true; Message = Current.Name + " · 방어 자세 · 물릴 확률 -" + Rules.GuardHitPenalty + "%p · 예고 공격 피해 -" + Rules.GuardStrikeReduction;
+            Current.Guarding = true; Message = Current.Name + " · 방어 자세 · 물릴 확률 -" + Rules.GuardHitPenalty + "%p · 예고 공격 피해 -" + GuardReductionFor(Actor, true);
             Events.Add(new BattleEvent { Kind = BattleEventKind.Guard, Actor = Actor });
             Advance(); return true;
         }
 
         // Battle items: the actor spends its action to treat a living, wounded ally (or itself).
         public bool CanTreat(int target) => PlayerTurn && target >= 0 && target < Units.Count && !Units[target].Enemy && Units[target].Alive && Units[target].Health < Units[target].Maximum;
-        public bool UseItem(int target, int heal, Func<bool> consume)
+        public bool UseItem(int target, int heal, Func<bool> consume, string itemId = null)
         {
             if (heal <= 0 || !CanTreat(target) || consume == null || !consume()) return false;
             Events.Clear();
             var t = Units[target]; int before = t.Health;
-            t.Health = Math.Min(t.Maximum, t.Health + heal); if (t.Person != null) t.Person.Health = t.Health;
+            t.Health = Math.Min(t.Maximum, t.Health + ItemRecovery(heal, itemId)); if (t.Person != null) t.Person.Health = t.Health;
             Events.Add(new BattleEvent { Kind = BattleEventKind.Item, Actor = Actor, Target = target, Damage = t.Health - before, Health = t.Health });
             ItemsUsed++;
             Message = Current.Name + (target == Actor ? "" : " → " + t.Name) + " · 치료 +" + (t.Health - before);
@@ -351,7 +352,7 @@ namespace Demo5.FrontEnd
                 if (!Units[i].Enemy || !Units[i].Alive) continue;
                 var plan = Plan(i, Board.From(Units), Healths());
                 int target = plan.Kind == EnemyIntentKind.Attack ? plan.Target : plan.Kind == EnemyIntentKind.Strike && plan.HitCount > 0 ? plan.Hits[0].Target : -1;
-                if (target >= 0) result.Add(new EnemyIntent { Kind = EnemyIntentKind.Attack, Enemy = i, Target = target, Chance = Rules.RetreatHitChance, Damage = Rules.EnemyDamage, Attack = plan.Attack });
+                if (target >= 0) result.Add(new EnemyIntent { Kind = EnemyIntentKind.Attack, Enemy = i, Target = target, Chance = Rules.RetreatHitChance, Damage = Math.Min(AfterGuardDamage(target, Rules.EnemyDamage, false), Math.Max(0, Units[target].Health - 1)), Attack = plan.Attack });
             }
             return result;
         }
@@ -457,7 +458,7 @@ namespace Demo5.FrontEnd
                         foreach (int side in new[] { -1, 1 })
                         {
                             int n = At(b.D[bite], b.L[bite] + side, b);
-                            if (n >= 0) intent.Hits.Add(new BattleHit { Target = n, Chance = BiteChance(b.D[n], Units[n].Guarding, e), Damage = DamageOf(e), FromDepth = b.D[n], FromLane = b.L[n], ToDepth = b.D[n], ToLane = b.L[n] });
+                            if (n >= 0) intent.Hits.Add(new BattleHit { Target = n, Chance = BiteChance(b.D[n], Units[n].Guarding, e), Damage = AfterGuardDamage(n, DamageOf(e), false), FromDepth = b.D[n], FromLane = b.L[n], ToDepth = b.D[n], ToLane = b.L[n] });
                         }
                         return intent;
                     }
@@ -540,7 +541,7 @@ namespace Demo5.FrontEnd
         EnemyIntent Bite(EnemyIntent intent, int e, int target, Board b)
         {
             intent.Kind = EnemyIntentKind.Attack; intent.Target = target; intent.Chance = BiteChance(b.D[target], Units[target].Guarding, e);
-            intent.Damage = BiteDamage(e);
+            intent.Damage = AfterGuardDamage(target, BiteDamage(e), false);
             intent.Hits = new List<BattleHit> { new BattleHit { Target = target, Chance = intent.Chance, Damage = intent.Damage, FromDepth = b.D[target], FromLane = b.L[target], ToDepth = b.D[target], ToLane = b.L[target] } };
             return intent;
         }
@@ -689,7 +690,7 @@ namespace Demo5.FrontEnd
             bool guard = Units[v].Guarding;
             var h = new BattleHit { Target = v, FromDepth = b.D[v], FromLane = b.L[v], ToDepth = b.D[v], ToLane = b.L[v] };
             int d = damage;
-            if (guard && d > 0) { d = Math.Max(0, d - Rules.GuardStrikeReduction); h.Braced = true; }
+            if (guard && d > 0) { d = Math.Max(0, d - GuardReductionFor(v, true)); h.Braced = true; }
             if (push && !guard && b.H[v] - d > 0)
             {
                 if (Free(false, b.D[v] + 1, b.L[v], b, v)) { b.D[v]++; h.Pushed = true; h.ToDepth = b.D[v]; }
@@ -728,7 +729,7 @@ namespace Demo5.FrontEnd
             foreach (var target in plan.Hits)
             {
                 var t = Units[target.Target]; if (!t.Alive) continue;
-                bool hit = roll() < target.Chance; int damage = hit ? Math.Max(0, DamageOf(e) - (t.Guarding ? Rules.GuardReduction : 0)) : 0;
+                bool hit = roll() < target.Chance; int damage = hit ? AfterGuardDamage(target.Target, DamageOf(e), false) : 0;
                 if (damage > 0) Damage(t, damage);
                 ev.Hits.Add(new BattleHit { Target = target.Target, Chance = target.Chance, Hit = hit, Damage = damage, Health = t.Health, Killed = !t.Alive,
                     Braced = t.Guarding && (!hit || damage == 0), FromDepth = t.Depth, FromLane = t.Lane, ToDepth = t.Depth, ToLane = t.Lane });
@@ -762,7 +763,7 @@ namespace Demo5.FrontEnd
         {
             var a = Units[attacker]; var t = Units[target];
             bool hit = roll() < chance;
-            int damage = hit ? Math.Max(0, (retreating ? Rules.EnemyDamage : BiteDamage(attacker)) - (t.Guarding ? Rules.GuardReduction : 0)) : 0;
+            int damage = hit ? AfterGuardDamage(target, retreating ? Rules.EnemyDamage : BiteDamage(attacker), false) : 0;
             // A guarding ally who is missed, or whose guard soaks the whole bite, reads as a block.
             bool blocked = t.Guarding && (!hit || damage == 0);
             if (retreating) damage = Math.Min(damage, Math.Max(0, t.Health - 1));

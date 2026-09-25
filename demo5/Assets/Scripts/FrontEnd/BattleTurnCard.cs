@@ -6,5 +6,12 @@ namespace Demo5.FrontEnd
     {
         public Image Paper, Portrait;
         public Text Label;
+        public BattleRoleBadge RoleBadge;
+        public void SetRole(bool enemy, BattleCreature creature)
+        {
+            if (!RoleBadge) return;
+            RoleBadge.gameObject.SetActive(enemy);
+            RoleBadge.SetRole(CreatureRoles.For(creature));
+        }
     }
 }

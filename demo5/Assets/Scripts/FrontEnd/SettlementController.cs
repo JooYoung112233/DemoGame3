@@ -33,9 +33,12 @@ namespace Demo5.FrontEnd
         public SettlementVisitorPanel VisitorPanel;
         public SettlementIntroduction Introduction; public SettlementDevelopment Development;
         public SettlementOpeningChapter Opening;
+        public SettlementTutorialNarrative Narrative;
+        public MissingPersonStory MissingPerson; public LaundryStoryVisit Laundry;
         public CampaignState Campaign{get;private set;}
+        public bool TutorialSkipped=>Narrative&&Narrative.State.Skipped;
         int page;GameObject returnFocus;
-        public bool IsPopupOpen=>Popup.activeSelf||(Opening&&Opening.IsOpen);
+        public bool IsPopupOpen=>Popup.activeSelf||(Opening&&Opening.IsOpen)||(Narrative&&Narrative.IsBlocking)||(MissingPerson&&MissingPerson.IsOpen)||(Laundry&&Laundry.IsOpen);
         public void Awake()
         {
             Campaign=PartySelectionSession.Take();if(Campaign!=null&&Campaign.Stage!=JourneyStage.Settlement)Campaign=null;
@@ -51,6 +54,7 @@ namespace Demo5.FrontEnd
             if(ArrivalPanel)ArrivalPanel.Initialize(this);
             if(VisitorPanel)VisitorPanel.Initialize(this);
             if(Development)Development.Initialize(this); if(Opening)Opening.Initialize(this,CampaignPersistence.Pending!=null); if(Introduction)Introduction.Initialize(this,CampaignPersistence.Pending!=null);
+            if(Narrative)Narrative.Initialize(this,CampaignPersistence.Pending!=null);
             CampaignPersistence.ApplyPending(this);
             if(VisitorPanel)VisitorPanel.Sync();
             if(GameMenu)GameMenu.Initialize(this);
@@ -101,7 +105,7 @@ namespace Demo5.FrontEnd
         }
         public void Show(string title,string body){if(IsPopupOpen)return;returnFocus=EventSystem.current?.currentSelectedGameObject;PopupTitle.text=title;PopupBody.text=body;Main.interactable=false;Main.blocksRaycasts=false;Popup.SetActive(true);EventSystem.current?.SetSelectedGameObject(PopupClose.gameObject);}
         public void Close(){Popup.SetActive(false);Main.interactable=true;Main.blocksRaycasts=true;EventSystem.current?.SetSelectedGameObject(returnFocus);}
-        void Update(){if(IsPopupOpen&&Keyboard.current!=null&&Keyboard.current.escapeKey.wasPressedThisFrame){if(Opening&&Opening.IsOpen)Opening.Close();else Close();}}
+        void Update(){if(IsPopupOpen&&!(Laundry&&Laundry.IsOpen)&&Keyboard.current!=null&&Keyboard.current.escapeKey.wasPressedThisFrame){if(MissingPerson&&MissingPerson.IsOpen)MissingPerson.Advance();else if(Narrative&&Narrative.IsBlocking)Narrative.Advance();else if(Opening&&Opening.IsOpen)Opening.Close();else Close();}}
     }
 }
 

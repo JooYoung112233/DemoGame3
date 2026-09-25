@@ -48,7 +48,7 @@ namespace Demo5.FrontEnd
         ExpeditionArrivalPanel arrival; GameObject residentPawn; Text risk; bool hushed, walkedIntoHeard, dangerRose, introPending, introShown, residentLessonShown; string wroteStatus, roomStatus;
         // The one-time battle lesson for this site's resident (saved as SavedSiteBoard.ResidentLessonShown, like introShown).
         public bool ResidentLessonShown => residentLessonShown;
-        public bool IntroAcknowledged => introShown && !introPending;
+        public bool IntroAcknowledged => arrival&&arrival.TutorialSkipped || introShown && !introPending;
         public void MarkResidentLesson() => residentLessonShown = true;
         [Header("장소 판 안내 · 두 번째 방문 처음 한 번")]
         public string IntroTitle = "두 번째 방문 · 장소 판";
@@ -77,7 +77,7 @@ namespace Demo5.FrontEnd
             if (!Enabled) { State = null; HideAll(); return; }
             // Each visit starts its own clock; danger, noise and the remembered room carry over (the first visit only carries what it can).
             State = new FieldSiteState(Rules, () => Random.Range(0, 100), firstVisit, carried.danger, carried.gauge, firstVisit ? FieldSiteState.Nowhere : carried.remembered, 0);
-            if (!firstVisit && !introShown) introPending = true;
+            if (!firstVisit && !introShown && !arrival.TutorialSkipped) introPending = true;
             State.MoveParty(arrival.Rooms ? arrival.Rooms.CurrentRoom : 0); hushed = false; ClearPawn(); if (Planner) Planner.Reset(); Refresh();
         }
         // Review fixture: start this visit as a later one (awake, carrying the given danger, noise and site clock).
@@ -126,7 +126,7 @@ namespace Demo5.FrontEnd
             for (int i = 0; i < Mathf.Max(1, turns); i++) { EndTurn(i == 0 ? noise : 0); if (arrival.Encounter && arrival.Encounter.IsOpen) break; }
             walkedIntoHeard = false;
         }
-        public bool CanAct => arrival && arrival.IsOpen && !(arrival.Story && arrival.Story.IsOpen) && !arrival.InTransit && !arrival.Popup.activeSelf && !(arrival.Search && arrival.Search.IsOpen) && !(arrival.Loot && arrival.Loot.IsOpen)
+        public bool CanAct => arrival && arrival.IsOpen && !(arrival.MissingPerson && arrival.MissingPerson.IsOpen) && !(arrival.Story && arrival.Story.IsOpen) && !arrival.InTransit && !arrival.Popup.activeSelf && !(arrival.Search && arrival.Search.IsOpen) && !(arrival.Loot && arrival.Loot.IsOpen)
             && !(arrival.FieldBags && arrival.FieldBags.IsOpen) && !(arrival.Encounter && arrival.Encounter.IsOpen);
         // 숨죽이기: a turn spent still and silent. Everyone hushed lets it pass by (not while it is hunting).
         public void HushTurn()
@@ -154,7 +154,7 @@ namespace Demo5.FrontEnd
         public bool OpenDen()
         {
             if (!Enabled || State == null || !CanAct) return false;
-            if (CanSearchSite(DenSite)) { arrival.Inspect(DenSite); return true; }
+            if (CanSearchSite(DenSite)) { arrival.Press(DenSite); return true; } // the shelf's search note (FieldSearchNote); 07 via its '자세히 >'
             if (Active && State.DenEmpty) { arrival.OpenPopup("관리실 문", DenReturning); return true; }
             arrival.OpenPopup("관리실 문", State.Asleep ? "안에서 느리고 규칙적인 숨소리가 들립니다.\n깨우지 않는 편이 낫겠습니다."
                 : "문틈 너머에서 무언가 숨을 고르고 있습니다.\n안이 비었을 때만 선반을 뒤질 수 있습니다.\n\n큰 소리를 내면 그 소리를 찾아 나옵니다.");
@@ -300,6 +300,7 @@ namespace Demo5.FrontEnd
         public string IncomingLine(int room) => Active && State.Incoming && State.ResidentRoom == room ? "\n문 너머에서 무언가 다가옵니다 · 지금 들어가면 마주칩니다" : "";
         void LateUpdate()
         {
+            if (arrival.TutorialSkipped) introPending = false;
             if (introPending && Active && CanAct) { introPending = false; introShown = true; arrival.OpenPopup(IntroTitle, IntroBody); }
             // Panels open and close without a turn passing: keep the hush button in step with them.
             if (Hush && Hush.gameObject.activeSelf && Hush.interactable != CanAct) Hush.interactable = CanAct;

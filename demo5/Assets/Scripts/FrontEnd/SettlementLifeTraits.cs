@@ -8,7 +8,7 @@ namespace Demo5.FrontEnd
  public sealed partial class SettlementController
  {
   public PartyCandidate DataFor(Adventurer member){int i=Array.IndexOf(Campaign.Party.ToArray(),member);string id=PartySelectionSession.Selected.ElementAtOrDefault(i);return Roster.Candidates.FirstOrDefault(p=>p.Id==id);}
-  public int LifeTimePercent(Adventurer member,bool cooking){var p=member==null?null:DataFor(member);int n=p==null?100:cooking?p.CookingTimePercent:p.CraftTimePercent;return n<=0?100:Mathf.Clamp(n,1,100);}
+  public int LifeTimePercent(Adventurer member,bool cooking,bool research=false){var p=member==null?null:DataFor(member);return p?.WorkTimePercent(cooking,research)??100;}
  }
  public static class LifeTraitTime
  {
@@ -27,7 +27,8 @@ namespace Demo5.FrontEnd
  public sealed partial class SettlementCraftPanel
  {
   public Text TraitEffect;
-  public int DurationFor(Recipe recipe,int count,Adventurer member)=>LifeTraitTime.Calculate(recipe.Minutes,count,BenchImproved?80:100,owner.LifeTimePercent(member,false));
-  void RefreshTraitTime(){var person=worker>=0&&worker<people.Length&&people[worker].Health>0&&!owner.IsAssigned(people[worker])?people[worker]:null;Duration.text=selected==null?"":LifeTraitTime.Compare(selected.Minutes*quantity,DurationFor(selected,quantity,person));TraitEffect.text=LifeTraitTime.Effects(BenchImproved?80:100,owner.LifeTimePercent(person,false));}
+  public int WorkerPercent(Recipe recipe,Adventurer member)=>owner.LifeTimePercent(member,false,recipe!=null&&recipe.Id!=null&&recipe.Id.StartsWith("research-",StringComparison.Ordinal));
+  public int DurationFor(Recipe recipe,int count,Adventurer member)=>LifeTraitTime.Calculate(recipe.Minutes,count,BenchImproved?80:100,WorkerPercent(recipe,member));
+  void RefreshTraitTime(){var person=worker>=0&&worker<people.Length&&people[worker].Health>0&&!owner.IsAssigned(people[worker])?people[worker]:null;Duration.text=selected==null?"":LifeTraitTime.Compare(selected.Minutes*quantity,DurationFor(selected,quantity,person));TraitEffect.text=LifeTraitTime.Effects(BenchImproved?80:100,WorkerPercent(selected,person));}
  }
 }

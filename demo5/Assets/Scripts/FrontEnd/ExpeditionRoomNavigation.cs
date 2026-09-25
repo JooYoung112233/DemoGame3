@@ -20,7 +20,12 @@ namespace Demo5.FrontEnd {
   public bool CorridorVisited{get;private set;}
   public IReadOnlyCollection<int> Inspected=>inspected;
   readonly HashSet<int> inspected=new HashSet<int>();ExpeditionArrivalPanel owner;int pending=-1;
-  public void Initialize(ExpeditionArrivalPanel panel){owner=panel;CorridorBack.onClick.AddListener(AskMove);LockedDoor.onClick.AddListener(AskStorage);if(StorageBack)StorageBack.onClick.AddListener(AskMove);OfficeDoor.onClick.AddListener(()=>{if(owner.Threat&&owner.Threat.OpenDen())return;owner.OpenPopup("닫힌 문","문틈으로는 안쪽을 확인하기 어렵습니다.\n지금은 들어갈 수 없습니다.");});owner.ReturnConfirm.onClick.AddListener(ConfirmMove);}
+  // A door press, asked first (the pawn board: a held pawn goes to the door). True = handled, the popup stays shut. The arcade door
+  // (Objects[3]) is an arrival object: it reaches ExpeditionArrivalPanel.Pressed(3) instead. AskMove / ConfirmMove stay code APIs
+  // (the encounter's retreat, tests) and always move at once: the next-turn move is everyone gathered at a door (Queue.cs).
+  public System.Func<Button,bool> DoorPressed;
+  bool Door(Button b)=>DoorPressed!=null&&b&&DoorPressed(b);
+  public void Initialize(ExpeditionArrivalPanel panel){owner=panel;CorridorBack.onClick.AddListener(()=>{if(!Door(CorridorBack))AskMove();});LockedDoor.onClick.AddListener(()=>{if(!Door(LockedDoor))AskStorage();});if(StorageBack)StorageBack.onClick.AddListener(()=>{if(!Door(StorageBack))AskMove();});OfficeDoor.onClick.AddListener(()=>{if(Door(OfficeDoor))return;if(owner.Threat&&owner.Threat.OpenDen())return;owner.OpenPopup("닫힌 문","문틈으로는 안쪽을 확인하기 어렵습니다.\n지금은 들어갈 수 없습니다.");});owner.ReturnConfirm.onClick.AddListener(ConfirmMove);}
   public void ResetVisit(){CurrentRoom=Turns=Noise=0;pending=-1;ApplyRoom();}
   public void MarkInspected(int index){inspected.Add(index);RefreshLabels();}
   public void CancelPending(){pending=-1;}
@@ -31,7 +36,7 @@ namespace Demo5.FrontEnd {
    owner.OpenPopup(title,"원정대 전체 이동 · 1턴 · "+MinutesPerTurn+"분\n소음 없음"+PlanSuffix+"\n\n"+(pending==1&&!CorridorVisited?"미방문 구역 · 내부는 들어간 뒤 확인합니다.":"방문한 방 · 물품과 수색 기록이 유지됩니다."));
    owner.ReturnConfirm.gameObject.SetActive(true);owner.ReturnConfirm.GetComponentInChildren<Text>().text="이동 · 1턴";
   }
-  public void ConfirmMove(){if(QueueInstead())return;if(pending<0||!owner.IsOpen||owner.InTransit||!owner.Popup.activeSelf)return;int next=pending;bool unlock=next==2&&!StorageUnlocked;if(next==2&&(CurrentRoom!=1||!Storage)||unlock&&UnlockWorker()==null){owner.ClosePopup();return;}int cost=1+(unlock?UnlockTurns:0);pending=-1;owner.ClosePopup();owner.SetRoomTransit(true);if(unlock){StorageUnlocked=true;Noise+=UnlockNoise;}Turns+=cost;owner.SpendFieldTime(cost*MinutesPerTurn);RefreshLabels();StartCoroutine(Travel(next,cost,unlock?UnlockNoise:0));}
+  public void ConfirmMove(){if(pending<0||!owner.IsOpen||owner.InTransit||!owner.Popup.activeSelf)return;int next=pending;bool unlock=next==2&&!StorageUnlocked;if(next==2&&(CurrentRoom!=1||!Storage)||unlock&&UnlockWorker()==null){owner.ClosePopup();return;}int cost=1+(unlock?UnlockTurns:0);pending=-1;owner.ClosePopup();owner.SetRoomTransit(true);if(unlock){StorageUnlocked=true;Noise+=UnlockNoise;}Turns+=cost;owner.SpendFieldTime(cost*MinutesPerTurn);RefreshLabels();StartCoroutine(Travel(next,cost,unlock?UnlockNoise:0));}
   IEnumerator Travel(int next,int turns=1,int noise=0){
    int from=CurrentRoom;var presentation=owner.World?owner.World.GetComponent<ExplorationRoomPresentation>():null;var route=presentation?presentation.Route(from,next):null;
    var pawns=new List<Transform>();var starts=new List<Vector3>();foreach(var member in owner.PartyPawns){if(!member)continue;var p=member.transform;pawns.Add(p);starts.Add(p.localPosition);}

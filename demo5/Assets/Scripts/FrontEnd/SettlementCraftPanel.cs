@@ -12,12 +12,19 @@ namespace Demo5.FrontEnd
     {
         [Serializable] public sealed class Material { public string Id,Name; [Min(0)] public int Initial; public Sprite Icon; }
         [Serializable] public sealed class Cost { public string MaterialId; [Min(1)] public int Count=1; }
-        [Serializable] public sealed class Recipe { public string Id,Name; [TextArea]public string Description; [Range(0,2)]public int Category; [Min(1)]public int Minutes=30; public Sprite Icon; public Cost[] Costs; }
+        [Serializable] public sealed class Recipe {
+            public string Id,Name,OutputId,UnlockProject;
+            [Min(1)] public int OutputCount=1;
+            [TextArea]public string Description; [Range(0,2)]public int Category; [Min(1)]public int Minutes=30; public Sprite Icon; public Cost[] Costs;
+            public string ProducedId=>string.IsNullOrEmpty(OutputId)?Id:OutputId;
+            public int ProducedCount=>Math.Max(1,OutputCount);
+        }
         public sealed class Order { public Recipe Recipe; public Adventurer Member; public int Quantity,Minutes; public Dictionary<string,int> Reserved; }
         public bool BedRepaired{get;private set;}
         public bool BenchImproved{get;private set;}
         public bool FacilityDone(Recipe r)=>r!=null&&((owner&&owner.Development&&owner.Development.IsDone(r.Id))||(r.Id=="repair-bed"&&BedRepaired)||(r.Id=="upgrade-bench"&&BenchImproved)||(r.Id=="upgrade-cooker"&&CookerImproved)||(r.Id=="open-side-room"&&SideRoomConnected)||(r.Id=="prepare-side-room"&&SideRoomReady));
         public int DurationFor(Recipe r,int count)=>Math.Max(1,BenchImproved?(r.Minutes*80+99)/100:r.Minutes)*count;
+        public string ProductSummary(Recipe r,int count)=>r.Category!=0?r.Name+" ×"+count:(Materials.FirstOrDefault(m=>m.Id==r.ProducedId)?.Name??r.Name)+" ×"+(count*r.ProducedCount);
         public Material[] Materials;
         public Recipe[] Recipes;
         public CraftMaterialGuide MaterialGuide;
@@ -79,7 +86,8 @@ namespace Demo5.FrontEnd
             RefreshTraitTime();if(MaterialGuide)MaterialGuide.Refresh(owner,this,selected,quantity);
         }
         public void FocusRecipe(string id){var r=Recipes.FirstOrDefault(x=>x.Id==id);if(r==null||!AvailableDuringIntro(r)||!IsOpen||CancelPopup.activeSelf)return;SelectCategory(r.Category);SelectRecipe(r);}
-        bool AvailableDuringIntro(Recipe r)=>r!=null&&(!owner.Introduction||owner.Introduction.Allows(5));
+        public bool IsRecipeUnlocked(Recipe r)=>r!=null&&(string.IsNullOrEmpty(r.UnlockProject)||(owner&&owner.Development&&owner.Development.IsDone(r.UnlockProject)));
+        bool AvailableDuringIntro(Recipe r)=>IsRecipeUnlocked(r)&&(!owner.Introduction||owner.Introduction.Allows(5));
         void Register(){
             if(!AvailableDuringIntro(selected))return;
             if(owner.Introduction&&!owner.Introduction.Allows(5))return;
@@ -104,8 +112,8 @@ namespace Demo5.FrontEnd
                 else if(order.Recipe.Id=="upgrade-cooker")CookerImproved=true;
                 else if(order.Recipe.Id=="open-side-room")SideRoomConnected=true;
                 else if(order.Recipe.Id=="prepare-side-room")SideRoomReady=true;
-                else {var material=Materials.FirstOrDefault(m=>m.Id==order.Recipe.Id);if(material==null){material=new Material{Id=order.Recipe.Id,Name=order.Recipe.Name,Icon=order.Recipe.Icon};Materials=Materials.Concat(new[]{material}).ToArray();}material.Initial+=order.Quantity;}
-                results.Add(order.Member.Name+" · "+order.Recipe.Name+" ×"+order.Quantity+" 완료");
+                else {var material=Materials.FirstOrDefault(m=>m.Id==order.Recipe.ProducedId);if(material==null){material=new Material{Id=order.Recipe.ProducedId,Name=order.Recipe.Name,Icon=order.Recipe.Icon};Materials=Materials.Concat(new[]{material}).ToArray();}material.Initial+=order.Quantity*order.Recipe.ProducedCount;}
+                results.Add(order.Member.Name+" · "+ProductSummary(order.Recipe,order.Quantity)+" 완료");
                 if(owner.Introduction)owner.Introduction.Completed(order.Recipe.Id);
             }return results;
         }

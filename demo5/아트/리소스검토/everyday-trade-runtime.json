@@ -1,0 +1,18 @@
+{
+  "utc": "2026-09-25T06:01:31.3200421Z",
+  "result": "PASS",
+  "checks": [
+    "PASS: all 22 goods, four visits and integer two-way exchanges 1..99; preferred buy <= sale; demand derives from saved visit date.",
+    "All eight everyday goods exchanged through item/page/quantity/confirm buttons; cancellation and duplicate Commit preserved stock.",
+    "Preferred demand is visible in detail and exact immediate reverse exchange produces no goods.",
+    "Restore/reopen preserves stock and preferred item; sold-out stale quote does not commit and depleted items disappear.",
+    "Current-version disk roundtrip keeps all 22 trade stock records in an isolated verification directory.",
+    "Native 1920×1080 and 1280×800: both pages' item hits/names plus price/details/page text fit; screenshots saved unchanged.",
+    "Zero-stock lists hide every item and repair selection, pagination and trade buttons."
+  ],
+  "screenshots": [
+    "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\everyday-trade-1920x1080.png",
+    "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\everyday-trade-1280x800.png"
+  ],
+  "failure": null
+}

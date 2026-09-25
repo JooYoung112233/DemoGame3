@@ -41,8 +41,9 @@ public static class AuditUI {
  case "24-packing":C.ExpeditionPanel.Close();C.PackingPanel.Open(C.Campaign.Party.ToArray(),C.ExpeditionPanel.Destinations.First(d=>d.Id=="mall"),()=>{});break;
  case "25-field":C.PackingPanel.Close();if(!C.ArrivalPanel.Begin(C.Campaign.Party.ToArray(),C.ExpeditionPanel.Destinations.First(d=>d.Id=="mall")))throw new Exception("Departure failed");await Task.Delay(900);break;
  case "26-search":C.ArrivalPanel.Search.Open(0);break;
- case "27-search-review":Tap(C.ArrivalPanel.Search.Cards[0].Button);Tap(C.ArrivalPanel.Search.Choose);break;
- case "28-loot":Tap(C.ArrivalPanel.Search.Confirm);break;
+ // 말 놓기 (2026-09-25): the 07 window only shows; two pawns on the crate are the plan ('27'), '턴 진행' runs it ('28').
+ case "27-search-review":C.ArrivalPanel.Search.Close();await Task.Delay(300);if(!FieldPawnTest.Coop(C.ArrivalPanel,0))throw new Exception("Two pawns on the crate: "+FieldPawnTest.Describe(C.ArrivalPanel));await Task.Delay(600);break;
+ case "28-loot":{var pl=C.ArrivalPanel.Threat.Planner;FieldIdleConfirm.Pass(()=>pl.TurnButton.onClick.Invoke());await Task.Delay(300);}break;
  case "28b-loot":C.ArrivalPanel.Search.Close();C.ArrivalPanel.Loot.Open(0);break;
  case "29-leave-loot":Tap(C.ArrivalPanel.Loot.Back);break;
  case "30-bag":if(C.ArrivalPanel.Loot.LeaveReview.activeSelf)Tap(C.ArrivalPanel.Loot.LeaveConfirm);C.ArrivalPanel.FieldBags.Open(0);break;
@@ -54,13 +55,13 @@ public static class AuditUI {
  case "36-night-result":Tap(C.Opening.NightListen);break;
  case "37-bag-six":await LoadFixture();C.ArrivalPanel.Begin(C.Campaign.Party.ToArray(),C.ExpeditionPanel.Destinations.First(d=>d.Id=="mall"));await Task.Delay(900);var a=C.ArrivalPanel;var people=a.Participants.ToList();for(int i=people.Count;i<6;i++){var d=C.Roster.Candidates.First(x=>!people.Any(q=>q.Name==x.DisplayName));people.Add(new Adventurer(d.DisplayName,d.RoleTitle,d.TraitDescription,d.Health,d.Aim,d.BagCapacity));var card=Object.Instantiate(a.MemberPrefab,a.MemberContent);card.Portrait.sprite=d.Portrait;a.Cards.Add(card);}typeof(ExpeditionArrivalPanel).GetField("people",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic).SetValue(a,people.ToArray());C.InventoryPanel.TransferField(people[0],"bandage",2,true);a.FieldBags.Open(0);Tap(a.FieldBags.LeftRows.First(r=>r.Label.text=="붕대").Button);break;
  case "38-bag-scroll-bottom":C.ArrivalPanel.FieldBags.RightMembers.GetComponentInParent<ScrollRect>().verticalNormalizedPosition=0;break;
- case "39-encounter":await LoadFixture();C.ArrivalPanel.Begin(C.Campaign.Party.ToArray(),C.ExpeditionPanel.Destinations.First(d=>d.Id=="mall"));await Task.Delay(900);var e=C.ArrivalPanel.Encounter;e.BaseChance=100;e.MaximumChance=100;e.NoiseThreshold=0;C.ArrivalPanel.Rooms.SpendSearchTurn(0);e.AfterSearch(0);C.ArrivalPanel.Rooms.SpendSearchTurn(0);e.AfterSearch(0);break;
+ case "39-encounter":await LoadFixture();C.ArrivalPanel.Begin(C.Campaign.Party.ToArray(),C.ExpeditionPanel.Destinations.First(d=>d.Id=="mall"));await Task.Delay(900);var e=C.ArrivalPanel.Encounter;e.BaseChance=100;e.MaximumChance=100;e.NoiseThreshold=0;e.WarnSearches=1;C.ArrivalPanel.Rooms.SpendSearchTurn(0);e.AfterSearch(0);C.ArrivalPanel.Rooms.SpendSearchTurn(0);e.AfterSearch(0);break;
  case "40-encounter-review":Tap(C.ArrivalPanel.Encounter.Wait);break;
  case "41-battle":C.ArrivalPanel.Encounter.CancelChoice();C.InventoryPanel.TransferField(C.ArrivalPanel.Participants[0],"bandage",2,true);Tap(C.ArrivalPanel.Encounter.Fight);await Task.Delay(1500);break;
  case "42-battle-items":Tap(C.ArrivalPanel.Encounter.Battle.Items);await Task.Delay(600);break;
  case "43-battle-retreat-review":C.ArrivalPanel.Encounter.Battle.CloseItems();Tap(C.ArrivalPanel.Encounter.Battle.Retreat);break;
  case "44-battle-result":Tap(C.ArrivalPanel.Encounter.Battle.RetreatConfirm);await Task.Delay(3500);break;
- case "45-fresh-search":await LoadFixture();C.ArrivalPanel.Begin(C.Campaign.Party.ToArray(),C.ExpeditionPanel.Destinations.First(d=>d.Id=="mall"));await Task.Delay(900);var s=C.ArrivalPanel.Loot.State(0);s.Progress=s.Required=0;s.Complete=s.Opened=false;s.Loot.Clear();C.ArrivalPanel.Search.Open(0);Tap(C.ArrivalPanel.Search.Cards[0].Button);break;
+ case "45-fresh-search":await LoadFixture();C.ArrivalPanel.Begin(C.Campaign.Party.ToArray(),C.ExpeditionPanel.Destinations.First(d=>d.Id=="mall"));await Task.Delay(900);var s=C.ArrivalPanel.Loot.State(0);s.Progress=s.Required=0;s.Complete=s.Opened=false;s.Loot.Clear();C.ArrivalPanel.Search.Open(0);break;
  case "46-loot-filled":C.ArrivalPanel.Search.Close();var ls=C.ArrivalPanel.Loot.State(0);ls.Complete=ls.Opened=true;ls.Progress=ls.Required=2;ls.Loot["wood"]=10;ls.Loot["metal"]=8;ls.Loot["cloth"]=4;C.ArrivalPanel.Loot.Open(0);Tap(C.ArrivalPanel.Loot.FieldRows[0].Button);break;
  case "47-leave-filled":Tap(C.ArrivalPanel.Loot.Back);break;
  case "48-loot-full-bag":C.ArrivalPanel.Loot.Dismiss();var person=C.ArrivalPanel.Participants[0];foreach(var id in new[]{"bandage","ration","water"})C.InventoryPanel.TransferField(person,id,2,true);C.ArrivalPanel.Loot.Rebuild();Tap(C.ArrivalPanel.Loot.FieldRows[0].Button);break;

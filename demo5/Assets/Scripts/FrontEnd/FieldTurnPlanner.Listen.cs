@@ -5,9 +5,13 @@ using UnityEngine.UI;
 
 namespace Demo5.FrontEnd
 {
-    // 문에 귀 대기 (기획/탐험-문에귀대기-1차-구현.md): a button in the door popup puts one member at that door (no time).
-    // On each '턴 진행' they hear the room behind it after the thing's step: present → its decided next step and, if the
-    // party stays quiet, the step after; absent → only that it is not there (or just left). Heard results last until the next turn.
+    // 문에 귀 대기 (기획/탐험-문에귀대기-1차-구현.md · 말 놓기 2026-09-25): a member pawn placed at a door (FieldPlacement) listens on
+    // every '턴 진행' while it stays there: present → its decided next step and, if the party stays quiet, the step after; absent → only
+    // that it is not there (or just left). The fresh result (this turn only: door markers, the 2-turns-ahead chip, AutoStop) is
+    // Reports / TryReport; everything heard this visit goes to DoorLog (hover · the door-log popup). ClearFresh on arrival and
+    // encounters; the log only at the visit's start and end (Reset). The first visit (it sleeps) has no listening.
+    // The door popup's listen button (ListenButton, UpdateListenOffer, FillListen, ToggleListen, HeardLine, OfferDen) is phase 1 of
+    // its removal: BuildPawnRules clears ListenButton so it never shows; the code goes in phase 2.
     public sealed partial class FieldTurnPlanner
     {
         [Header("문에 귀 대기 · 문 확인창 안")]
@@ -18,7 +22,7 @@ namespace Demo5.FrontEnd
         int offerDoor = -1, offerMember = -1, offerVersion = -1, listenFrame = -1; bool offerRelease, denOffer, listenWired;
         public IReadOnlyList<(FieldDoorReport R, int Member)> Reports => reports;
 
-        void ClearHeard() { reports.Clear(); offerDoor = -1; denOffer = false; }
+        void ClearFresh() { reports.Clear(); offerDoor = -1; denOffer = false; }
         bool Fresh(FieldDoorReport r) => threat && threat.State != null && r.Turn == threat.State.TurnsUsed && r.Room == threat.State.PartyRoom;
         // A result heard at this door this turn (valid until the next turn or a move).
         public bool TryReport(int door, out FieldDoorReport r, out int member)
@@ -40,10 +44,15 @@ namespace Demo5.FrontEnd
         // The den door popup (it is home): offer listening at it.
         public void OfferDen() { if (Active) denOffer = true; }
 
+        // This turn's results (the fresh set) and, for the rest of the visit, the door log (FieldDoorLog: hover · door-log popup).
         void Heard(FieldPlanCheck k)
         {
             reports.Clear();
-            foreach (var l in k.Listens.OrderBy(x => x.Door)) reports.Add((threat.State.ListenAt(l.Door), l.Member));
+            foreach (var l in k.Listens.OrderBy(x => x.Door))
+            {
+                var r = threat.State.ListenAt(l.Door); reports.Add((r, l.Member));
+                if (DoorLog != null) DoorLog.Add(r, l.Member);
+            }
         }
         FieldPause ListenBlock(int door) => ((IFieldListenFacts)facts).ListenBlock(door);
 

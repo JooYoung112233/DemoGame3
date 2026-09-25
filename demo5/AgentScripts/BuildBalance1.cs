@@ -93,8 +93,9 @@ public static class BuildBalance1
         try
         {
             var e = enc.GetComponent<ExpeditionEncounterPanel>(); int n = log.Count;
-            Set("조우 BaseChance", ref e.BaseChance, 10); Set("조우 MaximumChance", ref e.MaximumChance, 45);
-            Set("조우 NoiseThreshold", ref e.NoiseThreshold, 4); Set("조우 ChancePerNoise", ref e.ChancePerNoise, 4); Set("조우 GraceSearches", ref e.GraceSearches, 3);
+            // The chance (WarnSearches, BaseChance, ChancePerSearch, ChancePerNoise, MaximumChance, NoiseThreshold) is BuildSiteNoise.cs's since
+            // 2026-09-25 (search turns instead of noise); writing the old values here would switch the first-visit encounter off.
+            Set("조우 GraceSearches", ref e.GraceSearches, 3);
             Set("조우 MaxRandomEnemies", ref e.MaxRandomEnemies, 1);
             if (log.Count > n) { EditorUtility.SetDirty(e); PrefabUtility.SaveAsPrefabAsset(enc, P + "ExpeditionEncounterPanel.prefab"); }
         }

@@ -152,8 +152,15 @@ namespace Demo5.FrontEnd
         {
             if (IsOpen || !encounter.IsOpen || !arrival.Participants.Any(p => p.Health > 0)) return;
             bool infected = lineup == null || lineup.Count == 0;
+            var battleRules = Rules;
+            if (!infected && lineup.Count == 1 && lineup[0] != null && lineup[0].SuppressReinforcements)
+            {
+                // The management-room resident stays a single creature; never change the prefab's shared rules.
+                battleRules = JsonUtility.FromJson<FieldBattleRules>(JsonUtility.ToJson(Rules));
+                battleRules.MaxReinforcements = 0;
+            }
             State = new FieldBattleState(arrival.Participants, enemyCount, p => arrival.Inventory.CountFor(p, "ammo"),
-                p => arrival.Inventory.TransferField(p, "ammo", 1, false), () => UnityEngine.Random.Range(0, 100), Rules,
+                p => arrival.Inventory.TransferField(p, "ammo", 1, false), () => UnityEngine.Random.Range(0, 100), battleRules,
                 infected ? null : lineup, infected || !Creatures ? null : Creatures.Pool.ToList());
             startingHealth.Clear(); foreach (var p in arrival.Participants) startingHealth[p] = p.Health;
             Result.GetComponent<BattleResultSummary>()?.Capture(arrival);
@@ -240,10 +247,10 @@ namespace Demo5.FrontEnd
             if (HudPrefab && HudLayer)
             {
                 var hud = Instantiate(HudPrefab, HudLayer); hud.name = unit.Name + " HUD"; hud.gameObject.SetActive(true);
-                hud.Setup(unit.Name, unit.Maximum, unit.Health, unit.Enemy ? EnemyFill : AllyFill); huds[index] = hud;
+                hud.Setup(unit.Name, unit.Maximum, unit.Health, unit.Enemy ? EnemyFill : AllyFill); hud.SetRole(unit.Enemy, unit.Creature); huds[index] = hud;
             }
             var card = Instantiate(TurnPrefab, TurnContent); card.Portrait.sprite = Portrait(unit);
-            card.Label.text = unit.Enemy ? (unit.Creature != null ? unit.Creature.Name : "적") : unit.Name; cards[index] = card;
+            card.Label.text = unit.Enemy ? (unit.Creature != null ? unit.Creature.Name : "적") : unit.Name; card.SetRole(unit.Enemy, unit.Creature); cards[index] = card;
             return view;
         }
         Sprite Portrait(FieldBattleState.Unit u) => u.Enemy ? (u.Creature != null && u.Creature.Body ? u.Creature.Body : EnemyPortrait) : arrival.Cards[arrival.Participants.ToList().IndexOf(u.Person)].Portrait.sprite;
@@ -638,17 +645,20 @@ namespace Demo5.FrontEnd
             SegmentedHealthGraphic.Set(ActorHealth,shown[shownActor],actor.Maximum);
 
             bool targetValid = SelectedTarget >= 0 && SelectedTarget < State.Units.Count && State.Units[SelectedTarget].Alive && State.Units[SelectedTarget].Enemy;
+            int detailTarget = -1;
             int chance = State.HitChance(SelectedTarget, Ranged), damage = SelectedTarget >= 0 && SelectedTarget < State.Units.Count ? State.ExpectedDamage(SelectedTarget, Ranged) : State.DamageFor(Ranged);
             if (Busy && focusTarget >= 0 && focusTarget < State.Units.Count)
             {
                 var t = State.Units[focusTarget]; TargetPortrait.gameObject.SetActive(true);
+                detailTarget = focusTarget;
                 TargetName.text = t.Name; TargetPortrait.sprite = Portrait(t);
-                TargetInfo.text = "체력  " + shown[focusTarget] + " / " + t.Maximum + "\n" + (t.Guarding ? (focusCommitted ? "방어 중 · 피해 -" + Rules.GuardStrikeReduction : "방어 중 · 물림 -" + Rules.GuardHitPenalty + "%p") : "받을 피해  " + focusDamage);
+                TargetInfo.text = "체력  " + shown[focusTarget] + " / " + t.Maximum + "\n" + (t.Guarding ? (focusCommitted ? "방어 중 · 피해 -" + State.GuardReductionFor(focusTarget,true) : "방어 중 · 물림 -" + Rules.GuardHitPenalty + "%p") : "받을 피해  " + focusDamage);
                 SegmentedHealthGraphic.Set(TargetHealth,shown[focusTarget],t.Maximum); Chance.text = focusCommitted ? "예고 공격 · 반드시 맞음" : "명중률  " + focusChance + "%";
             }
             else if (Busy && cardFrozen && cardTarget >= 0 && cardTarget < State.Units.Count)
             {
                 var t = State.Units[cardTarget]; TargetPortrait.gameObject.SetActive(true);
+                detailTarget = cardTarget;
                 TargetName.text = t.Name; TargetPortrait.sprite = Portrait(t);
                 TargetInfo.text = "체력  " + shown[cardTarget] + " / " + t.Maximum + (down[cardTarget] ? "  ·  쓰러짐" : "") + "\n예상 피해  " + cardDamage + "  ·  급소 " + Rules.CriticalChance + "%";
                 SegmentedHealthGraphic.Set(TargetHealth,shown[cardTarget],t.Maximum);
@@ -657,6 +667,7 @@ namespace Demo5.FrontEnd
             else if (targetValid)
             {
                 var t = State.Units[SelectedTarget]; TargetPortrait.gameObject.SetActive(true);
+                detailTarget = SelectedTarget;
                 TargetName.text = t.Name; TargetPortrait.sprite = Portrait(t);
                 bool lethal = chance > 0 && damage >= shown[SelectedTarget];
                 TargetInfo.text = "체력  " + shown[SelectedTarget] + " / " + t.Maximum + (lethal ? "  ·  처치 가능" : "") + "\n예상 피해  " + damage + "  ·  급소 " + Rules.CriticalChance + "%";
@@ -664,6 +675,7 @@ namespace Demo5.FrontEnd
                 Chance.text = chance > 0 ? "명중률  " + chance + "%" : Ranged ? "사격 불가" : "근접 거리 밖";
             }
             else { TargetPortrait.gameObject.SetActive(false); TargetName.text = "적 선택"; TargetInfo.text = "오른쪽 진형의 적을 선택하세요."; SegmentedHealthGraphic.Set(TargetHealth,0,0); Chance.text = "공격 대상 선택"; }
+            RefreshRoleDetails(shownActor,detailTarget);
 
             Melee.interactable = Shoot.interactable = Guard.interactable = Retreat.interactable = Items.interactable = input;
             Melee.GetComponentInChildren<Image>().color = !Ranged ? Gold : Color.white; Shoot.GetComponentInChildren<Image>().color = Ranged ? Gold : Color.white;
@@ -829,7 +841,7 @@ namespace Demo5.FrontEnd
             var c = u.Creature;
             if (c == null) return "감염자 · 물기 피해 " + Rules.EnemyDamage;
             return (c.Attack == CreatureAttack.Broadcast ? c.AttackName + " · 소음 +" + Rules.BroadcastNoise : c.AttackName + " · 피해 " + c.Damage)
-                + (u.Stagger > 0 ? "\n빈틈 · 방어 0" : string.IsNullOrEmpty(c.Trait) ? "" : "\n" + c.Trait);
+                + (u.Stagger > 0 ? "\n빈틈 · 방어 0" : "");
         }
         // Rolled attacks: 감염자 bite, a quiet 귀기울임 only gropes, the swarm uses its own name. Marked strikes use the creature's attack name.
         string AttackLabel(int enemy, CreatureAttack attack, bool rolled)

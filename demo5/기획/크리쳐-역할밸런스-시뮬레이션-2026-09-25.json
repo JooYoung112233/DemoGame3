@@ -1,0 +1,1534 @@
+{
+  "CreatedUtc": "2026-09-25T04:34:15.1697810Z",
+  "Limitations": "현재 숫자와 단순 정책의 비교 검사. 완성된 지역의 승률/전체 밸런스 검증이 아님. 아이템·치료·식사·철수·사전 탐험 피해를 사용하지 않아 해당 특성 효과는 이 수치에 포함되지 않음. 중후반 탄약량과 명시 조합은 검사 조건이며 실제 지역 보상을 확정하지 않음.",
+  "Policy": "양쪽 모두 근접 우선 > 사격 > 접근 > 방어. 회피 정책만 이번 적 차례의 예고 타격을 읽고 안전한 인접 칸으로 이동(없으면 방어). 예고 무시는 해당 확인만 생략. 같은 시나리오/실행 번호는 같은 초기 seed지만 행동 차이로 이후 난수 소비는 달라짐.",
+  "Output": "기획/크리쳐-역할밸런스-시뮬레이션-2026-09-25.json",
+  "SeedsPerPolicy": 250,
+  "TotalTrials": 4000,
+  "BaseSeed": 250925,
+  "RoundLimit": 50,
+  "StepLimit": 1200,
+  "PrefabRules": {
+    "EnemyHealth": 4,
+    "FirstEnemyDepth": 1,
+    "OtherEnemyDepth": 2,
+    "ReinforcementDepth": 2,
+    "EnemyArmor": 0,
+    "EnemyHitChance": 70,
+    "EnemyDamage": 1,
+    "EnemyDepthPenalty": 10,
+    "MeleeDamage": 2,
+    "MeleeHitChance": 85,
+    "LaneReach": 1,
+    "ShotDamage": 3,
+    "ShotHitChance": 75,
+    "ShotRowPenalty": 5,
+    "ShotLanePenalty": 5,
+    "ShotNoise": 2,
+    "CriticalChance": 10,
+    "CriticalBonus": 1,
+    "CriticalMeleePush": true,
+    "GuardHitPenalty": 40,
+    "GuardReduction": 0,
+    "ReinforcementNoise": 5,
+    "MaxReinforcements": 1,
+    "MaxEnemies": 3,
+    "VictoryNoise": 1,
+    "CarriedNoisePercent": 50,
+    "RetreatHitChance": 50,
+    "MinimumChance": 20,
+    "MaximumChance": 95,
+    "GuardStrikeReduction": 1,
+    "CollisionDamage": 1,
+    "StaggerHitBonus": 20,
+    "VeilPenalty": 30,
+    "CoverPenalty": 30,
+    "BroadcastNoise": 3
+  },
+  "PartyProfiles": [
+    {
+      "Id": "scout",
+      "DisplayName": "윤서진",
+      "Health": 6,
+      "Aim": 0,
+      "BagCapacity": 4,
+      "CombatRole": "기동",
+      "Traits": {
+        "MoveHitBonus": 10,
+        "BandageRecoveryBonus": 0,
+        "FoodRecoveryBonus": 0,
+        "ArmoredMeleeBonus": 0,
+        "StaggerDamageBonus": 0,
+        "GuardDamageReduction": 0
+      }
+    },
+    {
+      "Id": "mechanic",
+      "DisplayName": "강기섭",
+      "Health": 6,
+      "Aim": -5,
+      "BagCapacity": 5,
+      "CombatRole": "돌파",
+      "Traits": {
+        "MoveHitBonus": 0,
+        "BandageRecoveryBonus": 0,
+        "FoodRecoveryBonus": 0,
+        "ArmoredMeleeBonus": 1,
+        "StaggerDamageBonus": 0,
+        "GuardDamageReduction": 0
+      }
+    },
+    {
+      "Id": "medic",
+      "DisplayName": "한해인",
+      "Health": 6,
+      "Aim": -5,
+      "BagCapacity": 3,
+      "CombatRole": "치료",
+      "Traits": {
+        "MoveHitBonus": 0,
+        "BandageRecoveryBonus": 1,
+        "FoodRecoveryBonus": 0,
+        "ArmoredMeleeBonus": 0,
+        "StaggerDamageBonus": 0,
+        "GuardDamageReduction": 0
+      }
+    },
+    {
+      "Id": "cook",
+      "DisplayName": "오정은",
+      "Health": 7,
+      "Aim": -10,
+      "BagCapacity": 4,
+      "CombatRole": "보급",
+      "Traits": {
+        "MoveHitBonus": 0,
+        "BandageRecoveryBonus": 0,
+        "FoodRecoveryBonus": 1,
+        "ArmoredMeleeBonus": 0,
+        "StaggerDamageBonus": 0,
+        "GuardDamageReduction": 0
+      }
+    },
+    {
+      "Id": "researcher",
+      "DisplayName": "백소담",
+      "Health": 5,
+      "Aim": 5,
+      "BagCapacity": 3,
+      "CombatRole": "분석",
+      "Traits": {
+        "MoveHitBonus": 0,
+        "BandageRecoveryBonus": 0,
+        "FoodRecoveryBonus": 0,
+        "ArmoredMeleeBonus": 0,
+        "StaggerDamageBonus": 1,
+        "GuardDamageReduction": 0
+      }
+    },
+    {
+      "Id": "guard",
+      "DisplayName": "임태오",
+      "Health": 8,
+      "Aim": 0,
+      "BagCapacity": 2,
+      "CombatRole": "버팀",
+      "Traits": {
+        "MoveHitBonus": 0,
+        "BandageRecoveryBonus": 0,
+        "FoodRecoveryBonus": 0,
+        "ArmoredMeleeBonus": 0,
+        "StaggerDamageBonus": 0,
+        "GuardDamageReduction": 1
+      }
+    }
+  ],
+  "CreatureProfiles": [
+    {
+      "Id": "01-door-bearer",
+      "Name": "문지기",
+      "Role": "방어형",
+      "Health": 8,
+      "Damage": 1,
+      "Armor": 0,
+      "FrontArmor": 1,
+      "ShotArmor": 0,
+      "ShotEvasion": 0,
+      "HitChance": 70,
+      "Attack": "Shove",
+      "Gait": "Slow",
+      "StartDepth": 1,
+      "HoldDepth": 0,
+      "Weight": 2,
+      "MinRegionTier": 1,
+      "SuppressReinforcements": false
+    },
+    {
+      "Id": "02-listener",
+      "Name": "귀기울임",
+      "Role": "원거리형",
+      "Health": 6,
+      "Damage": 2,
+      "Armor": 0,
+      "FrontArmor": 0,
+      "ShotArmor": 0,
+      "ShotEvasion": 0,
+      "HitChance": 75,
+      "Attack": "Listen",
+      "Gait": "Walk",
+      "StartDepth": 1,
+      "HoldDepth": 0,
+      "Weight": 0,
+      "MinRegionTier": 0,
+      "SuppressReinforcements": true
+    },
+    {
+      "Id": "03-under-table",
+      "Name": "식탁밑",
+      "Role": "공격형",
+      "Health": 5,
+      "Damage": 2,
+      "Armor": 0,
+      "FrontArmor": 0,
+      "ShotArmor": 0,
+      "ShotEvasion": 0,
+      "HitChance": 70,
+      "Attack": "Pounce",
+      "Gait": "Walk",
+      "StartDepth": 1,
+      "HoldDepth": 0,
+      "Weight": 3,
+      "MinRegionTier": 1,
+      "SuppressReinforcements": false
+    },
+    {
+      "Id": "04-seam-hound",
+      "Name": "틈새개",
+      "Role": "공격형",
+      "Health": 4,
+      "Damage": 3,
+      "Armor": 0,
+      "FrontArmor": 0,
+      "ShotArmor": 0,
+      "ShotEvasion": 0,
+      "HitChance": 70,
+      "Attack": "Charge",
+      "Gait": "Fast",
+      "StartDepth": 2,
+      "HoldDepth": 0,
+      "Weight": 3,
+      "MinRegionTier": 1,
+      "SuppressReinforcements": false
+    },
+    {
+      "Id": "05-laundry",
+      "Name": "널린것",
+      "Role": "방해형",
+      "Health": 5,
+      "Damage": 1,
+      "Armor": 0,
+      "FrontArmor": 0,
+      "ShotArmor": 1,
+      "ShotEvasion": 0,
+      "HitChance": 70,
+      "Attack": "Veil",
+      "Gait": "Walk",
+      "StartDepth": 1,
+      "HoldDepth": 0,
+      "Weight": 2,
+      "MinRegionTier": 2,
+      "SuppressReinforcements": false
+    },
+    {
+      "Id": "06-meter-keeper",
+      "Name": "계량원",
+      "Role": "원거리형",
+      "Health": 4,
+      "Damage": 2,
+      "Armor": 0,
+      "FrontArmor": 0,
+      "ShotArmor": 0,
+      "ShotEvasion": 0,
+      "HitChance": 70,
+      "Attack": "Wire",
+      "Gait": "Slow",
+      "StartDepth": 1,
+      "HoldDepth": 0,
+      "Weight": 2,
+      "MinRegionTier": 2,
+      "SuppressReinforcements": false
+    },
+    {
+      "Id": "07-moth-nest",
+      "Name": "먼지둥지",
+      "Role": "방해형",
+      "Health": 4,
+      "Damage": 1,
+      "Armor": 0,
+      "FrontArmor": 0,
+      "ShotArmor": 0,
+      "ShotEvasion": 20,
+      "HitChance": 70,
+      "Attack": "Swarm",
+      "Gait": "Fast",
+      "StartDepth": 2,
+      "HoldDepth": 0,
+      "Weight": 2,
+      "MinRegionTier": 1,
+      "SuppressReinforcements": false
+    },
+    {
+      "Id": "08-puddle",
+      "Name": "고인사람",
+      "Role": "방해형",
+      "Health": 6,
+      "Damage": 1,
+      "Armor": 0,
+      "FrontArmor": 0,
+      "ShotArmor": 1,
+      "ShotEvasion": 0,
+      "HitChance": 70,
+      "Attack": "Grab",
+      "Gait": "Slow",
+      "StartDepth": 1,
+      "HoldDepth": 0,
+      "Weight": 2,
+      "MinRegionTier": 2,
+      "SuppressReinforcements": false
+    },
+    {
+      "Id": "09-stairback",
+      "Name": "계단등",
+      "Role": "방어형",
+      "Health": 8,
+      "Damage": 2,
+      "Armor": 1,
+      "FrontArmor": 0,
+      "ShotArmor": 0,
+      "ShotEvasion": 0,
+      "HitChance": 70,
+      "Attack": "Collapse",
+      "Gait": "Slow",
+      "StartDepth": 1,
+      "HoldDepth": 0,
+      "Weight": 1,
+      "MinRegionTier": 3,
+      "SuppressReinforcements": false
+    },
+    {
+      "Id": "10-twin-coat",
+      "Name": "겹친이웃",
+      "Role": "공격형",
+      "Health": 6,
+      "Damage": 2,
+      "Armor": 0,
+      "FrontArmor": 0,
+      "ShotArmor": 0,
+      "ShotEvasion": 0,
+      "HitChance": 70,
+      "Attack": "Twin",
+      "Gait": "Walk",
+      "StartDepth": 1,
+      "HoldDepth": 0,
+      "Weight": 2,
+      "MinRegionTier": 2,
+      "SuppressReinforcements": false
+    },
+    {
+      "Id": "11-root-receiver",
+      "Name": "수신목",
+      "Role": "지원형",
+      "Health": 4,
+      "Damage": 0,
+      "Armor": 0,
+      "FrontArmor": 0,
+      "ShotArmor": 0,
+      "ShotEvasion": 0,
+      "HitChance": 70,
+      "Attack": "Broadcast",
+      "Gait": "Rooted",
+      "StartDepth": 2,
+      "HoldDepth": 2,
+      "Weight": 1,
+      "MinRegionTier": 3,
+      "SuppressReinforcements": false
+    },
+    {
+      "Id": "12-bellied-cart",
+      "Name": "빈수레",
+      "Role": "공격형",
+      "Health": 6,
+      "Damage": 2,
+      "Armor": 0,
+      "FrontArmor": 0,
+      "ShotArmor": 0,
+      "ShotEvasion": 0,
+      "HitChance": 70,
+      "Attack": "Ram",
+      "Gait": "Walk",
+      "StartDepth": 1,
+      "HoldDepth": 0,
+      "Weight": 1,
+      "MinRegionTier": 3,
+      "SuppressReinforcements": false
+    }
+  ],
+  "Rows": [
+    {
+      "Scenario": "intro-infected-1",
+      "Label": "시작 부상 2명 · 감염자 1",
+      "Policy": "read-and-dodge",
+      "Seeds": 250,
+      "Wins": 250,
+      "Losses": 0,
+      "Stalls": 0,
+      "RunsWithDown": 0,
+      "RunsWithReinforcement": 0,
+      "MaxRounds": 5,
+      "WinRate": 1.0,
+      "LossRate": 0.0,
+      "DownRate": 0.0,
+      "StallRate": 0.0,
+      "MeanDownMembers": 0.0,
+      "MeanRounds": 2.096,
+      "P95Rounds": 3.0,
+      "MeanHealthLost": 0.096,
+      "MeanShots": 1.22,
+      "MeanNoise": 2.22,
+      "MeanReinforcements": 0.0,
+      "MeanDodges": 0.0,
+      "MeanGuards": 0.952,
+      "MeanMelee": 1.332,
+      "Inputs": {
+        "Party": [
+          "scout",
+          "medic"
+        ],
+        "MaxHealth": [
+          6,
+          6
+        ],
+        "StartingHealth": [
+          5,
+          5
+        ],
+        "Ammo": [
+          2,
+          0
+        ],
+        "TotalAmmo": 2,
+        "Creatures": null,
+        "Infected": 1,
+        "RegionTier": 0,
+        "Stress": false,
+        "MaxReinforcements": 1,
+        "MaxEnemies": 3
+      },
+      "ReproductionExamples": [],
+      "Findings": []
+    },
+    {
+      "Scenario": "intro-infected-1",
+      "Label": "시작 부상 2명 · 감염자 1",
+      "Policy": "ignore-warnings",
+      "Seeds": 250,
+      "Wins": 250,
+      "Losses": 0,
+      "Stalls": 0,
+      "RunsWithDown": 0,
+      "RunsWithReinforcement": 0,
+      "MaxRounds": 5,
+      "WinRate": 1.0,
+      "LossRate": 0.0,
+      "DownRate": 0.0,
+      "StallRate": 0.0,
+      "MeanDownMembers": 0.0,
+      "MeanRounds": 2.096,
+      "P95Rounds": 3.0,
+      "MeanHealthLost": 0.096,
+      "MeanShots": 1.22,
+      "MeanNoise": 2.22,
+      "MeanReinforcements": 0.0,
+      "MeanDodges": 0.0,
+      "MeanGuards": 0.952,
+      "MeanMelee": 1.332,
+      "Inputs": {
+        "Party": [
+          "scout",
+          "medic"
+        ],
+        "MaxHealth": [
+          6,
+          6
+        ],
+        "StartingHealth": [
+          5,
+          5
+        ],
+        "Ammo": [
+          2,
+          0
+        ],
+        "TotalAmmo": 2,
+        "Creatures": null,
+        "Infected": 1,
+        "RegionTier": 0,
+        "Stress": false,
+        "MaxReinforcements": 1,
+        "MaxEnemies": 3
+      },
+      "ReproductionExamples": [],
+      "Findings": []
+    },
+    {
+      "Scenario": "intro-infected-2",
+      "Label": "시작 부상 2명 · 감염자 2",
+      "Policy": "read-and-dodge",
+      "Seeds": 250,
+      "Wins": 250,
+      "Losses": 0,
+      "Stalls": 0,
+      "RunsWithDown": 0,
+      "RunsWithReinforcement": 0,
+      "MaxRounds": 5,
+      "WinRate": 1.0,
+      "LossRate": 0.0,
+      "DownRate": 0.0,
+      "StallRate": 0.0,
+      "MeanDownMembers": 0.0,
+      "MeanRounds": 3.496,
+      "P95Rounds": 4.0,
+      "MeanHealthLost": 0.4,
+      "MeanShots": 1.664,
+      "MeanNoise": 2.664,
+      "MeanReinforcements": 0.0,
+      "MeanDodges": 0.0,
+      "MeanGuards": 1.632,
+      "MeanMelee": 3.264,
+      "Inputs": {
+        "Party": [
+          "scout",
+          "medic"
+        ],
+        "MaxHealth": [
+          6,
+          6
+        ],
+        "StartingHealth": [
+          5,
+          5
+        ],
+        "Ammo": [
+          2,
+          0
+        ],
+        "TotalAmmo": 2,
+        "Creatures": null,
+        "Infected": 2,
+        "RegionTier": 0,
+        "Stress": false,
+        "MaxReinforcements": 1,
+        "MaxEnemies": 3
+      },
+      "ReproductionExamples": [],
+      "Findings": []
+    },
+    {
+      "Scenario": "intro-infected-2",
+      "Label": "시작 부상 2명 · 감염자 2",
+      "Policy": "ignore-warnings",
+      "Seeds": 250,
+      "Wins": 250,
+      "Losses": 0,
+      "Stalls": 0,
+      "RunsWithDown": 0,
+      "RunsWithReinforcement": 0,
+      "MaxRounds": 5,
+      "WinRate": 1.0,
+      "LossRate": 0.0,
+      "DownRate": 0.0,
+      "StallRate": 0.0,
+      "MeanDownMembers": 0.0,
+      "MeanRounds": 3.496,
+      "P95Rounds": 4.0,
+      "MeanHealthLost": 0.4,
+      "MeanShots": 1.664,
+      "MeanNoise": 2.664,
+      "MeanReinforcements": 0.0,
+      "MeanDodges": 0.0,
+      "MeanGuards": 1.632,
+      "MeanMelee": 3.264,
+      "Inputs": {
+        "Party": [
+          "scout",
+          "medic"
+        ],
+        "MaxHealth": [
+          6,
+          6
+        ],
+        "StartingHealth": [
+          5,
+          5
+        ],
+        "Ammo": [
+          2,
+          0
+        ],
+        "TotalAmmo": 2,
+        "Creatures": null,
+        "Infected": 2,
+        "RegionTier": 0,
+        "Stress": false,
+        "MaxReinforcements": 1,
+        "MaxEnemies": 3
+      },
+      "ReproductionExamples": [],
+      "Findings": []
+    },
+    {
+      "Scenario": "resident-1",
+      "Label": "시작 부상 2명 · 관리실 그것 1",
+      "Policy": "read-and-dodge",
+      "Seeds": 250,
+      "Wins": 250,
+      "Losses": 0,
+      "Stalls": 0,
+      "RunsWithDown": 0,
+      "RunsWithReinforcement": 0,
+      "MaxRounds": 9,
+      "WinRate": 1.0,
+      "LossRate": 0.0,
+      "DownRate": 0.0,
+      "StallRate": 0.0,
+      "MeanDownMembers": 0.0,
+      "MeanRounds": 3.816,
+      "P95Rounds": 7.0,
+      "MeanHealthLost": 0.2,
+      "MeanShots": 2.0,
+      "MeanNoise": 3.0,
+      "MeanReinforcements": 0.0,
+      "MeanDodges": 1.0,
+      "MeanGuards": 3.66,
+      "MeanMelee": 1.152,
+      "Inputs": {
+        "Party": [
+          "scout",
+          "medic"
+        ],
+        "MaxHealth": [
+          6,
+          6
+        ],
+        "StartingHealth": [
+          5,
+          5
+        ],
+        "Ammo": [
+          2,
+          0
+        ],
+        "TotalAmmo": 2,
+        "Creatures": [
+          "02-listener"
+        ],
+        "Infected": 0,
+        "RegionTier": 0,
+        "Stress": false,
+        "MaxReinforcements": 0,
+        "MaxEnemies": 3
+      },
+      "ReproductionExamples": [],
+      "Findings": []
+    },
+    {
+      "Scenario": "resident-1",
+      "Label": "시작 부상 2명 · 관리실 그것 1",
+      "Policy": "ignore-warnings",
+      "Seeds": 250,
+      "Wins": 250,
+      "Losses": 0,
+      "Stalls": 0,
+      "RunsWithDown": 0,
+      "RunsWithReinforcement": 0,
+      "MaxRounds": 6,
+      "WinRate": 1.0,
+      "LossRate": 0.0,
+      "DownRate": 0.0,
+      "StallRate": 0.0,
+      "MeanDownMembers": 0.0,
+      "MeanRounds": 3.4,
+      "P95Rounds": 5.0,
+      "MeanHealthLost": 1.292,
+      "MeanShots": 2.0,
+      "MeanNoise": 3.0,
+      "MeanReinforcements": 0.0,
+      "MeanDodges": 0.0,
+      "MeanGuards": 2.74,
+      "MeanMelee": 1.372,
+      "Inputs": {
+        "Party": [
+          "scout",
+          "medic"
+        ],
+        "MaxHealth": [
+          6,
+          6
+        ],
+        "StartingHealth": [
+          5,
+          5
+        ],
+        "Ammo": [
+          2,
+          0
+        ],
+        "TotalAmmo": 2,
+        "Creatures": [
+          "02-listener"
+        ],
+        "Infected": 0,
+        "RegionTier": 0,
+        "Stress": false,
+        "MaxReinforcements": 0,
+        "MaxEnemies": 3
+      },
+      "ReproductionExamples": [],
+      "Findings": []
+    },
+    {
+      "Scenario": "tier1-defender-assault",
+      "Label": "3명 · 방어+공격",
+      "Policy": "read-and-dodge",
+      "Seeds": 250,
+      "Wins": 250,
+      "Losses": 0,
+      "Stalls": 0,
+      "RunsWithDown": 0,
+      "RunsWithReinforcement": 250,
+      "MaxRounds": 10,
+      "WinRate": 1.0,
+      "LossRate": 0.0,
+      "DownRate": 0.0,
+      "StallRate": 0.0,
+      "MeanDownMembers": 0.0,
+      "MeanRounds": 5.316,
+      "P95Rounds": 8.0,
+      "MeanHealthLost": 3.224,
+      "MeanShots": 3.612,
+      "MeanNoise": 4.612,
+      "MeanReinforcements": 1.0,
+      "MeanDodges": 0.332,
+      "MeanGuards": 4.74,
+      "MeanMelee": 6.748,
+      "Inputs": {
+        "Party": [
+          "scout",
+          "medic",
+          "mechanic"
+        ],
+        "MaxHealth": [
+          6,
+          6,
+          6
+        ],
+        "StartingHealth": [
+          6,
+          6,
+          6
+        ],
+        "Ammo": [
+          2,
+          1,
+          1
+        ],
+        "TotalAmmo": 4,
+        "Creatures": [
+          "01-door-bearer",
+          "04-seam-hound"
+        ],
+        "Infected": 0,
+        "RegionTier": 1,
+        "Stress": false,
+        "MaxReinforcements": 1,
+        "MaxEnemies": 3
+      },
+      "ReproductionExamples": [],
+      "Findings": []
+    },
+    {
+      "Scenario": "tier1-defender-assault",
+      "Label": "3명 · 방어+공격",
+      "Policy": "ignore-warnings",
+      "Seeds": 250,
+      "Wins": 250,
+      "Losses": 0,
+      "Stalls": 0,
+      "RunsWithDown": 1,
+      "RunsWithReinforcement": 250,
+      "MaxRounds": 8,
+      "WinRate": 1.0,
+      "LossRate": 0.0,
+      "DownRate": 0.004,
+      "StallRate": 0.0,
+      "MeanDownMembers": 0.004,
+      "MeanRounds": 4.848,
+      "P95Rounds": 7.0,
+      "MeanHealthLost": 4.716,
+      "MeanShots": 3.94,
+      "MeanNoise": 4.94,
+      "MeanReinforcements": 1.0,
+      "MeanDodges": 0.0,
+      "MeanGuards": 3.276,
+      "MeanMelee": 6.484,
+      "Inputs": {
+        "Party": [
+          "scout",
+          "medic",
+          "mechanic"
+        ],
+        "MaxHealth": [
+          6,
+          6,
+          6
+        ],
+        "StartingHealth": [
+          6,
+          6,
+          6
+        ],
+        "Ammo": [
+          2,
+          1,
+          1
+        ],
+        "TotalAmmo": 4,
+        "Creatures": [
+          "01-door-bearer",
+          "04-seam-hound"
+        ],
+        "Infected": 0,
+        "RegionTier": 1,
+        "Stress": false,
+        "MaxReinforcements": 1,
+        "MaxEnemies": 3
+      },
+      "ReproductionExamples": [
+        {
+          "Seed": 281080,
+          "Rounds": 6,
+          "Steps": 26,
+          "DownMembers": 1,
+          "HealthLost": 6,
+          "Shots": 4,
+          "Noise": 5,
+          "Reinforcements": 1,
+          "Dodges": 0,
+          "Guards": 6,
+          "Melee": 6,
+          "Outcome": "Victory",
+          "Stalled": false,
+          "RemainingHealth": [
+            6,
+            6,
+            0
+          ]
+        }
+      ],
+      "Findings": []
+    },
+    {
+      "Scenario": "tier1-assault-disruption",
+      "Label": "3명 · 공격+방해",
+      "Policy": "read-and-dodge",
+      "Seeds": 250,
+      "Wins": 250,
+      "Losses": 0,
+      "Stalls": 0,
+      "RunsWithDown": 0,
+      "RunsWithReinforcement": 243,
+      "MaxRounds": 8,
+      "WinRate": 1.0,
+      "LossRate": 0.0,
+      "DownRate": 0.0,
+      "StallRate": 0.0,
+      "MeanDownMembers": 0.0,
+      "MeanRounds": 4.436,
+      "P95Rounds": 7.0,
+      "MeanHealthLost": 0.844,
+      "MeanShots": 3.812,
+      "MeanNoise": 4.812,
+      "MeanReinforcements": 0.972,
+      "MeanDodges": 0.72,
+      "MeanGuards": 3.696,
+      "MeanMelee": 4.96,
+      "Inputs": {
+        "Party": [
+          "scout",
+          "cook",
+          "guard"
+        ],
+        "MaxHealth": [
+          6,
+          7,
+          8
+        ],
+        "StartingHealth": [
+          6,
+          7,
+          8
+        ],
+        "Ammo": [
+          2,
+          1,
+          1
+        ],
+        "TotalAmmo": 4,
+        "Creatures": [
+          "03-under-table",
+          "07-moth-nest"
+        ],
+        "Infected": 0,
+        "RegionTier": 1,
+        "Stress": false,
+        "MaxReinforcements": 1,
+        "MaxEnemies": 3
+      },
+      "ReproductionExamples": [],
+      "Findings": []
+    },
+    {
+      "Scenario": "tier1-assault-disruption",
+      "Label": "3명 · 공격+방해",
+      "Policy": "ignore-warnings",
+      "Seeds": 250,
+      "Wins": 250,
+      "Losses": 0,
+      "Stalls": 0,
+      "RunsWithDown": 0,
+      "RunsWithReinforcement": 243,
+      "MaxRounds": 7,
+      "WinRate": 1.0,
+      "LossRate": 0.0,
+      "DownRate": 0.0,
+      "StallRate": 0.0,
+      "MeanDownMembers": 0.0,
+      "MeanRounds": 4.284,
+      "P95Rounds": 6.0,
+      "MeanHealthLost": 1.856,
+      "MeanShots": 3.86,
+      "MeanNoise": 4.86,
+      "MeanReinforcements": 0.972,
+      "MeanDodges": 0.0,
+      "MeanGuards": 3.008,
+      "MeanMelee": 5.156,
+      "Inputs": {
+        "Party": [
+          "scout",
+          "cook",
+          "guard"
+        ],
+        "MaxHealth": [
+          6,
+          7,
+          8
+        ],
+        "StartingHealth": [
+          6,
+          7,
+          8
+        ],
+        "Ammo": [
+          2,
+          1,
+          1
+        ],
+        "TotalAmmo": 4,
+        "Creatures": [
+          "03-under-table",
+          "07-moth-nest"
+        ],
+        "Infected": 0,
+        "RegionTier": 1,
+        "Stress": false,
+        "MaxReinforcements": 1,
+        "MaxEnemies": 3
+      },
+      "ReproductionExamples": [],
+      "Findings": []
+    },
+    {
+      "Scenario": "tier2-ranged-disruption",
+      "Label": "신규 3명 · 원거리+방해",
+      "Policy": "read-and-dodge",
+      "Seeds": 250,
+      "Wins": 250,
+      "Losses": 0,
+      "Stalls": 0,
+      "RunsWithDown": 0,
+      "RunsWithReinforcement": 250,
+      "MaxRounds": 10,
+      "WinRate": 1.0,
+      "LossRate": 0.0,
+      "DownRate": 0.0,
+      "StallRate": 0.0,
+      "MeanDownMembers": 0.0,
+      "MeanRounds": 4.956,
+      "P95Rounds": 7.0,
+      "MeanHealthLost": 0.356,
+      "MeanShots": 3.728,
+      "MeanNoise": 4.728,
+      "MeanReinforcements": 1.0,
+      "MeanDodges": 2.012,
+      "MeanGuards": 4.464,
+      "MeanMelee": 5.768,
+      "Inputs": {
+        "Party": [
+          "mechanic",
+          "cook",
+          "researcher"
+        ],
+        "MaxHealth": [
+          6,
+          7,
+          5
+        ],
+        "StartingHealth": [
+          6,
+          7,
+          5
+        ],
+        "Ammo": [
+          1,
+          1,
+          2
+        ],
+        "TotalAmmo": 4,
+        "Creatures": [
+          "06-meter-keeper",
+          "08-puddle"
+        ],
+        "Infected": 0,
+        "RegionTier": 2,
+        "Stress": false,
+        "MaxReinforcements": 1,
+        "MaxEnemies": 3
+      },
+      "ReproductionExamples": [],
+      "Findings": []
+    },
+    {
+      "Scenario": "tier2-ranged-disruption",
+      "Label": "신규 3명 · 원거리+방해",
+      "Policy": "ignore-warnings",
+      "Seeds": 250,
+      "Wins": 250,
+      "Losses": 0,
+      "Stalls": 0,
+      "RunsWithDown": 5,
+      "RunsWithReinforcement": 250,
+      "MaxRounds": 8,
+      "WinRate": 1.0,
+      "LossRate": 0.0,
+      "DownRate": 0.02,
+      "StallRate": 0.0,
+      "MeanDownMembers": 0.02,
+      "MeanRounds": 4.516,
+      "P95Rounds": 6.0,
+      "MeanHealthLost": 2.296,
+      "MeanShots": 3.592,
+      "MeanNoise": 4.592,
+      "MeanReinforcements": 1.0,
+      "MeanDodges": 0.0,
+      "MeanGuards": 2.856,
+      "MeanMelee": 6.104,
+      "Inputs": {
+        "Party": [
+          "mechanic",
+          "cook",
+          "researcher"
+        ],
+        "MaxHealth": [
+          6,
+          7,
+          5
+        ],
+        "StartingHealth": [
+          6,
+          7,
+          5
+        ],
+        "Ammo": [
+          1,
+          1,
+          2
+        ],
+        "TotalAmmo": 4,
+        "Creatures": [
+          "06-meter-keeper",
+          "08-puddle"
+        ],
+        "Infected": 0,
+        "RegionTier": 2,
+        "Stress": false,
+        "MaxReinforcements": 1,
+        "MaxEnemies": 3
+      },
+      "ReproductionExamples": [
+        {
+          "Seed": 300972,
+          "Rounds": 6,
+          "Steps": 27,
+          "DownMembers": 1,
+          "HealthLost": 7,
+          "Shots": 4,
+          "Noise": 5,
+          "Reinforcements": 1,
+          "Dodges": 0,
+          "Guards": 4,
+          "Melee": 8,
+          "Outcome": "Victory",
+          "Stalled": false,
+          "RemainingHealth": [
+            4,
+            7,
+            0
+          ]
+        },
+        {
+          "Seed": 301018,
+          "Rounds": 5,
+          "Steps": 21,
+          "DownMembers": 1,
+          "HealthLost": 7,
+          "Shots": 3,
+          "Noise": 4,
+          "Reinforcements": 1,
+          "Dodges": 0,
+          "Guards": 2,
+          "Melee": 7,
+          "Outcome": "Victory",
+          "Stalled": false,
+          "RemainingHealth": [
+            4,
+            7,
+            0
+          ]
+        }
+      ],
+      "Findings": []
+    },
+    {
+      "Scenario": "tier2-three-roles",
+      "Label": "4명 · 방어+방해+공격",
+      "Policy": "read-and-dodge",
+      "Seeds": 250,
+      "Wins": 250,
+      "Losses": 0,
+      "Stalls": 0,
+      "RunsWithDown": 1,
+      "RunsWithReinforcement": 250,
+      "MaxRounds": 13,
+      "WinRate": 1.0,
+      "LossRate": 0.0,
+      "DownRate": 0.004,
+      "StallRate": 0.0,
+      "MeanDownMembers": 0.004,
+      "MeanRounds": 7.908,
+      "P95Rounds": 11.0,
+      "MeanHealthLost": 1.356,
+      "MeanShots": 3.556,
+      "MeanNoise": 4.556,
+      "MeanReinforcements": 1.0,
+      "MeanDodges": 2.064,
+      "MeanGuards": 13.636,
+      "MeanMelee": 12.576,
+      "Inputs": {
+        "Party": [
+          "scout",
+          "medic",
+          "mechanic",
+          "guard"
+        ],
+        "MaxHealth": [
+          6,
+          6,
+          6,
+          8
+        ],
+        "StartingHealth": [
+          6,
+          6,
+          6,
+          8
+        ],
+        "Ammo": [
+          2,
+          0,
+          1,
+          1
+        ],
+        "TotalAmmo": 4,
+        "Creatures": [
+          "01-door-bearer",
+          "05-laundry",
+          "10-twin-coat"
+        ],
+        "Infected": 0,
+        "RegionTier": 2,
+        "Stress": false,
+        "MaxReinforcements": 1,
+        "MaxEnemies": 3
+      },
+      "ReproductionExamples": [
+        {
+          "Seed": 311008,
+          "Rounds": 12,
+          "Steps": 77,
+          "DownMembers": 1,
+          "HealthLost": 7,
+          "Shots": 4,
+          "Noise": 5,
+          "Reinforcements": 1,
+          "Dodges": 3,
+          "Guards": 26,
+          "Melee": 16,
+          "Outcome": "Victory",
+          "Stalled": false,
+          "RemainingHealth": [
+            5,
+            6,
+            0,
+            8
+          ]
+        }
+      ],
+      "Findings": []
+    },
+    {
+      "Scenario": "tier2-three-roles",
+      "Label": "4명 · 방어+방해+공격",
+      "Policy": "ignore-warnings",
+      "Seeds": 250,
+      "Wins": 250,
+      "Losses": 0,
+      "Stalls": 0,
+      "RunsWithDown": 13,
+      "RunsWithReinforcement": 249,
+      "MaxRounds": 11,
+      "WinRate": 1.0,
+      "LossRate": 0.0,
+      "DownRate": 0.052,
+      "StallRate": 0.0,
+      "MeanDownMembers": 0.056,
+      "MeanRounds": 6.6,
+      "P95Rounds": 9.0,
+      "MeanHealthLost": 4.108,
+      "MeanShots": 3.66,
+      "MeanNoise": 4.66,
+      "MeanReinforcements": 0.996,
+      "MeanDodges": 0.0,
+      "MeanGuards": 7.872,
+      "MeanMelee": 12.976,
+      "Inputs": {
+        "Party": [
+          "scout",
+          "medic",
+          "mechanic",
+          "guard"
+        ],
+        "MaxHealth": [
+          6,
+          6,
+          6,
+          8
+        ],
+        "StartingHealth": [
+          6,
+          6,
+          6,
+          8
+        ],
+        "Ammo": [
+          2,
+          0,
+          1,
+          1
+        ],
+        "TotalAmmo": 4,
+        "Creatures": [
+          "01-door-bearer",
+          "05-laundry",
+          "10-twin-coat"
+        ],
+        "Infected": 0,
+        "RegionTier": 2,
+        "Stress": false,
+        "MaxReinforcements": 1,
+        "MaxEnemies": 3
+      },
+      "ReproductionExamples": [
+        {
+          "Seed": 310955,
+          "Rounds": 8,
+          "Steps": 46,
+          "DownMembers": 2,
+          "HealthLost": 14,
+          "Shots": 3,
+          "Noise": 4,
+          "Reinforcements": 1,
+          "Dodges": 0,
+          "Guards": 8,
+          "Melee": 19,
+          "Outcome": "Victory",
+          "Stalled": false,
+          "RemainingHealth": [
+            0,
+            4,
+            0,
+            8
+          ]
+        },
+        {
+          "Seed": 311079,
+          "Rounds": 8,
+          "Steps": 44,
+          "DownMembers": 1,
+          "HealthLost": 13,
+          "Shots": 3,
+          "Noise": 4,
+          "Reinforcements": 1,
+          "Dodges": 0,
+          "Guards": 10,
+          "Melee": 17,
+          "Outcome": "Victory",
+          "Stalled": false,
+          "RemainingHealth": [
+            0,
+            4,
+            1,
+            8
+          ]
+        }
+      ],
+      "Findings": []
+    },
+    {
+      "Scenario": "tier3-stress-support",
+      "Label": "신규 4명 · 심부 지원 혼합 스트레스",
+      "Policy": "read-and-dodge",
+      "Seeds": 250,
+      "Wins": 250,
+      "Losses": 0,
+      "Stalls": 0,
+      "RunsWithDown": 2,
+      "RunsWithReinforcement": 248,
+      "MaxRounds": 12,
+      "WinRate": 1.0,
+      "LossRate": 0.0,
+      "DownRate": 0.008,
+      "StallRate": 0.0,
+      "MeanDownMembers": 0.008,
+      "MeanRounds": 6.744,
+      "P95Rounds": 9.0,
+      "MeanHealthLost": 2.796,
+      "MeanShots": 5.76,
+      "MeanNoise": 7.424,
+      "MeanReinforcements": 0.992,
+      "MeanDodges": 2.564,
+      "MeanGuards": 10.192,
+      "MeanMelee": 9.064,
+      "Inputs": {
+        "Party": [
+          "mechanic",
+          "cook",
+          "researcher",
+          "guard"
+        ],
+        "MaxHealth": [
+          6,
+          7,
+          5,
+          8
+        ],
+        "StartingHealth": [
+          6,
+          7,
+          5,
+          8
+        ],
+        "Ammo": [
+          1,
+          1,
+          2,
+          2
+        ],
+        "TotalAmmo": 6,
+        "Creatures": [
+          "09-stairback",
+          "11-root-receiver",
+          "12-bellied-cart"
+        ],
+        "Infected": 0,
+        "RegionTier": 3,
+        "Stress": true,
+        "MaxReinforcements": 1,
+        "MaxEnemies": 3
+      },
+      "ReproductionExamples": [
+        {
+          "Seed": 321051,
+          "Rounds": 9,
+          "Steps": 57,
+          "DownMembers": 1,
+          "HealthLost": 7,
+          "Shots": 5,
+          "Noise": 6,
+          "Reinforcements": 1,
+          "Dodges": 3,
+          "Guards": 15,
+          "Melee": 13,
+          "Outcome": "Victory",
+          "Stalled": false,
+          "RemainingHealth": [
+            4,
+            7,
+            0,
+            8
+          ]
+        },
+        {
+          "Seed": 321143,
+          "Rounds": 7,
+          "Steps": 42,
+          "DownMembers": 1,
+          "HealthLost": 6,
+          "Shots": 5,
+          "Noise": 6,
+          "Reinforcements": 1,
+          "Dodges": 2,
+          "Guards": 11,
+          "Melee": 9,
+          "Outcome": "Victory",
+          "Stalled": false,
+          "RemainingHealth": [
+            5,
+            7,
+            0,
+            8
+          ]
+        }
+      ],
+      "Findings": []
+    },
+    {
+      "Scenario": "tier3-stress-support",
+      "Label": "신규 4명 · 심부 지원 혼합 스트레스",
+      "Policy": "ignore-warnings",
+      "Seeds": 250,
+      "Wins": 250,
+      "Losses": 0,
+      "Stalls": 0,
+      "RunsWithDown": 16,
+      "RunsWithReinforcement": 250,
+      "MaxRounds": 12,
+      "WinRate": 1.0,
+      "LossRate": 0.0,
+      "DownRate": 0.064,
+      "StallRate": 0.0,
+      "MeanDownMembers": 0.064,
+      "MeanRounds": 5.892,
+      "P95Rounds": 8.0,
+      "MeanHealthLost": 6.864,
+      "MeanShots": 5.596,
+      "MeanNoise": 7.26,
+      "MeanReinforcements": 1.0,
+      "MeanDodges": 0.0,
+      "MeanGuards": 5.868,
+      "MeanMelee": 10.18,
+      "Inputs": {
+        "Party": [
+          "mechanic",
+          "cook",
+          "researcher",
+          "guard"
+        ],
+        "MaxHealth": [
+          6,
+          7,
+          5,
+          8
+        ],
+        "StartingHealth": [
+          6,
+          7,
+          5,
+          8
+        ],
+        "Ammo": [
+          1,
+          1,
+          2,
+          2
+        ],
+        "TotalAmmo": 6,
+        "Creatures": [
+          "09-stairback",
+          "11-root-receiver",
+          "12-bellied-cart"
+        ],
+        "Infected": 0,
+        "RegionTier": 3,
+        "Stress": true,
+        "MaxReinforcements": 1,
+        "MaxEnemies": 3
+      },
+      "ReproductionExamples": [
+        {
+          "Seed": 320984,
+          "Rounds": 7,
+          "Steps": 38,
+          "DownMembers": 1,
+          "HealthLost": 14,
+          "Shots": 6,
+          "Noise": 7,
+          "Reinforcements": 1,
+          "Dodges": 0,
+          "Guards": 5,
+          "Melee": 14,
+          "Outcome": "Victory",
+          "Stalled": false,
+          "RemainingHealth": [
+            5,
+            1,
+            0,
+            6
+          ]
+        },
+        {
+          "Seed": 321118,
+          "Rounds": 7,
+          "Steps": 39,
+          "DownMembers": 1,
+          "HealthLost": 14,
+          "Shots": 5,
+          "Noise": 6,
+          "Reinforcements": 1,
+          "Dodges": 0,
+          "Guards": 6,
+          "Melee": 14,
+          "Outcome": "Victory",
+          "Stalled": false,
+          "RemainingHealth": [
+            3,
+            3,
+            0,
+            6
+          ]
+        }
+      ],
+      "Findings": []
+    }
+  ],
+  "Findings": []
+}

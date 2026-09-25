@@ -20,10 +20,12 @@ namespace Demo5.FrontEnd {
   // World children can also include a resident or a revealed NPC; only this list belongs to the expedition.
   public IReadOnlyList<GameObject> PartyPawns=>pawns;
   public ExpeditionNpcStory Story=>GetComponent<ExpeditionNpcStory>();
+  public MissingPersonStory MissingPerson=>owner?owner.MissingPerson:null;
+  public bool TutorialSkipped=>owner&&owner.TutorialSkipped;
   public bool IsOpen=>View.activeSelf; public bool InTransit{get;private set;}
   public IReadOnlyList<Adventurer> Participants=>people;
   Adventurer[] people=Array.Empty<Adventurer>();ExpeditionPlanPanel.Destination destination;SettlementController owner;bool returnPrompt;
-  public void Initialize(SettlementController c){owner=c;View.SetActive(false);World.SetActive(false);Popup.SetActive(false);Return.onClick.AddListener(AskReturn);PopupBack.onClick.AddListener(ClosePopup);ReturnConfirm.onClick.AddListener(ConfirmReturn);if(Rooms)Rooms.Initialize(this);if(Search)Search.Initialize(this);if(Loot)Loot.Initialize(this);if(Encounter)Encounter.Initialize(this);if(FieldBags)FieldBags.Initialize(this);if(Threat)Threat.Initialize(this);if(Story)Story.Initialize(c);for(int i=0;i<Objects.Length;i++){int k=i;Objects[i].onClick.AddListener(()=>Inspect(k));}}
+  public void Initialize(SettlementController c){owner=c;View.SetActive(false);World.SetActive(false);Popup.SetActive(false);Return.onClick.AddListener(AskReturn);PopupBack.onClick.AddListener(ClosePopup);ReturnConfirm.onClick.AddListener(ConfirmReturn);if(Rooms)Rooms.Initialize(this);if(Search)Search.Initialize(this);if(Loot)Loot.Initialize(this);if(Encounter)Encounter.Initialize(this);if(FieldBags)FieldBags.Initialize(this);if(Threat)Threat.Initialize(this);if(Story)Story.Initialize(c);for(int i=0;i<Objects.Length;i++){int k=i;Objects[i].onClick.AddListener(()=>Press(k));}}
   public bool Begin(Adventurer[] party,ExpeditionPlanPanel.Destination target){
    if(IsOpen||InTransit||target==null||target.Id!="mall"||party==null||party.Any(p=>owner.IsAssigned(p)||owner.InventoryPanel.SlotsFor(p)>p.BagCapacity))return false;
    int started=(owner.Campaign.Day-1)*1440+owner.Campaign.MinuteOfDay;
@@ -40,6 +42,9 @@ namespace Demo5.FrontEnd {
   }
   IEnumerator Arrive(){InTransit=true;Fade.gameObject.SetActive(true);Fade.alpha=1;Fade.blocksRaycasts=true;float t=0;while(t<.7f){t+=Time.unscaledDeltaTime;Fade.alpha=1-Mathf.Clamp01(t/.7f);yield return null;}Fade.gameObject.SetActive(false);InTransit=false;Main.interactable=Main.blocksRaycasts=true;}
   public void OpenPopup(string title,string body,bool returning=false){if(!IsOpen||InTransit||(Encounter&&Encounter.IsOpen))return;returnPrompt=returning;ReturnConfirm.GetComponentInChildren<Text>().text=returning?"귀환":"확인";PopupTitle.text=title;PopupBody.text=body;ReturnConfirm.gameObject.SetActive(returning);Popup.SetActive(true);Main.interactable=Main.blocksRaycasts=false;}
+  // 수색 쪽지 (FieldSearchNote · 기획/탐험-수색쪽지와-협동-1차.md): an object press asks Pressed first (the note beside the object);
+  // Inspect itself still opens the 07 window (the note's '자세히 >', the den door when no note takes it, the verify scripts).
+  public Func<int,bool> Pressed; public void Press(int index){if(Pressed!=null&&Pressed(index))return;Inspect(index);}
   public void Inspect(int index){if(!IsOpen||InTransit||(Encounter&&Encounter.IsOpen)||(Loot&&Loot.IsOpen)||(Search&&Search.IsOpen)||Popup.activeSelf||index<0||index>=ObjectNames.Length)return;if(Rooms&&index==3){if(Rooms.CurrentRoom==0)Rooms.AskMove();return;}if(!Loot.IsSiteInCurrentRoom(index))return;if(Rooms)Rooms.MarkInspected(index);if(Loot&&Loot.State(index).Complete){Loot.Open(index);return;}if(Search){Search.Open(index);return;}OpenPopup(ObjectNames[index],ObjectDescriptions[index]);}
   public void SpendFieldTime(int minutes){if(owner.Campaign.AdvanceFieldTime(minutes))Clock.text=owner.Campaign.ClockText;}
   public void RefreshFieldBags(){for(int i=0;i<Cards.Count;i++){Cards[i].State.text="가방 "+Inventory.SlotsFor(people[i])+" / "+people[i].BagCapacity;Cards[i].Health.text=people[i].Health+" / "+people[i].MaxHealth;SegmentedHealthGraphic.Set(Cards[i].HealthFill,people[i].Health,people[i].MaxHealth);}Resources.text="탄약 "+people.Sum(p=>Inventory.CountFor(p,"ammo"))+"  ·  붕대 "+people.Sum(p=>Inventory.CountFor(p,"bandage"));if(Threat&&Threat.Planner)Threat.Planner.Refresh();}
@@ -50,7 +55,7 @@ namespace Demo5.FrontEnd {
   public bool FinishReturn(){if(!IsOpen||!owner.Campaign.EndFieldExpedition(destination.OneWayMinutes))return false;if(Story)Story.OnReturn();if(Threat)Threat.End();Popup.SetActive(false);World.SetActive(false);View.SetActive(false);SettlementWorld.SetActive(true);owner.Main.gameObject.SetActive(true);owner.Main.interactable=owner.Main.blocksRaycasts=true;owner.Clock.text=owner.Campaign.ClockText;owner.RefreshMembers();owner.RefreshResources();owner.NoticeTitle.text="거점 귀환";owner.NoticeBody.text=destination.Name+"에서 돌아왔습니다.";if(owner.ReturnPanel)owner.ReturnPanel.Complete();return true;}
   public void ClosePopup(){if(Rooms)Rooms.CancelPending();Popup.SetActive(false);returnPrompt=false;Main.interactable=Main.blocksRaycasts=true;}
   public void SetRoomTransit(bool value){InTransit=value;Main.interactable=Main.blocksRaycasts=!value;}
-  void Update(){if(IsOpen&&!InTransit&&Keyboard.current!=null&&Keyboard.current.escapeKey.wasPressedThisFrame){if(Story&&Story.IsOpen)Story.Close();else if(FieldBags&&FieldBags.IsOpen)FieldBags.Close();else if(Encounter&&Encounter.IsOpen)Encounter.Escape();else if(Loot&&Loot.IsOpen)Loot.Escape();else if(Search&&Search.IsOpen)Search.Escape();else if(Popup.activeSelf)ClosePopup();else AskReturn();}}
+  void Update(){if(IsOpen&&!InTransit&&Keyboard.current!=null&&Keyboard.current.escapeKey.wasPressedThisFrame){if(MissingPerson&&MissingPerson.IsOpen)MissingPerson.Advance();else if(Story&&Story.IsOpen)Story.Close();else if(FieldBags&&FieldBags.IsOpen)FieldBags.Close();else if(Encounter&&Encounter.IsOpen)Encounter.Escape();else if(Loot&&Loot.IsOpen)Loot.Escape();else if(Search&&Search.IsOpen)Search.Escape();else if(Popup.activeSelf)ClosePopup();else AskReturn();}}
  }
 }
 

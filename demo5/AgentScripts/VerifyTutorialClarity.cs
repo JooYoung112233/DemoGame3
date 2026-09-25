@@ -7,6 +7,10 @@ public static class VerifyTutorialClarity {
   if(b.GetComponent<SettlementFacilityFocus>()){for(int y=1;y<10&&(hits.Count==0||hits[0].gameObject.GetComponentInParent<Button>()!=b);y++)for(int x=1;x<10;x++){e.position=RectTransformUtility.WorldToScreenPoint(cam,r.TransformPoint(new Vector2(r.rect.xMin+r.rect.width*x/10,r.rect.yMin+r.rect.height*y/10)));hits.Clear();EventSystem.current.RaycastAll(e,hits);if(hits.Count>0&&hits[0].gameObject.GetComponentInParent<Button>()==b)break;}}
   Check(hits.Count>0&&hits[0].gameObject.GetComponentInParent<Button>()==b,"Blocked "+b.name+" by "+hits.FirstOrDefault().gameObject?.name);ExecuteEvents.Execute(b.gameObject,e,ExecuteEvents.pointerClickHandler);await Task.Delay(250);
  }
+ // 말 놓기 (2026-09-25): on the room screen the guide's next press is a pawn, its silhouette, the second pawn, the co-op silhouette or '턴 진행'.
+ static string Kind(ExpeditionArrivalPanel a,Button t){var h=t?t.GetComponent<FieldPawnHandle>():null;if(h)return h.Role==FieldPawnHandle.Kind.Pawn?"pawn":"ghost";return t&&t==a.Threat.Planner.TurnButton?"turn":t?t.name:"-";}
+ // The story panel (SettlementTutorialNarrative) is not what this checks: mark it read so its Dim does not cover the guide.
+ static void Hush(){var s=C?C.GetComponent<SettlementTutorialNarrative>():null;if(s)s.Restore(new SavedTutorialNarrative{SeenMask=SavedTutorialNarrative.AllSeen,PendingBeat=-1});}
  static async Task Next(){await Task.Delay(60);Check(G.Target,"No next target: "+G.Guidance);await Tap(G.Target);}
  static async Task Shot(string name){Directory.CreateDirectory("Assets/Screenshots/TutorialClarity");ScreenCapture.CaptureScreenshot("Assets/Screenshots/TutorialClarity/"+name+".png");await Task.Delay(400);if(G&&G.Banner.activeSelf){Check(G.Title.preferredHeight<=G.Title.rectTransform.rect.height+1,"Guide title clipped");Check(G.Instruction.preferredHeight<=G.Instruction.rectTransform.rect.height+1,"Guide text clipped: "+G.Instruction.text);}}
  public static async Task<string> Start(){
@@ -15,35 +19,49 @@ public static class VerifyTutorialClarity {
   p.Toggle("mechanic");p.Preview("guard");Check(PartySelectionSession.Selected.SequenceEqual(new[]{"scout","medic"})&&p.FocusedCandidateId=="scout","Hidden starter bypass");
   Check(!p.Previous.gameObject.activeSelf&&!p.NextPage.gameObject.activeSelf,"Unnecessary pagination");
   await Tap(p.Cards[1].Button);Check(p.FocusedCandidateId=="medic"&&p.SelectedCount==2,"Click must preview without removing mandatory pair");await Shot("01-starting-pair");
-  await Tap(p.Continue);var h=Object.FindAnyObjectByType<HomeSelectionController>();await Tap(h.Cards[1].Button);await Tap(h.Continue);await Task.Delay(400);
+  await Tap(p.Continue);var h=Object.FindAnyObjectByType<HomeSelectionController>();await Tap(h.Cards[1].Button);await Tap(h.Continue);await Task.Delay(400);Hush();await Task.Delay(200);
   Check(C.Introduction.Step==0&&G.Target==C.Introduction.Action,"First action missing");await Shot("02-first-action");
   await Next();await Next();Check(C.Introduction.Step==2,"Initial actions did not progress");
   var save=CampaignPersistence.Capture(C);CampaignSaveStore.TestDirectory=Path.GetFullPath("Temp/TutorialClaritySave");try{Check(CampaignSaveStore.Write(0,save,C,out var error),error);var read=CampaignSaveStore.Read(0,C);Check(read.CanLoad,read.Error);CampaignPersistence.Prepare(read.Data,C);}finally{CampaignSaveStore.TestDirectory=null;}
   // Wait for the reloaded scene instead of a fixed delay (a busy editor can take longer than 0.5 s to load and run the guide once).
   SceneManager.LoadScene("Settlement");await Task.Delay(300);for(int i=0;i<60&&!(C&&C.Introduction&&C.Introduction.Step==2&&G&&G.Target==C.Introduction.Action);i++)await Task.Delay(100);Check(C.Introduction.Step==2&&G.Target==C.Introduction.Action,"Reload lost tutorial step");
-  await Next();Check(C.Introduction.Step==3&&G.Target==C.Bed,"Rest entry not highlighted");Check(!C.Workbench.gameObject.activeSelf&&!C.Stock.gameObject.activeSelf&&!C.Advance.gameObject.activeSelf,"Unlearned facilities shown");await Shot("03-rest-target");
-  await Next();Check(C.WorkPanel.IsOpen&&G.Target==C.WorkPanel.Rows[0].Button,"Rest worker target");await Shot("04-rest-worker");
-  await Next();Check(G.Target==C.WorkPanel.Confirm,"Rest confirm target");await Next();Check(C.WorkPanel.Orders.Count==1&&G.Target==C.Advance,"After reservation must guide time");await Shot("05-time-target");
-  await Next();Check(G.Target==C.TimePanel.Choices[3],"Next completion target");await Next();Check(G.Target==C.TimePanel.Confirm,"Time confirmation target");await Shot("06-time-confirm");await Next();Check(C.Introduction.Step==4&&G.Target==C.TimePanel.CloseButton,"Completion guide");await Next();
-  await Next();Check(C.InventoryPanel.IsOpen&&G.Target==C.InventoryPanel.CloseButton,"Stock lesson");await Next();Check(C.Introduction.Step==5&&G.Target==C.Introduction.Action,"First expedition goal");
+  // 2026-09-25 (the story tutorial): the rest/time/storage lessons were retired; step 2 leads straight to the first outing (step 5),
+  // and the guide points at the exit.
+  await Next();Check(C.Introduction.Step==5&&G.Target,"First expedition goal after clearing a spot: "+G.Guidance);await Shot("03-first-outing");
   await Next();for(int i=0;i<6&&!C.PackingPanel.IsOpen;i++)await Next();Check(C.PackingPanel.IsOpen&&C.ExpeditionPanel.Selected.Count==2,"Both survivors must be selected");await Shot("07-packing");
-  return "PASS only scout/medic start, hidden candidate cannot be selected/previewed, 2-card preview, real scene transitions, disk save/load step 2, one-next-click flow through rest/time/storage/expedition, both survivors selected. Paused at packing.";
+  return "PASS only scout/medic start, hidden candidate cannot be selected/previewed, 2-card preview, real scene transitions, disk save/load step 2, one-next-click flow to the expedition, both survivors selected. Paused at packing.";
  }
  public static async Task<string> FirstTrip(){
   Check(C.PackingPanel.IsOpen,"Start test first");await Next();await Next();for(int i=0;i<60&&C.ArrivalPanel.InTransit;i++)await Task.Delay(100);await Task.Delay(200);
-  Check(G.Target==C.ArrivalPanel.Objects[0],"First search target");await Next();await Shot("08-search-worker");
-  await Next();Check(G.Target==C.ArrivalPanel.Search.Choose,"Search proceed");
-  for(int i=0;i<20&&!C.ArrivalPanel.Loot.IsOpen;i++){
-   var a=C.ArrivalPanel;
-   if(a.Encounter.IsOpen){await Tap(a.Encounter.Wait);await Tap(a.Encounter.Confirm);}
-   else if(a.Search.IsOpen)await Next();else await Tap(a.Objects[0]);
+  var a=C.ArrivalPanel;var pl=a.Threat.Planner;Check(FieldPawnBoard.For(a),"Run BuildPawnBoard.Run first (the pawn board)");
+  // The crate: pick up a pawn, its silhouette, the second pawn, the co-op silhouette, '턴 진행' (one turn), then the finds.
+  var kinds=new List<string>();int turns=a.Rooms.Turns;
+  for(int i=0;i<8&&!a.Loot.IsOpen;i++){
+   await Task.Delay(120);Check(G.Target,"No next target: "+G.Guidance);var k=Kind(a,G.Target);kinds.Add(k);
+   if(i==0)await Shot("08-pick-pawn");if(k=="ghost"&&kinds.Count(x=>x=="ghost")==2)await Shot("08b-coop-silhouette");
+   int before=a.Rooms.Turns;await Tap(G.Target);if(k=="turn")Check(a.Rooms.Turns==before+1,"'턴 진행' = one turn");
+   Check(!a.Encounter.IsOpen,"The guided crate met something");
   }
-  Check(C.ArrivalPanel.Loot.IsOpen,"Search did not reach loot");await Shot("09-found-items");
-  var loot=C.ArrivalPanel.Loot;int safety=0;
+  Check(string.Join(",",kinds)=="pawn,ghost,pawn,ghost,turn","Guide order on the crate: "+string.Join(",",kinds));
+  Check(a.Loot.IsOpen&&a.Rooms.Turns==turns+1&&pl.LastCheck!=null&&pl.LastCheck.Runs.Count==1&&pl.LastCheck.Runs[0].Support>=0,"The co-op crate took one turn");await Shot("09-found-items");
+  var loot=a.Loot;int safety=0;
   while(loot.FieldRows.Count>0&&safety++<40){await Tap(loot.FieldRows[0].Button);if(!loot.Transfer.IsInteractable())await Tap(loot.Cards[1].Button);await Tap(loot.Max);await Tap(loot.Transfer);}
-  Check(loot.FieldRows.Count==0,"Loot did not fit");await Next();await Next();await Next();Check(C.ReturnPanel.IsOpen,"No return summary");await Next();await Next();
+  Check(loot.FieldRows.Count==0,"Loot did not fit");
+  // Then only the guide's next press to the return report (doors by gathering, the corridor crate co-op, the missing person's story).
+  var story=C.MissingPerson;var trace=new List<string>();
+  for(int i=0;i<120&&!C.ReturnPanel.IsOpen;i++){
+   await Task.Delay(90);
+   if(a.IsOpen&&a.InTransit){for(int w=0;w<80&&a.InTransit;w++)await Task.Delay(100);continue;}
+   Check(!(a.IsOpen&&a.Encounter.IsOpen),"The guided route met something: "+string.Join(" > ",trace.TakeLast(8)));
+   if(story&&story.IsOpen){trace.Add("story");await Tap(story.Next);continue;}
+   Check(G.Target,"No next target: "+G.Guidance+" after "+string.Join(" > ",trace.TakeLast(8)));
+   string k=a.IsOpen?Kind(a,G.Target):G.Target.name;trace.Add(k);
+   if(a.IsOpen&&k=="turn"){bool move=a.Rooms.HasQueuedMove;int before=a.Rooms.Turns,cost=move?a.Rooms.QueuedTurns:1;await Tap(G.Target);if(move)for(int w=0;w<80&&a.InTransit;w++)await Task.Delay(100);Check(a.Rooms.Turns==before+cost,"'턴 진행' = "+cost+" turn(s)");continue;}
+   await Tap(G.Target);
+  }
+  Check(C.ReturnPanel.IsOpen,"No return summary: "+string.Join(" > ",trace.TakeLast(10)));await Next();await Next();
   Check(C.Opening.State.FirstReturn,"First return not recorded");await Shot("10-return-goal");
-  return "PASS first expedition next-click guide, search assignment/turn confirmation, discovered items, actual loot transfer, return and next restoration goal.";
+  return "PASS first expedition by the guide only: pawn → silhouette → second pawn → co-op silhouette → '턴 진행' (one turn), discovered items, actual loot transfer, doors by gathering, return and next restoration goal ("+trace.Count+" more presses).";
  }
  public static async Task<string> Progression(){
   var c=C;Check(!c.CraftPanel.IsOpen&&!c.InventoryPanel.IsOpen,"Close panels first");

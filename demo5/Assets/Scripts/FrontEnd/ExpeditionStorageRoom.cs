@@ -5,7 +5,7 @@ namespace Demo5.FrontEnd {
  public sealed partial class ExpeditionRoomNavigation {
   public Vector3 StorageDoor=new Vector3(2.2f,.2f,0),StorageExit=new Vector3(-7,-.2f,0);
   [Min(1)] public int UnlockTurns=1;
-  [Min(0)] public int UnlockNoise=2;
+  [Tooltip("잠긴 문 따기 소음 (3 = 큰 소리: 그것이 보관실을 기억)")][Min(0)] public int UnlockNoise=3;
   public string UnlockTool="prybar";
   public Text StorageDoorStatus;
   void LateUpdate(){if(StorageDoorStatus&&owner&&owner.IsOpen){StorageDoorStatus.text=StorageUnlocked?"개방됨 · 보관실":"잠김 · 지렛대 필요";StorageDoorStatus.color=StorageUnlocked?new Color(1,.8f,.32f):new Color(.96f,.94f,.85f);}}
@@ -14,6 +14,10 @@ namespace Demo5.FrontEnd {
   // Back the way the party came: the corridor falls back to the arcade, the storage to the corridor, the arcade out of the exit (home).
   public string RetreatRoomName=>CurrentRoom==0?"출구":CurrentRoom==1?"오락실":"복도";
   Demo5.NightRun.Adventurer UnlockWorker()=>owner.Participants.FirstOrDefault(p=>p.Health>0&&owner.Inventory.CountFor(p,UnlockTool)>0);
+  // The storage door can be passed now: already open, or someone standing carries the tool (the pawn board's gather at the locked door).
+  public bool CanUnlock=>StorageUnlocked||owner&&UnlockWorker()!=null;
+  // The tool's display name (the grey pin's '{0} 필요').
+  public string UnlockToolName=>owner&&owner.Inventory!=null?owner.Inventory.Items.FirstOrDefault(i=>i.Id==UnlockTool)?.Name??UnlockTool:UnlockTool;
   public void AskStorage(){
    if(!owner.IsOpen||owner.InTransit||owner.Popup.activeSelf||owner.Search.IsOpen||owner.Loot.IsOpen||(owner.FieldBags&&owner.FieldBags.IsOpen)||(owner.Encounter&&owner.Encounter.IsOpen)||CurrentRoom!=1||!Storage)return;
    var worker=UnlockWorker();var item=owner.Inventory.Items.FirstOrDefault(i=>i.Id==UnlockTool);

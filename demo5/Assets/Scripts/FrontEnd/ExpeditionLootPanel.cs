@@ -7,7 +7,9 @@ using UnityEngine.UI;
 namespace Demo5.FrontEnd {
  public sealed partial class ExpeditionLootPanel:MonoBehaviour {
   [Serializable] public sealed class Drop {public string Id;public int Count=1;[Range(0,100)]public int Chance=70;}
-  [Serializable] public sealed class Site {public Drop[] Drops;public string RequiredTool;public int Room;}
+  // Noise: this object's noise on every turn it is searched (0 silent … 3 loud: the resident remembers the room). Turns: base search turns
+  // (0 = FieldTurnPlan.DefaultTurns). Data written by AgentScripts/BuildSiteNoise.cs; not saved (a running search keeps its stored Required).
+  [Serializable] public sealed class Site {public Drop[] Drops;public string RequiredTool;public int Room;[Tooltip("수색하는 턴마다 나는 소음 (0 조용함 · 3 큰 소리: 그것이 그 방을 기억)")][Range(0,3)]public int Noise;[Tooltip("기본 수색 턴 (0 = 2턴) · 함께 수색이면 1턴 빨리 (최소 1턴)")][Range(0,3)]public int Turns;}
   public sealed class SearchState {public int Progress,Required,Pace,Bonus,Duty;public bool Complete,Opened;public readonly Dictionary<string,int> Loot=new Dictionary<string,int>();}
   public Site[] Sites;public GameObject View,LeaveReview;public CanvasGroup Workspace;
   [Range(0,100)]public int LightBonus=20;
@@ -40,15 +42,32 @@ namespace Demo5.FrontEnd {
   public void Initialize(ExpeditionArrivalPanel a){arrival=a;View.SetActive(false);LeaveReview.SetActive(false);Back.onClick.AddListener(AskClose);Minus.onClick.AddListener(()=>{quantity=Math.Max(1,quantity-1);Detail();});Plus.onClick.AddListener(()=>{quantity=Math.Min(Limit(),quantity+1);Detail();});Max.onClick.AddListener(()=>{quantity=Limit();Detail();});Transfer.onClick.AddListener(Move);if(TakeAll)TakeAll.onClick.AddListener(TakeAllItems);LeaveCancel.onClick.AddListener(Dismiss);LeaveConfirm.onClick.AddListener(Close);}
   public bool IsSiteInCurrentRoom(int index)=>index>=0&&index<Sites.Length&&Sites[index].Room>=0&&arrival.Rooms.CurrentRoom==Sites[index].Room;
   public bool CanSearch(int index,Adventurer worker){if(!IsSiteInCurrentRoom(index)||worker==null||worker.Health<=0||!arrival.Participants.Contains(worker))return false;if(arrival.Threat&&!arrival.Threat.CanSearchSite(index))return false;return State(index).Opened||string.IsNullOrEmpty(Sites[index].RequiredTool)||arrival.Inventory.CountFor(worker,Sites[index].RequiredTool)>0;}
+  // pace: legacy (±15 only for a search started before 2026-09-25; new searches store 1). Use ChanceFor(drop,bonus) for new code.
+  public static int ChanceFor(Drop drop,int bonus)=>ChanceFor(drop,1,bonus);
   public static int ChanceFor(Drop drop,int pace,int bonus)=>drop.Chance>=100?100:Mathf.Clamp(drop.Chance+(pace-1)*15+bonus,0,100);
   public Adventurer LightSupport(Adventurer worker)=>worker==null?null:arrival.Participants.FirstOrDefault(p=>p!=worker&&p.Health>0&&arrival.Inventory.CountFor(p,"flashlight")>0);
-  public bool CanSupport(int duty,Adventurer worker)=>duty==0||duty==1&&arrival.Participants.Count(p=>p.Health>0)>1||duty==2&&LightSupport(worker)!=null;
-  public int BonusFor(int index,int duty)=>State(index).Progress>0?State(index).Bonus:duty==2?LightBonus:duty==0&&arrival.Participants.Count(p=>p.Health>0)>1?FieldTurnPlan.TogetherBonus:0;
-  public int NoiseFor(int pace,int duty)=>FieldTurnPlan.NoiseOf(pace,duty==1&&arrival.Participants.Count(p=>p.Health>0)>1);
-  public bool Advance(int index,int pace,Adventurer worker,int duty=0){if(!arrival.IsOpen||arrival.InTransit||(arrival.Encounter&&arrival.Encounter.IsOpen)||!IsSiteInCurrentRoom(index)||pace<0||pace>2||worker==null||worker.Health<=0||!arrival.Participants.Contains(worker))return false;var s=State(index);if(s.Complete||!CanSearch(index,worker)||!CanSupport(s.Progress>0?s.Duty:duty,worker))return false;s.Opened=true;if(s.Progress==0){s.Pace=pace;s.Duty=duty;s.Required=pace+1;s.Bonus=BonusFor(index,duty);}s.Progress++;arrival.Rooms.SpendSearchTurn(NoiseFor(s.Pace,s.Duty));
+  // Whether a role can run now (2026-09-25): only 조명 needs its helper, a flashlight holder, also on a running search. 함께 and 망보기 are
+  // optional as on the site board (FieldTurnPlan.Need): with no second living member the search goes on alone (a running 망보기 search at
+  // the object's full noise, NoiseFor). Whether the 07 window offers 망보기 for a new search: CanOfferWatch.
+  public bool CanSupport(int duty,Adventurer worker)=>duty==0||duty==1||duty==2&&LightSupport(worker)!=null;
+  // First visit (the 07 window, the note's '수색 · 1턴'): the rules of FieldTurnPlan on the site board. 함께: a second living member, one turn
+  // sooner; 망보기: a second living member on a noisy object, noise -1; 조명: a flashlight helper, +LightBonus. A running search keeps its own.
+  public int AliveCount=>arrival.Participants.Count(p=>p.Health>0);
+  public int SiteNoise(int index)=>index>=0&&index<Sites.Length?Mathf.Max(0,Sites[index].Noise):0;
+  public int SiteTurns(int index)=>index>=0&&index<Sites.Length&&Sites[index].Turns>0?Sites[index].Turns:FieldTurnPlan.DefaultTurns;
+  // 망보기 is offered only on a noisy object (otherwise '소음 없음').
+  public bool CanWatch(int index)=>SiteNoise(index)>0;
+  // A new 망보기 search: a noisy object and someone to watch (the 07 window's role button, the note's first-visit run).
+  public bool CanOfferWatch(int index)=>CanWatch(index)&&AliveCount>1;
+  public int RequiredFor(int index,int duty)=>State(index).Progress>0?State(index).Required:FieldTurnPlan.RequiredOf(SiteTurns(index),duty==0&&AliveCount>1);
+  public int BonusFor(int index,int duty)=>State(index).Progress>0?State(index).Bonus:duty==2?LightBonus:0;
+  // One search turn's noise on this object (2026-09-25: the first argument is the site index, no longer a pace).
+  public int NoiseFor(int index,int duty)=>FieldTurnPlan.SearchNoise(SiteNoise(index),duty==1&&AliveCount>1);
+  // pace: legacy, ignored (new searches store 1; one started under the old rules keeps its stored pace, turns and bonus).
+  public bool Advance(int index,int pace,Adventurer worker,int duty=0){if(!arrival.IsOpen||arrival.InTransit||(arrival.Encounter&&arrival.Encounter.IsOpen)||!IsSiteInCurrentRoom(index)||worker==null||worker.Health<=0||!arrival.Participants.Contains(worker))return false;var s=State(index);if(s.Complete||!CanSearch(index,worker)||!CanSupport(s.Progress>0?s.Duty:duty,worker))return false;s.Opened=true;if(s.Progress==0){s.Pace=1;s.Duty=duty;s.Required=RequiredFor(index,duty);s.Bonus=BonusFor(index,duty);}s.Progress++;arrival.Rooms.SpendSearchTurn(NoiseFor(index,s.Duty));
    if(s.Progress>=s.Required){s.Complete=true;Roll(index,s);}return true;}
   void Roll(int index,SearchState s){foreach(var drop in Sites[index].Drops){int chance=ChanceFor(drop,s.Pace,s.Bonus);if(UnityEngine.Random.Range(0,100)<chance)s.Loot[drop.Id]=(s.Loot.TryGetValue(drop.Id,out int n)?n:0)+drop.Count;}}
-  public void Open(int index){if(!arrival.IsOpen||arrival.InTransit||(arrival.Encounter&&arrival.Encounter.IsOpen)||IsOpen||!IsSiteInCurrentRoom(index)||!State(index).Complete)return;site=index;hiddenStates=hiddenNames.Select(n=>arrival.Main.transform.Find(n).gameObject.activeSelf).ToArray();foreach(var n in hiddenNames)arrival.Main.transform.Find(n).gameObject.SetActive(false);member=0;selected=null;fromBag=false;quantity=1;View.SetActive(true);LeaveReview.SetActive(false);Workspace.interactable=Workspace.blocksRaycasts=true;arrival.Main.interactable=arrival.Main.blocksRaycasts=false;Title.text=arrival.ObjectNames[site]+" · 발견한 물건";Rebuild();}
+  public void Open(int index){if(!arrival.IsOpen||arrival.InTransit||(arrival.Encounter&&arrival.Encounter.IsOpen)||IsOpen||!IsSiteInCurrentRoom(index)||!State(index).Complete)return;if(arrival.MissingPerson)arrival.MissingPerson.Discover(index);site=index;hiddenStates=hiddenNames.Select(n=>arrival.Main.transform.Find(n).gameObject.activeSelf).ToArray();foreach(var n in hiddenNames)arrival.Main.transform.Find(n).gameObject.SetActive(false);member=0;selected=null;fromBag=false;quantity=1;View.SetActive(true);LeaveReview.SetActive(false);Workspace.interactable=Workspace.blocksRaycasts=true;arrival.Main.interactable=arrival.Main.blocksRaycasts=false;Title.text=arrival.ObjectNames[site]+" · 발견한 물건";Rebuild();}
   static void Clear<T>(List<T> rows)where T:Component{foreach(var r in rows){r.gameObject.SetActive(false);UnityEngine.Object.Destroy(r.gameObject);}rows.Clear();}
   public void Rebuild(){var inv=arrival.Inventory;Clear(Cards);for(int i=0;i<arrival.Participants.Count;i++){int k=i;var p=arrival.Participants[i];var c=Instantiate(MemberPrefab,Members);c.Name.text=p.Name;c.Portrait.sprite=arrival.Cards[i].Portrait.sprite;c.Paper.color=member==i?new Color(1,.78f,.37f):Color.white;c.Button.interactable=p.Health>0;c.Button.onClick.AddListener(()=>{member=k;quantity=1;Rebuild();});Cards.Add(c);}
    Clear(FieldRows);Clear(BagRows);foreach(var item in inv.Items){if(State(site).Loot.TryGetValue(item.Id,out int n)&&n>0)Row(item,n,false,FieldContent,FieldRows);int owned=inv.CountFor(Current,item.Id);if(owned>0)Row(item,owned,true,BagContent,BagRows);}

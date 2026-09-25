@@ -36,6 +36,27 @@ namespace Demo5.FrontEnd
             public bool CenterFormation;
         }
 
+        // 말 놓기 (기획/탐험-말놓기-조작-재설계.md): where a placed member pawn stands. Room + Key name one place ("search:N" an object,
+        // "door:R" the door onto room R, "observe:ID" a trace; the office door holds both "door:3" and "search:8"). Feet in the
+        // 19.2 × 10.8 room frame (the pawn root's local space).
+        [Serializable] public sealed class WorkSpot
+        {
+            [Tooltip("이름 (Inspector에서 알아보기 위한 것)")] public string Label;
+            [Tooltip("방 (0 오락실 · 1 복도 · 2 보관실)")] public int Room;
+            [Tooltip("자리 이름: search:사물 번호 · door:문 너머 방 · observe:흔적 ID")] public string Key;
+            [Tooltip("발 위치 (방 좌표) · [0] 수색 담당 · 귀 대기 · 먼저 모인 대원, [1] 협동 · 다음에 모인 대원 (문은 여섯까지, 모자라면 마지막 간격으로 이어 붙임)")]
+            public Vector2[] Slots = new Vector2[0];
+            [Tooltip("도착하면 바라보는 x (사물 · 문의 가운데)")] public float LookAtX;
+        }
+        // One room's floor: the band feet may stand in (x, y = its lower left, in the room frame) and where free members wait.
+        [Serializable] public sealed class RoomFloor
+        {
+            [Tooltip("이름 (Inspector에서 알아보기 위한 것)")] public string Label;
+            [Tooltip("방 (0 오락실 · 1 복도 · 2 보관실)")] public int Room;
+            [Tooltip("발이 설 수 있는 바닥 (방 좌표 · x, y = 왼쪽 아래 · 아래 끝은 대원 카드 줄 위 통로)")] public Rect Band = new Rect(-8.8f, -1.95f, 17.6f, 1.65f);
+            [Tooltip("할 일이 없는 대원이 서는 자리 (방 좌표)")] public Vector2[] Idle = new Vector2[0];
+        }
+
         public Light2D Ambient, EntranceLight;
         public Transform PawnRoot;
         public RoomLight[] RoomLights = {
@@ -65,6 +86,12 @@ namespace Demo5.FrontEnd
                 DepartureDoor = new Vector2(-8.55f,-.7f), FloorWaypoint = new Vector2(-7.75f,-1.6f),
                 ArrivalDoor = new Vector2(2.2f,.12f), ArrivalFormation = new Vector2(2.2f,-1.72f), CenterFormation = true }
         };
+        [Header("대원 말 놓기 · 일하는 자리와 바닥 (BuildPawnBoard는 없는 것만 채움 · 여기서 조정)")]
+        [Tooltip("사물 · 문 · 흔적 앞에 서는 자리")] public WorkSpot[] Spots = new WorkSpot[0];
+        [Tooltip("방마다 발이 설 수 있는 바닥과 할 일 없는 대원의 자리")] public RoomFloor[] Floors = new RoomFloor[0];
+        [Tooltip("두 말이 겹치지 않는 간격 (좌우로 x 이상, 또는 앞뒤로 y 이상 떨어짐 · 받침대 폭 약 1.02)")] public Vector2 MinGap = new Vector2(1.05f, .4f);
+        // A room with no Floors entry: the travel aisle up to below the back wall.
+        public static readonly Rect DefaultBand = new Rect(-8.8f, -1.95f, 17.6f, 1.65f);
 
         readonly List<PawnGroundShadow> shadows = new List<PawnGroundShadow>();
         int currentRoom, pawnCount = -1;
@@ -115,6 +142,95 @@ namespace Demo5.FrontEnd
             return d > .0001f ? Vector3.Lerp(third, end, Mathf.Clamp01(remaining / d)) : end;
         }
 
+        // ---- 말 놓기: spots, floor, free members (presentation only; FieldPawnBoard reads these) ----
+        public WorkSpot SpotOf(int room, string key)
+        {
+            if (Spots != null && !string.IsNullOrEmpty(key)) foreach (var s in Spots) if (s != null && s.Room == room && s.Key == key) return s;
+            return null;
+        }
+        public RoomFloor FloorOf(int room)
+        {
+            if (Floors != null) foreach (var f in Floors) if (f != null && f.Room == room) return f;
+            return null;
+        }
+        public Rect BandOf(int room) { var f = FloorOf(room); return f != null && f.Band.width > 0 && f.Band.height > 0 ? f.Band : DefaultBand; }
+        // Where slot `slot` of that place is (clamped into the room's floor band) and the x the pawn turns to on arrival. A door queue
+        // longer than its authored slots continues with its last step. False when the place has no authored spot (the board then
+        // falls back to the object's painted bottom edge).
+        public bool TrySpot(int room, string key, int slot, out Vector3 feet, out float lookAtX)
+        {
+            feet = default; lookAtX = float.NaN;
+            var s = SpotOf(room, key); if (s == null || s.Slots == null || s.Slots.Length == 0 || slot < 0) return false;
+            int n = s.Slots.Length; Vector2 p;
+            if (slot < n) p = s.Slots[slot];
+            else { var step = n > 1 ? s.Slots[n - 1] - s.Slots[n - 2] : new Vector2(-MinGap.x, 0); p = s.Slots[n - 1] + step * (slot - n + 1); }
+            feet = ClampFloor(room, p); lookAtX = s.LookAtX; return true;
+        }
+        public bool TrySpot(int room, string key, int slot, out Vector3 feet, out bool faceRight)
+        {
+            bool ok = TrySpot(room, key, slot, out feet, out float look); faceRight = ok && look > feet.x; return ok;
+        }
+        // Edges included (Rect.Contains leaves out the top and right edge, where ClampFloor puts a point and float sums like −1.95 + 1.75 land).
+        public bool OnFloor(int room, Vector2 p) { var b = BandOf(room); const float e = 1e-4f; return p.x >= b.xMin - e && p.x <= b.xMax + e && p.y >= b.yMin - e && p.y <= b.yMax + e; }
+        public Vector3 ClampFloor(int room, Vector2 p) { var b = BandOf(room); return new Vector3(Mathf.Clamp(p.x, b.xMin, b.xMax), Mathf.Clamp(p.y, b.yMin, b.yMax), 0); }
+        // Two feet far enough apart that the bases do not overlap (side by side, or a row apart).
+        public bool Apart(Vector2 a, Vector2 b) => Mathf.Abs(a.x - b.x) >= MinGap.x - .001f || Mathf.Abs(a.y - b.y) >= MinGap.y - .001f;
+        bool Clear(Vector2 p, IReadOnlyList<Vector3> taken)
+        {
+            if (taken != null) for (int i = 0; i < taken.Count; i++) if (!Apart(p, taken[i])) return false;
+            return true;
+        }
+        List<Vector2> IdleOf(int room) { var list = new List<Vector2>(); var f = FloorOf(room); if (f != null && f.Idle != null) list.AddRange(f.Idle); return list; }
+        // The free-standing spot for a member (its own idle spot in member order, or the next one clear of `taken`).
+        public Vector3 IdleFor(int room, int member, IReadOnlyList<Vector3> taken)
+        {
+            var idle = IdleOf(room); if (idle.Count == 0) return NearestClear(room, BandOf(room).center, taken);
+            int start = Mathf.Max(0, member);
+            for (int i = 0; i < idle.Count; i++) { var p = idle[(start + i) % idle.Count]; if (Clear(p, taken)) return ClampFloor(room, p); }
+            return NearestClear(room, idle[start % idle.Count], taken);
+        }
+        // The idle spot nearest `from` that is clear of `taken` (a member let go from a work spot walks there).
+        public Vector3 NearestIdle(int room, Vector3 from, IReadOnlyList<Vector3> taken)
+        {
+            var idle = IdleOf(room); float best = float.MaxValue; Vector3 pick = default; bool found = false;
+            foreach (var p in idle)
+            {
+                if (!Clear(p, taken)) continue;
+                float d = ((Vector2)from - p).sqrMagnitude; if (d < best) { best = d; pick = ClampFloor(room, p); found = true; }
+            }
+            return found ? pick : NearestClear(room, from, taken);
+        }
+        // `from` if it is clear of `taken`, else the nearest clear point along the same row, else the nearest clear idle spot.
+        public Vector3 NearestClear(int room, Vector3 from, IReadOnlyList<Vector3> taken)
+        {
+            var start = ClampFloor(room, from); if (Clear(start, taken)) return start;
+            float step = Mathf.Max(.2f, MinGap.x * .5f);
+            for (int k = 1; k <= 36; k++)
+                for (int side = 1; side >= -1; side -= 2)
+                {
+                    var p = ClampFloor(room, new Vector2(start.x + side * k * step, start.y));
+                    if (Clear(p, taken)) return p;
+                }
+            float best = float.MaxValue; Vector3 pick = start;
+            foreach (var p in IdleOf(room)) { if (!Clear(p, taken)) continue; float d = ((Vector2)start - p).sqrMagnitude; if (d < best) { best = d; pick = ClampFloor(room, p); } }
+            return pick;
+        }
+        // How clear a floor point is of the pawns standing or walking in this room (their feet and walk targets): the horizontal
+        // distance, where standing a row apart (MinGap.y) counts as MinGap.x. The resident's spot picks the clearer one of its two.
+        // ignore: that pawn itself. `room` is the party's room (every pawn under PawnRoot stands in it).
+        public float ClearanceAt(int room, Vector3 feet, Transform ignore = null)
+        {
+            float d = float.MaxValue; if (!PawnRoot) return d;
+            foreach (Transform t in PawnRoot)
+            {
+                if (!t || t == ignore || !t.gameObject.activeSelf) continue;
+                d = Mathf.Min(d, Gap(feet, t.localPosition));
+                var w = t.GetComponent<FieldPawnWalker>(); if (w && w.Walking) d = Mathf.Min(d, Gap(feet, w.Target));
+            }
+            return d;
+        }
+        float Gap(Vector2 a, Vector2 b) => Mathf.Max(Mathf.Abs(a.x - b.x), Mathf.Abs(a.y - b.y) * MinGap.x / Mathf.Max(.01f, MinGap.y));
+
         public void ApplyRoom(int room)
         {
             currentRoom = room;
@@ -145,6 +261,36 @@ namespace Demo5.FrontEnd
             Vector2 lightPosition = EntranceLight.transform.position;
             foreach (var shadow in shadows) if (shadow) shadow.LightPosition = lightPosition;
             pawnCount = PawnRoot.childCount;
+        }
+
+        // Scene view: the floor bands (grey), idle spots (white) and every place's slots (gold = the first) with the x it looks at.
+        void OnDrawGizmosSelected()
+        {
+            var frame = PawnRoot ? PawnRoot : transform;
+            Vector3 W(Vector2 p) => frame.TransformPoint(new Vector3(p.x, p.y, 0));
+            if (Floors != null)
+                foreach (var f in Floors)
+                {
+                    if (f == null) continue;
+                    Gizmos.color = new Color(.7f, .7f, .7f, .8f); var b = f.Band;
+                    Gizmos.DrawLine(W(new Vector2(b.xMin, b.yMin)), W(new Vector2(b.xMax, b.yMin))); Gizmos.DrawLine(W(new Vector2(b.xMax, b.yMin)), W(new Vector2(b.xMax, b.yMax)));
+                    Gizmos.DrawLine(W(new Vector2(b.xMax, b.yMax)), W(new Vector2(b.xMin, b.yMax))); Gizmos.DrawLine(W(new Vector2(b.xMin, b.yMax)), W(new Vector2(b.xMin, b.yMin)));
+                    Gizmos.color = Color.white; if (f.Idle != null) foreach (var p in f.Idle) Gizmos.DrawWireSphere(W(p), .12f);
+                }
+            if (Spots != null)
+                foreach (var s in Spots)
+                {
+                    if (s == null || s.Slots == null) continue;
+                    for (int i = 0; i < s.Slots.Length; i++)
+                    {
+                        Gizmos.color = i == 0 ? new Color(1, .8f, .3f, 1) : new Color(1, .9f, .6f, .7f);
+                        Gizmos.DrawWireSphere(W(s.Slots[i]), .18f);
+                        if (i == 0) Gizmos.DrawLine(W(s.Slots[i]), W(new Vector2(s.LookAtX, s.Slots[i].y + .4f)));
+                    }
+#if UNITY_EDITOR
+                    if (s.Slots.Length > 0) UnityEditor.Handles.Label(W(s.Slots[0] + new Vector2(0, .35f)), s.Room + " " + s.Key + (string.IsNullOrEmpty(s.Label) ? "" : " · " + s.Label));
+#endif
+                }
         }
     }
 }

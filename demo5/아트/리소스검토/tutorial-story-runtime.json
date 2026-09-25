@@ -1,0 +1,37 @@
+{
+  "result": "PASS",
+  "checks": [
+    "Actual original-pair/home selection starts at full health, fades from black with HUD/main/guide blocked, and opens the arrival conversation without invented injuries. Fade and dialogue do not change health/time/stock, and main actions cannot bypass either.",
+    "Survey/search/floor clearing use real 10/10/20 minute actions. Discovery gives cloth 1, water 1 and configured ammo once. Mid-discovery line 1 survives a disk reload without rewards/time duplication.",
+    "Fresh introduction proceeds through steps 0, 1 and 2 directly to step 5. Both survivors stay at full health, no rest is assigned, and the departure conversation leads to the real settlement exit.",
+    "Real first expedition, guided crate search, take-all, return/deposit and warehouse/workbench reconstruction lead to dialogue and the management note. No materials or unlock flags were seeded on this journey.",
+    "Every guided journey click checks visible guide text fit. Four actual guidance points (staging, exit, packing and workbench) are captured at 1920×1080 and 1280×800 with readable onscreen explanations and real target controls.",
+    "Explicit data fixtures for completed tool, surveyed-room return and completed opening each show only the matching unseen dialogue. Reading changes no gameplay, grants no unlock/material/time, and dismissed dialogue stays closed.",
+    "Bounded state fixtures: empty return does not invent an observed cache; an unlocked door without a prybar does not claim tool ownership; final needs distinguish all four bed/cooker states; both health-zero named survivors retain their own speaker and portrait. Each dialogue is read with all gameplay fields unchanged.",
+    "Explicit legacy disk-save fixtures for old steps 3 and 4 remap only the introduction step to 5. Existing injuries, every rest order, remaining minutes and pending beat 3 line 1 survive loading; reading does not heal or advance time. An all-assigned party is directed to its existing work completion instead of an unavailable departure."
+  ],
+  "screenshots": [
+    "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\tutorial-opening-black-3840x2160.png",
+    "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\tutorial-opening-fade-3840x2160.png",
+    "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\tutorial-story-arrival-1920x1080.png",
+    "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\tutorial-story-arrival-1280x800.png",
+    "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\tutorial-story-purpose-1920x1080.png",
+    "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\tutorial-story-purpose-1280x800.png",
+    "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\tutorial-story-found-1920x1080.png",
+    "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\tutorial-story-found-1280x800.png",
+    "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\tutorial-concept-staging-1920x1080.png",
+    "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\tutorial-concept-staging-1280x800.png",
+    "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\tutorial-opening-expedition-reason-1920x1080.png",
+    "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\tutorial-opening-expedition-reason-1280x800.png",
+    "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\tutorial-concept-expedition-exit-1920x1080.png",
+    "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\tutorial-concept-expedition-exit-1280x800.png",
+    "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\tutorial-concept-packing-1920x1080.png",
+    "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\tutorial-concept-packing-1280x800.png",
+    "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\tutorial-story-first-return-1920x1080.png",
+    "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\tutorial-story-first-return-1280x800.png",
+    "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\tutorial-concept-workbench-1920x1080.png",
+    "E:\\personalProject\\Demo3\\demo5\\아트\\리소스검토\\tutorial-concept-workbench-1280x800.png"
+  ],
+  "failure": null,
+  "note": "Disposable original-two campaign and isolated disk slots. Actual raycast clicks from full-health arrival through staging, first search/return and storage/workbench reconstruction; no mandatory injury or rest. Later tool/survey/completion and legacy rest-stage saves are explicit state fixtures, not played injuries or a second expedition. Reading-dialogue checks compare saved gameplay fields; screenshot fit checks do not replace visual inspection."
+}

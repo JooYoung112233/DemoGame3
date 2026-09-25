@@ -80,7 +80,8 @@ public static class VerifyFieldObservation
         }
 
         // One summed turn, not a second story clock. Observation and listening add zero to search noise.
-        facts = new Facts(4); plan = new FieldTurnPlan(); plan.Assign(Search(1, 0, 0, solo: true)); plan.Assign(Search(2, 1, 1, solo: true));
+        facts = new Facts(4); facts.Sites[1] = new FieldSiteFacts { InRoom = true, Searchable = true, Noise = 3 }; facts.Sites[2] = new FieldSiteFacts { InRoom = true, Searchable = true, Noise = 1 }; // each object's own noise
+        plan = new FieldTurnPlan(); plan.Assign(Search(1, 0, solo: true)); plan.Assign(Search(2, 1, solo: true));
         plan.AssignListen(2, FieldSiteState.Corridor); plan.AssignObserve(3, "a"); k = plan.Check(facts);
         Require(k.Runs.Count == 2 && k.Listens.Count == 1 && k.Observations.Count == 1 && k.Noise == 4 && k.Full, "Mixed actions were not summed into a single plan.");
         var site = new FieldSiteState(new FieldSiteRules(), () => 0, false, 1, 2);

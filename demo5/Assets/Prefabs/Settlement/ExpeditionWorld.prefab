@@ -92,6 +92,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!1 &772920610679180892
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4553696538221060638}
+  m_Layer: 0
+  m_Name: PawnGhosts
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4553696538221060638
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 772920610679180892}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7877418366918930813}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2716936790420193437
 GameObject:
   m_ObjectHideFlags: 0
@@ -334,6 +365,7 @@ Transform:
   - {fileID: 5460702313612973005}
   - {fileID: 7286775067256051560}
   - {fileID: 3316555668817247850}
+  - {fileID: 4553696538221060638}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &60127898061714561
@@ -427,6 +459,166 @@ MonoBehaviour:
     ArrivalFormation: {x: 2.2, y: -1.72}
     FormationStep: {x: 1.25, y: 0}
     CenterFormation: 1
+  Spots:
+  - Label: "\uC624\uB77D\uC2E4 \xB7 \uBB3C\uC790 \uC0C1\uC790"
+    Room: 0
+    Key: search:0
+    Slots:
+    - {x: 1.08, y: -1.59}
+    - {x: 2.33, y: -1.67}
+    LookAtX: 1.68
+  - Label: "\uC624\uB77D\uC2E4 \xB7 \uC624\uB978\uCABD \uD0C1\uC790 (\uB2E4\uB9AC \u22122.0 \xB7 \uC67C\uCABD \uC606\uACFC \uC55E)"
+    Room: 0
+    Key: search:1
+    Slots:
+    - {x: 3.75, y: -1.3}
+    - {x: 4.75, y: -1.9}
+    LookAtX: 5.72
+  - Label: "\uC624\uB77D\uC2E4 \xB7 SPACE \uC624\uB77D\uAE30 (\uC55E \uD0C1\uC790 \uB108\uBA38)"
+    Room: 0
+    Key: search:2
+    Slots:
+    - {x: -2.8, y: -1.05}
+    - {x: -1.55, y: -1.13}
+    LookAtX: -2.21
+  - Label: "\uC624\uB77D\uC2E4 \u2192 \uBCF5\uB3C4 \uBB38"
+    Room: 0
+    Key: door:1
+    Slots:
+    - {x: 8.05, y: -1.55}
+    - {x: 6.95, y: -1.9}
+    - {x: 5.85, y: -1.85}
+    - {x: 4.75, y: -1.8}
+    - {x: 3.65, y: -1.75}
+    - {x: 2.55, y: -1.7}
+    LookAtX: 8.77
+  - Label: "\uC624\uB77D\uC2E4 \xB7 \uC624\uB77D\uAE30 \uB4A4 \uD754\uC801 (\uC7A5\uB3C4\uC724 \uC790\uB9AC \u22127.1 \uC606)"
+    Room: 0
+    Key: observe:mall.hidden_doyun
+    Slots:
+    - {x: -5.9, y: -1.45}
+    LookAtX: -8.2
+  - Label: "\uBCF5\uB3C4 \xB7 \uB450\uAEBC\uBE44\uC9D1"
+    Room: 1
+    Key: search:4
+    Slots:
+    - {x: -7.4, y: -0.2}
+    - {x: -6.15, y: -0.28}
+    LookAtX: -6.8
+  - Label: "\uBCF5\uB3C4 \xB7 \uC624\uB978\uCABD \uC0C1\uC790"
+    Room: 1
+    Key: search:5
+    Slots:
+    - {x: 4.34, y: -0.61}
+    - {x: 5.59, y: -0.69}
+    LookAtX: 4.94
+  - Label: "\uBCF5\uB3C4 \u2192 \uC624\uB77D\uC2E4 \uBB38"
+    Room: 1
+    Key: door:0
+    Slots:
+    - {x: -7.75, y: -1.2}
+    - {x: -6.65, y: -1.55}
+    - {x: -5.55, y: -1.5}
+    - {x: -4.45, y: -1.45}
+    - {x: -3.35, y: -1.4}
+    - {x: -2.25, y: -1.35}
+    LookAtX: -8.7
+  - Label: "\uBCF5\uB3C4 \u2192 \uBCF4\uAD00\uC2E4 \uCCA0\uBB38"
+    Room: 1
+    Key: door:2
+    Slots:
+    - {x: 2.2, y: -1.05}
+    - {x: 1.1, y: -1.4}
+    - {x: 3.3, y: -1.4}
+    - {x: 0, y: -1.35}
+    - {x: 4.4, y: -1.35}
+    - {x: -1.1, y: -1.3}
+    LookAtX: 2.16
+  - Label: "\uBCF5\uB3C4 \xB7 \uAD00\uB9AC\uC2E4 \uBB38 (\uADC0 \uB300\uAE30\uB9CC)"
+    Room: 1
+    Key: door:3
+    Slots:
+    - {x: 7.9, y: -0.9}
+    LookAtX: 7.28
+  - Label: "\uBCF5\uB3C4 \xB7 \uAD00\uB9AC\uC2E4 \uC120\uBC18 (\uAD74\uC774 \uBE48 \uB3D9\uC548)"
+    Room: 1
+    Key: search:8
+    Slots:
+    - {x: 6.7, y: -0.95}
+    - {x: 5.9, y: -1.5}
+    LookAtX: 7.28
+  - Label: "\uBCF4\uAD00\uC2E4 \xB7 \uC120\uBC18"
+    Room: 2
+    Key: search:6
+    Slots:
+    - {x: 2.63, y: -0.81}
+    - {x: 3.88, y: -0.89}
+    LookAtX: 3.23
+  - Label: "\uBCF4\uAD00\uC2E4 \xB7 \uD310\uC790\uC640 \uACF5\uAD6C\uD568"
+    Room: 2
+    Key: search:7
+    Slots:
+    - {x: 6.57, y: -0.9}
+    - {x: 7.82, y: -0.98}
+    LookAtX: 7.17
+  - Label: "\uBCF4\uAD00\uC2E4 \u2192 \uBCF5\uB3C4 \uBB38"
+    Room: 2
+    Key: door:1
+    Slots:
+    - {x: -7.75, y: -1.2}
+    - {x: -6.65, y: -1.55}
+    - {x: -5.55, y: -1.5}
+    - {x: -4.45, y: -1.45}
+    - {x: -3.35, y: -1.4}
+    - {x: -2.25, y: -1.35}
+    LookAtX: -8.57
+  Floors:
+  - Label: "\uC624\uB77D\uC2E4"
+    Room: 0
+    Band:
+      serializedVersion: 2
+      x: -8.8
+      y: -1.95
+      width: 17.4
+      height: 1.65
+    Idle:
+    - {x: -0.6, y: -1.85}
+    - {x: -1.9, y: -1.85}
+    - {x: -3.2, y: -1.85}
+    - {x: -4.5, y: -1.85}
+    - {x: -5.8, y: -1.85}
+    - {x: -7.1, y: -1.85}
+  - Label: "\uBCF5\uB3C4"
+    Room: 1
+    Band:
+      serializedVersion: 2
+      x: -8.8
+      y: -1.95
+      width: 17.6
+      height: 1.75
+    Idle:
+    - {x: -1.2, y: -1.85}
+    - {x: -2.5, y: -1.85}
+    - {x: -3.8, y: -1.85}
+    - {x: 0.1, y: -1.85}
+    - {x: 4.7, y: -1.85}
+    - {x: 7.2, y: -1.85}
+  - Label: "\uBCF4\uAD00\uC2E4"
+    Room: 2
+    Band:
+      serializedVersion: 2
+      x: -8.8
+      y: -1.95
+      width: 17.6
+      height: 1.55
+    Idle:
+    - {x: 0.1, y: -1.85}
+    - {x: -1.2, y: -1.85}
+    - {x: 1.4, y: -1.85}
+    - {x: -2.5, y: -1.85}
+    - {x: 2.7, y: -1.85}
+    - {x: 4, y: -1.85}
+  MinGap: {x: 1.05, y: 0.4}
 --- !u!1 &6832257490198020696
 GameObject:
   m_ObjectHideFlags: 0
