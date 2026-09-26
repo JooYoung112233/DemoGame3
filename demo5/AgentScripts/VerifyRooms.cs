@@ -14,19 +14,22 @@ public static class VerifyRooms {
  // the read-only 07 window (Inspect) or the door's log; the move is every pawn at the door, then '턴 진행' (a double press = one turn).
  static async Task Ready(ExpeditionArrivalPanel a){for(int i=0;i<60&&!FieldPawnTest.Ready(a);i++)await Task.Delay(50);}
  static async Task Move(ExpeditionArrivalPanel a,int next,bool twice=false){await Ready(a);Check(FieldPawnTest.Gather(a,next),"Everyone at the door to "+next+": "+FieldPawnTest.Describe(a));var turn=a.Threat.Planner.TurnButton;await Tap(turn);if(twice)turn.onClick.Invoke();}
- static void Bounds(GameObject root){Canvas.ForceUpdateCanvases();foreach(var t in root.GetComponentsInChildren<Text>())Check(t.preferredHeight<=t.rectTransform.rect.height+1,"Text overflow "+t.name+": "+t.preferredHeight+" / "+t.rectTransform.rect.height);}
+ // Fixture (2026-09-26, run after VerifyFieldTurnPlan.Enter): '보급품' is gone (밸런스 1차, save v14) and a new game starts with an empty
+ // stock, so one bandage is granted to pack instead.
+ static void Grant(SettlementController c,string id,int count){var m=c.CraftPanel.Materials.First(x=>x.Id==id);m.Initial=Math.Max(m.Initial,count);}
+ static void Bounds(GameObject root){Canvas.ForceUpdateCanvases();foreach(var t in root.GetComponentsInChildren<Text>())if(!t.resizeTextForBestFit)/* best-fit text shrinks to fit (VerifyFieldTurnPlan.Fits) */Check(t.preferredHeight<=t.rectTransform.rect.height+1,"Text overflow "+t.name+": "+t.preferredHeight+" / "+t.rectTransform.rect.height);}
 
 
 
  public static async Task<string> Flow(){
- FieldIdleConfirm.AutoAccept=true;/* idle members hush without the question (VerifyIdleConfirm tests it) */var c=Object.FindAnyObjectByType<SettlementController>();await Tap(c.Exit);await Tap(c.ExpeditionPanel.Cards[0].Button);await Tap(c.ExpeditionPanel.Cards[1].Button);await Tap(c.ExpeditionPanel.Pack);
- var p=c.PackingPanel;await Tap(p.StockRows.First(x=>x.Label.text==c.InventoryPanel.Items.First(i=>i.Id=="supplies").Name).Button);await Tap(p.ToBag);var person=p.Current;await Tap(p.Ready);await Tap(p.Depart);await Task.Delay(950);
+ FieldIdleConfirm.AutoAccept=true;/* idle members hush without the question (VerifyIdleConfirm tests it) */var c=Object.FindAnyObjectByType<SettlementController>();Grant(c,"bandage",1);await Tap(c.Exit);await Tap(c.ExpeditionPanel.Cards[0].Button);await Tap(c.ExpeditionPanel.Cards[1].Button);await Tap(c.ExpeditionPanel.Pack);
+ var p=c.PackingPanel;await Tap(p.StockRows.First(x=>x.Label.text==c.InventoryPanel.Items.First(i=>i.Id=="bandage").Name).Button);await Tap(p.ToBag);var person=p.Current;await Tap(p.Ready);await Tap(p.Depart);await Task.Delay(950);
  var a=c.ArrivalPanel;var n=a.Rooms;var b=FieldPawnTest.Board(a);int minute=c.Campaign.MinuteOfDay;await Ready(a);
  a.Objects[0].onClick.Invoke();await Task.Delay(100);Check(!a.Search.IsOpen&&!a.Popup.activeSelf&&n.Turns==0&&b&&b.LastHint==b.Texts.PickFirst,"Left press without a pawn: no window, no time");
  Check(FieldPawnTest.Detail(a,0)&&a.Search.IsOpen&&a.Search.ReadOnly,"Right press: the read-only 07 window");await Tap(a.Search.Back);Check(n.Inspected.Contains(0),"Inspection state missing");
  b.ShowDoorLog(1);await Task.Delay(100);Check(a.Popup.activeSelf&&!a.ReturnConfirm.gameObject.activeSelf&&n.CurrentRoom==0&&!n.CorridorVisited&&n.Turns==0,"Door log revealed room or spent turn");await Tap(a.PopupBack);Check(n.Turns==0,"Cancel charged");
  await Move(a,1,true);Check(a.InTransit&&!a.Main.blocksRaycasts&&n.Turns==1,"Move lock / duplicate charge");await Task.Delay(2400);
- Check(n.CurrentRoom==1&&n.CorridorVisited&&!a.Return.interactable&&n.CorridorHotspots.activeSelf&&!a.InTransit,"Corridor state");Bounds(a.View);Check(c.InventoryPanel.CountFor(person,"supplies")==1&&a.Participants.Count==2,"Lost bags/party");await Ready(a);{var locked=FieldPawnTest.Option(a,0,FieldPawnTest.DoorKey(2),FieldSpotKind.Gather);Check(locked!=null&&!locked.Enabled&&locked.Blocked.Contains(n.UnlockToolName)&&!FieldPawnTest.Place(a,0,locked.Key,FieldSpotKind.Gather),"Locked door enterable");}
+ Check(n.CurrentRoom==1&&n.CorridorVisited&&!a.Return.interactable&&n.CorridorHotspots.activeSelf&&!a.InTransit,"Corridor state");Bounds(a.View);Check(c.InventoryPanel.CountFor(person,"bandage")==1&&a.Participants.Count==2,"Lost bags/party");await Ready(a);{var locked=FieldPawnTest.Option(a,0,FieldPawnTest.DoorKey(2),FieldSpotKind.Gather);Check(locked!=null&&!locked.Enabled&&locked.Blocked.Contains(n.UnlockToolName)&&!FieldPawnTest.Place(a,0,locked.Key,FieldSpotKind.Gather),"Locked door enterable");}
  await Move(a,0);await Task.Delay(2400);Check(n.CurrentRoom==0&&n.Turns==2&&n.Inspected.Contains(0)&&a.Return.interactable,"Return to visited room failed");Check(c.Campaign.MinuteOfDay==minute+2*n.MinutesPerTurn,"Room travel time must advance once per move");Bounds(a.View);
  await Move(a,1);await Task.Delay(2400);return "PASS: hidden room before entry, left press asks for a pawn, right press = read-only 07 / door log (zero cost), one turn per group move (everyone at the door), double-press guard, input lock, corridor/return, locked door greyed without the prybar, preserved bag/party/inspection, text bounds. Preview left in corridor.";
  }

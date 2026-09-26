@@ -174,6 +174,8 @@ public static class VerifyFieldBattle
   try
   {
    await Until(()=>!b.Busy,4000,"first turn");
+   // Fixture (2026-09-26): a new game starts unhurt (2026-09-25: no forced injury), so the actor takes 2 here for the bandage to heal.
+   {var hurt=b.State.Units[b.State.Actor];if(hurt.Health>=hurt.Maximum){hurt.Health=hurt.Maximum-2;hurt.Person.Health=hurt.Health;b.ShowHealth(b.State.Actor,hurt.Health,false);/* the shown value, as a landed hit leaves it */}}
    int actor=b.State.Actor;var person=b.State.Current.Person;int bandages=a.Inventory.CountFor(person,"bandage");Check(bandages>0,"Bandage fixture");
    await Tap(b.Items);await Task.Delay(150);
    Check(b.ItemMode&&b.Drawer.gameObject.activeSelf&&!b.CellButtons[0].interactable,"Drawer open, board locked");
