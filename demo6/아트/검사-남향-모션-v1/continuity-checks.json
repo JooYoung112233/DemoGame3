@@ -1,0 +1,56 @@
+{
+  "attackStartEqualsEnd": true,
+  "allLoopSeamsContinuous": true,
+  "attackAutoReturnsIdle": true,
+  "expectedFrameCounts": true,
+  "transitions": [
+    {
+      "from": "idle",
+      "to": "walk",
+      "phasePreserved": false,
+      "largestFirstStep": 0.024926332368033335
+    },
+    {
+      "from": "walk",
+      "to": "run",
+      "phasePreserved": true,
+      "largestFirstStep": 0.5045784067206114
+    },
+    {
+      "from": "run",
+      "to": "walk",
+      "phasePreserved": true,
+      "largestFirstStep": 0.5045784067206114
+    },
+    {
+      "from": "walk",
+      "to": "idle",
+      "phasePreserved": false,
+      "largestFirstStep": 0.199847555730571
+    },
+    {
+      "from": "run",
+      "to": "idle",
+      "phasePreserved": false,
+      "largestFirstStep": 0.5395790352961285
+    },
+    {
+      "from": "idle",
+      "to": "attack",
+      "phasePreserved": false,
+      "largestFirstStep": 0.048782577845168706
+    },
+    {
+      "from": "walk",
+      "to": "attack",
+      "phasePreserved": false,
+      "largestFirstStep": 0.6572083323204652
+    },
+    {
+      "from": "run",
+      "to": "attack",
+      "phasePreserved": false,
+      "largestFirstStep": 1.7744316994303517
+    }
+  ]
+}

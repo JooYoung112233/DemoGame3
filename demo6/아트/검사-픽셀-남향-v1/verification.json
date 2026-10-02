@@ -1,0 +1,177 @@
+{
+  "status": "review_only_not_user_approved",
+  "reference": "E:\\personalProject\\Demo3\\demo6\\아트\\검사-남향-시점검토-v3\\south-camera-study.png",
+  "reference_sha256": "B01C63E30F89B7FA9598910272B3D617B6459BDA9F9797BB69D303F2A2A4CEB6",
+  "method": "Hand-authored integer pixel clusters, painted through Pixel MCP draw_pixels and exported by Aseprite",
+  "native_size": [
+    128,
+    160
+  ],
+  "preview_size": [
+    512,
+    640
+  ],
+  "preview_scaling": "4x nearest; no new detail",
+  "walk_frames": [
+    {
+      "file": "frames/south-walk-01.png",
+      "size": [
+        128,
+        160
+      ],
+      "bounds": [
+        15,
+        12,
+        115,
+        153
+      ],
+      "colors_including_alpha": 31,
+      "sha256": "73bce6cdabcbac52877f9057a1b62fe1f7e727db119f583faa89f8bf1721bdab"
+    },
+    {
+      "file": "frames/south-walk-02.png",
+      "size": [
+        128,
+        160
+      ],
+      "bounds": [
+        16,
+        13,
+        115,
+        153
+      ],
+      "colors_including_alpha": 31,
+      "sha256": "8e5faac00d630b4672f18bc95148fbb48c26e49e100f47f7d53f08f1ce41ab01"
+    },
+    {
+      "file": "frames/south-walk-03.png",
+      "size": [
+        128,
+        160
+      ],
+      "bounds": [
+        17,
+        12,
+        117,
+        150
+      ],
+      "colors_including_alpha": 31,
+      "sha256": "3b54801ba245c55bd462b65b047e80e5f65b692ac87edd4148422c435373ae43"
+    },
+    {
+      "file": "frames/south-walk-04.png",
+      "size": [
+        128,
+        160
+      ],
+      "bounds": [
+        16,
+        11,
+        118,
+        148
+      ],
+      "colors_including_alpha": 31,
+      "sha256": "b0bb991a1607fde363fe96e335b9eee0989fd97a0eceb5c2dbc599ce8270a1eb"
+    },
+    {
+      "file": "frames/south-walk-05.png",
+      "size": [
+        128,
+        160
+      ],
+      "bounds": [
+        17,
+        12,
+        119,
+        148
+      ],
+      "colors_including_alpha": 31,
+      "sha256": "370771ead19f54366a33ff4b21302cab65ab52216d7a1b49281125818e48500c"
+    },
+    {
+      "file": "frames/south-walk-06.png",
+      "size": [
+        128,
+        160
+      ],
+      "bounds": [
+        18,
+        13,
+        119,
+        150
+      ],
+      "colors_including_alpha": 31,
+      "sha256": "3059a8e5d5131df41f3bc3961db5d18adec31604c62657a7af235d75124f9c0d"
+    },
+    {
+      "file": "frames/south-walk-07.png",
+      "size": [
+        128,
+        160
+      ],
+      "bounds": [
+        17,
+        12,
+        117,
+        151
+      ],
+      "colors_including_alpha": 31,
+      "sha256": "791ca0746a98b4cbaf6851fe1b2a06fffa46a1c38df6bfde081ecb7503960f17"
+    },
+    {
+      "file": "frames/south-walk-08.png",
+      "size": [
+        128,
+        160
+      ],
+      "bounds": [
+        16,
+        11,
+        116,
+        152
+      ],
+      "colors_including_alpha": 31,
+      "sha256": "d930265d8ccf62cef1cd1a1b451dc89304129bdc77b85e3bd97f14d55f97bb62"
+    }
+  ],
+  "duration_ms": [
+    110,
+    110,
+    110,
+    110,
+    110,
+    110,
+    110,
+    110
+  ],
+  "cycle_ms": 880,
+  "layers": {
+    "color_mode": "rgb",
+    "frame_count": 8,
+    "height": 160,
+    "layer_count": 12,
+    "layers": [
+      "00 Contact shadow",
+      "01 Left leg and boot",
+      "02 Right leg and boot",
+      "03 Leather coat and undershirt",
+      "04 Sword - replaceable",
+      "05 Left arm and glove",
+      "06 Right arm and glove",
+      "07 Belt buckle and pouch",
+      "08 Left pauldron - replaceable",
+      "09 Cream scarf",
+      "10 Face and ears",
+      "11 Brown hair"
+    ],
+    "width": 128
+  },
+  "browser_check": "GIF loaded; opposite support-foot poses observed in two browser screenshots",
+  "limitations": [
+    "South direction only",
+    "Walk in place only; not checked against in-game translation speed",
+    "No attack or other directions",
+    "No PSD; real editable layers are in the native Aseprite files",
+    "GIF matte preview differs from alpha PNG only in background and shadow presentation"
+  ]
+}

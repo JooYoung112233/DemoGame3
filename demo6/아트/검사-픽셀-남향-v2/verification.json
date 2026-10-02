@@ -1,0 +1,195 @@
+{
+  "status": "revision_awaiting_user_review",
+  "feedback": "Both body-part shapes/connections and motion feel unnatural",
+  "native_size": [
+    128,
+    160
+  ],
+  "layer_count": 12,
+  "separate_layer_pngs": 12,
+  "layers_recompose_to_native_png": true,
+  "frames": [
+    {
+      "file": "frames/south-walk-01.png",
+      "bounds": [
+        18,
+        12,
+        111,
+        151
+      ],
+      "grip_arm_overlap_pixels": 93,
+      "sha256": "5b7c3a3be761fab9f47ed2b176daa4c05c6133203a1f334f69b565f54f18580d"
+    },
+    {
+      "file": "frames/south-walk-02.png",
+      "bounds": [
+        18,
+        13,
+        111,
+        151
+      ],
+      "grip_arm_overlap_pixels": 90,
+      "sha256": "d17a83c6d774f328fcc2d41cb27b139572a088bd88af8dc240a846b5847249dd"
+    },
+    {
+      "file": "frames/south-walk-03.png",
+      "bounds": [
+        18,
+        13,
+        111,
+        151
+      ],
+      "grip_arm_overlap_pixels": 96,
+      "sha256": "b18c798425f3e6cfad466079a9ca359b571c57e619d52a90cc4707d391477e75"
+    },
+    {
+      "file": "frames/south-walk-04.png",
+      "bounds": [
+        18,
+        12,
+        111,
+        150
+      ],
+      "grip_arm_overlap_pixels": 100,
+      "sha256": "c24b46dba125366e972f0688e7e7732231714fadff91e045f9dad8a53d00c90f"
+    },
+    {
+      "file": "frames/south-walk-05.png",
+      "bounds": [
+        18,
+        11,
+        111,
+        149
+      ],
+      "grip_arm_overlap_pixels": 96,
+      "sha256": "970127bfaf87a1cd9d8b30b909b3a6424471c3624bdf813c29db9941131c4510"
+    },
+    {
+      "file": "frames/south-walk-06.png",
+      "bounds": [
+        18,
+        11,
+        111,
+        149
+      ],
+      "grip_arm_overlap_pixels": 93,
+      "sha256": "e60628ae5a9bd5191c89b63beca4fafb74c76c920ae58b3947d557e73d24b7bc"
+    },
+    {
+      "file": "frames/south-walk-07.png",
+      "bounds": [
+        19,
+        12,
+        112,
+        151
+      ],
+      "grip_arm_overlap_pixels": 98,
+      "sha256": "88db46924fda60ac60a20af5cdd54533aa08c727aa751ac0a6f6722a9a96c753"
+    },
+    {
+      "file": "frames/south-walk-08.png",
+      "bounds": [
+        19,
+        13,
+        112,
+        150
+      ],
+      "grip_arm_overlap_pixels": 99,
+      "sha256": "40c2f61963e2fe954e4946d331458a5c05c9a29895cbf545079f2fedd3e4d3a5"
+    },
+    {
+      "file": "frames/south-walk-09.png",
+      "bounds": [
+        19,
+        13,
+        112,
+        149
+      ],
+      "grip_arm_overlap_pixels": 98,
+      "sha256": "dc8761f4510aa5d57c5ac936adba96e71dc9fa869be8c3251f5d0e5e2948c692"
+    },
+    {
+      "file": "frames/south-walk-10.png",
+      "bounds": [
+        19,
+        12,
+        112,
+        149
+      ],
+      "grip_arm_overlap_pixels": 99,
+      "sha256": "06cdefc0550486287551a82ae0459844c00fa4c27aeae534ad35d1bb0748b4db"
+    },
+    {
+      "file": "frames/south-walk-11.png",
+      "bounds": [
+        19,
+        11,
+        111,
+        149
+      ],
+      "grip_arm_overlap_pixels": 95,
+      "sha256": "68f1154da40282f710a9da6d0cd9b370ca63f9273fdbf0d48902785c878ecba0"
+    },
+    {
+      "file": "frames/south-walk-12.png",
+      "bounds": [
+        19,
+        11,
+        111,
+        149
+      ],
+      "grip_arm_overlap_pixels": 94,
+      "sha256": "d9574c8e89a9275779c928ddff29ae7cc30b7d13e729706f251a63a53937cd73"
+    }
+  ],
+  "frame_duration_ms": [
+    80,
+    80,
+    80,
+    80,
+    80,
+    80,
+    80,
+    80,
+    80,
+    80,
+    80,
+    80
+  ],
+  "cycle_ms": 960,
+  "reference_sha256": "B01C63E30F89B7FA9598910272B3D617B6459BDA9F9797BB69D303F2A2A4CEB6",
+  "preview_scale": "4x nearest-neighbour; no added source detail",
+  "browser_check": "GIF loaded and a support-foot pose observed; comparison PNG visually inspected",
+  "limitations": [
+    "South idle and in-place walk only",
+    "Game translation speed and ground contact need Unity validation",
+    "No PSD; actual editability is provided by Aseprite layers"
+  ],
+  "layer_recomposition_rgba_max_difference": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "native_info": {
+    "color_mode": "rgb",
+    "frame_count": 12,
+    "height": 160,
+    "layer_count": 12,
+    "layers": [
+      "00 Contact shadow",
+      "01 Left leg and boot",
+      "02 Right leg and boot",
+      "03 Leather coat and undershirt",
+      "04 Sword - replaceable",
+      "05 Left arm and glove",
+      "06 Right arm and glove",
+      "07 Belt buckle and pouch",
+      "08 Left pauldron - replaceable",
+      "09 Cream scarf",
+      "10 Face and ears",
+      "11 Brown hair"
+    ],
+    "width": 128
+  }
+}

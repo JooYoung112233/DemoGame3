@@ -1,0 +1,21 @@
+CREATED E:\personalProject\Demo3\demo6\아트\검사-오른쪽-기본자세-테스트-v1\swordsman-east-idle-test-v1.aseprite 208x192 RGBA 1 frame / 14 editable layers. Feet 76,173. Hand 113,117.
+REOPENED 208x192 RGBA / 14 layers / 1 frame; bounds 36,15..191,180; alpha0=29692 alpha255=9770 shadowAlpha=474
+LAYER 01 00 Ground shadow - separate visible_pixels=963
+LAYER 02 01 Far leg and boot visible_pixels=1251
+LAYER 03 02 Near leg and heavy boot visible_pixels=1752
+LAYER 04 03 Far arm and relaxed glove visible_pixels=652
+LAYER 05 04 Leather coat - body and split skirt visible_pixels=3318
+LAYER 06 05 Belt, buckle, and rear pouch visible_pixels=726
+LAYER 07 06 Left pauldron - steel plates visible_pixels=979
+LAYER 08 07 Scarf - collar and hanging cloth visible_pixels=1101
+LAYER 09 08 Face and ear - right three quarter visible_pixels=1508
+LAYER 10 09 Hair - crown and right fringe visible_pixels=2681
+LAYER 11 10 Near arm - sleeve and bracer visible_pixels=892
+LAYER 12 11 Longsword - held - anchor 113,117 visible_pixels=898
+LAYER 13 12 Near glove - wraps over grip visible_pixels=153
+LAYER 14 13 Visible eye and brow - right profile visible_pixels=10
+PIVOT feet_pivot 76,173
+PIVOT right_hand_grip 113,117
+DISPLAY 1080p ortho8 scale1 PPU64: factor 1.054688; canvas 219x203 screenpx; body height approx 170.9px
+DISPLAY 1080p ortho8 scale1 PPU96: factor 0.703125; canvas 146x135 screenpx; body height approx 113.9px
+CHECKS PASS: native layers, clear border, feet and hand pivots, grip/glove overlap. Readability review only; Unity untested.

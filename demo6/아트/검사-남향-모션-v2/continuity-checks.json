@@ -1,0 +1,1280 @@
+{
+  "checkedRequests": 72,
+  "attackReturnsIdle": true,
+  "sharedNeutral": true,
+  "locomotionPassingPhaseMaintained": true,
+  "results": [
+    {
+      "from": "idle",
+      "fromFrame": 0,
+      "to": "walk",
+      "trace": [
+        {
+          "from": "idle",
+          "to": "start",
+          "fromFrame": 0,
+          "toFrame": 0
+        },
+        {
+          "from": "start",
+          "to": "walk",
+          "fromFrame": 1,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "idle",
+      "fromFrame": 1,
+      "to": "walk",
+      "trace": [
+        {
+          "from": "idle",
+          "to": "start",
+          "fromFrame": 1,
+          "toFrame": 0
+        },
+        {
+          "from": "start",
+          "to": "walk",
+          "fromFrame": 1,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "idle",
+      "fromFrame": 2,
+      "to": "walk",
+      "trace": [
+        {
+          "from": "idle",
+          "to": "start",
+          "fromFrame": 2,
+          "toFrame": 0
+        },
+        {
+          "from": "start",
+          "to": "walk",
+          "fromFrame": 1,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "idle",
+      "fromFrame": 3,
+      "to": "walk",
+      "trace": [
+        {
+          "from": "idle",
+          "to": "start",
+          "fromFrame": 3,
+          "toFrame": 0
+        },
+        {
+          "from": "start",
+          "to": "walk",
+          "fromFrame": 1,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "idle",
+      "fromFrame": 4,
+      "to": "walk",
+      "trace": [
+        {
+          "from": "idle",
+          "to": "start",
+          "fromFrame": 4,
+          "toFrame": 0
+        },
+        {
+          "from": "start",
+          "to": "walk",
+          "fromFrame": 1,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "idle",
+      "fromFrame": 5,
+      "to": "walk",
+      "trace": [
+        {
+          "from": "idle",
+          "to": "start",
+          "fromFrame": 5,
+          "toFrame": 0
+        },
+        {
+          "from": "start",
+          "to": "walk",
+          "fromFrame": 1,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "idle",
+      "fromFrame": 6,
+      "to": "walk",
+      "trace": [
+        {
+          "from": "idle",
+          "to": "start",
+          "fromFrame": 6,
+          "toFrame": 0
+        },
+        {
+          "from": "start",
+          "to": "walk",
+          "fromFrame": 1,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "idle",
+      "fromFrame": 7,
+      "to": "walk",
+      "trace": [
+        {
+          "from": "idle",
+          "to": "start",
+          "fromFrame": 7,
+          "toFrame": 0
+        },
+        {
+          "from": "start",
+          "to": "walk",
+          "fromFrame": 1,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "idle",
+      "fromFrame": 0,
+      "to": "run",
+      "trace": [
+        {
+          "from": "idle",
+          "to": "start",
+          "fromFrame": 0,
+          "toFrame": 0
+        },
+        {
+          "from": "start",
+          "to": "walk",
+          "fromFrame": 1,
+          "toFrame": 0
+        },
+        {
+          "from": "walk",
+          "to": "run",
+          "fromFrame": 1,
+          "toFrame": 2
+        }
+      ]
+    },
+    {
+      "from": "idle",
+      "fromFrame": 1,
+      "to": "run",
+      "trace": [
+        {
+          "from": "idle",
+          "to": "start",
+          "fromFrame": 1,
+          "toFrame": 0
+        },
+        {
+          "from": "start",
+          "to": "walk",
+          "fromFrame": 1,
+          "toFrame": 0
+        },
+        {
+          "from": "walk",
+          "to": "run",
+          "fromFrame": 1,
+          "toFrame": 2
+        }
+      ]
+    },
+    {
+      "from": "idle",
+      "fromFrame": 2,
+      "to": "run",
+      "trace": [
+        {
+          "from": "idle",
+          "to": "start",
+          "fromFrame": 2,
+          "toFrame": 0
+        },
+        {
+          "from": "start",
+          "to": "walk",
+          "fromFrame": 1,
+          "toFrame": 0
+        },
+        {
+          "from": "walk",
+          "to": "run",
+          "fromFrame": 1,
+          "toFrame": 2
+        }
+      ]
+    },
+    {
+      "from": "idle",
+      "fromFrame": 3,
+      "to": "run",
+      "trace": [
+        {
+          "from": "idle",
+          "to": "start",
+          "fromFrame": 3,
+          "toFrame": 0
+        },
+        {
+          "from": "start",
+          "to": "walk",
+          "fromFrame": 1,
+          "toFrame": 0
+        },
+        {
+          "from": "walk",
+          "to": "run",
+          "fromFrame": 1,
+          "toFrame": 2
+        }
+      ]
+    },
+    {
+      "from": "idle",
+      "fromFrame": 4,
+      "to": "run",
+      "trace": [
+        {
+          "from": "idle",
+          "to": "start",
+          "fromFrame": 4,
+          "toFrame": 0
+        },
+        {
+          "from": "start",
+          "to": "walk",
+          "fromFrame": 1,
+          "toFrame": 0
+        },
+        {
+          "from": "walk",
+          "to": "run",
+          "fromFrame": 1,
+          "toFrame": 2
+        }
+      ]
+    },
+    {
+      "from": "idle",
+      "fromFrame": 5,
+      "to": "run",
+      "trace": [
+        {
+          "from": "idle",
+          "to": "start",
+          "fromFrame": 5,
+          "toFrame": 0
+        },
+        {
+          "from": "start",
+          "to": "walk",
+          "fromFrame": 1,
+          "toFrame": 0
+        },
+        {
+          "from": "walk",
+          "to": "run",
+          "fromFrame": 1,
+          "toFrame": 2
+        }
+      ]
+    },
+    {
+      "from": "idle",
+      "fromFrame": 6,
+      "to": "run",
+      "trace": [
+        {
+          "from": "idle",
+          "to": "start",
+          "fromFrame": 6,
+          "toFrame": 0
+        },
+        {
+          "from": "start",
+          "to": "walk",
+          "fromFrame": 1,
+          "toFrame": 0
+        },
+        {
+          "from": "walk",
+          "to": "run",
+          "fromFrame": 1,
+          "toFrame": 2
+        }
+      ]
+    },
+    {
+      "from": "idle",
+      "fromFrame": 7,
+      "to": "run",
+      "trace": [
+        {
+          "from": "idle",
+          "to": "start",
+          "fromFrame": 7,
+          "toFrame": 0
+        },
+        {
+          "from": "start",
+          "to": "walk",
+          "fromFrame": 1,
+          "toFrame": 0
+        },
+        {
+          "from": "walk",
+          "to": "run",
+          "fromFrame": 1,
+          "toFrame": 2
+        }
+      ]
+    },
+    {
+      "from": "idle",
+      "fromFrame": 0,
+      "to": "attack",
+      "trace": [
+        {
+          "from": "idle",
+          "to": "attack",
+          "fromFrame": 0,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "idle",
+      "fromFrame": 1,
+      "to": "attack",
+      "trace": [
+        {
+          "from": "idle",
+          "to": "attack",
+          "fromFrame": 1,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "idle",
+      "fromFrame": 2,
+      "to": "attack",
+      "trace": [
+        {
+          "from": "idle",
+          "to": "attack",
+          "fromFrame": 2,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "idle",
+      "fromFrame": 3,
+      "to": "attack",
+      "trace": [
+        {
+          "from": "idle",
+          "to": "attack",
+          "fromFrame": 3,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "idle",
+      "fromFrame": 4,
+      "to": "attack",
+      "trace": [
+        {
+          "from": "idle",
+          "to": "attack",
+          "fromFrame": 4,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "idle",
+      "fromFrame": 5,
+      "to": "attack",
+      "trace": [
+        {
+          "from": "idle",
+          "to": "attack",
+          "fromFrame": 5,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "idle",
+      "fromFrame": 6,
+      "to": "attack",
+      "trace": [
+        {
+          "from": "idle",
+          "to": "attack",
+          "fromFrame": 6,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "idle",
+      "fromFrame": 7,
+      "to": "attack",
+      "trace": [
+        {
+          "from": "idle",
+          "to": "attack",
+          "fromFrame": 7,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "walk",
+      "fromFrame": 0,
+      "to": "idle",
+      "trace": [
+        {
+          "from": "walk",
+          "to": "stop",
+          "fromFrame": 7,
+          "toFrame": 0
+        },
+        {
+          "from": "stop",
+          "to": "idle",
+          "fromFrame": 2,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "walk",
+      "fromFrame": 1,
+      "to": "idle",
+      "trace": [
+        {
+          "from": "walk",
+          "to": "stop",
+          "fromFrame": 7,
+          "toFrame": 0
+        },
+        {
+          "from": "stop",
+          "to": "idle",
+          "fromFrame": 2,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "walk",
+      "fromFrame": 2,
+      "to": "idle",
+      "trace": [
+        {
+          "from": "walk",
+          "to": "stop",
+          "fromFrame": 7,
+          "toFrame": 0
+        },
+        {
+          "from": "stop",
+          "to": "idle",
+          "fromFrame": 2,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "walk",
+      "fromFrame": 3,
+      "to": "idle",
+      "trace": [
+        {
+          "from": "walk",
+          "to": "stop",
+          "fromFrame": 7,
+          "toFrame": 0
+        },
+        {
+          "from": "stop",
+          "to": "idle",
+          "fromFrame": 2,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "walk",
+      "fromFrame": 4,
+      "to": "idle",
+      "trace": [
+        {
+          "from": "walk",
+          "to": "stop",
+          "fromFrame": 7,
+          "toFrame": 0
+        },
+        {
+          "from": "stop",
+          "to": "idle",
+          "fromFrame": 2,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "walk",
+      "fromFrame": 5,
+      "to": "idle",
+      "trace": [
+        {
+          "from": "walk",
+          "to": "stop",
+          "fromFrame": 7,
+          "toFrame": 0
+        },
+        {
+          "from": "stop",
+          "to": "idle",
+          "fromFrame": 2,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "walk",
+      "fromFrame": 6,
+      "to": "idle",
+      "trace": [
+        {
+          "from": "walk",
+          "to": "stop",
+          "fromFrame": 7,
+          "toFrame": 0
+        },
+        {
+          "from": "stop",
+          "to": "idle",
+          "fromFrame": 2,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "walk",
+      "fromFrame": 7,
+      "to": "idle",
+      "trace": [
+        {
+          "from": "walk",
+          "to": "stop",
+          "fromFrame": 7,
+          "toFrame": 0
+        },
+        {
+          "from": "stop",
+          "to": "idle",
+          "fromFrame": 2,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "walk",
+      "fromFrame": 0,
+      "to": "run",
+      "trace": [
+        {
+          "from": "walk",
+          "to": "run",
+          "fromFrame": 1,
+          "toFrame": 2
+        }
+      ]
+    },
+    {
+      "from": "walk",
+      "fromFrame": 1,
+      "to": "run",
+      "trace": [
+        {
+          "from": "walk",
+          "to": "run",
+          "fromFrame": 1,
+          "toFrame": 2
+        }
+      ]
+    },
+    {
+      "from": "walk",
+      "fromFrame": 2,
+      "to": "run",
+      "trace": [
+        {
+          "from": "walk",
+          "to": "run",
+          "fromFrame": 5,
+          "toFrame": 6
+        }
+      ]
+    },
+    {
+      "from": "walk",
+      "fromFrame": 3,
+      "to": "run",
+      "trace": [
+        {
+          "from": "walk",
+          "to": "run",
+          "fromFrame": 5,
+          "toFrame": 6
+        }
+      ]
+    },
+    {
+      "from": "walk",
+      "fromFrame": 4,
+      "to": "run",
+      "trace": [
+        {
+          "from": "walk",
+          "to": "run",
+          "fromFrame": 5,
+          "toFrame": 6
+        }
+      ]
+    },
+    {
+      "from": "walk",
+      "fromFrame": 5,
+      "to": "run",
+      "trace": [
+        {
+          "from": "walk",
+          "to": "run",
+          "fromFrame": 5,
+          "toFrame": 6
+        }
+      ]
+    },
+    {
+      "from": "walk",
+      "fromFrame": 6,
+      "to": "run",
+      "trace": [
+        {
+          "from": "walk",
+          "to": "run",
+          "fromFrame": 1,
+          "toFrame": 2
+        }
+      ]
+    },
+    {
+      "from": "walk",
+      "fromFrame": 7,
+      "to": "run",
+      "trace": [
+        {
+          "from": "walk",
+          "to": "run",
+          "fromFrame": 1,
+          "toFrame": 2
+        }
+      ]
+    },
+    {
+      "from": "walk",
+      "fromFrame": 0,
+      "to": "attack",
+      "trace": [
+        {
+          "from": "walk",
+          "to": "stop",
+          "fromFrame": 7,
+          "toFrame": 0
+        },
+        {
+          "from": "stop",
+          "to": "attack",
+          "fromFrame": 2,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "walk",
+      "fromFrame": 1,
+      "to": "attack",
+      "trace": [
+        {
+          "from": "walk",
+          "to": "stop",
+          "fromFrame": 7,
+          "toFrame": 0
+        },
+        {
+          "from": "stop",
+          "to": "attack",
+          "fromFrame": 2,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "walk",
+      "fromFrame": 2,
+      "to": "attack",
+      "trace": [
+        {
+          "from": "walk",
+          "to": "stop",
+          "fromFrame": 7,
+          "toFrame": 0
+        },
+        {
+          "from": "stop",
+          "to": "attack",
+          "fromFrame": 2,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "walk",
+      "fromFrame": 3,
+      "to": "attack",
+      "trace": [
+        {
+          "from": "walk",
+          "to": "stop",
+          "fromFrame": 7,
+          "toFrame": 0
+        },
+        {
+          "from": "stop",
+          "to": "attack",
+          "fromFrame": 2,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "walk",
+      "fromFrame": 4,
+      "to": "attack",
+      "trace": [
+        {
+          "from": "walk",
+          "to": "stop",
+          "fromFrame": 7,
+          "toFrame": 0
+        },
+        {
+          "from": "stop",
+          "to": "attack",
+          "fromFrame": 2,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "walk",
+      "fromFrame": 5,
+      "to": "attack",
+      "trace": [
+        {
+          "from": "walk",
+          "to": "stop",
+          "fromFrame": 7,
+          "toFrame": 0
+        },
+        {
+          "from": "stop",
+          "to": "attack",
+          "fromFrame": 2,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "walk",
+      "fromFrame": 6,
+      "to": "attack",
+      "trace": [
+        {
+          "from": "walk",
+          "to": "stop",
+          "fromFrame": 7,
+          "toFrame": 0
+        },
+        {
+          "from": "stop",
+          "to": "attack",
+          "fromFrame": 2,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "walk",
+      "fromFrame": 7,
+      "to": "attack",
+      "trace": [
+        {
+          "from": "walk",
+          "to": "stop",
+          "fromFrame": 7,
+          "toFrame": 0
+        },
+        {
+          "from": "stop",
+          "to": "attack",
+          "fromFrame": 2,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "run",
+      "fromFrame": 0,
+      "to": "idle",
+      "trace": [
+        {
+          "from": "run",
+          "to": "stop",
+          "fromFrame": 7,
+          "toFrame": 0
+        },
+        {
+          "from": "stop",
+          "to": "idle",
+          "fromFrame": 2,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "run",
+      "fromFrame": 1,
+      "to": "idle",
+      "trace": [
+        {
+          "from": "run",
+          "to": "stop",
+          "fromFrame": 7,
+          "toFrame": 0
+        },
+        {
+          "from": "stop",
+          "to": "idle",
+          "fromFrame": 2,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "run",
+      "fromFrame": 2,
+      "to": "idle",
+      "trace": [
+        {
+          "from": "run",
+          "to": "stop",
+          "fromFrame": 7,
+          "toFrame": 0
+        },
+        {
+          "from": "stop",
+          "to": "idle",
+          "fromFrame": 2,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "run",
+      "fromFrame": 3,
+      "to": "idle",
+      "trace": [
+        {
+          "from": "run",
+          "to": "stop",
+          "fromFrame": 7,
+          "toFrame": 0
+        },
+        {
+          "from": "stop",
+          "to": "idle",
+          "fromFrame": 2,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "run",
+      "fromFrame": 4,
+      "to": "idle",
+      "trace": [
+        {
+          "from": "run",
+          "to": "stop",
+          "fromFrame": 7,
+          "toFrame": 0
+        },
+        {
+          "from": "stop",
+          "to": "idle",
+          "fromFrame": 2,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "run",
+      "fromFrame": 5,
+      "to": "idle",
+      "trace": [
+        {
+          "from": "run",
+          "to": "stop",
+          "fromFrame": 7,
+          "toFrame": 0
+        },
+        {
+          "from": "stop",
+          "to": "idle",
+          "fromFrame": 2,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "run",
+      "fromFrame": 6,
+      "to": "idle",
+      "trace": [
+        {
+          "from": "run",
+          "to": "stop",
+          "fromFrame": 7,
+          "toFrame": 0
+        },
+        {
+          "from": "stop",
+          "to": "idle",
+          "fromFrame": 2,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "run",
+      "fromFrame": 7,
+      "to": "idle",
+      "trace": [
+        {
+          "from": "run",
+          "to": "stop",
+          "fromFrame": 7,
+          "toFrame": 0
+        },
+        {
+          "from": "stop",
+          "to": "idle",
+          "fromFrame": 2,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "run",
+      "fromFrame": 0,
+      "to": "walk",
+      "trace": [
+        {
+          "from": "run",
+          "to": "walk",
+          "fromFrame": 1,
+          "toFrame": 2
+        }
+      ]
+    },
+    {
+      "from": "run",
+      "fromFrame": 1,
+      "to": "walk",
+      "trace": [
+        {
+          "from": "run",
+          "to": "walk",
+          "fromFrame": 1,
+          "toFrame": 2
+        }
+      ]
+    },
+    {
+      "from": "run",
+      "fromFrame": 2,
+      "to": "walk",
+      "trace": [
+        {
+          "from": "run",
+          "to": "walk",
+          "fromFrame": 5,
+          "toFrame": 6
+        }
+      ]
+    },
+    {
+      "from": "run",
+      "fromFrame": 3,
+      "to": "walk",
+      "trace": [
+        {
+          "from": "run",
+          "to": "walk",
+          "fromFrame": 5,
+          "toFrame": 6
+        }
+      ]
+    },
+    {
+      "from": "run",
+      "fromFrame": 4,
+      "to": "walk",
+      "trace": [
+        {
+          "from": "run",
+          "to": "walk",
+          "fromFrame": 5,
+          "toFrame": 6
+        }
+      ]
+    },
+    {
+      "from": "run",
+      "fromFrame": 5,
+      "to": "walk",
+      "trace": [
+        {
+          "from": "run",
+          "to": "walk",
+          "fromFrame": 5,
+          "toFrame": 6
+        }
+      ]
+    },
+    {
+      "from": "run",
+      "fromFrame": 6,
+      "to": "walk",
+      "trace": [
+        {
+          "from": "run",
+          "to": "walk",
+          "fromFrame": 1,
+          "toFrame": 2
+        }
+      ]
+    },
+    {
+      "from": "run",
+      "fromFrame": 7,
+      "to": "walk",
+      "trace": [
+        {
+          "from": "run",
+          "to": "walk",
+          "fromFrame": 1,
+          "toFrame": 2
+        }
+      ]
+    },
+    {
+      "from": "run",
+      "fromFrame": 0,
+      "to": "attack",
+      "trace": [
+        {
+          "from": "run",
+          "to": "stop",
+          "fromFrame": 7,
+          "toFrame": 0
+        },
+        {
+          "from": "stop",
+          "to": "attack",
+          "fromFrame": 2,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "run",
+      "fromFrame": 1,
+      "to": "attack",
+      "trace": [
+        {
+          "from": "run",
+          "to": "stop",
+          "fromFrame": 7,
+          "toFrame": 0
+        },
+        {
+          "from": "stop",
+          "to": "attack",
+          "fromFrame": 2,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "run",
+      "fromFrame": 2,
+      "to": "attack",
+      "trace": [
+        {
+          "from": "run",
+          "to": "stop",
+          "fromFrame": 7,
+          "toFrame": 0
+        },
+        {
+          "from": "stop",
+          "to": "attack",
+          "fromFrame": 2,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "run",
+      "fromFrame": 3,
+      "to": "attack",
+      "trace": [
+        {
+          "from": "run",
+          "to": "stop",
+          "fromFrame": 7,
+          "toFrame": 0
+        },
+        {
+          "from": "stop",
+          "to": "attack",
+          "fromFrame": 2,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "run",
+      "fromFrame": 4,
+      "to": "attack",
+      "trace": [
+        {
+          "from": "run",
+          "to": "stop",
+          "fromFrame": 7,
+          "toFrame": 0
+        },
+        {
+          "from": "stop",
+          "to": "attack",
+          "fromFrame": 2,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "run",
+      "fromFrame": 5,
+      "to": "attack",
+      "trace": [
+        {
+          "from": "run",
+          "to": "stop",
+          "fromFrame": 7,
+          "toFrame": 0
+        },
+        {
+          "from": "stop",
+          "to": "attack",
+          "fromFrame": 2,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "run",
+      "fromFrame": 6,
+      "to": "attack",
+      "trace": [
+        {
+          "from": "run",
+          "to": "stop",
+          "fromFrame": 7,
+          "toFrame": 0
+        },
+        {
+          "from": "stop",
+          "to": "attack",
+          "fromFrame": 2,
+          "toFrame": 0
+        }
+      ]
+    },
+    {
+      "from": "run",
+      "fromFrame": 7,
+      "to": "attack",
+      "trace": [
+        {
+          "from": "run",
+          "to": "stop",
+          "fromFrame": 7,
+          "toFrame": 0
+        },
+        {
+          "from": "stop",
+          "to": "attack",
+          "fromFrame": 2,
+          "toFrame": 0
+        }
+      ]
+    }
+  ]
+}

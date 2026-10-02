@@ -1,0 +1,268 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e977bbade32175d409be69d8c6c973c7, type: 3}
+  m_Name: CombatArtSet
+  m_EditorClassIdentifier: Demo6.Game::Demo6.Game.CombatArtSet
+  flashMaterial: {fileID: 2100000, guid: 60dbc2753a5456243a4132d2e014cf7a, type: 2}
+  player:
+    scale: 1
+    offset: {x: 0, y: 0}
+    previewIdleForMissingClips: 1
+    idle:
+      frames:
+      - {fileID: 21300000, guid: b118c02b77f3a3741895a0a0407d0d7d, type: 3}
+      fps: 1
+      keyFrameNumber: 0
+    move:
+      frames: []
+      fps: 12
+      keyFrameNumber: 0
+    dodge:
+      frames: []
+      fps: 12
+      keyFrameNumber: 0
+    whirl:
+      frames: []
+      fps: 12
+      keyFrameNumber: 0
+    waveCast:
+      frames: []
+      fps: 12
+      keyFrameNumber: 0
+    hurt:
+      frames: []
+      fps: 12
+      keyFrameNumber: 0
+    down:
+      frames: []
+      fps: 12
+      keyFrameNumber: 0
+  weapons:
+  - weaponId: wpn_longsword
+    steps:
+    - body:
+        frames: []
+        fps: 12
+        keyFrameNumber: 0
+      slash:
+        frames: []
+        fps: 12
+        keyFrameNumber: 0
+      slashScale: 1
+      mirrorAlternate: 1
+      swingSound: {fileID: 0}
+      impactSound: {fileID: 0}
+    - body:
+        frames: []
+        fps: 12
+        keyFrameNumber: 0
+      slash:
+        frames: []
+        fps: 12
+        keyFrameNumber: 0
+      slashScale: 1
+      mirrorAlternate: 1
+      swingSound: {fileID: 0}
+      impactSound: {fileID: 0}
+    - body:
+        frames: []
+        fps: 12
+        keyFrameNumber: 0
+      slash:
+        frames: []
+        fps: 12
+        keyFrameNumber: 0
+      slashScale: 1
+      mirrorAlternate: 0
+      swingSound: {fileID: 0}
+      impactSound: {fileID: 0}
+  - weaponId: wpn_greatsword
+    steps:
+    - body:
+        frames: []
+        fps: 12
+        keyFrameNumber: 0
+      slash:
+        frames: []
+        fps: 12
+        keyFrameNumber: 0
+      slashScale: 1
+      mirrorAlternate: 1
+      swingSound: {fileID: 0}
+      impactSound: {fileID: 0}
+    - body:
+        frames: []
+        fps: 12
+        keyFrameNumber: 0
+      slash:
+        frames: []
+        fps: 12
+        keyFrameNumber: 0
+      slashScale: 1
+      mirrorAlternate: 1
+      swingSound: {fileID: 0}
+      impactSound: {fileID: 0}
+    - body:
+        frames: []
+        fps: 12
+        keyFrameNumber: 0
+      slash:
+        frames: []
+        fps: 12
+        keyFrameNumber: 0
+      slashScale: 1
+      mirrorAlternate: 0
+      swingSound: {fileID: 0}
+      impactSound: {fileID: 0}
+  - weaponId: wpn_twinblades
+    steps:
+    - body:
+        frames: []
+        fps: 12
+        keyFrameNumber: 0
+      slash:
+        frames: []
+        fps: 12
+        keyFrameNumber: 0
+      slashScale: 1
+      mirrorAlternate: 1
+      swingSound: {fileID: 0}
+      impactSound: {fileID: 0}
+    - body:
+        frames: []
+        fps: 12
+        keyFrameNumber: 0
+      slash:
+        frames: []
+        fps: 12
+        keyFrameNumber: 0
+      slashScale: 1
+      mirrorAlternate: 1
+      swingSound: {fileID: 0}
+      impactSound: {fileID: 0}
+    - body:
+        frames: []
+        fps: 12
+        keyFrameNumber: 0
+      slash:
+        frames: []
+        fps: 12
+        keyFrameNumber: 0
+      slashScale: 1
+      mirrorAlternate: 1
+      swingSound: {fileID: 0}
+      impactSound: {fileID: 0}
+    - body:
+        frames: []
+        fps: 12
+        keyFrameNumber: 0
+      slash:
+        frames: []
+        fps: 12
+        keyFrameNumber: 0
+      slashScale: 1
+      mirrorAlternate: 0
+      swingSound: {fileID: 0}
+      impactSound: {fileID: 0}
+  rat:
+    scale: 1
+    offset: {x: 0, y: 0}
+    idle:
+      frames: []
+      fps: 12
+      keyFrameNumber: 0
+    move:
+      frames: []
+      fps: 12
+      keyFrameNumber: 0
+    windup:
+      frames: []
+      fps: 12
+      keyFrameNumber: 0
+    attack:
+      frames: []
+      fps: 12
+      keyFrameNumber: 0
+    hit:
+      frames: []
+      fps: 12
+      keyFrameNumber: 0
+    death:
+      frames: []
+      fps: 12
+      keyFrameNumber: 0
+  boar:
+    scale: 1
+    offset: {x: 0, y: 0}
+    idle:
+      frames: []
+      fps: 12
+      keyFrameNumber: 0
+    move:
+      frames: []
+      fps: 12
+      keyFrameNumber: 0
+    windup:
+      frames: []
+      fps: 12
+      keyFrameNumber: 0
+    attack:
+      frames: []
+      fps: 12
+      keyFrameNumber: 0
+    hit:
+      frames: []
+      fps: 12
+      keyFrameNumber: 0
+    death:
+      frames: []
+      fps: 12
+      keyFrameNumber: 0
+  archer:
+    scale: 1
+    offset: {x: 0, y: 0}
+    idle:
+      frames: []
+      fps: 12
+      keyFrameNumber: 0
+    move:
+      frames: []
+      fps: 12
+      keyFrameNumber: 0
+    windup:
+      frames: []
+      fps: 12
+      keyFrameNumber: 0
+    attack:
+      frames: []
+      fps: 12
+      keyFrameNumber: 0
+    hit:
+      frames: []
+      fps: 12
+      keyFrameNumber: 0
+    death:
+      frames: []
+      fps: 12
+      keyFrameNumber: 0
+  effects:
+    sparks: []
+    slashMark: {fileID: 0}
+  sounds:
+    swing: {fileID: 0}
+    hit: {fileID: 0}
+    crit: {fileID: 0}
+    hurt: {fileID: 0}
+    kill: {fileID: 0}
+    dodge: {fileID: 0}
+    boarCharge: {fileID: 0}
+    archerShot: {fileID: 0}

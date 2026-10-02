@@ -1,0 +1,293 @@
+{
+  "technique": "individually redrawn full-body cel poses, no skeletal limb deformation",
+  "canvas": [
+    1536,
+    1536
+  ],
+  "sourceReport": {
+    "attack-01": {
+      "width": 1024,
+      "height": 1536
+    },
+    "attack-02": {
+      "width": 1024,
+      "height": 1536
+    },
+    "attack-03": {
+      "width": 1024,
+      "height": 1536
+    },
+    "attack-04": {
+      "width": 1024,
+      "height": 1536
+    },
+    "attack-05": {
+      "width": 1024,
+      "height": 1536
+    },
+    "attack-06": {
+      "width": 1024,
+      "height": 1536
+    },
+    "idle-01": {
+      "width": 1024,
+      "height": 1536
+    },
+    "idle-02": {
+      "width": 1024,
+      "height": 1536
+    },
+    "idle-03": {
+      "width": 1024,
+      "height": 1536
+    },
+    "idle-04": {
+      "width": 1024,
+      "height": 1536
+    },
+    "neutral": {
+      "width": 1024,
+      "height": 1536
+    },
+    "run-00": {
+      "width": 1024,
+      "height": 1536
+    },
+    "run-01": {
+      "width": 1024,
+      "height": 1536
+    },
+    "run-02": {
+      "width": 1024,
+      "height": 1536
+    },
+    "run-03": {
+      "width": 1024,
+      "height": 1536
+    },
+    "run-04": {
+      "width": 1024,
+      "height": 1536
+    },
+    "run-05": {
+      "width": 1024,
+      "height": 1536
+    },
+    "run-06": {
+      "width": 1024,
+      "height": 1536
+    },
+    "run-07": {
+      "width": 1024,
+      "height": 1536
+    },
+    "start-00": {
+      "width": 1024,
+      "height": 1536
+    },
+    "start-01": {
+      "width": 1024,
+      "height": 1536
+    },
+    "walk-00": {
+      "width": 1024,
+      "height": 1536
+    },
+    "walk-01": {
+      "width": 1024,
+      "height": 1536
+    },
+    "walk-02": {
+      "width": 1024,
+      "height": 1536
+    },
+    "walk-03": {
+      "width": 1024,
+      "height": 1536
+    },
+    "walk-04": {
+      "width": 1024,
+      "height": 1536
+    },
+    "walk-05": {
+      "width": 1024,
+      "height": 1536
+    },
+    "walk-06": {
+      "width": 1024,
+      "height": 1536
+    },
+    "walk-07": {
+      "width": 1024,
+      "height": 1536
+    }
+  },
+  "clips": {
+    "idle": {
+      "loop": true,
+      "frames": [
+        "neutral",
+        "idle-02",
+        "idle-01",
+        "idle-04",
+        "idle-03",
+        "idle-04",
+        "idle-01",
+        "idle-02"
+      ],
+      "durations": [
+        240,
+        160,
+        130,
+        130,
+        260,
+        160,
+        160,
+        160
+      ],
+      "bob": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "walk": {
+      "loop": true,
+      "frames": [
+        "walk-00",
+        "walk-01",
+        "walk-02",
+        "walk-03",
+        "walk-04",
+        "walk-05",
+        "walk-06",
+        "walk-07"
+      ],
+      "durations": [
+        110,
+        140,
+        100,
+        150,
+        110,
+        140,
+        100,
+        150
+      ],
+      "bob": [
+        0,
+        12,
+        0,
+        -12,
+        0,
+        12,
+        0,
+        -12
+      ]
+    },
+    "run": {
+      "loop": true,
+      "frames": [
+        "run-00",
+        "run-01",
+        "run-02",
+        "run-03",
+        "run-04",
+        "run-05",
+        "run-06",
+        "run-07"
+      ],
+      "durations": [
+        60,
+        80,
+        60,
+        60,
+        60,
+        80,
+        60,
+        60
+      ],
+      "bob": [
+        0,
+        24,
+        -8,
+        -28,
+        0,
+        24,
+        -8,
+        -28
+      ]
+    },
+    "attack": {
+      "loop": false,
+      "frames": [
+        "neutral",
+        "attack-01",
+        "attack-02",
+        "attack-03",
+        "attack-04",
+        "attack-05",
+        "attack-06",
+        "neutral"
+      ],
+      "durations": [
+        80,
+        100,
+        110,
+        40,
+        70,
+        100,
+        130,
+        170
+      ],
+      "bob": [
+        0,
+        8,
+        -10,
+        4,
+        22,
+        12,
+        4,
+        0
+      ]
+    },
+    "start": {
+      "loop": false,
+      "frames": [
+        "start-00",
+        "start-01"
+      ],
+      "durations": [
+        100,
+        100
+      ],
+      "bob": [
+        2,
+        0
+      ]
+    },
+    "stop": {
+      "loop": false,
+      "frames": [
+        "start-01",
+        "start-00",
+        "neutral"
+      ],
+      "durations": [
+        80,
+        100,
+        100
+      ],
+      "bob": [
+        0,
+        2,
+        0
+      ]
+    }
+  },
+  "missing": []
+}

@@ -1,13 +1,14 @@
 # DemoGame3
 
-이 저장소는 같은 Git 저장소 안에서 두 Unity 프로젝트를 관리합니다.
+이 저장소는 같은 Git 저장소 안에서 Unity 프로젝트를 관리합니다.
 
 ## 프로젝트
 
 - `LIVE49/`: 기존 Live49 원래 프로젝트입니다. 이전 루트 제작 자료와 기존 Unity 프로젝트를 이 폴더 안으로 모았습니다.
 - `demo5/`: Unity 6000.6.0f1로 새로 만든 빈 2D 프로젝트입니다. 이후 신규 실험과 재구성 작업의 시작점으로 사용합니다.
+- `demo6/`: Unity 6000.6.0f1의 Universal 2D 템플릿으로 만든 새 프로젝트입니다. 기본 씬은 `Assets/Scenes/Main.unity`입니다.
 
-Unity Hub나 Unity CLI에서 프로젝트를 열 때는 저장소 루트가 아니라 `LIVE49/` 또는 `demo5/`를 선택합니다.
+Unity Hub나 Unity CLI에서 프로젝트를 열 때는 저장소 루트가 아니라 `LIVE49/`, `demo5/`, `demo6/` 중 작업할 프로젝트를 선택합니다.
 
 ## Live49 자료
 

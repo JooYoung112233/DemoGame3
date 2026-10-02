@@ -1,0 +1,89 @@
+{
+  "sources": {
+    "head": {
+      "width": 1247,
+      "height": 1261
+    },
+    "torso": {
+      "width": 1024,
+      "height": 1536
+    },
+    "arms": {
+      "width": 1024,
+      "height": 1536
+    },
+    "legs": {
+      "width": 1024,
+      "height": 1536
+    },
+    "sword": {
+      "width": 1024,
+      "height": 1536
+    }
+  },
+  "regions": {
+    "head": {
+      "source": "head",
+      "rect": [
+        5,
+        15,
+        1239,
+        1238
+      ]
+    },
+    "torso": {
+      "source": "torso",
+      "rect": [
+        31,
+        130,
+        963,
+        1155
+      ]
+    },
+    "leftArm": {
+      "source": "arms",
+      "rect": [
+        51,
+        132,
+        355,
+        1064
+      ]
+    },
+    "rightArm": {
+      "source": "arms",
+      "rect": [
+        622,
+        136,
+        378,
+        1064
+      ]
+    },
+    "leftLeg": {
+      "source": "legs",
+      "rect": [
+        68,
+        98,
+        363,
+        1221
+      ]
+    },
+    "rightLeg": {
+      "source": "legs",
+      "rect": [
+        594,
+        98,
+        362,
+        1221
+      ]
+    },
+    "sword": {
+      "source": "sword",
+      "rect": [
+        342,
+        29,
+        340,
+        1477
+      ]
+    }
+  }
+}

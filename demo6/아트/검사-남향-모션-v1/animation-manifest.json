@@ -1,0 +1,120 @@
+{
+  "direction": "south",
+  "technique": "painted 2D mesh cutout animation",
+  "canvas": [
+    1536,
+    1536
+  ],
+  "pivotPixels": [
+    763.2,
+    1216.5
+  ],
+  "clips": {
+    "idle": {
+      "frames": 8,
+      "duration": 1.6,
+      "loop": true,
+      "sampleFps": 5,
+      "files": [
+        "frames/idle/00.png",
+        "frames/idle/01.png",
+        "frames/idle/02.png",
+        "frames/idle/03.png",
+        "frames/idle/04.png",
+        "frames/idle/05.png",
+        "frames/idle/06.png",
+        "frames/idle/07.png"
+      ]
+    },
+    "walk": {
+      "frames": 12,
+      "duration": 1,
+      "loop": true,
+      "sampleFps": 12,
+      "files": [
+        "frames/walk/00.png",
+        "frames/walk/01.png",
+        "frames/walk/02.png",
+        "frames/walk/03.png",
+        "frames/walk/04.png",
+        "frames/walk/05.png",
+        "frames/walk/06.png",
+        "frames/walk/07.png",
+        "frames/walk/08.png",
+        "frames/walk/09.png",
+        "frames/walk/10.png",
+        "frames/walk/11.png"
+      ]
+    },
+    "run": {
+      "frames": 12,
+      "duration": 0.6,
+      "loop": true,
+      "sampleFps": 20,
+      "files": [
+        "frames/run/00.png",
+        "frames/run/01.png",
+        "frames/run/02.png",
+        "frames/run/03.png",
+        "frames/run/04.png",
+        "frames/run/05.png",
+        "frames/run/06.png",
+        "frames/run/07.png",
+        "frames/run/08.png",
+        "frames/run/09.png",
+        "frames/run/10.png",
+        "frames/run/11.png"
+      ]
+    },
+    "attack": {
+      "frames": 12,
+      "duration": 0.8,
+      "loop": false,
+      "sampleFps": 13.75,
+      "files": [
+        "frames/attack/00.png",
+        "frames/attack/01.png",
+        "frames/attack/02.png",
+        "frames/attack/03.png",
+        "frames/attack/04.png",
+        "frames/attack/05.png",
+        "frames/attack/06.png",
+        "frames/attack/07.png",
+        "frames/attack/08.png",
+        "frames/attack/09.png",
+        "frames/attack/10.png",
+        "frames/attack/11.png"
+      ]
+    }
+  },
+  "sourceResolution": {
+    "head": {
+      "width": 1247,
+      "height": 1261
+    },
+    "torso": {
+      "width": 1024,
+      "height": 1536
+    },
+    "arms": {
+      "width": 1024,
+      "height": 1536
+    },
+    "legs": {
+      "width": 1024,
+      "height": 1536
+    },
+    "sword": {
+      "width": 1024,
+      "height": 1536
+    }
+  },
+  "transitions": {
+    "idle_walk": 0.18,
+    "walk_run": 0.18,
+    "run_walk": 0.18,
+    "to_idle": 0.22,
+    "to_attack": 0.12,
+    "method": "pose blend; preserve walk/run normalized gait phase"
+  }
+}
