@@ -276,6 +276,7 @@ namespace EastTrain
             var key = Keyboard.current;
             if (key != null)
             {
+                if (key.f5Key.wasPressedThisFrame) QuickStartPrototype();
                 if (key.rKey.wasPressedThisFrame && (key.leftCtrlKey.isPressed || key.rightCtrlKey.isPressed))
                 { UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex); return; }
                 if (key.escapeKey.wasPressedThisFrame) { Driving = false; Repairing = false; }

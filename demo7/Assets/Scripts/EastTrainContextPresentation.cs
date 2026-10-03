@@ -26,6 +26,7 @@ namespace EastTrain
             timingTool = needle.parent;
             timingTool.gameObject.SetActive(false);
             controlBoard.gameObject.SetActive(false);
+            BuildPrototypeHud();
         }
 
         void UpdateContextPresentation(float dt)
@@ -37,7 +38,7 @@ namespace EastTrain
             contextTime = Mathf.Max(0, contextTime - dt);
             if (help && context.Length == 0) context = "A/D 이동 · W/S 사다리 · E 사용 · 휠 확대";
             bool visible = context.Length > 0 && (help || contextTime > 0);
-            hintBoard.gameObject.SetActive(visible);
+            hintBoard.gameObject.SetActive(visible && !PrototypeUI);
             hintText.text = context;
             float logicalSize = Driving || JourneyView ? .16f : .095f;
             hintText.characterSize = logicalSize * .28f;
@@ -48,6 +49,7 @@ namespace EastTrain
             contextBacking.transform.localScale = new Vector3(width + .35f, Driving ? .4f : .31f, 1);
             timingTool.gameObject.SetActive(Repairing);
             foreach (var bolt in bolts) bolt.gameObject.SetActive(Repairing);
+            UpdatePrototypeHud(context);
         }
     }
 }

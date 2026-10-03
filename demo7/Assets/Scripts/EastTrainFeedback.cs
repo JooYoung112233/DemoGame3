@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace EastTrain
 {
@@ -12,17 +13,34 @@ namespace EastTrain
         float moveInput, gait, enginePhase, fuelFlash, zoomVelocity;
         Vector2 cylinderOrigin = new Vector2(-2.6f, -.75f);
         public float InteriorZoom = 3.8f, JourneyZoom = 9.6f, OutsideZoom = 5.3f;
+        bool pointerCamera, pointerJourney, pointerOutside;
+        Vector2 pointerCameraOffset;
         public bool JourneyView => Driving || State.Speed > .15f;
         public string ViewMode => State.Arrived ? "arrival" : JourneyView ? "driving" : Outside ? "outside" : Repairing ? "repair" : "interior";
         public void AdjustZoom(float wheelDelta)
         {
             if (Mathf.Abs(wheelDelta) < .01f) return;
-            float change = Mathf.Clamp(wheelDelta, -480, 480) * .0035f;
-            if (JourneyView) JourneyZoom = Mathf.Clamp(JourneyZoom - change, 9.6f, 13);
-            else if (Outside) OutsideZoom = Mathf.Clamp(OutsideZoom - change, 3.5f, 9);
-            else InteriorZoom = Mathf.Clamp(InteriorZoom - change, 3, 7);
+            // Input backends report either normalized ticks or Windows' 120-unit ticks.
+            float ticks = Mathf.Abs(wheelDelta) < 10 ? wheelDelta : wheelDelta / 120f;
+            float change = Mathf.Clamp(ticks, -4, 4) * 2f;
+            if (JourneyView) JourneyZoom = Mathf.Clamp(JourneyZoom - change, 9.6f, 16);
+            else if (Outside) OutsideZoom = Mathf.Clamp(OutsideZoom - change, 3.5f, 14);
+            else InteriorZoom = Mathf.Clamp(InteriorZoom - change, 3, 14);
+            if (cam != null && Mouse.current != null)
+                FocusZoomAtScreenPoint(Mouse.current.position.ReadValue());
         }
-        public void ResetZoom() { InteriorZoom = 3.8f; JourneyZoom = 9.6f; OutsideZoom = 5.3f; }
+        public void FocusZoomAtScreenPoint(Vector2 screenPoint)
+        {
+            if (cam == null) return;
+            screenPoint.x = Mathf.Clamp(screenPoint.x, cam.pixelRect.xMin, cam.pixelRect.xMax);
+            screenPoint.y = Mathf.Clamp(screenPoint.y, cam.pixelRect.yMin, cam.pixelRect.yMax);
+            Vector3 anchor = cam.ScreenToWorldPoint(new Vector3(screenPoint.x, screenPoint.y, -cam.transform.position.z));
+            float zoom = JourneyView ? Mathf.Max(JourneyZoom, 17 / Mathf.Max(.8f, cam.aspect)) : Outside ? OutsideZoom : InteriorZoom;
+            Vector3 target = anchor + (cam.transform.position - anchor) * (zoom / cam.orthographicSize);
+            pointerCameraOffset = new Vector2(target.x - State.Distance, target.y);
+            pointerCamera = true; pointerJourney = JourneyView; pointerOutside = Outside;
+        }
+        public void ResetZoom() { InteriorZoom = 3.8f; JourneyZoom = 9.6f; OutsideZoom = 5.3f; pointerCamera = false; }
         public string DriveStatus
         {
             get
@@ -111,8 +129,16 @@ namespace EastTrain
             // This also applies while walking inside a moving train, after leaving the controls.
             if (JourneyView) zoom = Mathf.Max(zoom, 17 / Mathf.Max(.8f, cam.aspect));
             else if (State.Arrived) zoom = Mathf.Max(zoom, 11.4f / Mathf.Max(.8f, cam.aspect));
-            cam.transform.position = Vector3.SmoothDamp(cam.transform.position, new Vector3(x, y, -10), ref cameraVelocity, .24f, Mathf.Infinity, dt);
-            cam.orthographicSize = Mathf.SmoothDamp(cam.orthographicSize, zoom, ref zoomVelocity, .3f, Mathf.Infinity, dt);
+            // At wide zoom, center the train instead of leaving its rear off-screen.
+            if (!JourneyView && !Outside && !State.Arrived)
+                x = Mathf.Lerp(x, State.Distance + 1, Mathf.InverseLerp(5, 10, zoom));
+            // Walking does not pull a manually zoomed view back to the character.
+            // Entering/leaving travel restores its safe forward view; middle click restores follow.
+            if (pointerCamera && (pointerJourney != JourneyView || pointerOutside != Outside || State.Arrived)) pointerCamera = false;
+            if (pointerCamera) { x = State.Distance + pointerCameraOffset.x; y = pointerCameraOffset.y; }
+            float response = 1 - Mathf.Exp(-24f * dt);
+            cam.transform.position = Vector3.Lerp(cam.transform.position, new Vector3(x, y, -10), response);
+            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, zoom, response);
         }
 
         void UpdateFeedback(float dt)

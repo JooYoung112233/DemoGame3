@@ -15,6 +15,7 @@ public static class VerifyEastTrainPresentation
     {
         var d = UnityEngine.Object.FindAnyObjectByType<EastTrainDemo>();
         Check(d != null && Application.isPlaying, "Play mode required");
+        var previousUI = d.PrototypeUI; d.PrototypeUI = false;
         var previous = Keyboard.current; var key = InputSystem.AddDevice<Keyboard>("PresentationVerification"); key.MakeCurrent();
         try
         {
@@ -41,6 +42,6 @@ public static class VerifyEastTrainPresentation
             d.Driving = false; d.PlayerX = 0; d.PlayerY = -1.65f;
             return "PASS: no persistent text, Tab reveal/release, small context text, contextual repair dial, no driving banner, physical control light, driving hint expiry, solo placeholders (10 checks).";
         }
-        finally { InputSystem.RemoveDevice(key); if (previous != null && previous.added) previous.MakeCurrent(); }
+        finally { d.PrototypeUI = previousUI; InputSystem.RemoveDevice(key); if (previous != null && previous.added) previous.MakeCurrent(); }
     }
 }
