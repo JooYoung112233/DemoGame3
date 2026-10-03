@@ -121,7 +121,7 @@ namespace Demo6.Game
             if (!drop || !drop.Available) return false;
             if (BagFull)
             {
-                DungeonEvents.Say("가방이 가득 찼다 (" + BagCapacity + "칸)");
+                DungeonEvents.Say("더는 들 수 없다 — 가방이 가득 찼다 (" + BagCapacity + "칸)");
                 return false;
             }
             var item = drop.Item;
@@ -324,7 +324,7 @@ namespace Demo6.Game
             if (_bag.Count == 0)
             {
                 GUI.color = SameColor;
-                GUI.Label(new Rect(x, y + 6f, w - 40f, 24f), "비어 있다. 바닥 무기 앞에서 [F]로 넣는다.", DungeonUi.Label);
+                GUI.Label(new Rect(x, y + 6f, w - 40f, 24f), "텅 비었다. 바닥 무기 앞에서 [F]로 넣는다.", DungeonUi.Label);
                 GUI.color = prev;
             }
             else

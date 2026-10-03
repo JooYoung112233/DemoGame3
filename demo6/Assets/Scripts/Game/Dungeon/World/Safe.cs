@@ -68,7 +68,7 @@ namespace Demo6.Game
             WorldOverlay.Text(pos + Vector2.up * 1.2f, "강화석 +" + stones + " · 골드 +" + gold, GainText);
             DungeonEvents.RaiseNoise(pos, NoiseRadius);
             state.Complete(_id, DiscoveryKind.Safe, pos, _label);
-            DungeonEvents.Say("광업소 금고를 열었다");
+            DungeonEvents.Say("광업소 금고가 무겁게 열린다");
             ShowOpened();
         }
 

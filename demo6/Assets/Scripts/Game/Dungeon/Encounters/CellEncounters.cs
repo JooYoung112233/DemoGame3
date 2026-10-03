@@ -321,7 +321,7 @@ namespace Demo6.Game
                 seen++;
                 if (Random.Range(0, seen) == 0) pick = m;
             }
-            if (pick) WorldOverlay.Text(pick.Position + Vector2.up * (pick.Radius + 0.35f), "냠", NomColor);
+            if (pick) WorldOverlay.Text(pick.Position + Vector2.up * (pick.Radius + 0.35f), "우적", NomColor);
         }
 
         /// <summary>무리 id가 같은 살아 있는 적(둥지가 부른 굴쥐 포함).</summary>
@@ -347,7 +347,7 @@ namespace Demo6.Game
             Vector2 textAt = player && (player.Position - pos).sqrMagnitude <= ClearTextNearPlayer * ClearTextNearPlayer
                 ? player.Position + Vector2.up * 1.4f
                 : pos + Vector2.up * 1.2f;
-            WorldOverlay.Text(textAt, "마주침 정리", Palette.HealthBar);
+            WorldOverlay.Text(textAt, "잠잠해졌다", Palette.HealthBar);
             DungeonEvents.RaiseGroupCleared(g.Id, g.IsNest, pos);
         }
 
@@ -441,7 +441,7 @@ namespace Demo6.Game
             }
             if (best == null) return;
             WakeToGuard(best, pos);
-            DungeonEvents.Say("어디선가 무리가 깨어났다");
+            DungeonEvents.Say("어둠 너머에서 무언가 깨어났다");
         }
 
         /// <summary>살아 있는 적이 있고 모두 쉬는(잠·먹는 중) 무리인가.</summary>

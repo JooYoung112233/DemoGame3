@@ -13,7 +13,7 @@ namespace Demo6.Game
     public sealed class LunchboxEvent : Interactable
     {
         public const string ModalName = "event";
-        const string Situation = "녹슨 도시락통이 놓여 있다. 안에서 무언가 바스락거린다.";
+        const string Situation = "주인 잃은 도시락통이 녹슨 채 놓여 있다. 안에서 무언가 긁는 소리가 난다.";
         const float OrbChance = 0.5f;
         const float PanelWidth = 560f;
         const float PanelHeight = 236f;
@@ -105,19 +105,19 @@ namespace Demo6.Game
                 if (Random.value < OrbChance)
                 {
                     foreach (var o in OrbOffsets) HealOrb.Spawn(FreeSpot(pos, o));
-                    DungeonEvents.Say("남은 주먹밥이 아직 따뜻하다…?");
+                    DungeonEvents.Say("식은 주먹밥 두 덩이 — 주인은 끝내 돌아오지 않았다");
                     result = "광부 도시락통: 열었다 — 회복 구슬 2";
                 }
                 else
                 {
                     SpawnRats(pos);
-                    DungeonEvents.Say("굴쥐가 튀어나왔다!");
+                    DungeonEvents.Say("뚜껑을 밀치고 굴쥐들이 기어 나온다");
                     result = "광부 도시락통: 열었다 — 굴쥐 3";
                 }
             }
             else
             {
-                DungeonEvents.Say("도시락통을 그대로 두고 지나간다");
+                DungeonEvents.Say("뚜껑은 닫아 둔다. 긁는 소리가 등 뒤에 남는다");
                 result = "광부 도시락통: 두고 지나갔다";
             }
             var state = WorldProps.State;
@@ -171,8 +171,8 @@ namespace Demo6.Game
             GUI.Label(new Rect(x, r.y + 14f, w, 30f), "사건 — " + _label, DungeonUi.Title);
             GUI.Label(new Rect(x, r.y + 56f, w, 60f), Situation, DungeonUi.Label);
             float bw = (w - 20f) * 0.5f;
-            bool openIt = GUI.Button(new Rect(x, r.y + 132f, bw, 46f), "[1] 연다");
-            bool leaveIt = GUI.Button(new Rect(x + bw + 20f, r.y + 132f, bw, 46f), "[2] 둔다");
+            bool openIt = GUI.Button(new Rect(x, r.y + 132f, bw, 46f), "[1] 뚜껑을 연다");
+            bool leaveIt = GUI.Button(new Rect(x + bw + 20f, r.y + 132f, bw, 46f), "[2] 그냥 둔다");
             GUI.Label(new Rect(x, r.yMax - 36f, w, 22f), "Esc: 고르지 않고 닫기", DungeonUi.Small);
             GUI.matrix = prevMatrix;
             if (openIt) Choose(true);

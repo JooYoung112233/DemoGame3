@@ -28,6 +28,11 @@ namespace Demo6.Game
         const float BaseMoveSpeed = 5.0f;
         /// <summary>시작 가죽 갑옷 이동 +6%.</summary>
         const float ArmorMoveBonus = 0.06f;
+        /// <summary>배율(Tuning.MoveSpeedScale)을 곱하기 전 장비 걸음 속도(5.3).</summary>
+        public const float EquippedWalkSpeed = BaseMoveSpeed * (1f + ArmorMoveBonus);
+        /// <summary>걷기 가감속(Tuning.MoveInertia): 멈춘 데서 다 빨라지기까지, 다 빠른 데서 서기까지 걸리는 시간(초).</summary>
+        public const float WalkAccelTime = 0.16f;
+        public const float WalkDecelTime = 0.10f;
 
         const float DodgeTime = 0.22f;
         const float DodgeDistance = 3.5f;
@@ -77,12 +82,15 @@ namespace Demo6.Game
         public WeaponAttackRule Weapon { get; private set; } = WeaponPresets.Longsword;
         public Health Health => _health;
         public Vector2 Position => _body ? _body.position : (Vector2)transform.position;
-        public float MoveSpeed => SpeedOverride > 0f ? SpeedOverride : BaseMoveSpeed * (1f + ArmorMoveBonus);
+        /// <summary>지금 걷기 속도: 장비 속도(5.3) 또는 덮어쓰기(탐험 걸음 6.5)에 Tuning.MoveSpeedScale(기본 0.86)을 곱한 값.</summary>
+        public float MoveSpeed => (SpeedOverride > 0f ? SpeedOverride : EquippedWalkSpeed) * Tuning.MoveSpeedScale;
 
-        /// <summary>던전 '탐험 걸음'(3차 초안 2-8, 6.5) 같은 이동 속도 덮어쓰기. 0 이하면 장비 속도.</summary>
+        /// <summary>던전 '탐험 걸음'(3차 초안 2-8, 6.5) 같은 이동 속도 덮어쓰기(배율 곱하기 전 값). 0 이하면 장비 속도.</summary>
         public float SpeedOverride { get; set; }
         /// <summary>마지막으로 공격·스킬을 쓰거나 맞은 시각(탐험 걸음 해제, 전투 중 판정).</summary>
         public float LastCombatActionTime { get; private set; } = -999f;
+        /// <summary>마지막으로 맞은 공격이 온 자리(적·화살·덫). 피격 피가 반대쪽으로 튄다.</summary>
+        public Vector2 LastHitFrom { get; private set; }
         /// <summary>쓰러지면 1.5초 뒤 제자리에서 일어나는가(전투 시험장). 던전은 끄고 말뚝에서 다시 세운다.</summary>
         public bool AutoRevive { get; set; } = true;
         /// <summary>스킬 1줄(3차 초안 4-5): 넓은 회오리 반경 +, 날 선 바람 검풍 계수 +%p, 마무리 일격 마무리 피해 +비율.</summary>
@@ -168,6 +176,8 @@ namespace Demo6.Game
             transform.position = position;
             _knockTime = 0f;
             _staggerTime = 0f;
+            _walkVelocity = Vector2.zero;
+            _walkSnap = false;
         }
         public float KillStreakTime { get; private set; } = -999f;
         public int BestKillStreak { get; private set; }
@@ -234,6 +244,10 @@ namespace Demo6.Game
         float _downTimer;
         float _hurtTime = -999f;
         float _counterUntil = -999f;
+        /// <summary>직접 걷는 속도(가감속을 거친 값). 휘두르기·스킬 중 걷기도 적어 두어 끝난 뒤 그 속도에서 이어 붙는다.</summary>
+        Vector2 _walkVelocity;
+        /// <summary>구르기·내딛기 직후 첫 걷기는 가감속 없이 바로 목표 속도(지금처럼 미끄러지지 않게).</summary>
+        bool _walkSnap;
 
         public static PlayerController Create(Vector2 position)
         {
@@ -368,6 +382,8 @@ namespace Demo6.Game
                 return false;
             }
             int damage = DamageMath.ToPlayer(monsterAttack, patternPercent, DamageMath.Roll(_rng), _health.Defense);
+            // 피격 연출(피 튀는 방향)이 실제로 때린 쪽을 쓰게 피해를 넣기 전에 적어 둔다.
+            LastHitFrom = from;
             if (Tuning.Invincible)
             {
                 WorldOverlay.Number(Position + Vector2.up * Radius, 0, NumberKind.Taken);
@@ -585,11 +601,13 @@ namespace Demo6.Game
                 _knockTime -= fdt;
                 // 기획 11-6: 넉백 뒤 경직 0.15초 동안은 이동 입력으로 덮어쓰지 않는다.
                 if (_knockTime <= 0f) _staggerTime = 0.15f;
+                StopWalk();
             }
             else if (_staggerTime > 0f && _state != State.Dodge)
             {
                 velocity = Vector2.zero;
                 _staggerTime -= fdt;
+                StopWalk();
             }
             else
             {
@@ -600,28 +618,76 @@ namespace Demo6.Game
                         {
                             velocity = _lungeVelocity;
                             _lungeTime -= fdt;
+                            _walkSnap = true;
                         }
-                        else velocity = move * (MoveSpeed * (_step != null ? _step.moveScale : 0.4f));
+                        else velocity = ActionWalk(move * (MoveSpeed * (_step != null ? _step.moveScale : 0.4f)));
                         break;
                     case State.Dodge:
                         velocity = _dodgeDir * (DodgeDistance / DodgeTime);
+                        _walkSnap = true;
                         break;
                     case State.Whirl:
-                        velocity = move * (MoveSpeed * WhirlMoveScale);
+                        velocity = ActionWalk(move * (MoveSpeed * WhirlMoveScale));
                         break;
                     case State.WaveCast:
-                        velocity = move * (MoveSpeed * WaveCastMoveScale);
+                        velocity = ActionWalk(move * (MoveSpeed * WaveCastMoveScale));
                         break;
                     case State.Down:
                         velocity = Vector2.zero;
+                        StopWalk();
                         break;
                     default:
-                        velocity = move * MoveSpeed;
+                        velocity = FreeWalk(move * MoveSpeed, fdt);
                         break;
                 }
             }
             if (TimeScaleService.Paused) velocity = Vector2.zero;
             _body.linearVelocity = velocity;
+        }
+
+        /// <summary>넉백·경직·쓰러짐: 몸이 멈췄으니 다음 걷기는 멈춘 데서 다시 붙는다.</summary>
+        void StopWalk()
+        {
+            _walkVelocity = Vector2.zero;
+            _walkSnap = false;
+        }
+
+        /// <summary>휘두르기·회오리·검풍 중 걷기: 지금처럼 바로 그 속도. 끝난 뒤 자유 걷기가 이 속도에서 이어 붙게 적어 둔다.</summary>
+        Vector2 ActionWalk(Vector2 velocity)
+        {
+            _walkVelocity = velocity;
+            _walkSnap = false;
+            return velocity;
+        }
+
+        /// <summary>자유 걷기. 가감속(Tuning.MoveInertia)을 켜면 목표 속도로 천천히 붙는다. 구르기·내딛기 직후 첫 걸음은 지금처럼 바로 목표 속도.</summary>
+        Vector2 FreeWalk(Vector2 target, float dt)
+        {
+            if (!Tuning.MoveInertia || _walkSnap) _walkVelocity = target;
+            else _walkVelocity = ApproachWalk(_walkVelocity, target, MoveSpeed, dt);
+            _walkSnap = false;
+            return _walkVelocity;
+        }
+
+        /// <summary>
+        /// 가는 쪽 성분은 다 빨라지기까지 WalkAccelTime, 넘치거나 반대로 가는 성분과 옆 성분은 서기까지 WalkDecelTime 속도로 붙인다.
+        /// 돌아설 때 먼저 멈췄다가(0.10초) 다시 붙어(0.16초) 몸이 무겁게 느껴진다.
+        /// </summary>
+        static Vector2 ApproachWalk(Vector2 current, Vector2 target, float maxSpeed, float dt)
+        {
+            if (maxSpeed <= 0f) return target;
+            float accel = maxSpeed / WalkAccelTime * dt;
+            float decel = maxSpeed / WalkDecelTime * dt;
+            float targetSpeed = target.magnitude;
+            if (targetSpeed < 0.0001f) return Vector2.MoveTowards(current, Vector2.zero, decel);
+            Vector2 dir = target / targetSpeed;
+            float along = Vector2.Dot(current, dir);
+            Vector2 side = current - dir * along;
+            if (along < 0f) along = Mathf.Min(0f, along + decel);
+            else if (along < targetSpeed) along = Mathf.Min(targetSpeed, along + accel);
+            else along = Mathf.Max(targetSpeed, along - decel);
+            side = Vector2.MoveTowards(side, Vector2.zero, decel);
+            return dir * along + side;
         }
 
         void EnterFree()

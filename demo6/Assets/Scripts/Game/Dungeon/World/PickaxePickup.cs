@@ -79,7 +79,7 @@ namespace Demo6.Game
             }
             Sfx.Play(SfxKind.Pickup);
             WorldOverlay.Text(Position + Vector2.up * 1.1f, "곡괭이", GainText);
-            DungeonEvents.Say("곡괭이를 얻었다 — 금 간 벽을 깰 수 있다");
+            DungeonEvents.Say("피 묻은 낡은 곡괭이 — 금 간 벽과 광맥을 깰 수 있다");
             Hide();
         }
 

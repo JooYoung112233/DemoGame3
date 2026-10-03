@@ -6,11 +6,14 @@ namespace Demo6.Game
     /// 탐험 걸음(3차 초안 2-8): 12유닛 안에 깨어 있는 적이 없고 3초가 지나면 이동 6.5.
     /// 공격·스킬을 쓰거나 맞으면(PlayerController.LastCombatActionTime) 바로 장비 속도로 돌아간다. 싸울 때는 M0a 그대로.
     /// 근거: 2차 이동 상한·마을 걷기와 같은 값으로, 아는 길을 되돌아가는 걸음을 줄인다.
+    /// 2026-10-03: 6.5는 기획 숫자로 두고, 실제 속도는 PlayerController.MoveSpeed가 Tuning.MoveSpeedScale(기본 0.86)을 곱해 약 5.59가 된다.
     /// </summary>
     public sealed class ExploreWalk : MonoBehaviour
     {
-        /// <summary>탐험 걸음 이동 속도(2-8).</summary>
+        /// <summary>탐험 걸음 이동 속도(2-8, 배율 곱하기 전 기획 숫자).</summary>
         public const float WalkSpeed = 6.5f;
+        /// <summary>배율을 곱한 실제 탐험 걸음 속도(시험 패널 표시용).</summary>
+        public static float ScaledSpeed => WalkSpeed * Tuning.MoveSpeedScale;
         /// <summary>깨어 있는 적을 찾는 반경(2-8, 전투 중 판정 DungeonLighting.InCombat과 같은 12).</summary>
         public const float EnemyRange = 12f;
         /// <summary>조용한 상태가 이만큼 이어져야 켜진다(2-8).</summary>

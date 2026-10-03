@@ -132,7 +132,7 @@ namespace Demo6.Game
             if (state == null) return;
             if (!state.Complete(_id, DiscoveryKind.WallLamp, Position, _label)) return;
             if (!AllLampsLit(state)) return;
-            DungeonEvents.Say(HiddenRoomLeft(state) ? "층의 등잔을 모두 켰다 — 지도에 '?'가 생겼다" : "층의 등잔을 모두 켰다");
+            DungeonEvents.Say(HiddenRoomLeft(state) ? "층의 등잔이 모두 타오른다 — 지도에 '?'가 떠올랐다" : "층의 등잔이 모두 타오른다");
         }
 
         static bool AllLampsLit(DungeonState state)

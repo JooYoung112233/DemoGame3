@@ -84,6 +84,8 @@ namespace Demo6.Game
         public PoiseMeter Poise { get; private set; }
         public bool Broken => _breakUntil > Time.time;
         public float BreakRemaining => Mathf.Max(0f, _breakUntil - Time.time);
+        /// <summary>무너짐 한 번의 길이(초, 단단한 정예는 더 길다). 대상 이름표의 남은 시간 막대 기준(읽기 전용).</summary>
+        public float BreakLength => _breakLength;
         public bool Aware { get; private set; } = true;
         public int GroupId { get; set; } = -1;
         public bool IsElite { get; private set; }
@@ -118,6 +120,12 @@ namespace Demo6.Game
         public bool WakePending => !Aware && _wakeAt > 0f;
         /// <summary>제자리에 닿으면 자지 않고 사라진다(둥지가 부른 굴쥐는 굴로 돌아간다).</summary>
         public bool DespawnAtHome { get; set; }
+        /// <summary>
+        /// 잔혹(기획/다크판타지-분위기-1차.md): 마지막 타격 직전 체력. GoreSystem이 '크게 넘치게 벤'(남은 체력의 2배 이상) 처치를 가린다.
+        /// </summary>
+        public int HpBeforeLastHit => _hpBeforeHit;
+        /// <summary>잔혹: 크게 넘치게 베여 조각났다(GoreSystem). 처치 연출 동안 몸을 숨기고 시체를 남기지 않는다.</summary>
+        public bool Dismembered { get; private set; }
 
         protected Rigidbody2D Body => _body;
         protected SpriteRenderer Sprite { get; private set; }
@@ -169,6 +177,7 @@ namespace Demo6.Game
         Vector2 _guardFacing = Vector2.down;
         /// <summary>쉬는 모습이 '먹는 중'인가(돌아가 다시 쉴 때 되살린다).</summary>
         bool _restEating;
+        int _hpBeforeHit;
 
         public static void ResetStatics() => All.Clear();
 
@@ -492,6 +501,7 @@ namespace Demo6.Game
                 return 0;
             }
             bool ambush = !Aware;
+            _hpBeforeHit = Health.Current;
             int applied = Health.ApplyDamage(amount, crit);
             if (applied <= 0) return 0;
             if (!Dead) Flash.Flash(Color.white, 0.06f);
@@ -913,11 +923,30 @@ namespace Demo6.Game
             for (int i = 0; i < count; i++) HealOrb.Spawn(Position + UnityEngine.Random.insideUnitCircle * 0.4f);
         }
 
+        /// <summary>
+        /// 잔혹(기획/다크판타지-분위기-1차.md): 크게 넘치게 베여 조각났다. GoreSystem이 조각을 흩뿌린 뒤 불러 쓰러지는 몸을 숨긴다.
+        /// 처치 연출 시간·날림 거리는 그대로 흐르고(물체 제거 시각이 바뀌지 않게) 시체만 남기지 않는다.
+        /// </summary>
+        public void Dismember()
+        {
+            if (!Dead || Dismembered) return;
+            Dismembered = true;
+            if (Sprite) Sprite.enabled = false;
+        }
+
+        /// <summary>처치 연출이 끝난 자리에 시체를 남긴다(GoreSystem). 남겼으면 true.</summary>
+        bool LeaveCorpse(Vector3 restScale) =>
+            GoreSystem.LeaveCorpse(this, Sprite, restScale, Flash ? Flash.baseColor : Sprite.color, _visual && _visual.ArtShown);
+
         IEnumerator DeathRoutine()
         {
+            // 시체 크기 기준: 날림·줄어듦이 바꾸기 전의 몸 크기.
+            Vector3 restScale = Sprite.transform.lossyScale;
             if (Tuning.KillFling)
             {
                 yield return FlingRoutine();
+                // 잔혹: 날림이 끝난 자리에 시체가 남는다(날림 동안 몸은 흐려지지 않았다).
+                LeaveCorpse(restScale);
                 Remove();
                 yield break;
             }
@@ -931,6 +960,19 @@ namespace Demo6.Game
                 if (_deathPush != Vector2.zero)
                     transform.position = from + (Vector3)(_deathPush * Mathf.Clamp01(t / 0.1f));
                 yield return null;
+            }
+            if (LeaveCorpse(restScale))
+            {
+                // 잔혹: 시체가 몸을 대신한다. 줄어드는 대신 숨기고 같은 시간(0.2초)을 기다려 제거 시각을 지킨다.
+                Sprite.enabled = false;
+                float wait = 0f;
+                while (wait < 0.2f)
+                {
+                    wait += Time.deltaTime;
+                    yield return null;
+                }
+                Remove();
+                yield break;
             }
             Vector3 start = Sprite.transform.localScale;
             t = 0f;
@@ -947,10 +989,15 @@ namespace Demo6.Game
             Remove();
         }
 
-        /// <summary>처치 날림: 짧게 번쩍인 뒤 맞은 방향으로 굴러가듯 날아가며 사라진다(0.32초).</summary>
+        /// <summary>
+        /// 처치 날림: 짧게 번쩍인 뒤 맞은 방향으로 굴러가듯 날아가며 사라진다(0.32초).
+        /// 잔혹: 시체로 남을 몸(GoreSystem.KeepsCorpse)은 흐려지지 않고 조금만 줄어 끝난 자리에서 시체로 이어진다. 거리·시간·회전은 그대로.
+        /// </summary>
         IEnumerator FlingRoutine()
         {
             const float Duration = 0.32f;
+            bool keepBody = GoreSystem.KeepsCorpse(this);
+            float endScale = keepBody ? 0.92f : 0.7f;
             Flash.Flash(Color.white, 0.06f);
             Vector3 from = transform.position;
             float spin = (UnityEngine.Random.value < 0.5f ? -1f : 1f) * UnityEngine.Random.Range(540f, 900f);
@@ -966,9 +1013,9 @@ namespace Demo6.Game
                 transform.position = from + (Vector3)(_deathPush * ease);
                 angle += spin * dt * (1f - k);
                 Sprite.transform.rotation = Quaternion.Euler(0f, 0f, angle);
-                Sprite.transform.localScale = scale * Mathf.Lerp(1f, 0.7f, k);
+                Sprite.transform.localScale = scale * Mathf.Lerp(1f, endScale, k);
                 var c = Sprite.color;
-                c.a = k < 0.5f ? 1f : 1f - (k - 0.5f) / 0.5f;
+                c.a = keepBody || k < 0.5f ? 1f : 1f - (k - 0.5f) / 0.5f;
                 Sprite.color = c;
                 yield return null;
             }

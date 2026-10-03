@@ -103,7 +103,7 @@ namespace Demo6.Game
             var state = WorldProps.State;
             if (state != null) state.Complete(_id, DiscoveryKind.Story, pos, _label);
             WorldOverlay.Text(pos + Vector2.up * 1.1f, "광부 명패", Color.white);
-            DungeonEvents.Say("광부 명패를 주웠다 — 마을에 맡기면 등불 하나가 꺼진다");
+            DungeonEvents.Say("녹슨 광부 명패 — 마을에 돌려주면, 기다리던 등불 하나가 꺼진다");
             Destroy(gameObject);
         }
 
@@ -113,11 +113,11 @@ namespace Demo6.Game
             switch (_param)
             {
                 case "note1":
-                    return "— 곡괭이방 벽 틈에 끼워 둔 쪽지 —\n\n교대 끝. 아래 갱이 또 울린다.\n반장은 괜찮다고 했지만 다들 등잔 기름을 한 통씩 더 챙겼다.\n내일은 우리 조가 내려간다. 돌아오면 이 방 궤짝에 품삯을 넣어 두겠다.";
+                    return "— 곡괭이방 벽 틈에 끼워 둔 쪽지 —\n\n교대 끝. 아래 갱이 또 울었다. 바위 소리가 아니었다.\n반장은 괜찮다고 했다. 다들 말없이 등잔 기름을 더 챙겼다.\n내일은 우리 조가 내려간다.\n돌아오면 이 방 궤짝에 품삯을 넣어 두겠다.\n돌아오지 못하면, 찾은 사람이 가져가라.";
                 case "note2":
-                    return "— 광업소 출입 장부 한 장 —\n\n교대조 열두 명, 아래로 내려감.\n'올라옴' 칸은 비어 있다.\n누군가 그 칸에 '스스로'라고 적었다가 지운 자국이 남아 있다.";
+                    return "— 광업소 출입 장부 한 장 —\n\n교대조 열두 명, 아래로 내려감.\n'올라옴' 칸은 비어 있다.\n누군가 그 칸에 '스스로'라고 적었다가 지운 자국이 남아 있다.\n장부 귀퉁이가 검붉게 얼룩져 있다.";
                 default:
-                    return "글씨가 번져 읽을 수 없다.";
+                    return "피와 물에 번져 글씨를 읽을 수 없다.";
             }
         }
 

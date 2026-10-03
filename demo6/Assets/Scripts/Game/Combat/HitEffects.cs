@@ -5,7 +5,8 @@ namespace Demo6.Game
     /// <summary>
     /// 타격감 보강(M0a 판정 '시원함 부족' 반영): 맞은 자리의 파편과 베인 자국.
     /// 파편은 게임 시간으로 움직여 히트스톱 동안 멈춘다(맞는 순간이 한 장면으로 보이게).
-    /// 스프라이트 묶음을 미리 만들어 돌려 쓴다.
+    /// 스프라이트 묶음을 미리 만들어 돌려 쓴다. 다크 판타지 1차부터 살 있는 적의 파편은 피 색이고,
+    /// 맞을 때마다 GoreSystem(피 튀김·얼룩·조각·시체)을 함께 부른다.
     /// </summary>
     public sealed class HitEffects : MonoBehaviour
     {
@@ -33,9 +34,14 @@ namespace Demo6.Game
         {
             if (!_instance || !Tuning.HitSparks) return;
             if (dir.sqrMagnitude < 0.0001f) dir = Vector2.right;
-            _instance.Burst(at, -dir.normalized, 4, Color.white, 0.8f);
+            _instance.Burst(at, -dir.normalized, 4, Color.white, Color.white, 0.8f);
         }
 
+        /// <summary>
+        /// 적을 맞힌 순간(피해·넉백 뒤라 처치면 이미 Dead). 파편 개수·속도·베인 자국은 M0a 손맛 그대로이고,
+        /// 다크 판타지 1차(기획/다크판타지-분위기-1차.md '잔혹')에서 색만 바꿨다: 살 있는 적은 검붉은 피, 둥지는 흙·고름, 허수아비는 예전 몸색.
+        /// 피 튀김·얼룩·조각·시체는 GoreSystem이 맡는다(파편 손잡이와 따로 돈다).
+        /// </summary>
         public static void OnHit(Enemy enemy, Vector2 dir, bool crit, bool heavy, int extraSparks = 0)
         {
             if (!_instance || !enemy) return;
@@ -44,23 +50,31 @@ namespace Demo6.Game
             Vector2 at = enemy.Position;
             if (Tuning.HitSparks)
             {
-                Color body = Color.Lerp(BodyColor(enemy), Color.white, 0.45f);
                 int count = (crit ? 10 : heavy ? 8 : 5) + extraSparks;
-                _instance.Burst(at, dir, count, crit ? Palette.NumberCrit : body, crit ? 1.25f : 1f);
-                if (enemy.Dead) _instance.Burst(at, dir, 6, BodyColor(enemy), 0.85f);
+                float speed = crit ? 1.25f : 1f;
+                switch (GoreColors.MatterOf(enemy))
+                {
+                    case GoreMatter.Flesh:
+                        // 치명은 노란 불꽃 3개를 남겨 치명이 읽히게 한다(나머지는 피).
+                        int critSparks = crit ? 3 : 0;
+                        _instance.Burst(at, dir, count - critSparks, GoreColors.BloodMid, GoreColors.BloodBright, speed);
+                        if (critSparks > 0) _instance.Burst(at, dir, critSparks, Palette.NumberCrit, Palette.NumberCrit, speed);
+                        if (enemy.Dead) _instance.Burst(at, dir, 6, GoreColors.BloodDark, GoreColors.Darken(GoreColors.BodyColor(enemy)), 0.85f);
+                        break;
+                    case GoreMatter.Nest:
+                        _instance.Burst(at, dir, count, GoreColors.Dirt, GoreColors.Pus, speed);
+                        if (enemy.Dead) _instance.Burst(at, dir, 6, GoreColors.DirtLight, GoreColors.PusDark, 0.85f);
+                        break;
+                    default:
+                        Color body = Color.Lerp(GoreColors.BodyColor(enemy), Color.white, 0.45f);
+                        Color first = crit ? Palette.NumberCrit : body;
+                        _instance.Burst(at, dir, count, first, first, speed);
+                        if (enemy.Dead) _instance.Burst(at, dir, 6, GoreColors.BodyColor(enemy), GoreColors.BodyColor(enemy), 0.85f);
+                        break;
+                }
                 _instance.SlashMark(at, dir, enemy.Radius, crit || heavy);
             }
-        }
-
-        static Color BodyColor(Enemy enemy)
-        {
-            switch (enemy.Kind)
-            {
-                case Demo6.Core.Combat.MonsterKind.Rat: return enemy.IsDummy ? Palette.RatDummy : Palette.Rat;
-                case Demo6.Core.Combat.MonsterKind.Boar: return enemy.IsDummy ? Palette.WoodDummy : Palette.Boar;
-                case Demo6.Core.Combat.MonsterKind.Nest: return Palette.Nest;
-                default: return Palette.Archer;
-            }
+            GoreSystem.EnemyHit(enemy, dir, crit, heavy);
         }
 
         void Awake()
@@ -85,7 +99,8 @@ namespace Demo6.Game
             if (_instance == this) _instance = null;
         }
 
-        void Burst(Vector2 at, Vector2 dir, int count, Color color, float speedScale)
+        /// <summary>파편 count개. 색은 조각마다 colorA~colorB 사이에서 고른다(피는 밝고 어두운 검붉음이 섞이게).</summary>
+        void Burst(Vector2 at, Vector2 dir, int count, Color colorA, Color colorB, float speedScale)
         {
             var art = ArtRuntime.Active;
             var sparks = art ? art.effects.sparks : null;
@@ -100,12 +115,16 @@ namespace Demo6.Game
                 s.Life = Random.Range(0.16f, 0.3f);
                 s.Age = 0f;
                 s.Size = Random.Range(0.06f, 0.13f);
-                s.Color = color;
+                s.Color = Color.Lerp(colorA, colorB, Random.value);
                 s.Mark = false;
                 s.ArtSprite = useArt;
                 s.Sprite.sprite = useArt ? sparks[Random.Range(0, sparks.Length)] : ShapeSprites.Square;
                 s.Sprite.transform.position = at + Random.insideUnitCircle * 0.12f;
                 s.Sprite.transform.rotation = Quaternion.Euler(0f, 0f, Random.Range(0f, 90f));
+                // 히트스톱(dt=0) 동안은 Update가 건너뛰므로 처음 모습(색·크기)을 여기서 넣는다.
+                s.Sprite.color = s.Color;
+                float sc = useArt ? s.Size / 0.1f : s.Size;
+                s.Sprite.transform.localScale = new Vector3(sc, sc, 1f);
                 s.Sprite.enabled = true;
             }
         }
@@ -131,6 +150,7 @@ namespace Demo6.Game
             s.Sprite.transform.localScale = mark
                 ? new Vector3(s.Size / Mathf.Max(0.01f, mark.bounds.size.x), strong ? 1.3f : 1f, 1f)
                 : new Vector3(s.Size, strong ? 0.09f : 0.06f, 1f);
+            s.Sprite.color = s.Color;
             s.Sprite.enabled = true;
         }
 

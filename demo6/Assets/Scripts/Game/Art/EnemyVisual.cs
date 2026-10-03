@@ -42,6 +42,12 @@ namespace Demo6.Game
         void LateUpdate()
         {
             if (!_enemy || !_body) return;
+            // 정수리 시점 시험판이 켜져 있으면 도형 상태로 물러나 손을 뗀다(몸은 TopDownView가 이 뒤 LateUpdate에서 그린다).
+            if (TopDownView.Active)
+            {
+                ShowShape();
+                return;
+            }
             var set = ArtRuntime.Active;
             bool wood = (_enemy is DummyBrain dummy && dummy.IsWood) || _enemy.Kind == MonsterKind.Nest;
             var art = set && !wood ? set.Enemy(_enemy.Kind) : null;

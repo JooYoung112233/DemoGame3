@@ -33,6 +33,14 @@ namespace Demo6.Game
         public static bool SoftBoar;
         /// <summary>회피 반격: 예고 공격을 구르기로 피하고 1.0초 안 첫 타의 버팀 피해 ×2(3차 초안 선택 규칙).</summary>
         public static bool DodgeCounter;
+        /// <summary>
+        /// 걷기 속도 배율(2026-10-03 사용자 "이속이좀 빠른편이긴하네 둔직한맛이 조금 부족해"). 장비 걸음 5.3 → 약 4.56, 탐험 걸음 6.5 → 약 5.59.
+        /// 휘두르기·회오리·검풍 중 걷기는 이 값에 비례해 함께 줄고, 구르기·내딛기·넉백 거리는 그대로다.
+        /// </summary>
+        public static float MoveSpeedScale = DefaultMoveSpeedScale;
+        public const float DefaultMoveSpeedScale = 0.86f;
+        /// <summary>걷기 가감속(묵직함): 멈춘 데서 다 빨라지기까지 0.16초, 서기까지 0.10초. 구르기·내딛기·넉백·경직은 지금처럼 바로.</summary>
+        public static bool MoveInertia = true;
 
         public static void ResetToDefaults()
         {
@@ -50,6 +58,8 @@ namespace Demo6.Game
             HitSparks = true;
             MultiKillJuice = true;
             KillStreakText = true;
+            MoveSpeedScale = DefaultMoveSpeedScale;
+            MoveInertia = true;
         }
     }
 
@@ -85,6 +95,43 @@ namespace Demo6.Game
         public static readonly Color NumberCrit = Hex(0xFFE45C);
         public static readonly Color NumberTaken = Hex(0xFF5A5A);
         public static readonly Color NumberHeal = Hex(0x6EE07A);
+
+        // ── 던전 다크 판타지 색(기획/다크판타지-분위기-1차.md '색·빛·땅·벽'). 던전에서만 쓴다. 위 전투 시험장 색은 그대로 둔다. ──
+
+        /// <summary>바닥 흙 어두운 끝·밝은 끝. 평균이 바둑판(FloorA/B)보다 조금 밝아 색 보정(노출 −0.15, 대비 +17) 뒤에도 등잔 빛 안에서 결이 보이고, 벽·바위(평균 Wall)보다는 어둡다.</summary>
+        public static readonly Color DungeonDirtDark = Hex(0x201A15);
+        public static readonly Color DungeonDirtLight = Hex(0x4E4236);
+        /// <summary>칸마다 다른 젖은 진흙 자리.</summary>
+        public static readonly Color DungeonMud = Hex(0x1C1511);
+        /// <summary>벽 돌 블록(평균이 Wall과 같아 벽 파편 색과 맞는다)·모르타르.</summary>
+        public static readonly Color DungeonStone = Hex(0x4A433C);
+        public static readonly Color DungeonMortar = Hex(0x1C1916);
+        /// <summary>통로·방을 채운 거친 바위와 그 틈. 틈을 빼고 평균이 벽(Wall)과 비슷해 바닥보다 밝게 읽힌다(걸을 수 없는 곳).</summary>
+        public static readonly Color DungeonRock = Hex(0x544C44);
+        public static readonly Color DungeonRockCrack = Hex(0x12100E);
+        /// <summary>나무 버팀목 기둥(밝은 결·어두운 나이테).</summary>
+        public static readonly Color DungeonTimber = Hex(0x56402A);
+        public static readonly Color DungeonTimberDark = Hex(0x2A1D12);
+        /// <summary>바닥 장식: 뼈·해골, 녹슨 사슬, 썩은 나무, 돌무더기, 오래된 핏자국(피 범위 #4A0606~#8A1010의 어두운 끝), 거미줄.</summary>
+        public static readonly Color DungeonBone = Hex(0xA0957F);
+        public static readonly Color DungeonRust = Hex(0x6E3B1C);
+        public static readonly Color DungeonRottenWood = Hex(0x4F3B27);
+        public static readonly Color DungeonRubble = Hex(0x5C554C);
+        public static readonly Color DungeonOldBlood = new Color(0x4A / 255f, 0x06 / 255f, 0x06 / 255f, 0.72f);
+        public static readonly Color DungeonCobweb = new Color(0.84f, 0.82f, 0.78f, 0.55f);
+        /// <summary>던전 플레이어 도형: 밝은 베이지(Player) 대신 어두운 망토색 몸 + 뼈색 방향 표시.</summary>
+        public static readonly Color DungeonPlayer = Hex(0x6B5F51);
+        public static readonly Color DungeonPlayerMark = Hex(0xBFB39A);
+        /// <summary>주황 횃불빛. 채도 0.4로 전설 주황(#F2994A, 채도 0.69)보다 낮다.</summary>
+        public static readonly Color TorchLight = new Color(1f, 0.82f, 0.6f);
+        /// <summary>빛 밖 전역 빛 색: 차가운 푸른 회색(밝기 0.08은 DungeonLighting.AmbientDark 그대로). 상대 휘도 0.73으로 예전 색(0.75)과 거의 같아 벽 윤곽 밝기를 지킨다.</summary>
+        public static readonly Color AmbientCold = new Color(0.62f, 0.74f, 0.98f);
+        /// <summary>불티(빛 무시): 막 튄 뜨거운 색 → 식어 가는 주황.</summary>
+        public static readonly Color EmberHot = new Color(1f, 0.86f, 0.55f, 1f);
+        public static readonly Color EmberCool = new Color(1f, 0.42f, 0.12f, 1f);
+        /// <summary>등잔 빛 속 먼지(빛을 받음)·천장에서 떨어지는 흙먼지.</summary>
+        public static readonly Color DustMote = new Color(0.88f, 0.82f, 0.72f, 0.5f);
+        public static readonly Color CeilingDust = new Color(0.55f, 0.5f, 0.43f, 1f);
 
         static Color Hex(int rgb) => new Color(((rgb >> 16) & 255) / 255f, ((rgb >> 8) & 255) / 255f, (rgb & 255) / 255f, 1f);
     }

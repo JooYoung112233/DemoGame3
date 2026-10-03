@@ -67,6 +67,8 @@ namespace Demo6.Game
             CombatHud.ResetStatics();
             ArtRuntime.ResetStatics();
             StrongAttackSchedule.ResetStatics();
+            GoreSystem.ResetStatics();
+            TopDownView.ResetStatics();
         }
 
         void Awake()
@@ -95,6 +97,9 @@ namespace Demo6.Game
             gameObject.AddComponent<WorldOverlay>();
             gameObject.AddComponent<Sfx>();
             new GameObject("HitEffects").AddComponent<HitEffects>();
+            gameObject.AddComponent<GoreSystem>();
+            gameObject.AddComponent<TopDownView>();
+            gameObject.AddComponent<TargetPlate>();
             Stats = gameObject.AddComponent<CombatStats>();
             gameObject.AddComponent<CombatHud>();
 

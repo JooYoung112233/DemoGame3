@@ -38,6 +38,8 @@ namespace Demo6.Game
         public Inventory Inventory { get; private set; }
         public PlayerProgress Progress { get; private set; }
         public ExplorationLog Log { get; private set; }
+        public DungeonAtmosphere Atmosphere { get; private set; }
+        public DungeonAudio Audio { get; private set; }
         public int Floor => Map != null ? Map.Floor : 1;
         /// <summary>플레이어가 지금 있는 칸(벽·문틈에 걸쳐 있으면 마지막 칸).</summary>
         public DungeonCell CurrentCell { get; private set; }
@@ -61,6 +63,10 @@ namespace Demo6.Game
             DungeonUi.ResetStatics();
             RenderMaterials.ResetStatics();
             VisionSystem.ResetStatics();
+            DungeonAtmosphere.ResetStatics();
+            DungeonAudio.ResetStatics();
+            GoreSystem.ResetStatics();
+            TopDownView.ResetStatics();
         }
 
         void Awake()
@@ -95,6 +101,14 @@ namespace Demo6.Game
             gameObject.AddComponent<ExploreWalk>();
             gameObject.AddComponent<BigMap>();
             gameObject.AddComponent<DungeonHud>();
+            // 다크 판타지 분위기(기획/다크판타지-분위기-1차.md): 화면·소리·피.
+            Atmosphere = gameObject.AddComponent<DungeonAtmosphere>();
+            Audio = gameObject.AddComponent<DungeonAudio>();
+            gameObject.AddComponent<GoreSystem>();
+            // 정수리 시점 시험판과 한 마리 RPG 요소(대상 이름표·바닥 장비 이름표).
+            gameObject.AddComponent<TopDownView>();
+            gameObject.AddComponent<TargetPlate>();
+            gameObject.AddComponent<LootLabels>();
 
             foreach (var cell in World.Cells)
                 foreach (var f in cell.Map.Features)
@@ -121,6 +135,8 @@ namespace Demo6.Game
 
             Inventory.Init(Player);
             Progress.Init(Player);
+            Atmosphere.Init(this);
+            Audio.Init(Player);
             Encounters.SpawnAll();
             CombatEvents.PlayerDowned += OnPlayerDowned;
         }
@@ -167,7 +183,7 @@ namespace Demo6.Game
             if (CameraRig) CameraRig.Snap();
             RemoveLooseEnemies();
             DungeonEvents.RaisePlayerRespawned();
-            DungeonEvents.Say("말뚝 곁에서 다시 정신이 들었다");
+            DungeonEvents.Say("피 맛이 남은 채, 말뚝 곁에서 눈을 떴다");
             yield return Fade(0f);
             _busy = false;
         }
@@ -213,7 +229,7 @@ namespace Demo6.Game
                 State.Expedition++;
                 State.ExpeditionStartTime = Time.time;
                 DungeonEvents.RaiseExpeditionRestarted();
-                DungeonEvents.Say($"원정 {State.Expedition}번째 — 적과 광맥이 다시 놓였다");
+                DungeonEvents.Say($"{State.Expedition}번째 원정 — 쓰러뜨린 것들과 광맥이 다시 돌아왔다");
             }
             if (CameraRig) CameraRig.Snap();
             yield return Fade(0f);

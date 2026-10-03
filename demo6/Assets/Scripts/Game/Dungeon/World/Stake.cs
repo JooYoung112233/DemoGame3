@@ -99,7 +99,7 @@ namespace Demo6.Game
             if (!state.ActiveStakes.Contains(_id)) state.ActiveStakes.Add(_id);
             state.LastStakeId = _id;
             state.Complete(_id, DiscoveryKind.Stake, transform.position, _label);
-            DungeonEvents.Say("권양기 말뚝을 켰다");
+            DungeonEvents.Say("녹슨 권양기가 삐걱인다 — 쓰러지면 여기서 다시 선다");
         }
 
         void Update()
@@ -195,7 +195,7 @@ namespace Demo6.Game
             float w = PanelWidth - 40f;
             string here = string.IsNullOrEmpty(_cellName) ? _label : _label + " (" + _cellName + ")";
             GUI.Label(new Rect(x, r.y + 12f, w, 30f), "권양기 말뚝 — " + here, DungeonUi.Title);
-            GUI.Label(new Rect(x, r.y + 46f, w, 22f), "켠 말뚝 사이를 오간다(1초 암전, 원정은 이어짐).", DungeonUi.Small);
+            GUI.Label(new Rect(x, r.y + 46f, w, 22f), "밧줄을 타고 켠 말뚝 사이를 오간다. 잠시 어둠이 내리고, 원정은 이어진다.", DungeonUi.Small);
 
             float y = r.y + 76f;
             GUI.Label(new Rect(x, y, w, 22f), "다른 켠 말뚝으로", DungeonUi.Bold);
@@ -203,7 +203,7 @@ namespace Demo6.Game
             string travelTo = null;
             if (_others.Count == 0)
             {
-                GUI.Label(new Rect(x, y + 8f, w, 22f), "아직 다른 켠 말뚝이 없다.", DungeonUi.Small);
+                GUI.Label(new Rect(x, y + 8f, w, 22f), "불 켜진 말뚝이 아직 이것뿐이다.", DungeonUi.Small);
                 y += RowStep;
             }
             else
@@ -216,9 +216,9 @@ namespace Demo6.Game
             }
 
             y += 20f;
-            bool restart = GUI.Button(new Rect(x, y, w, ButtonHeight), "원정 다시 시작 (적과 광맥을 다시 놓음)");
+            bool restart = GUI.Button(new Rect(x, y, w, ButtonHeight), "원정 다시 시작 — 쓰러뜨린 것들과 광맥이 돌아온다");
             y += RowStep;
-            GUI.Label(new Rect(x, y - 4f, w, 40f), "이 말뚝에서 체력·물약을 채우고 다시 시작한다. 지도, 켠 말뚝·등잔, 연 곳, 능력, 레벨은 남는다.", DungeonUi.Small);
+            GUI.Label(new Rect(x, y - 4f, w, 40f), "상처를 싸매고 물약을 채운 뒤 이 말뚝에서 다시 내려간다. 지도, 켠 말뚝·등잔, 연 곳, 능력, 레벨은 남는다.", DungeonUi.Small);
             y += 44f;
             bool close = GUI.Button(new Rect(x, y, w, ButtonHeight), "닫기 (Esc)");
             GUI.matrix = prevMatrix;

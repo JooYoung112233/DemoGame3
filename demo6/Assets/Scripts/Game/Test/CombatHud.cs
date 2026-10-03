@@ -295,6 +295,8 @@ namespace Demo6.Game
             GUI.enabled = true;
             ArtButton(ArtMode.Placeholder, "시험용 그림");
             GUILayout.EndHorizontal();
+            // 정수리 시점 시험판: 켜면 위 도형·그림 대신 위에서 본 임시 그림(무기만 휘두름)으로 바꿔 비교한다.
+            TopDownView.Enabled = GUILayout.Toggle(TopDownView.Enabled, "정수리 시점(시험)");
             var visual = root.Player ? root.Player.GetComponent<PlayerVisual>() : null;
             if (visual && visual.DebugFrame >= 0)
             {
@@ -321,6 +323,14 @@ namespace Demo6.Game
             Tuning.HitStopScale = Slider("히트스톱 배율", Tuning.HitStopScale, 0f, 3f);
             Tuning.KnockbackScale = Slider("넉백 배율", Tuning.KnockbackScale, 0f, 3f);
             Tuning.ShakeScale = Slider("화면 흔들림 배율", Tuning.ShakeScale, 0f, 3f);
+            // 이동 속도 배율은 0.01 단위(0.05 단위 Slider를 쓰면 기본값 0.86이 손대지 않아도 0.85로 바뀐다).
+            GUILayout.BeginHorizontal();
+            GUILayout.Label($"이동 속도 배율 {Tuning.MoveSpeedScale:0.00}", GUILayout.Width(170f));
+            float moveScale = GUILayout.HorizontalSlider(Tuning.MoveSpeedScale, 0.6f, 1.2f);
+            GUILayout.EndHorizontal();
+            if (moveScale != Tuning.MoveSpeedScale) Tuning.MoveSpeedScale = Mathf.Round(moveScale * 100f) / 100f;
+            Tuning.MoveInertia = GUILayout.Toggle(Tuning.MoveInertia, $"가감속(묵직함) 붙기 {PlayerController.WalkAccelTime:0.00}초 · 서기 {PlayerController.WalkDecelTime:0.00}초");
+            GUILayout.Label($"걸음 {PlayerController.EquippedWalkSpeed * Tuning.MoveSpeedScale:0.00} · 탐험 걸음 {ExploreWalk.ScaledSpeed:0.00} (배율 1이면 5.30 · 6.50, 굴쥐 4.2)", _small);
             GUILayout.BeginHorizontal();
             Tuning.DamageNumbers = GUILayout.Toggle(Tuning.DamageNumbers, "피해 숫자");
             Tuning.Invincible = GUILayout.Toggle(Tuning.Invincible, "무적");

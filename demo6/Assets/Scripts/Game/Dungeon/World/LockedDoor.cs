@@ -61,7 +61,7 @@ namespace Demo6.Game
             if (_edge == null || _edge.Opened || !WorldProps.HasKey) return;
             Sfx.Play(SfxKind.Chest);
             _edge.Open();
-            DungeonEvents.Say("광업소 자물쇠가 열렸다");
+            DungeonEvents.Say("녹슨 자물쇠가 비명을 지르며 풀렸다");
         }
     }
 }

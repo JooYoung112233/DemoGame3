@@ -86,7 +86,7 @@ namespace Demo6.Game
             DungeonEvents.RaiseNoise(center, NoiseRadius);
             var state = WorldProps.State;
             if (state != null) state.Complete(_id, DiscoveryKind.Shortcut, center, "금 간 벽");
-            DungeonEvents.Say("금 간 벽을 깨고 지름길을 열었다");
+            DungeonEvents.Say("벽이 무너지고 차가운 바람이 새어 든다 — 지름길이다");
         }
     }
 }

@@ -468,6 +468,20 @@ namespace Demo6.Game
                 GUI.enabled = true;
                 GUILayout.EndHorizontal();
             }
+            // 정수리 시점 시험판(전투 시험장 '그림' 절과 같은 토글).
+            TopDownView.Enabled = GUILayout.Toggle(TopDownView.Enabled, "정수리 시점(시험)");
+
+            // 걷기 무게(전투 시험장 '손맛 조절'과 같은 값). 0.01 단위라 기본값 0.86이 그대로 남는다.
+            GUILayout.BeginHorizontal();
+            GUILayout.Label($"이동 속도 배율 {Tuning.MoveSpeedScale:0.00}", DungeonUi.Small, GUILayout.Width(150f));
+            float moveScale = GUILayout.HorizontalSlider(Tuning.MoveSpeedScale, 0.6f, 1.2f);
+            GUILayout.EndHorizontal();
+            if (moveScale != Tuning.MoveSpeedScale) Tuning.MoveSpeedScale = Mathf.Round(moveScale * 100f) / 100f;
+            GUILayout.BeginHorizontal();
+            Tuning.MoveInertia = GUILayout.Toggle(Tuning.MoveInertia, "가감속(묵직함)");
+            if (GUILayout.Button("손맛 기본값으로", _smallButton)) Tuning.ResetToDefaults();
+            GUILayout.EndHorizontal();
+            GUILayout.Label($"걸음 {PlayerController.EquippedWalkSpeed * Tuning.MoveSpeedScale:0.00} · 탐험 걸음 {ExploreWalk.ScaledSpeed:0.00} (배율 1이면 5.30 · 6.50, 굴쥐 4.2)", DungeonUi.Small);
 
             GUILayout.BeginHorizontal();
             GUI.enabled = !state.HasPickaxe;

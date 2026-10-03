@@ -47,7 +47,7 @@ namespace Demo6.Game
         public override void Interact()
         {
             DungeonEvents.RaiseStairsUsed();
-            DungeonEvents.Say("2층은 다음 시험에서 — 1층 기록을 띄운다");
+            DungeonEvents.Say("아래에서 무언가 기다린다 — 2층은 다음 시험에서. 1층 기록을 띄운다");
         }
     }
 }

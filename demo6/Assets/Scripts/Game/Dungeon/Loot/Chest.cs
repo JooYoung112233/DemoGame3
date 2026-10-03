@@ -166,7 +166,7 @@ namespace Demo6.Game
                 rat.GroupId = -1;
                 rat.Wake(false);
             }
-            DungeonEvents.Say("쥐 궤짝이었다!");
+            DungeonEvents.Say("궤짝 속에서 굴쥐들이 쏟아져 나온다");
         }
     }
 }

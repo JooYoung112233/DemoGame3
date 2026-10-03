@@ -67,6 +67,7 @@ namespace Demo6.Game
     /// <summary>
     /// 글자 지도에서 칸 바닥·벽·문·조각 안쪽 벽을 만든다(3차 초안 2-1). 칸 (x, y)의 가운데는 (28x, 16y).
     /// 벽 두께 1, 문은 칸 네 변 가운데 폭 4. 벽과 기둥은 등잔 빛에 그림자를 드리운다.
+    /// 그림(기획/다크판타지-분위기-1차.md '땅·벽'): 바닥은 거친 흙·돌, 벽은 돌 블록·모르타르, 채운 바위는 거친 바위, 기둥은 나무 버팀목. 칸 구조·충돌·문은 그대로다.
     /// </summary>
     public sealed class DungeonWorld
     {
@@ -85,6 +86,8 @@ namespace Demo6.Game
         readonly List<DungeonCell> _cells = new List<DungeonCell>();
         readonly List<DungeonEdge> _edges = new List<DungeonEdge>();
         readonly Dictionary<MapCell, DungeonCell> _byMap = new Dictionary<MapCell, DungeonCell>();
+        /// <summary>벽·바위·기둥·문 막이 사각형(바닥 구석 그늘용).</summary>
+        readonly List<Rect> _wallRects = new List<Rect>();
         DungeonCell[,] _grid;
         Transform _root;
 
@@ -149,17 +152,13 @@ namespace Demo6.Game
 
         void BuildGeometry()
         {
-            foreach (var c in _cells)
+            var cellRoots = new Transform[_cells.Count];
+            for (int i = 0; i < _cells.Count; i++)
             {
+                var c = _cells[i];
                 var cellRoot = new GameObject("Cell " + c.Id + " (" + c.Name + ")").transform;
                 cellRoot.SetParent(_root, false);
-                var floor = new GameObject("Floor");
-                floor.transform.SetParent(cellRoot, false);
-                floor.transform.position = c.Center;
-                var fs = floor.AddComponent<SpriteRenderer>();
-                fs.sprite = ShapeSprites.Checker(Mathf.RoundToInt(CellWidth), Mathf.RoundToInt(CellHeight), Palette.FloorA, Palette.FloorB);
-                fs.sortingOrder = -1000;
-
+                cellRoots[i] = cellRoot;
                 BuildBoundary(c, Side.Right, cellRoot);
                 BuildBoundary(c, Side.Up, cellRoot);
                 if (Neighbor(c, Side.Left) == null) BuildBoundary(c, Side.Left, cellRoot);
@@ -167,8 +166,36 @@ namespace Demo6.Game
                 BuildPiece(c, cellRoot);
             }
             foreach (var e in _edges)
-                if (e.Kind != EdgeKind.Open) e.Blocker = DungeonContent.CreateBlocker(e);
+            {
+                if (e.Kind == EdgeKind.Open) continue;
+                e.Blocker = DungeonContent.CreateBlocker(e);
+                _wallRects.Add(new Rect(e.DoorCenter - e.DoorSize * 0.5f, e.DoorSize));
+            }
+            // 바닥은 벽을 다 세운 뒤에 그린다(벽·바위 가까이 구석 그늘을 넣으려고).
+            for (int i = 0; i < _cells.Count; i++) BuildFloor(_cells[i], cellRoots[i]);
         }
+
+        /// <summary>
+        /// 칸 바닥: 바둑판 대신 거친 흙·돌 절차 텍스처(기획/다크판타지-분위기-1차.md '땅·벽'). 흙 결은 월드 좌표에 맞춰 문틈에서 이웃 칸과 이어지고,
+        /// 칸 시드로 진흙·바닥돌·자갈·그을음 자리가 칸마다 다르다. 빛을 받는 기본 재질이라 등잔 빛 안에서만 보인다.
+        /// </summary>
+        void BuildFloor(DungeonCell c, Transform cellRoot)
+        {
+            var floor = new GameObject("Floor");
+            floor.transform.SetParent(cellRoot, false);
+            floor.transform.position = c.Center;
+            var fs = floor.AddComponent<SpriteRenderer>();
+            var sprite = ShapeSprites.DirtFloor(c.Bounds, CellSeed(c), _wallRects);
+            fs.sprite = sprite;
+            fs.sortingOrder = -1000;
+            // 픽셀 반올림이 있어도 그림이 칸 크기에 꼭 맞게.
+            Vector2 native = sprite.bounds.size;
+            floor.transform.localScale = new Vector3(CellWidth / Mathf.Max(0.01f, native.x), CellHeight / Mathf.Max(0.01f, native.y), 1f);
+            RuntimeAssetOwner.Own(floor, sprite);
+        }
+
+        /// <summary>칸마다 다르고 실행마다 같은 시드(층 + 칸 id). 바닥 무늬와 바닥 장식(DungeonDecor)이 같이 쓴다.</summary>
+        public int CellSeed(DungeonCell c) => ShapeSprites.Seed(c.Id, Map.Floor * 7919);
 
         DungeonCell Neighbor(DungeonCell c, Side side)
         {
@@ -188,13 +215,13 @@ namespace Demo6.Game
                 float x = side == Side.Right ? c.Bounds.xMax : c.Bounds.xMin;
                 float y0 = c.Bounds.yMin - t * 0.5f;
                 float y1 = c.Bounds.yMax + t * 0.5f;
-                if (!door) Block(parent, "Wall " + side, new Vector2(x, c.Center.y), new Vector2(t, y1 - y0), Palette.Wall, false);
+                if (!door) Wall(parent, "Wall " + side, new Vector2(x, c.Center.y), new Vector2(t, y1 - y0), Palette.Wall, false);
                 else
                 {
                     float gap0 = c.Center.y - DoorWidth * 0.5f;
                     float gap1 = c.Center.y + DoorWidth * 0.5f;
-                    Block(parent, "Wall " + side + " a", new Vector2(x, (y0 + gap0) * 0.5f), new Vector2(t, gap0 - y0), Palette.Wall, false);
-                    Block(parent, "Wall " + side + " b", new Vector2(x, (gap1 + y1) * 0.5f), new Vector2(t, y1 - gap1), Palette.Wall, false);
+                    Wall(parent, "Wall " + side + " a", new Vector2(x, (y0 + gap0) * 0.5f), new Vector2(t, gap0 - y0), Palette.Wall, false);
+                    Wall(parent, "Wall " + side + " b", new Vector2(x, (gap1 + y1) * 0.5f), new Vector2(t, y1 - gap1), Palette.Wall, false);
                 }
             }
             else
@@ -202,13 +229,13 @@ namespace Demo6.Game
                 float y = side == Side.Up ? c.Bounds.yMax : c.Bounds.yMin;
                 float x0 = c.Bounds.xMin - t * 0.5f;
                 float x1 = c.Bounds.xMax + t * 0.5f;
-                if (!door) Block(parent, "Wall " + side, new Vector2(c.Center.x, y), new Vector2(x1 - x0, t), Palette.Wall, false);
+                if (!door) Wall(parent, "Wall " + side, new Vector2(c.Center.x, y), new Vector2(x1 - x0, t), Palette.Wall, false);
                 else
                 {
                     float gap0 = c.Center.x - DoorWidth * 0.5f;
                     float gap1 = c.Center.x + DoorWidth * 0.5f;
-                    Block(parent, "Wall " + side + " a", new Vector2((x0 + gap0) * 0.5f, y), new Vector2(gap0 - x0, t), Palette.Wall, false);
-                    Block(parent, "Wall " + side + " b", new Vector2((gap1 + x1) * 0.5f, y), new Vector2(x1 - gap1, t), Palette.Wall, false);
+                    Wall(parent, "Wall " + side + " a", new Vector2((x0 + gap0) * 0.5f, y), new Vector2(gap0 - x0, t), Palette.Wall, false);
+                    Wall(parent, "Wall " + side + " b", new Vector2((gap1 + x1) * 0.5f, y), new Vector2(x1 - gap1, t), Palette.Wall, false);
                 }
             }
         }
@@ -221,7 +248,7 @@ namespace Demo6.Game
             {
                 case PieceKind.Clearing:
                     foreach (var p in PillarsFor(c))
-                        Block(parent, "Pillar", c.Center + p, new Vector2(1.2f, 1.2f), Palette.Pillar, true);
+                        Wall(parent, "Pillar", c.Center + p, new Vector2(1.2f, 1.2f), Palette.Pillar, true);
                     break;
                 case PieceKind.Corridor:
                 {
@@ -239,7 +266,7 @@ namespace Demo6.Game
                             if (c.EdgeOn(side) != null) continue;
                         }
                         var r = Rect.MinMaxRect(xs[ix], ys[iy], xs[ix + 1], ys[iy + 1]);
-                        Block(parent, "Rock", r.center, r.size, Palette.Wall, true);
+                        Wall(parent, "Rock", r.center, r.size, Palette.Wall, true);
                     }
                     break;
                 }
@@ -253,8 +280,8 @@ namespace Demo6.Game
                 case PieceKind.Entrance:
                 case PieceKind.StairsRoom:
                     // 입구·계단 앞은 트인 방. 구석 버팀목 기둥 두 개만.
-                    Block(parent, "Pillar", c.Center + new Vector2(-10f, -5f), new Vector2(1.2f, 1.2f), Palette.Pillar, true);
-                    Block(parent, "Pillar", c.Center + new Vector2(10f, 5f), new Vector2(1.2f, 1.2f), Palette.Pillar, true);
+                    Wall(parent, "Pillar", c.Center + new Vector2(-10f, -5f), new Vector2(1.2f, 1.2f), Palette.Pillar, true);
+                    Wall(parent, "Pillar", c.Center + new Vector2(10f, 5f), new Vector2(1.2f, 1.2f), Palette.Pillar, true);
                     break;
             }
         }
@@ -269,7 +296,7 @@ namespace Demo6.Game
             float t = c.EdgeOn(Side.Up) != null ? inner.yMax : c.Center.y + halfH;
             void Fill(Rect rect)
             {
-                if (rect.width > 0.05f && rect.height > 0.05f) Block(parent, "Rock", rect.center, rect.size, Palette.Wall, true);
+                if (rect.width > 0.05f && rect.height > 0.05f) Wall(parent, "Rock", rect.center, rect.size, Palette.Wall, true);
             }
             // 문이 있는 쪽은 문 폭 4 + 양옆 여유를 남기고 나머지를 채운다.
             Fill(Rect.MinMaxRect(inner.xMin, inner.yMin, l, inner.yMax));
@@ -318,7 +345,19 @@ namespace Demo6.Game
             }
         }
 
-        /// <summary>벽 한 덩이(Wall 레이어 충돌 + 그림 + 그림자).</summary>
+        /// <summary>칸 벽·바위·기둥 한 덩이. 바닥 구석 그늘을 그리려고 사각형을 적어 둔다.</summary>
+        GameObject Wall(Transform parent, string name, Vector2 position, Vector2 size, Color color, bool sortByY)
+        {
+            _wallRects.Add(new Rect(position - size * 0.5f, size));
+            return Block(parent, name, position, size, color, sortByY);
+        }
+
+        /// <summary>
+        /// 벽 한 덩이(Wall 레이어 충돌 + 그림 + 그림자). 그림은 기획/다크판타지-분위기-1차.md '땅·벽'을 따른다:
+        /// Palette.Wall 덩이는 월드 좌표에 맞춘 돌 블록·모르타르(이름이 "Rock"이면 거친 바위), Palette.Pillar는 나무 버팀목,
+        /// 그 밖의 색(자물쇠 문 등)은 예전처럼 단색 네모. 판자벽·금 간 벽도 Palette.Wall이라 이어진 벽과 무늬가 이음매 없이 같다(숨은 방 규칙).
+        /// 충돌·크기·정렬·그림자는 예전과 같다.
+        /// </summary>
         public static GameObject Block(Transform parent, string name, Vector2 position, Vector2 size, Color color, bool sortByY)
         {
             var go = new GameObject(name);
@@ -329,13 +368,36 @@ namespace Demo6.Game
             col.size = size;
             var visual = new GameObject("Visual");
             visual.transform.SetParent(go.transform, false);
-            visual.transform.localScale = new Vector3(size.x, size.y, 1f);
             var sr = visual.AddComponent<SpriteRenderer>();
-            sr.sprite = ShapeSprites.Square;
-            sr.color = color;
+            Sprite owned = null;
+            if (color == Palette.Wall)
+            {
+                var rect = new Rect(position - size * 0.5f, size);
+                owned = name == "Rock" ? ShapeSprites.RoughRock(rect) : ShapeSprites.StoneWall(rect);
+                sr.sprite = owned;
+                sr.color = Color.white;
+                // 픽셀 반올림이 있어도 그림이 충돌 상자 크기에 꼭 맞게.
+                Vector2 native = owned.bounds.size;
+                visual.transform.localScale = new Vector3(size.x / Mathf.Max(0.01f, native.x), size.y / Mathf.Max(0.01f, native.y), 1f);
+            }
+            else if (color == Palette.Pillar)
+            {
+                int variant = Mathf.Abs(Mathf.RoundToInt(position.x * 3f) + Mathf.RoundToInt(position.y * 7f));
+                sr.sprite = ShapeSprites.TimberPost(variant);
+                sr.color = Color.white;
+                visual.transform.localScale = new Vector3(size.x, size.y, 1f);
+            }
+            else
+            {
+                sr.sprite = ShapeSprites.Square;
+                sr.color = color;
+                visual.transform.localScale = new Vector3(size.x, size.y, 1f);
+            }
             sr.sortingOrder = sortByY ? 1000 - Mathf.RoundToInt(position.y * 20f) : -900;
+            // 그림·크기를 정한 뒤에 붙여야 그림자 모양이 그림 크기를 따른다.
             var shadow = visual.AddComponent<ShadowCaster2D>();
             shadow.selfShadows = false;
+            if (owned) RuntimeAssetOwner.Own(go, owned);
             return go;
         }
     }

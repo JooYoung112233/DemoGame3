@@ -36,6 +36,12 @@ namespace Demo6.Game
         void LateUpdate()
         {
             if (!_player || !_body) return;
+            // 정수리 시점 시험판이 켜져 있으면 도형 상태로 물러나 손을 뗀다(몸은 TopDownView가 이 뒤 LateUpdate에서 그린다).
+            if (TopDownView.Active)
+            {
+                ShowShape();
+                return;
+            }
             var set = ArtRuntime.Active;
             var art = set ? set.player : null;
             Vector2 facing = _player.FacingDirection;

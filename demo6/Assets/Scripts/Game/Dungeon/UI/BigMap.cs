@@ -22,12 +22,14 @@ namespace Demo6.Game
         const float EdgeThickness = 4f;
         const float IconLine = 17f;
 
-        static readonly Color VisitedFill = new Color(0.25f, 0.22f, 0.18f, 1f);
-        static readonly Color RevealedFill = new Color(0.15f, 0.14f, 0.13f, 1f);
-        static readonly Color CellBorder = new Color(0.72f, 0.65f, 0.52f, 1f);
-        static readonly Color CurrentBorder = new Color(1f, 0.9f, 0.6f, 1f);
-        static readonly Color UnknownBorder = new Color(0.7f, 0.65f, 0.55f, 0.85f);
-        static readonly Color PathColor = new Color(0.72f, 0.66f, 0.54f, 1f);
+        // 다크 판타지 1차: 칸은 검게 그을린 양피지, 테는 바랜 뼈색, 지금 칸은 횃불 호박색. 능력 문(곡·열)·켜짐 색 뜻은 그대로.
+        static readonly Color VisitedFill = new Color(0.17f, 0.15f, 0.125f, 1f);
+        static readonly Color RevealedFill = new Color(0.1f, 0.09f, 0.08f, 1f);
+        static readonly Color CellBorder = new Color(0.56f, 0.5f, 0.41f, 1f);
+        static readonly Color CurrentBorder = new Color(0.93f, 0.72f, 0.4f, 1f);
+        static readonly Color UnknownBorder = new Color(0.55f, 0.5f, 0.42f, 0.85f);
+        static readonly Color PathColor = new Color(0.52f, 0.47f, 0.38f, 1f);
+        static readonly Color HereColor = new Color(0.95f, 0.78f, 0.48f, 1f);
         static readonly Color NeedColor = new Color(0.9f, 0.62f, 0.4f, 1f);
         static readonly Color ReadyColor = new Color(0.55f, 0.9f, 0.5f, 1f);
         static readonly Color WoodColor = new Color(0.78f, 0.56f, 0.3f, 1f);
@@ -145,12 +147,14 @@ namespace Demo6.Game
             Rect CellRect(DungeonCell c) =>
                 new Rect(origin.x + c.Map.X * (cellW + Gap), origin.y + (rows - 1 - c.Map.Y) * (cellH + Gap), cellW, cellH);
 
-            DungeonUi.Fill(new Rect(0f, 0f, DungeonUi.Width, DungeonUi.Height), new Color(0f, 0f, 0f, 0.5f));
-            DungeonUi.Box(new Rect(boxX, boxY, boxW, boxH), 0.95f);
+            var screen = new Rect(0f, 0f, DungeonUi.Width, DungeonUi.Height);
+            DungeonUi.Fill(screen, new Color(0f, 0f, 0f, 0.55f));
+            DungeonUi.Vignette(screen, new Color(0f, 0f, 0f, 0.6f));
+            DungeonUi.Box(new Rect(boxX, boxY, boxW, boxH), 0.96f);
 
             // 머리: 층 이름, 조사율, 가진 능력.
             float survey = state.Survey(world.Cells.Count);
-            GUI.Label(new Rect(boxX + Pad, boxY + 14f, boxW * 0.6f, 30f), $"{root.Floor}층 · {root.Map.Name} — 큰 지도", DungeonUi.Title);
+            GUI.Label(new Rect(boxX + Pad, boxY + 14f, boxW * 0.6f, 30f), $"제{root.Floor}층 — {root.Map.Name}", DungeonUi.Title);
             GUI.Label(new Rect(boxX + boxW * 0.5f, boxY + 14f, boxW * 0.5f - Pad, 30f), $"조사 {survey * 100f:0}%", _rightTitle);
             string abilities = state.HasPickaxe ? (state.HasKey ? "곡괭이, 열쇠" : "곡괭이") : (state.HasKey ? "열쇠" : "없음");
             GUI.Label(new Rect(boxX + Pad, boxY + 44f, boxW - Pad * 2f, 20f),
@@ -187,7 +191,7 @@ namespace Demo6.Game
                 var at = new Vector2(r.x + u * r.width, r.y + (1f - v) * r.height);
                 float s = 11f + 2f * Mathf.Sin(Time.unscaledTime * 6f);
                 DungeonUi.Fill(new Rect(at.x - s * 0.5f - 2f, at.y - s * 0.5f - 2f, s + 4f, s + 4f), new Color(0f, 0f, 0f, 0.9f));
-                DungeonUi.Fill(new Rect(at.x - s * 0.5f, at.y - s * 0.5f, s, s), new Color(1f, 0.95f, 0.75f, 1f));
+                DungeonUi.Fill(new Rect(at.x - s * 0.5f, at.y - s * 0.5f, s, s), HereColor);
             }
 
             // 범례.
@@ -201,7 +205,7 @@ namespace Demo6.Game
             {
                 var prev = GUI.color;
                 GUI.color = LitColor;
-                GUI.Label(new Rect(boxX + Pad, ly + 40f, lw, 20f), "벽 등잔을 모두 켰다 — 흐린 '?' 자리에 아직 못 찾은 곳이 있다.", DungeonUi.Small);
+                GUI.Label(new Rect(boxX + Pad, ly + 40f, lw, 20f), "모든 등잔이 타오른다 — 흐린 '?' 자리에 아직 찾지 못한 곳이 있다.", DungeonUi.Small);
                 GUI.color = prev;
             }
         }
@@ -211,7 +215,7 @@ namespace Demo6.Game
             DungeonUi.Fill(r, c.Visited ? VisitedFill : RevealedFill);
             DungeonUi.Outline(r, current ? CurrentBorder : CellBorder, current ? 3f : 2f);
             var prev = GUI.color;
-            GUI.color = c.Visited ? Color.white : new Color(1f, 1f, 1f, 0.6f);
+            GUI.color = c.Visited ? DungeonUi.Bone : new Color(DungeonUi.Bone.r, DungeonUi.Bone.g, DungeonUi.Bone.b, 0.6f);
             GUI.Label(new Rect(r.x + 8f, r.y + 4f, r.width - 16f, 22f), c.Visited ? c.Name : c.Name + " (안 감)", DungeonUi.Bold);
             GUI.color = prev;
 
@@ -235,7 +239,7 @@ namespace Demo6.Game
             c.a *= alpha;
             DungeonUi.Outline(r, c, outline ? 2f : 1f);
             var prev = GUI.color;
-            GUI.color = new Color(1f, 0.95f, 0.85f, alpha);
+            GUI.color = new Color(0.86f, 0.79f, 0.66f, alpha);
             GUI.Label(r, "?", _bigQuestion);
             GUI.color = prev;
         }

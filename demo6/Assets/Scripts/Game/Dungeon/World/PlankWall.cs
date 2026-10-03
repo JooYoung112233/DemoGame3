@@ -210,7 +210,7 @@ namespace Demo6.Game
             _edge.Open();
             var state = WorldProps.State;
             if (state != null) state.Complete(_id, DiscoveryKind.HiddenRoom, center, "숨은 방");
-            DungeonEvents.Say("판자벽 뒤에 숨은 방이 있었다");
+            DungeonEvents.Say("썩은 판자 너머, 누군가 숨겨 둔 방이 있었다");
         }
 
         void Update()

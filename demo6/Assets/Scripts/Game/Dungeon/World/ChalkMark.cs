@@ -22,8 +22,8 @@ namespace Demo6.Game
             mark.AngleDeg = WorldProps.ParseAngle(f.Param, f.FacingDeg);
             mark.Draw();
             var use = go.AddComponent<WorldInteraction>();
-            use.Setup("분필 그림 보기", 0f, UseRange, null, null,
-                () => DungeonEvents.Say("누군가 분필로 그린 화살표가 아래쪽 벽을 가리킨다"));
+            use.Setup("분필 자국 살피기", 0f, UseRange, null, null,
+                () => DungeonEvents.Say("작은 손으로 그린 분필 화살표가 아래쪽 벽을 가리킨다"));
             return mark;
         }
 

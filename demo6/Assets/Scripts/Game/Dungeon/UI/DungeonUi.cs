@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Demo6.Game
@@ -5,6 +6,9 @@ namespace Demo6.Game
     /// <summary>
     /// 던전 시험장 IMGUI 공통(기준 높이 1080으로 크기를 맞춤). 정식 화면은 Unity 개발 단계(uGUI)에서 다시 만든다.
     /// 창(큰 지도, 말뚝 메뉴, 사건 고르기, 스킬)은 한 번에 하나만 열고, 여는 동안 시간을 멈추고 공격 입력을 막는다.
+    /// 다크 판타지 1차(기획/다크판타지-분위기-1차.md '화면 연출'): 틀은 검은 쇠·뼈색, 제목·큰 글자는 바탕체 계열 OS 글꼴(없으면 기본),
+    /// 단추는 어두운 쇠판. 기본 스킨을 복제한 던전 스킨을 Begin에서 그 OnGUI에만 씌우므로 전투 시험장 화면은 바뀌지 않는다.
+    /// 그림(구슬·띠·비네트·단추)은 처음 한 번 절차 텍스처로 만들고 다시 쓴다(매 프레임 할당 없음).
     /// </summary>
     public static class DungeonUi
     {
@@ -15,43 +19,215 @@ namespace Demo6.Game
         public static float Width => Screen.width / Scale;
         public static float Height => RefHeight;
 
+        // ── 색(다크 판타지 1차 '화면 연출') ───────────────────────
+
+        /// <summary>뼈색: 기본 글·테두리.</summary>
+        public static readonly Color Bone = new Color(0.84f, 0.78f, 0.66f, 1f);
+        /// <summary>바랜 뼈색: 보조 글.</summary>
+        public static readonly Color BoneDim = new Color(0.58f, 0.53f, 0.45f, 1f);
+        /// <summary>횃불 호박색: 강조(제목, 레벨, 키).</summary>
+        public static readonly Color Ember = new Color(0.9f, 0.7f, 0.4f, 1f);
+        /// <summary>검은 쇠 바탕.</summary>
+        public static readonly Color IronFill = new Color(0.035f, 0.031f, 0.028f, 1f);
+        /// <summary>쇠 테.</summary>
+        public static readonly Color IronEdge = new Color(0.21f, 0.19f, 0.17f, 1f);
+        /// <summary>짙은 피색 범위(#4A0606~#8A1010, 등급색 빨강·주황과 헷갈리지 않게).</summary>
+        public static readonly Color BloodDark = new Color32(0x4A, 0x06, 0x06, 0xFF);
+        public static readonly Color Blood = new Color32(0x8A, 0x10, 0x10, 0xFF);
+        /// <summary>막힌 이유 등 경고 글(녹 빛 붉은색, 피·등급색과 다름).</summary>
+        public static readonly Color Rust = new Color(0.82f, 0.48f, 0.38f, 1f);
+        /// <summary>창 제목색(바랜 호박).</summary>
+        public static readonly Color TitleColor = new Color(0.88f, 0.77f, 0.57f, 1f);
+
         public static GUIStyle Title { get; private set; }
         public static GUIStyle Label { get; private set; }
         public static GUIStyle Small { get; private set; }
         public static GUIStyle Bold { get; private set; }
         public static GUIStyle Center { get; private set; }
         public static GUIStyle BigCenter { get; private set; }
+        /// <summary>층 이름 카드·쓰러짐 같은 아주 큰 바탕체 글(가운데, 글자색은 GUI.color로).</summary>
+        public static GUIStyle Display { get; private set; }
+        /// <summary>레벨업 띠 같은 큰 바탕체 글(가운데).</summary>
+        public static GUIStyle Banner { get; private set; }
+        /// <summary>음울한 한 줄(바탕체 기울임, 가운데).</summary>
+        public static GUIStyle Subtitle { get; private set; }
+        /// <summary>화면 아래 알림 한 줄(바탕체, 가운데, 줄바꿈 없음).</summary>
+        public static GUIStyle Toast { get; private set; }
+        /// <summary>조용한 알림(새 칸 이름 등, 바탕체 기울임).</summary>
+        public static GUIStyle ToastQuiet { get; private set; }
 
         /// <summary>지금 열린 창 이름(없으면 null).</summary>
         public static string Modal { get; private set; }
         public static bool ModalOpen => Modal != null;
 
+        /// <summary>바탕체 계열 후보(기준 문서 '화면 연출'). 앞에서부터 설치된 것을 쓴다.</summary>
+        static readonly string[] SerifNames = { "Batang", "바탕", "Noto Serif KR", "Gungsuh", "궁서", "Nanum Myeongjo", "NanumMyeongjo", "나눔명조" };
+
         static bool _ready;
         static bool _pausedByModal;
+        static bool _serifTried;
+        static Font _serif;
+        static GUISkin _skin;
+        static Texture2D _orbFill;
+        static Texture2D _orbGlass;
+        static Texture2D _orbRing;
+        static Texture2D _strip;
+        static Texture2D _vignette;
+        static Texture2D _btnNormal;
+        static Texture2D _btnHover;
+        static Texture2D _btnActive;
+
+        /// <summary>
+        /// 플레이 시작마다 부른다(DungeonRoot). 창 상태를 비우고 글꼴 스타일을 다시 만들게 한다.
+        /// 텍스처·스킨·글꼴은 아직 살아 있으면 그대로 다시 쓰고, 지워졌으면(Unity null) 다시 만든다.
+        /// </summary>
+#if UNITY_EDITOR
+        [UnityEditor.InitializeOnLoadMethod]
+        static void HookReload() => UnityEditor.AssemblyReloadEvents.beforeAssemblyReload += ReleaseCached;
+#endif
+
+        /// <summary>스크립트를 다시 불러오기 전에 만든 텍스처·스킨·글꼴을 지운다(DontSave라 저절로 지워지지 않는다).</summary>
+        static void ReleaseCached()
+        {
+            DestroyCached(ref _orbFill);
+            DestroyCached(ref _orbGlass);
+            DestroyCached(ref _orbRing);
+            DestroyCached(ref _strip);
+            DestroyCached(ref _vignette);
+            DestroyCached(ref _btnNormal);
+            DestroyCached(ref _btnHover);
+            DestroyCached(ref _btnActive);
+            DestroyCached(ref _skin);
+            DestroyCached(ref _serif);
+            _ready = false;
+            _serifTried = false;
+        }
+
+        static void DestroyCached<T>(ref T obj) where T : Object
+        {
+            if (obj) Object.DestroyImmediate(obj);
+            obj = null;
+        }
 
         public static void ResetStatics()
         {
             Modal = null;
             _pausedByModal = false;
             PlayerInputReader.Blocked = false;
+            _ready = false;
+            _serifTried = false;
         }
 
-        /// <summary>OnGUI 맨 앞에서 부른다. 글꼴 크기·배율을 맞춘다.</summary>
+        /// <summary>바탕체 계열 OS 글꼴. 설치된 것이 없으면 null(기본 글꼴).</summary>
+        public static Font Serif
+        {
+            get
+            {
+                if (_serif) return _serif;
+                if (_serifTried) return null;
+                _serifTried = true;
+                _serif = LoadSerif();
+                return _serif;
+            }
+        }
+
+        static Font LoadSerif()
+        {
+            string[] installed;
+            try
+            {
+                installed = Font.GetOSInstalledFontNames();
+            }
+            catch
+            {
+                return null;
+            }
+            if (installed == null || installed.Length == 0) return null;
+            var found = new List<string>();
+            foreach (var want in SerifNames)
+            {
+                foreach (var have in installed)
+                {
+                    if (!string.Equals(want, have, System.StringComparison.OrdinalIgnoreCase)) continue;
+                    if (!found.Contains(have)) found.Add(have);
+                    break;
+                }
+            }
+            if (found.Count == 0) return null;
+            var font = Font.CreateDynamicFontFromOSFont(found.ToArray(), 32);
+            if (font) font.hideFlags = HideFlags.DontSave;
+            return font;
+        }
+
+        /// <summary>OnGUI 맨 앞에서 부른다. 던전 스킨을 씌우고 글꼴 크기·배율을 맞춘다.</summary>
         public static void Begin()
         {
-            if (!_ready)
-            {
-                _ready = true;
-                Title = new GUIStyle(GUI.skin.label) { fontSize = 20, fontStyle = FontStyle.Bold, wordWrap = true };
-                Label = new GUIStyle(GUI.skin.label) { fontSize = 15, wordWrap = true };
-                Small = new GUIStyle(GUI.skin.label) { fontSize = 13, wordWrap = true };
-                Bold = new GUIStyle(GUI.skin.label) { fontSize = 15, fontStyle = FontStyle.Bold, wordWrap = true };
-                Center = new GUIStyle(GUI.skin.label) { fontSize = 16, alignment = TextAnchor.MiddleCenter, wordWrap = true };
-                BigCenter = new GUIStyle(GUI.skin.label) { fontSize = 30, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter };
-                GUI.skin.button.fontSize = 15;
-                GUI.skin.toggle.fontSize = 14;
-            }
+            if (!_ready || !_skin) Build();
+            if (GUI.skin != _skin) GUI.skin = _skin;
             GUI.matrix = Matrix4x4.Scale(new Vector3(Scale, Scale, 1f));
+        }
+
+        /// <summary>던전 스킨·스타일을 만든다(플레이마다 한 번). 반드시 OnGUI 안에서 부른다.</summary>
+        static void Build()
+        {
+            _ready = true;
+            if (!_skin)
+            {
+                // 이번 OnGUI의 기본 스킨을 복제한다. 기본 스킨 자체는 건드리지 않는다(전투 시험장 화면 그대로).
+                _skin = UnityEngine.Object.Instantiate(GUI.skin);
+                _skin.name = "Dungeon skin";
+                _skin.hideFlags = HideFlags.DontSave;
+            }
+            EnsureTextures();
+            var serif = Serif;
+            var label = _skin.label;
+
+            Title = new GUIStyle(label) { fontSize = 21, fontStyle = FontStyle.Bold, wordWrap = true, font = serif };
+            SetTextColor(Title, TitleColor);
+            Label = new GUIStyle(label) { fontSize = 15, wordWrap = true };
+            Small = new GUIStyle(label) { fontSize = 13, wordWrap = true };
+            Bold = new GUIStyle(label) { fontSize = 15, fontStyle = FontStyle.Bold, wordWrap = true };
+            Center = new GUIStyle(label) { fontSize = 16, alignment = TextAnchor.MiddleCenter, wordWrap = true };
+            BigCenter = new GUIStyle(label) { fontSize = 30, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter, font = serif };
+            SetTextColor(BigCenter, Color.white);
+            Display = new GUIStyle(label) { fontSize = 56, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter, wordWrap = false, clipping = TextClipping.Overflow, font = serif };
+            SetTextColor(Display, Color.white);
+            Banner = new GUIStyle(label) { fontSize = 40, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter, wordWrap = false, clipping = TextClipping.Overflow, font = serif };
+            SetTextColor(Banner, Color.white);
+            Subtitle = new GUIStyle(label) { fontSize = 20, fontStyle = FontStyle.Italic, alignment = TextAnchor.MiddleCenter, wordWrap = false, clipping = TextClipping.Overflow, font = serif };
+            SetTextColor(Subtitle, Color.white);
+            Toast = new GUIStyle(label) { fontSize = 18, alignment = TextAnchor.MiddleCenter, wordWrap = false, clipping = TextClipping.Overflow, font = serif };
+            SetTextColor(Toast, Color.white);
+            ToastQuiet = new GUIStyle(label) { fontSize = 15, fontStyle = FontStyle.Italic, alignment = TextAnchor.MiddleCenter, wordWrap = false, clipping = TextClipping.Overflow, font = serif };
+            SetTextColor(ToastQuiet, Color.white);
+
+            // 단추: 어두운 쇠판 + 뼈색 글. 말뚝·사건·쪽지·가방·스킬 창 단추가 모두 이 모양을 쓴다.
+            var b = _skin.button;
+            b.fontSize = 15;
+            b.border = new RectOffset(3, 3, 3, 3);
+            b.normal.background = _btnNormal;
+            b.normal.textColor = Bone;
+            b.hover.background = _btnHover;
+            b.hover.textColor = new Color(0.97f, 0.9f, 0.76f, 1f);
+            b.active.background = _btnActive;
+            b.active.textColor = Ember;
+            b.focused.background = _btnNormal;
+            b.focused.textColor = Bone;
+            b.onNormal.background = _btnActive;
+            b.onNormal.textColor = Ember;
+            b.onHover.background = _btnActive;
+            b.onHover.textColor = Ember;
+            b.onActive.background = _btnActive;
+            b.onActive.textColor = Ember;
+            _skin.toggle.fontSize = 14;
+        }
+
+        static void SetTextColor(GUIStyle s, Color c)
+        {
+            s.normal.textColor = c;
+            s.hover.textColor = c;
+            s.active.textColor = c;
+            s.focused.textColor = c;
         }
 
         /// <summary>창을 연다. 다른 창이 열려 있으면 false. 여는 동안 시간을 멈춘다.</summary>
@@ -78,13 +254,32 @@ namespace Demo6.Game
             _pausedByModal = false;
         }
 
+        // ── 그리기 ───────────────────────────────────────────
+
+        /// <summary>검은 쇠 판: 검은 바깥 테, 쇠 테 2px, 안쪽 뼈색 가는 선, 모서리 못 넷. alpha는 판 전체 불투명도(흐려질 때 함께 줄인다).</summary>
         public static void Box(Rect r, float alpha = 0.82f)
         {
+            if (alpha <= 0.002f) return;
             var prev = GUI.color;
-            GUI.color = new Color(0.07f, 0.06f, 0.05f, alpha);
-            GUI.DrawTexture(r, Texture2D.whiteTexture);
-            GUI.color = new Color(1f, 1f, 1f, 0.12f);
-            GUI.DrawTexture(new Rect(r.x, r.y, r.width, 1f), Texture2D.whiteTexture);
+            var tex = Texture2D.whiteTexture;
+            // 검은 바깥 테는 테두리 선으로만(채우면 판이 두 겹이 되어 거의 불투명해진다).
+            OutlineRaw(new Rect(r.x - 1f, r.y - 1f, r.width + 2f, r.height + 2f), new Color(0f, 0f, 0f, alpha), 1f);
+            GUI.color = new Color(IronFill.r, IronFill.g, IronFill.b, alpha);
+            GUI.DrawTexture(r, tex);
+            // 위쪽이 조금 더 밝은 쇠 결.
+            GUI.color = new Color(1f, 0.92f, 0.8f, 0.035f * alpha);
+            GUI.DrawTexture(new Rect(r.x, r.y, r.width, Mathf.Min(r.height, 18f)), tex);
+            OutlineRaw(r, new Color(IronEdge.r, IronEdge.g, IronEdge.b, alpha), 2f);
+            if (r.width > 24f && r.height > 20f)
+            {
+                OutlineRaw(new Rect(r.x + 4f, r.y + 4f, r.width - 8f, r.height - 8f), new Color(Bone.r, Bone.g, Bone.b, 0.13f * alpha), 1f);
+                var rivet = new Color(0.46f, 0.41f, 0.34f, 0.9f * alpha);
+                GUI.color = rivet;
+                GUI.DrawTexture(new Rect(r.x + 3f, r.y + 3f, 3f, 3f), tex);
+                GUI.DrawTexture(new Rect(r.xMax - 6f, r.y + 3f, 3f, 3f), tex);
+                GUI.DrawTexture(new Rect(r.x + 3f, r.yMax - 6f, 3f, 3f), tex);
+                GUI.DrawTexture(new Rect(r.xMax - 6f, r.yMax - 6f, 3f, 3f), tex);
+            }
             GUI.color = prev;
         }
 
@@ -96,26 +291,121 @@ namespace Demo6.Game
             GUI.color = prev;
         }
 
+        /// <summary>막대: 검은 홈 + 채움 + 윗면 옅은 광 + 쇠 테. 글이 있으면 뼈색 그림자 글로 가운데에.</summary>
         public static void Bar(Rect r, float fraction, Color fill, string text = null)
         {
-            Fill(r, new Color(0f, 0f, 0f, 0.6f));
-            Fill(new Rect(r.x + 1f, r.y + 1f, (r.width - 2f) * Mathf.Clamp01(fraction), r.height - 2f), fill);
-            if (!string.IsNullOrEmpty(text))
+            Fill(r, new Color(0f, 0f, 0f, 0.78f));
+            float w = (r.width - 2f) * Mathf.Clamp01(fraction);
+            if (w > 0f)
             {
-                var prev = GUI.color;
-                GUI.color = Color.white;
-                GUI.Label(r, text, Center);
-                GUI.color = prev;
+                var inner = new Rect(r.x + 1f, r.y + 1f, w, r.height - 2f);
+                Fill(inner, fill);
+                if (r.height >= 8f) Fill(new Rect(inner.x, inner.y, inner.width, Mathf.Max(1f, inner.height * 0.3f)), new Color(1f, 1f, 1f, 0.08f));
             }
+            Outline(r, IronEdge, 1f);
+            if (!string.IsNullOrEmpty(text)) ShadowLabel(r, text, Center, Bone);
         }
 
         /// <summary>테두리만 그린다(큰 지도의 '안 간 출구' 칸 등).</summary>
         public static void Outline(Rect r, Color color, float thickness = 1f)
         {
-            Fill(new Rect(r.x, r.y, r.width, thickness), color);
-            Fill(new Rect(r.x, r.yMax - thickness, r.width, thickness), color);
-            Fill(new Rect(r.x, r.y + thickness, thickness, r.height - thickness * 2f), color);
-            Fill(new Rect(r.xMax - thickness, r.y + thickness, thickness, r.height - thickness * 2f), color);
+            var prev = GUI.color;
+            OutlineRaw(r, color, thickness);
+            GUI.color = prev;
+        }
+
+        static void OutlineRaw(Rect r, Color color, float thickness)
+        {
+            var tex = Texture2D.whiteTexture;
+            GUI.color = color;
+            GUI.DrawTexture(new Rect(r.x, r.y, r.width, thickness), tex);
+            GUI.DrawTexture(new Rect(r.x, r.yMax - thickness, r.width, thickness), tex);
+            GUI.DrawTexture(new Rect(r.x, r.y + thickness, thickness, r.height - thickness * 2f), tex);
+            GUI.DrawTexture(new Rect(r.xMax - thickness, r.y + thickness, thickness, r.height - thickness * 2f), tex);
+        }
+
+        /// <summary>양 끝이 흐려지는 띠(알림·층 이름 카드·레벨업 띠·장식 선). 색은 color(알파 포함).</summary>
+        public static void Strip(Rect r, Color color)
+        {
+            if (color.a <= 0.002f) return;
+            EnsureTextures();
+            var prev = GUI.color;
+            GUI.color = color;
+            GUI.DrawTexture(r, _strip, ScaleMode.StretchToFill, true);
+            GUI.color = prev;
+        }
+
+        /// <summary>가장자리로 갈수록 짙어지는 비네트(쓰러짐 화면 등). 색은 color(알파 포함).</summary>
+        public static void Vignette(Rect r, Color color)
+        {
+            if (color.a <= 0.002f) return;
+            EnsureTextures();
+            var prev = GUI.color;
+            GUI.color = color;
+            GUI.DrawTexture(r, _vignette, ScaleMode.StretchToFill, true);
+            GUI.color = prev;
+        }
+
+        /// <summary>검은 그림자를 깐 글. 글자색은 color(스타일 글자색은 흰색이라 GUI.color가 그대로 보인다).</summary>
+        public static void ShadowLabel(Rect r, string text, GUIStyle style, Color color, float shadow = 0.85f)
+        {
+            if (string.IsNullOrEmpty(text) || color.a <= 0.002f) return;
+            var prev = GUI.color;
+            GUI.color = new Color(0f, 0f, 0f, color.a * shadow);
+            GUI.Label(new Rect(r.x + 2f, r.y + 2f, r.width, r.height), text, style);
+            GUI.color = color;
+            GUI.Label(r, text, style);
+            GUI.color = prev;
+        }
+
+        /// <summary>
+        /// 디아블로식 둥근 생명 구슬(짙은 피색, 기준 문서 '화면 연출'): 빈 구슬 바탕 → 채운 만큼 아래에서부터 피색 → 수면 선 → 유리 광 → 쇠 고리.
+        /// r은 구슬 자체(정사각형), 쇠 고리는 둘레로 6%씩 더 크게 그린다. brightness는 채움 밝기(낮은 체력 맥동 등).
+        /// </summary>
+        public static void Orb(Rect r, float fraction, float brightness = 1f)
+        {
+            EnsureTextures();
+            var prev = GUI.color;
+            GUI.color = new Color(0.17f, 0.13f, 0.13f, 1f);
+            GUI.DrawTexture(r, _orbFill);
+            float f = Mathf.Clamp01(fraction);
+            if (f > 0.001f)
+            {
+                GUI.color = new Color(brightness, brightness, brightness, 1f);
+                var dst = new Rect(r.x, r.y + r.height * (1f - f), r.width, r.height * f);
+                GUI.DrawTextureWithTexCoords(dst, _orbFill, new Rect(0f, 0f, 1f, f), true);
+                if (f < 0.995f)
+                {
+                    // 수면: 차오른 높이에서 원의 현을 따라 가는 옅은 선.
+                    float yy = (0.5f - f) * 2f;
+                    float half = Mathf.Sqrt(Mathf.Max(0f, 1f - yy * yy)) * r.width * 0.5f * 0.94f;
+                    float cy = r.y + r.height * (1f - f);
+                    GUI.color = new Color(0.86f, 0.3f, 0.24f, 0.45f * Mathf.Clamp01(brightness));
+                    GUI.DrawTexture(new Rect(r.center.x - half, cy - 0.75f, half * 2f, 1.5f), Texture2D.whiteTexture);
+                }
+            }
+            GUI.color = Color.white;
+            GUI.DrawTexture(r, _orbGlass);
+            float pad = r.width * 0.06f;
+            GUI.DrawTexture(new Rect(r.x - pad, r.y - pad, r.width + pad * 2f, r.height + pad * 2f), _orbRing);
+            GUI.color = prev;
+        }
+
+        /// <summary>작은 물약 병(가득 = 피색, 빈 병 = 검게).</summary>
+        public static void Flask(Rect r, bool full)
+        {
+            EnsureTextures();
+            var prev = GUI.color;
+            float body = Mathf.Min(r.width, r.height * 0.72f);
+            var b = new Rect(r.center.x - body * 0.5f, r.yMax - body, body, body);
+            var neck = new Rect(r.center.x - body * 0.17f, b.y - r.height * 0.22f + 1f, body * 0.34f, r.height * 0.24f);
+            Fill(neck, new Color(0.26f, 0.24f, 0.22f, 1f));
+            Fill(new Rect(neck.x - 1f, neck.y - 2f, neck.width + 2f, 3f), new Color(0.4f, 0.3f, 0.19f, 1f));
+            GUI.color = full ? Color.white : new Color(0.14f, 0.12f, 0.12f, 1f);
+            GUI.DrawTexture(b, _orbFill);
+            GUI.color = new Color(1f, 1f, 1f, 0.85f);
+            GUI.DrawTexture(b, _orbGlass);
+            GUI.color = prev;
         }
 
         /// <summary>초 → "m:ss".</summary>
@@ -135,7 +425,7 @@ namespace Demo6.Game
             return new Vector2(sp.x, Screen.height - sp.y) / Scale;
         }
 
-        /// <summary>등급색(2차 6-2): 일반 회색, 고급 초록, 희귀 파랑, 영웅 보라, 전설 주황.</summary>
+        /// <summary>등급색(2차 6-2): 일반 회색, 고급 초록, 희귀 파랑, 영웅 보라, 전설 주황. 장비에만 쓴다(값은 그대로).</summary>
         public static Color GradeColor(int grade)
         {
             switch (grade)
@@ -146,6 +436,209 @@ namespace Demo6.Game
                 case 4: return new Color32(0xF2, 0x99, 0x4A, 0xFF);
                 default: return new Color32(0x9E, 0x9E, 0x9E, 0xFF);
             }
+        }
+
+        // ── 절차 텍스처(처음 한 번) ──────────────────────────────
+
+        static void EnsureTextures()
+        {
+            if (!_orbFill) _orbFill = BuildOrbFill();
+            if (!_orbGlass) _orbGlass = BuildOrbGlass();
+            if (!_orbRing) _orbRing = BuildOrbRing();
+            if (!_strip) _strip = BuildStrip();
+            if (!_vignette) _vignette = BuildVignette();
+            if (!_btnNormal) _btnNormal = BuildButton(new Color(0.1f, 0.09f, 0.08f), new Color(0.06f, 0.055f, 0.05f), IronEdge);
+            if (!_btnHover) _btnHover = BuildButton(new Color(0.16f, 0.14f, 0.12f), new Color(0.1f, 0.09f, 0.08f), new Color(0.5f, 0.45f, 0.37f));
+            if (!_btnActive) _btnActive = BuildButton(new Color(0.05f, 0.045f, 0.04f), new Color(0.08f, 0.07f, 0.06f), new Color(0.6f, 0.44f, 0.24f));
+        }
+
+        static Texture2D NewTex(int w, int h, string name)
+        {
+            return new Texture2D(w, h, TextureFormat.RGBA32, false)
+            {
+                name = name,
+                wrapMode = TextureWrapMode.Clamp,
+                filterMode = FilterMode.Bilinear,
+                hideFlags = HideFlags.DontSave,
+            };
+        }
+
+        static float Smooth(float edge0, float edge1, float x)
+        {
+            float t = Mathf.Clamp01((x - edge0) / (edge1 - edge0));
+            return t * t * (3f - 2f * t);
+        }
+
+        /// <summary>구슬 채움: 짙은 피색(#3A0404 가장자리 → #8A1010 왼쪽 위 빛), 느린 소용돌이 결. 원 밖은 투명.</summary>
+        static Texture2D BuildOrbFill()
+        {
+            const int N = 128;
+            var tex = NewTex(N, N, "Life orb fill");
+            var px = new Color[N * N];
+            for (int y = 0; y < N; y++)
+            for (int x = 0; x < N; x++)
+            {
+                float u = (x + 0.5f) / N - 0.5f;
+                float v = (y + 0.5f) / N - 0.5f;
+                float d = Mathf.Sqrt(u * u + v * v);
+                float edge = Mathf.Clamp01((0.5f - d) * N);
+                float lx = u + 0.13f;
+                float ly = v - 0.15f;
+                float light = Mathf.Clamp01(1f - Mathf.Sqrt(lx * lx + ly * ly) * 1.55f);
+                float swirl = 0.5f + 0.5f * Mathf.Sin(u * 21f + Mathf.Sin(v * 13f) * 2.2f) * Mathf.Cos(v * 17f - u * 5f);
+                float k = Mathf.Clamp01(light * 0.85f + swirl * 0.16f);
+                // #3A0404 → #8A1010
+                float r = Mathf.Lerp(0.227f, 0.541f, k);
+                float g = Mathf.Lerp(0.016f, 0.063f, k);
+                float b = Mathf.Lerp(0.016f, 0.063f, k);
+                px[y * N + x] = new Color(r, g, b, edge);
+            }
+            tex.SetPixels(px);
+            tex.Apply(false, true);
+            return tex;
+        }
+
+        /// <summary>구슬 유리: 가장자리 안쪽 그림자 + 왼쪽 위 흰 광 + 아래 작은 반사.</summary>
+        static Texture2D BuildOrbGlass()
+        {
+            const int N = 128;
+            var tex = NewTex(N, N, "Life orb glass");
+            var px = new Color[N * N];
+            for (int y = 0; y < N; y++)
+            for (int x = 0; x < N; x++)
+            {
+                float u = (x + 0.5f) / N - 0.5f;
+                float v = (y + 0.5f) / N - 0.5f;
+                float d = Mathf.Sqrt(u * u + v * v);
+                float edge = Mathf.Clamp01((0.5f - d) * N);
+                float rim = Smooth(0.33f, 0.5f, d) * 0.72f;
+                float hx = u + 0.13f;
+                float hy = v - 0.21f;
+                float hd = Mathf.Sqrt(hx * hx + hy * hy * 2.4f);
+                float hl = Mathf.Clamp01(1f - hd / 0.15f);
+                hl = hl * hl * 0.42f;
+                float bx = u - 0.04f;
+                float by = v + 0.34f;
+                float bd = Mathf.Sqrt(bx * bx * 0.5f + by * by * 7f);
+                float bl = Mathf.Clamp01(1f - bd / 0.11f) * 0.13f;
+                float white = Mathf.Clamp01(hl + bl);
+                float a = white + rim * (1f - white);
+                float c = a > 0.0001f ? white / a : 0f;
+                px[y * N + x] = new Color(c, c * 0.97f, c * 0.93f, a * edge);
+            }
+            tex.SetPixels(px);
+            tex.Apply(false, true);
+            return tex;
+        }
+
+        /// <summary>구슬 쇠 고리: 위가 밝은 쇠 결 + 가운데 바랜 뼈색 선 + 못 넷. 구슬보다 12% 큰 판에 그린다(안쪽 반지름 0.43).</summary>
+        static Texture2D BuildOrbRing()
+        {
+            const int N = 160;
+            const float Inner = 0.43f;
+            const float Mid = (Inner + 0.5f) * 0.5f;
+            var tex = NewTex(N, N, "Life orb ring");
+            var px = new Color[N * N];
+            for (int y = 0; y < N; y++)
+            for (int x = 0; x < N; x++)
+            {
+                float u = (x + 0.5f) / N - 0.5f;
+                float v = (y + 0.5f) / N - 0.5f;
+                float d = Mathf.Sqrt(u * u + v * v);
+                float a = Mathf.Clamp01((d - Inner) * N) * Mathf.Clamp01((0.5f - d) * N);
+                if (a <= 0f)
+                {
+                    px[y * N + x] = new Color(0f, 0f, 0f, 0f);
+                    continue;
+                }
+                float t = (d - Inner) / (0.5f - Inner);
+                float top = 0.5f + 0.5f * (v / Mathf.Max(d, 0.001f));
+                float shade = 0.07f + 0.11f * top + 0.05f * Mathf.Sin(t * Mathf.PI);
+                float r = shade * 1.06f;
+                float g = shade;
+                float b = shade * 0.9f;
+                float line = Mathf.Clamp01(1.2f - Mathf.Abs(d - Mid) * N);
+                r = Mathf.Lerp(r, 0.5f, line * 0.55f);
+                g = Mathf.Lerp(g, 0.45f, line * 0.55f);
+                b = Mathf.Lerp(b, 0.37f, line * 0.55f);
+                // 못 넷(45°, 135°, 225°, 315°).
+                for (int k = 0; k < 4; k++)
+                {
+                    float ang = (45f + 90f * k) * Mathf.Deg2Rad;
+                    float sx = u - Mathf.Cos(ang) * Mid;
+                    float sy = v - Mathf.Sin(ang) * Mid;
+                    float sd = Mathf.Sqrt(sx * sx + sy * sy);
+                    if (sd > 0.022f) continue;
+                    float stud = 1f - sd / 0.022f;
+                    r = Mathf.Lerp(r, 0.6f, stud);
+                    g = Mathf.Lerp(g, 0.54f, stud);
+                    b = Mathf.Lerp(b, 0.45f, stud);
+                }
+                px[y * N + x] = new Color(r, g, b, a);
+            }
+            tex.SetPixels(px);
+            tex.Apply(false, true);
+            return tex;
+        }
+
+        /// <summary>가로 띠: 흰색, 양 끝 22%에서 부드럽게 사라진다(GUI.color로 물들여 쓴다).</summary>
+        static Texture2D BuildStrip()
+        {
+            const int W = 64;
+            const int H = 4;
+            var tex = NewTex(W, H, "Fade strip");
+            var px = new Color[W * H];
+            for (int x = 0; x < W; x++)
+            {
+                float xn = (x + 0.5f) / W;
+                float a = Smooth(0f, 0.22f, xn) * Smooth(1f, 0.78f, xn);
+                for (int y = 0; y < H; y++) px[y * W + x] = new Color(1f, 1f, 1f, a);
+            }
+            tex.SetPixels(px);
+            tex.Apply(false, true);
+            return tex;
+        }
+
+        /// <summary>비네트: 가운데 투명, 가장자리로 갈수록 짙다(흰색, GUI.color로 물들인다).</summary>
+        static Texture2D BuildVignette()
+        {
+            const int N = 64;
+            var tex = NewTex(N, N, "Vignette");
+            var px = new Color[N * N];
+            for (int y = 0; y < N; y++)
+            for (int x = 0; x < N; x++)
+            {
+                float u = ((x + 0.5f) / N - 0.5f) * 2f;
+                float v = ((y + 0.5f) / N - 0.5f) * 2f;
+                float d = Mathf.Sqrt(u * u + v * v);
+                px[y * N + x] = new Color(1f, 1f, 1f, Smooth(0.3f, 1.25f, d));
+            }
+            tex.SetPixels(px);
+            tex.Apply(false, true);
+            return tex;
+        }
+
+        /// <summary>단추 판(8×8, 테 3px로 늘려 씀): 검은 바깥 1px, 테 색 1px, 안은 위→아래 어두워지는 쇠.</summary>
+        static Texture2D BuildButton(Color top, Color bottom, Color edge)
+        {
+            const int N = 8;
+            var tex = NewTex(N, N, "Dungeon button");
+            tex.filterMode = FilterMode.Point;
+            var px = new Color[N * N];
+            for (int y = 0; y < N; y++)
+            for (int x = 0; x < N; x++)
+            {
+                int ring = Mathf.Min(Mathf.Min(x, N - 1 - x), Mathf.Min(y, N - 1 - y));
+                Color c;
+                if (ring == 0) c = new Color(0f, 0f, 0f, 1f);
+                else if (ring == 1) c = edge;
+                else c = Color.Lerp(bottom, top, (y - 2f) / (N - 5f));
+                c.a = 1f;
+                px[y * N + x] = c;
+            }
+            tex.SetPixels(px);
+            tex.Apply(false, true);
+            return tex;
         }
     }
 }

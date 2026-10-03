@@ -106,22 +106,60 @@ namespace Demo6.Game
             if (it) it.Interact();
         }
 
+        /// <summary>
+        /// 안내 문구(다크 판타지 1차 '화면 연출'): 검은 쇠 판 위 뼈색 글, [F]는 횃불 호박색, 막힌 이유는 녹 빛 붉은색.
+        /// 판 너비는 글에 맞춘다. 글은 물체·문구·이유가 바뀔 때만 다시 만든다. 누르는 것이 없어 그리기 사건에서만 그린다.
+        /// </summary>
         void OnGUI()
         {
+            if (Event.current.type != EventType.Repaint) return;
             if (!Current || DungeonUi.ModalOpen) return;
             DungeonUi.Begin();
             var gui = DungeonUi.WorldToGui(Current.Position + Vector2.up * 1.1f);
             if (gui == null) return;
+            if (_promptStyle == null)
+            {
+                _promptStyle = new GUIStyle(DungeonUi.Center) { wordWrap = false, richText = true, clipping = TextClipping.Overflow };
+                _promptStyle.normal.textColor = Color.white;
+                _shadowStyle = new GUIStyle(_promptStyle) { richText = false };
+            }
             string reason = Current.BlockedReason;
-            string text = reason ?? "[F] " + Current.Prompt + (Current.HoldSeconds > 0f ? " (누르고 있기)" : "");
-            var r = new Rect(gui.Value.x - 140f, gui.Value.y - 18f, 280f, 30f);
-            DungeonUi.Box(r, 0.7f);
+            string prompt = reason == null ? Current.Prompt : null;
+            bool hold = Current.HoldSeconds > 0f;
+            if (_promptText == null || !ReferenceEquals(Current, _textFor) || reason != _textReason || prompt != _textPrompt || hold != _textHold)
+            {
+                _textFor = Current;
+                _textReason = reason;
+                _textPrompt = prompt;
+                _textHold = hold;
+                string tail = hold ? "  (누르고 있기)" : "";
+                _plainText = reason ?? "[F] " + prompt + tail;
+                _promptText = reason ?? "<color=#FFCF85>[F]</color> " + prompt + tail;
+                _promptContent.text = _plainText;
+                _promptWidth = Mathf.Clamp(_shadowStyle.CalcSize(_promptContent).x + 40f, 170f, 640f);
+            }
+            var r = new Rect(gui.Value.x - _promptWidth * 0.5f, gui.Value.y - 18f, _promptWidth, 32f);
+            DungeonUi.Box(r, 0.8f);
             var prev = GUI.color;
-            GUI.color = reason != null ? new Color(1f, 0.75f, 0.6f) : Color.white;
-            GUI.Label(r, text, DungeonUi.Center);
+            GUI.color = new Color(0f, 0f, 0f, 0.85f);
+            GUI.Label(new Rect(r.x + 1.5f, r.y + 1.5f, r.width, r.height), _plainText, _shadowStyle);
+            GUI.color = reason != null ? DungeonUi.Rust : DungeonUi.Bone;
+            GUI.Label(r, _promptText, _promptStyle);
             GUI.color = prev;
-            if (reason == null && Current.HoldSeconds > 0f && _held > 0f)
-                DungeonUi.Bar(new Rect(r.x + 10f, r.yMax + 2f, r.width - 20f, 6f), HoldProgress, new Color(1f, 0.92f, 0.7f));
+            if (reason == null && hold && _held > 0f)
+                DungeonUi.Bar(new Rect(r.x + 10f, r.yMax + 2f, r.width - 20f, 6f), HoldProgress, DungeonUi.Ember);
         }
+
+        // 안내 문구 보관(값이 바뀔 때만 다시 만든다).
+        Interactable _textFor;
+        string _textReason;
+        string _textPrompt;
+        bool _textHold;
+        string _promptText;
+        string _plainText;
+        float _promptWidth = 280f;
+        readonly GUIContent _promptContent = new GUIContent();
+        GUIStyle _promptStyle;
+        GUIStyle _shadowStyle;
     }
 }
