@@ -13,8 +13,8 @@ namespace EastTrain
         float moveInput, gait, enginePhase, fuelFlash, zoomVelocity;
         Vector2 cylinderOrigin = new Vector2(-2.6f, -.75f);
         public float InteriorZoom = 3.8f, JourneyZoom = 9.6f, OutsideZoom = 5.3f;
-        bool pointerCamera, pointerJourney, pointerOutside;
-        Vector2 pointerCameraOffset;
+        bool pointerCamera, pointerJourney, pointerOutside, followAfterPointerMove;
+        Vector2 pointerCameraOffset, pointerPlayerPosition;
         public bool JourneyView => Driving || State.Speed > .15f;
         public string ViewMode => State.Arrived ? "arrival" : JourneyView ? "driving" : Outside ? "outside" : Repairing ? "repair" : "interior";
         public void AdjustZoom(float wheelDelta)
@@ -38,9 +38,11 @@ namespace EastTrain
             float zoom = JourneyView ? Mathf.Max(JourneyZoom, 17 / Mathf.Max(.8f, cam.aspect)) : Outside ? OutsideZoom : InteriorZoom;
             Vector3 target = anchor + (cam.transform.position - anchor) * (zoom / cam.orthographicSize);
             pointerCameraOffset = new Vector2(target.x - State.Distance, target.y);
+            pointerPlayerPosition = new Vector2(PlayerX, PlayerY);
             pointerCamera = true; pointerJourney = JourneyView; pointerOutside = Outside;
+            followAfterPointerMove = false;
         }
-        public void ResetZoom() { InteriorZoom = 3.8f; JourneyZoom = 9.6f; OutsideZoom = 5.3f; pointerCamera = false; }
+        public void ResetZoom() { InteriorZoom = 3.8f; JourneyZoom = 9.6f; OutsideZoom = 5.3f; pointerCamera = false; followAfterPointerMove = false; }
         public string DriveStatus
         {
             get
@@ -120,6 +122,8 @@ namespace EastTrain
 
         void UpdateCamera(float dt)
         {
+            bool playerMoved = (new Vector2(PlayerX, PlayerY) - pointerPlayerPosition).sqrMagnitude > .000001f;
+            if (pointerCamera && playerMoved) followAfterPointerMove = true;
             float x, y, zoom;
             if (State.Arrived) { x = State.Distance + 7; y = 1.3f; zoom = 8.5f; }
             else if (JourneyView) { x = State.Distance + 6.5f; y = 1.45f; zoom = JourneyZoom; }
@@ -130,11 +134,11 @@ namespace EastTrain
             if (JourneyView) zoom = Mathf.Max(zoom, 17 / Mathf.Max(.8f, cam.aspect));
             else if (State.Arrived) zoom = Mathf.Max(zoom, 11.4f / Mathf.Max(.8f, cam.aspect));
             // At wide zoom, center the train instead of leaving its rear off-screen.
-            if (!JourneyView && !Outside && !State.Arrived)
+            if (!JourneyView && !Outside && !State.Arrived && !followAfterPointerMove)
                 x = Mathf.Lerp(x, State.Distance + 1, Mathf.InverseLerp(5, 10, zoom));
-            // Walking does not pull a manually zoomed view back to the character.
-            // Entering/leaving travel restores its safe forward view; middle click restores follow.
-            if (pointerCamera && (pointerJourney != JourneyView || pointerOutside != Outside || State.Arrived)) pointerCamera = false;
+            // Keep the cursor anchor while idle, then resume follow on actual walking/climbing.
+            // Preserve the selected zoom; a blocked movement input must not reset the anchor.
+            if (pointerCamera && (playerMoved || pointerJourney != JourneyView || pointerOutside != Outside || State.Arrived)) pointerCamera = false;
             if (pointerCamera) { x = State.Distance + pointerCameraOffset.x; y = pointerCameraOffset.y; }
             float response = 1 - Mathf.Exp(-24f * dt);
             cam.transform.position = Vector3.Lerp(cam.transform.position, new Vector3(x, y, -10), response);
