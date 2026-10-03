@@ -32,12 +32,26 @@ namespace Demo6.Game
         public static event Action<int> LevelUp;
         /// <summary>쓰러진 뒤 말뚝에서 다시 섬. 깨어 있던 무리는 제자리로 돌아가 잔다.</summary>
         public static event Action PlayerRespawned;
-        /// <summary>말뚝에서 '원정 다시 시작': 적을 다시 놓고 원정마다 생기는 것(광맥)을 되살린다.</summary>
+        /// <summary>
+        /// 옛 '원정 다시 시작'(같은 지도에 적·광맥만 되돌림). 매판 새 탐험 1차부터 원정은 장면을 다시 불러와 새로 지으므로 더 알리지 않는다.
+        /// 구독하는 곳(CellEncounters·OreVein·GoreSystem)이 남아 있어 사건은 지우지 않는다.
+        /// </summary>
         public static event Action ExpeditionRestarted;
-        /// <summary>계단을 씀(M0b는 1층까지라 기록을 보여 준다).</summary>
+        /// <summary>계단을 씀(장면을 다시 불러오기 직전, 탐험 기록이 층 시간을 적는다).</summary>
         public static event Action StairsUsed;
         /// <summary>막힌 길이 열림(판자벽 부숨, 금 간 벽 깸).</summary>
         public static event Action<DungeonEdge> EdgeOpened;
+        /// <summary>
+        /// 층에 들어섬(매판 새 탐험 1차): 장면을 짓고 승강장을 고른 뒤 화면이 밝아질 때 한 번. 층, 이 층을 처음 밟는 원정인가, 어떻게 왔나.
+        /// 층 이름 카드·승강장 도착 글·탐험 기록이 듣는다.
+        /// </summary>
+        public static event Action<int, bool, ArrivalKind> FloorEntered;
+        /// <summary>바구니로 올라가기 직전(꾸러미를 담기 전): 바닥 골드·강화석 자동 수거, 탐험 기록 마감.</summary>
+        public static event Action ExpeditionEnding;
+        /// <summary>승강장 말뚝에 처음 불을 켬(층, 영구).</summary>
+        public static event Action<int> LandingLit;
+        /// <summary>계단 앞 말뚝을 켜 아래층 승강장까지 바구니 줄이 닿음(그 아래층 번호, 영구).</summary>
+        public static event Action<int> RopeExtended;
 
         public static void ResetStatics()
         {
@@ -55,6 +69,10 @@ namespace Demo6.Game
             ExpeditionRestarted = null;
             StairsUsed = null;
             EdgeOpened = null;
+            FloorEntered = null;
+            ExpeditionEnding = null;
+            LandingLit = null;
+            RopeExtended = null;
         }
 
         public static void RaiseCellEntered(DungeonCell cell, bool first) => CellEntered?.Invoke(cell, first);
@@ -71,6 +89,10 @@ namespace Demo6.Game
         public static void RaiseExpeditionRestarted() => ExpeditionRestarted?.Invoke();
         public static void RaiseStairsUsed() => StairsUsed?.Invoke();
         public static void RaiseEdgeOpened(DungeonEdge edge) => EdgeOpened?.Invoke(edge);
+        public static void RaiseFloorEntered(int floor, bool firstVisit, ArrivalKind arrival) => FloorEntered?.Invoke(floor, firstVisit, arrival);
+        public static void RaiseExpeditionEnding() => ExpeditionEnding?.Invoke();
+        public static void RaiseLandingLit(int floor) => LandingLit?.Invoke(floor);
+        public static void RaiseRopeExtended(int floor) => RopeExtended?.Invoke(floor);
     }
 
     /// <summary>프로필에 한 번만 받는 것(궤짝·등잔·말뚝·이야기·숨은 방·지름길) 하나. 조사율과 큰 지도 아이콘에 쓴다.</summary>
@@ -85,7 +107,8 @@ namespace Demo6.Game
     }
 
     /// <summary>
-    /// 이번 시험 동안 남는 것(3차 초안 2-7 '영구로 남는 것'): 지도, 켠 말뚝·등잔, 연 곳, 능력, 재화. 디스크 저장은 M0b에서 뺀다.
+    /// 이번 장면(원정 몫)의 기록: 켠 말뚝·등잔, 연 곳, 가 본 칸. 매판 새 탐험 1차부터 장면을 다시 불러올 때마다 새로 만들고,
+    /// 프로필 몫(능력·재화·한 번 받는 것)은 꾸러미(ProfileCarry)에서 풀어 넣는다. 디스크 저장은 M0b에서 뺀다.
     /// </summary>
     public sealed class DungeonState
     {
@@ -94,7 +117,7 @@ namespace Demo6.Game
         public int Stones;
         public int Gold;
         public int Expedition = 1;
-        /// <summary>이번 실행의 무작위 소금. 궤짝 결과가 실행마다 달라지게 한다(디스크 저장이 없어 매번 원정 1부터 시작).</summary>
+        /// <summary>무작위 소금(꾸러미의 프로필 소금). 궤짝 결과가 프로필·원정 번호마다 달라지게 한다.</summary>
         public ulong RunSalt;
         public float ExpeditionStartTime;
 
@@ -104,12 +127,17 @@ namespace Demo6.Game
         public readonly List<string> ActiveStakes = new List<string>();
         /// <summary>쓰러지면 다시 설 말뚝.</summary>
         public string LastStakeId;
+        /// <summary>
+        /// 꾸러미에서 온 '이미 끝낸' id(한 번 받는 물건, 켠 승강장 말뚝). Register가 이 id를 처음부터 끝낸 것으로 적어
+        /// 궤짝·곡괭이·명패·말뚝의 기존 IsDone 검사가 그대로 통한다(경험치를 다시 주지 않음).
+        /// </summary>
+        public readonly HashSet<string> ProfileDone = new HashSet<string>();
 
         public OneTimeEntry Register(string id, DiscoveryKind kind, DungeonCell cell, Vector2 pos, string label)
         {
             if (!OneTime.TryGetValue(id, out var e))
             {
-                e = new OneTimeEntry { Id = id, Kind = kind, Cell = cell, Position = pos, Label = label };
+                e = new OneTimeEntry { Id = id, Kind = kind, Cell = cell, Position = pos, Label = label, Done = ProfileDone.Contains(id) };
                 OneTime[id] = e;
             }
             return e;

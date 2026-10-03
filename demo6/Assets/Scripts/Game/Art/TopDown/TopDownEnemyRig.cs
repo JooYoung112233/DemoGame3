@@ -128,7 +128,7 @@ namespace Demo6.Game
             switch (enemy.Kind)
             {
                 case MonsterKind.Rat:
-                    sprite = dummy ? TopDownSprites.RatDummy : TopDownSprites.Rat;
+                    sprite = dummy ? TopDownSprites.RatDummy : RatMineArt.Body;
                     break;
                 case MonsterKind.Boar:
                     sprite = dummy ? TopDownSprites.WoodDummy : TopDownSprites.Boar;
@@ -270,6 +270,7 @@ namespace Demo6.Game
                 if (!_partsHidden) ShowParts(false);
                 // 처치 그림 칸: 살아 있을 때 몸 그림 칸을 썼으면(같은 유닛 크기) 날아가는 동안과 시체에 그 그림을 쓴다.
                 if (_artBody && slot != null && slot.dead && _body.sprite != slot.dead) _body.sprite = slot.dead;
+                else if (!_artBody && _enemy.Kind == MonsterKind.Rat && !_enemy.IsDummy) _body.sprite = RatMineArt.Dead;
                 return;
             }
             if (_partsHidden) ShowParts(true);
@@ -375,7 +376,9 @@ namespace Demo6.Game
                 _shadow.sortingOrder = TopDownPlayerRig.ShadowOrder;
                 _shadow.color = new Color(0f, 0f, 0f, 0.38f * alpha);
             }
-            PlaceLegs(slot is TopDownCreatureArt creature && creature.foot ? creature.foot : null, order, alpha);
+            Sprite foot = slot is TopDownCreatureArt creature && creature.foot ? creature.foot : null;
+            if (!foot && _enemy.Kind == MonsterKind.Rat && !_enemy.IsDummy) foot = RatMineArt.Foot;
+            PlaceLegs(foot, order, alpha);
             if (_archer) PlaceBow(draw, stringBuzz, t, arrow, order, alpha, _artBody ? slot as TopDownArcherArt : null);
         }
 

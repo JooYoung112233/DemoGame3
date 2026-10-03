@@ -1,0 +1,68 @@
+{
+  "date": "2026-10-03",
+  "desktopPointerToolInEnabledCatalog": false,
+  "unityPipelineVersion": "ab05e9cd7f74",
+  "matchingPipelineCommands": [
+    {
+      "command": "capture_game_view",
+      "file": "Library/PackageCache/com.unity.pipeline@ab05e9cd7f74/Editor/Commands/Capture/CaptureCommands.cs"
+    },
+    {
+      "command": "capture_scene_view",
+      "file": "Library/PackageCache/com.unity.pipeline@ab05e9cd7f74/Editor/Commands/Capture/CaptureCommands.cs"
+    },
+    {
+      "command": "capture_editor_element",
+      "file": "Library/PackageCache/com.unity.pipeline@ab05e9cd7f74/Editor/Commands/CaptureEditorElementCommand.cs"
+    },
+    {
+      "command": "editor_focus",
+      "file": "Library/PackageCache/com.unity.pipeline@ab05e9cd7f74/Editor/Commands/FocusEditorCommand.cs"
+    },
+    {
+      "command": "get_input_settings",
+      "file": "Library/PackageCache/com.unity.pipeline@ab05e9cd7f74/Editor/Commands/ProjectSettings/InputSettingsCommands.cs"
+    },
+    {
+      "command": "set_input_settings",
+      "file": "Library/PackageCache/com.unity.pipeline@ab05e9cd7f74/Editor/Commands/ProjectSettings/InputSettingsCommands.cs"
+    },
+    {
+      "command": "capture_runtime_element",
+      "file": "Library/PackageCache/com.unity.pipeline@ab05e9cd7f74/Runtime/Commands/CaptureRuntimeElementCommand.cs"
+    },
+    {
+      "command": "simulate_pointer",
+      "file": "Library/PackageCache/com.unity.pipeline@ab05e9cd7f74/Runtime/Commands/RuntimeInputCommand.cs"
+    }
+  ],
+  "notVerified": [
+    "physical pointer close X",
+    "physical pointer reopen",
+    "physical pointer select item",
+    "physical pointer equip",
+    "physical pointer click-through/raycast"
+  ],
+  "note": "Windows desktop pointer tools are absent. Unity simulate_pointer is callable and updates Input System state, but the IMGUI close button did not consume the click. Setup and cleanup callbacks are not counted as pointer tests.",
+  "runtimeSimulatePointerCallable": true,
+  "runtimeSimulationResult": {
+    "success": true,
+    "coordinateSystem": "bottom-left",
+    "screen": [
+      3840,
+      2160
+    ],
+    "position": [
+      3072,
+      1910.4
+    ],
+    "actions": [
+      "move",
+      "down",
+      "up"
+    ],
+    "modalBefore": "bag",
+    "modalAfter": "bag",
+    "guiClickVerified": false
+  }
+}

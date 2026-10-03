@@ -4,7 +4,8 @@ using UnityEngine;
 namespace Demo6.Game
 {
     /// <summary>
-    /// 바닥에 떨어진 무기 하나(2차 7-6 드랍 연출, 3차 초안 7-2 '빛기둥·등급색'). 포물선으로 튀어나와 내려앉는 순간 등급 연출을 시작한다.
+    /// 바닥에 떨어진 장비 하나(7부위 공통, 2차 7-6 드랍 연출, 3차 초안 7-2 '빛기둥·등급색'). 포물선으로 튀어나와 내려앉는 순간 등급 연출을 시작한다.
+    /// 몸통은 부위별 바닥 도형(LootVisuals.BuildGear), 빛기둥 규칙은 부위와 무관하게 등급만 본다.
     /// 일반: 빛기둥 없이 작은 회색 반짝임. 고급: 초록 높이 2·폭 0.25, 1.5초 뒤 바닥 고리로 줄어듦. 희귀: 파랑 높이 4·폭 0.4.
     /// 영웅: 보라 화면 위 끝까지·폭 0.6·위로 흐르는 입자. 전설: 주황 화면 위 끝까지·폭 1.0 + 착지 충격파 고리 + 0.25초 시간 0.3배 + 약한 흔들림.
     /// 싸움 중(깨어 있는 적이 가까이 있음)에는 착지가 끝난 빛기둥을 35%로 낮춘다. F = 가방에 넣기, G = 바로 끼기(Inventory가 처리).
@@ -21,11 +22,12 @@ namespace Demo6.Game
         const float LegendarySlowScale = 0.3f;
         const int MoteCount = 5;
 
-        public WeaponItem Item { get; private set; }
+        /// <summary>바닥 장비(7부위 공통). Inventory 카드·G·F, 이름표가 이것을 읽는다.</summary>
+        public GearItem Gear { get; private set; }
         public bool Landed { get; private set; }
 
         public override string Prompt => "가방에 넣기";
-        public override bool Available => Landed && !_taken && Item != null;
+        public override bool Available => Landed && !_taken && Gear != null;
 
         LootArc _arc;
         Transform _body;
@@ -50,8 +52,12 @@ namespace Demo6.Game
         float _dim = 1f;
         bool _taken;
 
-        /// <summary>from에서 to로 delay초 뒤 튀어나오는 무기를 만든다.</summary>
-        public static LootDrop Spawn(WeaponItem item, Vector2 from, Vector2 to, float delay)
+        /// <summary>옛 무기로 부르는 곳(AgentScripts 검사 스크립트 등)을 위한 다리. 새 코드는 GearItem판을 쓴다.</summary>
+        public static LootDrop Spawn(WeaponItem item, Vector2 from, Vector2 to, float delay) =>
+            Spawn(GearItem.FromWeapon(item), from, to, delay);
+
+        /// <summary>from에서 to로 delay초 뒤 튀어나오는 장비를 만든다.</summary>
+        public static LootDrop Spawn(GearItem item, Vector2 from, Vector2 to, float delay)
         {
             var go = new GameObject("LootDrop " + (item != null ? item.DisplayName : "?"));
             go.transform.position = from;
@@ -60,12 +66,13 @@ namespace Demo6.Game
             return drop;
         }
 
-        void Setup(WeaponItem item, Vector2 from, Vector2 to, float delay)
+        void Setup(GearItem item, Vector2 from, Vector2 to, float delay)
         {
-            Item = item ?? WeaponItem.Starting();
-            _color = LootVisuals.GradeColor(Item.Grade);
+            Gear = item ?? GearItem.Starting(GearSlot.Weapon);
+            _color = LootVisuals.GradeColor(Gear.Grade);
             _arc = new LootArc(from, to, delay);
-            _body = LootVisuals.BuildWeapon(transform, Item);
+            // 부위별 바닥 모양(무기 3종 + 갑옷·투구·장갑·장화·반지·목걸이 6종).
+            _body = LootVisuals.BuildGear(transform, Gear);
             _bodySprites = _body.GetComponentsInChildren<SpriteRenderer>(true);
             _bodyAngle = UnityEngine.Random.Range(-20f, 20f);
             _spin = UnityEngine.Random.value < 0.5f ? -540f : 540f;
@@ -105,7 +112,7 @@ namespace Demo6.Game
             _landedAge += dt;
             AnimateGrade(dt);
             // 3차 초안 2-6: 반경 15 밖으로 멀어지면 일반·고급은 가방으로 저절로 거둔다(희귀 이상은 직접 줍는다).
-            if (Item != null && !_taken && Item.Grade < Grade.Rare)
+            if (Gear != null && !_taken && Gear.Grade < Grade.Rare)
             {
                 var p = PlayerController.Instance;
                 var inv = Inventory.Instance;
@@ -136,8 +143,8 @@ namespace Demo6.Game
             _body.localPosition = Vector3.zero;
             _body.localRotation = Quaternion.Euler(0f, 0f, _bodyAngle);
             Sfx.Play(SfxKind.Loot);
-            DungeonEvents.RaiseGearDropped(Item.DisplayName);
-            switch (Item.Grade)
+            DungeonEvents.RaiseGearDropped(Gear.DisplayName);
+            switch (Gear.Grade)
             {
                 case Grade.Common:
                     _glint = LootVisuals.BuildSparkle(transform, "Glint", new Color(0.85f, 0.85f, 0.85f, 0.9f), LootVisuals.GlintOrder, new Vector2(0.12f, 0.12f), 0.32f);
@@ -219,7 +226,7 @@ namespace Demo6.Game
 
             if (_beam)
             {
-                if (Item.Grade == Grade.Uncommon && _landedAge >= UncommonRingDelay)
+                if (Gear.Grade == Grade.Uncommon && _landedAge >= UncommonRingDelay)
                 {
                     // 고급: 1.5초 뒤 기둥이 줄어들어 바닥 고리로 남는다.
                     float shrink = Mathf.Clamp01((_landedAge - UncommonRingDelay) / 0.4f);
@@ -241,7 +248,7 @@ namespace Demo6.Game
 
             if (_ring)
             {
-                bool ringOnly = !_beam && Item.Grade == Grade.Uncommon;
+                bool ringOnly = !_beam && Gear.Grade == Grade.Uncommon;
                 float baseSize = _beamWidth * 2.2f;
                 float size = ringOnly ? 0.9f + 0.08f * Mathf.Sin(Time.time * 3f) : baseSize;
                 _ring.transform.localScale = new Vector3(size, size * 0.5f, 1f);

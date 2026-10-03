@@ -27,6 +27,7 @@ namespace Demo6.Game
         const float PiercePercent = 200f;
         const float Spread = 15f;
         const float JumpTrigger = 2.5f;
+        /// <summary>뒤로 뛰기(0.25초에 3.0)는 덫 자리와 거리를 지키려고 느려짐(Enemy.ApplySlow)을 받지 않는다. 거리 두기·물러나기는 MoveSpeed를 써서 느려진다.</summary>
         const float JumpDistance = 3.0f;
         const float JumpTime = 0.25f;
         const float JumpCooldown = 5f;

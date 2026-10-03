@@ -107,15 +107,19 @@ namespace Demo6.Game
             Destroy(gameObject);
         }
 
-        /// <summary>쪽지 글(인물 이름 없음). note1 = 곡괭이방 광부의 메모, note2 = 광업소 출입 장부 한 장.</summary>
+        /// <summary>
+        /// 쪽지 글(인물 이름 없음). note1 = 광부의 메모(생성 지도에서는 원정마다 다른 방에 놓이므로 머리 글·끝 줄이 놓인 칸에 기대지 않음),
+        /// note2 = 광업소 사무실 책상에 남은 쪽지
+        /// (매판 새 탐험 1차 2-1 복선: 그때도 아래 갈래가 밤마다 바뀌었다. 울림이 처음 생긴 일이 아니라는 것만 알게 한다).
+        /// </summary>
         string NoteText()
         {
             switch (_param)
             {
                 case "note1":
-                    return "— 곡괭이방 벽 틈에 끼워 둔 쪽지 —\n\n교대 끝. 아래 갱이 또 울었다. 바위 소리가 아니었다.\n반장은 괜찮다고 했다. 다들 말없이 등잔 기름을 더 챙겼다.\n내일은 우리 조가 내려간다.\n돌아오면 이 방 궤짝에 품삯을 넣어 두겠다.\n돌아오지 못하면, 찾은 사람이 가져가라.";
+                    return "— 벽 틈에 끼워 둔 쪽지 —\n\n교대 끝. 아래 갱이 또 울었다. 바위 소리가 아니었다.\n반장은 괜찮다고 했다. 다들 말없이 등잔 기름을 더 챙겼다.\n내일은 우리 조가 내려간다.\n돌아오면 품삯을 궤짝에 넣어 두겠다.\n돌아오지 못하면, 찾은 사람이 가져가라.";
                 case "note2":
-                    return "— 광업소 출입 장부 한 장 —\n\n교대조 열두 명, 아래로 내려감.\n'올라옴' 칸은 비어 있다.\n누군가 그 칸에 '스스로'라고 적었다가 지운 자국이 남아 있다.\n장부 귀퉁이가 검붉게 얼룩져 있다.";
+                    return "— 광업소 사무실 책상에 남은 쪽지 —\n\n아래 갈래가 밤마다 모양을 바꾼다.\n감독은 측량이 틀렸다고만 한다.\n도면을 또 새로 그린다.";
                 default:
                     return "피와 물에 번져 글씨를 읽을 수 없다.";
             }
@@ -169,9 +173,10 @@ namespace Demo6.Game
             DungeonUi.Box(r, 0.94f);
             float x = r.x + 24f;
             float w = PanelWidth - 48f;
-            GUI.Label(new Rect(x, r.y + 14f, w, 30f), _label, DungeonUi.Title);
+            GUI.Label(new Rect(x, r.y + 14f, w-60f, 36f), _label, DungeonUi.Title);
             GUI.Label(new Rect(x, r.y + 52f, w, PanelHeight - 120f), NoteText(), DungeonUi.Label);
-            bool close = GUI.Button(new Rect(x, r.yMax - 58f, w, 40f), "닫기 (Esc)");
+            bool close = DungeonUi.CloseButton(r);
+            GUI.Label(new Rect(x,r.yMax-40f,w,28f),"[Esc] 닫기",DungeonUi.Small);
             GUI.matrix = prevMatrix;
             if (close) CloseModal();
         }

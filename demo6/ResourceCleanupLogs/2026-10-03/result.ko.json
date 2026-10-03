@@ -1,0 +1,103 @@
+{
+  "result": "미채택 남향 모션 v1/v2의 GIF 제작 중간 PNG 918개를 Windows 휴지통으로 이동 완료. 영구 삭제 없음.",
+  "currentView": "최신 정수리뷰: TopDownView 기본 Enabled=true. TopDownSprites가 검사·무기·적 픽셀을 생성하고 TopDownPlayerRig/EnemyRig/Swing이 동작을 처리. 원본 픽셀 7종 검수용 추출 및 육안 확인. Play Mode를 실행하거나 게임을 조작하지 않음.",
+  "evidence": {
+    "pixels": "pixels/",
+    "unity": "unity-before.json",
+    "before": "before.json",
+    "after": "after.json",
+    "recycle": "recycle-results.json",
+    "recoveryProof": "recovery-probe.json",
+    "unityAfter": "unity-after.txt",
+    "gitDeletions": "git-deletions.json"
+  },
+  "removed": {
+    "files": 918,
+    "bytes": 187822701,
+    "directories": [
+      {
+        "Original": "E:\\personalProject\\Demo3\\demo6\\아트\\검사-남향-모션-v1\\review-grid",
+        "RecycledTo": "E:\\$RECYCLE.BIN\\S-1-5-21-1034686380-1967525794-3452926712-1001\\$RDVDZR0",
+        "Files": 96,
+        "Bytes": 34741224,
+        "RecycledUtc": "2026-10-03T08:27:20.7705389Z",
+        "ContentsHashVerified": true,
+        "ExplorerRecoveryEntry": true,
+        "DeleteFlags": 642
+      },
+      {
+        "Original": "E:\\personalProject\\Demo3\\demo6\\아트\\검사-남향-모션-v1\\review-sequence",
+        "RecycledTo": "E:\\$RECYCLE.BIN\\S-1-5-21-1034686380-1967525794-3452926712-1001\\$RAE7LD1",
+        "Files": 312,
+        "Bytes": 61520656,
+        "RecycledUtc": "2026-10-03T08:27:22.2402361Z",
+        "ContentsHashVerified": true,
+        "ExplorerRecoveryEntry": true,
+        "DeleteFlags": 642
+      },
+      {
+        "Original": "E:\\personalProject\\Demo3\\demo6\\아트\\검사-남향-모션-v2\\review-grid",
+        "RecycledTo": "E:\\$RECYCLE.BIN\\S-1-5-21-1034686380-1967525794-3452926712-1001\\$RR8ZHLM",
+        "Files": 120,
+        "Bytes": 31994015,
+        "RecycledUtc": "2026-10-03T08:27:22.8497075Z",
+        "ContentsHashVerified": true,
+        "ExplorerRecoveryEntry": true,
+        "DeleteFlags": 642
+      },
+      {
+        "Original": "E:\\personalProject\\Demo3\\demo6\\아트\\검사-남향-모션-v2\\review-sequence",
+        "RecycledTo": "E:\\$RECYCLE.BIN\\S-1-5-21-1034686380-1967525794-3452926712-1001\\$RSOUKW4",
+        "Files": 390,
+        "Bytes": 59566806,
+        "RecycledUtc": "2026-10-03T08:27:24.5671017Z",
+        "ContentsHashVerified": true,
+        "ExplorerRecoveryEntry": true,
+        "DeleteFlags": 642
+      }
+    ]
+  },
+  "preserved": [
+    "현재 정수리뷰 코드 7개와 대응 meta 및 작업 중 수정",
+    "Assets 전체: 이번 정리에서 삭제·편집 없음",
+    "Aseprite 14개(편집 원본과 확대 검수본), 분리 레이어·원본 PNG·프레임·시트",
+    "이전 모션 원본, 재생성 스크립트, 완성 GIF, HTML 미리보기, 판단 기록",
+    "Blender/GLB 시안과 이미지 생성 원본: Unity 미참조만으로 삭제하지 않음"
+  ],
+  "ambiguousRetained": [
+    "swordsman-east-idle-test-v1.png: CombatArtSet GUID 참조 및 DungeonTest 간접 의존성 존재. 정수리뷰를 끄는 비교 경로가 남아 있어 삭제하지 않음. 대응 meta와 Aseprite·출력 관계 보존.",
+    "과거 시점 v3·걷기 v4·남향 도트 v1/v2·3D 비교와 rejected 원본: 제작 기록·후속 원본 참조 관계가 남거나 폐기 범위가 불명확하여 원본을 보존.",
+    "README/기존 타격감 명세의 좌우 시점 설명은 최신 정수리뷰 구현보다 오래됨. 이번 정리에서는 기획·코드를 변경하지 않음."
+  ],
+  "validation": {
+    "unexpectedRemoved": 0,
+    "expectedRemaining": 0,
+    "gameReferencesToRemoved": 0,
+    "deletedMetas": 0,
+    "allRecycledFileHashesVerified": true,
+    "explorerEntriesVerified": true,
+    "sceneDirty": false,
+    "unityCompiling": false,
+    "unityCompilationFailed": false,
+    "consoleErrors": 0,
+    "consoleWarnings": 0,
+    "playMode": "stopped",
+    "additionalTests": "실행하지 않음. Assets 밖 중간 출력만 제거하여 Unity 임포트·재컴파일을 강제로 유발하지 않았으며 사용자 편집을 보존함."
+  },
+  "concurrentEdits": {
+    "note": "조사 시작 뒤 별도 작업으로 아래 코드 4개의 해시가 바뀜. 이 정리에서는 편집·되돌리기 하지 않음. 삭제 대상의 해시와 수정 시각은 삭제 직전에 별도로 확인.",
+    "files": [
+      "Assets/Scripts/Game/Art/CombatArtSet.cs",
+      "Assets/Scripts/Game/Art/TopDown/TopDownEnemyRig.cs",
+      "Assets/Scripts/Game/Art/TopDown/TopDownPlayerRig.cs",
+      "Assets/Scripts/Game/Art/TopDown/TopDownView.cs"
+    ]
+  },
+  "recovery": "Windows 휴지통에서 2026-10-03 삭제된 review-grid/review-sequence 네 항목을 원래 위치 열로 구분해 선택하고 복원을 누르면 원위치로 돌아온다. 정확한 원래 경로와 $RECYCLE.BIN 실제 경로는 recycle-results.json에 기록. 같은 이름 폴더가 다시 생성되었으면 덮어쓰기 전에 현재 작업을 보존해야 한다. 이 작업에서는 휴지통을 비우지 않았다.",
+  "generationNote": "삭제된 중간 PNG를 재생성하려면 보존된 build.mjs가 먼저 필요하다. package.py만 곧바로 실행하면 해당 GIF 입력 폴더가 없으므로 휴지통에서 복원하거나 기존 기록의 build → package 순서로 실행해야 한다. 기존 GIF와 HTML 재생에는 영향 없음.",
+  "safetyApiReferences": [
+    "https://learn.microsoft.com/en-us/windows/win32/api/shobjidl_core/nf-shobjidl_core-ifileoperation-setoperationflags",
+    "https://learn.microsoft.com/en-us/windows/win32/api/shobjidl_core/nf-shobjidl_core-ifileoperationprogresssink-predeleteitem"
+  ],
+  "recordedUtc": "2026-10-03T08:29:42.832Z"
+}

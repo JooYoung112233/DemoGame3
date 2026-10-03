@@ -64,7 +64,17 @@ namespace Demo6.Game
         public bool IsDummy { get; protected set; }
         public float Radius { get; private set; }
         public int AttackPower { get; private set; }
-        public float MoveSpeed { get; private set; }
+        /// <summary>
+        /// 지금 이동 속도(초당 유닛) = 종류 속도 × 느려짐 배율(ApplySlow). 두뇌의 걷기·쫓기·물러나기·돌아가기가 모두 이 값을 써서 함께 느려진다
+        /// (굴쥐 쫓기, 멧돼지 걷기, 궁수 거리 두기·물러나기). 멧돼지 돌진(초당 12)과 궁수 뒤로 뛰기(0.25초에 3.0)는 예고 거리를 지키려고 이 값을 쓰지 않는다.
+        /// </summary>
+        public float MoveSpeed => _baseMoveSpeed * SlowFactor;
+        /// <summary>느려짐을 뺀 종류 이동 속도.</summary>
+        public float BaseMoveSpeed => _baseMoveSpeed;
+        /// <summary>지금 이동 배율(1 = 보통, 0.7 = 불꽃 발자국 불 위). 느려짐이 끝났으면 1.</summary>
+        public float SlowFactor => Time.time < _slowUntil ? _slowFactor : 1f;
+        /// <summary>느려짐이 걸려 있는가(시험 패널·확인용).</summary>
+        public bool Slowed => SlowFactor < 1f;
         public Health Health { get; private set; }
         public Vector2 Position => _body ? _body.position : (Vector2)transform.position;
         public bool Dead => Health == null || Health.Dead;
@@ -89,6 +99,8 @@ namespace Demo6.Game
         public bool Aware { get; private set; } = true;
         public int GroupId { get; set; } = -1;
         public bool IsElite { get; private set; }
+        /// <summary>보스(갱도 오우거 등)인가. 보스 피해 능력치(장비 문서 2-2)가 이 적에게만 곱해진다. 지금은 보스가 없어 늘 false.</summary>
+        public virtual bool IsBoss => false;
         public EliteAffix Affixes { get; private set; }
         /// <summary>둥지·무리 거느린 정예가 부른 굴쥐: 회복 구슬 등 보상 없음.</summary>
         public bool NoReward { get; set; }
@@ -178,6 +190,9 @@ namespace Demo6.Game
         /// <summary>쉬는 모습이 '먹는 중'인가(돌아가 다시 쉴 때 되살린다).</summary>
         bool _restEating;
         int _hpBeforeHit;
+        float _baseMoveSpeed;
+        float _slowFactor = 1f;
+        float _slowUntil = -1f;
 
         public static void ResetStatics() => All.Clear();
 
@@ -272,7 +287,7 @@ namespace Demo6.Game
             enemy.Radius = rule.Diameter * 0.5f;
             enemy.ShapeDiameter = rule.Diameter;
             enemy.AttackPower = FloorScaling.MonsterAttack(rule, floor);
-            enemy.MoveSpeed = rule.MoveSpeed;
+            enemy._baseMoveSpeed = rule.MoveSpeed;
             enemy.BaseKnockbackResist = rule.KnockbackResist;
             enemy.Weight = kind == MonsterKind.Rat ? EnemyWeight.Light : kind == MonsterKind.Archer ? EnemyWeight.Medium : EnemyWeight.Heavy;
             double poise = MonsterRule.PoiseOf(kind, Tuning.SoftBoar);
@@ -418,8 +433,31 @@ namespace Demo6.Game
             Health.DamageTakenMultiplier = 1f;
             Health.Heal(Health.Max);
             Poise?.Refill();
+            ClearSlow();
             PlaceAt(HomePosition);
             Rest(HomeFacing);
+        }
+
+        /// <summary>
+        /// 이동을 느리게 한다(장비 문서 6장 불꽃 발자국 −30% = 배율 0.7). MoveSpeed가 이 배율을 곱한 값이 되어 두뇌가 그대로 느려진다.
+        /// 겹치면 배율은 더 센 쪽, 끝 시각은 더 긴 쪽(LegendRules.MergeSlow). 쓰러진 적에는 걸지 않는다.
+        /// </summary>
+        /// <param name="factor">이동 배율(0~1).</param>
+        /// <param name="seconds">지금부터 남는 시간(게임 시간).</param>
+        public void ApplySlow(float factor, float seconds)
+        {
+            if (Dead || seconds <= 0f) return;
+            float now = Time.time;
+            LegendRules.MergeSlow(_slowFactor, _slowUntil, factor, now + seconds, now, out double f, out double until);
+            _slowFactor = (float)f;
+            _slowUntil = (float)until;
+        }
+
+        /// <summary>느려짐을 바로 푼다(다시 섬).</summary>
+        public void ClearSlow()
+        {
+            _slowFactor = 1f;
+            _slowUntil = -1f;
         }
 
         /// <summary>

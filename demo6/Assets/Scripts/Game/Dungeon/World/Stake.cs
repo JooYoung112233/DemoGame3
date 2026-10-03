@@ -7,18 +7,29 @@ using UnityEngine.Rendering.Universal;
 namespace Demo6.Game
 {
     /// <summary>
-    /// 권양기 말뚝(3차 초안 2-7). 처음 닿으면(1.6유닛) 켜지고 영구로 남는다(경험치 3U는 PlayerProgress). 켠 말뚝에 닿으면 쓰러졌을 때 다시 설 곳이 된다.
-    /// 시작 말뚝(DungeonRoot가 정한 LastStakeId)은 바구니로 내려온 자리라 첫 프레임에 켠다.
-    /// F 메뉴(창 "stake"): ① 다른 켠 말뚝으로(1초 암전, 원정 계속) ② 원정 다시 시작(M0b의 귀환: 적·광맥을 다시 놓음) ③ 닫기.
-    /// 마을로·저장하고 끝내기는 M0b에서 뺀다.
+    /// 권양기 말뚝(3차 초안 2-7, 매판 새 탐험 1차 2-3·2-4). 처음 닿으면(1.6유닛) 켜진다(경험치 3U는 PlayerProgress, 발견 주머니 안에서).
+    /// 켠 말뚝에 닿으면 쓰러졌을 때 다시 설 곳이 된다. 시작 말뚝(DungeonRoot가 정한 LastStakeId)은 바구니로 내려온 자리라 첫 프레임에 켠다.
+    /// 역할은 칸 조각으로 정한다(MapAnchors.RoleOf): 승강장 말뚝은 켜면 영구(꾸러미 LitLandings → ProfileDone),
+    /// 계단 앞 말뚝은 이번 원정에만 켜지고, 켜면 아래층 승강장까지 바구니 줄이 닿는다(꾸러미 RopeDepth, 영구).
+    /// F 메뉴(창 "stake"): 승강장 = ① 바구니로 올라가기 ② 같은 층 다른 켠 말뚝으로 ③ 닫기.
+    /// 계단 앞 = ① 한 층 더 내려가기 ② 바구니로 올라가기 ③ 같은 층 다른 켠 말뚝으로 ④ 닫기. '원정 다시 시작'은 없앴다.
     /// </summary>
     public sealed class Stake : Interactable
     {
         public const string ModalName = "stake";
         const float TouchRadius = 1.6f;
-        const float PanelWidth = 580f;
+        const float PanelWidth = 600f;
         const float ButtonHeight = 40f;
         const float RowStep = 48f;
+
+        // 2-2·2-3 글(인물 이름 없음).
+        const string HeadNote = "같은 층 켠 말뚝 사이를 밧줄로 오간다. 잠시 어둠이 내리고, 원정은 이어진다.";
+        const string AscendText = "바구니로 올라가기 — 오늘은 여기까지.";
+        const string AscendNote = "밤사이 갱도가 다시 울릴 것이다. 돌로 쌓은 곳만 남는다. 능력·레벨·장비는 남는다.";
+        /// <summary>바닥에 남은 것(2-4): 골드·강화석은 저절로 줍고, 떨어진 장비는 두고 간다(낀 장비·가방은 남는다 — 윗줄과 부딪치지 않게 '떨어진'을 붙임).</summary>
+        const string AscendWarning = "바닥의 골드·강화석은 줍고, 떨어진 장비는 두고 간다.";
+        const string DescendText = "한 층 더 내려가기";
+        const string DescendBlocked = "아래는 아직 막혀 있다";
 
         static readonly Color PostWood = new Color(0.4f, 0.3f, 0.2f);
         static readonly Color PostBase = new Color(0.25f, 0.21f, 0.17f);
@@ -29,6 +40,7 @@ namespace Demo6.Game
         string _id;
         string _label;
         string _cellName;
+        StakeRole _role = StakeRole.Middle;
         bool _active;
         bool _inside;
         bool _menuOpen;
@@ -43,6 +55,8 @@ namespace Demo6.Game
         public override bool Available => _active;
         public bool Active => _active;
         public string Id => _id;
+        /// <summary>승강장 / 계단 앞 / 가운데(칸 조각으로 정함).</summary>
+        public StakeRole Role => _role;
 
         public static Stake Create(DungeonCell cell, CellFeature f, Vector2 pos)
         {
@@ -51,10 +65,17 @@ namespace Demo6.Game
             stake._id = f.Id;
             stake._label = string.IsNullOrEmpty(f.Label) ? "권양기 말뚝" : f.Label;
             stake._cellName = cell != null ? cell.Name : "";
+            stake._role = cell != null ? MapAnchors.RoleOf(cell.Map) : StakeRole.Middle;
             stake._seed = Random.value * 10f;
             stake.Build(pos);
             var state = WorldProps.State;
-            if (state != null && (state.IsDone(f.Id) || state.ActiveStakes.Contains(f.Id))) stake.ShowActive();
+            if (state != null)
+            {
+                // 꾸러미에서 켠 승강장(영구)은 처음부터 끝낸 것으로 등록된다. 같은 층 말뚝 목록에도 넣는다.
+                bool done = state.IsDone(f.Id);
+                if (done && !state.ActiveStakes.Contains(f.Id)) state.ActiveStakes.Add(f.Id);
+                if (done || state.ActiveStakes.Contains(f.Id)) stake.ShowActive();
+            }
             return stake;
         }
 
@@ -100,6 +121,26 @@ namespace Demo6.Game
             state.LastStakeId = _id;
             state.Complete(_id, DiscoveryKind.Stake, transform.position, _label);
             DungeonEvents.Say("녹슨 권양기가 삐걱인다 — 쓰러지면 여기서 다시 선다");
+            if (_role == StakeRole.StairsFront) HangRope();
+        }
+
+        /// <summary>
+        /// 계단 앞 말뚝을 켬: 아래층이 시험판에 있으면 바구니 줄이 그 층 승강장까지 닿는다(꾸러미 RopeDepth, 영구).
+        /// 줄이 처음 더 깊이 닿을 때만 RopeExtended를 알린다(같은 깊이로 다시 켜면 글만).
+        /// </summary>
+        void HangRope()
+        {
+            int below = WorldProps.Floor + 1;
+            if (!FloorRecipe.Exists(below))
+            {
+                DungeonEvents.Say("줄이 더 내려가지 않는다 — 아래는 다음 시험에서.");
+                return;
+            }
+            var carry = ProfileCarry.Ensure();
+            bool extended = below > carry.RopeDepth;
+            if (extended) carry.RopeDepth = below;
+            DungeonEvents.Say($"줄을 아래로 늘어뜨렸다 — 이제 바구니가 {below}층 승강장까지 내려온다.");
+            if (extended) DungeonEvents.RaiseRopeExtended(below);
         }
 
         void Update()
@@ -184,26 +225,56 @@ namespace Demo6.Game
                 if (id != _id) _others.Add(id);
 
             var prevMatrix = GUI.matrix;
+            var prevColor = GUI.color;
             DungeonUi.Begin();
             GUI.depth = -20;
 
+            bool stairs = _role == StakeRole.StairsFront;
+            string here = string.IsNullOrEmpty(_cellName) ? _label : _label + " (" + _cellName + ")";
+            float titleHeight=Mathf.Max(36f,DungeonUi.Title.CalcHeight(new GUIContent("권양기 말뚝 — " + here),PanelWidth-112f));
+            float extraHeader=Mathf.Max(0f,titleHeight-36f);
             int rows = Mathf.Max(1, _others.Count);
-            float height = 104f + rows * RowStep + 20f + RowStep + 44f + RowStep + 16f;
+            float height = 82f                                   // 제목·머리 설명
+                           + (stairs ? RowStep : 0f)              // 한 층 더 내려가기
+                           + ButtonHeight + 8f + 40f + 24f + 18f  // 바구니로 올라가기·설명·경고
+                           + 28f + rows * RowStep + 8f            // 같은 층 다른 켠 말뚝
+                           + ButtonHeight + 18f + extraHeader;    // 여백·긴 제목
             var r = new Rect((DungeonUi.Width - PanelWidth) * 0.5f, (DungeonUi.Height - height) * 0.5f, PanelWidth, height);
             DungeonUi.Box(r, 0.93f);
             float x = r.x + 20f;
             float w = PanelWidth - 40f;
-            string here = string.IsNullOrEmpty(_cellName) ? _label : _label + " (" + _cellName + ")";
-            GUI.Label(new Rect(x, r.y + 12f, w, 30f), "권양기 말뚝 — " + here, DungeonUi.Title);
-            GUI.Label(new Rect(x, r.y + 46f, w, 22f), "밧줄을 타고 켠 말뚝 사이를 오간다. 잠시 어둠이 내리고, 원정은 이어진다.", DungeonUi.Small);
+            GUI.Label(new Rect(x, r.y + 14f, w-72f, titleHeight), "권양기 말뚝 — " + here, DungeonUi.Title);
+            GUI.Label(new Rect(x, r.y + 52f+extraHeader, w, 28f), HeadNote, DungeonUi.Small);
 
-            float y = r.y + 76f;
-            GUI.Label(new Rect(x, y, w, 22f), "다른 켠 말뚝으로", DungeonUi.Bold);
+            float y = r.y + 88f+extraHeader;
+            bool descend = false;
+            if (stairs)
+            {
+                if (root.CanDescend) descend = GUI.Button(new Rect(x, y, w, ButtonHeight), DescendText);
+                else
+                {
+                    GUI.color = DungeonUi.BoneDim;
+                    GUI.Label(new Rect(x, y + 8f, w, 24f), DescendText + " — " + DescendBlocked, DungeonUi.Label);
+                    GUI.color = prevColor;
+                }
+                y += RowStep;
+            }
+
+            bool ascend = GUI.Button(new Rect(x, y, w, ButtonHeight), AscendText);
+            y += ButtonHeight + 8f;
+            GUI.Label(new Rect(x, y, w, 40f), AscendNote, DungeonUi.Small);
+            y += 40f;
+            GUI.color = DungeonUi.Rust;
+            GUI.Label(new Rect(x, y, w, 22f), AscendWarning, DungeonUi.Small);
+            GUI.color = prevColor;
+            y += 24f + 18f;
+
+            GUI.Label(new Rect(x, y, w, 22f), "같은 층 다른 켠 말뚝으로", DungeonUi.Bold);
             y += 28f;
             string travelTo = null;
             if (_others.Count == 0)
             {
-                GUI.Label(new Rect(x, y + 8f, w, 22f), "불 켜진 말뚝이 아직 이것뿐이다.", DungeonUi.Small);
+                GUI.Label(new Rect(x, y + 8f, w, 22f), "이 층에 불 켜진 말뚝이 아직 이것뿐이다.", DungeonUi.Small);
                 y += RowStep;
             }
             else
@@ -215,23 +286,26 @@ namespace Demo6.Game
                 }
             }
 
-            y += 20f;
-            bool restart = GUI.Button(new Rect(x, y, w, ButtonHeight), "원정 다시 시작 — 쓰러뜨린 것들과 광맥이 돌아온다");
-            y += RowStep;
-            GUI.Label(new Rect(x, y - 4f, w, 40f), "상처를 싸매고 물약을 채운 뒤 이 말뚝에서 다시 내려간다. 지도, 켠 말뚝·등잔, 연 곳, 능력, 레벨은 남는다.", DungeonUi.Small);
-            y += 44f;
-            bool close = GUI.Button(new Rect(x, y, w, ButtonHeight), "닫기 (Esc)");
+            y += 8f;
+            bool close = DungeonUi.CloseButton(r);
+            GUI.Label(new Rect(x,y,w,28f),"[Esc] 닫기",DungeonUi.Small);
             GUI.matrix = prevMatrix;
+            GUI.color = prevColor;
 
-            if (travelTo != null)
+            if (descend)
+            {
+                CloseMenu();
+                if (root) root.Descend();
+            }
+            else if (ascend)
+            {
+                CloseMenu();
+                if (root) root.Ascend();
+            }
+            else if (travelTo != null)
             {
                 CloseMenu();
                 if (root) root.TravelToStake(travelTo);
-            }
-            else if (restart)
-            {
-                CloseMenu();
-                if (root) root.RestartExpedition(_id);
             }
             else if (close)
             {

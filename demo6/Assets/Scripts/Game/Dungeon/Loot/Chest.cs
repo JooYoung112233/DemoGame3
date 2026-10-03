@@ -10,6 +10,7 @@ namespace Demo6.Game
     /// 나무·쇠 궤짝(3차 초안 2-5, 프로필에 한 번). F로 열면 뚜껑이 열리고 보상(Core LootRules가 확정)이 플레이어 쪽으로 튀어나온다.
     /// 나무: 장비 10%, 강화석 25%로 1개, 골드 4 + 2 × 층, 10%는 '쥐 궤짝'(굴쥐 3, 보상은 그대로).
     /// 쇠: 장비 1개 확정, 강화석 max(1, 층 − 2), 골드 6 + 3 × 층. Param "rare-weapon"(1층 숨은 방 H)은 희귀 이상 무기.
+    /// 장비 부위(장비 문서 8-2): 1~4층 그 층 보장 상자가 아닌 첫 쇠 궤짝은 빈 자리 부위로, 3층 "epic"은 무기·갑옷 가운데 약한 쪽으로. 궤짝 씨앗은 (원정, id) 그대로.
     /// 그림은 빛을 받아 등잔 빛 안에서만 보인다. 쇠 궤짝만 아주 희미한 반짝임(빛 무시)을 가끔 낸다(막다른 곳 단서).
     /// </summary>
     public sealed class Chest : Interactable
@@ -122,10 +123,50 @@ namespace Demo6.Game
             LootVisuals.SetAlpha(_glintSprites, 0.35f * flash);
         }
 
+        /// <summary>층 보장 상자(1층 '희귀 이상 무기', 3층 '영웅 이상')인가.</summary>
+        bool Guaranteed => _param == LootRules.RareWeaponParam || _param == LootRules.EpicParam;
+
+        /// <summary>이 장면(이번 층 방문)에서 보장 상자가 아닌 쇠 궤짝을 이미 열었는가(빈 자리 채우기는 그 층 첫 쇠 궤짝 한 번).</summary>
+        static bool PlainIronOpenedElsewhere(Chest self)
+        {
+            foreach (var it in Interactable.All)
+                if (it is Chest c && c != self && c._iron && c._opened && !c.Guaranteed) return true;
+            return false;
+        }
+
+        /// <summary>
+        /// 장비 굴림 조건(장비 문서 8-2): 부위 보정·가진 전설(Inventory.RollContext)에 더해
+        /// 빈 자리 채우기 = 1~4층에서 그 층 보장 상자가 아닌 첫 쇠 궤짝이고 빈 자리가 있으면 그 빈 부위들 가운데서만(묶음 안 비율은 RollGear),
+        /// 3층 '영웅 이상' = 무기·갑옷 가운데 장비 점수(GearMath.ItemScore)가 낮은 쪽(같으면 무기). 1층 '희귀 이상 무기'는 LootRules가 무기로 정한다.
+        /// </summary>
+        GearRollContext RollContext(int floor, bool firstPlainIron)
+        {
+            var inv = Inventory.Instance;
+            var ctx = inv ? inv.RollContext() : new GearRollContext();
+            if (!_iron || _param == LootRules.RareWeaponParam) return ctx;
+            if (_param == LootRules.EpicParam)
+            {
+                var eq = inv ? inv.Equipment : null;
+                double weapon = eq != null ? GearMath.ItemScore(eq[GearSlot.Weapon]) : 0;
+                double armor = eq != null ? GearMath.ItemScore(eq[GearSlot.Armor]) : 0;
+                ctx.OnlyParts = new[] { armor < weapon ? GearPart.Armor : GearPart.Weapon };
+            }
+            else if (firstPlainIron && floor >= 1 && floor <= FillEmptyMaxFloor && inv)
+            {
+                var empty = inv.EmptyParts();
+                if (empty.Length > 0) ctx.OnlyParts = empty;
+            }
+            return ctx;
+        }
+
+        /// <summary>빈 자리 채우기가 듣는 가장 깊은 층(8-2: 1~4층).</summary>
+        const int FillEmptyMaxFloor = 4;
+
         public override void Interact()
         {
             if (_opened) return;
             var root = DungeonRoot.Instance;
+            bool firstPlainIron = _iron && !Guaranteed && !PlainIronOpenedElsewhere(this);
             ShowOpened();
             Sfx.Play(SfxKind.Chest);
             Vector2 pos = transform.position;
@@ -140,7 +181,7 @@ namespace Demo6.Game
 
             ulong salt = root != null && root.State != null ? root.State.RunSalt * 0x9E3779B97F4A7C15UL : 0UL;
             var rng = new Pcg32Random(LootRules.ChestSeed(expedition, _id ?? label) ^ salt, RngStream);
-            var bundle = LootRules.RollChest(_iron, floor, _param, rng);
+            var bundle = LootRules.RollChest(_iron, floor, _param, rng, RollContext(floor, firstPlainIron));
             var player = PlayerController.Instance;
             Vector2 toward = player ? player.Position - pos : Vector2.down;
             LootSpawner.Spawn(bundle, pos, toward, 0.1f);

@@ -36,22 +36,23 @@ namespace Demo6.Core.Dungeon
         {
             new CellDef
             {
-                Glyph = 'E', Id = "E", Name = "갱도 입구", Piece = PieceKind.Entrance,
+                // 승강장(돌로 쌓은 본갱). 원정마다 같은 돌방이라 이름·말뚝 글도 생성 지도(FloorGenerator)와 같다.
+                Glyph = 'E', Id = "E", Name = "승강장", Piece = PieceKind.Entrance,
                 Features = new[]
                 {
-                    F(FeatureKind.Stake, "E.stake", -8f, -2f, "입구 말뚝"),
+                    F(FeatureKind.Stake, "E.stake", -8f, -2f, "승강장 말뚝"),
                     F(FeatureKind.WallLamp, "E.lamp", -5f, 7f, "벽 등잔"),
                 },
             },
             new CellDef
             {
                 // 첫 마주침: 멧돼지 1 + 굴쥐 3. 입구 쪽(왼쪽)에 등을 돌리고 자서 첫 기습을 배운다.
-                Glyph = '1', Id = "c1", Name = "첫 공터", Piece = PieceKind.Clearing,
+                Glyph = '1', Id = "c1", Name = "첫 공터", Piece = PieceKind.Clearing, Pillars = 0,
                 Features = new[] { Group("c1.group", 3f, 0.5f, 1, 0, 3, GroupState.Sleep, 0f, "멧돼지와 굴쥐") },
             },
             new CellDef
             {
-                Glyph = 'A', Id = "A", Name = "쥐굴 공터", Piece = PieceKind.Clearing,
+                Glyph = 'A', Id = "A", Name = "쥐굴 공터", Piece = PieceKind.Clearing, Pillars = 1,
                 Features = new[]
                 {
                     F(FeatureKind.Nest, "A.nest", 4f, 1f, "굴쥐 둥지"),
@@ -65,7 +66,7 @@ namespace Demo6.Core.Dungeon
             },
             new CellDef
             {
-                Glyph = 'V', Id = "V", Name = "광맥 공터", Piece = PieceKind.Clearing,
+                Glyph = 'V', Id = "V", Name = "광맥 공터", Piece = PieceKind.Clearing, Pillars = 2,
                 Features = new[]
                 {
                     Group("V.group", 1f, 2f, 1, 0, 2, GroupState.Eat, 270f, "멧돼지와 굴쥐"),
@@ -76,7 +77,7 @@ namespace Demo6.Core.Dungeon
             new CellDef
             {
                 // 배우는 층이라 굴쥐만. 아래 K로 가는 금 간 벽이 처음부터 보인다.
-                Glyph = 'B', Id = "B", Name = "갈림 공터", Piece = PieceKind.Clearing,
+                Glyph = 'B', Id = "B", Name = "갈림 공터", Piece = PieceKind.Clearing, Pillars = 3,
                 Features = new[]
                 {
                     Group("B.group", -1f, 1.5f, 0, 0, 4, GroupState.Eat, 90f, "굴쥐 무리"),
@@ -108,7 +109,7 @@ namespace Demo6.Core.Dungeon
             new CellDef
             {
                 // 막다른 공터: 위(c1)에서 내려오면 등 뒤로 들어간다.
-                Glyph = 'T', Id = "T", Name = "막다른 공터", Piece = PieceKind.Clearing,
+                Glyph = 'T', Id = "T", Name = "막다른 공터", Piece = PieceKind.Clearing, Pillars = 4,
                 Features = new[]
                 {
                     Group("T.group", 0f, -1f, 1, 0, 2, GroupState.Sleep, 270f, "멧돼지와 굴쥐"),

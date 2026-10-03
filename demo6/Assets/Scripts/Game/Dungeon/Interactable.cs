@@ -114,12 +114,14 @@ namespace Demo6.Game
         {
             if (Event.current.type != EventType.Repaint) return;
             if (!Current || DungeonUi.ModalOpen) return;
+            // 바닥 무기 카드는 F/G 안내를 함께 표시하므로 같은 안내를 겹쳐 그리지 않는다.
+            if (Current is LootDrop && Inventory.Instance && Inventory.Instance.NearestDrop(Inventory.EquipRange) == Current) return;
             DungeonUi.Begin();
             var gui = DungeonUi.WorldToGui(Current.Position + Vector2.up * 1.1f);
             if (gui == null) return;
             if (_promptStyle == null)
             {
-                _promptStyle = new GUIStyle(DungeonUi.Center) { wordWrap = false, richText = true, clipping = TextClipping.Overflow };
+                _promptStyle = new GUIStyle(DungeonUi.Center) { wordWrap = true, richText = true, clipping = TextClipping.Clip };
                 _promptStyle.normal.textColor = Color.white;
                 _shadowStyle = new GUIStyle(_promptStyle) { richText = false };
             }
@@ -138,8 +140,9 @@ namespace Demo6.Game
                 _promptContent.text = _plainText;
                 _promptWidth = Mathf.Clamp(_shadowStyle.CalcSize(_promptContent).x + 40f, 170f, 640f);
             }
-            var r = new Rect(gui.Value.x - _promptWidth * 0.5f, gui.Value.y - 18f, _promptWidth, 32f);
-            DungeonUi.Box(r, 0.8f);
+            float promptHeight = Mathf.Max(40f, _shadowStyle.CalcHeight(_promptContent, _promptWidth - 24f) + 14f);
+            var r = DungeonUi.KeepOnScreen(new Rect(gui.Value.x - _promptWidth * 0.5f, gui.Value.y - promptHeight * 0.5f, _promptWidth, promptHeight), 220f);
+            DungeonUi.Box(r, 0.94f);
             var prev = GUI.color;
             GUI.color = new Color(0f, 0f, 0f, 0.85f);
             GUI.Label(new Rect(r.x + 1.5f, r.y + 1.5f, r.width, r.height), _plainText, _shadowStyle);

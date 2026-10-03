@@ -17,6 +17,7 @@ namespace Demo6.Game
         const float ChargeMinDistance = 3f;
         const float ChargeMaxDistance = 7f;
         const float ChargeTelegraphTime = 0.7f;
+        /// <summary>돌진 속도. 빨간 직선 예고(길이 7)와 맞도록 느려짐(Enemy.ApplySlow)을 받지 않는다. 걷기는 MoveSpeed를 써서 느려진다.</summary>
         const float ChargeSpeed = 12f;
         const float ChargeLength = 7f;
         const float ChargeWidth = 1.2f;

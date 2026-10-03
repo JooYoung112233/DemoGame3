@@ -11,13 +11,16 @@ namespace Demo6.Game
     /// 탐험 걸음 표시(2-8), 쓰러지면 붉게 어두워지는 화면과 큰 글자. 경험치를 얻으면 막대가 0.4초 밝게 번쩍이며 새로 찬 몫을 보인다(한 마리 RPG 요소).
     /// 다크 판타지 1차(기획/다크판타지-분위기-1차.md '글'·'화면 연출'): 짧고 음울한 말투, 검은 쇠·뼈색 틀, 바탕체 제목.
     /// 정식 화면은 Unity 개발 단계(uGUI)에서 다시 만든다. 여기서는 판정에 필요한 정보만 둔다. 글은 값이 바뀔 때만 다시 만든다(매 프레임 할당 없음).
+    /// 매판 새 탐험 1차 2-2: 층 이름 카드 아랫줄은 1층 첫 원정 "광업소 도면 그대로다", 다시 연 층 "밤사이 무너지고 다시 파였다".
+    /// 카드는 장면 시작에 띄우고, 밤 카드·승강장 고르기 뒤 화면이 밝아질 때(DungeonEvents.FloorEntered) 처음부터 다시 띄운다.
+    /// 같은 때 도착 글: 아래층 승강장에 처음 불을 켰으면 "n층 승강장에 불을 켰다…", 바구니로 다시 연 층이면 "승강장은 돌로 쌓아 그대로다…"(프로필에서 처음 3번).
     /// </summary>
     public sealed class DungeonHud : MonoBehaviour
     {
-        const float PanelWidth = 470f;
-        const float PanelHeight = 206f;
-        const float Margin = 12f;
-        const float OrbSize = 156f;
+        const float PanelWidth = 620f;
+        const float PanelHeight = 184f;
+        const float Margin = 20f;
+        const float OrbSize = 144f;
         const int ToastMax = 4;
         const float ToastLife = 3f;
         const float ToastFade = 0.6f;
@@ -45,6 +48,19 @@ namespace Demo6.Game
             "내려간 자들은 아무도 올라오지 않았다.",
         };
         const string FloorLineDefault = "아래로 갈수록 숨이 무거워진다.";
+        /// <summary>1층 첫 원정(손 지도) 카드 아랫줄.</summary>
+        const string FloorOneFirstLine = "광업소 도면 그대로다";
+        /// <summary>처음 밟는 원정이 아닌 층(밤사이 새로 지은 갱도) 카드 아랫줄.</summary>
+        const string RebuiltLine = "밤사이 무너지고 다시 파였다";
+        /// <summary>바구니로 다시 연 층에 내려섰을 때(프로필에서 처음 LandingLineTimes번).</summary>
+        const string LandingLine = "승강장은 돌로 쌓아 그대로다. 그 너머 길은 지난번과 다르다.";
+        const string LandingLineKey = "landing_line";
+        const int LandingLineTimes = 3;
+        /// <summary>
+        /// 도착 글을 띄우기까지 기다리는 시간(초). 같은 순간에 승강장 말뚝 켜짐·레벨 오름·칸 이름 알림이 몰려
+        /// 알림 상한(ToastMax)에 밀려 도착 글이 사라지지 않게, 그 알림들 뒤에 띄운다.
+        /// </summary>
+        const float ArrivalLineDelay = 0.6f;
 
         static readonly Color MessageColor = new Color(0.86f, 0.8f, 0.68f, 1f);
         static readonly Color QuietColor = new Color(0.66f, 0.61f, 0.53f, 1f);
@@ -93,6 +109,11 @@ namespace Demo6.Game
         readonly List<Toast> _toasts = new List<Toast>();
         readonly GUIContent _measure = new GUIContent();
         float _cardAge;
+        /// <summary>FloorEntered가 알린 '처음 밟는 원정인가'(알리기 전에는 DungeonRoot.FirstVisit).</summary>
+        bool? _cardFirstVisit;
+        /// <summary>FloorEntered가 정한 도착 글(ArrivalLineDelay 뒤에 띄움). 없으면 null.</summary>
+        string _arrivalLine;
+        float _arrivalDelay;
         float _bannerAge = 999f;
         float _downAge;
         bool _stylesReady;
@@ -122,12 +143,24 @@ namespace Demo6.Game
         /// <summary>층 이름 카드의 음울한 한 줄.</summary>
         public static string FloorLine(int floor) => floor >= 1 && floor <= FloorLines.Length ? FloorLines[floor - 1] : FloorLineDefault;
 
+        /// <summary>
+        /// 층 이름 카드 아랫줄(매판 새 탐험 1차 2-2): 1층 첫 원정은 "광업소 도면 그대로다", 처음 밟는 원정이 아니면(어느 층이든)
+        /// "밤사이 무너지고 다시 파였다", 그 밖(2층부터 처음 밟는 원정)은 층마다 한 줄(FloorLine).
+        /// </summary>
+        public static string CardLine(int floor, bool firstVisit)
+        {
+            if (!firstVisit) return RebuiltLine;
+            return floor == 1 ? FloorOneFirstLine : FloorLine(floor);
+        }
+
         void Awake()
         {
             Instance = this;
             DungeonEvents.Message += OnMessage;
             DungeonEvents.Discovered += OnDiscovered;
             DungeonEvents.LevelUp += OnLevelUp;
+            DungeonEvents.LandingLit += OnLandingLit;
+            DungeonEvents.FloorEntered += OnFloorEntered;
         }
 
         void OnDestroy()
@@ -135,7 +168,33 @@ namespace Demo6.Game
             DungeonEvents.Message -= OnMessage;
             DungeonEvents.Discovered -= OnDiscovered;
             DungeonEvents.LevelUp -= OnLevelUp;
+            DungeonEvents.LandingLit -= OnLandingLit;
+            DungeonEvents.FloorEntered -= OnFloorEntered;
             if (Instance == this) Instance = null;
+        }
+
+        /// <summary>이 장면에서 처음 불을 켠 승강장 층(DungeonRoot가 FloorEntered 바로 앞에 알림). 없으면 0.</summary>
+        int _litFloor;
+
+        void OnLandingLit(int floor) => _litFloor = floor;
+
+        /// <summary>
+        /// 화면이 밝아질 때(밤 카드·승강장 고르기 뒤) 층 이름 카드를 처음부터 다시 띄우고 도착 글을 한 줄 정한다(ArrivalLineDelay 뒤에 띄움).
+        /// 아래층 승강장에 처음 불을 켰으면(계단으로 왔든, 계단 앞 말뚝으로 줄만 늘이고 바구니로 처음 내려왔든) 그 글,
+        /// 바구니로 다시 연 층이면 승강장 글(프로필에서 처음 3번, 꾸러미 세기).
+        /// </summary>
+        void OnFloorEntered(int floor, bool firstVisit, ArrivalKind arrival)
+        {
+            _cardFirstVisit = firstVisit;
+            _cardTitle = null;
+            _cardAge = 0f;
+            _arrivalLine = null;
+            if (_litFloor == floor && floor > 1)
+                _arrivalLine = floor + "층 승강장에 불을 켰다. 다음엔 여기서 시작한다.";
+            else if (arrival == ArrivalKind.Basket && !firstVisit && ProfileCarry.Data?.Bump(LandingLineKey) <= LandingLineTimes)
+                _arrivalLine = LandingLine;
+            _litFloor = 0;
+            _arrivalDelay = ArrivalLineDelay;
         }
 
         void Update()
@@ -149,6 +208,16 @@ namespace Demo6.Game
             }
             _cardAge += dt;
             _bannerAge += dt;
+            if (_arrivalLine != null)
+            {
+                _arrivalDelay -= dt;
+                if (_arrivalDelay <= 0f)
+                {
+                    string line = _arrivalLine;
+                    _arrivalLine = null;
+                    DungeonEvents.Say(line);
+                }
+            }
             var root = DungeonRoot.Instance;
             var player = root ? root.Player : null;
             if (player && player.IsDown) _downAge += dt;
@@ -247,9 +316,9 @@ namespace Demo6.Game
             SetWhite(_hudRight);
             _smallRight = new GUIStyle(DungeonUi.Small) { wordWrap = false, alignment = TextAnchor.UpperRight };
             SetWhite(_smallRight);
-            _orbText = new GUIStyle(DungeonUi.Bold) { fontSize = 16, wordWrap = false, alignment = TextAnchor.MiddleCenter };
+            _orbText = new GUIStyle(DungeonUi.Bold) { fontSize = 20, wordWrap = false, alignment = TextAnchor.MiddleCenter };
             SetWhite(_orbText);
-            _orbCaption = new GUIStyle(DungeonUi.Small) { fontSize = 12, wordWrap = false, alignment = TextAnchor.MiddleCenter, font = DungeonUi.Serif };
+            _orbCaption = new GUIStyle(DungeonUi.Small) { fontSize = 16, wordWrap = false, alignment = TextAnchor.MiddleCenter, font = DungeonUi.Serif };
             SetWhite(_orbCaption);
             _cardRec = new GUIStyle(DungeonUi.Small) { fontSize = 15, wordWrap = false, alignment = TextAnchor.MiddleCenter, font = DungeonUi.Serif };
             SetWhite(_cardRec);
@@ -299,74 +368,67 @@ namespace Demo6.Game
                 DungeonUi.ShadowLabel(new Rect(orb.x, orb.center.y - 6f, orb.width, 24f), _hpText.Text, _orbText, DungeonUi.Bone);
             }
 
-            // ── 검은 쇠 판 ──
-            float x = orb.xMax + 22f;
+            // 전투 정보는 왼쪽 하단, 조작 안내는 오른쪽 하단. 가운데는 플레이 공간이다.
+            float x = orb.xMax + 20f;
             float y = DungeonUi.Height - PanelHeight - Margin;
-            DungeonUi.Box(new Rect(x, y, PanelWidth, PanelHeight), 0.88f);
-            float ix = x + 14f;
-            float iy = y + 11f;
-            float inner = PanelWidth - 28f;
-
-            // 무기·공격력, 레벨. 등급이 붙은 이름(예: "희귀 대검")은 가방이 안다. 없으면 전투 규칙 이름.
+            DungeonUi.Box(new Rect(x, y, PanelWidth, PanelHeight), 0.94f);
+            float ix = x + 18f, iy = y + 12f, inner = PanelWidth - 36f;
+            // 무기 줄 = 대표 능력치 줄(장비 문서 12장 단계 2): '일반 장검 · 공격 200 · 치명 7%'.
             var inv = Inventory.Instance;
             object weaponKey = inv && inv.Equipped != null ? (object)inv.Equipped : p.Weapon;
-            if (_weaponText.Stale(p.Attack, 0, weaponKey))
+            int critPermille = Mathf.RoundToInt(p.CritChance * 1000f);
+            if (_weaponText.Stale(p.Attack, critPermille, weaponKey))
             {
                 string weapon = inv && inv.Equipped != null ? inv.Equipped.DisplayName : p.Weapon != null ? p.Weapon.displayName : "맨손";
-                _weaponText.Text = weapon + " · 공격력 " + p.Attack;
+                string crit = (critPermille / 10) + (critPermille % 10 != 0 ? "." + (critPermille % 10) : "") + "%";
+                _weaponText.Text = weapon + " · 공격 " + p.Attack + " · 치명 " + crit;
             }
-            DungeonUi.ShadowLabel(new Rect(ix, iy, inner - 90f, 22f), _weaponText.Text, _hudLabel, DungeonUi.Bone);
+            DungeonUi.ShadowLabel(new Rect(ix, iy, inner - 100f, 28f), DungeonUi.FitLine(_weaponText.Text,_hudLabel,inner-100f), _hudLabel, DungeonUi.Bone);
             int level = progress ? progress.Level : 1;
             if (_levelText.Stale(level, 0)) _levelText.Text = "Lv " + level;
-            DungeonUi.ShadowLabel(new Rect(ix + inner - 90f, iy, 90f, 22f), _levelText.Text, _hudRight, DungeonUi.Ember);
-            iy += 28f;
-
-            // 물약: 병 셋(가득 = 피색) + 남은 수·재사용.
-            for (int i = 0; i < 3; i++)
-                DungeonUi.Flask(new Rect(ix + i * 22f, iy, 18f, 24f), i < p.Potions);
+            DungeonUi.ShadowLabel(new Rect(ix + inner - 100f, iy, 100f, 26f), _levelText.Text, _hudRight, DungeonUi.Ember);
+            iy += 32f;
+            for (int i = 0; i < 3; i++) {
+                var bottle = new Rect(ix + i * 22f, iy-2f, 24f, 28f);
+                if (i < p.Potions) ItemIconArt.Draw(bottle, "potion"); else DungeonUi.Flask(bottle, false);
+            }
             int potionTenths = p.PotionCooldown > 0f ? Mathf.CeilToInt(p.PotionCooldown * 10f) : 0;
             if (_potionText.Stale(p.Potions, potionTenths))
                 _potionText.Text = potionTenths > 0 ? "물약 " + p.Potions + "/3  (" + (potionTenths / 10f).ToString("0.0") + ")" : "물약 " + p.Potions + "/3  [R]";
-            DungeonUi.ShadowLabel(new Rect(ix + 74f, iy + 2f, inner - 74f, 22f), _potionText.Text, DungeonUi.Label, potionTenths > 0 ? DungeonUi.BoneDim : DungeonUi.Bone);
-            iy += 32f;
-
-            // 재사용.
-            float cw = (inner - 12f) / 3f;
-            Cooldown(0, new Rect(ix, iy, cw, 44f), "회오리 [우클릭]", p.WhirlCooldown, p.WhirlCooldownMax);
-            Cooldown(1, new Rect(ix + cw + 6f, iy, cw, 44f), "검풍 [Q]", p.WaveCooldown, p.WaveCooldownMax);
-            Cooldown(2, new Rect(ix + (cw + 6f) * 2f, iy, cw, 44f), "구르기 [Space]", p.DodgeCooldown, p.DodgeCooldownMax);
-            iy += 52f;
-
-            // 경험치(얻은 순간 0.4초 번쩍이며 새로 찬 몫을 보인다).
-            float xpFrac = progress && progress.XpToNext > 0 ? (float)progress.Xp / progress.XpToNext : 0f;
-            float flash = DrawXpBar(new Rect(ix, iy + 4f, 280f, 10f), xpFrac, progress);
-            int xp = progress ? progress.Xp : -1;
-            int toNext = progress ? progress.XpToNext : -1;
-            if (_xpText.Stale(xp, toNext)) _xpText.Text = progress ? "경험치 " + xp + " / " + toNext : "경험치 -";
-            DungeonUi.ShadowLabel(new Rect(ix + 290f, iy, inner - 290f, 20f), _xpText.Text, DungeonUi.Small,
-                flash > 0f ? Color.Lerp(DungeonUi.BoneDim, DungeonUi.Ember, flash) : DungeonUi.BoneDim);
-            iy += 22f;
-
-            // 강화석·골드·지금 칸, 스킬 점수.
+            DungeonUi.ShadowLabel(new Rect(ix + 68f, iy, 210f, 26f), _potionText.Text, DungeonUi.Label, potionTenths > 0 ? DungeonUi.BoneDim : DungeonUi.Bone);
             var state = root.State;
             var cell = root.CurrentCell;
-            if (_infoText.Stale(state.Stones, state.Gold, cell))
-                _infoText.Text = "강화석 " + state.Stones + " · 골드 " + state.Gold + " · 지금: " + (cell != null ? cell.Name : "-");
-            int points = progress ? progress.SkillPoints : 0;
-            DungeonUi.ShadowLabel(new Rect(ix, iy, points > 0 ? inner - 150f : inner, 20f), _infoText.Text, DungeonUi.Small, DungeonUi.Bone);
-            if (points > 0)
-            {
-                if (_pointText.Stale(points, 0)) _pointText.Text = "[K] 스킬 점수 " + points;
-                DungeonUi.ShadowLabel(new Rect(ix + inner - 150f, iy, 150f, 20f), _pointText.Text, _smallRight, DungeonUi.Ember);
-            }
-            iy += 24f;
+            if (_infoText.Stale(state.Stones, state.Gold, cell)) _infoText.Text = "강화석 " + state.Stones + "  ·  골드 " + state.Gold;
+            DungeonUi.ShadowLabel(new Rect(ix + 285f, iy, inner - 285f, 26f), _infoText.Text, _smallRight, DungeonUi.BoneDim);
+            iy += 32f;
+            float cw = (inner - 16f) / 3f;
+            Cooldown(0, new Rect(ix, iy, cw, 60f), "회오리 [우클릭]", p.WhirlCooldown, p.WhirlCooldownMax);
+            Cooldown(1, new Rect(ix + cw + 8f, iy, cw, 60f), "검풍 [Q]", p.WaveCooldown, p.WaveCooldownMax);
+            Cooldown(2, new Rect(ix + (cw + 8f) * 2f, iy, cw, 60f), "구르기 [Space]", p.DodgeCooldown, p.DodgeCooldownMax);
+            iy += 72f;
+            float xpFrac = progress && progress.XpToNext > 0 ? (float)progress.Xp / progress.XpToNext : 0f;
+            float flash = DrawXpBar(new Rect(ix, iy + 7f, 300f, 10f), xpFrac, progress);
+            int xp = progress ? progress.Xp : -1, toNext = progress ? progress.XpToNext : -1;
+            if (_xpText.Stale(xp, toNext)) _xpText.Text = progress ? "경험치 " + xp + " / " + toNext : "경험치 -";
+            DungeonUi.ShadowLabel(new Rect(ix + 312f, iy, inner - 312f, 26f), _xpText.Text, _smallRight, flash > 0f ? DungeonUi.Ember : DungeonUi.BoneDim);
 
-            // 키 안내.
-            DungeonUi.Fill(new Rect(ix, iy - 3f, inner, 1f), new Color(DungeonUi.Bone.r, DungeonUi.Bone.g, DungeonUi.Bone.b, 0.12f));
-            var old = GUI.color;
-            GUI.color = new Color(DungeonUi.BoneDim.r, DungeonUi.BoneDim.g, DungeonUi.BoneDim.b, 0.9f);
-            GUI.Label(new Rect(ix, iy, inner, 36f), KeyHint, DungeonUi.Small);
-            GUI.color = old;
+            var place = new Rect(Margin, Margin, 340f, 38f);
+            DungeonUi.Box(place, 0.82f);
+            DungeonUi.ShadowLabel(new Rect(place.x + 12f, place.y + 7f, place.width - 24f, 26f), "제" + root.Floor + "층  ·  " + (cell != null ? cell.Name : "-"), _hudLabel, DungeonUi.Bone);
+            float reserved = ExplorationLog.Instance ? ExplorationLog.Instance.PanelReservedWidth : 0f;
+            float helpX = DungeonUi.Width - reserved - 390f - Margin;
+            var help = new Rect(helpX, DungeonUi.Height - 142f - Margin, 390f, 142f);
+            // 개발 패널이 열려 있을 때에도 상태판과 안내가 겹치지 않게 위로 올린다.
+            if (help.x < x + PanelWidth + 20f) help.y = y - help.height - 12f;
+            DungeonUi.Box(help, 0.9f);
+            DungeonUi.ShadowLabel(new Rect(help.x + 16f, help.y + 12f, help.width - 32f, 26f), "[M] 지도    [K] 스킬    [I] 가방", _hudLabel, DungeonUi.Bone);
+            GUI.Label(new Rect(help.x + 16f, help.y + 44f, help.width - 32f, 54f), "WASD 이동 · 클릭 공격\n[F] 상호작용 · [G] 바로 끼기", DungeonUi.Small);
+            DungeonUi.ShadowLabel(new Rect(help.x + 16f, help.y + 104f, help.width - 32f, 24f), "[F1] 개발 기록", DungeonUi.Small, DungeonUi.BoneDim);
+            int points = progress ? progress.SkillPoints : 0;
+            if (points > 0) {
+                if (_pointText.Stale(points, 0)) _pointText.Text = "[K] 스킬 점수 " + points;
+                DungeonUi.ShadowLabel(new Rect(x + PanelWidth - 200f, y - 34f, 200f, 26f), _pointText.Text, _smallRight, DungeonUi.Ember);
+            }
 
             // 탐험 걸음(2-8).
             var walk = ExploreWalk.Instance;
@@ -425,17 +487,17 @@ namespace Demo6.Game
         void Cooldown(int slot, Rect rect, string label, float remaining, float max)
         {
             bool cooling = remaining > 0f && max > 0f;
-            DungeonUi.Fill(rect, SlotFill);
+            DungeonUi.Slot(rect);
             if (cooling) DungeonUi.Fill(new Rect(rect.x, rect.y, rect.width * Mathf.Clamp01(remaining / max), rect.height), SlotShade);
             DungeonUi.Outline(rect, cooling ? DungeonUi.IronEdge : SlotReadyEdge, 1f);
             var prev = GUI.color;
             GUI.color = DungeonUi.BoneDim;
-            GUI.Label(new Rect(rect.x + 6f, rect.y + 2f, rect.width - 8f, 20f), label, DungeonUi.Small);
+            GUI.Label(new Rect(rect.x + 6f, rect.y + 2f, rect.width - 8f, 28f), label, DungeonUi.Small);
             GUI.color = prev;
             int tenths = cooling ? Mathf.CeilToInt(remaining * 10f) : 0;
             var cache = _cooldownText[slot];
             if (cache.Stale(tenths, 0)) cache.Text = tenths > 0 ? (tenths / 10f).ToString("0.0") + "초" : "준비";
-            DungeonUi.ShadowLabel(new Rect(rect.x + 6f, rect.y + 20f, rect.width - 8f, 22f), cache.Text, _hudLabel, cooling ? DungeonUi.BoneDim : DungeonUi.Bone);
+            DungeonUi.ShadowLabel(new Rect(rect.x + 6f, rect.y + 30f, rect.width - 8f, 28f), cache.Text, _hudLabel, cooling ? DungeonUi.BoneDim : DungeonUi.Bone);
         }
 
         /// <summary>화면 아래 가운데, 판 위에 새 알림이 아래로 쌓인다. 양 끝이 흐려지는 검은 띠 위 바탕체 글.</summary>
@@ -465,7 +527,7 @@ namespace Demo6.Game
         }
 
         /// <summary>
-        /// 층에 처음 들어가면 크고 느린 층 이름 카드(2-2, 기준 문서 '화면 연출'): "제1층 — 입구 갱도", 음울한 한 줄, 권장 레벨.
+        /// 층에 처음 들어가면 크고 느린 층 이름 카드(2-2, 기준 문서 '화면 연출'): "제1층 — 입구 갱도", 아랫줄(CardLine), 권장 레벨.
         /// 양 끝이 흐린 검은 띠 위에 바탕체 큰 글, 위아래 바랜 뼈색 줄. 약 3.6초 동안 천천히 떠올라 천천히 사라진다.
         /// </summary>
         void DrawFloorCard(DungeonRoot root)
@@ -475,7 +537,7 @@ namespace Demo6.Game
             {
                 string name = root.Map != null ? root.Map.Name : "";
                 _cardTitle = "제" + root.Floor + "층 — " + name;
-                _cardLine = FloorLine(root.Floor);
+                _cardLine = CardLine(root.Floor, _cardFirstVisit ?? root.FirstVisit);
                 _cardRecText = "권장 레벨 " + RecommendedLevel(root.Floor);
             }
             float a = Mathf.Clamp01(_cardAge / CardFadeIn) * Mathf.Clamp01((CardTime - _cardAge) / CardFadeOut);

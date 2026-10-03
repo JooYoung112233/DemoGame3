@@ -20,6 +20,8 @@ namespace Demo6.Game
         public static bool Enabled { get; set; } = true;
         /// <summary>이 장면에서 정수리 시점이 몸을 맡는가(두 시험장 루트가 있을 때만).</summary>
         public static bool Active => Enabled && Instance;
+        /// <summary>시험·확인용: 지금 플레이어 검사 틀(겉모습 고른 횟수·고른 그림을 읽는다). 없으면 null.</summary>
+        public static TopDownPlayerRig PlayerRig => Instance ? Instance._player : null;
 
         TopDownPlayerRig _player;
         readonly List<TopDownEnemyRig> _enemies = new List<TopDownEnemyRig>(64);

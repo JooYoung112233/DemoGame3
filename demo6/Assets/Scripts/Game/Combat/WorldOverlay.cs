@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Demo6.Core.Combat;
 using UnityEngine;
 
 namespace Demo6.Game
@@ -52,6 +53,9 @@ namespace Demo6.Game
         readonly List<Entry> _entries = new List<Entry>(MaxNumbers);
         float _lastSpawnTime = -1f;
         Vector2 _lastSpawnPos;
+        /// <summary>한 번 쓰는 치명 단계 자리(SetNextCritTier). 비어 있으면 예전 1.4배.</summary>
+        CritTier _nextCritTier;
+        bool _hasNextCritTier;
         int _jitterSide = 1;
         Camera _cam;
         GUIStyle _style;
@@ -61,6 +65,29 @@ namespace Demo6.Game
             if (!_instance || !Tuning.DamageNumbers) return;
             _instance.Add(world, amount, kind);
         }
+
+        /// <summary>
+        /// 다음 치명 숫자 하나의 연출 단계(장비 문서 3-4). PlayerController가 적 TakeHit 직전에 넣고 직후에 지운다
+        /// (Enemy가 띄우는 숫자 크기를 Enemy를 고치지 않고 정함). 치명 숫자 하나가 쓰면 비워진다.
+        /// </summary>
+        public static void SetNextCritTier(CritTier tier)
+        {
+            if (!_instance) return;
+            _instance._nextCritTier = tier;
+            _instance._hasNextCritTier = true;
+        }
+
+        public static void ClearNextCritTier()
+        {
+            if (!_instance) return;
+            _instance._hasNextCritTier = false;
+        }
+
+        /// <summary>치명 숫자 크기: 가벼움 1.2배, 보통·무거움 1.4배(예전 치명 크기).</summary>
+        public static float CritScale(CritTier tier) => tier == CritTier.Light ? LightCritScale : CritScaleDefault;
+
+        const float CritScaleDefault = 1.4f;
+        const float LightCritScale = 1.2f;
 
         /// <summary>'무너짐!', '잠잠해졌다' 같은 짧은 글자. 피해 숫자 끄기와 관계없이 보인다. 던전에서 순수 흰색은 뼈색으로 바꾼다(등급색 등 다른 색은 그대로).</summary>
         public static void Text(Vector2 world, string text, Color color)
@@ -93,6 +120,12 @@ namespace Demo6.Game
             _lastSpawnTime = now;
             if (_entries.Count >= MaxNumbers) _entries.RemoveAt(0);
             bool dungeon = InDungeon;
+            float critScale = CritScaleDefault;
+            if (kind == NumberKind.Crit && _hasNextCritTier)
+            {
+                critScale = CritScale(_nextCritTier);
+                _hasNextCritTier = false;
+            }
             _entries.Add(new Entry
             {
                 World = world,
@@ -104,7 +137,7 @@ namespace Demo6.Game
                     NumberKind.Heal => dungeon ? DungeonHeal : Palette.NumberHeal,
                     _ => dungeon ? DungeonNormal : Palette.NumberNormal,
                 },
-                Scale = kind == NumberKind.Crit ? 1.4f : 1f,
+                Scale = kind == NumberKind.Crit ? critScale : 1f,
                 Born = now,
             });
         }

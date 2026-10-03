@@ -4,15 +4,15 @@ using UnityEngine;
 namespace Demo6.Game
 {
     /// <summary>
-    /// 던전 시험장 IMGUI 공통(기준 높이 1080으로 크기를 맞춤). 정식 화면은 Unity 개발 단계(uGUI)에서 다시 만든다.
+    /// 던전 시험장 IMGUI 공통(기준 높이 900으로 크기를 맞춤). 정식 화면은 Unity 개발 단계(uGUI)에서 다시 만든다.
     /// 창(큰 지도, 말뚝 메뉴, 사건 고르기, 스킬)은 한 번에 하나만 열고, 여는 동안 시간을 멈추고 공격 입력을 막는다.
     /// 다크 판타지 1차(기획/다크판타지-분위기-1차.md '화면 연출'): 틀은 검은 쇠·뼈색, 제목·큰 글자는 바탕체 계열 OS 글꼴(없으면 기본),
     /// 단추는 어두운 쇠판. 기본 스킨을 복제한 던전 스킨을 Begin에서 그 OnGUI에만 씌우므로 전투 시험장 화면은 바뀌지 않는다.
-    /// 그림(구슬·띠·비네트·단추)은 처음 한 번 절차 텍스처로 만들고 다시 쓴다(매 프레임 할당 없음).
+    /// 철제·가죽 그림은 UI/Skin PNG를 사용한다. 구슬·띠·비네트와 버튼 상태는 처음 한 번 만들고 재사용한다.
     /// </summary>
     public static class DungeonUi
     {
-        public const float RefHeight = 1080f;
+        public const float RefHeight = 900f;
 
         public static float Scale => Mathf.Max(0.1f, Screen.height / RefHeight);
         /// <summary>기준 좌표계의 화면 너비.</summary>
@@ -22,15 +22,15 @@ namespace Demo6.Game
         // ── 색(다크 판타지 1차 '화면 연출') ───────────────────────
 
         /// <summary>뼈색: 기본 글·테두리.</summary>
-        public static readonly Color Bone = new Color(0.84f, 0.78f, 0.66f, 1f);
+        public static readonly Color Bone = new Color(0.9f, 0.86f, 0.77f, 1f);
         /// <summary>바랜 뼈색: 보조 글.</summary>
-        public static readonly Color BoneDim = new Color(0.58f, 0.53f, 0.45f, 1f);
+        public static readonly Color BoneDim = new Color(0.69f, 0.66f, 0.60f, 1f);
         /// <summary>횃불 호박색: 강조(제목, 레벨, 키).</summary>
         public static readonly Color Ember = new Color(0.9f, 0.7f, 0.4f, 1f);
         /// <summary>검은 쇠 바탕.</summary>
-        public static readonly Color IronFill = new Color(0.035f, 0.031f, 0.028f, 1f);
+        public static readonly Color IronFill = new Color(0.047f, 0.051f, 0.059f, 1f);
         /// <summary>쇠 테.</summary>
-        public static readonly Color IronEdge = new Color(0.21f, 0.19f, 0.17f, 1f);
+        public static readonly Color IronEdge = new Color(0.30f, 0.29f, 0.27f, 1f);
         /// <summary>짙은 피색 범위(#4A0606~#8A1010, 등급색 빨강·주황과 헷갈리지 않게).</summary>
         public static readonly Color BloodDark = new Color32(0x4A, 0x06, 0x06, 0xFF);
         public static readonly Color Blood = new Color32(0x8A, 0x10, 0x10, 0xFF);
@@ -45,6 +45,7 @@ namespace Demo6.Game
         public static GUIStyle Bold { get; private set; }
         public static GUIStyle Center { get; private set; }
         public static GUIStyle BigCenter { get; private set; }
+        static GUIStyle _closeGlyph;
         /// <summary>층 이름 카드·쓰러짐 같은 아주 큰 바탕체 글(가운데, 글자색은 GUI.color로).</summary>
         public static GUIStyle Display { get; private set; }
         /// <summary>레벨업 띠 같은 큰 바탕체 글(가운데).</summary>
@@ -67,6 +68,7 @@ namespace Demo6.Game
         static bool _pausedByModal;
         static bool _serifTried;
         static Font _serif;
+        static Font _bodyFont;
         static GUISkin _skin;
         static Texture2D _orbFill;
         static Texture2D _orbGlass;
@@ -99,6 +101,7 @@ namespace Demo6.Game
             DestroyCached(ref _btnActive);
             DestroyCached(ref _skin);
             DestroyCached(ref _serif);
+            DestroyCached(ref _bodyFont);
             _ready = false;
             _serifTried = false;
         }
@@ -180,14 +183,21 @@ namespace Demo6.Game
             }
             EnsureTextures();
             var serif = Serif;
+            if (!_bodyFont) {
+                _bodyFont = Font.CreateDynamicFontFromOSFont(new[] { "Malgun Gothic", "맑은 고딕", "Noto Sans KR", "Arial" }, 20);
+                if (_bodyFont) _bodyFont.hideFlags = HideFlags.DontSave;
+            }
+            if (_bodyFont) _skin.font = _bodyFont;
             var label = _skin.label;
 
-            Title = new GUIStyle(label) { fontSize = 21, fontStyle = FontStyle.Bold, wordWrap = true, font = serif };
+            Title = new GUIStyle(label) { fontSize = 25, fontStyle = FontStyle.Bold, wordWrap = true, font = serif };
             SetTextColor(Title, TitleColor);
-            Label = new GUIStyle(label) { fontSize = 15, wordWrap = true };
-            Small = new GUIStyle(label) { fontSize = 13, wordWrap = true };
-            Bold = new GUIStyle(label) { fontSize = 15, fontStyle = FontStyle.Bold, wordWrap = true };
-            Center = new GUIStyle(label) { fontSize = 16, alignment = TextAnchor.MiddleCenter, wordWrap = true };
+            Label = new GUIStyle(label) { fontSize = 18, wordWrap = true };
+            Small = new GUIStyle(label) { fontSize = 16, wordWrap = true };
+            Bold = new GUIStyle(label) { fontSize = 18, fontStyle = FontStyle.Bold, wordWrap = true };
+            Center = new GUIStyle(label) { fontSize = 18, alignment = TextAnchor.MiddleCenter, wordWrap = true };
+            _closeGlyph = new GUIStyle(label) { fontSize = 26, alignment = TextAnchor.MiddleCenter, fontStyle = FontStyle.Normal, padding = new RectOffset(), contentOffset = new Vector2(0,-1), wordWrap = false };
+            SetTextColor(_closeGlyph, Bone);
             BigCenter = new GUIStyle(label) { fontSize = 30, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter, font = serif };
             SetTextColor(BigCenter, Color.white);
             Display = new GUIStyle(label) { fontSize = 56, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter, wordWrap = false, clipping = TextClipping.Overflow, font = serif };
@@ -198,28 +208,32 @@ namespace Demo6.Game
             SetTextColor(Subtitle, Color.white);
             Toast = new GUIStyle(label) { fontSize = 18, alignment = TextAnchor.MiddleCenter, wordWrap = false, clipping = TextClipping.Overflow, font = serif };
             SetTextColor(Toast, Color.white);
-            ToastQuiet = new GUIStyle(label) { fontSize = 15, fontStyle = FontStyle.Italic, alignment = TextAnchor.MiddleCenter, wordWrap = false, clipping = TextClipping.Overflow, font = serif };
+            ToastQuiet = new GUIStyle(label) { fontSize = 18, fontStyle = FontStyle.Italic, alignment = TextAnchor.MiddleCenter, wordWrap = false, clipping = TextClipping.Overflow, font = serif };
             SetTextColor(ToastQuiet, Color.white);
 
             // 단추: 어두운 쇠판 + 뼈색 글. 말뚝·사건·쪽지·가방·스킬 창 단추가 모두 이 모양을 쓴다.
             var b = _skin.button;
-            b.fontSize = 15;
-            b.border = new RectOffset(3, 3, 3, 3);
+            b.fontSize = 18;
+            b.padding = new RectOffset(12, 12, 6, 6);
+            b.wordWrap = true;
+            b.clipping = TextClipping.Clip;
+            b.border = new RectOffset(16, 16, 16, 16);
             b.normal.background = _btnNormal;
             b.normal.textColor = Bone;
             b.hover.background = _btnHover;
             b.hover.textColor = new Color(0.97f, 0.9f, 0.76f, 1f);
             b.active.background = _btnActive;
             b.active.textColor = Ember;
-            b.focused.background = _btnNormal;
-            b.focused.textColor = Bone;
+            b.focused.background = _btnHover;
+            b.focused.textColor = Ember;
             b.onNormal.background = _btnActive;
             b.onNormal.textColor = Ember;
             b.onHover.background = _btnActive;
             b.onHover.textColor = Ember;
             b.onActive.background = _btnActive;
             b.onActive.textColor = Ember;
-            _skin.toggle.fontSize = 14;
+            _skin.toggle.fontSize = 17;
+            _skin.label.fontSize = 18;
         }
 
         static void SetTextColor(GUIStyle s, Color c)
@@ -256,31 +270,47 @@ namespace Demo6.Game
 
         // ── 그리기 ───────────────────────────────────────────
 
-        /// <summary>검은 쇠 판: 검은 바깥 테, 쇠 테 2px, 안쪽 뼈색 가는 선, 모서리 못 넷. alpha는 판 전체 불투명도(흐려질 때 함께 줄인다).</summary>
+        /// <summary>칠한 철제 테와 가죽 바탕. 큰 창은 32px 모서리, 작은 카드는 높이에 맞춰 얇게 쓴다.</summary>
         public static void Box(Rect r, float alpha = 0.82f)
         {
             if (alpha <= 0.002f) return;
-            var prev = GUI.color;
-            var tex = Texture2D.whiteTexture;
-            // 검은 바깥 테는 테두리 선으로만(채우면 판이 두 겹이 되어 거의 불투명해진다).
-            OutlineRaw(new Rect(r.x - 1f, r.y - 1f, r.width + 2f, r.height + 2f), new Color(0f, 0f, 0f, alpha), 1f);
-            GUI.color = new Color(IronFill.r, IronFill.g, IronFill.b, alpha);
-            GUI.DrawTexture(r, tex);
-            // 위쪽이 조금 더 밝은 쇠 결.
-            GUI.color = new Color(1f, 0.92f, 0.8f, 0.035f * alpha);
-            GUI.DrawTexture(new Rect(r.x, r.y, r.width, Mathf.Min(r.height, 18f)), tex);
-            OutlineRaw(r, new Color(IronEdge.r, IronEdge.g, IronEdge.b, alpha), 2f);
-            if (r.width > 24f && r.height > 20f)
-            {
-                OutlineRaw(new Rect(r.x + 4f, r.y + 4f, r.width - 8f, r.height - 8f), new Color(Bone.r, Bone.g, Bone.b, 0.13f * alpha), 1f);
-                var rivet = new Color(0.46f, 0.41f, 0.34f, 0.9f * alpha);
-                GUI.color = rivet;
-                GUI.DrawTexture(new Rect(r.x + 3f, r.y + 3f, 3f, 3f), tex);
-                GUI.DrawTexture(new Rect(r.xMax - 6f, r.y + 3f, 3f, 3f), tex);
-                GUI.DrawTexture(new Rect(r.x + 3f, r.yMax - 6f, 3f, 3f), tex);
-                GUI.DrawTexture(new Rect(r.xMax - 6f, r.yMax - 6f, 3f, 3f), tex);
-            }
-            GUI.color = prev;
+            float corner = Mathf.Min(32f, r.height * .18f);
+            Fill(r, new Color(.018f,.018f,.021f,alpha));
+            UiSkinArt.NineSlice(r, UiSkinArt.Panel, corner, new Color(.74f,.73f,.71f,alpha), .22f);
+        }
+
+        /// <summary>정보 카드와 안내의 화면 여백. 입력을 받는 투명 패널을 추가하지 않는다.</summary>
+        public static Rect KeepOnScreen(Rect rect, float bottomReserve = 0f)
+        {
+            const float margin = 16f;
+            rect.width = Mathf.Min(rect.width, Width - margin * 2f);
+            rect.height = Mathf.Min(rect.height, Height - margin * 2f - bottomReserve);
+            rect.x = Mathf.Clamp(rect.x, margin, Width - margin - rect.width);
+            rect.y = Mathf.Clamp(rect.y, margin, Height - margin - bottomReserve - rect.height);
+            return rect;
+        }
+
+        public static void Slot(Rect rect, bool selected = false)
+        {
+            Fill(rect, new Color(.028f, .026f, .025f, 1f));
+            UiSkinArt.NineSlice(rect, UiSkinArt.Socket, Mathf.Min(14f,rect.height*.1f), Color.white);
+            if(selected) UiSkinArt.Selection(rect);
+        }
+
+        /// <summary>닫을 수 있는 창의 공통 닫기. 기능 처리는 각 창의 기존 닫기 경로를 쓴다.</summary>
+        public static Rect CloseButtonRect(Rect panel) => new Rect(panel.xMax - 60f, panel.y + 14f, 40f, 40f);
+        public static bool CloseButton(Rect panel, string tooltip = "닫기 · Esc")
+        {
+            var r = CloseButtonRect(panel);
+            var color = GUI.color;
+            GUI.color = Color.white;
+            bool clicked = GUI.Button(r, new GUIContent("", tooltip), GUIStyle.none);
+            bool hover = r.Contains(Event.current.mousePosition);
+            UiSkinArt.NineSlice(r, UiSkinArt.Panel, 7f, new Color(.9f,.55f,.5f,1f));
+            Fill(new Rect(r.x+4,r.y+4,r.width-8,r.height-8),hover?new Color(.48f,.08f,.09f,.96f):new Color(.30f,.045f,.055f,.96f));
+            GUI.Label(r, "×", _closeGlyph);
+            GUI.color = color;
+            return clicked;
         }
 
         public static void Fill(Rect r, Color color)
@@ -290,6 +320,18 @@ namespace Demo6.Game
             GUI.DrawTexture(r, Texture2D.whiteTexture);
             GUI.color = prev;
         }
+
+        /// <summary>한 줄 표시 칸은 말줄임하고 전체 이름을 툴팁에 보존한다. 상세 이름은 별도로 줄바꿈한다.</summary>
+        public static string FitLine(string text, GUIStyle style, float width)
+        {
+            if(string.IsNullOrEmpty(text)||style.CalcSize(new GUIContent(text)).x<=width)return text;
+            int lo=0,hi=text.Length;
+            while(lo<hi){int mid=(lo+hi+1)/2;if(style.CalcSize(new GUIContent(text.Substring(0,mid)+"…")).x<=width)lo=mid;else hi=mid-1;}
+            return text.Substring(0,lo)+"…";
+        }
+
+        public static void CompactLabel(Rect r,string text,GUIStyle style)
+            => GUI.Label(r,new GUIContent(FitLine(text,style,r.width),text),style);
 
         /// <summary>막대: 검은 홈 + 채움 + 윗면 옅은 광 + 쇠 테. 글이 있으면 뼈색 그림자 글로 가운데에.</summary>
         public static void Bar(Rect r, float fraction, Color fill, string text = null)
@@ -447,9 +489,9 @@ namespace Demo6.Game
             if (!_orbRing) _orbRing = BuildOrbRing();
             if (!_strip) _strip = BuildStrip();
             if (!_vignette) _vignette = BuildVignette();
-            if (!_btnNormal) _btnNormal = BuildButton(new Color(0.1f, 0.09f, 0.08f), new Color(0.06f, 0.055f, 0.05f), IronEdge);
-            if (!_btnHover) _btnHover = BuildButton(new Color(0.16f, 0.14f, 0.12f), new Color(0.1f, 0.09f, 0.08f), new Color(0.5f, 0.45f, 0.37f));
-            if (!_btnActive) _btnActive = BuildButton(new Color(0.05f, 0.045f, 0.04f), new Color(0.08f, 0.07f, 0.06f), new Color(0.6f, 0.44f, 0.24f));
+            if (!_btnNormal) _btnNormal = UiSkinArt.Button(.88f) ?? BuildButton(new Color(0.12f, 0.125f, 0.135f), new Color(0.065f, 0.07f, 0.08f), IronEdge);
+            if (!_btnHover) _btnHover = UiSkinArt.Button(1.4f) ?? BuildButton(new Color(0.19f, 0.185f, 0.17f), new Color(0.11f, 0.11f, 0.115f), new Color(0.5f, 0.45f, 0.37f));
+            if (!_btnActive) _btnActive = UiSkinArt.Button(.60f) ?? BuildButton(new Color(0.05f, 0.045f, 0.04f), new Color(0.08f, 0.07f, 0.06f), new Color(0.6f, 0.44f, 0.24f));
         }
 
         static Texture2D NewTex(int w, int h, string name)

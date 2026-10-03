@@ -54,8 +54,8 @@ namespace Demo6.Game
             }
         }
 
-        /// <summary>장비 하나만 떨어뜨린다(시험 패널·다른 모듈용).</summary>
-        public static LootDrop SpawnGear(WeaponItem item, Vector2 origin, Vector2 direction, float delay)
+        /// <summary>장비 하나만 떨어뜨린다(7부위 공통, 시험 패널·다른 모듈용).</summary>
+        public static LootDrop SpawnGear(GearItem item, Vector2 origin, Vector2 direction, float delay)
         {
             if (direction.sqrMagnitude < 0.0001f) direction = Vector2.down;
             return LootDrop.Spawn(item, origin, Landing(origin, direction.normalized, 0, 1), delay);

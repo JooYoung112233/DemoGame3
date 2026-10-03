@@ -1,4 +1,5 @@
 using Demo6.Core.Combat;
+using Demo6.Core.Stats;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -193,7 +194,7 @@ namespace Demo6.Game
             foreach (var w in WeaponPresets.All)
             {
                 bool selected = root.Player.Weapon == w;
-                if (GUILayout.Toggle(selected, $"{w.displayName}", GUI.skin.button) && !selected) root.Player.SetWeapon(w);
+                if (GUILayout.Toggle(selected, $"{w.displayName}", GUI.skin.button) && !selected) root.SetTestWeapon(w.id);
             }
             GUILayout.EndHorizontal();
             var weapon = root.Player.Weapon;
@@ -206,6 +207,9 @@ namespace Demo6.Game
             }
             GUILayout.Label($"콤보: {comboText}", _small);
             GUILayout.Label($"한 바퀴 {weapon.CycleSeconds:0.00}초 · 단일 대상 계수 {weapon.SingleTargetCoefficient:0.00} · 0.5초 멈추면 처음부터", _small);
+            DrawWeaponCard(root.Player, weapon);
+
+            DrawGearKnobs(root);
 
             Section("층 기준 (몬스터 배율 + 그 층 기준 장비)");
             GUILayout.BeginHorizontal();
@@ -283,6 +287,8 @@ namespace Demo6.Game
             {
                 root.Stats.ResetAll();
                 root.Player.ResetDowns();
+                root.Crits.Reset();
+                TimeScaleService.ResetHitStopRecord();
             }
             GUILayout.EndHorizontal();
 
@@ -330,7 +336,7 @@ namespace Demo6.Game
             GUILayout.EndHorizontal();
             if (moveScale != Tuning.MoveSpeedScale) Tuning.MoveSpeedScale = Mathf.Round(moveScale * 100f) / 100f;
             Tuning.MoveInertia = GUILayout.Toggle(Tuning.MoveInertia, $"가감속(묵직함) 붙기 {PlayerController.WalkAccelTime:0.00}초 · 서기 {PlayerController.WalkDecelTime:0.00}초");
-            GUILayout.Label($"걸음 {PlayerController.EquippedWalkSpeed * Tuning.MoveSpeedScale:0.00} · 탐험 걸음 {ExploreWalk.ScaledSpeed:0.00} (배율 1이면 5.30 · 6.50, 굴쥐 4.2)", _small);
+            GUILayout.Label($"걸음 {root.Player.WalkSpeed * Tuning.MoveSpeedScale:0.00} · 탐험 걸음 {ExploreWalk.ScaledSpeed:0.00} (배율 1이면 {root.Player.WalkSpeed:0.00} · 6.50, 굴쥐 4.2)", _small);
             GUILayout.BeginHorizontal();
             Tuning.DamageNumbers = GUILayout.Toggle(Tuning.DamageNumbers, "피해 숫자");
             Tuning.Invincible = GUILayout.Toggle(Tuning.Invincible, "무적");
@@ -351,8 +357,10 @@ namespace Demo6.Game
             string avoid = s.AvoidableTelegraphs > 0 ? $"{(float)s.AvoidableTelegraphsHit / s.AvoidableTelegraphs * 100f:0}%" : "-";
             GUILayout.Label($"예고 공격(멧돼지·궁수): 피할 수 있었던 {s.AvoidableTelegraphs}번 중 맞음 {s.AvoidableTelegraphsHit}번 ({avoid}, 기준 40% 이하)", _small);
             GUILayout.Label($"예고 공격 전체 {s.AllTelegraphs}번 중 맞음 {s.AllTelegraphsHit}번 (굴쥐 물기는 따로 세지 않음)", _small);
-            s.Shares(out float sb, out float sw, out float sv, out float crit, false);
-            GUILayout.Label($"출처(30초): 기본 {sb * 100f:0}% · 회오리 {sw * 100f:0}% · 검풍 {sv * 100f:0}% · 치명 {crit * 100f:0}%", _small);
+            s.Shares(out float sb, out float sw, out float sv, out float sl, out float crit, false);
+            GUILayout.Label($"출처(30초): 기본 {sb * 100f:0}% · 회오리 {sw * 100f:0}% · 검풍 {sv * 100f:0}% · 전설 {sl * 100f:0}% · 치명 {crit * 100f:0}%", _small);
+
+            DrawCritRecord(root, crit);
 
             if (root.CurrentPreset == CombatTestRoot.Preset.Dummies) DrawDummy(root);
 
@@ -368,6 +376,87 @@ namespace Demo6.Game
 
             GUILayout.EndScrollView();
             GUILayout.EndArea();
+        }
+
+        static readonly string[] LegendNames = { "연쇄 번개", "불꽃 발자국", "연쇄 폭발" };
+
+        /// <summary>무기 카드 숫자(장비 문서 3-1): 초당 휘두르기(공격 속도 포함), 한 방 세기, 치명, 무너뜨리기, 한 번에 최대.</summary>
+        void DrawWeaponCard(PlayerController p, WeaponAttackRule weapon)
+        {
+            int aspd = p.AttackSpeedPermille;
+            var sheet = p.Sheet;
+            int cc = sheet != null ? sheet.CritChancePermille : Mathf.RoundToInt(p.CritChance * 1000f);
+            int cd = sheet != null ? sheet.CritDamagePermille : Mathf.RoundToInt(p.CritDamage * 1000f);
+            GUILayout.Label($"무기 카드: 초당 휘두르기 {StatCalc.SwingsPerSecond(weapon, aspd):0.00}회 · 한 방 세기 {weapon.AverageHitPercent:0}% · " +
+                            $"치명 {cc / 10f:0.#}% / {cd / 10f:0}% · 무너뜨리기 {weapon.PoiseWord}({weapon.PoisePerSecond:0}) · " +
+                            $"한 번에 최대 {weapon.MaxTargets}(마무리 {weapon.FinisherMaxTargets})", _small);
+        }
+
+        /// <summary>장비 능력치 손잡이(장비 문서 3-4, IMGUI 기능만). 값은 Tuning에 두고 CombatTestRoot가 바뀐 것을 보고 능력치를 다시 넣는다.</summary>
+        void DrawGearKnobs(CombatTestRoot root)
+        {
+            var p = root.Player;
+            var sheet = p.Sheet;
+            Section("장비 능력치 손잡이 (치명·공격 속도·전설)");
+            Tuning.TestWeaponIntrinsic = GUILayout.Toggle(Tuning.TestWeaponIntrinsic, "무기 고유 치명 (끄면 맨몸 5% / 150%)");
+            Tuning.TestAttackSpeedPermille = IntSlider("공격 속도 ‰", Tuning.TestAttackSpeedPermille, 0, Tuning.TestAttackSpeedMax, 10);
+
+            bool ccOn = Tuning.TestCritChancePermille >= 0;
+            bool ccNow = GUILayout.Toggle(ccOn, "치명 확률 직접 정하기");
+            if (ccNow != ccOn) Tuning.TestCritChancePermille = ccNow ? (sheet != null ? sheet.CritChancePermille : 50) : -1;
+            if (ccNow) Tuning.TestCritChancePermille = IntSlider("치명 확률 ‰", Tuning.TestCritChancePermille, 0, StatCaps.CritChancePermille, 5);
+
+            bool cdOn = Tuning.TestCritDamagePermille >= 0;
+            bool cdNow = GUILayout.Toggle(cdOn, "치명 피해 직접 정하기");
+            if (cdNow != cdOn) Tuning.TestCritDamagePermille = cdNow ? (sheet != null ? sheet.CritDamagePermille : 1500) : -1;
+            if (cdNow) Tuning.TestCritDamagePermille = IntSlider("치명 피해 ‰", Tuning.TestCritDamagePermille, StatCaps.CritDamageMinPermille, StatCaps.CritDamagePermille, 10);
+
+            for (int i = 0; i < Tuning.TestLegendOn.Length && i < LegendNames.Length; i++)
+            {
+                GUILayout.BeginHorizontal();
+                Tuning.TestLegendOn[i] = GUILayout.Toggle(Tuning.TestLegendOn[i], $"전설 {LegendNames[i]}", GUILayout.Width(150f));
+                GUILayout.Label($"세기 {Tuning.TestLegendRoll[i]}‰", GUILayout.Width(80f));
+                float v = GUILayout.HorizontalSlider(Tuning.TestLegendRoll[i], 0f, 1000f);
+                GUILayout.EndHorizontal();
+                if (!Mathf.Approximately(v, Tuning.TestLegendRoll[i])) Tuning.TestLegendRoll[i] = Mathf.Clamp(Mathf.RoundToInt(v / 50f) * 50, 0, 1000);
+            }
+
+            if (sheet != null)
+            {
+                GUILayout.Label($"능력치: 공격 {sheet.Attack} · 체력 {sheet.MaxHp} · 방어 {sheet.Defense} · 치명 {sheet.CritChancePermille}‰ / {sheet.CritDamagePermille}‰ · " +
+                                $"공속 {sheet.AttackSpeedPermille}‰ · 이동 {sheet.MoveSpeedPermille}‰ · 재사용 감소 {sheet.CooldownReductionPermille}‰", _small);
+            }
+            var plan = p.CurrentSwingPlan;
+            if (plan.Duration > 0f)
+                GUILayout.Label($"마지막 동작 {p.ComboStepName}: 길이 {plan.Duration:0.000}초 · 첫 판정 {plan.FirstHit:0.000}초 · 마지막 판정 {plan.LastHit:0.000}초 · 회수 {plan.Recovery:0.000}초", _small);
+            GUILayout.Label($"치명 굴림 씨앗 {p.CritSeed} (판마다 다름, 기록에 함께 적기)", _small);
+        }
+
+        /// <summary>치명·손맛 기록(장비 문서 12장 판정 표).</summary>
+        void DrawCritRecord(CombatTestRoot root, float critRate30)
+        {
+            var c = root.Crits;
+            Section("치명 기록 (장비 문서 12장)");
+            GUILayout.Label($"30초 치명 비율 {critRate30 * 100f:0}% · 치명 연출 가벼움 {c.Count(CritTier.Light)} · 보통 {c.Count(CritTier.Normal)} · 무거움 {c.Count(CritTier.Heavy)} (마무리 {c.FinisherHeavy})", _small);
+            string gaps = c.HeavyGaps > 0
+                ? $"최소 {c.HeavyGapMin:0.00}초 · 평균 {c.HeavyGapAverage:0.00}초 · 0.5초보다 짧음 {c.HeavyGapsUnderHalf}번(마무리 예외)"
+                : "아직 없음";
+            GUILayout.Label($"무거운 치명 사이 간격: {gaps} (기준 0.5초 이상)", _small);
+            GUILayout.Label($"히트스톱이 1초 예산에 잘린 비율 {TimeScaleService.HitStopTrimmedFraction * 100f:0.0}% (요청 {TimeScaleService.HitStopRequested:0.00}초 · 허락 {TimeScaleService.HitStopGranted:0.00}초, 5% 넘으면 무거움 간격을 0.8초로)", _small);
+            root.Stats.EncounterSummary(CombatStats.EncounterKind.Normal, out int count, out _, out _, out float early, out _);
+            GUILayout.Label($"첫 5초 안 무너짐(보통 마주침 {count}번) {early * 100f:0}% (기준 30% 이하)", _small);
+            GUILayout.Label("판정 질문: 무기를 바꾸면 치명이 다르게 느껴지나(쌍검은 자주·가볍게, 대검은 드물게·무겁게)? · 공격 속도 +24%에서 묵직함이 남았나, 뚝뚝 끊기나? · 치명이 너무 흔해 특별함이 사라졌나?", _small);
+        }
+
+        /// <summary>정수 손잡이(step 단위). 손대지 않으면 값을 바꾸지 않는다.</summary>
+        static int IntSlider(string label, int value, int min, int max, int step)
+        {
+            GUILayout.BeginHorizontal();
+            GUILayout.Label($"{label} {value}", GUILayout.Width(170f));
+            float v = GUILayout.HorizontalSlider(value, min, max);
+            GUILayout.EndHorizontal();
+            if (Mathf.Approximately(v, value)) return value;
+            return Mathf.Clamp(Mathf.RoundToInt(v / step) * step, min, max);
         }
 
         void DrawDummy(CombatTestRoot root)
@@ -390,8 +479,8 @@ namespace Demo6.Game
             GUILayout.Label($"이 무기로 {root.Floor}층 굴쥐 한 방(모든 콤보 단계): {(minSwing >= ratHp ? "예" : "아니오")} (최저 {minSwing} / 체력 {ratHp})");
             if (dps > 0f)
                 GUILayout.Label($"오우거 예상 처치: 5층 {25754f / dps:0}초 (기준 28초) · 10층 {154706f / dps:0}초 (기준 60초)", _small);
-            s.Shares(out float sb, out float sw, out float sv, out float crit, true);
-            GUILayout.Label($"허수아비 출처: 기본 {sb * 100f:0}% · 회오리 {sw * 100f:0}% · 검풍 {sv * 100f:0}% · 치명 {crit * 100f:0}%", _small);
+            s.Shares(out float sb, out float sw, out float sv, out float sl, out float crit, true);
+            GUILayout.Label($"허수아비 출처: 기본 {sb * 100f:0}% · 회오리 {sw * 100f:0}% · 검풍 {sv * 100f:0}% · 전설 {sl * 100f:0}% · 치명 {crit * 100f:0}%", _small);
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("이 무기 기록 저장")) s.RecordWeapon($"{p.Weapon.displayName} {root.Floor}층", dps);
             if (GUILayout.Button("측정 다시")) s.ResetDummyWindow();

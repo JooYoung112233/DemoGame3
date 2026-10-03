@@ -1,0 +1,1952 @@
+{
+  "status": "completed",
+  "duration": 9.34,
+  "summary": {
+    "total": 277,
+    "passed": 277,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0
+  },
+  "results": [
+    {
+      "FullName": "Demo6.Tests.CapTests.AttackSpeedMaxIsTwentyFourPercent",
+      "Status": "Passed",
+      "Duration": 0.0140795,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CapTests.CappedOptionsOnlyOnTheirParts",
+      "Status": "Passed",
+      "Duration": 0.0096079,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CapTests.CooldownReductionMaxIsTwentyThreePercent",
+      "Status": "Passed",
+      "Duration": 0.0001718,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CapTests.CritChanceMaxIsThirtyOnePercent",
+      "Status": "Passed",
+      "Duration": 9.4E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CapTests.CritDamageMaxReachesCapOnlyWithGreatsword",
+      "Status": "Passed",
+      "Duration": 0.0005432,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CapTests.DefenseMaxStaysUnderCap",
+      "Status": "Passed",
+      "Duration": 0.001683,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CapTests.LifeStealMaxIsOnePointEightPercent",
+      "Status": "Passed",
+      "Duration": 0.0001039,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CapTests.MoveSpeedMaxIsTwentyTwoPercent",
+      "Status": "Passed",
+      "Duration": 0.0002596,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CarryDataTests.CloneIsDeepAndEqual",
+      "Status": "Passed",
+      "Duration": 0.0197748,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CarryDataTests.CountersBumpFromZero",
+      "Status": "Passed",
+      "Duration": 0.0003008,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CarryDataTests.EightSlotsRoundTripWithOptionsLegendaryEnhanceAndRingTwo",
+      "Status": "Passed",
+      "Duration": 0.0019572,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CarryDataTests.EscapeRoundTripsSeparators",
+      "Status": "Passed",
+      "Duration": 0.0001714,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CarryDataTests.GearTextParsesBackToSameGear",
+      "Status": "Passed",
+      "Duration": 0.0002442,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CarryDataTests.LandingFloorsStopAtRopeEndAndTestCap",
+      "Status": "Passed",
+      "Duration": 0.0003456,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CarryDataTests.NewProfileRoundTripsWithoutLeg",
+      "Status": "Passed",
+      "Duration": 0.0002149,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CarryDataTests.ReadsVersionOneEquippedWeaponAndFourFieldBag",
+      "Status": "Passed",
+      "Duration": 0.0005694,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CarryDataTests.TextRoundTripKeepsEveryField",
+      "Status": "Passed",
+      "Duration": 0.0008483,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CarryDataTests.UnknownKeysAndOtherVersionsReadOnlyKnownKeys",
+      "Status": "Passed",
+      "Duration": 0.0022166,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CarryDataTests.UnknownOptionAndLegendaryPiecesAreSkippedButGearSurvives",
+      "Status": "Passed",
+      "Duration": 0.0004679,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.ClipTimingTests.KeyFrameStartsExactlyAtHitTime",
+      "Status": "Passed",
+      "Duration": 0.0012452,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.ClipTimingTests.LoopAndOnceFrames",
+      "Status": "Passed",
+      "Duration": 0.0002466,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.ClipTimingTests.TimedFrameWorksForAnyFrameCount",
+      "Status": "Passed",
+      "Duration": 0.0557322,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CombatRuleTests.BaselineGearOneShotsRatsOnEveryFloor",
+      "Status": "Passed",
+      "Duration": 0.0013324,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CombatRuleTests.DamageIgnoresZeroDefenseAndHalvesAtThousand",
+      "Status": "Passed",
+      "Duration": 0.0001182,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CombatRuleTests.DamageRoundsHalfUp",
+      "Status": "Passed",
+      "Duration": 9.41E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CombatRuleTests.EveryComboEndsWithOneFinisherAndHitsFitInStep",
+      "Status": "Passed",
+      "Duration": 0.0010134,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CombatRuleTests.FloorTableMatchesPlan",
+      "Status": "Passed",
+      "Duration": 0.0001893,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CombatRuleTests.HitStopBudgetIsPointTwoPerSecond",
+      "Status": "Passed",
+      "Duration": 0.0020881,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CombatRuleTests.HitStopOnlyExtendsWhenLonger",
+      "Status": "Passed",
+      "Duration": 0.0002478,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CombatRuleTests.PauseBeatsHitStopBeatsSlowMotion",
+      "Status": "Passed",
+      "Duration": 0.0002611,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CombatRuleTests.PlayerDamageUsesDefense",
+      "Status": "Passed",
+      "Duration": 0.0001516,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CombatRuleTests.RollStaysInRange",
+      "Status": "Passed",
+      "Duration": 0.0064401,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CombatRuleTests.WeaponSingleTargetCoefficients(\"wpn_longsword\",1.5d)",
+      "Status": "Passed",
+      "Duration": 0.0004756,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CombatRuleTests.WeaponSingleTargetCoefficients(\"wpn_greatsword\",1.45d)",
+      "Status": "Passed",
+      "Duration": 3.01E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CombatRuleTests.WeaponSingleTargetCoefficients(\"wpn_twinblades\",1.6d)",
+      "Status": "Passed",
+      "Duration": 2.34E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CritTierTests.Boundaries(999,Light)",
+      "Status": "Passed",
+      "Duration": 0.0004516,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CritTierTests.Boundaries(1000,Normal)",
+      "Status": "Passed",
+      "Duration": 5.73E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CritTierTests.Boundaries(1999,Normal)",
+      "Status": "Passed",
+      "Duration": 4.15E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CritTierTests.Boundaries(2000,Heavy)",
+      "Status": "Passed",
+      "Duration": 3.86E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CritTierTests.Boundaries(0,Light)",
+      "Status": "Passed",
+      "Duration": 3.54E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CritTierTests.BoundariesThroughHitPercent",
+      "Status": "Passed",
+      "Duration": 0.0002183,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CritTierTests.ComboDataWithStartingCritDamage",
+      "Status": "Passed",
+      "Duration": 0.0003033,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CritTierTests.DocExamples(90,1.6d,Normal)",
+      "Status": "Passed",
+      "Duration": 0.0003642,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CritTierTests.DocExamples(140,1.6d,Heavy)",
+      "Status": "Passed",
+      "Duration": 4.73E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CritTierTests.DocExamples(115,2.0d,Heavy)",
+      "Status": "Passed",
+      "Duration": 3.76E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CritTierTests.DocExamples(220,2.0d,Heavy)",
+      "Status": "Passed",
+      "Duration": 6.33E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CritTierTests.DocExamples(52,1.3d,Light)",
+      "Status": "Passed",
+      "Duration": 4.37E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CritTierTests.DocExamples(34,1.3d,Light)",
+      "Status": "Passed",
+      "Duration": 3.58E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CritTierTests.DocExamples(90.0d,1.6d,Normal)",
+      "Status": "Passed",
+      "Duration": 4.33E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CritTierTests.DocExamples(350.0d,1.6d,Heavy)",
+      "Status": "Passed",
+      "Duration": 3.59E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CritTierTests.DocExamples(90,2.4d,Heavy)",
+      "Status": "Passed",
+      "Duration": 3.49E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CritTierTests.FinisherIsExemptAndResetsTheClock",
+      "Status": "Passed",
+      "Duration": 0.0003579,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CritTierTests.GateLeavesOtherTiersAlone",
+      "Status": "Passed",
+      "Duration": 0.0001134,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CritTierTests.HeavyOnlyOncePerHalfSecond",
+      "Status": "Passed",
+      "Duration": 0.0001825,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CritTierTests.MaxPicksHeaviest",
+      "Status": "Passed",
+      "Duration": 0.000238,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.CritTierTests.WeightsInPermille",
+      "Status": "Passed",
+      "Duration": 0.0001467,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.EnhanceCostTests.CostIsAtLeastOneStone",
+      "Status": "Passed",
+      "Duration": 0.0006819,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.EnhanceCostTests.CostTableMatchesDesignEightFour",
+      "Status": "Passed",
+      "Duration": 0.0004792,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.EnhanceCostTests.EnhanceCapsAndBaseStat",
+      "Status": "Passed",
+      "Duration": 0.0002932,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.EnhanceCostTests.PartCostMultipliersMatchDesign",
+      "Status": "Passed",
+      "Duration": 0.0002398,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorGeneratorTests.AnchorsStayFixed",
+      "Status": "Passed",
+      "Duration": 0.0765936,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorGeneratorTests.ChalkPointsAtThePlankDoor",
+      "Status": "Passed",
+      "Duration": 0.0700431,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorGeneratorTests.DeepDecayAndEveryNightStillPass(1)",
+      "Status": "Passed",
+      "Duration": 0.100796,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorGeneratorTests.DeepDecayAndEveryNightStillPass(2)",
+      "Status": "Passed",
+      "Duration": 0.0590547,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorGeneratorTests.DescribeShowsSeedReportAndGlyphs",
+      "Status": "Passed",
+      "Duration": 0.0012648,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorGeneratorTests.FirstClearingSleepsFacingAwayFromLanding(1)",
+      "Status": "Passed",
+      "Duration": 0.0467957,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorGeneratorTests.FirstClearingSleepsFacingAwayFromLanding(2)",
+      "Status": "Passed",
+      "Duration": 0.0172407,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorGeneratorTests.FiveHundredSeedsPassQuickly(1)",
+      "Status": "Passed",
+      "Duration": 0.1971321,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorGeneratorTests.FiveHundredSeedsPassQuickly(2)",
+      "Status": "Passed",
+      "Duration": 0.122923,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorGeneratorTests.FloorOneSeedZeroIsTheHandMap",
+      "Status": "Passed",
+      "Duration": 0.0010756,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorGeneratorTests.FloorTwoChosenSeedIsAPassingFixedMap",
+      "Status": "Passed",
+      "Duration": 0.0012085,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorGeneratorTests.GenerateNeverThrows",
+      "Status": "Passed",
+      "Duration": 0.0024067,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorGeneratorTests.NextExpeditionMovesStairsAndLeavesTraces(1)",
+      "Status": "Passed",
+      "Duration": 0.3605554,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorGeneratorTests.NextExpeditionMovesStairsAndLeavesTraces(2)",
+      "Status": "Passed",
+      "Duration": 0.2727457,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorGeneratorTests.RatBurrowNightPutsTheExtraNestInACorridor",
+      "Status": "Passed",
+      "Duration": 0.0093147,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorGeneratorTests.ReopenedFloorOneDropsReceivedPickaxeAndGuaranteedChest",
+      "Status": "Passed",
+      "Duration": 0.0649227,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorGeneratorTests.ReopenedFloorsSpreadStairsExitsAndHiddenRooms(1)",
+      "Status": "Passed",
+      "Duration": 0.2229752,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorGeneratorTests.ReopenedFloorsSpreadStairsExitsAndHiddenRooms(2)",
+      "Status": "Passed",
+      "Duration": 0.1403631,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorGeneratorTests.SameInputMakesSameMap",
+      "Status": "Passed",
+      "Duration": 0.0645815,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorGeneratorTests.SlotsStayOnWalkableGround",
+      "Status": "Passed",
+      "Duration": 0.010398,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorMapTests.DeadEndsAlwaysReward",
+      "Status": "Passed",
+      "Duration": 0.0008942,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorMapTests.FeatureIdsAreUnique",
+      "Status": "Passed",
+      "Duration": 0.0006634,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorMapTests.FloorOneCountsMatchPlan",
+      "Status": "Passed",
+      "Duration": 0.0009519,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorMapTests.FloorOneParsesTwelveCellsAndThirteenEdges",
+      "Status": "Passed",
+      "Duration": 0.0004122,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorMapTests.MainPathIsHalfOfStartReachableCells",
+      "Status": "Passed",
+      "Duration": 0.000497,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorMapTests.NothingRequiredBehindAbilityDoors",
+      "Status": "Passed",
+      "Duration": 0.0006437,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorMapTests.StakesAreAtMostFiveCellsApart",
+      "Status": "Passed",
+      "Duration": 0.0003384,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorRulesTests.BudgetDecaysOnReopenedFloors",
+      "Status": "Passed",
+      "Duration": 0.0003224,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorRulesTests.BudgetFirstVisitIsTheRecipe",
+      "Status": "Passed",
+      "Duration": 0.0001929,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorRulesTests.CrackedOrLockedDoorDoesNotEndADeadEnd",
+      "Status": "Passed",
+      "Duration": 0.0016448,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorRulesTests.EmptyDeadEndFails",
+      "Status": "Passed",
+      "Duration": 0.000669,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorRulesTests.HandMapPassesEveryRule",
+      "Status": "Passed",
+      "Duration": 0.0002067,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorRulesTests.IdsMustBeUniqueAndKeepOnceIdsForTheirItems",
+      "Status": "Passed",
+      "Duration": 0.0001494,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorRulesTests.LandmarkDoorMustFaceTheRecipeSide",
+      "Status": "Passed",
+      "Duration": 0.0004292,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorRulesTests.LongDeadEndStemFails",
+      "Status": "Passed",
+      "Duration": 0.0001667,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorRulesTests.LongEmptyRunOnMainPathFails",
+      "Status": "Passed",
+      "Duration": 0.0001556,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorRulesTests.NameplateBehindAbilityDoorFails",
+      "Status": "Passed",
+      "Duration": 0.0001347,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorRulesTests.NightEventsAdjustReopenedBudgets",
+      "Status": "Passed",
+      "Duration": 0.0001911,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorRulesTests.RecipeLimitsCountsGridAndLoops",
+      "Status": "Passed",
+      "Duration": 0.0002272,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorRulesTests.RevisitBudgetChecksTheHandMapIronCount",
+      "Status": "Passed",
+      "Duration": 0.000223,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorRulesTests.StairsBehindAbilityDoorFails",
+      "Status": "Passed",
+      "Duration": 0.0001494,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorRulesTests.StairsOutOfReachFails",
+      "Status": "Passed",
+      "Duration": 0.000101,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorRulesTests.StakesTooFarApartFail",
+      "Status": "Passed",
+      "Duration": 0.0001446,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.FloorRulesTests.ThreeEncountersInARowOnMainPathFails",
+      "Status": "Passed",
+      "Duration": 0.0003082,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearNamingTests.LegendaryLineIsFirstCardLine",
+      "Status": "Passed",
+      "Duration": 0.0023483,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearNamingTests.NameIsGradePlusKind",
+      "Status": "Passed",
+      "Duration": 0.000378,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearNamingTests.OptionLineAndTierMark",
+      "Status": "Passed",
+      "Duration": 0.0002813,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearNamingTests.OptionsAndLegendaryDoNotChangeTheName",
+      "Status": "Passed",
+      "Duration": 0.0025871,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearNamingTests.WeaponNameMatchesLegacyWeaponItem",
+      "Status": "Passed",
+      "Duration": 0.0006388,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearRollTests.BaseTableMatchesDesignFourThree",
+      "Status": "Passed",
+      "Duration": 0.0009447,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearRollTests.BoostedPartsTripleOnlyForRareOrBetter",
+      "Status": "Passed",
+      "Duration": 0.4539112,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearRollTests.ElitePromotionAddsOneOption",
+      "Status": "Passed",
+      "Duration": 0.0692736,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearRollTests.GroupSharesAreSumsOfPartShares",
+      "Status": "Passed",
+      "Duration": 0.001275,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearRollTests.ItemScoreFollowsDesignSixSix",
+      "Status": "Passed",
+      "Duration": 0.0006299,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearRollTests.KindIsOneThirdInsideEachPart",
+      "Status": "Passed",
+      "Duration": 0.9617412,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearRollTests.LegendaryGearCarriesEffectAndOwnedRollsHigh",
+      "Status": "Passed",
+      "Duration": 0.1178417,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearRollTests.OnlyPartsLimitsPartsByDropShare",
+      "Status": "Passed",
+      "Duration": 0.1470561,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearRollTests.OptionCountFollowsGradeWithoutDuplicates",
+      "Status": "Passed",
+      "Duration": 1.3101972,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearRollTests.RingPoolHasNoCritDamage",
+      "Status": "Passed",
+      "Duration": 0.2097663,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearRollTests.SameSeedGivesSameGear",
+      "Status": "Passed",
+      "Duration": 0.301688,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearRollTests.WeakestPartsComeFromLoadoutScores",
+      "Status": "Passed",
+      "Duration": 0.0025867,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearRollTests.WithBaseKeepsOptionsAndLegendary",
+      "Status": "Passed",
+      "Duration": 0.0008803,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearRulesTests.AttackTableMatchesDesignSixOne",
+      "Status": "Passed",
+      "Duration": 0.0002759,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearRulesTests.DisplayNameUsesGradeAndWeaponName",
+      "Status": "Passed",
+      "Duration": 0.0001465,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearRulesTests.EliteDropsTwoAndNeverCommon",
+      "Status": "Passed",
+      "Duration": 0.1029183,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearRulesTests.EpicChestIsEpicOrBetterWeaponOrArmor",
+      "Status": "Passed",
+      "Duration": 0.0770045,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearRulesTests.FloorMultiplierAndGoldPile",
+      "Status": "Passed",
+      "Duration": 0.0003746,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearRulesTests.FloorOneCommonWeaponAttackIsNinetyToHundredTen",
+      "Status": "Passed",
+      "Duration": 0.0009138,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearRulesTests.FloorTenLegendaryRollThousandIs541",
+      "Status": "Passed",
+      "Duration": 0.0002112,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearRulesTests.GradeDistributionMatchesTable",
+      "Status": "Passed",
+      "Duration": 0.0120119,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearRulesTests.GradeRowsSumToThousandOnEveryFloor",
+      "Status": "Passed",
+      "Duration": 0.0007083,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearRulesTests.IronChestGivesOneGearStonesAndGold",
+      "Status": "Passed",
+      "Duration": 0.0004912,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearRulesTests.LegacyRolledWeaponsStayInsideRollRange",
+      "Status": "Passed",
+      "Duration": 0.0284409,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearRulesTests.LegendaryOnlyFromFloorFive",
+      "Status": "Passed",
+      "Duration": 0.0006476,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearRulesTests.RareWeaponChestIsAlwaysRareOrBetter",
+      "Status": "Passed",
+      "Duration": 0.0565727,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearRulesTests.RolledGearFollowsPartDropTable",
+      "Status": "Passed",
+      "Duration": 0.8180154,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearRulesTests.StableHashIsDeterministic",
+      "Status": "Passed",
+      "Duration": 0.000895,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearRulesTests.StartingWeaponIsCommonLongswordHundred",
+      "Status": "Passed",
+      "Duration": 0.0002647,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearRulesTests.WoodChestGoldIsFixedAndGearAtMostOne",
+      "Status": "Passed",
+      "Duration": 0.1032384,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearScoreTests.ChainGlovesBeatLeatherGloves",
+      "Status": "Passed",
+      "Duration": 0.0011161,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearScoreTests.CompositeWeightsAreSixThreeOne",
+      "Status": "Passed",
+      "Duration": 0.0004178,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearScoreTests.IndicesFollowFormulaForRichSheet",
+      "Status": "Passed",
+      "Duration": 0.0007341,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearScoreTests.IronRingInEmptySlotIsUp",
+      "Status": "Passed",
+      "Duration": 0.0001831,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearScoreTests.MarkThresholdBoundaries(Weapon,30)",
+      "Status": "Passed",
+      "Duration": 0.0005,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearScoreTests.MarkThresholdBoundaries(Armor,20)",
+      "Status": "Passed",
+      "Duration": 7.24E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearScoreTests.MarkThresholdBoundaries(Helm,10)",
+      "Status": "Passed",
+      "Duration": 5.84E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearScoreTests.MarkThresholdBoundaries(Gloves,10)",
+      "Status": "Passed",
+      "Duration": 5.74E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearScoreTests.MarkThresholdBoundaries(Boots,10)",
+      "Status": "Passed",
+      "Duration": 5.62E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearScoreTests.MarkThresholdBoundaries(Ring,10)",
+      "Status": "Passed",
+      "Duration": 5.52E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearScoreTests.MarkThresholdBoundaries(Amulet,10)",
+      "Status": "Passed",
+      "Duration": 6.77E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearScoreTests.NullSheetIsNeutral",
+      "Status": "Passed",
+      "Duration": 0.0001346,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearScoreTests.PlateBootsTradeMoveForDefenseIsSame",
+      "Status": "Passed",
+      "Duration": 0.0001864,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearScoreTests.SameSheetIsZero",
+      "Status": "Passed",
+      "Duration": 0.0002472,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.GearScoreTests.StartingIndices",
+      "Status": "Passed",
+      "Duration": 0.0001431,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.LegendaryGroupTests.EffectIsOneThird",
+      "Status": "Passed",
+      "Duration": 0.001609,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.LegendaryGroupTests.EveryPartHasAtLeastOneEffect",
+      "Status": "Passed",
+      "Duration": 0.0004901,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.LegendaryGroupTests.IdsAndGroupsMatchDesign",
+      "Status": "Passed",
+      "Duration": 0.0004828,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.LegendaryGroupTests.LegendaryPartDistributionMatchesDesign",
+      "Status": "Passed",
+      "Duration": 0.3194652,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.LegendaryGroupTests.OnlyPartsNarrowsEffectsAndParts",
+      "Status": "Passed",
+      "Duration": 0.2592516,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.LegendaryGroupTests.OverlapKeepsHighestAndFirstOnTie",
+      "Status": "Passed",
+      "Duration": 0.0010565,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.LegendaryGroupTests.OwnedEffectRollsUpperHalf",
+      "Status": "Passed",
+      "Duration": 0.0132712,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.LegendRulesTests.BlastChainCapsAtTwelve",
+      "Status": "Passed",
+      "Duration": 0.0003546,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.LegendRulesTests.BlastChainFlowsEveryPointOneSecond",
+      "Status": "Passed",
+      "Duration": 0.0001655,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.LegendRulesTests.BlastJuiceOnlyOncePerChain",
+      "Status": "Passed",
+      "Duration": 0.0001258,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.LegendRulesTests.BlastOnlyFromNonBossKills",
+      "Status": "Passed",
+      "Duration": 6.58E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.LegendRulesTests.ChainBouncesAtMostFourTimes",
+      "Status": "Passed",
+      "Duration": 0.0008748,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.LegendRulesTests.ChainIsEmptyWithoutOtherTargets",
+      "Status": "Passed",
+      "Duration": 0.000204,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.LegendRulesTests.ChainNeverHitsTheSameEnemyTwice",
+      "Status": "Passed",
+      "Duration": 0.0008374,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.LegendRulesTests.ChainUsesRangeToBodyEdgeAndSkipsBlocked",
+      "Status": "Passed",
+      "Duration": 0.0004448,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.LegendRulesTests.FlameBurnsEachEnemyEveryHalfSecond",
+      "Status": "Passed",
+      "Duration": 0.0001494,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.LegendRulesTests.FlameIgnoresTeleport",
+      "Status": "Passed",
+      "Duration": 0.0002417,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.LegendRulesTests.FlameStepsEveryOnePointTwoUnits",
+      "Status": "Passed",
+      "Duration": 0.000985,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.LegendRulesTests.FlameStepsFollowDistanceNotTime",
+      "Status": "Passed",
+      "Duration": 0.000214,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.LegendRulesTests.FlameStepsOnlyInCombat",
+      "Status": "Passed",
+      "Duration": 0.0001866,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.LegendRulesTests.LightningChanceHoldsOverManyActions",
+      "Status": "Passed",
+      "Duration": 0.0067086,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.LegendRulesTests.LightningFailedRollConsumesTheAction",
+      "Status": "Passed",
+      "Duration": 0.0002448,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.LegendRulesTests.LightningRollsOncePerAction",
+      "Status": "Passed",
+      "Duration": 0.000143,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.LegendRulesTests.LightningWaitsPointTwoSecondsAfterProc",
+      "Status": "Passed",
+      "Duration": 0.0001496,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.LegendRulesTests.LongRowOfEnemiesStopsAtTwelveBlasts",
+      "Status": "Passed",
+      "Duration": 0.0011461,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.LegendRulesTests.NumbersMatchDesignTable",
+      "Status": "Passed",
+      "Duration": 0.000225,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.LegendRulesTests.SlowKeepsStrongestAndLongest",
+      "Status": "Passed",
+      "Duration": 0.0003904,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.LegendRulesTests.StrengthInterpolatesBetweenRangeEnds",
+      "Status": "Passed",
+      "Duration": 0.0003617,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.LegendRulesTests.StrengthOutsideRangeIsClamped",
+      "Status": "Passed",
+      "Duration": 0.0001008,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.MapDiffTests.BlockedOldPathWithBothCellsGivesTwoRubble",
+      "Status": "Passed",
+      "Duration": 0.0017476,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.MapDiffTests.DocExampleGivesSixTraces",
+      "Status": "Passed",
+      "Duration": 0.000923,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.MapDiffTests.MissingPreviousMapGivesNoTraces",
+      "Status": "Passed",
+      "Duration": 0.000442,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.MapDiffTests.NewOpenPathsAndLockedDoors",
+      "Status": "Passed",
+      "Duration": 0.0002366,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.MapDiffTests.NoTraceAtCurrentPlankDoor",
+      "Status": "Passed",
+      "Duration": 0.0004058,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.MapDiffTests.SameMapGivesNoTraces",
+      "Status": "Passed",
+      "Duration": 0.0001373,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.MapDiffTests.ShapeStairsAndDifference",
+      "Status": "Passed",
+      "Duration": 0.0003678,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.OptionRollTests.CountAndValueByGradeMatchDesign",
+      "Status": "Passed",
+      "Duration": 0.0002088,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.OptionRollTests.LegendaryTopIsUpperBoundTimesOneAndHalf",
+      "Status": "Passed",
+      "Duration": 0.0034692,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.OptionRollTests.PercentOptionsAreStoredInPermille",
+      "Status": "Passed",
+      "Duration": 0.0003488,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.OptionRollTests.RollAllGivesGradeCountWithoutDuplicates",
+      "Status": "Passed",
+      "Duration": 0.1558427,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.OptionRollTests.RollAllIsDeterministic",
+      "Status": "Passed",
+      "Duration": 0.0140421,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.OptionRollTests.RollAllPicksByWeight",
+      "Status": "Passed",
+      "Duration": 0.0526458,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.OptionRollTests.RolledValuesStayInsideRangeTimesGradeTimesItemLevel",
+      "Status": "Passed",
+      "Duration": 0.185392,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.OptionRollTests.RoundingHappensOnceAtTheEnd",
+      "Status": "Passed",
+      "Duration": 0.0003787,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.OptionRollTests.TableHasThirtyTwoRowsAndFifteenKinds",
+      "Status": "Passed",
+      "Duration": 0.0008617,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.OptionRollTests.TierBoundariesAreQuarters",
+      "Status": "Passed",
+      "Duration": 0.0003322,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.OptionRollTests.TiersAreUniformAndUnlockedAtItemLevelOne",
+      "Status": "Passed",
+      "Duration": 0.0026281,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.PoiseRuleTests.AmbushMultipliesAndCapsAtSeventyPercent",
+      "Status": "Passed",
+      "Duration": 0.0002199,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.PoiseRuleTests.FinisherCarriesMostPoiseAndGreatswordBreaksBoarInOneCycle",
+      "Status": "Passed",
+      "Duration": 0.000459,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.PoiseRuleTests.LongswordCycleKillsV3ArcherOnFloorOne",
+      "Status": "Passed",
+      "Duration": 0.0002455,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.PoiseRuleTests.PoiseBreaksAtZeroAndGrowsUpToDouble",
+      "Status": "Passed",
+      "Duration": 0.0004183,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.PoiseRuleTests.PoiseRegenWaitsForDelay",
+      "Status": "Passed",
+      "Duration": 0.0004086,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.PoiseRuleTests.V3MonsterValues",
+      "Status": "Passed",
+      "Duration": 0.0002995,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.ProgressionTests.DiscoveryAndKillAmountsOnFloorOne",
+      "Status": "Passed",
+      "Duration": 0.0008032,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.ProgressionTests.KillXpDecaysThreeLevelsAboveRecommended",
+      "Status": "Passed",
+      "Duration": 0.0001766,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.ProgressionTests.LevelTableCumulativeMatchesDesign",
+      "Status": "Passed",
+      "Duration": 0.0004302,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.ProgressionTests.LevelTableStepsGrowAndLevelForIsConsistent",
+      "Status": "Passed",
+      "Duration": 0.0005116,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.ProgressionTests.MaxHpAtLevelThreeWithAndWithoutToughBody",
+      "Status": "Passed",
+      "Duration": 0.0002539,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.ProgressionTests.SkillEffectsAtFullRank",
+      "Status": "Passed",
+      "Duration": 0.0008206,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.ProgressionTests.SkillRankUpNeedsPointLevelTwoAndRoom",
+      "Status": "Passed",
+      "Duration": 0.0006174,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.ProgressionTests.XpUnitPerFloorMatchesDesign",
+      "Status": "Passed",
+      "Duration": 0.0004608,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.RingRuleTests.ChooseSlotFillsEmptyRingFirst",
+      "Status": "Passed",
+      "Duration": 0.0008796,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.RingRuleTests.ChooseSlotPicksBetterResultAndTiesToRingOne",
+      "Status": "Passed",
+      "Duration": 0.0008681,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.RingRuleTests.InheritOnlyWithinSamePart",
+      "Status": "Passed",
+      "Duration": 0.0004412,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.RingRuleTests.MovingBetweenRingSlotsSwaps",
+      "Status": "Passed",
+      "Duration": 0.0004242,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.RingRuleTests.OtherRingAndSlotRules",
+      "Status": "Passed",
+      "Duration": 0.0015228,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.RingRuleTests.SameKindRingsStackIntrinsic",
+      "Status": "Passed",
+      "Duration": 0.0002442,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.StatCalcTests.CapsClampEveryCappedStat",
+      "Status": "Passed",
+      "Duration": 0.0013979,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.StatCalcTests.EmptyOverridesEqualNoOverrides",
+      "Status": "Passed",
+      "Duration": 0.0007547,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.StatCalcTests.FinalOverridesReplaceAttackHpDefenseAndKeepSharesConsistent",
+      "Status": "Passed",
+      "Duration": 0.0004963,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.StatCalcTests.GreatswordEndBuildReachesCritDamageCapExactly",
+      "Status": "Passed",
+      "Duration": 0.0004651,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.StatCalcTests.HeavySetSlowsAndMixingHalvesThePenalty",
+      "Status": "Passed",
+      "Duration": 0.0002251,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.StatCalcTests.LegendaryRollsFollowGearAndOverrides",
+      "Status": "Passed",
+      "Duration": 0.0003935,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.StatCalcTests.LevelHpUsesToughBodyAndClampsLevel",
+      "Status": "Passed",
+      "Duration": 0.0001852,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.StatCalcTests.NullLoadoutIsBareBody",
+      "Status": "Passed",
+      "Duration": 0.0001966,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.StatCalcTests.PercentMultipliesFlatSumIncludingLevelHpAndRoundsHalfUpOnce",
+      "Status": "Passed",
+      "Duration": 0.0003679,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.StatCalcTests.PermilleKnobsGoIntoTestShare",
+      "Status": "Passed",
+      "Duration": 0.0004375,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.StatCalcTests.SmallSlotIntrinsicsAndOptionsReachTheirStats",
+      "Status": "Passed",
+      "Duration": 0.0005323,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.StatCalcTests.StartingGameUnitsAreBitIdenticalToOldConstants",
+      "Status": "Passed",
+      "Duration": 0.0002765,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.StatCalcTests.StartingMatchesM0bNumbers",
+      "Status": "Passed",
+      "Duration": 0.000412,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.StatCalcTests.StartingSharesBySource",
+      "Status": "Passed",
+      "Duration": 0.0006617,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.StatCalcTests.SwingsPerSecondAndExpectedCritMultiplier",
+      "Status": "Passed",
+      "Duration": 0.0003843,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.StatCalcTests.TwoBloodRingsAddFortyCrit",
+      "Status": "Passed",
+      "Duration": 0.0002089,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.StatCalcTests.WeaponIntrinsicOffRemovesOnlyWeaponIntrinsic",
+      "Status": "Passed",
+      "Duration": 0.0004824,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.SwingTimingTests.AcceptsZeroToThousandAndClampsBeyond",
+      "Status": "Passed",
+      "Duration": 0.000505,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.SwingTimingTests.AimTurnAndPoiseScale",
+      "Status": "Passed",
+      "Duration": 0.0003814,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.SwingTimingTests.ComboCycleShrinksExactlyBySpeed",
+      "Status": "Passed",
+      "Duration": 0.0002464,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.SwingTimingTests.NullStepGivesSafePlan",
+      "Status": "Passed",
+      "Duration": 0.0001686,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.SwingTimingTests.PlusThirtyPercentTable(\"wpn_longsword\",0,0.462f,0.183f,0.183f,0.279f,40)",
+      "Status": "Passed",
+      "Duration": 0.0003814,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.SwingTimingTests.PlusThirtyPercentTable(\"wpn_longsword\",2,0.731f,0.33f,0.33f,0.4f,45)",
+      "Status": "Passed",
+      "Duration": 3.04E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.SwingTimingTests.PlusThirtyPercentTable(\"wpn_greatsword\",2,1.0f,0.565f,0.565f,0.435f,57)",
+      "Status": "Passed",
+      "Duration": 2.32E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.SwingTimingTests.PlusThirtyPercentTable(\"wpn_twinblades\",2,0.385f,0.13f,0.23f,0.154f,34)",
+      "Status": "Passed",
+      "Duration": 1.9E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.SwingTimingTests.PlusThirtyPercentTable(\"wpn_twinblades\",3,0.708f,0.24f,0.44f,0.268f,34)",
+      "Status": "Passed",
+      "Duration": 2.79E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.SwingTimingTests.RecoveryGuardStretchesOnlyWhenNeeded",
+      "Status": "Passed",
+      "Duration": 0.0001219,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.SwingTimingTests.RulesHoldForEveryStepUpToFourHundred",
+      "Status": "Passed",
+      "Duration": 0.0012232,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.SwingTimingTests.ShortestRecoveryUpToFourHundredIsTwinFlurry",
+      "Status": "Passed",
+      "Duration": 0.0001761,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.SwingTimingTests.ZeroSpeedIsBitIdenticalToOldFormula(0)",
+      "Status": "Passed",
+      "Duration": 0.0007731,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.SwingTimingTests.ZeroSpeedIsBitIdenticalToOldFormula(-50)",
+      "Status": "Passed",
+      "Duration": 9.87E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.SwingTimingTests.ZeroSpeedIsBitIdenticalToOldFormula(-1000)",
+      "Status": "Passed",
+      "Duration": 9.05E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.SwingTimingTests.ZeroSpeedKeepsMinimumDuration",
+      "Status": "Passed",
+      "Duration": 0.0001579,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.WeaponIdentityTests.CardNumbersMatchDoc(\"wpn_longsword\",1.4d,107,26,\"보통\",5,8)",
+      "Status": "Passed",
+      "Duration": 0.0009329,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.WeaponIdentityTests.CardNumbersMatchDoc(\"wpn_greatsword\",0.97d,150,31,\"강함\",7,12)",
+      "Status": "Passed",
+      "Duration": 5.02E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.WeaponIdentityTests.CardNumbersMatchDoc(\"wpn_twinblades\",1.54d,46,23,\"약함\",3,8)",
+      "Status": "Passed",
+      "Duration": 4.19E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.WeaponIdentityTests.ComboDataIsUntouched",
+      "Status": "Passed",
+      "Duration": 0.0001769,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.WeaponIdentityTests.CritAdjustedCoefficientMatchesDoc(\"wpn_longsword\",1.51d)",
+      "Status": "Passed",
+      "Duration": 0.0003338,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.WeaponIdentityTests.CritAdjustedCoefficientMatchesDoc(\"wpn_greatsword\",1.49d)",
+      "Status": "Passed",
+      "Duration": 4.32E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.WeaponIdentityTests.CritAdjustedCoefficientMatchesDoc(\"wpn_twinblades\",1.6d)",
+      "Status": "Passed",
+      "Duration": 3.19E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.WeaponIdentityTests.CritAdjustedOrderIsTwinLongGreat",
+      "Status": "Passed",
+      "Duration": 0.00019,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.WeaponIdentityTests.EveryWeaponBaseHasARule",
+      "Status": "Passed",
+      "Duration": 0.0002848,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.WeaponIdentityTests.PoiseWordThresholds(24.9f,\"약함\")",
+      "Status": "Passed",
+      "Duration": 0.0003725,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.WeaponIdentityTests.PoiseWordThresholds(25.0f,\"보통\")",
+      "Status": "Passed",
+      "Duration": 2.42E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.WeaponIdentityTests.PoiseWordThresholds(29.9f,\"보통\")",
+      "Status": "Passed",
+      "Duration": 1.61E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.WeaponIdentityTests.PoiseWordThresholds(30.0f,\"강함\")",
+      "Status": "Passed",
+      "Duration": 1.45E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.WeaponIdentityTests.StartingAttackIndexGainFromWeaponCrit(\"wpn_longsword\",0.017d)",
+      "Status": "Passed",
+      "Duration": 0.0001376,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.WeaponIdentityTests.StartingAttackIndexGainFromWeaponCrit(\"wpn_greatsword\",0.024d)",
+      "Status": "Passed",
+      "Duration": 2.82E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.WeaponIdentityTests.StartingAttackIndexGainFromWeaponCrit(\"wpn_twinblades\",0.002d)",
+      "Status": "Passed",
+      "Duration": 2.2E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.WeaponIdentityTests.SwingsPerSecondAtMaxGearSpeed(\"wpn_longsword\",1.73d)",
+      "Status": "Passed",
+      "Duration": 0.0002699,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.WeaponIdentityTests.SwingsPerSecondAtMaxGearSpeed(\"wpn_greatsword\",1.2d)",
+      "Status": "Passed",
+      "Duration": 3.23E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.WeaponIdentityTests.SwingsPerSecondAtMaxGearSpeed(\"wpn_twinblades\",1.91d)",
+      "Status": "Passed",
+      "Duration": 2.42E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.WeaponIdentityTests.TwinbladeAverageHitIsPerHit",
+      "Status": "Passed",
+      "Duration": 8.44E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.WeaponIdentityTests.WeaponIntrinsicCrit(\"wpn_longsword\",70,1600,1.042d)",
+      "Status": "Passed",
+      "Duration": 0.0003588,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.WeaponIdentityTests.WeaponIntrinsicCrit(\"wpn_greatsword\",50,2000,1.05d)",
+      "Status": "Passed",
+      "Duration": 3.65E-05,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Demo6.Tests.WeaponIdentityTests.WeaponIntrinsicCrit(\"wpn_twinblades\",90,1300,1.027d)",
+      "Status": "Passed",
+      "Duration": 2.9E-05,
+      "Message": null,
+      "StackTrace": null
+    }
+  ]
+}

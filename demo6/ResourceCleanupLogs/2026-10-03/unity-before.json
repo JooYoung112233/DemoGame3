@@ -1,0 +1,108 @@
+{
+  "capturedUtc": "2026-10-03T08:19:16.6743964Z",
+  "playing": false,
+  "compiling": false,
+  "topDownEnabled": true,
+  "topDownActive": false,
+  "sprites": [
+    {
+      "name": "정수리 검사 몸",
+      "width": 146,
+      "height": 146,
+      "pixelsPerUnit": 110.0,
+      "filter": "Trilinear",
+      "asset": ""
+    },
+    {
+      "name": "정수리 장검",
+      "width": 199,
+      "height": 45,
+      "pixelsPerUnit": 170.0,
+      "filter": "Trilinear",
+      "asset": ""
+    },
+    {
+      "name": "정수리 대검",
+      "width": 266,
+      "height": 58,
+      "pixelsPerUnit": 160.0,
+      "filter": "Trilinear",
+      "asset": ""
+    },
+    {
+      "name": "정수리 쌍검 한 자루",
+      "width": 143,
+      "height": 33,
+      "pixelsPerUnit": 190.0,
+      "filter": "Trilinear",
+      "asset": ""
+    },
+    {
+      "name": "정수리 굴쥐",
+      "width": 231,
+      "height": 132,
+      "pixelsPerUnit": 150.0,
+      "filter": "Trilinear",
+      "asset": ""
+    },
+    {
+      "name": "정수리 뿔멧돼지",
+      "width": 233,
+      "height": 189,
+      "pixelsPerUnit": 165.0,
+      "filter": "Trilinear",
+      "asset": ""
+    },
+    {
+      "name": "정수리 가시 궁수",
+      "width": 252,
+      "height": 224,
+      "pixelsPerUnit": 175.0,
+      "filter": "Trilinear",
+      "asset": ""
+    }
+  ],
+  "scenes": [
+    {
+      "path": "Assets/Scenes/DungeonTest.unity",
+      "isDirty": false
+    }
+  ],
+  "artDirty": false,
+  "dependencies": [
+    {
+      "path": "Assets/Scenes/DungeonTest.unity",
+      "assets": [
+        "Assets/Data/Combat/CombatArtSet.asset",
+        "Assets/Shaders/SpriteFlash.shader",
+        "Packages/com.unity.render-pipelines.universal/Runtime/UniversalAdditionalCameraData.cs",
+        "Packages/com.unity.render-pipelines.universal/Shaders/2D/Sprite-Unlit-Default.shader",
+        "Assets/Scripts/Game/Dungeon/DungeonRoot.cs",
+        "Assets/Data/Dungeon/SpriteUnlit.mat",
+        "Assets/Scenes/DungeonTest.unity",
+        "Assets/Scripts/Game/Art/CombatArtSet.cs",
+        "Assets/Art/Combat/Player/swordsman-east-idle-test-v1.png",
+        "Assets/Data/Combat/SpriteFlash.mat"
+      ]
+    },
+    {
+      "path": "Assets/Scenes/CombatTest.unity",
+      "assets": [
+        "Packages/com.unity.render-pipelines.universal/Runtime/UniversalAdditionalCameraData.cs",
+        "Packages/com.unity.render-pipelines.universal/Runtime/2D/Lights/Light2D.cs",
+        "Assets/Scripts/Game/Test/CombatTestRoot.cs",
+        "Assets/Scenes/CombatTest.unity"
+      ]
+    },
+    {
+      "path": "Assets/Data/Combat/CombatArtSet.asset",
+      "assets": [
+        "Assets/Data/Combat/SpriteFlash.mat",
+        "Assets/Shaders/SpriteFlash.shader",
+        "Assets/Scripts/Game/Art/CombatArtSet.cs",
+        "Assets/Art/Combat/Player/swordsman-east-idle-test-v1.png",
+        "Assets/Data/Combat/CombatArtSet.asset"
+      ]
+    }
+  ]
+}

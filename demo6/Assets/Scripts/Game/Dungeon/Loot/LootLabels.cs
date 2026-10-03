@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Demo6.Game
 {
     /// <summary>
-    /// 바닥 장비 이름표(디아블로식, 던전만): 내려앉은 무기(LootDrop)마다 등급색 이름("희귀 대검")을 빛기둥 아랫부분(바닥에서 0.8유닛 위)에 작은 검은 판으로 띄운다.
+    /// 바닥 장비 이름표(디아블로식, 던전만): 내려앉은 장비(LootDrop.Gear, 7부위)마다 등급색 이름(등급 + 종류, "희귀 대검"·"고급 가죽 장화")을 빛기둥 아랫부분(바닥에서 0.8유닛 위)에 작은 검은 판으로 띄운다.
     /// 시야 다각형 안이고 플레이어 12유닛 안인 것만 보인다(빛기둥과 같은 공정 규칙: 안개 밑 장비를 글로 드러내지 않는다).
     /// 가장 가까운 하나(지금 획득 카드가 뜨는 것, Inventory.NearestDrop)는 카드가 대신하므로 이름표를 숨긴다.
     /// 이름표끼리 겹치면 화면 아래쪽 것부터 두고 겹친 것을 위로 쌓는다. 싸움 중에는 빛기둥처럼 옅게(60%) 낮춘다.
@@ -17,7 +17,7 @@ namespace Demo6.Game
         const float ShowRange = 12f;
         /// <summary>이름표 아래 끝: 바닥에서 위로(빛기둥 아랫부분, 획득 안내 1.1보다 낮게).</summary>
         const float LiftUnits = 0.8f;
-        const float LabelHeight = 22f;
+        const float LabelHeight = 26f;
         const float LabelPadX = 10f;
         const float StackGap = 2f;
         const float FadeInSeconds = 0.2f;
@@ -84,7 +84,7 @@ namespace Demo6.Game
             GUI.depth = GuiDepth;
             if (_style == null)
             {
-                _style = new GUIStyle(DungeonUi.Small) { fontSize = 13, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter, wordWrap = false, clipping = TextClipping.Overflow };
+                _style = new GUIStyle(DungeonUi.Small) { fontSize = 16, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter, wordWrap = false, clipping = TextClipping.Overflow };
                 _style.normal.textColor = Color.white;
                 _style.hover.textColor = Color.white;
             }
@@ -130,7 +130,7 @@ namespace Demo6.Game
         Label LabelFor(LootDrop drop, float now)
         {
             if (_labels.TryGetValue(drop, out var label)) return label;
-            var item = drop.Item;
+            var item = drop.Gear;
             label = new Label
             {
                 Text = item.DisplayName,

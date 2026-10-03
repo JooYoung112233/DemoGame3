@@ -1,0 +1,184 @@
+[
+  {
+    "command": [
+      "run_script",
+      "--file",
+      "AgentScripts/UiPointerVerification.cs",
+      "--entry",
+      "UiPointerVerification.Prepare"
+    ],
+    "status": 0,
+    "stdout": "명령\t성공\t결과\t매개변수\nrun_script\ttrue\t{\"diagnostics\":[],\"compileMs\":69,\"executeMs\":24,\"assemblyName\":\"PipelineRunScript_UiPointerVerification_e35634c40d824332867a43125b91b2c8\",\"success\":true,\"result\":{\"label\":\"prepared\",\"playing\":true,\"modal\":null,\"blocked\":false,\"paused\":false,\"width\":3840,\"height\":2160,\"mouseEnabled\":true,\"keyboardEnabled\":true,\"mousePosition\":\"(3072.00, 1910.40)\",\"leftDown\":false,\"selected\":\"일반 장검\",\"equipped\":\"일반 장검\",\"count\":0}}\t{\"file\":\"AgentScripts/UiPointerVerification.cs\",\"entry\":\"UiPointerVerification.Prepare\"}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "simulate_key",
+      "--key",
+      "I",
+      "--action",
+      "down"
+    ],
+    "status": 0,
+    "stdout": "명령\t성공\t결과\t매개변수\nsimulate_key\ttrue\t{\"Success\":true,\"Command\":\"simulate_key\",\"Detail\":\"key=I action=down\",\"Error\":null}\t{\"key\":\"I\",\"action\":\"down\"}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "simulate_key",
+      "--key",
+      "I",
+      "--action",
+      "up"
+    ],
+    "status": 0,
+    "stdout": "명령\t성공\t결과\t매개변수\nsimulate_key\ttrue\t{\"Success\":true,\"Command\":\"simulate_key\",\"Detail\":\"key=I action=up\",\"Error\":null}\t{\"key\":\"I\",\"action\":\"up\"}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "run_script",
+      "--file",
+      "AgentScripts/UiPointerVerification.cs",
+      "--entry",
+      "UiPointerVerification.State",
+      "--args",
+      "[\"before close X\"]"
+    ],
+    "status": 0,
+    "stdout": "명령\t성공\t결과\t매개변수\nrun_script\ttrue\t{\"diagnostics\":[],\"compileMs\":23,\"executeMs\":4,\"assemblyName\":\"PipelineRunScript_UiPointerVerification_6f9a11ed3bcb43f3a334430c37f0a39d\",\"success\":true,\"result\":{\"label\":\"before close X\",\"playing\":true,\"modal\":null,\"blocked\":false,\"paused\":false,\"width\":3840,\"height\":2160,\"mouseEnabled\":true,\"keyboardEnabled\":true,\"mousePosition\":\"(3072.00, 1910.40)\",\"leftDown\":false,\"selected\":\"일반 장검\",\"equipped\":\"일반 장검\",\"count\":0}}\t{\"file\":\"AgentScripts/UiPointerVerification.cs\",\"entry\":\"UiPointerVerification.State\",\"args\":\"[\\\"before close X\\\"]\"}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "run_script",
+      "--file",
+      "AgentScripts/UiRuntimeCheck.cs",
+      "--entry",
+      "UiRuntimeCheck.OpenBag"
+    ],
+    "status": 0,
+    "stdout": "명령\t성공\t결과\t매개변수\nrun_script\ttrue\t{\"diagnostics\":[],\"compileMs\":50,\"executeMs\":0,\"assemblyName\":\"PipelineRunScript_UiRuntimeCheck_1e5dd2d880d34756909bb72a6e5890ec\",\"success\":true,\"result\":true}\t{\"file\":\"AgentScripts/UiRuntimeCheck.cs\",\"entry\":\"UiRuntimeCheck.OpenBag\"}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "run_script",
+      "--file",
+      "AgentScripts/UiPointerVerification.cs",
+      "--entry",
+      "UiPointerVerification.State",
+      "--args",
+      "[\"close test setup; not a pointer-open pass\"]"
+    ],
+    "status": 0,
+    "stdout": "명령\t성공\t결과\t매개변수\nrun_script\ttrue\t{\"diagnostics\":[],\"compileMs\":22,\"executeMs\":5,\"assemblyName\":\"PipelineRunScript_UiPointerVerification_d2657ae679704506b54a961bbb02deae\",\"success\":true,\"result\":{\"label\":\"close test setup; not a pointer-open pass\",\"playing\":true,\"modal\":\"bag\",\"blocked\":true,\"paused\":true,\"width\":3840,\"height\":2160,\"mouseEnabled\":true,\"keyboardEnabled\":true,\"mousePosition\":\"(3072.00, 1910.40)\",\"leftDown\":false,\"selected\":\"일반 장검\",\"equipped\":\"일반 장검\",\"count\":0}}\t{\"file\":\"AgentScripts/UiPointerVerification.cs\",\"entry\":\"UiPointerVerification.State\",\"args\":\"[\\\"close test setup; not a pointer-open pass\\\"]\"}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "simulate_pointer",
+      "--x",
+      "3072",
+      "--y",
+      "1910.4",
+      "--action",
+      "move"
+    ],
+    "status": 0,
+    "stdout": "명령\t성공\t결과\t매개변수\nsimulate_pointer\ttrue\t{\"Success\":true,\"Command\":\"simulate_pointer\",\"Detail\":\"pos=(3072,1910.4) action=move button=left\",\"Error\":null}\t{\"x\":\"3072\",\"y\":\"1910.4\",\"action\":\"move\"}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "simulate_pointer",
+      "--x",
+      "3072",
+      "--y",
+      "1910.4",
+      "--action",
+      "down"
+    ],
+    "status": 0,
+    "stdout": "명령\t성공\t결과\t매개변수\nsimulate_pointer\ttrue\t{\"Success\":true,\"Command\":\"simulate_pointer\",\"Detail\":\"pos=(3072,1910.4) action=down button=left\",\"Error\":null}\t{\"x\":\"3072\",\"y\":\"1910.4\",\"action\":\"down\"}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "simulate_pointer",
+      "--x",
+      "3072",
+      "--y",
+      "1910.4",
+      "--action",
+      "up"
+    ],
+    "status": 0,
+    "stdout": "명령\t성공\t결과\t매개변수\nsimulate_pointer\ttrue\t{\"Success\":true,\"Command\":\"simulate_pointer\",\"Detail\":\"pos=(3072,1910.4) action=up button=left\",\"Error\":null}\t{\"x\":\"3072\",\"y\":\"1910.4\",\"action\":\"up\"}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "run_script",
+      "--file",
+      "AgentScripts/UiPointerVerification.cs",
+      "--entry",
+      "UiPointerVerification.State",
+      "--args",
+      "[\"after close X\"]"
+    ],
+    "status": 0,
+    "stdout": "명령\t성공\t결과\t매개변수\nrun_script\ttrue\t{\"diagnostics\":[],\"compileMs\":22,\"executeMs\":5,\"assemblyName\":\"PipelineRunScript_UiPointerVerification_1f89728c8dfa49dfa1d2275d576111a7\",\"success\":true,\"result\":{\"label\":\"after close X\",\"playing\":true,\"modal\":\"bag\",\"blocked\":true,\"paused\":true,\"width\":3840,\"height\":2160,\"mouseEnabled\":true,\"keyboardEnabled\":true,\"mousePosition\":\"(3072.00, 1910.40)\",\"leftDown\":false,\"selected\":\"일반 장검\",\"equipped\":\"일반 장검\",\"count\":0}}\t{\"file\":\"AgentScripts/UiPointerVerification.cs\",\"entry\":\"UiPointerVerification.State\",\"args\":\"[\\\"after close X\\\"]\"}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "simulate_key",
+      "--key",
+      "Escape",
+      "--action",
+      "down"
+    ],
+    "status": 0,
+    "stdout": "명령\t성공\t결과\t매개변수\nsimulate_key\ttrue\t{\"Success\":true,\"Command\":\"simulate_key\",\"Detail\":\"key=Escape action=down\",\"Error\":null}\t{\"key\":\"Escape\",\"action\":\"down\"}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "simulate_key",
+      "--key",
+      "Escape",
+      "--action",
+      "up"
+    ],
+    "status": 0,
+    "stdout": "명령\t성공\t결과\t매개변수\nsimulate_key\ttrue\t{\"Success\":true,\"Command\":\"simulate_key\",\"Detail\":\"key=Escape action=up\",\"Error\":null}\t{\"key\":\"Escape\",\"action\":\"up\"}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "run_script",
+      "--file",
+      "AgentScripts/UiPointerVerification.cs",
+      "--entry",
+      "UiPointerVerification.State",
+      "--args",
+      "[\"after Escape cleanup\"]"
+    ],
+    "status": 0,
+    "stdout": "명령\t성공\t결과\t매개변수\nrun_script\ttrue\t{\"diagnostics\":[],\"compileMs\":23,\"executeMs\":5,\"assemblyName\":\"PipelineRunScript_UiPointerVerification_fe28077001d3488d9a13528958a0b1e9\",\"success\":true,\"result\":{\"label\":\"after Escape cleanup\",\"playing\":true,\"modal\":\"bag\",\"blocked\":true,\"paused\":true,\"width\":3840,\"height\":2160,\"mouseEnabled\":true,\"keyboardEnabled\":true,\"mousePosition\":\"(3072.00, 1910.40)\",\"leftDown\":false,\"selected\":\"일반 장검\",\"equipped\":\"일반 장검\",\"count\":0}}\t{\"file\":\"AgentScripts/UiPointerVerification.cs\",\"entry\":\"UiPointerVerification.State\",\"args\":\"[\\\"after Escape cleanup\\\"]\"}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "run_script",
+      "--file",
+      "AgentScripts/UiPointerVerification.cs",
+      "--entry",
+      "UiPointerVerification.Restore"
+    ],
+    "status": 0,
+    "stdout": "명령\t성공\t결과\t매개변수\nrun_script\ttrue\t{\"diagnostics\":[],\"compileMs\":24,\"executeMs\":6,\"assemblyName\":\"PipelineRunScript_UiPointerVerification_40142857629a472b87dab4ebd7af01a4\",\"success\":true,\"result\":{\"label\":\"settings restored\",\"playing\":true,\"modal\":null,\"blocked\":false,\"paused\":false,\"width\":3840,\"height\":2160,\"mouseEnabled\":true,\"keyboardEnabled\":true,\"mousePosition\":\"(3072.00, 1910.40)\",\"leftDown\":false,\"selected\":\"일반 장검\",\"equipped\":\"일반 장검\",\"count\":0}}\t{\"file\":\"AgentScripts/UiPointerVerification.cs\",\"entry\":\"UiPointerVerification.Restore\"}\n",
+    "stderr": ""
+  }
+]

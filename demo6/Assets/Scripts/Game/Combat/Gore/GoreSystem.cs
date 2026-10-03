@@ -129,6 +129,13 @@ namespace Demo6.Game
             g.HandleHit(enemy, dir, crit, heavy);
         }
 
+        /// <summary>
+        /// 치명 세기를 아는 판(장비 문서 3-4). 피 +30%(세기·방울 +3·좁게 뿜음)는 보통·무거운 치명만이고,
+        /// 가벼운 치명(쌍검 연타 등)은 보통 타와 같은 피를 낸다(노란 숫자·불꽃으로만 치명을 읽힘).
+        /// </summary>
+        public static void EnemyHit(Enemy enemy, Vector2 dir, CritTier tier, bool heavy) =>
+            EnemyHit(enemy, dir, tier >= CritTier.Normal, heavy);
+
         /// <summary>처치 연출이 끝나면 시체로 남는가(날림 동안 몸을 흐리지 않고 끝까지 보인다).</summary>
         public static bool KeepsCorpse(Enemy enemy) =>
             Instance && enemy && !enemy.Dismembered && GoreColors.MatterOf(enemy) != GoreMatter.None;

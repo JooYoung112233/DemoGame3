@@ -120,6 +120,11 @@ namespace Demo6.Core.Dungeon
         public string Name;
         public PieceKind Piece;
         public CellFeature[] Features = Array.Empty<CellFeature>();
+        /// <summary>
+        /// 공터 기둥 모양 번호(매판 새 탐험 1차 2-5 차례 8: 손으로 만든 5벌 c1·A·V·B·T = 0~4, PieceSlots.PillarSet).
+        /// -1이면 기본 2개. 공터가 아닌 조각은 쓰지 않는다. 생성기가 씨앗으로 고른다.
+        /// </summary>
+        public int Pillars = -1;
     }
 
     public sealed class MapCell

@@ -10,17 +10,22 @@ namespace Demo6.Game
     /// 안개는 칸 단위다: 들어가 본 칸만 채워 그리고, 가 본 칸에서 보이는 길(열린 길·금 간 벽·자물쇠 문, 판자벽은 부순 뒤)로 이어진 칸은 '?'(안 간 출구)로 그린다.
     /// 가 본 칸 안에는 말뚝·벽 등잔(켜짐/꺼짐), 안 연 궤짝, 안 주운 이야기, 사건, 곡괭이, 계단을 적고, 능력 문에는 필요한 능력(곡·열)을 적는다.
     /// 층의 벽 등잔을 모두 켜면 숨은 방 칸에 흐린 '?'가 뜬다(2-5). 작은 지도·분필 표시는 M6에서 넣는다.
+    /// 매판 새 탐험 1차 2-4: 지도는 장면(원정의 그 층)마다 비어서 시작하고, 원정마다 남는 돌 칸(승강장·랜드마크, MapAnchors.IsFixed)만
+    /// 안 가 봤어도 처음부터 '(안 감)'으로 그린다(안의 물건 표시는 가 본 뒤에). 처음 밟는 원정이 아닌 층에서 장면마다 처음 열면
+    /// "지난번 지도는 맞지 않는다. 새로 그린다."를 띄운다(2-2). 숨은 방 판자벽 자리에는 아무 표시도 두지 않는다.
     /// </summary>
     public sealed class BigMap : MonoBehaviour
     {
         public const string MapModal = "map";
+        /// <summary>다시 연 층에서 장면마다 처음 지도를 열 때(2-2).</summary>
+        public const string RedrawLine = "지난번 지도는 맞지 않는다. 새로 그린다.";
 
         const float Pad = 24f;
         const float HeaderHeight = 70f;
-        const float LegendHeight = 70f;
+        const float LegendHeight = 92f;
         const float Gap = 56f;
         const float EdgeThickness = 4f;
-        const float IconLine = 17f;
+        const float IconLine = 21f;
 
         // 다크 판타지 1차: 칸은 검게 그을린 양피지, 테는 바랜 뼈색, 지금 칸은 횃불 호박색. 능력 문(곡·열)·켜짐 색 뜻은 그대로.
         static readonly Color VisitedFill = new Color(0.17f, 0.15f, 0.125f, 1f);
@@ -51,6 +56,8 @@ namespace Demo6.Game
         GUIStyle _iconStyle;
         GUIStyle _bigQuestion;
         GUIStyle _rightTitle;
+        /// <summary>이 장면에서 지도를 한 번이라도 열었는가(첫 열기 글은 한 번만).</summary>
+        bool _openedOnce;
 
         void Awake() => Instance = this;
 
@@ -61,17 +68,24 @@ namespace Demo6.Game
 
         void Update()
         {
+            var root = DungeonRoot.Instance;
+            if (!root) return;
             var kb = Keyboard.current;
-            if (kb == null || !DungeonRoot.Instance) return;
             // 멈춘 동안에도 들어야 하므로 키보드를 직접 읽는다(계약 10).
-            if (kb.mKey.wasPressedThisFrame)
+            if (kb != null && kb.mKey.wasPressedThisFrame)
             {
                 if (IsOpen) DungeonUi.Close(MapModal);
                 else if (!DungeonUi.ModalOpen) DungeonUi.TryOpen(MapModal);
             }
-            else if (kb.escapeKey.wasPressedThisFrame && IsOpen)
+            else if (kb != null && kb.escapeKey.wasPressedThisFrame && IsOpen)
             {
                 DungeonUi.Close(MapModal);
+            }
+            // 어느 길로 열렸든(키·탐험 기록) 장면마다 처음 열 때 한 번.
+            if (IsOpen && !_openedOnce)
+            {
+                _openedOnce = true;
+                if (!root.FirstVisit) DungeonEvents.Say(RedrawLine);
             }
         }
 
@@ -135,7 +149,8 @@ namespace Demo6.Game
             float reserved = ExplorationLog.Instance ? ExplorationLog.Instance.PanelReservedWidth : 0f;
             float availW = Mathf.Max(400f, DungeonUi.Width - reserved - 40f);
             float cellW = Mathf.Clamp((availW - Pad * 2f - Gap * (cols - 1)) / cols, 110f, 190f);
-            float cellH = Mathf.Max(90f, Mathf.Round(cellW * 0.6f));
+            float maxCellH = (DungeonUi.Height - 40f - HeaderHeight - LegendHeight - Pad * 2f - (rows - 1) * Gap) / rows;
+            float cellH = Mathf.Min(maxCellH, Mathf.Max(102f, Mathf.Round(cellW * 0.6f)));
             float gridW = cols * cellW + (cols - 1) * Gap;
             float gridH = rows * cellH + (rows - 1) * Gap;
             float boxW = gridW + Pad * 2f;
@@ -151,14 +166,18 @@ namespace Demo6.Game
             DungeonUi.Fill(screen, new Color(0f, 0f, 0f, 0.55f));
             DungeonUi.Vignette(screen, new Color(0f, 0f, 0f, 0.6f));
             DungeonUi.Box(new Rect(boxX, boxY, boxW, boxH), 0.96f);
+            if (DungeonUi.CloseButton(new Rect(boxX, boxY, boxW, boxH))) DungeonUi.Close(MapModal);
 
             // 머리: 층 이름, 조사율, 가진 능력.
             float survey = state.Survey(world.Cells.Count);
             GUI.Label(new Rect(boxX + Pad, boxY + 14f, boxW * 0.6f, 30f), $"제{root.Floor}층 — {root.Map.Name}", DungeonUi.Title);
-            GUI.Label(new Rect(boxX + boxW * 0.5f, boxY + 14f, boxW * 0.5f - Pad, 30f), $"조사 {survey * 100f:0}%", _rightTitle);
+            GUI.Label(new Rect(boxX + boxW * 0.5f, boxY + 14f, boxW * 0.5f - 78f, 36f), $"조사 {survey * 100f:0}%", _rightTitle);
             string abilities = state.HasPickaxe ? (state.HasKey ? "곡괭이, 열쇠" : "곡괭이") : (state.HasKey ? "열쇠" : "없음");
-            GUI.Label(new Rect(boxX + Pad, boxY + 44f, boxW - Pad * 2f, 20f),
+            GUI.Label(new Rect(boxX + Pad, boxY + 44f, boxW - Pad * 2f, 28f),
                 $"가진 능력: {abilities}   ·   M·Esc 닫기 (여는 동안 시간이 멈춘다)" + (RevealAll ? "   ·   시험: 지도 전부 보기" : ""), DungeonUi.Small);
+
+            if (state.HasPickaxe) ItemIconArt.Draw(new Rect(boxX + boxW - 106f, boxY + 44f, 26f, 26f), "pickaxe");
+            if (state.HasKey) ItemIconArt.Draw(new Rect(boxX + boxW - 72f, boxY + 44f, 26f, 26f), "key");
 
             // 길(칸 아래에 먼저 그린다).
             foreach (var e in world.Edges)
@@ -174,7 +193,9 @@ namespace Demo6.Game
             foreach (var c in world.Cells)
             {
                 var r = CellRect(c);
-                if (c.Visited || RevealAll) DrawKnownCell(c, r, c == current, state);
+                if (c.Visited || RevealAll) DrawKnownCell(c, r, c == current, state, true);
+                // 승강장·랜드마크는 원정마다 남는 돌 칸이라 처음부터 그린다(안의 물건은 가 본 뒤에 적는다).
+                else if (MapAnchors.IsFixed(c.Map)) DrawKnownCell(c, r, c == current, state, false);
                 else if (IsFrontier(c)) DrawQuestion(r, 0.85f, true);
                 else if (hiddenHint && c.Piece == PieceKind.Hidden) DrawQuestion(r, 0.3f, false);
             }
@@ -197,27 +218,28 @@ namespace Demo6.Game
             // 범례.
             float ly = origin.y + gridH + 16f;
             float lw = boxW - Pad * 2f;
-            GUI.Label(new Rect(boxX + Pad, ly, lw, 20f),
+            GUI.Label(new Rect(boxX + Pad, ly, lw, 28f),
                 "■ 가 본 칸   ? 안 간 출구   ● 지금 자리   ─ 열린 길   곡 금 간 벽(곡괭이)   열 자물쇠 문(열쇠)   초록 = 지금 열 수 있음", DungeonUi.Small);
-            GUI.Label(new Rect(boxX + Pad, ly + 20f, lw, 20f),
+            GUI.Label(new Rect(boxX + Pad, ly + 28f, lw, 28f),
                 "말뚝·등잔은 켜짐/꺼짐, 궤짝·이야기·사건·곡괭이는 아직 안 받은 것만 적는다. 조사율은 가 본 칸과 한 번만 받는 것을 센다.", DungeonUi.Small);
             if (hiddenHint)
             {
                 var prev = GUI.color;
                 GUI.color = LitColor;
-                GUI.Label(new Rect(boxX + Pad, ly + 40f, lw, 20f), "모든 등잔이 타오른다 — 흐린 '?' 자리에 아직 찾지 못한 곳이 있다.", DungeonUi.Small);
+                GUI.Label(new Rect(boxX + Pad, ly + 56f, lw, 28f), "모든 등잔이 타오른다 — 흐린 '?' 자리에 아직 찾지 못한 곳이 있다.", DungeonUi.Small);
                 GUI.color = prev;
             }
         }
 
-        void DrawKnownCell(DungeonCell c, Rect r, bool current, DungeonState state)
+        void DrawKnownCell(DungeonCell c, Rect r, bool current, DungeonState state, bool icons)
         {
             DungeonUi.Fill(r, c.Visited ? VisitedFill : RevealedFill);
             DungeonUi.Outline(r, current ? CurrentBorder : CellBorder, current ? 3f : 2f);
             var prev = GUI.color;
             GUI.color = c.Visited ? DungeonUi.Bone : new Color(DungeonUi.Bone.r, DungeonUi.Bone.g, DungeonUi.Bone.b, 0.6f);
-            GUI.Label(new Rect(r.x + 8f, r.y + 4f, r.width - 16f, 22f), c.Visited ? c.Name : c.Name + " (안 감)", DungeonUi.Bold);
+            GUI.Label(new Rect(r.x + 8f, r.y + 4f, r.width - 16f, icons ? 28f : 58f), c.Visited ? c.Name : c.Name + " (안 감)", DungeonUi.Bold);
             GUI.color = prev;
+            if (!icons) return;
 
             CollectIcons(c, state);
             float y = r.y + 28f;
@@ -227,7 +249,7 @@ namespace Demo6.Game
                 DungeonUi.Fill(new Rect(r.x + 9f, y + 4f, 9f, 9f), icon.color);
                 prev = GUI.color;
                 GUI.color = icon.color;
-                GUI.Label(new Rect(r.x + 23f, y, r.width - 30f, IconLine + 2f), icon.text, _iconStyle);
+                GUI.Label(new Rect(r.x + 23f, y, r.width - 30f, IconLine + 7f), icon.text, _iconStyle);
                 GUI.color = prev;
                 y += IconLine;
             }

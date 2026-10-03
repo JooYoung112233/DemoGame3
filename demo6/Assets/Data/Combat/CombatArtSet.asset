@@ -13,6 +13,52 @@ MonoBehaviour:
   m_Name: CombatArtSet
   m_EditorClassIdentifier: Demo6.Game::Demo6.Game.CombatArtSet
   flashMaterial: {fileID: 2100000, guid: 60dbc2753a5456243a4132d2e014cf7a, type: 2}
+  topDown:
+    player:
+      body: {fileID: 0}
+      bodyHurt: {fileID: 0}
+      bodyDown: {fileID: 0}
+      boot: {fileID: 0}
+      sleeve: {fileID: 0}
+      fist: {fileID: 0}
+      scale: 1
+    weapons:
+      longsword: {fileID: 0}
+      greatsword: {fileID: 0}
+      twinblade: {fileID: 0}
+    rat:
+      body: {fileID: 21300000, guid: 24ee2bb2ae6643644a810b4e25e31edc, type: 3}
+      dead: {fileID: 21300000, guid: c33098c1e2b5dd44fa4d35092453f776, type: 3}
+      scale: 1
+      foot: {fileID: 21300000, guid: e721754846fae904e9e2c55eb4d96933, type: 3}
+    boar:
+      body: {fileID: 0}
+      dead: {fileID: 0}
+      scale: 1
+      foot: {fileID: 0}
+    archer:
+      body: {fileID: 0}
+      dead: {fileID: 0}
+      scale: 1
+      foot: {fileID: 0}
+      forearm: {fileID: 0}
+      drawHand: {fileID: 0}
+      arrow: {fileID: 0}
+      bowTip: {x: 0.18, y: 0.24}
+      drawElbow: {x: 0.06, y: -0.126}
+    nest:
+      body: {fileID: 0}
+      dead: {fileID: 0}
+      scale: 1
+      opened: {fileID: 0}
+    ratDummy:
+      body: {fileID: 0}
+      dead: {fileID: 0}
+      scale: 1
+    woodDummy:
+      body: {fileID: 0}
+      dead: {fileID: 0}
+      scale: 1
   player:
     scale: 1
     offset: {x: 0, y: 0}

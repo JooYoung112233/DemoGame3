@@ -12,6 +12,8 @@ namespace Demo6.Game
     /// <summary>
     /// 골드 무더기·강화석(2차 7-6·7-7): 빛기둥 없이 포물선으로 튀어나와 내려앉고, 반경 2.5에 들어오면 빨려 와 DungeonState에 더한다.
     /// 골드는 밝은 노랑 동전 더미(전설 주황과 구별). 플레이어가 15 밖으로 멀어지면 저절로 거둔다(3차 초안 2-6 '반경 15 밖 자동 수거').
+    /// 매판 새 탐험 1차 2-4: 바구니로 올라가기 직전(ExpeditionEnding)과 계단으로 내려가기 직전(StairsUsed)에는 날아가는 중이어도
+    /// 소리·글 없이 바로 거둔다(재화가 State에 들어간 뒤 꾸러미에 담긴다).
     /// </summary>
     public sealed class LootPickup : MonoBehaviour
     {
@@ -45,6 +47,31 @@ namespace Demo6.Game
             p._sprites = p._visual.GetComponentsInChildren<SpriteRenderer>(true);
             p.SetVisible(false);
             return p;
+        }
+
+        void OnEnable()
+        {
+            DungeonEvents.ExpeditionEnding += CollectNow;
+            DungeonEvents.StairsUsed += CollectNow;
+        }
+
+        void OnDisable()
+        {
+            DungeonEvents.ExpeditionEnding -= CollectNow;
+            DungeonEvents.StairsUsed -= CollectNow;
+        }
+
+        /// <summary>장면을 떠나기 직전: 날아가는 중이어도 바로 거둔다(검은 화면 뒤라 소리·글 없음).</summary>
+        void CollectNow() => Collect(PlayerController.Instance, true);
+
+        /// <summary>
+        /// 장면에 있는 재화를 모두 바로 거둔다(소리·글 없음). 올라가기·계단은 사건(ExpeditionEnding·StairsUsed)으로 거두고,
+        /// 사건 없이 장면을 바꾸는 곳(시험 패널 씨앗 다시 짓기)이 직접 부른다.
+        /// </summary>
+        public static void CollectAllNow()
+        {
+            foreach (var p in FindObjectsByType<LootPickup>(FindObjectsInactive.Exclude))
+                if (p) p.CollectNow();
         }
 
         void SetVisible(bool visible)
@@ -85,7 +112,7 @@ namespace Demo6.Game
             if (d <= PickupRadius) Collect(player);
         }
 
-        void Collect(PlayerController player)
+        void Collect(PlayerController player, bool quiet = false)
         {
             if (_collected) return;
             _collected = true;
@@ -94,6 +121,11 @@ namespace Demo6.Game
             {
                 if (Kind == PickupKind.Gold) root.State.Gold += Amount;
                 else root.State.Stones += Amount;
+            }
+            if (quiet)
+            {
+                Destroy(gameObject);
+                return;
             }
             string text = Kind == PickupKind.Gold ? "+" + Amount + " 골드" : "+" + Amount + " 강화석";
             Color color = Kind == PickupKind.Gold ? LootVisuals.Gold : LootVisuals.Stone;

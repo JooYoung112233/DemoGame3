@@ -42,6 +42,21 @@ namespace Demo6.Game
         /// <summary>걷기 가감속(묵직함): 멈춘 데서 다 빨라지기까지 0.16초, 서기까지 0.10초. 구르기·내딛기·넉백·경직은 지금처럼 바로.</summary>
         public static bool MoveInertia = true;
 
+        // ── 전투 시험장 장비 손잡이(장비 문서 3-4 '전투 시험장 손잡이'). CombatTestRoot가 StatOverrides로 넣는다. 던전은 쓰지 않는다 ──
+
+        /// <summary>무기 종류 고유 치명(장검 +20‰/+100‰, 대검 0/+500‰, 쌍검 +40‰/−200‰) 켜기. 끄면 맨몸 치명 5%/150%.</summary>
+        public static bool TestWeaponIntrinsic = true;
+        /// <summary>공격 속도(‰, 0~300). 0이면 지금 콤보 시간 그대로.</summary>
+        public static int TestAttackSpeedPermille;
+        /// <summary>치명 확률·치명 피해 직접 값(‰). 음수면 장비대로(무기 고유 켜기·끄기를 따름).</summary>
+        public static int TestCritChancePermille = -1;
+        public static int TestCritDamagePermille = -1;
+        /// <summary>전설 3종(연쇄 번개·불꽃 발자국·연쇄 폭발, LegendaryEffect 차례) 켜기와 세기(‰, 0~1000).</summary>
+        public static readonly bool[] TestLegendOn = new bool[3];
+        public static readonly int[] TestLegendRoll = { DefaultLegendRoll, DefaultLegendRoll, DefaultLegendRoll };
+        public const int DefaultLegendRoll = 500;
+        public const int TestAttackSpeedMax = 300;
+
         public static void ResetToDefaults()
         {
             HitStopEnabled = true;
@@ -60,6 +75,15 @@ namespace Demo6.Game
             KillStreakText = true;
             MoveSpeedScale = DefaultMoveSpeedScale;
             MoveInertia = true;
+            TestWeaponIntrinsic = true;
+            TestAttackSpeedPermille = 0;
+            TestCritChancePermille = -1;
+            TestCritDamagePermille = -1;
+            for (int i = 0; i < TestLegendOn.Length; i++)
+            {
+                TestLegendOn[i] = false;
+                TestLegendRoll[i] = DefaultLegendRoll;
+            }
         }
     }
 

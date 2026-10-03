@@ -1,0 +1,40 @@
+{
+  "dateUTC": "2026-10-03T09:47:02Z",
+  "scene": "DungeonTest",
+  "compileFailed": false,
+  "consoleErrors": 0,
+  "playStopped": true,
+  "samples": 120,
+  "seconds": 6.181427,
+  "poses": [
+    "Idle",
+    "Locomotion",
+    "Windup",
+    "Attack"
+  ],
+  "uniquePositions": 24,
+  "uniqueFootLayouts": 13,
+  "damageTest": {
+    "damage": 1,
+    "lethalDamage": 159,
+    "deathSprite": "td_rat_dead_v001",
+    "dedicatedHitPoseObserved": false
+  },
+  "visibility": {
+    "hidden": 11,
+    "hiddenRenderers": 11
+  },
+  "psd": {
+    "unityImport": true,
+    "width": 448,
+    "height": 256,
+    "differingPixels": 145,
+    "maxChannelDifference": 1
+  },
+  "limitations": [
+    "CombatTest direct Play not run",
+    "Elite 1.35x crowd not checked",
+    "Photoshop edit not checked",
+    "Map full traversal not checked"
+  ]
+}

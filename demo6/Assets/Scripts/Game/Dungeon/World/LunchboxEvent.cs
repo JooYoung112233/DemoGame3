@@ -8,7 +8,8 @@ namespace Demo6.Game
     /// <summary>
     /// 사건 '광부 도시락통'(3차 초안 2-5 사건 표, 1~5층). F로 창("event")을 열어 [연다] / [둔다]를 고른다(키 1·2도 됨).
     /// 연다: 50% 회복 구슬 2, 50% 굴쥐 3(깨어 있는 채, 무리 없음). 둔다: 그냥 지나간다.
-    /// 어느 쪽이든 고르면 사건을 본 것으로 적는다(프로필에 한 번, 경험치 10U는 PlayerProgress). Esc는 고르지 않고 닫는다.
+    /// 어느 쪽이든 고르면 이번 원정에서 사건을 본 것으로 적는다. Esc는 고르지 않고 닫는다.
+    /// 원정마다 다시 나온다(매판 새 탐험 1차 2-6: 장면을 다시 불러오면 새로 놓임). 사건 경험치 10U는 층에 한 번이다(PlayerProgress, 꾸러미 EventXpFloors).
     /// </summary>
     public sealed class LunchboxEvent : Interactable
     {
@@ -168,15 +169,17 @@ namespace Demo6.Game
             DungeonUi.Box(r, 0.93f);
             float x = r.x + 20f;
             float w = PanelWidth - 40f;
-            GUI.Label(new Rect(x, r.y + 14f, w, 30f), "사건 — " + _label, DungeonUi.Title);
+            GUI.Label(new Rect(x, r.y + 14f, w-60f, 36f), "사건 — " + _label, DungeonUi.Title);
             GUI.Label(new Rect(x, r.y + 56f, w, 60f), Situation, DungeonUi.Label);
             float bw = (w - 20f) * 0.5f;
             bool openIt = GUI.Button(new Rect(x, r.y + 132f, bw, 46f), "[1] 뚜껑을 연다");
             bool leaveIt = GUI.Button(new Rect(x + bw + 20f, r.y + 132f, bw, 46f), "[2] 그냥 둔다");
-            GUI.Label(new Rect(x, r.yMax - 36f, w, 22f), "Esc: 고르지 않고 닫기", DungeonUi.Small);
+            GUI.Label(new Rect(x, r.yMax - 52f, w, 28f), "Esc: 고르지 않고 닫기", DungeonUi.Small);
+            bool close = DungeonUi.CloseButton(r);
             GUI.matrix = prevMatrix;
             if (openIt) Choose(true);
             else if (leaveIt) Choose(false);
+            else if (close) CloseModal();
         }
     }
 }

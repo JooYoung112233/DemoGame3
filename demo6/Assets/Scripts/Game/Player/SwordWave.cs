@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Demo6.Core.Combat;
 using UnityEngine;
 
 namespace Demo6.Game
@@ -23,6 +24,8 @@ namespace Demo6.Game
         float _traveled;
         bool _stopped;
         bool _anyHit;
+        /// <summary>이 검풍 한 번이 낸 치명 연출 단계(첫 치명에서 PlayerController가 정함).</summary>
+        CritTier _critShown;
         float _fade = -1f;
         SpriteRenderer _sprite;
         ContactFilter2D _filter;
@@ -93,7 +96,7 @@ namespace Demo6.Game
             {
                 var enemy = col ? col.GetComponent<Enemy>() : null;
                 if (!enemy || enemy.Dead || !_hit.Add(enemy)) continue;
-                if (_owner.HitWithWave(enemy, _dir, out bool crit, out bool killed))
+                if (_owner.HitWithWave(enemy, _dir, ref _critShown, out bool crit, out bool killed))
                 {
                     newHit = true;
                     anyCrit |= crit;
@@ -101,19 +104,22 @@ namespace Demo6.Game
                 }
             }
             if (!newHit) return;
-            Sfx.Play(anyKill ? SfxKind.Kill : anyCrit ? SfxKind.Crit : SfxKind.Hit);
+            // 치명 연출 단계(장비 문서 3-4)는 검풍 한 번에 하나: 첫 치명에서 정한 _critShown(350% × 치명 피해라 보통 무거움, 0.5초 안 두 번째면 보통).
+            var tier = anyCrit ? _critShown : CritTier.None;
+            Sfx.Play(anyKill ? SfxKind.Kill : anyCrit ? (tier == CritTier.Light ? SfxKind.CritLight : SfxKind.Crit) : SfxKind.Hit);
             if (!_anyHit)
             {
-                // 기획 3-6: 검풍 0.07. 그 뒤 새로 맞힌 적이 치명·마지막 일격이면 0.06(더 길 때만 덮어씀).
+                // 기획 3-6: 검풍 0.07. 그 뒤 새로 맞힌 적이 무거운 치명·마지막 일격이면 0.06(더 길 때만 덮어씀).
                 _anyHit = true;
                 TimeScaleService.HitStop(0.07f);
                 ScreenShake.Add(0.1f, 0.1f);
             }
-            else if (anyCrit || anyKill)
+            else if (tier == CritTier.Heavy || anyKill)
             {
                 TimeScaleService.HitStop(0.06f);
-                if (anyCrit) ScreenShake.Add(0.06f, 0.08f);
+                if (tier == CritTier.Heavy) ScreenShake.Add(0.06f, 0.08f);
             }
+            else if (tier == CritTier.Normal) ScreenShake.Add(0.04f, 0.06f);
         }
     }
 }

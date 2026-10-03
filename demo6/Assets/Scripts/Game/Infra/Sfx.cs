@@ -45,6 +45,8 @@ namespace Demo6.Game
         PlayerDeath,
         /// <summary>다크 판타지 1차: 흙·돌 위 무거운 발소리(던전 DungeonAudio가 걸음에 맞춰 낸다).</summary>
         Footstep,
+        /// <summary>가벼운 치명(장비 문서 3-4, 한 방 무게 100% 미만: 쌍검 연타 등): 치명 소리를 짧고 조금 작게(0.07초). 첫 6ms 딸깍은 치명과 같다.</summary>
+        CritLight,
     }
 
     /// <summary>
@@ -127,6 +129,7 @@ namespace Demo6.Game
             Set(SfxKind.BodyFall, Build("bodyfall", 0.5f, BodyFall));
             Set(SfxKind.PlayerDeath, Build("playerdeath", 1.6f, PlayerDeath));
             Set(SfxKind.Footstep, Build("step0", 0.14f, Footstep, 0), Build("step1", 0.14f, Footstep, 1), Build("step2", 0.14f, Footstep, 2));
+            Set(SfxKind.CritLight, Build("critlight", 0.07f, Crit));
             // 합성을 빠뜨린 종류가 있으면 타격음으로 채운다(새 종류를 더해도 소리는 난다).
             var hit = _clips[(int)SfxKind.Hit];
             for (int i = 0; i < KindCount; i++)
@@ -232,6 +235,7 @@ namespace Demo6.Game
                 case SfxKind.Swing: return 0.35f;
                 case SfxKind.Hit: return 0.8f;
                 case SfxKind.Crit: return 0.9f;
+                case SfxKind.CritLight: return 0.75f;
                 case SfxKind.Hurt: return 0.8f;
                 case SfxKind.Kill: return 0.85f;
                 case SfxKind.Dodge: return 0.3f;

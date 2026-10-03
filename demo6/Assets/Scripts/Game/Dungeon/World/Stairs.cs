@@ -4,8 +4,8 @@ using UnityEngine;
 namespace Demo6.Game
 {
     /// <summary>
-    /// 계단(3차 초안 2-3 S). M0b는 1층까지라(7-2 2층은 다음 시험) 내려가지 않고 StairsUsed를 알려 1층 기록 창을 띄운다(큰 지도·기록은 작업자 E).
-    /// 오른쪽으로 내려가는 계단 단을 바닥 그림으로 그린다(빛을 받음).
+    /// 계단(3차 초안 2-3 S, 매판 새 탐험 1차 5장 단계 4). F로 DungeonRoot.Descend: 같은 원정 그대로 체력·물약을 들고 아래층 승강장으로 장면을 다시 불러온다.
+    /// 아래층이 시험판에 없으면(2층) Descend가 막혔다는 글만 띄운다. 오른쪽으로 내려가는 계단 단을 바닥 그림으로 그린다(빛을 받음).
     /// </summary>
     public sealed class Stairs : Interactable
     {
@@ -17,13 +17,16 @@ namespace Demo6.Game
         static readonly Color StepTop = new Color(0.46f, 0.41f, 0.36f);
         static readonly Color Hole = new Color(0.05f, 0.045f, 0.04f);
 
-        public override string Prompt => "2층으로 내려가기";
+        string _prompt = "아래로 내려가기";
+
+        public override string Prompt => _prompt;
         public override float Range => 2.2f;
 
         public static Stairs Create(DungeonCell cell, CellFeature f, Vector2 pos)
         {
             var go = WorldProps.Root("Stairs " + f.Id, pos);
             var stairs = go.AddComponent<Stairs>();
+            stairs._prompt = (WorldProps.Floor + 1) + "층으로 내려가기";
             stairs.Build();
             return stairs;
         }
@@ -46,8 +49,8 @@ namespace Demo6.Game
 
         public override void Interact()
         {
-            DungeonEvents.RaiseStairsUsed();
-            DungeonEvents.Say("아래에서 무언가 기다린다 — 2층은 다음 시험에서. 1층 기록을 띄운다");
+            var root = DungeonRoot.Instance;
+            if (root) root.Descend();
         }
     }
 }

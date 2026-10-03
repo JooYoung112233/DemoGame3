@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using Demo6.Core.Combat;
+using Demo6.Core.Loot;
 using Demo6.Core.Random;
+using Demo6.Core.Stats;
 using UnityEngine;
 
 namespace Demo6.Game
@@ -20,16 +22,20 @@ namespace Demo6.Game
     /// <summary>
     /// 검사. 기획 3장: 기본공격(누르고 있으면 반복), 회오리 베기(우클릭), 검풍(Q), 구르기(Space), 물약(R).
     /// 기본공격은 무기별 단계 콤보 + 마무리(M0a 판정 반영). 판정이 나간 뒤에는 구르기로 끊을 수 있고, 스킬은 동작이 끝나면 나간다.
+    /// 장비 능력치(장비 문서 2·3장)는 ApplyStats 한 입구로 받는다: 공격 속도는 SwingTiming(동작 길이·판정 순간·이월 상한)과 타당 버팀에만,
+    /// 치명은 전용 난수 흐름으로 굴리고 연출을 3단계(가벼움·보통·무거움, 무거움 0.5초 제한)로 낸다. 공격 속도 0이면 콤보 시간은 예전과 비트까지 같다.
     /// </summary>
     [RequireComponent(typeof(Rigidbody2D), typeof(Health), typeof(PlayerInputReader))]
     public sealed class PlayerController : MonoBehaviour
     {
         public const float Radius = 0.4f;
-        const float BaseMoveSpeed = 5.0f;
-        /// <summary>시작 가죽 갑옷 이동 +6%.</summary>
-        const float ArmorMoveBonus = 0.06f;
-        /// <summary>배율(Tuning.MoveSpeedScale)을 곱하기 전 장비 걸음 속도(5.3).</summary>
-        public const float EquippedWalkSpeed = BaseMoveSpeed * (1f + ArmorMoveBonus);
+        /// <summary>시작 장비(가죽 한 벌)의 이동 몫(‰). 능력치를 넣기 전 걸음 속도에만 쓴다(넣은 뒤에는 StatSheet.MoveSpeed).</summary>
+        const int StartingMovePermille = 60;
+        /// <summary>
+        /// 배율(Tuning.MoveSpeedScale)을 곱하기 전 시작 장비 걸음 속도(5.3). ApplyStats 전에 쓰는 값이고 화면 비교 글에도 쓴다.
+        /// StatSheet.MoveSpeed(5.0 × (1 + ‰ ÷ 1000))와 같은 float 식이라 시작 장비 능력치를 넣어도 비트까지 같다.
+        /// </summary>
+        public const float EquippedWalkSpeed = StatBase.MoveSpeed * (1f + StartingMovePermille / 1000f);
         /// <summary>걷기 가감속(Tuning.MoveInertia): 멈춘 데서 다 빨라지기까지, 다 빠른 데서 서기까지 걸리는 시간(초).</summary>
         public const float WalkAccelTime = 0.16f;
         public const float WalkDecelTime = 0.10f;
@@ -82,8 +88,10 @@ namespace Demo6.Game
         public WeaponAttackRule Weapon { get; private set; } = WeaponPresets.Longsword;
         public Health Health => _health;
         public Vector2 Position => _body ? _body.position : (Vector2)transform.position;
-        /// <summary>지금 걷기 속도: 장비 속도(5.3) 또는 덮어쓰기(탐험 걸음 6.5)에 Tuning.MoveSpeedScale(기본 0.86)을 곱한 값.</summary>
-        public float MoveSpeed => (SpeedOverride > 0f ? SpeedOverride : EquippedWalkSpeed) * Tuning.MoveSpeedScale;
+        /// <summary>지금 걷기 속도: 장비 속도(WalkSpeed, 시작 5.3) 또는 덮어쓰기(탐험 걸음 6.5)에 Tuning.MoveSpeedScale(기본 0.86)을 곱한 값.</summary>
+        public float MoveSpeed => (SpeedOverride > 0f ? SpeedOverride : WalkSpeed) * Tuning.MoveSpeedScale;
+        /// <summary>장비 전투 걸음 속도(배율 곱하기 전, 장비 문서 2-1): StatSheet.MoveSpeed. 능력치를 넣기 전에는 시작 장비 값 5.3.</summary>
+        public float WalkSpeed => Sheet != null ? Sheet.MoveSpeed : EquippedWalkSpeed;
 
         /// <summary>던전 '탐험 걸음'(3차 초안 2-8, 6.5) 같은 이동 속도 덮어쓰기(배율 곱하기 전 값). 0 이하면 장비 속도.</summary>
         public float SpeedOverride { get; set; }
@@ -154,6 +162,78 @@ namespace Demo6.Game
         /// <summary>장비 공격력(맨몸 100 + 무기)을 넣는다.</summary>
         public void SetAttack(int attack) => Attack = Mathf.Max(1, attack);
 
+        /// <summary>마지막으로 ApplyStats로 넣은 능력치(장비 문서 2-3). 아직 넣지 않았으면 null(예전 상수 그대로 돎).</summary>
+        public StatSheet Sheet { get; private set; }
+
+        /// <summary>지금 공격 속도(‰). SwingTiming·조준 회전(TopDownPlayerRig)·타당 버팀이 쓴다. 넣기 전 0.</summary>
+        public int AttackSpeedPermille => Sheet != null ? Sheet.AttackSpeedPermille : 0;
+
+        /// <summary>
+        /// 능력치 한 입구(장비 문서 2-3). 부르는 곳: 던전 = Inventory(장착·레벨·스킬이 바뀔 때), 전투 시험장 = CombatTestRoot(무기·손잡이·층이 바뀔 때).
+        /// 공격력·치명 확률·치명 피해·최대 체력(SetMax: 늘어난 만큼 지금 체력도)·방어·무기 종류를 넣고, 나머지는 Sheet에서 바로 읽는다:
+        /// 공격 속도(다음 StartSwing의 SwingTiming·타당 버팀), 이동(WalkSpeed), 재사용(× CooldownFactor, 남은 재사용은 새 최대로 자름),
+        /// 스킬·보스 피해(DamageMath 인자), 체력 흡수(기본공격·스킬), 초당 재생, 처치 시 회복.
+        /// 다시 불러도 같은 값이면 아무것도 바뀌지 않는다(체력·재사용·무기 그대로).
+        /// </summary>
+        public void ApplyStats(StatSheet sheet)
+        {
+            if (sheet == null) return;
+            Sheet = sheet;
+            Attack = Mathf.Max(1, sheet.Attack);
+            CritChance = sheet.CritChance;
+            CritDamage = sheet.CritDamage;
+            if (_health)
+            {
+                _health.SetMax(sheet.MaxHp);
+                _health.Defense = sheet.Defense;
+            }
+            // 재사용 감소가 늘면 돌고 있는 재사용도 새 최대를 넘지 않게 자른다(같은 값이면 그대로).
+            _whirlCooldown = Mathf.Min(_whirlCooldown, WhirlCooldownMax);
+            _waveCooldown = Mathf.Min(_waveCooldown, WaveCooldownMax);
+            var rule = sheet.WeaponRule;
+            if (rule != null) SetWeapon(rule);
+        }
+
+        /// <summary>스킬 재사용 배율(1 − 재사용 감소). 능력치를 넣기 전에는 1.</summary>
+        public float CooldownFactor => Sheet != null ? Sheet.CooldownFactor : 1f;
+        /// <summary>스킬 피해 보너스(0.1 = +10%). 회오리·검풍 피해에만 곱한다.</summary>
+        double SkillDamageBonus => Sheet != null ? Sheet.SkillDamagePermille / 1000.0 : 0.0;
+        /// <summary>보스 피해 보너스(0.1 = +10%). Enemy.IsBoss인 적에게만 곱한다.</summary>
+        double BossDamageBonus => Sheet != null ? Sheet.BossDamagePermille / 1000.0 : 0.0;
+        int LifeStealPermille => Sheet != null ? Sheet.LifeStealPermille : 0;
+        int HpRegenPerSecond => Sheet != null ? Sheet.HpRegen : 0;
+        int OnKillHealAmount => Sheet != null ? Sheet.OnKillHeal : 0;
+
+        /// <summary>지금 휘두르는(또는 마지막) 동작의 시간표(SwingTiming.Plan). 시험 기록용.</summary>
+        public SwingPlan CurrentSwingPlan => _plan;
+        /// <summary>기본공격 동작 번호(StartSwing마다 1씩 오름). BasicHitInfo.ActionId와 같다.</summary>
+        public int ActionId => _actionId;
+
+        /// <summary>치명 굴림 전용 난수의 씨앗(판마다 다름, 장비 문서 3-4 '치명 난수'). 시험 기록에 함께 적는다.</summary>
+        public ulong CritSeed { get; private set; }
+
+        /// <summary>치명 굴림 난수를 이 씨앗으로 다시 시작한다(시험 재현용). 피해 굴림 흐름(_rng)은 건드리지 않는다.</summary>
+        public void ReseedCrit(ulong seed)
+        {
+            CritSeed = seed;
+            _critRng = new Pcg32Random(seed, CritStream);
+        }
+
+        /// <summary>지금 치명 확률로 치명을 한 번 굴린다(치명 전용 흐름). 플레이어 몫 피해를 따로 넣는 곳(전설 연쇄 번개 등)이 쓴다.</summary>
+        public bool RollCrit() => _critRng.NextDouble() < CritChance;
+
+        /// <summary>플레이어 겉모습 id 4개(장비 문서 9-1). 그림 쪽이 LookChanged를 듣고 몸·투구·주먹·장화를 고른다.</summary>
+        public GearLook Look { get; private set; } = GearLook.Starting;
+        public event System.Action LookChanged;
+
+        /// <summary>겉모습을 바꾼다(Inventory가 갑옷·투구·장갑·장화를 바꿀 때). 같으면 알리지 않는다.</summary>
+        public void SetLook(GearLook look)
+        {
+            if (look.Equals(Look)) return;
+            Look = look;
+            LookChanged?.Invoke();
+        }
+
         /// <summary>레벨·스킬로 최대 체력이 바뀔 때. 늘어난 만큼 지금 체력도 늘린다.</summary>
         public void SetMaxHp(int max) => _health.SetMax(max);
 
@@ -185,8 +265,9 @@ namespace Demo6.Game
         public float WhirlCooldown => _whirlCooldown;
         public float WaveCooldown => _waveCooldown;
         public float DodgeCooldown => _dodgeCooldown;
-        public float WhirlCooldownMax => WhirlCooldownTime;
-        public float WaveCooldownMax => WaveCooldownTime;
+        /// <summary>회오리 6초·검풍 9초 × (1 − 재사용 감소)(장비 문서 2-1). 감소 0이면 6·9 그대로.</summary>
+        public float WhirlCooldownMax => WhirlCooldownTime * CooldownFactor;
+        public float WaveCooldownMax => WaveCooldownTime * CooldownFactor;
         public float DodgeCooldownMax => DodgeCooldownTime;
         public int Potions { get; private set; } = MaxPotions;
         public float PotionCooldown => _potionCooldown;
@@ -200,7 +281,12 @@ namespace Demo6.Game
         SpriteFlash _flash;
         Transform _facingMark;
         Camera _cam;
+        /// <summary>피해 굴림(0.92~1.08)과 몬스터가 때리는 피해 굴림. 예전 씨앗·흐름 그대로.</summary>
         readonly IRandom _rng = new Pcg32Random(20261002, 7);
+        /// <summary>치명 굴림 전용 흐름 번호(피해 굴림 7, 처치 보상 23, 궤짝 41과 겹치지 않음).</summary>
+        const ulong CritStream = 31;
+        /// <summary>치명 굴림 전용(장비 문서 3-4): 치명 확률이 바뀌어도 피해 굴림 순서가 밀리지 않는다. 씨앗은 판마다 다르다(Awake).</summary>
+        IRandom _critRng;
         readonly List<Collider2D> _overlap = new List<Collider2D>(32);
         readonly List<(Enemy enemy, float dist)> _targets = new List<(Enemy, float)>(16);
         readonly HashSet<Enemy> _seen = new HashSet<Enemy>();
@@ -214,13 +300,24 @@ namespace Demo6.Game
 
         Vector2 _swingDir;
         float _swingDuration;
+        /// <summary>이 동작의 시간표(StartSwing에서 한 번 구함): 길이·판정 순간·이월 상한.</summary>
+        SwingPlan _plan;
         ComboStep _step;
         int _comboIndex;
         int _comboStepNumber;
         float _comboExpire = -999f;
         int _hitsDone;
+        int _actionId;
         bool _swingStopped;
-        bool _swingCrit;
+        /// <summary>이 동작에서 보통·무거운 치명이 났는가(마지막 타에만 넉백을 주는 단계의 넉백 0.9 올림). 가벼운 치명은 보통 타와 같다.</summary>
+        bool _swingStrongCrit;
+        /// <summary>이 동작에서 낸 치명 연출 단계(동작마다 처음 치명 때 한 번 정함, 장비 문서 3-4).</summary>
+        CritTier _swingCritShown;
+        /// <summary>마지막으로 무거운 치명 연출을 낸 게임 시각(0.5초 제한).</summary>
+        double _lastHeavyCrit = double.NegativeInfinity;
+        /// <summary>체력 흡수·초당 재생의 1 미만 나머지(체력은 정수라 모았다가 넣는다).</summary>
+        float _lifeStealCarry;
+        float _regenCarry;
         /// <summary>휘두르는 중에 누른 구르기·스킬. 버퍼 0.15초가 지나도 쓸 수 있는 순간까지 보존한다.</summary>
         bool _pendingDodge;
         bool _pendingSkill1;
@@ -290,6 +387,8 @@ namespace Demo6.Game
             var player = go.AddComponent<PlayerController>();
             player._facingMark = markVisual;
             go.AddComponent<PlayerVisual>().Bind(player, sr, flash, markVisual);
+            // 전설 고유 효과 3종(장비 문서 6장). 켜진 효과가 없으면 아무것도 하지 않는다.
+            go.AddComponent<LegendEffects>();
             return player;
         }
 
@@ -302,6 +401,8 @@ namespace Demo6.Game
             _flash = GetComponent<SpriteFlash>();
             _bodySprite = _flash ? _flash.target : GetComponentInChildren<SpriteRenderer>();
             _enemyFilter = Layers.EnemyFilter();
+            // 치명 굴림 씨앗은 판마다 다르다(시계). 시험 기록에는 CritSeed를 함께 적는다.
+            ReseedCrit((ulong)System.DateTime.UtcNow.Ticks);
             _health.Init(2400, 120);
             _health.Damaged += OnDamaged;
             _health.Died += OnDied;
@@ -312,12 +413,24 @@ namespace Demo6.Game
             if (Instance == this) Instance = null;
         }
 
-        /// <summary>층 기준 장비로 능력치를 맞추고 체력·물약을 채운다.</summary>
+        /// <summary>
+        /// 체력·물약을 채운다. 능력치를 아직 넣지 않았으면(ApplyStats 전) 예전처럼 층 기준 장비(공격·체력·방어)로 맞추고,
+        /// 넣은 뒤에는 Sheet의 최대 체력·방어로 채우기만 한다(공격·체력·방어는 ApplyStats 한 입구가 정함, 장비 문서 2-3).
+        /// </summary>
         public void ApplyBaseline(int floor)
         {
-            var b = FloorScaling.Baseline(floor);
-            Attack = b.Attack;
-            _health.Init(b.MaxHp, b.Defense);
+            if (Sheet != null)
+            {
+                _health.Init(Sheet.MaxHp, Sheet.Defense);
+            }
+            else
+            {
+                var b = FloorScaling.Baseline(floor);
+                Attack = b.Attack;
+                _health.Init(b.MaxHp, b.Defense);
+            }
+            _regenCarry = 0f;
+            _lifeStealCarry = 0f;
             Potions = MaxPotions;
             if (_state == State.Down) StandUp(false);
         }
@@ -340,6 +453,16 @@ namespace Demo6.Game
             _waveCooldown = 0f;
             _dodgeCooldown = 0f;
             if (_state == State.Down) StandUp(false);
+        }
+
+        /// <summary>
+        /// 계단으로 내려온 새 장면에서 원정 몫(매판 새 탐험 1차 3-3)의 체력·물약을 잇는다. 레벨 체력을 넣은 뒤 부른다.
+        /// 값이 음수면(가득) 그대로 둔다.
+        /// </summary>
+        public void RestoreVitals(int hp, int potions)
+        {
+            if (hp > 0) _health.SetCurrent(hp);
+            if (potions >= 0) Potions = Mathf.Clamp(potions, 0, MaxPotions);
         }
 
         /// <summary>쓰러짐에서 일어난다. 자연 부활이면 물약을 채우고 2초 무적과 깜빡임을 준다.</summary>
@@ -451,6 +574,7 @@ namespace Demo6.Game
             _whirlCooldown = Mathf.Max(0f, _whirlCooldown - dt);
             _waveCooldown = Mathf.Max(0f, _waveCooldown - dt);
             _potionCooldown = Mathf.Max(0f, _potionCooldown - dt);
+            Regenerate(dt);
 
             if (_state == State.Down)
             {
@@ -497,9 +621,9 @@ namespace Demo6.Game
                         else if (_pendingDodge && _dodgeCooldown <= 0f) StartDodge();
                         else if (_input.AttackHeld)
                         {
-                            // 넘친 시간을 다음 휘두르기로 넘겨 프레임에 따라 공격 속도가 줄지 않게 한다.
+                            // 넘친 시간을 다음 휘두르기로 넘겨 프레임에 따라 공격 속도가 줄지 않게 한다(상한 = 새 동작 길이 × 0.5, 장비 문서 3-3 규칙 5).
                             StartSwing();
-                            _stateTime = Mathf.Min(carry, _swingDuration * 0.5f);
+                            _stateTime = Mathf.Min(carry, _plan.CarryCap);
                             while (_hitsDone < _step.hits && _stateTime >= HitTime(_hitsDone))
                                 SwingHit(_hitsDone++);
                         }
@@ -699,7 +823,8 @@ namespace Demo6.Game
             ClearPending();
         }
 
-        float HitTime(int index) => _swingDuration * _step.hitMoment + index * _step.hitInterval;
+        /// <summary>k번째 판정 시각 = 첫 판정 + k × 연타 간격(SwingTiming.Plan, 공격 속도 0이면 예전 식과 비트까지 같음).</summary>
+        float HitTime(int index) => _plan.HitTime(index);
 
         void StartSwing()
         {
@@ -713,10 +838,14 @@ namespace Demo6.Game
             _state = State.Swing;
             _stateTime = 0f;
             _hitsDone = 0;
+            _actionId++;
             _swingStopped = false;
-            _swingCrit = false;
+            _swingStrongCrit = false;
+            _swingCritShown = CritTier.None;
             ClearPending();
-            _swingDuration = Mathf.Max(0.1f, _step.duration);
+            // 공격 속도는 동작 길이·판정 순간·이월 상한에만 쓴다(장비 문서 3-3). 다가가기·내딛기 0.1, 콤보 끊김, 입력 버퍼는 그대로.
+            _plan = SwingTiming.Plan(_step, AttackSpeedPermille);
+            _swingDuration = _plan.Duration;
             _lungeTime = 0f;
 
             float reach = _step.Reach;
@@ -762,15 +891,37 @@ namespace Demo6.Game
             bool heavyKill = false;
             bool finisherOnBroken = false;
             int kills = 0;
+            int targetsHit = 0;
+            Enemy firstTarget = null;
             float counter = CounterMultiplier;
+            float percent = step.finisher ? step.hitPercent * (1f + FinisherDamageBonus) : step.hitPercent;
+            // 치명이면 이 타의 무게 단계(장비 문서 3-4: 그 타 배율 × 치명 피해). 한 동작의 타는 배율이 같아 단계도 같다.
+            var critTier = CritTiers.Of(percent, CritDamage);
+            // 타당 버팀 = 단계 버팀 ÷ (1 + 공격 속도)(3-4: 초당 버팀 깎기를 무기마다 고정). 공격 속도 0이면 그대로.
+            float poise = step.poiseDamage * SwingTiming.PoiseScale(AttackSpeedPermille);
+            double bossBonus = BossDamageBonus;
             foreach (var (enemy, _) in _targets)
             {
-                bool crit = _rng.NextDouble() < CritChance;
-                float percent = step.finisher ? step.hitPercent * (1f + FinisherDamageBonus) : step.hitPercent;
-                int damage = DamageMath.ToMonster(Attack, percent, crit, CritDamage, DamageMath.Roll(_rng));
-                if (enemy.TakeHit(damage, crit, DamageSource.Basic, step.poiseDamage, step.finisher, counter, out _, out bool wasBroken) <= 0) continue;
+                // 치명 굴림은 전용 흐름, 피해 굴림은 예전 흐름(장비 문서 3-4 '치명 난수').
+                bool crit = RollCrit();
+                int damage = DamageMath.ToMonster(Attack, percent, crit, CritDamage, DamageMath.Roll(_rng), 0, 0.0, false, bossBonus, enemy.IsBoss);
+                // 치명 숫자 크기(가벼움 1.2배, 보통·무거움 1.4배)를 이 한 번에만 알린다.
+                if (crit) WorldOverlay.SetNextCritTier(critTier);
+                int applied = enemy.TakeHit(damage, crit, DamageSource.Basic, poise, step.finisher, counter, out _, out bool wasBroken);
+                if (crit) WorldOverlay.ClearNextCritTier();
+                if (applied <= 0) continue;
                 anyHit = true;
-                anyCrit |= crit;
+                targetsHit++;
+                if (!firstTarget) firstTarget = enemy;
+                StealLife(applied);
+                var shown = CritTier.None;
+                if (crit)
+                {
+                    anyCrit = true;
+                    shown = DecideCrit(ref _swingCritShown, critTier, step.finisher);
+                }
+                bool strong = shown >= CritTier.Normal;
+                _swingStrongCrit |= strong;
                 if (enemy.Dead)
                 {
                     kills++;
@@ -778,33 +929,35 @@ namespace Demo6.Game
                 }
                 bool onBroken = wasBroken && step.finisher;
                 finisherOnBroken |= onBroken;
-                _swingCrit |= crit;
                 Vector2 away = step.shape == ComboShape.Line ? _swingDir : enemy.Position - HitCenter(step, Position, _swingDir);
                 if (away.sqrMagnitude < 0.0001f) away = _swingDir;
                 // 마지막 타에만 넉백을 주는 단계는 첫 타가 치명이어도 밀지 않고, 마지막 타를 0.9로 올린다.
+                // 넉백 최소 0.9는 보통·무거운 치명만(가벼운 치명은 보통 타와 같음, 장비 문서 3-4).
                 float knock = step.knockbackOnLastHitOnly && !last ? 0f : step.knockback;
-                if (knock > 0f && (crit || (step.knockbackOnLastHitOnly && _swingCrit))) knock = Mathf.Max(knock, 0.9f);
+                if (knock > 0f && (strong || (step.knockbackOnLastHitOnly && _swingStrongCrit))) knock = Mathf.Max(knock, 0.9f);
                 enemy.ApplyKnockback(away, knock);
                 // 무너진 적에게 마무리: 파편 12개(3차 초안 3-4).
-                HitEffects.OnHit(enemy, away, crit, step.finisher, onBroken ? Mathf.Max(0, 12 - (crit ? 10 : 8)) : 0);
+                HitEffects.OnHit(enemy, away, shown, step.finisher, onBroken ? Mathf.Max(0, 12 - (strong ? 10 : 8)) : 0);
             }
 
             CombatEvents.RaisePlayerSwing(Position, _swingDir, step, anyHit);
             if (!anyHit) return;
             _counterUntil = -999f;
+            // 이 판정의 치명 연출 단계(동작에서 정한 하나). 이 판정에 치명이 없으면 없음.
+            var tierNow = anyCrit ? _swingCritShown : CritTier.None;
             if (stepArt != null && stepArt.impactSound)
             {
                 // 단계 전용 타격음 위에 치명·처치 소리를 겹친다.
                 Sfx.Play(SfxKind.Hit, stepArt.impactSound);
                 if (kills > 0) Sfx.Play(SfxKind.Kill);
-                else if (anyCrit) Sfx.Play(SfxKind.Crit);
+                else if (anyCrit) Sfx.Play(CritSound(tierNow));
             }
-            else Sfx.Play(kills > 0 ? SfxKind.Kill : anyCrit ? SfxKind.Crit : SfxKind.Hit);
-            // 히트스톱은 동작 1번에 1회만 준다. 마무리는 더 길다.
+            else Sfx.Play(kills > 0 ? SfxKind.Kill : anyCrit ? CritSound(tierNow) : SfxKind.Hit);
+            // 히트스톱은 동작 1번에 1회만 준다. 마무리는 더 길다. 무거운 치명·처치만 0.06 이상(가벼움·보통 치명은 보통 타와 같음).
             if (!_swingStopped)
             {
                 _swingStopped = true;
-                TimeScaleService.HitStop(anyCrit || kills > 0 ? Mathf.Max(step.hitStop, 0.06f) : step.hitStop);
+                TimeScaleService.HitStop(tierNow == CritTier.Heavy || kills > 0 ? Mathf.Max(step.hitStop, 0.06f) : step.hitStop);
             }
             // 3차: 무너진 적에게 마무리 0.1초, 무거운 적 처치 0.12초(한 마리의 무게를 마지막에 갚아 줌). 더 길 때만 덮어쓴다.
             if (finisherOnBroken) TimeScaleService.HitStop(0.1f);
@@ -814,8 +967,61 @@ namespace Demo6.Game
                 ScreenShake.Add(0.1f, 0.12f);
             }
             if (step.shake > 0f) ScreenShake.Add(step.shake, 0.1f);
-            if (anyCrit) ScreenShake.Add(0.06f, 0.08f);
+            CritShake(tierNow);
             OnKills(kills);
+            // 전설 연쇄 번개의 발동 자리(장비 문서 6장): 맞힌 판정마다 한 번. 번개는 동작 번호가 바뀐 첫 사건만 굴린다.
+            CombatEvents.RaiseBasicHit(new BasicHitInfo(_actionId, index, step.finisher, firstTarget, targetsHit, anyCrit, Position, _swingDir));
+        }
+
+        /// <summary>
+        /// 치명 연출 단계를 한 번 정한다(장비 문서 3-4). shown이 비어 있으면 무거움 0.5초 제한(마무리 예외)을 거쳐 정하고 RaiseCritShown을 한 번 낸다.
+        /// 이미 정했으면(같은 동작·회오리 한 타·검풍 한 번 안의 두 번째 치명부터) 그 단계를 그대로 쓴다.
+        /// </summary>
+        CritTier DecideCrit(ref CritTier shown, CritTier tier, bool finisher)
+        {
+            if (shown != CritTier.None) return shown;
+            shown = CritTiers.Gate(tier, Time.time, ref _lastHeavyCrit, finisher);
+            CombatEvents.RaiseCritShown(shown, finisher);
+            return shown;
+        }
+
+        /// <summary>치명 소리: 가벼움은 짧은 치명 소리, 보통·무거움은 치명 소리(장비 문서 3-4).</summary>
+        static SfxKind CritSound(CritTier tier) => tier == CritTier.Light ? SfxKind.CritLight : SfxKind.Crit;
+
+        /// <summary>치명 흔들림: 보통 0.04/0.06, 무거움 0.06/0.08(예전 치명 연출). 가벼움은 보통 타와 같아 없음.</summary>
+        static void CritShake(CritTier tier)
+        {
+            if (tier == CritTier.Heavy) ScreenShake.Add(0.06f, 0.08f);
+            else if (tier == CritTier.Normal) ScreenShake.Add(0.04f, 0.06f);
+        }
+
+        /// <summary>체력 흡수(장비 문서 2-1): 기본공격·스킬이 실제로 넣은 피해 × ‰. 전설 피해는 여기를 지나지 않는다. 1 미만은 모았다가 넣는다.</summary>
+        void StealLife(int applied)
+        {
+            int permille = LifeStealPermille;
+            if (permille <= 0 || applied <= 0 || _health.Dead) return;
+            _lifeStealCarry += applied * permille / 1000f;
+            if (_lifeStealCarry < 1f) return;
+            int heal = Mathf.FloorToInt(_lifeStealCarry);
+            _lifeStealCarry -= heal;
+            _health.Heal(heal);
+        }
+
+        /// <summary>초당 체력 재생(장비 문서 2-1): 게임 시간으로 모아 정수만큼 넣는다. 쓰러진 동안과 가득 찬 동안은 모으지 않는다.</summary>
+        void Regenerate(float dt)
+        {
+            int perSecond = HpRegenPerSecond;
+            if (perSecond <= 0 || _state == State.Down || _health.Dead || _health.Current >= _health.Max)
+            {
+                _regenCarry = 0f;
+                return;
+            }
+            if (dt <= 0f) return;
+            _regenCarry += perSecond * dt;
+            if (_regenCarry < 1f) return;
+            int heal = Mathf.FloorToInt(_regenCarry);
+            _regenCarry -= heal;
+            _health.Heal(heal);
         }
 
         StepArt StepArtNow()
@@ -824,13 +1030,32 @@ namespace Demo6.Game
             return set ? set.Weapon(Weapon.id)?.Step(ComboIndex) : null;
         }
 
+        /// <summary>
+        /// 플레이어 몫 처치를 센다(전설 효과처럼 PlayerController 밖에서 쓰러뜨린 적). 연속 처치 수는 늘 올리고,
+        /// juice면 여러 마리 처치 연출(히트스톱 0.08·느린 화면)도 낸다. 연쇄 폭발은 연쇄 하나에 처음 한 번만 juice = true(장비 문서 6장).
+        /// </summary>
+        public void AddKills(int kills, bool juice)
+        {
+            if (kills <= 0) return;
+            if (juice) OnKills(kills);
+            else CountKills(kills);
+        }
+
+        void CountKills(int kills)
+        {
+            KillStreak = Time.time - KillStreakTime <= 2f ? KillStreak + kills : kills;
+            KillStreakTime = Time.time;
+            if (KillStreak > BestKillStreak) BestKillStreak = KillStreak;
+            // 처치 시 체력 회복(장비 문서 2-1): 처치마다(전설 효과로 쓰러뜨린 적도 플레이어 처치로 센다).
+            int heal = OnKillHealAmount;
+            if (heal > 0 && !_health.Dead) _health.Heal(heal * kills);
+        }
+
         /// <summary>한 번에 여러 마리를 쓰러뜨렸을 때의 보상 연출과 연속 처치 수.</summary>
         void OnKills(int kills)
         {
             if (kills <= 0) return;
-            KillStreak = Time.time - KillStreakTime <= 2f ? KillStreak + kills : kills;
-            KillStreakTime = Time.time;
-            if (KillStreak > BestKillStreak) BestKillStreak = KillStreak;
+            CountKills(kills);
             if (!Tuning.MultiKillJuice) return;
             if (kills >= 5)
             {
@@ -940,7 +1165,7 @@ namespace Demo6.Game
             _state = State.Whirl;
             _stateTime = 0f;
             _whirlTicksDone = 0;
-            _whirlCooldown = WhirlCooldownTime;
+            _whirlCooldown = WhirlCooldownMax;
             _lungeTime = 0f;
             _knockTime = 0f;
             _staggerTime = 0f;
@@ -957,34 +1182,49 @@ namespace Demo6.Game
             bool anyCrit = false;
             bool heavyKill = false;
             int kills = 0;
+            // 회오리 한 타의 치명 단계(1타 90% × 치명 피해, 장비 문서 3-4). 연출은 이 한 타에 하나.
+            var critTier = CritTiers.Of(WhirlPercent, CritDamage);
+            var shownTier = CritTier.None;
+            double skillBonus = SkillDamageBonus;
+            double bossBonus = BossDamageBonus;
             foreach (var (enemy, _) in _targets)
             {
-                bool crit = _rng.NextDouble() < CritChance;
-                int damage = DamageMath.ToMonster(Attack, WhirlPercent, crit, CritDamage, DamageMath.Roll(_rng));
-                if (enemy.TakeHit(damage, crit, DamageSource.Whirlwind, WhirlPoise, false, CounterMultiplier, out _, out _) <= 0) continue;
+                bool crit = RollCrit();
+                int damage = DamageMath.ToMonster(Attack, WhirlPercent, crit, CritDamage, DamageMath.Roll(_rng), 0, skillBonus, true, bossBonus, enemy.IsBoss);
+                if (crit) WorldOverlay.SetNextCritTier(critTier);
+                int applied = enemy.TakeHit(damage, crit, DamageSource.Whirlwind, WhirlPoise, false, CounterMultiplier, out _, out _);
+                if (crit) WorldOverlay.ClearNextCritTier();
+                if (applied <= 0) continue;
                 anyHit = true;
-                anyCrit |= crit;
+                StealLife(applied);
+                var shown = CritTier.None;
+                if (crit)
+                {
+                    anyCrit = true;
+                    shown = DecideCrit(ref shownTier, critTier, false);
+                }
                 if (enemy.Dead)
                 {
                     kills++;
                     heavyKill |= enemy.IsV3 && enemy.Weight == EnemyWeight.Heavy;
                 }
                 Vector2 away = enemy.Position - Position;
-                enemy.ApplyKnockback(away, crit ? 0.9f : WhirlKnockback);
-                HitEffects.OnHit(enemy, away, crit, false);
+                // 보통·무거운 치명만 넉백 0.9(가벼운 치명은 보통 타와 같음).
+                enemy.ApplyKnockback(away, shown >= CritTier.Normal ? 0.9f : WhirlKnockback);
+                HitEffects.OnHit(enemy, away, shown, false);
             }
             CombatEvents.RaisePlayerWhirl(Position, WhirlRadiusNow, anyHit);
             if (!anyHit) return;
             _counterUntil = -999f;
-            // 기획 3-6: 회오리 1타 0.02, 치명·마지막 일격 0.06.
-            TimeScaleService.HitStop(anyCrit || kills > 0 ? 0.06f : 0.02f);
+            // 기획 3-6: 회오리 1타 0.02, 무거운 치명·마지막 일격 0.06.
+            TimeScaleService.HitStop(shownTier == CritTier.Heavy || kills > 0 ? 0.06f : 0.02f);
             if (heavyKill)
             {
                 TimeScaleService.HitStop(0.12f);
                 ScreenShake.Add(0.1f, 0.12f);
             }
-            Sfx.Play(kills > 0 ? SfxKind.Kill : anyCrit ? SfxKind.Crit : SfxKind.Hit);
-            if (anyCrit) ScreenShake.Add(0.06f, 0.08f);
+            Sfx.Play(kills > 0 ? SfxKind.Kill : anyCrit ? CritSound(shownTier) : SfxKind.Hit);
+            CritShake(shownTier);
             OnKills(kills);
         }
 
@@ -994,7 +1234,7 @@ namespace Demo6.Game
             _input.ConsumeSkill2();
             _state = State.WaveCast;
             _stateTime = 0f;
-            _waveCooldown = WaveCooldownTime;
+            _waveCooldown = WaveCooldownMax;
             _lungeTime = 0f;
             ClearPending();
             ResetCombo();
@@ -1034,18 +1274,28 @@ namespace Demo6.Game
             _facingMark.localRotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(_facing.y, _facing.x) * Mathf.Rad2Deg);
         }
 
-        /// <summary>검풍이 맞힌 적에게 피해를 준다.</summary>
-        public bool HitWithWave(Enemy enemy, Vector2 direction, out bool crit, out bool killed)
+        /// <summary>
+        /// 검풍이 맞힌 적에게 피해를 준다. waveShown은 이 검풍 한 번의 치명 연출 단계(SwordWave가 들고 있음):
+        /// 비어 있으면 첫 치명에서 정하고(무거움 0.5초 제한) RaiseCritShown을 한 번 낸다. crit은 치명이었는가, 단계는 waveShown으로 읽는다.
+        /// </summary>
+        public bool HitWithWave(Enemy enemy, Vector2 direction, ref CritTier waveShown, out bool crit, out bool killed)
         {
-            crit = _rng.NextDouble() < CritChance;
+            crit = RollCrit();
             killed = false;
-            int damage = DamageMath.ToMonster(Attack, WavePercentNow, crit, CritDamage, DamageMath.Roll(_rng));
-            if (enemy.TakeHit(damage, crit, DamageSource.SwordWave, WavePoise, false, CounterMultiplier, out _, out _) <= 0) return false;
+            float percent = WavePercentNow;
+            var critTier = CritTiers.Of(percent, CritDamage);
+            int damage = DamageMath.ToMonster(Attack, percent, crit, CritDamage, DamageMath.Roll(_rng), 0, SkillDamageBonus, true, BossDamageBonus, enemy.IsBoss);
+            if (crit) WorldOverlay.SetNextCritTier(critTier);
+            int applied = enemy.TakeHit(damage, crit, DamageSource.SwordWave, WavePoise, false, CounterMultiplier, out _, out _);
+            if (crit) WorldOverlay.ClearNextCritTier();
+            if (applied <= 0) return false;
             _counterUntil = -999f;
+            StealLife(applied);
+            var shown = crit ? DecideCrit(ref waveShown, critTier, false) : CritTier.None;
             killed = enemy.Dead;
             if (killed && enemy.IsV3 && enemy.Weight == EnemyWeight.Heavy) TimeScaleService.HitStop(0.12f);
             enemy.ApplyKnockback(direction, SwordWave.Knockback);
-            HitEffects.OnHit(enemy, direction, crit, true);
+            HitEffects.OnHit(enemy, direction, shown, true);
             if (killed) OnKills(1);
             return true;
         }

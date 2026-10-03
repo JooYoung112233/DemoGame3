@@ -13,10 +13,10 @@ namespace Demo6.Game
     {
         public const string ModalName = "skills";
 
-        const float PanelWidth = 640f;
-        const float RowHeight = 78f;
+        const float PanelWidth = 780f;
+        const float RowHeight = 88f;
         const float HeaderHeight = 92f;
-        const float FooterHeight = 40f;
+        const float FooterHeight = 54f;
 
         PlayerProgress _progress;
 
@@ -58,13 +58,14 @@ namespace Demo6.Game
 
             float height = HeaderHeight + RowHeight * SkillTree.Count + FooterHeight;
             var r = new Rect((DungeonUi.Width - PanelWidth) * 0.5f, (DungeonUi.Height - height) * 0.5f, PanelWidth, height);
-            DungeonUi.Box(r, 0.93f);
+            DungeonUi.Fill(new Rect(0f, 0f, DungeonUi.Width, DungeonUi.Height), new Color(0f, 0f, 0f, 0.45f));
+            DungeonUi.Box(r, 0.98f);
 
             GUI.Label(new Rect(r.x + 20f, r.y + 12f, PanelWidth - 40f, 30f), "스킬", DungeonUi.Title);
             GUI.Label(new Rect(r.x + 20f, r.y + 44f, PanelWidth - 40f, 22f),
                 $"레벨 {p.Level}    스킬 점수 {p.SkillPoints}", DungeonUi.Bold);
             if (p.Level < SkillDef.RequiredLevel)
-                GUI.Label(new Rect(r.x + 20f, r.y + 66f, PanelWidth - 40f, 20f), "레벨 2부터 점수를 쓸 수 있다", DungeonUi.Small);
+                GUI.Label(new Rect(r.x + 20f, r.y + 66f, PanelWidth - 40f, 28f), "레벨 2부터 점수를 쓸 수 있다", DungeonUi.Small);
             else if (p.SkillPoints <= 0)
                 GUI.Label(new Rect(r.x + 20f, r.y + 66f, PanelWidth - 40f, 20f), "남은 점수가 없다 — 레벨이 오르면 1점", DungeonUi.Small);
 
@@ -78,6 +79,8 @@ namespace Demo6.Game
             GUI.color = new Color(1f, 1f, 1f, 0.6f);
             GUI.Label(new Rect(r.x + 20f, r.yMax - FooterHeight + 8f, PanelWidth - 40f, 22f), "K · Esc 닫기", DungeonUi.Small);
 
+            GUI.color = Color.white;
+            if (DungeonUi.CloseButton(r)) DungeonUi.Close(ModalName);
             GUI.enabled = prevEnabled;
             GUI.color = prevColor;
             GUI.matrix = prevMatrix;
@@ -86,12 +89,12 @@ namespace Demo6.Game
         static void DrawRow(PlayerProgress p, SkillDef def, Rect row)
         {
             int rank = p.Rank(def.Id);
-            DungeonUi.Fill(row, new Color(1f, 1f, 1f, 0.05f));
+            DungeonUi.Slot(row);
             GUI.color = Color.white;
             GUI.Label(new Rect(row.x + 10f, row.y + 6f, 260f, 24f), $"{def.Name}  ·  {def.Branch}", DungeonUi.Bold);
 
             // 랭크 칸 4개.
-            float pipX = row.x + 280f;
+            float pipX = row.x + 400f;
             for (int i = 0; i < SkillDef.MaxRank; i++)
             {
                 var pip = new Rect(pipX + i * 22f, row.y + 11f, 16f, 14f);
@@ -100,9 +103,9 @@ namespace Demo6.Game
             GUI.Label(new Rect(pipX + SkillDef.MaxRank * 22f + 6f, row.y + 6f, 90f, 24f), $"{rank}/{SkillDef.MaxRank}", DungeonUi.Label);
 
             GUI.color = new Color(1f, 1f, 1f, 0.85f);
-            GUI.Label(new Rect(row.x + 10f, row.y + 36f, 250f, 22f), "지금: " + def.EffectText(rank), DungeonUi.Small);
+            GUI.Label(new Rect(row.x + 10f, row.y + 40f, 300f, 28f), "지금: " + def.EffectText(rank), DungeonUi.Small);
             string next = rank < SkillDef.MaxRank ? "다음: " + def.EffectText(rank + 1) : "최대 랭크";
-            GUI.Label(new Rect(row.x + 270f, row.y + 36f, 250f, 22f), next, DungeonUi.Small);
+            GUI.Label(new Rect(row.x + 340f, row.y + 36f, 250f, 22f), next, DungeonUi.Small);
             GUI.color = Color.white;
 
             bool can = p.CanRankUp(def.Id);

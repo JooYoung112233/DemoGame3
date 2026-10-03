@@ -1,0 +1,83 @@
+{
+  "date": "2026-10-03",
+  "purpose": "사용자 요청에 따른 Demo6 완료분 커밋 전 검증",
+  "baseCommit": "b951b51c7c876b9092d4952d06126aa349536146",
+  "destination": "https://github.com/JooYoung112233/DemoGame3.git",
+  "branch": "main",
+  "scope": [
+    "UI 스킨·아이콘·텍스트·공통 닫기 및 원본 PNG/Aseprite",
+    "굴쥐 정수리 원본 PNG/Aseprite/PSD·게임 자산 및 갱도 텍스처",
+    "장비 8자리·능력치·치명/공격 속도·전설 효과와 연결된 기존 게임 코드",
+    "원정별 지도 생성·2층·꾸러미·밤 전환 및 관련 기획/테스트",
+    "승인된 미채택 모션 중간 PNG 918개 정리"
+  ],
+  "verification": {
+    "recompile": {
+      "completed": true,
+      "compilationFailed": false,
+      "errors": []
+    },
+    "editMode": {
+      "total": 277,
+      "passed": 277,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "testReport": "2026-10-03-EditMode.json",
+    "initialFailure": {
+      "test": "StatCalcTests.StartingGameUnitsAreBitIdenticalToOldConstants",
+      "reason": "상수 접기와 실행 중 중간 부동소수점 정밀도의 1 ULP 차이",
+      "fix": "추가 비교 식에서 합산 결과를 명시적으로 float로 변환. 기존 상수와 비트 동일성 검사는 유지. 게임 코드 변경 없음."
+    },
+    "runtimeStart": {
+      "scene": "Assets/Scenes/DungeonTest.unity",
+      "root": true,
+      "floor": 1,
+      "playingDungeon": true,
+      "equipmentSlots": 8,
+      "bagCount": 0,
+      "weapon": "일반 장검",
+      "attack": 200,
+      "maxHp": 2400,
+      "panelLoaded": true,
+      "sceneDirty": false
+    },
+    "console": {
+      "runtimeErrors": 0,
+      "runtimeWarnings": 0,
+      "compileReloadWarnings": "재컴파일 시 Deleting invalid font reference. 3건; 실행 시 콘솔 오류/경고 0"
+    },
+    "art": {
+      "uiOriginals": 11,
+      "sha256Matches": true,
+      "asepriteFilesPresent": true,
+      "combatArtGuidsResolved": true,
+      "assetMetaFilesPresent": true
+    },
+    "diffCheck": {
+      "codeAndDocuments": true,
+      "unityGeneratedMetaAndRawLogTrailingWhitespace": 161,
+      "note": "Unity 자동 생성 meta의 빈 필드 뒤 공백과 보존한 원시 CLI 로그 끝 탭은 원문 유지"
+    },
+    "secretAndCacheScan": "선정한 파일에서 비밀정보 패턴·캐시 경로·병합 마커 발견 없음",
+    "lfsObjectsVerified": 122,
+    "stagedPaths": 1302,
+    "outsideDemo6": 0
+  },
+  "limits": [
+    "이번 실행은 시작 초기화 확인이며 실제 포인터 UI 검증을 대체하지 않음",
+    "기존 UI 캡처 일부는 8자리 장비 병행 작업 전의 검수 기록",
+    "독립 Player 빌드·장시간 전투·원정 전체 수동 회귀 검증은 이번 커밋 단계에서 실행하지 않음",
+    "OS 설치 글꼴 사용 유지; 폰트 파일 재배포 없음",
+    "상시 HUD가 많다는 의견은 후속 과제로만 기록"
+  ],
+  "excluded": [
+    "demo5",
+    "Demo3/Screenshots",
+    "tools/pixel-mcp",
+    "Unity 캐시·사용자 설정",
+    "작업 전 백업·실패한 입력 실험 도구·중간 캡처·PSD 원시 빌드 버퍼"
+  ],
+  "preservation": "새 리소스 제작 없음. 기존 병행 기능을 되돌리거나 파일의 일부만 잘라내지 않음. force push/reset 사용 안 함."
+}

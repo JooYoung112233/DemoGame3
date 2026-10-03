@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Demo6.Core.Dungeon;
@@ -7,10 +8,14 @@ using UnityEngine.InputSystem;
 namespace Demo6.Game
 {
     /// <summary>
-    /// 탐험 기록(3차 초안 7-3 판정 숫자)과 시험 패널(F1), 1층 기록 창("summary", 계단을 쓰면 열림).
+    /// 탐험 기록(3차 초안 7-3 판정 숫자 + 매판 새 탐험 1차 5장 '기록(더함)')과 시험 패널(F1), 층 기록 창("summary", 패널 단추로 연다).
     /// 시간은 멈춘 동안(창·말뚝 메뉴)을 빼고 실제 시간으로 잰다(히트스톱·느린 화면은 실제로 흐른 시간이라 센다).
     /// 재는 것: 층 시간, 전투 몫(DungeonLighting.InCombat), 새 것 간격(등잔·말뚝·새 칸 뺌, 2-8), 가장 긴 빈 구간(싸움·선택·장비 없는 구간),
-    /// 되돌아간 걸음(전에 가 본 칸에 다시 들어와 걸은 거리 ÷ 전체), 막다른 곳 빈손(2-1 '헛걸음 0'), 마주침·쓰러짐·레벨·조사율.
+    /// 되돌아간 걸음(전에 가 본 칸에 다시 들어와 걸은 거리 ÷ 전체), 막다른 곳 빈손(2-1 '헛걸음 0'), 마주침·쓰러짐·레벨·조사율,
+    /// 처음 본 칸에서 보낸 몫(칸에 처음 들어가 나갈 때까지 머문 시간 ÷ 층 시간, 원정 누계).
+    /// 층마다 장면을 다시 불러오므로 층 한 번 들른 기록(FloorRun: 원정·층·씨앗·시간·몫…)은 정적 목록에 남기고, 플레이를 새로 시작할 때 비운다.
+    /// 계단을 쓰거나 바구니로 올라가면 장면이 바뀌므로 기록 창을 열지 않고 보고를 콘솔에 찍는다.
+    /// 시험 패널 '갱도 씨앗': 지금 씨앗·지도 글자, '이 씨앗으로 다시'·'씨앗 +1'(DungeonRoot.RebuildWithSeed), '씨앗 10개 보기'(FloorGenerator).
     /// </summary>
     public sealed class ExplorationLog : MonoBehaviour
     {
@@ -18,12 +23,18 @@ namespace Demo6.Game
 
         // 7-3 합격 기준.
         public const float TargetFloorSeconds = 420f;
+        /// <summary>2층 첫 탐험 목표(매판 새 탐험 1차 2-3 '2층(고른 지도, 8분)').</summary>
+        public const float SecondFloorSeconds = 480f;
         public const float FloorTolerance = 0.25f;
         public const float CombatShareMin = 0.25f;
         public const float CombatShareMax = 0.35f;
         public const float NewThingMedianMax = 30f;
         public const float EmptyGapMax = 60f;
         public const float BacktrackMax = 0.30f;
+        /// <summary>매판 새 탐험 5장: 원정 시간 가운데 처음 본 칸에서 보낸 몫 기준.</summary>
+        public const float FreshShareMin = 0.60f;
+        /// <summary>매판 새 탐험 5장 '쓰러진 직후 그만둠': 쓰러진 뒤 이 시간(실제 초) 안에 바구니로 올라가면 센다.</summary>
+        public const float QuitAfterDownSeconds = 30f;
 
         /// <summary>같은 순간에 겹친 새 것(궤짝 열기 + 장비 떨어짐)은 하나로 센다.</summary>
         const float MergeWindow = 1.5f;
@@ -33,12 +44,13 @@ namespace Demo6.Game
         const float MaxFrame = 0.5f;
         const float PanelWidth = 420f;
         const int RecentMax = 14;
+        const int SeedPreviewCount = 10;
 
         static readonly string[] Questions =
         {
             "어둠 속을 걸을 때 '무섭고 궁금하다' 쪽인가, '답답하다' 쪽인가? (첫 판에만 답함)",
             "걷기만 하는 구간이 지루하지 않은가?",
-            "곡괭이를 얻고 되돌아가 금 간 벽을 열었는가? 두 번째 판에 말뚝에서 K까지 다시 갔는가?",
+            "곡괭이를 얻고 금 간 벽을 열었는가? 두 번째 원정 30초 안에 '바뀌었다'를 알아챘는가, 무엇으로 알았나?",
             "한 마리 한 마리가 기억에 남는가?",
             "마무리와 검풍을 아껴 쓰게 되는가, 아니면 늘 첫 타에 쓰는가?",
             "둥지가 아닌 보통 싸움이 끝날 때도 시원한가?",
@@ -46,7 +58,67 @@ namespace Demo6.Game
             "상자에서 나온 무기를 끼고 세졌다고 느꼈나? 레벨업 뒤 무엇이 달라졌는지 말할 수 있나?",
             "이야기 없는 2층도 끝까지 돌고 싶은가?",
             "계단을 내려갈 때 '한 단 내려간다'는 느낌이 드는가?",
+            "세 번째 원정을 스스로 시작했는가? 다시 밝히는 게 설렜나, 귀찮았나?",
+            "갱도가 왜 바뀌는지 한 줄로 말할 수 있나?",
         };
+
+        /// <summary>단일 칸 글꼴 후보(글자 지도가 줄 맞게). 앞에서부터 설치된 것을 쓴다.</summary>
+        static readonly string[] MonoNames = { "Consolas", "D2Coding", "Cascadia Mono", "Courier New", "Lucida Console" };
+        /// <summary>단일 칸 글꼴에 없는 한글을 채울 뒤 글꼴.</summary>
+        static readonly string[] HangulFallbackNames = { "Malgun Gothic", "맑은 고딕", "Gulim", "굴림" };
+
+        /// <summary>층 한 번 들른 기록이 어떻게 끝났나.</summary>
+        public enum FloorRunEnd
+        {
+            /// <summary>아직 그 층에 있다.</summary>
+            Live,
+            /// <summary>계단(또는 '한 층 더 내려가기')으로 내려감.</summary>
+            Stairs,
+            /// <summary>바구니로 올라감.</summary>
+            Ascend,
+            /// <summary>계단·올라가기 없이 장면이 바뀜(시험 패널 씨앗 다시 짓기 등).</summary>
+            Left,
+        }
+
+        /// <summary>
+        /// 층 한 번 들른 기록(매판 새 탐험 1차 5장 '기록(더함)': 원정마다 씨앗과 함께). 장면을 다시 불러와도 남도록 정적 목록(Runs)에 둔다.
+        /// 지금 층 기록은 그 층 ExplorationLog가 살아 있는 값으로 고쳐 쓴다.
+        /// </summary>
+        public sealed class FloorRun
+        {
+            public int Expedition;
+            public int Floor;
+            public ulong Seed;
+            public bool FirstVisit;
+            public ArrivalKind Arrival;
+            /// <summary>바구니로 내려와 줄 끝(가장 깊은 켠 승강장)에서 시작했나.</summary>
+            public bool FromRopeEnd;
+            public FloorRunEnd End;
+            /// <summary>층 시간(멈춘 시간 뺌)과 그 가운데 처음 본 칸에서 보낸 시간.</summary>
+            public float Seconds;
+            public float FreshSeconds;
+            /// <summary>새 것 간격 중앙값(없으면 -1)과 새 것 수.</summary>
+            public float MedianNew = -1f;
+            public int NewThings;
+            public float LongestGap;
+            public int DeadEndEmpty;
+            public int Deaths;
+            public int Encounters;
+            /// <summary>바구니 출발을 이미 셌나(같은 층에 층 시작 알림이 두 번 와도 한 번만).</summary>
+            internal bool StartCounted;
+
+            public float FreshShare => Seconds > 0.01f ? FreshSeconds / Seconds : 0f;
+        }
+
+        static readonly List<FloorRun> s_runs = new List<FloorRun>();
+        static int s_basketStarts;
+        static int s_ropeEndStarts;
+        static int s_ascents;
+        static int s_ascentsAfterDown;
+        static float s_lastDownRealtime = -999f;
+
+        /// <summary>이번 플레이의 층 기록(오래된 것부터). 장면을 다시 불러와도 남는다.</summary>
+        public static IReadOnlyList<FloorRun> Runs => s_runs;
 
         public static ExplorationLog Instance { get; private set; }
 
@@ -55,16 +127,20 @@ namespace Demo6.Game
         /// <summary>마우스가 F1 패널 위에 있는가(패널 버튼을 누를 때 공격을 막는 데 쓸 수 있다).</summary>
         public bool PointerOverPanel { get; private set; }
         /// <summary>패널이 차지하는 기준 좌표 너비(여백 포함). 안 보이면 0.</summary>
-        public float PanelReservedWidth => PanelVisible ? PanelWidth + 24f : 0f;
+        public float PanelReservedWidth => PanelVisible && !_hidden ? PanelWidth + 24f : 0f;
 
         public float FloorSeconds { get; private set; }
         public float CombatSeconds { get; private set; }
-        /// <summary>계단을 처음 쓴 때의 층 시간(1층 첫 탐험). 아직이면 -1.</summary>
+        /// <summary>계단을 처음 쓴 때의 층 시간. 아직이면 -1.</summary>
         public float FirstStairsSeconds { get; private set; } = -1f;
+        /// <summary>이 층이 끝난 때(계단 또는 바구니로 올라가기)의 층 시간. 아직이면 -1.</summary>
+        public float FloorEndSeconds { get; private set; } = -1f;
         public float LongestEmptyGap { get; private set; }
         public float CurrentEmptyGap { get; private set; }
         public float WalkedDistance { get; private set; }
         public float BacktrackDistance { get; private set; }
+        /// <summary>처음 본 칸에서 보낸 시간(칸에 처음 들어가 나갈 때까지, 멈춘 시간 뺌).</summary>
+        public float FreshSeconds { get; private set; }
         public int EncounterCount { get; private set; }
         public int Deaths { get; private set; }
         /// <summary>새 것(겹친 순간은 하나로) 개수.</summary>
@@ -82,6 +158,7 @@ namespace Demo6.Game
         readonly List<string> _deadEndNone = new List<string>();
         readonly List<string> _deadEndLooted = new List<string>();
         readonly List<(string text, int verdict)> _lines = new List<(string, int)>();
+        readonly List<(string text, int verdict)> _runLines = new List<(string, int)>();
 
         bool _inRevisit;
         /// <summary>칸마다 처음 둘러보며 걸은 거리. 문턱만 넘었다 돌아온 칸은 다시 들어가도 아직 '되돌아감'이 아니다.</summary>
@@ -96,11 +173,42 @@ namespace Demo6.Game
         Vector2 _summaryScroll;
         GUIStyle _smallButton;
 
+        /// <summary>지금 칸에 처음 들어온 뒤 아직 나가지 않았다.</summary>
+        bool _inFresh;
+        FloorRunEnd _endedBy = FloorRunEnd.Live;
+        /// <summary>이 장면(층)의 기록. 층 시작 알림(FloorEntered)이나 첫 1초에 만든다.</summary>
+        FloorRun _run;
+        /// <summary>결과 창·밤 카드·승강장 고르기 동안 패널·기록 창을 숨긴다(프레임마다 Update에서 정해 OnGUI 사건 사이에 바뀌지 않게).</summary>
+        bool _hidden;
+        /// <summary>패널 단추가 고른 일(씨앗 다시 짓기·올라가기). OnGUI 도중 화면을 바꾸지 않게 다음 Update에서 한다.</summary>
+        Action _pendingAction;
+        bool _wantSeedPreview;
+        bool _wantFoldPreview;
+        readonly List<string> _seedPreview = new List<string>();
+        string _seedPreviewTitle = "";
+        string _seedPreviewText = "";
+        Font _mono;
+        bool _monoTried;
+        GUIStyle _monoStyle;
+
         // 판정 줄 색: 통과 / 벗어남 / 아직 / 참고.
         const int Pass = 1;
         const int Fail = 0;
         const int Pending = -1;
         const int Info = 2;
+
+        /// <summary>플레이를 새로 시작할 때 층 기록을 비운다(도메인 다시 불러오기가 꺼져 있음). 장면을 다시 불러올 때는 남긴다.</summary>
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        static void ResetRuns()
+        {
+            Instance = null;
+            s_runs.Clear();
+            s_basketStarts = 0;
+            s_ropeEndStarts = 0;
+            s_ascents = 0;
+            s_ascentsAfterDown = 0;
+            s_lastDownRealtime = -999f;
+        }
 
         void Awake()
         {
@@ -112,6 +220,8 @@ namespace Demo6.Game
             DungeonEvents.GearEquipped += OnGearEquipped;
             DungeonEvents.CellEntered += OnCellEntered;
             DungeonEvents.StairsUsed += OnStairsUsed;
+            DungeonEvents.FloorEntered += OnFloorEntered;
+            DungeonEvents.ExpeditionEnding += OnExpeditionEnding;
             CombatEvents.PlayerDowned += OnPlayerDowned;
         }
 
@@ -124,19 +234,46 @@ namespace Demo6.Game
             DungeonEvents.GearEquipped -= OnGearEquipped;
             DungeonEvents.CellEntered -= OnCellEntered;
             DungeonEvents.StairsUsed -= OnStairsUsed;
+            DungeonEvents.FloorEntered -= OnFloorEntered;
+            DungeonEvents.ExpeditionEnding -= OnExpeditionEnding;
             CombatEvents.PlayerDowned -= OnPlayerDowned;
+            // 계단·올라가기 없이 장면이 바뀜(씨앗 다시 짓기 등): 지금까지 잰 값으로 닫는다.
+            if (_run != null && _run.End == FloorRunEnd.Live)
+            {
+                Snapshot(_run);
+                _run.End = FloorRunEnd.Left;
+            }
+            if (_mono) Destroy(_mono);
             if (Instance == this) Instance = null;
         }
 
         void Update()
         {
+            var card = NightCard.Instance;
+            _hidden = card && card.Showing;
             var kb = Keyboard.current;
             if (kb != null)
             {
                 if (kb.f1Key.wasPressedThisFrame) PanelVisible = !PanelVisible;
                 if (kb.escapeKey.wasPressedThisFrame && DungeonUi.Modal == SummaryModal) DungeonUi.Close(SummaryModal);
             }
-            if (_summaryPending && DungeonUi.TryOpen(SummaryModal)) _summaryPending = false;
+            if (_pendingAction != null)
+            {
+                var action = _pendingAction;
+                _pendingAction = null;
+                action();
+            }
+            if (_wantFoldPreview)
+            {
+                _wantFoldPreview = false;
+                _seedPreview.Clear();
+            }
+            if (_wantSeedPreview)
+            {
+                _wantSeedPreview = false;
+                BuildSeedPreview();
+            }
+            if (_summaryPending && !_hidden && DungeonUi.TryOpen(SummaryModal)) _summaryPending = false;
             UpdatePointer();
             Measure();
         }
@@ -145,7 +282,7 @@ namespace Demo6.Game
         {
             _panelRect = new Rect(DungeonUi.Width - PanelWidth - 12f, 12f, PanelWidth, DungeonUi.Height - 24f);
             var mouse = Mouse.current;
-            if (!PanelVisible || mouse == null)
+            if (!PanelVisible || _hidden || mouse == null)
             {
                 PointerOverPanel = false;
                 return;
@@ -160,6 +297,9 @@ namespace Demo6.Game
             if (!root || !root.Player || TimeScaleService.Paused) return;
             float dt = Mathf.Min(Time.unscaledDeltaTime, MaxFrame);
             FloorSeconds += dt;
+            if (_inFresh) FreshSeconds += dt;
+            // 층 시작 알림이 오지 않아도(흐름이 아직 안 부름) 시간이 흐르기 시작하면 기록을 연다.
+            if (_run == null && FloorSeconds >= 1f) EnsureRun();
 
             var lighting = DungeonLighting.Instance;
             bool combat = lighting && lighting.InCombat;
@@ -194,16 +334,19 @@ namespace Demo6.Game
             _hasLastPos = true;
         }
 
-        /// <summary>기록을 처음부터(시험 패널). 지도·연 곳은 그대로다.</summary>
+        /// <summary>기록을 처음부터(시험 패널). 지도·연 곳은 그대로다. 지난 층 기록(Runs)은 남긴다.</summary>
         public void ResetMeasures()
         {
             FloorSeconds = 0f;
             CombatSeconds = 0f;
             FirstStairsSeconds = -1f;
+            FloorEndSeconds = -1f;
+            _endedBy = FloorRunEnd.Live;
             LongestEmptyGap = 0f;
             CurrentEmptyGap = 0f;
             WalkedDistance = 0f;
             BacktrackDistance = 0f;
+            FreshSeconds = 0f;
             EncounterCount = 0;
             Deaths = 0;
             _newTimes.Clear();
@@ -228,6 +371,87 @@ namespace Demo6.Game
             gaps.Sort();
             int n = gaps.Count;
             return n % 2 == 1 ? gaps[n / 2] : (gaps[n / 2 - 1] + gaps[n / 2]) * 0.5f;
+        }
+
+        // ── 층 기록(매판 새 탐험 5장) ────────────────────────────
+
+        FloorRun NewRun(DungeonRoot root, int floor, bool firstVisit, ArrivalKind arrival)
+        {
+            var run = new FloorRun
+            {
+                Expedition = root ? root.Expedition : 1,
+                Floor = floor,
+                Seed = root ? root.Seed : 0UL,
+                FirstVisit = firstVisit,
+                Arrival = arrival,
+            };
+            s_runs.Add(run);
+            return run;
+        }
+
+        FloorRun EnsureRun()
+        {
+            if (_run != null) return _run;
+            var root = DungeonRoot.Instance;
+            if (!root) return null;
+            _run = NewRun(root, root.Floor, root.FirstVisit, root.Arrival);
+            return _run;
+        }
+
+        /// <summary>지금 층의 살아 있는 값을 기록에 옮긴다.</summary>
+        void Snapshot(FloorRun run)
+        {
+            run.Seconds = FloorSeconds;
+            run.FreshSeconds = FreshSeconds;
+            run.MedianNew = MedianNewInterval();
+            run.NewThings = NewThingCount;
+            run.LongestGap = LongestEmptyGap;
+            run.DeadEndEmpty = DeadEndEmpty;
+            run.Deaths = Deaths;
+            run.Encounters = EncounterCount;
+        }
+
+        /// <summary>층 끝(계단·올라가기): 층 시간을 적고 기록을 닫는다. 처음 한 번만.</summary>
+        void EndFloor(FloorRunEnd end)
+        {
+            if (FloorEndSeconds < 0f)
+            {
+                FloorEndSeconds = FloorSeconds;
+                _endedBy = end;
+            }
+            var run = EnsureRun();
+            if (run == null || run.End != FloorRunEnd.Live) return;
+            Snapshot(run);
+            run.End = end;
+        }
+
+        void OnFloorEntered(int floor, bool firstVisit, ArrivalKind arrival)
+        {
+            var root = DungeonRoot.Instance;
+            if (_run != null && _run.End == FloorRunEnd.Live && _run.Floor == floor)
+            {
+                // 첫 1초에 먼저 연 기록: 알림 값으로 고친다.
+                _run.FirstVisit = firstVisit;
+                _run.Arrival = arrival;
+                if (root) _run.Seed = root.Seed;
+            }
+            else
+            {
+                if (_run != null && _run.End == FloorRunEnd.Live)
+                {
+                    Snapshot(_run);
+                    _run.End = FloorRunEnd.Left;
+                }
+                _run = NewRun(root, floor, firstVisit, arrival);
+            }
+            if (arrival == ArrivalKind.Basket && !_run.StartCounted)
+            {
+                _run.StartCounted = true;
+                var data = ProfileCarry.Data;
+                _run.FromRopeEnd = data != null && floor == data.RopeEnd(FloorRecipe.MaxTestFloor);
+                s_basketStarts++;
+                if (_run.FromRopeEnd) s_ropeEndStarts++;
+            }
         }
 
         // ── 사건 ─────────────────────────────────────────────
@@ -266,10 +490,16 @@ namespace Demo6.Game
 
         void OnGearEquipped(string text) => CurrentEmptyGap = 0f;
 
-        void OnPlayerDowned() => Deaths++;
+        void OnPlayerDowned()
+        {
+            Deaths++;
+            s_lastDownRealtime = Time.realtimeSinceStartup;
+        }
 
         void OnCellEntered(DungeonCell cell, bool first)
         {
+            // 처음 본 칸에서 보낸 몫: 처음 들어온 칸이면 나갈 때까지 센다.
+            _inFresh = first && cell != null;
             _cellId = cell != null ? cell.Id : null;
             _inRevisit = !first && cell != null && _explored.TryGetValue(cell.Id, out float walked) && walked >= ExploredEnough;
             if (cell == null || !IsDeadEnd(cell)) return;
@@ -286,14 +516,21 @@ namespace Demo6.Game
             if (!list.Contains(cell.Id)) list.Add(cell.Id);
         }
 
+        /// <summary>계단을 씀: 장면이 바로 바뀌므로 기록 창을 열지 않고 콘솔에 보고만 찍는다.</summary>
         void OnStairsUsed()
         {
-            if (FirstStairsSeconds < 0f)
-            {
-                FirstStairsSeconds = FloorSeconds;
-                Debug.Log(BuildReport());
-            }
-            _summaryPending = true;
+            if (FirstStairsSeconds < 0f) FirstStairsSeconds = FloorSeconds;
+            EndFloor(FloorRunEnd.Stairs);
+            Debug.Log(BuildReport());
+        }
+
+        /// <summary>바구니로 올라가기 직전: 층 기록을 닫고, 쓰러진 직후(30초 안) 올라갔는지 센 뒤 콘솔에 보고를 찍는다.</summary>
+        void OnExpeditionEnding()
+        {
+            s_ascents++;
+            if (Time.realtimeSinceStartup - s_lastDownRealtime <= QuitAfterDownSeconds) s_ascentsAfterDown++;
+            EndFloor(FloorRunEnd.Ascend);
+            Debug.Log(BuildReport());
         }
 
         void AddNewThing(string label)
@@ -325,23 +562,56 @@ namespace Demo6.Game
             }
         }
 
+        static string ArrivalName(ArrivalKind arrival)
+        {
+            switch (arrival)
+            {
+                case ArrivalKind.Basket: return "바구니";
+                case ArrivalKind.Stairs: return "계단";
+                case ArrivalKind.Rebuild: return "다시 지음";
+                default: return "첫 시작";
+            }
+        }
+
+        static string EndName(FloorRunEnd end)
+        {
+            switch (end)
+            {
+                case FloorRunEnd.Stairs: return "계단";
+                case FloorRunEnd.Ascend: return "올라감";
+                case FloorRunEnd.Left: return "끊김";
+                default: return "진행 중";
+            }
+        }
+
+        static string EndUntil(FloorRunEnd end) => end == FloorRunEnd.Ascend ? "올라가기까지" : "계단까지";
+
+        /// <summary>층 첫 탐험 목표 시간: 1층 7분(7-3), 2층 8분(매판 새 탐험 2-3).</summary>
+        static float TargetSecondsFor(int floor) => floor == 2 ? SecondFloorSeconds : TargetFloorSeconds;
+
         // ── 판정 줄 ──────────────────────────────────────────
 
         static int Judge(bool ok) => ok ? Pass : Fail;
+
+        static bool InFloorRange(float seconds, float target) =>
+            seconds >= target * (1f - FloorTolerance) && seconds <= target * (1f + FloorTolerance);
 
         void BuildLines()
         {
             _lines.Clear();
             var root = DungeonRoot.Instance;
+            if (_run != null && _run.End == FloorRunEnd.Live) Snapshot(_run);
 
-            float lo = TargetFloorSeconds * (1f - FloorTolerance);
-            float hi = TargetFloorSeconds * (1f + FloorTolerance);
-            string range = $"기준 7분 ±25% ({DungeonUi.Clock(lo)}~{DungeonUi.Clock(hi)})";
-            if (FirstStairsSeconds >= 0f)
-                _lines.Add(($"1층 첫 탐험 {DungeonUi.Clock(FirstStairsSeconds)} (계단까지, 지금 {DungeonUi.Clock(FloorSeconds)}) · {range}",
-                    Judge(FirstStairsSeconds >= lo && FirstStairsSeconds <= hi)));
+            int floor = root ? root.Floor : 1;
+            float target = TargetSecondsFor(floor);
+            float lo = target * (1f - FloorTolerance);
+            float hi = target * (1f + FloorTolerance);
+            string range = $"기준 {target / 60f:0}분 ±25% ({DungeonUi.Clock(lo)}~{DungeonUi.Clock(hi)})";
+            if (FloorEndSeconds >= 0f)
+                _lines.Add(($"{floor}층 탐험 {DungeonUi.Clock(FloorEndSeconds)} ({EndUntil(_endedBy)}, 지금 {DungeonUi.Clock(FloorSeconds)}) · {range}",
+                    Judge(InFloorRange(FloorEndSeconds, target))));
             else
-                _lines.Add(($"탐험 시간 {DungeonUi.Clock(FloorSeconds)} (계단 전) · {range}", Pending));
+                _lines.Add(($"{floor}층 탐험 시간 {DungeonUi.Clock(FloorSeconds)} (계단·올라가기 전) · {range}", Pending));
 
             _lines.Add(($"전투 몫 {CombatShare * 100f:0}% (전투 {DungeonUi.Clock(CombatSeconds)}) · 기준 25~35%",
                 FloorSeconds >= 60f ? Judge(CombatShare >= CombatShareMin && CombatShare <= CombatShareMax) : Pending));
@@ -366,6 +636,72 @@ namespace Demo6.Game
             float survey = root && root.State != null && root.World != null ? root.State.Survey(root.World.Cells.Count) : 0f;
             int expedition = root && root.State != null ? root.State.Expedition : 1;
             _lines.Add(($"마주침 {EncounterCount}번 · 쓰러짐 {Deaths}번 · 레벨 {level} · 조사 {survey * 100f:0}% · 원정 {expedition}번째", Info));
+
+            // 매판 새 탐험 1차 5장 '기록(더함)'.
+            AddFreshShareLine(expedition);
+            AddFloorOneLines();
+            _lines.Add(($"줄 끝에서 시작한 원정 {s_ropeEndStarts} / 바구니로 내려간 원정 {s_basketStarts} · 쓰러진 뒤 30초 안에 올라감 {s_ascentsAfterDown} / 올라감 {s_ascents} (기록만)", Info));
+
+            BuildRunLines();
+        }
+
+        /// <summary>① 원정 시간 가운데 처음 본 칸에서 보낸 몫(이번 원정의 층들 누계, 기준 60% 이상).</summary>
+        void AddFreshShareLine(int expedition)
+        {
+            float fresh = 0f;
+            float total = 0f;
+            foreach (var r in s_runs)
+            {
+                if (r.Expedition != expedition) continue;
+                fresh += r.FreshSeconds;
+                total += r.Seconds;
+            }
+            if (_run == null)
+            {
+                // 아직 기록을 열지 않은 지금 층.
+                fresh += FreshSeconds;
+                total += FloorSeconds;
+            }
+            float share = total > 0.01f ? fresh / total : 0f;
+            _lines.Add(($"처음 본 칸에서 보낸 몫 {share * 100f:0}% (원정 {expedition}번째 누계 {DungeonUi.Clock(fresh)} / {DungeonUi.Clock(total)}) · 기준 60% 이상",
+                total >= 60f ? Judge(share >= FreshShareMin) : Pending));
+        }
+
+        /// <summary>② 원정 2~4의 1층 탐험 시간(계단 또는 올라가기까지, 기준 7분 ±25%).</summary>
+        void AddFloorOneLines()
+        {
+            bool any = false;
+            foreach (var r in s_runs)
+            {
+                if (r.Floor != 1 || r.Expedition < 2 || r.Expedition > 4) continue;
+                if (r.End != FloorRunEnd.Stairs && r.End != FloorRunEnd.Ascend) continue;
+                any = true;
+                _lines.Add(($"원정 {r.Expedition}번째 1층 탐험 {DungeonUi.Clock(r.Seconds)} ({EndUntil(r.End)}, 씨앗 {r.Seed}) · 기준 7분 ±25%",
+                    Judge(InFloorRange(r.Seconds, TargetFloorSeconds))));
+            }
+            if (!any) _lines.Add(("원정 2~4번째의 1층 탐험 시간 — 아직 없음 (계단 또는 올라가기까지) · 기준 7분 ±25%", Pending));
+        }
+
+        /// <summary>③ 층 기록마다 씨앗과 함께: 시간, 처음 본 칸 몫, 새 것 간격 중앙값, 가장 긴 빈 구간, 막다른 곳 빈손(3차 기준 그대로).</summary>
+        void BuildRunLines()
+        {
+            _runLines.Clear();
+            foreach (var r in s_runs)
+            {
+                string median = r.MedianNew < 0f ? "없음" : $"{r.MedianNew:0}초";
+                string start = ArrivalName(r.Arrival) + (r.FromRopeEnd ? "·줄 끝" : "");
+                _runLines.Add(($"원정 {r.Expedition} · {r.Floor}층 · 씨앗 {r.Seed} · {(r.FirstVisit ? "고른 지도" : "새 갱도")} · {start} — " +
+                               $"{DungeonUi.Clock(r.Seconds)} {EndName(r.End)} · 처음 본 칸 {r.FreshShare * 100f:0}% · 새 것 간격 중앙 {median}({r.NewThings}번) · " +
+                               $"가장 긴 빈 구간 {r.LongestGap:0}초 · 막다른 곳 빈손 {r.DeadEndEmpty} · 쓰러짐 {r.Deaths}", RunVerdict(r)));
+            }
+        }
+
+        static int RunVerdict(FloorRun r)
+        {
+            bool ok = (r.NewThings < 2 || r.MedianNew <= NewThingMedianMax) && r.LongestGap <= EmptyGapMax && r.DeadEndEmpty == 0;
+            if (r.End == FloorRunEnd.Live) return ok ? Pending : Fail;
+            if (r.End == FloorRunEnd.Left && r.Seconds < 60f) return Info;
+            return Judge(ok);
         }
 
         IEnumerable<string> AllDeadEnds()
@@ -374,20 +710,88 @@ namespace Demo6.Game
             foreach (var id in _deadEndLooted) yield return id + "(다시 들름)";
         }
 
+        static string Mark(int verdict) => verdict == Pass ? "통과" : verdict == Fail ? "벗어남" : verdict == Pending ? "아직" : "참고";
+
         /// <summary>복사·콘솔용 글 기록.</summary>
         public string BuildReport()
         {
             BuildLines();
+            var root = DungeonRoot.Instance;
+            int floor = root ? root.Floor : 1;
             var sb = new StringBuilder();
-            sb.AppendLine("[1층 탐험 기록 (3차 초안 7-3)]");
-            foreach (var line in _lines)
-            {
-                string mark = line.verdict == Pass ? "통과" : line.verdict == Fail ? "벗어남" : line.verdict == Pending ? "아직" : "참고";
-                sb.Append("- [").Append(mark).Append("] ").AppendLine(line.text);
-            }
+            sb.AppendLine($"[{floor}층 탐험 기록 (3차 초안 7-3 · 매판 새 탐험 1차 5장)]");
+            foreach (var line in _lines) sb.Append("- [").Append(Mark(line.verdict)).Append("] ").AppendLine(line.text);
+            sb.AppendLine("층 기록 (원정·씨앗별):");
+            if (_runLines.Count == 0) sb.AppendLine("  아직 없음");
+            foreach (var line in _runLines) sb.Append("- [").Append(Mark(line.verdict)).Append("] ").AppendLine(line.text);
             sb.AppendLine("최근 새 것:");
             foreach (var r in _recent) sb.Append("  ").AppendLine(r);
             return sb.ToString();
+        }
+
+        // ── 씨앗 10개 보기 ───────────────────────────────────────
+
+        /// <summary>
+        /// 지금 층을 씨앗 +1 ~ +10으로 '새 갱도'(처음 밟는 층이 아님)로 지어 글자 지도를 콘솔·패널에 보인다(5장 '시험 패널').
+        /// 능력·받은 것은 꾸러미(ProfileCarry.Data)에 이번 장면에서 얻은 것을 더해 넣는다. 지금 지도는 바꾸지 않는다.
+        /// </summary>
+        void BuildSeedPreview()
+        {
+            var root = DungeonRoot.Instance;
+            if (!root || root.State == null) return;
+            var data = ProfileCarry.Data;
+            var state = root.State;
+            var once = new HashSet<string>();
+            if (data != null) once.UnionWith(data.OnceDone);
+            foreach (var e in state.OneTime.Values)
+                if (e.Done && FloorRecipe.IsOnceItem(e.Id)) once.Add(e.Id);
+
+            ulong baseSeed = root.Seed;
+            _seedPreview.Clear();
+            _seedPreviewTitle = $"{root.Floor}층 씨앗 {baseSeed + 1UL}~{baseSeed + SeedPreviewCount} (새 갱도로 지음)";
+            var sb = new StringBuilder();
+            sb.AppendLine("[씨앗 10개 보기] " + _seedPreviewTitle);
+            for (int i = 1; i <= SeedPreviewCount; i++)
+            {
+                ulong seed = baseSeed + (ulong)i;
+                string text;
+                try
+                {
+                    var floor = FloorGenerator.Generate(new GeneratorInput
+                    {
+                        Floor = root.Floor,
+                        Seed = seed,
+                        FirstVisit = false,
+                        DeepestFloor = Mathf.Max(data != null ? data.DeepestFloor : 1, root.Floor),
+                        HasPickaxe = state.HasPickaxe || (data != null && data.HasPickaxe),
+                        HasKey = state.HasKey || (data != null && data.HasKey),
+                        OnceDone = once,
+                        Night = data != null ? data.Night : NightEvent.None,
+                    });
+                    text = floor.Describe().TrimEnd('\n') + "\n" + (floor.Report != null ? floor.Report.ToString() : "검사 없음");
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogException(ex);
+                    text = $"씨앗 {seed}: 짓기 실패 — {ex.Message}";
+                }
+                _seedPreview.Add(text);
+                sb.AppendLine(text).AppendLine();
+            }
+            _seedPreviewText = sb.ToString();
+            Debug.Log(_seedPreviewText);
+        }
+
+        static void RebuildWithSeed(ulong seed)
+        {
+            var root = DungeonRoot.Instance;
+            if (root) root.RebuildWithSeed(seed);
+        }
+
+        static void AscendForTest()
+        {
+            var root = DungeonRoot.Instance;
+            if (root) root.Ascend();
         }
 
         // ── 화면 ─────────────────────────────────────────────
@@ -395,9 +799,9 @@ namespace Demo6.Game
         void OnGUI()
         {
             var root = DungeonRoot.Instance;
-            if (!root || root.State == null) return;
+            if (!root || root.State == null || _hidden) return;
             DungeonUi.Begin();
-            if (_smallButton == null) _smallButton = new GUIStyle(GUI.skin.button) { fontSize = 12, wordWrap = false };
+            if (_smallButton == null) _smallButton = new GUIStyle(GUI.skin.button) { fontSize = 15, wordWrap = false };
             GUI.depth = -5;
             if (PanelVisible) DrawPanel(root);
             if (DungeonUi.Modal == SummaryModal) DrawSummary(root);
@@ -406,8 +810,13 @@ namespace Demo6.Game
         void DrawMeasures()
         {
             BuildLines();
+            DrawLines(_lines);
+        }
+
+        static void DrawLines(List<(string text, int verdict)> lines)
+        {
             var prev = GUI.color;
-            foreach (var line in _lines)
+            foreach (var line in lines)
             {
                 GUI.color = VerdictColor(line.verdict);
                 GUILayout.Label(line.text, DungeonUi.Small);
@@ -432,17 +841,65 @@ namespace Demo6.Game
             GUILayout.Label(title, DungeonUi.Bold);
         }
 
+        /// <summary>글자 지도용 단일 칸 글꼴(한글은 뒤 글꼴로). 설치된 것이 없으면 기본 글꼴.</summary>
+        void EnsureMono()
+        {
+            if (_monoStyle != null) return;
+            if (!_monoTried)
+            {
+                _monoTried = true;
+                _mono = LoadMono();
+            }
+            _monoStyle = new GUIStyle(DungeonUi.Small) { font = _mono, fontSize = 13, wordWrap = true };
+        }
+
+        static Font LoadMono()
+        {
+            string[] installed;
+            try
+            {
+                installed = Font.GetOSInstalledFontNames();
+            }
+            catch
+            {
+                return null;
+            }
+            if (installed == null || installed.Length == 0) return null;
+            var found = new List<string>();
+            AddInstalled(found, MonoNames, installed);
+            if (found.Count == 0) return null;
+            AddInstalled(found, HangulFallbackNames, installed);
+            var font = Font.CreateDynamicFontFromOSFont(found.ToArray(), 13);
+            if (font) font.hideFlags = HideFlags.DontSave;
+            return font;
+        }
+
+        static void AddInstalled(List<string> found, string[] wants, string[] installed)
+        {
+            foreach (var want in wants)
+            {
+                foreach (var have in installed)
+                {
+                    if (!string.Equals(want, have, StringComparison.OrdinalIgnoreCase)) continue;
+                    if (!found.Contains(have)) found.Add(have);
+                    break;
+                }
+            }
+        }
+
         void DrawPanel(DungeonRoot root)
         {
             var state = root.State;
             DungeonUi.Box(_panelRect, 0.88f);
-            GUILayout.BeginArea(new Rect(_panelRect.x + 10f, _panelRect.y + 8f, _panelRect.width - 20f, _panelRect.height - 16f));
+            if(DungeonUi.CloseButton(_panelRect,"닫기 · F1")){PanelVisible=false;return;}
+            GUI.Label(new Rect(_panelRect.x+18f,_panelRect.y+16f,_panelRect.width-92f,36f),"개발 · 탐험 기록",DungeonUi.Title);
+            GUILayout.BeginArea(new Rect(_panelRect.x + 16f, _panelRect.y + 60f, _panelRect.width - 32f, _panelRect.height - 76f));
             _scroll = GUILayout.BeginScrollView(_scroll);
 
-            GUILayout.Label("탐험 기록 (F1)", DungeonUi.Title);
+            GUILayout.Label("[F1] 닫기",DungeonUi.Small);
             GUILayout.Label("멈춘 시간(지도·창)은 빼고 잰다. 초록 = 기준 안, 주황 = 벗어남, 회색 = 아직 모자람.", DungeonUi.Small);
 
-            Section("판정 기록 (7-3)");
+            Section("판정 기록 (7-3 · 매판 새 탐험 5장)");
             DrawMeasures();
 
             Section("시험 손잡이");
@@ -491,14 +948,21 @@ namespace Demo6.Game
                 DungeonEvents.Say("시험: 곡괭이를 받았다");
             }
             GUI.enabled = true;
-            if (GUILayout.Button("원정 다시 시작")) root.RestartExpedition(state.LastStakeId);
+            if (GUILayout.Button("바구니로 올라가기(시험)")) _pendingAction = AscendForTest;
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("기록 처음부터")) ResetMeasures();
             if (GUILayout.Button("기록 복사")) GUIUtility.systemCopyBuffer = BuildReport();
-            if (GUILayout.Button("1층 기록 창")) _summaryPending = true;
+            if (GUILayout.Button("층 기록 창")) _summaryPending = true;
             GUILayout.EndHorizontal();
+
+            Section("갱도 씨앗");
+            DrawSeeds(root);
+
+            Section("층 기록 (원정·씨앗별)");
+            if (_runLines.Count == 0) GUILayout.Label("아직 없음", DungeonUi.Small);
+            else DrawLines(_runLines);
 
             Section("칸으로 순간 이동");
             if (root.World != null)
@@ -529,6 +993,37 @@ namespace Demo6.Game
             GUILayout.EndArea();
         }
 
+        /// <summary>'갱도 씨앗' 절: 지금 씨앗·지도 글자, 다시 짓기 단추 둘, 씨앗 10개 보기(글자 지도 + 복사).</summary>
+        void DrawSeeds(DungeonRoot root)
+        {
+            EnsureMono();
+            int traces = root.Traces != null ? root.Traces.Count : 0;
+            GUILayout.Label($"씨앗 {root.Seed} · {(root.FirstVisit ? "고른 지도" : "새 갱도")} · {root.Floor}층 · 원정 {root.Expedition}번째 · 흔적 {traces}", DungeonUi.Small);
+            if (!string.IsNullOrEmpty(root.Glyphs)) GUILayout.Label(root.Glyphs.TrimEnd('\n'), _monoStyle);
+
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("이 씨앗으로 다시", _smallButton))
+            {
+                ulong seed = root.Seed;
+                _pendingAction = () => RebuildWithSeed(seed);
+            }
+            if (GUILayout.Button("씨앗 +1", _smallButton))
+            {
+                ulong seed = root.Seed + 1UL;
+                _pendingAction = () => RebuildWithSeed(seed);
+            }
+            if (GUILayout.Button("씨앗 10개 보기", _smallButton)) _wantSeedPreview = true;
+            GUILayout.EndHorizontal();
+
+            if (_seedPreview.Count == 0) return;
+            GUILayout.BeginHorizontal();
+            GUILayout.Label(_seedPreviewTitle, DungeonUi.Small);
+            if (GUILayout.Button("복사", _smallButton, GUILayout.Width(56f))) GUIUtility.systemCopyBuffer = _seedPreviewText;
+            if (GUILayout.Button("접기", _smallButton, GUILayout.Width(56f))) _wantFoldPreview = true;
+            GUILayout.EndHorizontal();
+            foreach (var text in _seedPreview) GUILayout.Label(text, _monoStyle);
+        }
+
         void TeleportTo(DungeonRoot root, DungeonCell cell)
         {
             var player = root.Player;
@@ -545,12 +1040,16 @@ namespace Demo6.Game
             var r = new Rect((DungeonUi.Width - w) * 0.5f, (DungeonUi.Height - h) * 0.5f, w, h);
             DungeonUi.Fill(new Rect(0f, 0f, DungeonUi.Width, DungeonUi.Height), new Color(0f, 0f, 0f, 0.45f));
             DungeonUi.Box(r, 0.95f);
+            if(DungeonUi.CloseButton(r))DungeonUi.Close(SummaryModal);
             GUILayout.BeginArea(new Rect(r.x + 20f, r.y + 14f, r.width - 40f, r.height - 28f));
-            GUILayout.Label($"{root.Floor}층 기록 — 계단에 닿았다", DungeonUi.Title);
-            GUILayout.Label("M0b는 1층까지다. 아래 숫자를 판정 기준(7-3)과 견주고 판정 질문에 답한다. 계속 탐험하면 숫자는 이어서 잰다.", DungeonUi.Small);
+            GUILayout.Label($"{root.Floor}층 기록", DungeonUi.Title,GUILayout.MaxWidth(r.width-110f));
+            GUILayout.Label("아래 숫자를 판정 기준(3차 7-3 · 매판 새 탐험 5장)과 견주고 판정 질문에 답한다. 계속 탐험하면 숫자는 이어서 잰다.", DungeonUi.Small);
             _summaryScroll = GUILayout.BeginScrollView(_summaryScroll);
             Section("판정 기록");
             DrawMeasures();
+            Section("층 기록 (원정·씨앗별)");
+            if (_runLines.Count == 0) GUILayout.Label("아직 없음", DungeonUi.Small);
+            else DrawLines(_runLines);
             Section("판정 질문");
             for (int i = 0; i < Questions.Length; i++) GUILayout.Label($"{i + 1}. {Questions[i]}", DungeonUi.Label);
             GUILayout.EndScrollView();
@@ -558,7 +1057,7 @@ namespace Demo6.Game
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("기록 복사", GUILayout.Width(140f), GUILayout.Height(36f))) GUIUtility.systemCopyBuffer = BuildReport();
             GUILayout.FlexibleSpace();
-            if (GUILayout.Button("계속 탐험", GUILayout.Width(200f), GUILayout.Height(36f))) DungeonUi.Close(SummaryModal);
+            GUILayout.Label("[Esc] 계속 탐험",DungeonUi.Small,GUILayout.Width(200f),GUILayout.Height(36f));
             GUILayout.EndHorizontal();
             GUILayout.EndArea();
         }

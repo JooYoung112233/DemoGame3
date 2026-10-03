@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Demo6.Core.Combat;
+using Demo6.Core.Loot;
 using UnityEngine;
 
 namespace Demo6.Game
@@ -7,6 +8,7 @@ namespace Demo6.Game
     /// <summary>
     /// 전투 시험 계측. 기획 10장 훈련장 숫자(30초 초당 피해, 기본공격 가동률, 출처별 몫, 치명 비율)와
     /// 12장 합격 기준(피할 수 있었던 예고 공격에 맞은 비율)을 시험장에서 바로 본다.
+    /// 장비 문서 6장: 출처별 몫에 '전설' 줄(Shares 전설판)과 효과별 발동 수·맞힌 수·피해·처치·가장 큰 발동(LegendProcs 등, LegendShares)을 더한다.
     /// </summary>
     public sealed class CombatStats : MonoBehaviour
     {
@@ -34,7 +36,33 @@ namespace Demo6.Game
             }
         }
 
+        /// <summary>전설 피해 한 번(효과별 몫을 나누려고 따로 적음).</summary>
+        readonly struct LegendHit
+        {
+            public readonly float Time;
+            public readonly int Amount;
+            public readonly LegendaryEffect Effect;
+            public readonly bool Dummy;
+            public readonly bool Wood;
+
+            public LegendHit(float time, int amount, LegendaryEffect effect, bool dummy, bool wood)
+            {
+                Time = time;
+                Amount = amount;
+                Effect = effect;
+                Dummy = dummy;
+                Wood = wood;
+            }
+        }
+
         readonly List<Hit> _hits = new List<Hit>(4096);
+        readonly List<LegendHit> _legendHits = new List<LegendHit>(512);
+        /// <summary>효과별 발동 수·맞힌 수·피해·처치·가장 큰 발동(번개 = 튕김 수, 폭발 = 연쇄 길이). 시험 패널 '다시 재기'까지 쌓는다.</summary>
+        readonly int[] _legendProcs = new int[LegendaryTable.Count];
+        readonly int[] _legendHitCount = new int[LegendaryTable.Count];
+        readonly long[] _legendDamage = new long[LegendaryTable.Count];
+        readonly int[] _legendKills = new int[LegendaryTable.Count];
+        readonly int[] _legendLargest = new int[LegendaryTable.Count];
         readonly Queue<(float time, float dt, bool swinging)> _uptime = new Queue<(float, float, bool)>();
         readonly int[] _kills = new int[4];
         readonly Dictionary<string, float> _weaponRecords = new Dictionary<string, float>();
@@ -127,6 +155,65 @@ namespace Demo6.Game
                 AvoidableTelegraphs++;
                 if (hit) AvoidableTelegraphsHit++;
             };
+            CombatEvents.LegendTriggered += OnLegendTriggered;
+            CombatEvents.LegendDealt += OnLegendDealt;
+        }
+
+        void OnLegendTriggered(LegendaryEffect effect, int size)
+        {
+            int i = (int)effect;
+            if (i < 0 || i >= LegendaryTable.Count) return;
+            _legendProcs[i]++;
+            if (size > _legendLargest[i]) _legendLargest[i] = size;
+        }
+
+        void OnLegendDealt(LegendaryEffect effect, DamageDealt d)
+        {
+            int i = (int)effect;
+            if (i < 0 || i >= LegendaryTable.Count) return;
+            _legendHitCount[i]++;
+            _legendDamage[i] += d.Amount;
+            if (d.Killed) _legendKills[i]++;
+            bool dummy = d.Target && d.Target.IsDummy;
+            bool wood = d.Target is DummyBrain db && db.IsWood;
+            _legendHits.Add(new LegendHit(Time.time, d.Amount, effect, dummy, wood));
+            if (_legendHits.Count > 8000) _legendHits.RemoveRange(0, 2000);
+        }
+
+        /// <summary>그 효과가 발동한 수(번개 = 튕김이 난 발동, 발자국 = 깐 불길, 폭발 = 폭발 하나).</summary>
+        public int LegendProcs(LegendaryEffect effect) => _legendProcs[(int)effect];
+        /// <summary>그 효과가 적을 맞힌 수.</summary>
+        public int LegendHits(LegendaryEffect effect) => _legendHitCount[(int)effect];
+        public long LegendDamage(LegendaryEffect effect) => _legendDamage[(int)effect];
+        public int LegendKills(LegendaryEffect effect) => _legendKills[(int)effect];
+        /// <summary>한 번 발동의 가장 큰 크기: 연쇄 번개 = 가장 많이 튕긴 수(최대 4), 연쇄 폭발 = 가장 긴 연쇄(최대 12), 불꽃 발자국 = 1.</summary>
+        public int LegendLargest(LegendaryEffect effect) => _legendLargest[(int)effect];
+
+        /// <summary>최근 30초 전설 피해를 효과별로 나눈 몫(전설 피해 합 = 1). 전설 피해가 없으면 모두 0.</summary>
+        public void LegendShares(out float lightning, out float flame, out float blast, bool woodOnly)
+        {
+            float from = Time.time - DummyWindow;
+            long l = 0, f = 0, b = 0;
+            for (int i = _legendHits.Count - 1; i >= 0 && _legendHits[i].Time >= from; i--)
+            {
+                var h = _legendHits[i];
+                if (woodOnly ? !h.Wood : h.Dummy) continue;
+                switch (h.Effect)
+                {
+                    case LegendaryEffect.ChainLightning: l += h.Amount; break;
+                    case LegendaryEffect.FlameSteps: f += h.Amount; break;
+                    case LegendaryEffect.ChainBlast: b += h.Amount; break;
+                }
+            }
+            float total = l + f + b;
+            if (total <= 0f)
+            {
+                lightning = flame = blast = 0f;
+                return;
+            }
+            lightning = l / total;
+            flame = f / total;
+            blast = b / total;
         }
 
         public void ResetAll()
@@ -145,6 +232,15 @@ namespace Demo6.Game
             _woodFirstHit = -1f;
             _woodLockedDps = -1f;
             _encounters.Clear();
+            _legendHits.Clear();
+            for (int i = 0; i < LegendaryTable.Count; i++)
+            {
+                _legendProcs[i] = 0;
+                _legendHitCount[i] = 0;
+                _legendDamage[i] = 0;
+                _legendKills[i] = 0;
+                _legendLargest[i] = 0;
+            }
         }
 
         /// <summary>3차 값으로 정리한 마주침 수(종류별).</summary>
@@ -188,6 +284,7 @@ namespace Demo6.Game
         public void ResetDummyWindow()
         {
             _hits.RemoveAll(h => h.Wood);
+            _legendHits.RemoveAll(h => h.Wood);
             _woodFirstHit = -1f;
             _woodLockedDps = -1f;
         }
@@ -274,16 +371,24 @@ namespace Demo6.Game
         /// <summary>최근 30초 동안 휘두르고 있던 시간 비율.</summary>
         public float AttackUptime => _uptimeTotal > 0.5f ? _uptimeSwinging / _uptimeTotal : 0f;
 
-        /// <summary>최근 30초 출처별 몫(기본공격, 회오리, 검풍)과 치명 비율.</summary>
-        public void Shares(out float basic, out float whirl, out float wave, out float critRate, bool woodOnly)
+        /// <summary>최근 30초 출처별 몫(기본공격, 회오리, 검풍)과 치명 비율. 전설 피해는 분모·치명 비율에 넣지 않는다(예전 값 그대로).</summary>
+        public void Shares(out float basic, out float whirl, out float wave, out float critRate, bool woodOnly) =>
+            Shares(out basic, out whirl, out wave, out _, out critRate, woodOnly, false);
+
+        /// <summary>
+        /// 최근 30초 출처별 몫(기본공격, 회오리, 검풍, 전설)과 치명 비율(장비 문서 6장 '출처별 몫 계측에 전설 줄').
+        /// withLegend가 false면 전설 피해를 분모와 치명 비율에서 뺀다(legend = 0). 효과별 몫은 LegendShares.
+        /// </summary>
+        public void Shares(out float basic, out float whirl, out float wave, out float legend, out float critRate, bool woodOnly, bool withLegend = true)
         {
             float from = Time.time - DummyWindow;
-            long b = 0, w = 0, s = 0;
+            long b = 0, w = 0, s = 0, l = 0;
             int count = 0, crits = 0;
             for (int i = _hits.Count - 1; i >= 0 && _hits[i].Time >= from; i--)
             {
                 var h = _hits[i];
                 if (woodOnly ? !h.Wood : h.Dummy) continue;
+                if (!withLegend && h.Source == DamageSource.Legend) continue;
                 count++;
                 if (h.Crit) crits++;
                 switch (h.Source)
@@ -291,12 +396,15 @@ namespace Demo6.Game
                     case DamageSource.Basic: b += h.Amount; break;
                     case DamageSource.Whirlwind: w += h.Amount; break;
                     case DamageSource.SwordWave: s += h.Amount; break;
+                    case DamageSource.Legend: l += h.Amount; break;
                 }
             }
-            float total = Mathf.Max(1, b + w + s);
+            if (!withLegend) l = 0;
+            float total = Mathf.Max(1, b + w + s + l);
             basic = b / total;
             whirl = w / total;
             wave = s / total;
+            legend = l / total;
             critRate = count > 0 ? (float)crits / count : 0f;
         }
     }

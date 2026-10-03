@@ -108,6 +108,73 @@ namespace Demo6.Core.Combat
                 return percent / 100.0 / CycleSeconds;
             }
         }
+
+        // ── 카드에 보이는 무기 성격(장비 문서 3-1). 읽기 전용, 데이터는 그대로. 계약: 꾸러미 ①이 시험한다 ──
+
+        /// <summary>초당 휘두르기(공격 속도 0) = 콤보 동작 수 ÷ 한 바퀴 시간. 장검 1.40, 대검 0.97, 쌍검 1.54.</summary>
+        public double SwingsPerSecond => combo.Length / CycleSeconds;
+
+        /// <summary>
+        /// 한 방 세기(타 평균 배율 %) = 한 바퀴 배율 합 ÷ 한 바퀴 타 수. 장검 107(90·90·140), 대검 150(115·115·220), 쌍검 46(타당).
+        /// </summary>
+        public double AverageHitPercent
+        {
+            get
+            {
+                double percent = 0;
+                int hits = 0;
+                foreach (var s in combo)
+                {
+                    percent += s.PercentPerTarget;
+                    hits += Math.Max(1, s.hits);
+                }
+                return hits > 0 ? percent / hits : 0;
+            }
+        }
+
+        /// <summary>무너뜨리기(숨은 수) = 한 바퀴 버팀 합 ÷ 한 바퀴 시간. 장검 56 ÷ 2.15 = 26, 대검 96 ÷ 3.10 = 31, 쌍검 60 ÷ 2.60 = 23. 공격 속도와 무관(3-4).</summary>
+        public double PoisePerSecond
+        {
+            get
+            {
+                double poise = 0;
+                foreach (var s in combo) poise += s.poiseDamage * Math.Max(1, s.hits);
+                return poise / CycleSeconds;
+            }
+        }
+
+        /// <summary>무너뜨리기 글('약함'·'보통'·'강함', 화면에는 숫자 대신 이것만). 25 미만 약함, 30 이상 강함.</summary>
+        public string PoiseWord
+        {
+            get
+            {
+                double p = PoisePerSecond;
+                return p < 25 ? "약함" : p >= 30 ? "강함" : "보통";
+            }
+        }
+
+        /// <summary>한 번에 최대(일반 단계 가장 큰 값)와 마무리 최대. 장검 5(8), 대검 7(12), 쌍검 3(8).</summary>
+        public int MaxTargets
+        {
+            get
+            {
+                int m = 0;
+                foreach (var s in combo)
+                    if (!s.finisher && s.maxTargets > m) m = s.maxTargets;
+                return m;
+            }
+        }
+
+        public int FinisherMaxTargets
+        {
+            get
+            {
+                int m = 0;
+                foreach (var s in combo)
+                    if (s.finisher && s.maxTargets > m) m = s.maxTargets;
+                return m;
+            }
+        }
     }
 
     public static class WeaponPresets

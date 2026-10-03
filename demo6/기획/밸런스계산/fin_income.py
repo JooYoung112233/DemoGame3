@@ -3,11 +3,14 @@
 1차 fin_income.py 복사본. v2: '정비 화면 분해' → '마을 분해', '의뢰' 열 추가, 시간은 마을 체류 포함. 환경 변수는 fin_progress.py 와 같음.
 v3: 골드 수입표(원정 종류별 골드, 의뢰 골드, 그 방문의 골드 지출)를 더했다(기본값 = 골드, 2차 개정 확정).
     GOLD=0 이면 2차 강화석 전용 상점 비교로, 개정 전 2차와 같은 출력(fin_income_stone_c/g.txt).
+7칸: FIN_PROG=모듈 이름(기본 fin_progress)으로 불러올 진행 시뮬레이션을 고른다(FIN_PROG=fin_progress7 = 장비 7칸판, 드랍 ×1.2 는 DROP_MULT=1.2).
+    FIN_PROG 를 비우면 예전과 같은 출력이다. 9-5 표의 구간 비용은 무기(부위 배율 1000‰) 기준 그대로다.
 실행: python fin_income.py [인원=1500] [정책 c|g]"""
-import sys, statistics, random
+import sys, os, statistics, random, importlib
 N = sys.argv[1] if len(sys.argv) > 1 else "1500"; POL = sys.argv[2] if len(sys.argv) > 2 else "c"
-sys.argv = ["fin_progress.py", N, "1.27", POL, "1.00", "0.95", "1.24"]
-import fin_progress as F
+PROG = os.environ.get("FIN_PROG", "fin_progress")   # 7칸: 불러올 진행 시뮬레이션
+sys.argv = [PROG + ".py", N, "1.27", POL, "1.00", "0.95", "1.24"]
+F = importlib.import_module(PROG)
 rng = random.Random(20261002)
 res = [F.play(rng) for _ in range(int(N))]
 runs = [x for r in res for x in r[4]]

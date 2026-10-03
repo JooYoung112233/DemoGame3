@@ -6,11 +6,14 @@ fin_progress.py 를 그대로 불러 같은 난수로 돌리고, 원정별 기�
      선택 장면은 플레이어가 '!'를 보면 늘 본다고 가정했다(장면이 가장 촘촘한 경우).
 v3: 코드는 그대로다. 불러오는 fin_progress.py 기본값이 v3(골드: 상점·마을 편의, 2차 개정 확정)로 바뀌어 결과가 조금 달라진다.
     GOLD=0 이면 2차 강화석 전용 상점 비교로, 개정 전 2차와 같은 출력(fin_timeline_stone_c/g.txt).
+7칸: FIN_PROG=모듈 이름(기본 fin_progress)으로 불러올 진행 시뮬레이션을 고른다(FIN_PROG=fin_progress7 = 장비 7칸판, 드랍 ×1.2 는 DROP_MULT=1.2).
+    FIN_PROG 를 비우면 예전과 같은 출력이다. '첫 +8 도전'은 모든 부위 기준(7칸 무기·갑옷 기준은 fin_progress7 출력의 [7칸] 줄).
 실행: python fin_timeline.py [인원=2000] [정책 c|g]"""
-import sys, statistics, random
+import sys, os, statistics, random, importlib
 N = sys.argv[1] if len(sys.argv) > 1 else "2000"; POL = sys.argv[2] if len(sys.argv) > 2 else "c"
-sys.argv = ["fin_progress.py", N, "1.27", POL, "1.00", "0.95", "1.24"]
-import fin_progress as F
+PROG = os.environ.get("FIN_PROG", "fin_progress")   # 7칸: 불러올 진행 시뮬레이션
+sys.argv = [PROG + ".py", N, "1.27", POL, "1.00", "0.95", "1.24"]
+F = importlib.import_module(PROG)
 rng = random.Random(20261002)
 res = [F.play(rng) for _ in range(int(N))]
 med = statistics.median

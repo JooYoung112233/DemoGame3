@@ -82,39 +82,218 @@ namespace Demo6.Game
     }
 
     /// <summary>
-    /// 정수리 시점 검사. 몸은 한 장을 돌리고, 장화·소매·빈 주먹은 코드가 몸 둘레에 놓는다(모두 몸 밑에 깔려 몸 밖으로 나온 부분만 보인다).
-    /// 피격 번쩍임·젖힘·숨쉬기·구르기 회전·쓰러짐 어둡게는 코드가 한다.
+    /// 정수리 시점 검사(장비 문서 9-1). 몸은 한 장을 돌리고, 투구는 몸 위에 덧그림으로, 소매·주먹·장화는 코드가 몸 둘레에 놓는다
+    /// (소매·장화는 몸 밑에 깔려 몸 밖으로 나온 부분만 보이고, 주먹은 무기 위에 덮인다).
+    /// 갑옷·투구·장갑·장화는 낀 종류 id(GearBaseTable: arm_leather 등)로 아래 묶음 배열(armors·helms·gloves·boots)에서 고른다.
+    /// 묶음이 없거나 그 칸이 비면 예전 칸(body·bodyHurt·bodyDown·boot·sleeve·fist)이 모든 id의 기본값이고, 그것도 비면 무게 색 임시 그림(TopDownSprites)을 쓴다.
+    /// 등급은 겉모습에 넣지 않는다(이름 색·빛기둥만). 피격 번쩍임·젖힘·숨쉬기·구르기 회전·쓰러짐 어둡게는 코드가 한다(투구도 몸과 같이 받는다).
     /// </summary>
     [Serializable]
     public sealed class TopDownPlayerArt
     {
-        [Tooltip("몸 한 장: 위에서 본 어깨·망토·정수리(얼굴 쪽 +x). 피벗 = 몸 중심(충돌 원 중심). 어깨 폭 약 0.8~0.9유닛.")]
+        [Tooltip("기본 몸(모든 갑옷 id의 기본값): 위에서 본 어깨·망토, 맨머리까지(투구는 따로 덮음)(얼굴 쪽 +x). 피벗 = 몸 중심(충돌 원 중심). 어깨 폭 약 0.8~0.9유닛.")]
         public Sprite body;
-        [Tooltip("선택: 맞은 동안(0.2초) 바꿔 끼우는 몸. 몸 칸이 있을 때만 쓴다. 비우면 몸 그림(젖힘·번쩍임은 코드).")]
+        [Tooltip("선택: 기본 몸의 맞은 동안(0.2초) 그림. 몸 칸이 있을 때만 쓴다. 비우면 몸 그림(젖힘·번쩍임은 코드).")]
         public Sprite bodyHurt;
-        [Tooltip("선택: 쓰러진 동안 몸. 몸 칸이 있을 때만 쓴다. 코드가 90° 돌리고 어둡게 하는 것은 그대로다.")]
+        [Tooltip("선택: 기본 몸의 쓰러진 동안 그림. 몸 칸이 있을 때만 쓴다. 코드가 90° 돌리고 어둡게 하는 것은 그대로다.")]
         public Sprite bodyDown;
-        [Tooltip("오른발 장화 한 짝(발끝 +x, 피벗 가운데, 약 0.17×0.1유닛). 왼발은 코드가 위아래로 뒤집는다.")]
+        [Tooltip("기본 장화(모든 장화 id의 기본값): 오른발 한 짝(발끝 +x, 피벗 가운데, 약 0.17×0.1유닛). 왼발은 코드가 위아래로 뒤집는다.")]
         public Sprite boot;
-        [Tooltip("소매 한 토막(어깨 → 손, 길이 방향 +x, 피벗 가운데, 굵기 약 0.085유닛). 코드가 길이만 늘이고 줄인다.")]
+        [Tooltip("기본 소매(모든 갑옷 id의 기본값): 어깨 → 손 한 토막(길이 방향 +x, 피벗 가운데, 굵기 약 0.085유닛). 코드가 길이만 늘이고 줄인다.")]
         public Sprite sleeve;
-        [Tooltip("장검일 때 빈 왼손 주먹(피벗 가운데, 지름 약 0.1유닛).")]
+        [Tooltip("기본 주먹(모든 장갑 id의 쥔 주먹·빈 주먹 기본값, 피벗 가운데, 지름 약 0.1유닛). 무기를 쥔 손과 장검일 때 빈 왼손에 놓는다.")]
         public Sprite fist;
-        [Tooltip("몸 그림 배율(PPU를 잘못 넣었을 때 맞춤용, 기본 1). 장화·소매·주먹·무기에는 곱하지 않는다.")]
+        [Tooltip("기본 몸의 쓰러진 그림에서 머리(투구) 자리(유닛, 몸 피벗 기준, 돌리기 전). 0이면 서 있는 몸과 같은 자리.")]
+        public Vector2 downHeadOffset;
+        [Tooltip("몸 그림 배율(PPU를 잘못 넣었을 때 맞춤용, 기본 1). 몸·투구 그림에 곱하고 장화·소매·주먹·무기에는 곱하지 않는다.")]
         public float scale = 1f;
 
-        public bool HasAny => body || bodyHurt || bodyDown || boot || sleeve || fist;
+        [Tooltip("갑옷 종류(arm_leather·arm_chain·arm_plate)마다 몸 묶음. 비우면 위 기본 몸·소매.")]
+        public TopDownArmorArt[] armors = Array.Empty<TopDownArmorArt>();
+        [Tooltip("투구 종류(hlm_leather·hlm_chain·hlm_plate)마다 머리 위 덧그림. 비우면 무게 색 임시 그림.")]
+        public TopDownHelmArt[] helms = Array.Empty<TopDownHelmArt>();
+        [Tooltip("장갑 종류(glv_leather·glv_chain·glv_plate)마다 쥔 주먹·빈 주먹. 비우면 위 기본 주먹.")]
+        public TopDownGlovesArt[] gloves = Array.Empty<TopDownGlovesArt>();
+        [Tooltip("장화 종류(bts_leather·bts_chain·bts_plate)마다 오른발 장화. 비우면 위 기본 장화.")]
+        public TopDownBootsArt[] boots = Array.Empty<TopDownBootsArt>();
+
+        /// <summary>갑옷 id의 묶음(없으면 null).</summary>
+        public TopDownArmorArt Armor(string armorId)
+        {
+            if (armors == null || string.IsNullOrEmpty(armorId)) return null;
+            foreach (var a in armors)
+                if (a != null && a.armorId == armorId) return a;
+            return null;
+        }
+
+        public TopDownHelmArt Helm(string helmId)
+        {
+            if (helms == null || string.IsNullOrEmpty(helmId)) return null;
+            foreach (var h in helms)
+                if (h != null && h.helmId == helmId) return h;
+            return null;
+        }
+
+        public TopDownGlovesArt Gloves(string glovesId)
+        {
+            if (gloves == null || string.IsNullOrEmpty(glovesId)) return null;
+            foreach (var g in gloves)
+                if (g != null && g.glovesId == glovesId) return g;
+            return null;
+        }
+
+        public TopDownBootsArt Boots(string bootsId)
+        {
+            if (boots == null || string.IsNullOrEmpty(bootsId)) return null;
+            foreach (var b in boots)
+                if (b != null && b.bootsId == bootsId) return b;
+            return null;
+        }
+
+        /// <summary>
+        /// 갑옷 id의 몸 세 장(서 있는·맞은·쓰러진)과 쓰러진 머리 자리. 묶음에 몸이 있으면 그 묶음(맞은·쓰러진 몸이 비면 그 묶음의 몸),
+        /// 없으면 기본 칸(body·bodyHurt·bodyDown·downHeadOffset). 둘 다 비면 false(→ 무게 색 임시 몸).
+        /// 다른 갑옷 그림이 섞여 보이지 않게, 묶음에 몸이 있으면 기본 칸의 맞은·쓰러진 몸은 쓰지 않는다.
+        /// </summary>
+        public bool TryBody(string armorId, out Sprite standing, out Sprite hurt, out Sprite down, out Vector2 headWhenDown)
+        {
+            var a = Armor(armorId);
+            if (a != null && a.body)
+            {
+                standing = a.body;
+                hurt = a.bodyHurt ? a.bodyHurt : a.body;
+                down = a.bodyDown ? a.bodyDown : a.body;
+                headWhenDown = a.downHeadOffset;
+                return true;
+            }
+            if (body)
+            {
+                standing = body;
+                hurt = bodyHurt ? bodyHurt : body;
+                down = bodyDown ? bodyDown : body;
+                headWhenDown = downHeadOffset;
+                return true;
+            }
+            standing = hurt = down = null;
+            headWhenDown = Vector2.zero;
+            return false;
+        }
+
+        /// <summary>갑옷 id의 소매: 묶음 → 기본 칸. 없으면 null(→ 임시 팔 막대에 무게 색).</summary>
+        public Sprite SleeveFor(string armorId)
+        {
+            var a = Armor(armorId);
+            if (a != null && a.sleeve) return a.sleeve;
+            return sleeve ? sleeve : null;
+        }
+
+        /// <summary>투구 id의 덧그림. 없으면 null(→ 무게 색 임시 투구). 투구는 예전 기본 칸이 없다(예전 몸이 머리까지 그렸음).</summary>
+        public Sprite HelmFor(string helmId)
+        {
+            var h = Helm(helmId);
+            return h != null && h.sprite ? h.sprite : null;
+        }
+
+        /// <summary>장갑 id의 주먹(closed = 무기를 쥔 주먹, 아니면 빈 주먹): 묶음의 그 칸 → 묶음의 다른 칸 → 기본 주먹. 없으면 null(→ 무게 색 임시 주먹).</summary>
+        public Sprite FistFor(string glovesId, bool closed)
+        {
+            var g = Gloves(glovesId);
+            if (g != null)
+            {
+                Sprite want = closed ? g.fistClosed : g.fistOpen;
+                if (want) return want;
+                Sprite other = closed ? g.fistOpen : g.fistClosed;
+                if (other) return other;
+            }
+            return fist ? fist : null;
+        }
+
+        /// <summary>장화 id의 오른발 장화: 묶음 → 기본 칸. 없으면 null(→ 무게 색 임시 장화).</summary>
+        public Sprite BootFor(string bootsId)
+        {
+            var b = Boots(bootsId);
+            if (b != null && b.boot) return b.boot;
+            return boot ? boot : null;
+        }
+
+        public bool HasAny =>
+            body || bodyHurt || bodyDown || boot || sleeve || fist ||
+            (armors != null && Array.Exists(armors, a => a != null && a.HasAny)) ||
+            (helms != null && Array.Exists(helms, h => h != null && h.sprite)) ||
+            (gloves != null && Array.Exists(gloves, g => g != null && (g.fistClosed || g.fistOpen))) ||
+            (boots != null && Array.Exists(boots, b => b != null && b.boot));
     }
 
-    /// <summary>정수리 시점 무기 세 자루. 손잡이를 쥔 주먹까지 한 장에 그린다. 휘두르기는 코드(TopDownSwing)가 한다.</summary>
+    /// <summary>
+    /// 갑옷 한 종류의 몸 묶음(장비 문서 9-1·9-2): 맨머리 몸·맞은 몸·쓰러진 몸 + 소매. 무게가 실루엣으로 보이게 그린다(가죽 좁은 어깨·끈, 사슬 고리 무늬, 판금 넓은 어깨받이).
+    /// 규격은 기본 몸·소매와 같다(PPU 256, 피벗 = 몸 중심, 얼굴 쪽 +x).
+    /// </summary>
+    [Serializable]
+    public sealed class TopDownArmorArt
+    {
+        [Tooltip("갑옷 종류 id: arm_leather / arm_chain / arm_plate")]
+        public string armorId;
+        [Tooltip("몸 한 장: 맨머리까지(투구가 위를 덮음). 피벗 = 몸 중심. 기본 몸과 같은 규격.")]
+        public Sprite body;
+        [Tooltip("선택: 맞은 동안 몸. 비우면 이 묶음의 몸.")]
+        public Sprite bodyHurt;
+        [Tooltip("선택: 쓰러진 동안 몸. 비우면 이 묶음의 몸(코드가 90° 돌리고 어둡게 함).")]
+        public Sprite bodyDown;
+        [Tooltip("선택: 소매 한 토막(기본 소매와 같은 규격). 비우면 기본 소매.")]
+        public Sprite sleeve;
+        [Tooltip("쓰러진 몸 그림에서 머리(투구) 자리(유닛, 몸 피벗 기준, 돌리기 전). 0이면 서 있는 몸과 같은 자리.")]
+        public Vector2 downHeadOffset;
+
+        public bool HasAny => body || bodyHurt || bodyDown || sleeve;
+    }
+
+    /// <summary>
+    /// 투구 한 종류의 머리 위 덧그림(장비 문서 9-2 ①). 머리 원(임시 몸 단위 중심 약 (0.02, 0), 반지름 약 0.18 → 유닛 약 (0.017, 0)·0.155)을 다 덮는다.
+    /// 피벗 = 몸 피벗과 같은 자리(그래서 몸 중심에 그대로 겹쳐 놓는다). 코드가 몸 Transform의 자식으로 놓고 몸 + 1 순서로 그린다.
+    /// </summary>
+    [Serializable]
+    public sealed class TopDownHelmArt
+    {
+        [Tooltip("투구 종류 id: hlm_leather / hlm_chain / hlm_plate")]
+        public string helmId;
+        [Tooltip("머리 위 덧그림(PPU 256, 피벗 = 몸 피벗 자리, 얼굴 쪽 +x). 몸 그림 배율(scale)을 같이 받는다.")]
+        public Sprite sprite;
+    }
+
+    /// <summary>장갑 한 종류의 주먹 두 장(장비 문서 9-2 ③). 지름 약 0.1유닛, 피벗 가운데, 손가락 쪽 +x. 무기 위(무기 + 1 순서)에 놓는다.</summary>
+    [Serializable]
+    public sealed class TopDownGlovesArt
+    {
+        [Tooltip("장갑 종류 id: glv_leather / glv_chain / glv_plate")]
+        public string glovesId;
+        [Tooltip("무기 손잡이를 쥔 주먹(손잡이는 무기 그림이 밑에 깜). 피벗 = 쥔 점.")]
+        public Sprite fistClosed;
+        [Tooltip("아무것도 쥐지 않은 빈 주먹(장검일 때 왼손).")]
+        public Sprite fistOpen;
+    }
+
+    /// <summary>장화 한 종류(장비 문서 9-2 ⑤): 오른발 한 짝, 약 0.17×0.10유닛, 발끝 +x, 피벗 가운데. 왼발은 코드가 위아래로 뒤집는다.</summary>
+    [Serializable]
+    public sealed class TopDownBootsArt
+    {
+        [Tooltip("장화 종류 id: bts_leather / bts_chain / bts_plate")]
+        public string bootsId;
+        [Tooltip("오른발 장화(발끝 +x, 피벗 가운데).")]
+        public Sprite boot;
+    }
+
+    /// <summary>
+    /// 정수리 시점 무기 세 자루. 손잡이까지만 그리고 주먹은 그리지 않는다(주먹은 장갑 부품: TopDownPlayerArt.gloves, 장비 문서 9-2 ②).
+    /// 코드가 쥔 주먹을 손잡이 위(무기 + 1 순서)에 덮는다. 휘두르기는 코드(TopDownSwing)가 한다.
+    /// </summary>
     [Serializable]
     public sealed class TopDownWeaponArt
     {
-        [Tooltip("장검(오른 주먹 포함). 피벗 = 오른 주먹 가운데(손잡이를 쥔 점), 칼끝 +x 0.985유닛.")]
+        [Tooltip("장검(주먹 제외, 주먹은 장갑 부품). 피벗 = 오른 주먹 자리(손잡이를 쥔 점), 칼끝 +x 0.985유닛.")]
         public Sprite longsword;
-        [Tooltip("대검(두 주먹 포함: 0과 −0.105유닛). 피벗 = 앞 주먹 가운데, 칼끝 +x 1.405유닛.")]
+        [Tooltip("대검(주먹 제외, 주먹은 장갑 부품: 코드가 0과 −0.105유닛에 쥔 주먹을 놓음). 피벗 = 앞 주먹 자리, 칼끝 +x 1.405유닛.")]
         public Sprite greatsword;
-        [Tooltip("쌍검 한 자루(오른 주먹 포함). 왼손 칼은 코드가 위아래로 뒤집는다. 피벗 = 주먹 가운데, 칼끝 +x 0.62유닛.")]
+        [Tooltip("쌍검 한 자루(주먹 제외, 주먹은 장갑 부품). 왼손 칼은 코드가 위아래로 뒤집는다. 피벗 = 주먹 자리, 칼끝 +x 0.62유닛.")]
         public Sprite twinblade;
 
         /// <summary>무기 id의 그림(없으면 null). 모르는 id는 장검(TopDownWeaponLook.Of와 같은 규칙).</summary>

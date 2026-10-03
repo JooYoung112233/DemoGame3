@@ -9,7 +9,9 @@ namespace Demo6.Game
     /// 뼈·해골 더미·녹슨 사슬·부서진 나무·돌무더기·오래된 핏자국을, 벽이 만나는 구석에는 거미줄을 도형 그림으로 놓는다.
     /// 충돌이 없고(걸음을 막지 않음), 문 앞 길·자리 표시(궤짝·말뚝·무리·둥지·계단·광맥 등)·벽 안을 피한다.
     /// 빛을 받는 기본 재질이라 어둠 속에서는 보이지 않고, 바닥(−1000) 바로 위·피 얼룩(−990 근처) 아래에 그린다.
-    /// 상한 MaxSprites(스프라이트 수). 영구 장식이라 원정을 다시 시작해도 그대로 둔다.
+    /// 상한 MaxSprites(스프라이트 수). 장면을 다시 불러올 때마다 새로 놓는다: 고정 칸(승강장·랜드마크)은 늘 같은 자리,
+    /// 나머지 칸은 원정 씨앗이 섞인 칸 시드(DungeonWorld.CellSeed)라 원정마다 자리가 바뀐다(매판 새 탐험 1차).
+    /// 지난 원정 흔적·승강장 막힌 아치 자리(ExpeditionTraces.CollectPlaces) 둘레 TraceClear 안은 비워 흔적 위에 겹치지 않게 한다.
     /// </summary>
     public static class DungeonDecor
     {
@@ -26,6 +28,8 @@ namespace Demo6.Game
         /// <summary>문 가운데에서 이 반경 안, 그리고 문에서 칸 안쪽으로 2.5유닛 들어간 자리 둘레 2유닛은 비운다(문 앞 길).</summary>
         const float DoorClear = 3f;
         const float DoorLaneClear = 2f;
+        /// <summary>흔적(흙더미·갓 판 흙·깨진 돌)·막힌 아치 자리에서 이 반경 안은 비운다.</summary>
+        const float TraceClear = 2f;
 
         enum Kind
         {
@@ -46,6 +50,8 @@ namespace Demo6.Game
             if (parent) root.SetParent(parent, false);
             int used = 0;
             var placed = new List<Vector2>(16);
+            var traces = new List<Vector2>(16);
+            ExpeditionTraces.CollectPlaces(DungeonRoot.Instance, traces);
             foreach (var cell in world.Cells)
             {
                 if (used >= MaxSprites) break;
@@ -53,8 +59,8 @@ namespace Demo6.Game
                 cellRoot.SetParent(root, false);
                 var rng = new System.Random(world.CellSeed(cell) ^ 0x2F6B3A1);
                 placed.Clear();
-                used += Webs(cell, cellRoot, rng, MaxSprites - used);
-                used += Pieces(cell, cellRoot, rng, placed, MaxSprites - used);
+                used += Webs(cell, cellRoot, rng, MaxSprites - used, traces);
+                used += Pieces(cell, cellRoot, rng, placed, MaxSprites - used, traces);
             }
             return used;
         }
@@ -103,7 +109,7 @@ namespace Demo6.Game
             return Kind.Stain;
         }
 
-        static int Pieces(DungeonCell cell, Transform parent, System.Random rng, List<Vector2> placed, int budget)
+        static int Pieces(DungeonCell cell, Transform parent, System.Random rng, List<Vector2> placed, int budget, List<Vector2> traces)
         {
             int want = CountFor(cell.Piece);
             var inner = cell.Inner;
@@ -115,7 +121,7 @@ namespace Demo6.Game
                     Mathf.Lerp(inner.yMin + 0.6f, inner.yMax - 0.6f, (float)rng.NextDouble()));
                 var kind = Pick(cell.Piece, rng);
                 float radius = Radius(kind);
-                if (!Free(cell, pos, radius, placed)) continue;
+                if (!Free(cell, pos, radius, placed, traces)) continue;
                 placed.Add(pos);
                 used += Place(kind, parent, pos, rng, budget - used);
             }
@@ -134,12 +140,13 @@ namespace Demo6.Game
             }
         }
 
-        /// <summary>벽 안·문 앞 길·자리 표시·다른 장식 가까이가 아니면 참.</summary>
-        static bool Free(DungeonCell cell, Vector2 pos, float radius, List<Vector2> placed)
+        /// <summary>벽 안·문 앞 길·자리 표시·흔적·다른 장식 가까이가 아니면 참.</summary>
+        static bool Free(DungeonCell cell, Vector2 pos, float radius, List<Vector2> placed, List<Vector2> traces)
         {
             if (Physics2D.OverlapCircle(pos, radius + 0.15f, Layers.WallMask)) return false;
             foreach (var p in placed)
                 if ((p - pos).sqrMagnitude < Spacing * Spacing) return false;
+            if (NearTrace(pos, radius, traces)) return false;
             foreach (var e in cell.Edges)
             {
                 if ((e.DoorCenter - pos).sqrMagnitude < DoorClear * DoorClear) return false;
@@ -246,16 +253,26 @@ namespace Demo6.Game
             }
         }
 
+        /// <summary>흔적 자리 반경 TraceClear(+ 장식 반경) 안인가.</summary>
+        static bool NearTrace(Vector2 pos, float radius, List<Vector2> traces)
+        {
+            if (traces == null) return false;
+            float keep = TraceClear + radius;
+            foreach (var t in traces)
+                if ((t - pos).sqrMagnitude < keep * keep) return true;
+            return false;
+        }
+
         /// <summary>벽이 만나는 구석 1~2곳에 거미줄. 칸 안쪽 네 귀와 막다른 방 네 귀 가운데 실제 구석(두 벽이 막힌 곳)만 쓴다.</summary>
-        static int Webs(DungeonCell cell, Transform parent, System.Random rng, int budget)
+        static int Webs(DungeonCell cell, Transform parent, System.Random rng, int budget, List<Vector2> traces)
         {
             if (budget <= 0) return 0;
             int max = Mathf.Min(budget, 1 + rng.Next(2));
             int used = 0;
             var inner = cell.Inner;
             // 막다른 방(DungeonWorld.RoomMargins와 같은 반폭·반높이)의 귀도 후보로 넣는다.
-            float hw = cell.Piece == PieceKind.Hidden ? 6f : 7f;
-            float hh = cell.Piece == PieceKind.Hidden ? 4f : 4.5f;
+            float hw = cell.Piece == PieceKind.Hidden ? DungeonWorld.HiddenHalfWidth : DungeonWorld.RoomHalfWidth;
+            float hh = cell.Piece == PieceKind.Hidden ? DungeonWorld.HiddenHalfHeight : DungeonWorld.RoomHalfHeight;
             bool room = cell.Piece == PieceKind.Room || cell.Piece == PieceKind.Office || cell.Piece == PieceKind.Hidden;
             int start = rng.Next(8);
             for (int k = 0; k < 8 && used < max; k++)
@@ -273,6 +290,7 @@ namespace Demo6.Game
                 if (!Physics2D.OverlapPoint(corner + new Vector2(sx * 0.3f, -sy * 0.4f), Layers.WallMask)) continue;
                 if (!Physics2D.OverlapPoint(corner + new Vector2(-sx * 0.4f, sy * 0.3f), Layers.WallMask)) continue;
                 if (NearFeature(cell, corner, 1.2f)) continue;
+                if (NearTrace(corner, 0.5f, traces)) continue;
                 // 그림은 왼쪽 아래 구석에서 오른쪽 위로 퍼진다: 안쪽 방향에 맞춰 돌린다.
                 float rot = inward.x > 0f ? (inward.y > 0f ? 0f : 270f) : (inward.y > 0f ? 90f : 180f);
                 Put(parent, "Cobweb", ShapeSprites.Cobweb, corner, Palette.DungeonCobweb, WebOrder, rot,

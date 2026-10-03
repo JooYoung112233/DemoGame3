@@ -5,15 +5,19 @@
 v2: 1차 복사본. 코드는 그대로이고, 불러오는 fin_progress.py 가 v2 규칙(마을에서만 계승, 마을 체류 일정, 의뢰, 상점)으로 바뀌었다.
     환경 변수(V1, TOWN, QUEST 등)는 fin_progress.py 와 같다. 기획 값: python fin_floor.py 2000 1.27 1.24 c 1.25
 v3: 코드는 그대로다. 불러오는 fin_progress.py 기본값이 v3(골드, 2차 개정 확정)로 바뀌어 결과가 조금 달라진다.
-    GOLD=0 이면 2차 강화석 전용 상점 비교로, 개정 전 2차와 같은 출력(fin_floor_127_124_stone_c/g.txt)."""
-import sys, io, statistics, random, math
+    GOLD=0 이면 2차 강화석 전용 상점 비교로, 개정 전 2차와 같은 출력(fin_floor_127_124_stone_c/g.txt).
+7칸: FIN_PROG=모듈 이름(기본 fin_progress)으로 불러올 진행 시뮬레이션을 고른다. FIN_PROG=fin_progress7 이면 장비 7칸판이고,
+    끝에 3차 보스 체력(32,000 기준) 처치 시간 줄을 더 찍는다. FIN_PROG 를 비우면 예전과 같은 출력이다.
+    7칸 기획 값: FIN_PROG=fin_progress7 python fin_floor.py 2000 1.27 1.24 c 1.25 (드랍 ×1.2 는 DROP_MULT=1.2)"""
+import sys, io, os, statistics, random, math, importlib
 N = sys.argv[1] if len(sys.argv) > 1 else "800"
 HPG = sys.argv[2] if len(sys.argv) > 2 else "1.30"
 ATG = sys.argv[3] if len(sys.argv) > 3 else "1.20"
 POL = sys.argv[4] if len(sys.argv) > 4 else "c"
 RATG = float(sys.argv[5]) if len(sys.argv) > 5 else 1.24
-sys.argv = ["fin_progress.py", N, HPG, POL, "1.00", "0.95", ATG]
-import fin_progress as F
+PROG = os.environ.get("FIN_PROG", "fin_progress")   # 7칸: 불러올 진행 시뮬레이션
+sys.argv = [PROG + ".py", N, HPG, POL, "1.00", "0.95", ATG]
+F = importlib.import_module(PROG)
 out = F.sys.stdout
 med = statistics.median
 rng = random.Random(20261002)
@@ -51,3 +55,11 @@ for batk in (300, 320, 340):
     a10 = batk * atm(10); a5 = batk * 0.85 * atm(5)
     l = lambda a, m, hp, df: a * m * 1000 / (1000 + df) / hp * 100
     print(f"보스 기본 공격 {batk}: 10층 공격 {a10:.0f} 내려찍기/돌진/낙석 {l(a10,2.5,hp10,df10):.0f}%/{l(a10,1.5,hp10,df10):.0f}%/{l(a10,1.2,hp10,df10):.0f}%, 5층 공격 {a5:.0f} 내려찍기 {l(a5,2.5,hp5,df5):.0f}%")
+if hasattr(F, "report7"):   # 7칸: 3차 부록 보스(체력 = 32,000 × 1.27^(층 − 1), 5층 × 0.55, 처치 시간 = 체력 ÷ (공격력 × 1.76))
+    b10 = med(e["B"] for e in es10) * 10; b5 = med(e["B"] for e in es5) * 10
+    cm10 = med(e["cm"] for e in es10); cm5 = med(e["cm"] for e in es5)
+    h10 = round(32000 * hpm(10)); h5 = round(32000 * 0.55 * hpm(5))
+    print(f"7칸, 3차 보스 체력 10층 {h10} / 5층 {h5}: 치명 없는 3차 식 {h10 / (atk10 * 1.76):.0f}초 / {h5 / (atk5 * 1.76):.0f}초 "
+          f"(10층 공격력 중앙 {atk10:.0f}, 3차 기준 1,462 → 107초). 기대 치명 배율 중앙 10층 {cm10:.3f} / 5층 {cm5:.3f}, "
+          f"보스전 지수 B(치명·공속·스킬·재사용·보스 피해 포함) 중앙 10층 {b10:.0f} / 5층 {b5:.0f} → 체력 ÷ (B × 1.76) {h10 / (b10 * 1.76):.0f}초 / {h5 / (b5 * 1.76):.0f}초. "
+          f"합격선 비교(2차 대비 고친 107초)는 fin7_variants.txt")

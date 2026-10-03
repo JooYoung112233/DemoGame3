@@ -1,3 +1,4 @@
+using Demo6.Core.Combat;
 using UnityEngine;
 
 namespace Demo6.Game
@@ -38,25 +39,36 @@ namespace Demo6.Game
         }
 
         /// <summary>
+        /// 적을 맞힌 순간(피해·넉백 뒤라 처치면 이미 Dead). 치명이면 보통 치명 연출(예전 치명 그대로)로 낸다.
+        /// 치명 단계를 아는 곳(PlayerController)은 CritTier 판을 부른다.
+        /// </summary>
+        public static void OnHit(Enemy enemy, Vector2 dir, bool crit, bool heavy, int extraSparks = 0) =>
+            OnHit(enemy, dir, crit ? CritTier.Normal : CritTier.None, heavy, extraSparks);
+
+        /// <summary>
         /// 적을 맞힌 순간(피해·넉백 뒤라 처치면 이미 Dead). 파편 개수·속도·베인 자국은 M0a 손맛 그대로이고,
         /// 다크 판타지 1차(기획/다크판타지-분위기-1차.md '잔혹')에서 색만 바꿨다: 살 있는 적은 검붉은 피, 둥지는 흙·고름, 허수아비는 예전 몸색.
+        /// 치명 세기(장비 문서 3-4): 가벼움 = 보통 타 파편·자국에 노란 불꽃 3개만 더함, 보통·무거움 = 파편 10개(빠르게)·강한 베인 자국·피 +30%(예전 치명).
         /// 피 튀김·얼룩·조각·시체는 GoreSystem이 맡는다(파편 손잡이와 따로 돈다).
         /// </summary>
-        public static void OnHit(Enemy enemy, Vector2 dir, bool crit, bool heavy, int extraSparks = 0)
+        public static void OnHit(Enemy enemy, Vector2 dir, CritTier tier, bool heavy, int extraSparks = 0)
         {
             if (!_instance || !enemy) return;
             if (dir.sqrMagnitude < 0.0001f) dir = Vector2.right;
             dir.Normalize();
             Vector2 at = enemy.Position;
+            bool strong = tier >= CritTier.Normal;
             if (Tuning.HitSparks)
             {
-                int count = (crit ? 10 : heavy ? 8 : 5) + extraSparks;
-                float speed = crit ? 1.25f : 1f;
+                int count = (strong ? 10 : heavy ? 8 : 5) + extraSparks;
+                float speed = strong ? 1.25f : 1f;
+                // 가벼운 치명: 보통 타 위에 노란 불꽃 3개(치명이 읽히되 가볍게).
+                int lightSparks = tier == CritTier.Light ? 3 : 0;
                 switch (GoreColors.MatterOf(enemy))
                 {
                     case GoreMatter.Flesh:
                         // 치명은 노란 불꽃 3개를 남겨 치명이 읽히게 한다(나머지는 피).
-                        int critSparks = crit ? 3 : 0;
+                        int critSparks = strong ? 3 : 0;
                         _instance.Burst(at, dir, count - critSparks, GoreColors.BloodMid, GoreColors.BloodBright, speed);
                         if (critSparks > 0) _instance.Burst(at, dir, critSparks, Palette.NumberCrit, Palette.NumberCrit, speed);
                         if (enemy.Dead) _instance.Burst(at, dir, 6, GoreColors.BloodDark, GoreColors.Darken(GoreColors.BodyColor(enemy)), 0.85f);
@@ -67,14 +79,15 @@ namespace Demo6.Game
                         break;
                     default:
                         Color body = Color.Lerp(GoreColors.BodyColor(enemy), Color.white, 0.45f);
-                        Color first = crit ? Palette.NumberCrit : body;
+                        Color first = strong ? Palette.NumberCrit : body;
                         _instance.Burst(at, dir, count, first, first, speed);
                         if (enemy.Dead) _instance.Burst(at, dir, 6, GoreColors.BodyColor(enemy), GoreColors.BodyColor(enemy), 0.85f);
                         break;
                 }
-                _instance.SlashMark(at, dir, enemy.Radius, crit || heavy);
+                if (lightSparks > 0) _instance.Burst(at, dir, lightSparks, Palette.NumberCrit, Palette.NumberCrit, 1f);
+                _instance.SlashMark(at, dir, enemy.Radius, strong || heavy);
             }
-            GoreSystem.EnemyHit(enemy, dir, crit, heavy);
+            GoreSystem.EnemyHit(enemy, dir, tier, heavy);
         }
 
         void Awake()

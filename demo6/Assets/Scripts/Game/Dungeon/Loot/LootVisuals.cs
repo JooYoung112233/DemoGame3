@@ -6,7 +6,7 @@ namespace Demo6.Game
 {
     /// <summary>
     /// 보상 연출의 임시 도형(원화 전, 3차 초안 7-2 '그림·소리 리소스는 다음 단계').
-    /// 빛기둥·반짝임·고리는 빛을 무시하는 재질(RenderMaterials.MakeUnlit), 무기 몸통과 궤짝은 빛을 받는다(어둠 속에서는 빛기둥만 보임).
+    /// 빛기둥·반짝임·고리는 빛을 무시하는 재질(RenderMaterials.MakeUnlit), 바닥 장비 몸통(부위별 7종)과 궤짝은 빛을 받는다(어둠 속에서는 빛기둥만 보임).
     /// 정렬: 빛기둥·고리는 공격 예고(-60)보다 아래, 무기 몸통은 바닥 물체 높이(2차 7-6 '예고 도형은 늘 빛기둥 위').
     /// </summary>
     public static class LootVisuals
@@ -63,21 +63,110 @@ namespace Demo6.Game
             return sr;
         }
 
+        /// <summary>원화 전 임시 무게 색(장비 문서 9-1): 가죽 갈색, 사슬 회청, 판금 은색.</summary>
+        public static readonly Color LeatherColor = new Color(0.46f, 0.32f, 0.19f);
+        public static readonly Color ChainColor = new Color(0.47f, 0.53f, 0.58f);
+        public static readonly Color PlateColor = new Color(0.8f, 0.82f, 0.85f);
+        /// <summary>반지·목걸이 띠(빛을 받는 놋쇠).</summary>
+        public static readonly Color Brass = new Color(0.66f, 0.53f, 0.3f);
+
+        /// <summary>방어구 무게 색(무게가 없으면 가죽).</summary>
+        public static Color WeightColor(ArmorWeight weight) =>
+            weight == ArmorWeight.Heavy ? PlateColor : weight == ArmorWeight.Medium ? ChainColor : LeatherColor;
+
+        /// <summary>
+        /// 바닥 장비 모양(장비 문서 9-1 '바닥 장비 모양은 부위별 코드 도형', 그림 필요 없음). 무기 3종은 BuildWeapon 그대로,
+        /// 갑옷(몸통+어깨)·투구(둥근 머리+챙)·장갑(벙어리 장갑 한 켤레)·장화(ㄴ자 한 켤레)·반지(고리+보석)·목걸이(줄+펜던트)는 새 도형이다.
+        /// 방어구 몸은 무게 색, 등급은 한 곳(띠·보석·펜던트)에 등급색. 돌려주는 Transform 아래 도형은 모두 빛을 받는다.
+        /// </summary>
+        public static Transform BuildGear(Transform parent, GearItem item)
+        {
+            if (item == null) return BuildWeapon(parent, GearBaseTable.Longsword, Grade.Common);
+            if (item.IsWeapon) return BuildWeapon(parent, item.BaseId, item.Grade);
+            var root = new GameObject(item.Part.ToString()).transform;
+            root.SetParent(parent, false);
+            var grade = GradeColor(item.Grade);
+            var metal = WeightColor(item.Base.Weight);
+            var dark = Color.Lerp(metal, Color.black, 0.35f);
+            bool heavy = item.Base.Weight == ArmorWeight.Heavy;
+            switch (item.Part)
+            {
+                case GearPart.Armor:
+                    // 몸통 + 어깨(판금은 넓은 어깨받이) + 등급색 허리띠.
+                    Part(root, "Torso", ShapeSprites.Square, metal, BodyOrder, new Vector2(0f, 0f), new Vector2(0.46f, 0.5f));
+                    float shoulder = heavy ? 0.24f : 0.17f;
+                    Part(root, "ShoulderL", ShapeSprites.Circle, dark, BodyOrder + 1, new Vector2(-0.26f, 0.17f), new Vector2(shoulder, shoulder * 0.8f));
+                    Part(root, "ShoulderR", ShapeSprites.Circle, dark, BodyOrder + 1, new Vector2(0.26f, 0.17f), new Vector2(shoulder, shoulder * 0.8f));
+                    Part(root, "Belt", ShapeSprites.Square, grade, BodyOrder + 1, new Vector2(0f, -0.13f), new Vector2(0.48f, 0.07f));
+                    break;
+                case GearPart.Helm:
+                    // 둥근 머리 + 챙 + 등급색 이마 보석.
+                    Part(root, "Dome", ShapeSprites.Circle, metal, BodyOrder, new Vector2(0f, 0.05f), new Vector2(0.38f, 0.34f));
+                    Part(root, "Brim", ShapeSprites.Square, dark, BodyOrder + 1, new Vector2(0f, -0.1f), new Vector2(heavy ? 0.46f : 0.4f, 0.08f));
+                    Part(root, "Gem", ShapeSprites.Circle, grade, BodyOrder + 2, new Vector2(0f, 0.02f), new Vector2(0.09f, 0.09f));
+                    break;
+                case GearPart.Gloves:
+                    // 한 켤레: 손바닥(원) + 등급색 손목 띠.
+                    for (int i = 0; i < 2; i++)
+                    {
+                        float side = i == 0 ? -1f : 1f;
+                        var glove = new GameObject(i == 0 ? "GloveL" : "GloveR").transform;
+                        glove.SetParent(root, false);
+                        glove.localPosition = new Vector2(side * 0.13f, 0f);
+                        glove.localRotation = Quaternion.Euler(0f, 0f, side * -14f);
+                        Part(glove, "Palm", ShapeSprites.Circle, metal, BodyOrder, new Vector2(0f, 0.05f), new Vector2(0.2f, 0.24f));
+                        Part(glove, "Thumb", ShapeSprites.Circle, dark, BodyOrder + 1, new Vector2(-side * 0.09f, 0.03f), new Vector2(0.08f, 0.1f));
+                        Part(glove, "Cuff", ShapeSprites.Square, grade, BodyOrder + 1, new Vector2(0f, -0.1f), new Vector2(0.19f, 0.07f));
+                    }
+                    break;
+                case GearPart.Boots:
+                    // 한 켤레: 목(세로) + 발(가로, 발끝 바깥) + 등급색 목 띠.
+                    for (int i = 0; i < 2; i++)
+                    {
+                        float side = i == 0 ? -1f : 1f;
+                        var boot = new GameObject(i == 0 ? "BootL" : "BootR").transform;
+                        boot.SetParent(root, false);
+                        boot.localPosition = new Vector2(side * 0.12f, 0f);
+                        Part(boot, "Shaft", ShapeSprites.Square, metal, BodyOrder, new Vector2(0f, 0.04f), new Vector2(0.12f, 0.26f));
+                        Part(boot, "Foot", ShapeSprites.Square, dark, BodyOrder, new Vector2(side * 0.05f, -0.11f), new Vector2(0.22f, 0.1f));
+                        Part(boot, "Cuff", ShapeSprites.Square, grade, BodyOrder + 1, new Vector2(0f, 0.16f), new Vector2(0.14f, 0.05f));
+                    }
+                    break;
+                case GearPart.Ring:
+                    // 놋쇠 고리 + 등급색 보석.
+                    Part(root, "Band", ShapeSprites.Ring, Brass, BodyOrder, new Vector2(0f, -0.02f), new Vector2(0.28f, 0.28f));
+                    Part(root, "Gem", ShapeSprites.Circle, grade, BodyOrder + 1, new Vector2(0f, 0.12f), new Vector2(0.12f, 0.12f));
+                    break;
+                default:
+                    // 목걸이: 줄(납작한 고리) + 아래로 향한 등급색 펜던트.
+                    Part(root, "Chain", ShapeSprites.Ring, Color.Lerp(Brass, Color.black, 0.2f), BodyOrder, new Vector2(0f, 0.06f), new Vector2(0.42f, 0.34f));
+                    Part(root, "Pendant", ShapeSprites.Triangle, grade, BodyOrder + 1, new Vector2(0f, -0.15f), new Vector2(0.18f, 0.16f), -90f);
+                    break;
+            }
+            return root;
+        }
+
+        /// <summary>
+        /// 옛 무기 보기로 무기 모양을 만든다(옮기는 동안 쓰는 다리, 새 코드는 BuildGear).
+        /// </summary>
+        public static Transform BuildWeapon(Transform parent, WeaponItem item) =>
+            BuildWeapon(parent, item != null ? item.WeaponId : WeaponItem.LongswordId, item != null ? item.Grade : Grade.Common);
+
         /// <summary>
         /// 바닥에 놓인 무기 모양(장검: 가는 칼, 대검: 넓고 긴 칼, 쌍검: 짧은 칼 두 자루를 엇갈림). 코등이에 등급색.
         /// 돌려주는 Transform 아래 도형은 모두 빛을 받는다.
         /// </summary>
-        public static Transform BuildWeapon(Transform parent, WeaponItem item)
+        public static Transform BuildWeapon(Transform parent, string weaponId, Grade gradeOf)
         {
             var root = new GameObject("Weapon").transform;
             root.SetParent(parent, false);
-            var grade = GradeColor(item.Grade);
-            switch (item.WeaponId)
+            var grade = GradeColor(gradeOf);
+            switch (weaponId)
             {
-                case WeaponItem.GreatswordId:
+                case GearBaseTable.Greatsword:
                     Sword(root, Vector2.zero, -35f, 0.2f, 0.8f, 0.42f, grade);
                     break;
-                case WeaponItem.TwinbladesId:
+                case GearBaseTable.Twinblades:
                     Sword(root, new Vector2(-0.08f, 0f), -60f, 0.08f, 0.44f, 0.22f, grade);
                     Sword(root, new Vector2(0.08f, 0f), -120f, 0.08f, 0.44f, 0.22f, grade);
                     break;

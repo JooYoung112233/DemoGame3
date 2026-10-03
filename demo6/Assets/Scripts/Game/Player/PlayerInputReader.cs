@@ -25,6 +25,7 @@ namespace Demo6.Game
         InputAction _weapon3;
         InputAction _interact;
         InputAction _equip;
+        InputAction _shift;
 
         /// <summary>던전 창(지도·말뚝 메뉴·사건 고르기)이 열려 있으면 공격 입력을 막는다.</summary>
         public static bool Blocked { get; set; }
@@ -38,8 +39,10 @@ namespace Demo6.Game
         /// <summary>F: 상호작용(누르기·길게 누르기).</summary>
         public bool InteractHeld => _interact.IsPressed() && !Blocked && !TimeScaleService.Paused;
         public bool InteractPressed { get; private set; }
-        /// <summary>G: 바닥 장비 바로 끼기.</summary>
+        /// <summary>G: 바닥 장비 바로 끼기(Shift+G에서도 true).</summary>
         public bool EquipPressed { get; private set; }
+        /// <summary>Shift+G: 반지를 G가 고를 자리의 다른 쪽에 끼기(장비 문서 8-6). 이때 EquipPressed도 true다.</summary>
+        public bool EquipOtherPressed { get; private set; }
         public bool PotionPressed { get; private set; }
         /// <summary>이번 프레임에 고른 무기 번호(0~2). 없으면 -1.</summary>
         public int WeaponSelected { get; private set; } = -1;
@@ -77,6 +80,7 @@ namespace Demo6.Game
             _weapon3 = _map.AddAction("Weapon3", InputActionType.Button, "<Keyboard>/3");
             _interact = _map.AddAction("Interact", InputActionType.Button, "<Keyboard>/f");
             _equip = _map.AddAction("Equip", InputActionType.Button, "<Keyboard>/g");
+            _shift = _map.AddAction("Shift", InputActionType.Button, "<Keyboard>/shift");
         }
 
         void OnEnable() => _map?.Enable();
@@ -97,10 +101,12 @@ namespace Demo6.Game
                 WeaponSelected = -1;
                 InteractPressed = false;
                 EquipPressed = false;
+                EquipOtherPressed = false;
                 return;
             }
             InteractPressed = _interact.WasPressedThisFrame() && !Blocked;
             EquipPressed = _equip.WasPressedThisFrame() && !Blocked;
+            EquipOtherPressed = EquipPressed && _shift.IsPressed();
             bool overPanel = OverPanel;
             if (_skill1.WasPressedThisFrame() && !overPanel) _skill1At = Time.time;
             if (_skill2.WasPressedThisFrame()) _skill2At = Time.time;
