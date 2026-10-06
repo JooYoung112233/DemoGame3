@@ -1,8 +1,0 @@
-from pathlib import Path
-p=Path('demo5/AgentScripts/VerifyLoot.cs');s=p.read_text(encoding='utf-8-sig');pos=s.index(' public static async Task<string> Preview()');s=s[:pos]+r'''
- public static async Task<string> Edges(){var c=Object.FindAnyObjectByType<SettlementController>();var a=c.ArrivalPanel;var l=a.Loot;await Tap(l.Back);await Tap(l.LeaveConfirm);int[] old=l.Sites[1].Drops.Select(d=>d.Chance).ToArray();foreach(var d in l.Sites[1].Drops)d.Chance=0;
- try{await Tap(a.Objects[1]);await Tap(a.Search.Cards[0].Button);await Tap(a.Search.Paces[1]);await Tap(a.Search.Duties[1]);await Tick(a.Search);await Tick(a.Search);Check(l.Empty.activeSelf&&l.FieldRows.Count==0,"Empty outcome missing");Check(a.Rooms.Noise==2,"Watch noise not applied");
- foreach(var item in c.InventoryPanel.Items)l.State(1).Loot[item.Id]=1;l.Rebuild();await Task.Delay(100);var sc=l.FieldContent.GetComponentInParent<ScrollRect>();var hint=sc.viewport.GetComponentInChildren<ScrollMoreIndicator>();Canvas.ForceUpdateCanvases();hint.Refresh();Check(hint.HasMoreBelow,"Overflow hint missing");sc.verticalNormalizedPosition=0;Canvas.ForceUpdateCanvases();hint.Refresh();Check(!hint.HasMoreBelow,"Hint remains at bottom");
- l.State(1).Loot.Clear();l.Rebuild();await Tap(l.Back);Check(!l.IsOpen&&!l.LeaveReview.activeSelf,"Empty close asked warning");Check(!c.InventoryPanel.TransferField(a.Participants[0],"invalid",1,true),"Unknown item accepted");return "PASS: empty search, lookout noise, scrolling indicator at top/bottom, empty close, invalid item rejection.";
- }finally{for(int i=0;i<old.Length;i++)l.Sites[1].Drops[i].Chance=old[i];}}
-''' +s[pos:];p.write_text(s,encoding='utf-8')

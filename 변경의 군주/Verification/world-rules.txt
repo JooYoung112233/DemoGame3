@@ -1,0 +1,38 @@
+48-region initial state
+World hex adjacency and row wrap prevention
+Construction cost and level
+Build ownership and one-per-turn constraints
+Unaffordable recruitment is atomic
+Recruiting consumes both resources
+Independent second army created in barracks city
+Army identifiers unique and persisted
+Nonadjacent move rejected without action loss
+Conquest transfers region and consumes remaining actions
+Predicted battle casualties equal result
+Deterministic battles after serialization
+Occupation security measures
+Relief once per turn
+Economy forecast and turn reset
+Higher tax increases revenue
+Higher tax damages public order
+Agricultural city focus raises food production
+Military administration grows garrison
+Research limited to one per turn
+Logistics research increases movement allowance
+Mountain movement costs two
+Road reduces mountain movement cost
+Supply traverses connected friendly regions
+Cut supply route reduces attack power
+Isolated army suffers turn attrition
+Entrenchment prevents marching
+Assault stance increases attack
+Truce prevents attacks by both parties
+Victory requires holding territory
+12 regions held three turns wins
+Finished state is immutable to gameplay commands
+Invalid region save rejected
+Duplicate army save rejected
+Loss of all cities ends campaign
+Unstable city rebels
+Enemies expand independently on world map
+Eight seeded 50-turn campaigns preserve invariants
