@@ -122,5 +122,23 @@ namespace Demo6.Tests
             Assert.AreEqual(CritTier.None, CritTiers.Gate(CritTier.None, 10.1, ref last, false));
             Assert.AreEqual(10.0, last);
         }
+
+        [Test]
+        public void WaveShowsHeavyOnlyOncePerAction()
+        {
+            // 검풍 한 번이 무리를 꿰뚫으며 묶음 셋을 맞힘: 첫 치명에서 정한 단계(무거움)가 묶음마다 다시 오더라도 무거움은 한 번.
+            bool used = false;
+            Assert.AreEqual(CritTier.Heavy, CritTiers.OncePerAction(CritTier.Heavy, ref used), "첫 무거움");
+            Assert.IsTrue(used);
+            Assert.AreEqual(CritTier.Normal, CritTiers.OncePerAction(CritTier.Heavy, ref used), "둘째 묶음은 보통");
+            Assert.AreEqual(CritTier.Normal, CritTiers.OncePerAction(CritTier.Heavy, ref used), "셋째 묶음도 보통");
+            Assert.AreEqual(CritTier.None, CritTiers.OncePerAction(CritTier.None, ref used), "치명 없는 묶음은 그대로");
+            Assert.AreEqual(CritTier.Light, CritTiers.OncePerAction(CritTier.Light, ref used));
+            // 보통·가벼움은 무거움 자리를 쓰지 않는다.
+            bool fresh = false;
+            Assert.AreEqual(CritTier.Normal, CritTiers.OncePerAction(CritTier.Normal, ref fresh));
+            Assert.IsFalse(fresh);
+            Assert.AreEqual(CritTier.Heavy, CritTiers.OncePerAction(CritTier.Heavy, ref fresh), "보통 뒤 첫 무거움은 무거움");
+        }
     }
 }

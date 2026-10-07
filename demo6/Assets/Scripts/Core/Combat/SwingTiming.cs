@@ -12,7 +12,7 @@ namespace Demo6.Core.Combat
         public readonly float Duration;
         /// <summary>첫 판정 h'.</summary>
         public readonly float FirstHit;
-        /// <summary>연타 간격(데이터 그대로, 쌍검 0.1).</summary>
+        /// <summary>연타 간격(데이터 그대로, 쌍검 ①④ 0.10 · ②③ 0.06).</summary>
         public readonly float HitInterval;
         public readonly int Hits;
 
@@ -53,9 +53,9 @@ namespace Demo6.Core.Combat
     /// ④ 회수 보장 d' ≥ 마지막 판정 + 0.08 ⑤ 이월 상한 d' × 0.5 ⑥ 조준 회전 35 × (1 + 공격 속도 ÷ 2)
     /// ⑦ 그대로 두는 절대 시간: 연타 간격, 다가가기·내딛기 0.1, 콤보 끊김 0.5, 입력 버퍼 0.15, 히트스톱.
     /// 공격 속도 0(또는 음수)이면 예전 식(d = max(0.1, duration), h = d × hitMoment + k × hitInterval, 이월 d × 0.5)과 float 비트까지 같다
-    /// (M0a 손맛 보호, SwingTimingTests가 세 무기 모든 단계·모든 판정으로 고정).
+    /// (M0a 손맛 보호, SwingTimingTests가 아홉 무기 모든 단계·모든 판정으로 고정).
     /// 상한(+300‰)은 StatCalc가 자른다. 이 함수는 시험 범위(0~400‰)와 시험장 손잡이를 위해 0~1000‰로만 자른다.
-    /// 0~400‰에서는 세 무기 모든 단계가 규칙 4에 걸리지 않는다(가장 짧은 회수 = 쌍검 ③ 연타 0.132초).
+    /// 0~400‰에서는 아홉 무기 모든 단계가 규칙 4에 걸리지 않는다(400‰에서 가장 짧은 회수 = 쌍검 ① 우측 베기 0.141초, 새 무기 가운데는 단검 ①② 0.159초. 세 무기 콤보는 기획/세-무기-우클릭-소켓-1차.md 2-3·3-4·4-4).
     /// </summary>
     public static class SwingTiming
     {
@@ -76,7 +76,22 @@ namespace Demo6.Core.Combat
         public static SwingPlan Plan(ComboStep step, int attackSpeedPermille)
         {
             if (step == null) return new SwingPlan(MinDuration, 0f, 0f, 1);
-            float d = Math.Max(MinDuration, step.duration);
+            return PlanFrom(step, Math.Max(MinDuration, step.duration), attackSpeedPermille);
+        }
+
+        /// <summary>
+        /// 동작 길이 배율을 곱한 시간표(사슬 철퇴 관성 InertiaRule: ①② × 0.9). 배율이 정확히 1(또는 0 이하)이면 Plan(step, 공속)과 비트까지 같다.
+        /// 배율은 길이 d에만 곱한다(d = max(0.1, duration × 배율)). 판정 비율·연타 간격·규칙 1~5는 그대로 받는다.
+        /// 계약(꾸러미 ⑥이 InertiaRuleTests로 지키고, 꾸러미 ⑤가 StartSwing에서 쓴다).
+        /// </summary>
+        public static SwingPlan Plan(ComboStep step, int attackSpeedPermille, float durationScale)
+        {
+            if (step == null || durationScale == 1f || durationScale <= 0f) return Plan(step, attackSpeedPermille);
+            return PlanFrom(step, Math.Max(MinDuration, step.duration * durationScale), attackSpeedPermille);
+        }
+
+        static SwingPlan PlanFrom(ComboStep step, float d, int attackSpeedPermille)
+        {
             int a = Clamp(attackSpeedPermille);
             if (a == 0) return new SwingPlan(d, d, step.hitMoment, step.hitInterval, step.hits);
             float s = 1f + a / 1000f;

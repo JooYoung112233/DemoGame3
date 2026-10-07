@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Demo6.Game
 {
     /// <summary>
-    /// 맞았을 때 튀는 것의 재질(기획/다크판타지-분위기-1차.md '잔혹'). 살 있는 적(굴쥐·멧돼지·궁수)은 피,
+    /// 맞았을 때 튀는 것의 재질(기획/다크판타지-분위기-1차.md '잔혹'). 살 있는 적(굴쥐·멧돼지·궁수·갱도 오우거)은 피,
     /// 굴쥐 둥지는 흙·고름, 허수아비(나무·측정용)는 아무것도 튀지 않는다(손맛 측정이 흔들리지 않게).
     /// </summary>
     public enum GoreMatter
@@ -44,6 +44,14 @@ namespace Demo6.Game
         /// <summary>도형 그림이 없을 때 그림 모드 시체에 곱하는 어두운 살빛.</summary>
         public static readonly Color ArtCorpse = new Color(0.5f, 0.4f, 0.38f, 1f);
 
+        /// <summary>
+        /// 갱도 오우거 살갗(기획/전투-보스-무기-다듬기-1차.md 3-1·3-9): 젖은 돌과 석탄 가루 회색. 몸 도형(EnemySpawner)·조각·시체의 바탕이고
+        /// 정수리 몸(OgreLook)은 머리·어깨를 밝게(Light), 등을 어둡게(Dark) 칠한다. 등급색·예고 빨강·밝은 금빛과 멀다.
+        /// </summary>
+        public static readonly Color OgreSkin = Hex(0x585A5C);
+        public static readonly Color OgreSkinLight = Hex(0x7B7D7E);
+        public static readonly Color OgreSkinDark = Hex(0x343538);
+
         /// <summary>적 종류별 재질. 허수아비는 없음.</summary>
         public static GoreMatter MatterOf(Enemy enemy)
         {
@@ -53,6 +61,7 @@ namespace Demo6.Game
                 case MonsterKind.Rat:
                 case MonsterKind.Boar:
                 case MonsterKind.Archer:
+                case MonsterKind.Ogre:
                     return GoreMatter.Flesh;
                 case MonsterKind.Nest:
                     return GoreMatter.Nest;
@@ -69,6 +78,7 @@ namespace Demo6.Game
                 case MonsterKind.Rat: return enemy.IsDummy ? Palette.RatDummy : Palette.Rat;
                 case MonsterKind.Boar: return enemy.IsDummy ? Palette.WoodDummy : Palette.Boar;
                 case MonsterKind.Nest: return Palette.Nest;
+                case MonsterKind.Ogre: return OgreSkin;
                 default: return Palette.Archer;
             }
         }

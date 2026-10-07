@@ -27,6 +27,13 @@ namespace Demo6.Core.Dungeon
         Hidden,
         /// <summary>광업소 사무실: 자물쇠 문 뒤.</summary>
         Office,
+        /// <summary>
+        /// 보스방(전투·보스 문서 3-6, 묶음 7 '오우거 굴' X): 안쪽 26×14 돌방, 왼쪽 벽 가운데 문, 돌 기둥 4개(OgreDen.Pillars).
+        /// 돌로 쌓은 고정 칸(MapAnchors.IsFixed)이라 원정마다 남는다.
+        /// </summary>
+        BossRoom,
+        /// <summary>보스방 앞 쉼터(3-8 P): 돌방, 굴 앞 말뚝(켜면 영구), 벽 등잔 2, 바닥 긁은 글. 고정 칸.</summary>
+        BossFront,
     }
 
     public enum FeatureKind
@@ -55,6 +62,17 @@ namespace Demo6.Core.Dungeon
         Pickaxe,
         /// <summary>광업소 금고(열쇠, F 2초).</summary>
         Safe,
+        /// <summary>보스 자리(묶음 7): 보스방 런타임(BossArena)이 방·문·등잔·보스를 만든다. Param = 보스 id(OgreDen.BossId), FacingDeg = 처음 보는 쪽.</summary>
+        Boss,
+        /// <summary>바닥 긁은 글(Label = 글). 다가가면 한 번 읽힌다(보스방 앞 쉼터).</summary>
+        Scrawl,
+        /// <summary>
+        /// 낙석 자리(1-2층 탐험 맛 1차 4-5, 생성 덧칠 FloorSpice). 바닥 잔돌이 단서, 서서 밟으면 1.0초 예고 뒤 떨어진다.
+        /// 숨은 위험이라 층 검사 개수·발견 주머니·큰 지도에 들지 않는다.
+        /// </summary>
+        RockfallTrap,
+        /// <summary>바닥 가시 덫(1-2층 탐험 맛 1차 4-6, FloorSpice). 빛 안에서만 보인다. 층 검사 개수·발견 주머니에 들지 않는다.</summary>
+        FloorSpikes,
     }
 
     /// <summary>무리가 처음 놓일 때의 모습(3차 초안 2-6: 자는 중, 먹는 중, 순찰 중).</summary>
@@ -111,6 +129,13 @@ namespace Demo6.Core.Dungeon
         public float FacingDeg;
         /// <summary>쇠 궤짝 '희귀 이상 무기 보장'(1층 H) 같은 표시.</summary>
         public string Param = "";
+        /// <summary>정예 무리(1-2층 탐험 맛 1차 4-1·4-2: '단단한 정예 돌충이'). 무리에만 쓴다.</summary>
+        public bool Elite;
+        /// <summary>
+        /// 순찰 무리가 오갈 이웃 칸 id(1-2층 탐험 맛 1차 4-3, FloorSpice가 정함). 빈 글이면 제 칸 안 열린 문 두 곳 사이를 오간다.
+        /// 상태가 순찰(GroupState.Patrol)일 때만 뜻이 있다.
+        /// </summary>
+        public string PatrolCell = "";
     }
 
     public sealed class CellDef

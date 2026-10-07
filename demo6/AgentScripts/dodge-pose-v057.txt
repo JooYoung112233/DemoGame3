@@ -1,0 +1,22 @@
+return p;
+}
+// A short forward tuck, shoulder-led curl and grounded unfold. No XY pirouette.
+function dodgePose(spec,t){
+ const k=kinds.indexOf(spec.kind),rs=rests[k],phase=[
+ [0,0,0,0,0],[.033,.55,-.015,.04,-2],[.075,1,.02,.11,-4],
+ [.115,1,.065,-.035,3],[.155,.8,.03,-.10,2],[.19,.30,-.018,-.02,0],[.22,0,0,0,0]];
+ let i=1;while(i<phase.length&&phase[i][0]<t)i++;i=Math.min(i,phase.length-1);let a=phase[i-1],b=phase[i],u=smooth(Math.max(0,Math.min(1,(t-a[0])/(b[0]-a[0]))));let q=mix(a,b,u),curl=q[1],forward=q[2],head=q[3],bank=q[4];
+ const p=poseAt({...spec,dodgeV057:false,keys:[rest(k),rest(k,.22)]},t);
+ const tuckR=k===0?[.28,-.54,1.50,-22,52,30]:k===1?[.18,-.67,1.60,-156,-44,58]:[.28,-.53,1.55,-12,42,40];
+ const tuckL=k===0?[.25,.55,1.43,65,86,0]:[.27,.53,1.55,12,42,-40];
+ p.right=mix(rs.right,tuckR,curl);p.right[0]+=forward;p.left=k===1?[...xform([-.18,0,0],p.right),...p.right.slice(3)]:mix(rs.left,tuckL,curl);if(k!==1)p.left[0]+=forward;
+ const shoulder=s=>[s[0]+forward+.035*curl,s[1]*(1-.09*curl),s[2]-.16*curl];
+ p.rightArm=solve(shoulder(rs.rightArm.shoulder),p.right.slice(0,3),poleFor(rs.rightArm));p.leftArm=solve(shoulder(rs.leftArm.shoulder),p.left.slice(0,3),poleFor(rs.leftArm));
+ p.spin=0;p.twist=rs.twist+bank;p.lean=forward;p.bodyOrigin=[forward,0,0];p.bodyScale=[1-.24*curl,1-.045*curl];
+ p.headOrigin=add(yaw([-.16875,0,0],rs.twist),[forward+head,0,0]);p.headTurn=rs.twist*.12+bank*.35;p.headScale=[1-.24*curl,1-.035*curl];
+ p.capL=add(p.capL,[forward+.035*curl,-rs.leftArm.shoulder[1]*.09*curl,0]);p.capR=add(p.capR,[forward+.035*curl,-rs.rightArm.shoulder[1]*.09*curl,0]);p.shoulderLeftAngle=rs.shoulderLeftAngle+bank;p.shoulderRightAngle=rs.shoulderRightAngle+bank;p.shoulderScale=[1-.07*curl,1-.045*curl];
+ p.capeOrigin=[forward+.065*curl,0,0];p.capeTurn=rs.twist*.22+bank*.5;p.capeScale=[1-.30*curl,1-.06*curl];p.footFold=curl;
+ if(k===0){p.rightArt=swordArt(p.rightArm);p.leftArt=swordArt(p.leftArm);p.faces=swordMesh(p.right);const center=add(p.left.slice(0,3),yaw([0,.09,0],p.left[3]-90));p.shieldFaces=shieldPlate([...center,p.left[3],p.left[4],0]);}
+ else{p.rightArt=art.limbArt(p.rightArm);p.leftArt=art.limbArt(p.leftArm);p.rightGlove=art.glove(p.rightArm,p.right,spec.kind);p.leftGlove=art.glove(p.leftArm,p.left,spec.kind);if(k===1){p.faces=greatMesh(p.right);for(const n of ['rightGlove','leftGlove'])p[n].palm[2].color=[147,144,129,255];}else{p.facesR=art.weapon(p.right,'twin');p.facesL=art.weapon(p.left,'twin');p.faces=[...p.facesR,...p.facesL].sort((a,b)=>a.depth-b.depth);}}
+ return p;
+}

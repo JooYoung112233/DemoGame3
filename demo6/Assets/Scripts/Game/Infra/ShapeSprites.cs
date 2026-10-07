@@ -145,7 +145,7 @@ namespace Demo6.Game
                     int i = row + x;
                     var s = src[srow + cols[x]];
                     // 큰 얼룩(4.5유닛)은 밝기를 크게, 중간 결(1.4유닛)은 조금 흔든다.
-                    float k = (0.84f + big[i] * 0.25f) * (0.97f + mid[i] * 0.06f);
+                    float k = (0.74f + big[i] * 0.45f) * (0.97f + mid[i] * 0.06f);
                     r[i] = s.r * inv * k;
                     g[i] = s.g * inv * k;
                     b[i] = s.b * inv * k;
@@ -422,14 +422,14 @@ namespace Demo6.Game
             }
         }
 
-        /// <summary>벽·바위 가까이(1.1유닛) 바닥을 어둡게(최대 45%). 0.25유닛 성긴 격자에서 거리를 재고 픽셀은 격자 사이를 이어 붙인다.</summary>
+        /// <summary>벽·바위 가까이(0.8유닛) 바닥에 접지 그늘을 만든다(최대 52%). 0.25유닛 성긴 격자에서 거리를 재고 픽셀은 격자 사이를 이어 붙인다.</summary>
         static float[] OcclusionField(Rect world, int w, int h, IReadOnlyList<Rect> occluders)
         {
             var ao = new float[w * h];
             for (int i = 0; i < ao.Length; i++) ao[i] = 1f;
             if (occluders == null || occluders.Count == 0) return ao;
-            const float range = 1.1f;
-            const float strength = 0.45f;
+            const float range = 0.8f;
+            const float strength = 0.52f;
             var grow = new Rect(world.xMin - range, world.yMin - range, world.width + range * 2f, world.height + range * 2f);
             var near = new List<Rect>();
             for (int i = 0; i < occluders.Count; i++)
@@ -529,12 +529,12 @@ namespace Demo6.Game
                             pixels[y * n + x] = new Color32(ToByte(mortar.r * mk), ToByte(mortar.g * mk), ToByte(mortar.b * mk), 255);
                             continue;
                         }
-                        float tone = 1.02f + Hash01(row, sid, 31) * 0.22f;
+                        float tone = 0.98f + Hash01(row, sid, 31) * 0.30f;
                         float bevel = 0f;
-                        if (ly == course - 1) bevel += 0.16f;
-                        else if (ly == 1) bevel -= 0.18f;
-                        if (lx == 1) bevel += 0.07f;
-                        else if (lx == sw - 1) bevel -= 0.12f;
+                        if (ly >= course - 2) bevel += 0.25f;
+                        else if (ly <= 2) bevel -= 0.25f;
+                        if (lx <= 2) bevel += 0.10f;
+                        else if (lx >= sw - 2) bevel -= 0.16f;
                         float speck = (Hash01(x, y, 34) - 0.5f) * 0.018f;
                         float chip = Hash01(x >> 1, y >> 1, 35) > 0.985f ? -0.12f : 0f;
                         float k2 = tone + bevel + grain * 0.14f + speck + chip;
@@ -588,7 +588,7 @@ namespace Demo6.Game
                 }
                 float crackK = 1f - Smooth(Mathf.Clamp01((f2 - f1 - 0.03f) / 0.1f));
                 float tone = 0.88f + Hash01(id, 0, 43) * 0.25f;
-                float dome = 1.1f - f1 * 0.35f + (oy * 0.45f - ox * 0.3f) * 0.35f;
+                float dome = 1.1f - f1 * 0.35f + (oy * 0.45f - ox * 0.3f) * 0.62f;
                 float grain = TileFbm(x / 8f, y / 8f, n / 8, 3, 44) - 0.5f;
                 float k = tone * dome + grain * 0.12f + (Hash01(x, y, 45) - 0.5f) * 0.018f;
                 float t = crackK * 0.85f;
@@ -616,7 +616,22 @@ namespace Demo6.Game
             {
                 int srow = Wrap(y0 + y, WallPeriod) * WallPeriod;
                 int row = y * w;
-                for (int x = 0; x < w; x++) px[row + x] = src[srow + cols[x]];
+                for (int x = 0; x < w; x++)
+                {
+                    var c = src[srow + cols[x]];
+                    float k = 1f;
+                    if (name == "Dungeon wall")
+                    {
+                        // Cross-section only: keep end-to-end texture joins and hidden door seams unchanged.
+                        // The near face is shaded inside the original wall bounds; no collider or light changes.
+                        bool horizontal = world.width >= world.height;
+                        float across = horizontal ? (y + 0.5f) / h : (x + 0.5f) / w;
+                        float nearFace = 1f - Smooth(Mathf.Clamp01(across / 0.28f));
+                        float bevel = Smooth(Mathf.Clamp01((across - 0.78f) / 0.18f));
+                        k = 1f - nearFace * 0.38f + bevel * 0.12f;
+                    }
+                    px[row + x] = new Color32(ToByte(c.r / 255f * k), ToByte(c.g / 255f * k), ToByte(c.b / 255f * k), c.a);
+                }
             }
             return GroundSprite(px, w, h, name);
         }

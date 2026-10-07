@@ -10,8 +10,8 @@ namespace Demo6.Game
     /// 갓 긁어 낸 흙(처음 밟으면 "갓 긁어 낸 흙. 발톱 자국이 아직 축축하다."), 깨진 돌 조각("밤새 무너져 길이 됐다."),
     /// 그리고 승강장의 안 쓰는 문 자리마다 흙으로 막힌 아치(2-2 '남는 곳은 눈으로 구분된다').
     /// 입력은 DungeonRoot.Traces(Core MapDiff.Compare 결과). 충돌체를 두지 않는다(벽이 이미 막음).
-    /// 모두 빛을 받는 기본 재질이라 등잔 빛 안에서만 보인다. 숨은 방 판자벽 자리는 MapDiff가 이미 빼고, 숨은 방 칸 안의 흙더미도 여기서 뺀다
-    /// (F 안내가 벽 너머로 떠 숨은 방을 들키게 하지 않게).
+    /// 모두 빛을 받는 기본 재질이라 등잔 빛 안에서만 보인다. 숨은 방 판자벽 자리와 숨은 방과 맞닿은 막힌 벽(양쪽 모두, 시스템·컨텐츠 다듬기 검토 1차 Q4)은
+    /// MapDiff가 이미 빼고, 숨은 방 칸 안의 흙더미는 여기서도 한 번 더 뺀다(F 안내가 벽 너머로 떠 숨은 방을 들키게 하지 않게).
     /// </summary>
     public static class ExpeditionTraces
     {
@@ -95,11 +95,16 @@ namespace Demo6.Game
 
         /// <summary>
         /// 흔적 하나의 그림 가운데: 흙더미는 그 칸 안쪽 벽 면 앞(경계 벽이면 문 자리에서 칸 안으로 약 1.2, 통로·막다른 방은 바위 면 앞),
-        /// 갓 판 흙·깨진 돌은 문틈 가운데.
+        /// 갓 판 흙·깨진 돌은 문틈 가운데(그 칸 그 변에 길이 있으면 비튼 문 가운데 edge.DoorCenter — 시야와 문 1차 2-5, 없으면 변 가운데).
         /// </summary>
         public static Vector2 PlaceOf(DungeonCell cell, TraceSpot spot)
         {
-            if (spot.Kind != TraceKind.Rubble || cell == null) return DoorPoint(spot.X, spot.Y, spot.Side);
+            if (spot.Kind != TraceKind.Rubble)
+            {
+                var edge = cell?.EdgeOn(spot.Side);
+                return edge != null ? edge.DoorCenter : DoorPoint(spot.X, spot.Y, spot.Side);
+            }
+            if (cell == null) return DoorPoint(spot.X, spot.Y, spot.Side);
             return cell.Center + SideVector(spot.Side) * (FaceDistance(cell, spot.Side) - RubbleFromFace);
         }
 

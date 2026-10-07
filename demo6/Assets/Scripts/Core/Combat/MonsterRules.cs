@@ -9,6 +9,8 @@ namespace Demo6.Core.Combat
         Archer,
         /// <summary>굴쥐 둥지(3차 초안 3-4). 움직이지 않고 굴쥐를 부른다.</summary>
         Nest,
+        /// <summary>첫 보스 갱도 오우거(기획/전투-보스-무기-다듬기-1차.md 3장). 수치는 BossRules가 식으로 낸다(OgreBrain이 스폰 뒤 다시 넣음).</summary>
+        Ogre,
     }
 
     /// <summary>기획 4-2 몬스터 기본값(1층, 10배 단위).</summary>
@@ -35,16 +37,18 @@ namespace Demo6.Core.Combat
 
         public static readonly MonsterRule Rat = new MonsterRule(MonsterKind.Rat, "굴쥐", 160, 60, 4.2f, 0.5f, 0f);
         /// <summary>공격 300은 돌진. 머리치기는 돌진의 60%.</summary>
-        public static readonly MonsterRule Boar = new MonsterRule(MonsterKind.Boar, "뿔멧돼지", 900, 300, 2.2f, 1.1f, 0.5f);
+        public static readonly MonsterRule Boar = new MonsterRule(MonsterKind.Boar, "돌충이", 900, 300, 2.2f, 1.1f, 0.5f);
         public static readonly MonsterRule Archer = new MonsterRule(MonsterKind.Archer, "가시 궁수", 400, 100, 3.0f, 0.6f, 0f);
 
         /// <summary>3차 초안 3-3: 적게·강하게. 굴쥐는 그대로, 궁수 600/150, 멧돼지 2,000/400.</summary>
         public static readonly MonsterRule ArcherV3 = new MonsterRule(MonsterKind.Archer, "가시 궁수", 600, 150, 3.0f, 0.6f, 0f);
-        public static readonly MonsterRule BoarV3 = new MonsterRule(MonsterKind.Boar, "뿔멧돼지", 2000, 400, 2.2f, 1.1f, 0.5f);
+        public static readonly MonsterRule BoarV3 = new MonsterRule(MonsterKind.Boar, "돌충이", 2000, 400, 2.2f, 1.1f, 0.5f);
         /// <summary>멧돼지가 너무 질기면 먼저 내리는 값(초안 3-4 'M0a 손맛 지키기').</summary>
-        public static readonly MonsterRule BoarV3Soft = new MonsterRule(MonsterKind.Boar, "뿔멧돼지", 1600, 400, 2.2f, 1.1f, 0.5f);
+        public static readonly MonsterRule BoarV3Soft = new MonsterRule(MonsterKind.Boar, "돌충이", 1600, 400, 2.2f, 1.1f, 0.5f);
         /// <summary>껍질이 깨진 뒤 체력 1,200 × 층 배율. 넉백 무시.</summary>
         public static readonly MonsterRule Nest = new MonsterRule(MonsterKind.Nest, "굴쥐 둥지", 1200, 0, 0f, 1.6f, 1f);
+        /// <summary>갱도 오우거 기본값(10층판 체력 32,000 · 공격 300 · 걷기 2.8 · 지름 2.4 · 넉백 저항 1). 층별 체력·공격·버팀은 BossRules.</summary>
+        public static readonly MonsterRule Ogre = new MonsterRule(MonsterKind.Ogre, BossRules.DisplayName, BossRules.BaseHp, BossRules.BaseAttack, BossRules.WalkSpeed, BossRules.Diameter, 1f);
 
         public static MonsterRule Of(MonsterKind kind) => Of(kind, CombatRuleset.M0a);
 
@@ -57,6 +61,7 @@ namespace Demo6.Core.Combat
                 case MonsterKind.Boar: return v3 ? (softBoar ? BoarV3Soft : BoarV3) : Boar;
                 case MonsterKind.Archer: return v3 ? ArcherV3 : Archer;
                 case MonsterKind.Nest: return Nest;
+                case MonsterKind.Ogre: return Ogre;
                 default: throw new ArgumentOutOfRangeException(nameof(kind));
             }
         }
@@ -68,6 +73,8 @@ namespace Demo6.Core.Combat
             {
                 case MonsterKind.Archer: return 30;
                 case MonsterKind.Boar: return softBoar ? 70 : 90;
+                // 시험판(2층) 값. 층별 값은 BossRules.Poise(층)이고 OgreBrain이 보스 모드 버팀으로 다시 넣는다.
+                case MonsterKind.Ogre: return BossRules.Poise(2);
                 default: return 0;
             }
         }

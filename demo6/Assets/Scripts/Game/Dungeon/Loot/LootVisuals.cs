@@ -25,10 +25,39 @@ namespace Demo6.Game
         /// <summary>강화석: 등급색과 겹치지 않는 옅은 청회색.</summary>
         public static readonly Color Stone = new Color(0.68f, 0.77f, 0.84f);
 
-        static Sprite _beam;
+        static Sprite _beam, _dustRing, _artDustSource, _artDustUnit;
+
+        public static Sprite Beam => ArtRuntime.Active && ArtRuntime.Active.effects.rewardBeam ? ArtRuntime.Active.effects.rewardBeam : FallbackBeam;
+
+        // 바닥 표현 소비자는 1유닛 크기를 사용한다. 원본 PNG는 PPU 256을 유지하고 런타임 뷰만 정규화한다.
+        public static Sprite DustRing
+        {
+            get
+            {
+                var art = ArtRuntime.Active;
+                var source = art ? art.effects.impactDust : null;
+                if (!source) return FallbackDustRing;
+                if (_artDustSource != source || !_artDustUnit)
+                {
+                    if (_artDustUnit) UnityEngine.Object.Destroy(_artDustUnit);
+                    _artDustSource = source;
+                    _artDustUnit = Sprite.Create(source.texture, source.rect, Vector2.one * .5f, source.rect.width, 0, SpriteMeshType.FullRect);
+                    _artDustUnit.name = "VFX dust unit view";
+                }
+                return _artDustUnit;
+            }
+        }
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        static void ResetArtView()
+        {
+            if (_artDustUnit) UnityEngine.Object.Destroy(_artDustUnit);
+            _artDustUnit = null;
+            _artDustSource = null;
+        }
 
         /// <summary>바닥에서 위로 서는 빛기둥(아래 가운데가 기준점, 가운데가 밝고 위로 갈수록 옅어짐). 크기는 1×1유닛.</summary>
-        public static Sprite Beam => _beam ? _beam : _beam = Make(32, 32, new Vector2(0.5f, 0f), (u, v) =>
+        static Sprite FallbackBeam => _beam ? _beam : _beam = Make(32, 32, new Vector2(0.5f, 0f), (u, v) =>
         {
             float side = Mathf.Clamp01(1f - u * u);
             float core = Mathf.Exp(-(u / 0.28f) * (u / 0.28f));
@@ -36,6 +65,25 @@ namespace Demo6.Game
             float top = Mathf.Pow(Mathf.Clamp01(1f - v), 0.8f);
             return Mathf.Clamp01(side * side * 0.55f + core * 0.6f) * bottom * top;
         });
+
+        // Soft, uneven dust/light rim. Unit bounds preserve the existing effect sizes.
+        static Sprite FallbackDustRing => _dustRing ? _dustRing : _dustRing = Make(128, 128, new Vector2(0.5f, 0.5f), (u, v) =>
+        {
+            float y = v * 2f - 1f;
+            float angle = Mathf.Atan2(y, u);
+            float radius = Mathf.Sqrt(u * u + y * y);
+            float edge = 0.78f + 0.025f * Mathf.Sin(angle * 5f) + 0.012f * Mathf.Sin(angle * 9f + 1.2f);
+            float ring = Mathf.Exp(-Mathf.Pow((radius - edge) / 0.085f, 2f));
+            float broken = 0.58f + 0.22f * Mathf.Sin(angle * 3f + 0.6f) + 0.12f * Mathf.Sin(angle * 7f);
+            return ring * broken;
+        });
+
+        public static Color AtmosphereColor(Grade grade)
+        {
+            var c = GradeColor(grade);
+            float value = Mathf.Max(c.r, Mathf.Max(c.g, c.b));
+            return Color.Lerp(c, new Color(value * 0.90f, value * 0.85f, value * 0.74f, 1f), 0.18f) * new Color(0.88f, 0.88f, 0.88f, 1f);
+        }
 
         /// <summary>등급색(2차 6-2). DungeonUi.GradeColor와 같다.</summary>
         public static Color GradeColor(Grade grade) => DungeonUi.GradeColor((int)grade);

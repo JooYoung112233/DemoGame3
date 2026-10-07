@@ -48,5 +48,32 @@ namespace Demo6.Core.Loot
 
         /// <summary>단계 글자 Ⅰ~Ⅳ(표시에 쓸지는 15장에서 정함).</summary>
         public static string TierMark(int tier) => TierMarks[System.Math.Max(1, System.Math.Min(4, tier)) - 1];
+
+        /// <summary>끼운 룬 홈 표시 글자(가방 칸·카드).</summary>
+        public const char FilledSocket = '◆';
+        /// <summary>빈 룬 홈 표시 글자.</summary>
+        public const char EmptySocket = '◇';
+
+        /// <summary>룬 홈 표시(끼운 홈 ◆ 다음 빈 홈 ◇, 예: '◆◇'). 홈이 없으면 빈 글.</summary>
+        public static string SocketMarks(GearItem item)
+        {
+            if (item == null) return "";
+            int sockets = item.SocketCount;
+            if (sockets <= 0) return "";
+            int filled = System.Math.Min(sockets, item.Runes.Count);
+            return new string(FilledSocket, filled) + new string(EmptySocket, sockets - filled);
+        }
+
+        /// <summary>
+        /// 카드 룬 홈 줄(기획/세-무기-우클릭-소켓-1차.md 6-5, 게임 안 말은 '소켓' 대신 '룬 홈'): '룬 홈 ◆◇ · 버팀 룬', 빈 홈뿐이면 '룬 홈 ◇ · 비어 있음'.
+        /// 룬이 여럿이면 이름을 '·'로 잇는다. 홈이 없는 장비(무기가 아님)는 null(줄을 넣지 않음). 이름(DisplayName)에는 룬을 붙이지 않는다.
+        /// </summary>
+        public static string SocketLine(GearItem item)
+        {
+            if (item == null || item.SocketCount <= 0) return null;
+            var names = new List<string>();
+            foreach (var id in item.Runes) names.Add(RuneTable.Get(id)?.Name ?? id);
+            return "룬 홈 " + SocketMarks(item) + " · " + (names.Count > 0 ? string.Join("·", names) : "비어 있음");
+        }
     }
 }

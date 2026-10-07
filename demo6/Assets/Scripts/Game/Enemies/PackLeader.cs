@@ -6,6 +6,7 @@ namespace Demo6.Game
 {
     /// <summary>
     /// 정예 접두사 '무리 거느린'(3차 초안 3-4): 굴쥐 4와 함께 나오고, 깨어 있는 동안 12초마다 2마리를 더 부른다(최대 6, 보상 없음).
+    /// 우두머리가 쓰러지면 PackFear가 ScatterPack으로 졸개를 4초 겁먹게 하고 절반은 어둠으로 사라지게 한다(기획/전투-보스-무기-다듬기-1차.md 4-2 [2]).
     /// </summary>
     public sealed class PackLeader : MonoBehaviour
     {
@@ -19,7 +20,47 @@ namespace Demo6.Game
         public void Bind(Enemy leader, IEnumerable<Enemy> startingPack)
         {
             _leader = leader;
-            _pack.AddRange(startingPack);
+            foreach (var e in startingPack) Add(e);
+        }
+
+        void Add(Enemy e)
+        {
+            if (!e) return;
+            _pack.Add(e);
+            // 둥지 굴쥐(공포 1.0초)와 가려내도록 졸개라고 적어 둔다.
+            if (e is RatBrain rat) rat.InPack = true;
+        }
+
+        /// <summary>거느린 무리인가(살아 있든 아니든 목록에 있으면).</summary>
+        public bool Has(Enemy e) => e && _pack.Contains(e);
+
+        /// <summary>살아 있는 졸개 수.</summary>
+        public int AliveCount
+        {
+            get
+            {
+                int n = 0;
+                foreach (var e in _pack)
+                    if (e && !e.Dead) n++;
+                return n;
+            }
+        }
+
+        /// <summary>
+        /// 우두머리가 쓰러짐(PackFear): 살아 있는 졸개를 seconds 동안 겁먹게 하고, 마리마다 vanishChance 확률로 달아나다 흐려져 사라지게 한다
+        /// (보상 없는 졸개라 손해가 없다). 잠든 졸개도 깨운다(무리를 다시 깨우지는 않음). 겁먹인 수를 돌려준다.
+        /// </summary>
+        public int ScatterPack(float seconds, float vanishChance, Vector2 from)
+        {
+            _pack.RemoveAll(r => !r || r.Dead);
+            int n = 0;
+            foreach (var e in _pack.ToArray())
+            {
+                if (!(e is RatBrain rat)) continue;
+                if (!rat.Aware) rat.Wake(false);
+                if (PackFear.Frighten(rat, from, seconds, Random.value < vanishChance)) n++;
+            }
+            return n;
         }
 
         void Update()
@@ -40,7 +81,7 @@ namespace Demo6.Game
                 var rat = EnemySpawner.Create(MonsterKind.Rat, _leader.Floor, pos);
                 rat.NoReward = true;
                 rat.GroupId = _leader.GroupId;
-                _pack.Add(rat);
+                Add(rat);
                 EnemySpawner.Track(rat);
             }
         }

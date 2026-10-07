@@ -6,8 +6,8 @@ namespace Demo6.Game
     public static class UiSkinArt
     {
         static Texture2D _panel, _slot;
-        public static Texture2D Panel => _panel ? _panel : (_panel = Resources.Load<Texture2D>("UI/Skin/panel"));
-        public static Texture2D Socket => _slot ? _slot : (_slot = Resources.Load<Texture2D>("UI/Skin/slot"));
+        public static Texture2D Panel => _panel ? _panel : (_panel = Resources.Load<Texture2D>("UI/V10/frame") ?? Resources.Load<Texture2D>("UI/Skin/panel"));
+        public static Texture2D Socket => _slot ? _slot : (_slot = Resources.Load<Texture2D>("UI/V10/frame") ?? Resources.Load<Texture2D>("UI/Skin/slot"));
 
         public static void NineSlice(Rect r, Texture2D texture, float corner, Color tint, float interiorShade = 0f)
         {
@@ -37,7 +37,7 @@ namespace Demo6.Game
 
         public static Texture2D Button(float brightness)
         {
-            var source = Resources.Load<Texture2D>("UI/Skin/button");
+            var source = Resources.Load<Texture2D>("UI/V10/button") ?? Resources.Load<Texture2D>("UI/Skin/button");
             if (!source) return null;
             var tex = Object.Instantiate(source);
             tex.name = "Iron button " + brightness;

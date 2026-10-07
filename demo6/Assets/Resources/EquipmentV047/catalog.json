@@ -1,0 +1,278 @@
+{
+  "version": "v047",
+  "status": "source-textures-imported-normalization-pending",
+  "notes": [
+    "Approved art source import only; main adapter owns runtime sprite creation, calibrated pivots/PPU, variant selection and Unity checks.",
+    "No base IDs, gameplay stats, stances or current bindings changed.",
+    "Source ZIPs contain PNG parts, not layered Aseprite masters.",
+    "v047 candidate alpha bounds differ from legacy; do not directly substitute cropped frame sprites."
+  ],
+  "items": [
+    {
+      "baseId": "arm_leather",
+      "part": "torso",
+      "texture": {
+        "sourcePath": "E:\\personalProject\\Demo3\\demo6\\아트\\승인장비-v049-v047-적용준비-20261006\\local-sources\\Demo6-Icon-Matched-Equipment-Candidates-v047\\equipment-v047\\parts\\arm_leather--torso-candidate.png",
+        "assetPath": "Assets/Resources/EquipmentV047/Armor/arm_leather--torso.png",
+        "resourcePath": "EquipmentV047/Armor/arm_leather--torso",
+        "guid": "6a656904fde44fb8ae13492926320fef",
+        "sha256": "d482441d72117486d124d4efd196404c44d656064c881e2d35d4c0c21ce1e4b6",
+        "canvas": [
+          651,
+          724
+        ],
+        "alphaBBoxTopLeft": [
+          103,
+          32,
+          651,
+          694
+        ],
+        "opaqueBBoxTopLeft": [
+          235,
+          36,
+          575,
+          691
+        ],
+        "sourceBytesPreserved": true,
+        "textureType": "Texture2D",
+        "socketValidated": false,
+        "pivot": null,
+        "ppu": null
+      },
+      "legacyCanvas": [
+        265,
+        310
+      ],
+      "legacyPPU": 160,
+      "normalizationPending": true
+    },
+    {
+      "baseId": "arm_leather",
+      "part": "leftShoulder",
+      "texture": {
+        "sourcePath": "E:\\personalProject\\Demo3\\demo6\\아트\\승인장비-v049-v047-적용준비-20261006\\local-sources\\Demo6-Icon-Matched-Equipment-Candidates-v047\\equipment-v047\\parts\\arm_leather--leftShoulder-candidate.png",
+        "assetPath": "Assets/Resources/EquipmentV047/Armor/arm_leather--leftShoulder.png",
+        "resourcePath": "EquipmentV047/Armor/arm_leather--leftShoulder",
+        "guid": "a2099d22be0f42a8b1197a1af9a5715a",
+        "sha256": "c0c17639f3cf7501eddc55235c7b76cffee256e8249a079315efa4d1fdd40233",
+        "canvas": [
+          717,
+          724
+        ],
+        "alphaBBoxTopLeft": [
+          0,
+          22,
+          691,
+          724
+        ],
+        "opaqueBBoxTopLeft": [
+          89,
+          142,
+          686,
+          603
+        ],
+        "sourceBytesPreserved": true,
+        "textureType": "Texture2D",
+        "socketValidated": false,
+        "pivot": null,
+        "ppu": null
+      },
+      "legacyCanvas": [
+        265,
+        310
+      ],
+      "legacyPPU": 160,
+      "normalizationPending": true
+    },
+    {
+      "baseId": "arm_leather",
+      "part": "shoulder",
+      "texture": {
+        "sourcePath": "E:\\personalProject\\Demo3\\demo6\\아트\\승인장비-v049-v047-적용준비-20261006\\local-sources\\Demo6-Icon-Matched-Equipment-Candidates-v047\\equipment-v047\\parts\\arm_leather--shoulder-candidate.png",
+        "assetPath": "Assets/Resources/EquipmentV047/Armor/arm_leather--shoulder.png",
+        "resourcePath": "EquipmentV047/Armor/arm_leather--shoulder",
+        "guid": "26adbe72684d4b61bac0d44e0ba153f6",
+        "sha256": "9cbfae1437ca15192f95f71d367020c7405844b64d59bb717ac18935f6af4791",
+        "canvas": [
+          804,
+          724
+        ],
+        "alphaBBoxTopLeft": [
+          23,
+          138,
+          766,
+          724
+        ],
+        "opaqueBBoxTopLeft": [
+          85,
+          260,
+          656,
+          627
+        ],
+        "sourceBytesPreserved": true,
+        "textureType": "Texture2D",
+        "socketValidated": false,
+        "pivot": null,
+        "ppu": null
+      },
+      "legacyCanvas": [
+        265,
+        310
+      ],
+      "legacyPPU": 160,
+      "normalizationPending": true
+    },
+    {
+      "baseId": "arm_chain",
+      "part": "torso",
+      "texture": {
+        "sourcePath": "E:\\personalProject\\Demo3\\demo6\\아트\\승인장비-v049-v047-적용준비-20261006\\local-sources\\Demo6-Icon-Matched-Equipment-Candidates-v047\\equipment-v047\\parts\\arm_chain--torso-candidate.png",
+        "assetPath": "Assets/Resources/EquipmentV047/Armor/arm_chain--torso.png",
+        "resourcePath": "EquipmentV047/Armor/arm_chain--torso",
+        "guid": "d9e71b5c40de4af2a710bf631b070d26",
+        "sha256": "5ab81576e26a40514cdfc02fc1db944c56ff97e459bddd25d04da4f7de290e85",
+        "canvas": [
+          638,
+          739
+        ],
+        "alphaBBoxTopLeft": [
+          0,
+          33,
+          638,
+          701
+        ],
+        "opaqueBBoxTopLeft": [
+          132,
+          45,
+          490,
+          695
+        ],
+        "sourceBytesPreserved": true,
+        "textureType": "Texture2D",
+        "socketValidated": false,
+        "pivot": null,
+        "ppu": null
+      },
+      "legacyCanvas": [
+        265,
+        310
+      ],
+      "legacyPPU": 160,
+      "normalizationPending": true
+    },
+    {
+      "baseId": "arm_chain",
+      "part": "leftShoulder",
+      "texture": {
+        "sourcePath": "E:\\personalProject\\Demo3\\demo6\\아트\\승인장비-v049-v047-적용준비-20261006\\local-sources\\Demo6-Icon-Matched-Equipment-Candidates-v047\\equipment-v047\\parts\\arm_chain--leftShoulder-candidate.png",
+        "assetPath": "Assets/Resources/EquipmentV047/Armor/arm_chain--leftShoulder.png",
+        "resourcePath": "EquipmentV047/Armor/arm_chain--leftShoulder",
+        "guid": "936547701ad04f179a8881d91feb2f8f",
+        "sha256": "1625a31bd85b39ddf64d2dce32e1f0b7b1934861d7f44b504f957a12596a24ad",
+        "canvas": [
+          702,
+          739
+        ],
+        "alphaBBoxTopLeft": [
+          0,
+          41,
+          702,
+          739
+        ],
+        "opaqueBBoxTopLeft": [
+          42,
+          173,
+          644,
+          612
+        ],
+        "sourceBytesPreserved": true,
+        "textureType": "Texture2D",
+        "socketValidated": false,
+        "pivot": null,
+        "ppu": null
+      },
+      "legacyCanvas": [
+        265,
+        310
+      ],
+      "legacyPPU": 160,
+      "normalizationPending": true
+    },
+    {
+      "baseId": "arm_chain",
+      "part": "shoulder",
+      "texture": {
+        "sourcePath": "E:\\personalProject\\Demo3\\demo6\\아트\\승인장비-v049-v047-적용준비-20261006\\local-sources\\Demo6-Icon-Matched-Equipment-Candidates-v047\\equipment-v047\\parts\\arm_chain--shoulder-candidate.png",
+        "assetPath": "Assets/Resources/EquipmentV047/Armor/arm_chain--shoulder.png",
+        "resourcePath": "EquipmentV047/Armor/arm_chain--shoulder",
+        "guid": "36713a76afd143b6b74a7fee0dea0c0b",
+        "sha256": "049494f4f938d88e79f7acee8cc05ab963241ba369197ae6aa501d82762eaadf",
+        "canvas": [
+          787,
+          739
+        ],
+        "alphaBBoxTopLeft": [
+          0,
+          67,
+          717,
+          739
+        ],
+        "opaqueBBoxTopLeft": [
+          50,
+          205,
+          697,
+          623
+        ],
+        "sourceBytesPreserved": true,
+        "textureType": "Texture2D",
+        "socketValidated": false,
+        "pivot": null,
+        "ppu": null
+      },
+      "legacyCanvas": [
+        265,
+        310
+      ],
+      "legacyPPU": 160,
+      "normalizationPending": true
+    },
+    {
+      "baseId": "hlm_leather",
+      "part": "head",
+      "texture": {
+        "sourcePath": "E:\\personalProject\\Demo3\\demo6\\아트\\승인장비-v049-v047-적용준비-20261006\\local-sources\\Demo6-Icon-Matched-Equipment-Candidates-v047\\equipment-v047\\candidates\\hlm_leather-candidate.png",
+        "assetPath": "Assets/Resources/EquipmentV047/Armor/hlm_leather--head.png",
+        "resourcePath": "EquipmentV047/Armor/hlm_leather--head",
+        "guid": "c587251fba564757b7d3ddb0504d68ab",
+        "sha256": "c8b7016282bdc04d6e68fc38fc13fc5ac502dabb5fc3f7bd6d8c7e0ea0a8f65d",
+        "canvas": [
+          1159,
+          1357
+        ],
+        "alphaBBoxTopLeft": [
+          307,
+          174,
+          1055,
+          1026
+        ],
+        "opaqueBBoxTopLeft": [
+          478,
+          280,
+          1052,
+          921
+        ],
+        "sourceBytesPreserved": true,
+        "textureType": "Texture2D",
+        "socketValidated": false,
+        "pivot": null,
+        "ppu": null
+      },
+      "legacyCanvas": [
+        265,
+        310
+      ],
+      "legacyPPU": 160,
+      "normalizationPending": true
+    }
+  ]
+}

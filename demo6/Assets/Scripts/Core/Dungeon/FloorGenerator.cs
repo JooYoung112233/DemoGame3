@@ -47,11 +47,13 @@ namespace Demo6.Core.Dungeon
         public CellDef[] Legend = Array.Empty<CellDef>();
         /// <summary>마지막 검사 결과.</summary>
         public RuleReport Report = new RuleReport();
+        /// <summary>생성 덧칠 결과(1-2층 탐험 맛 1차 FloorSpice: 정예·순찰·낙석·가시 덫·구석 보상). 손 지도는 빈 보고.</summary>
+        public SpiceReport Spice = new SpiceReport();
 
         /// <summary>FloorMap으로 읽는다(부를 때마다 새 객체).</summary>
         public FloorMap Build() => FloorMap.Parse(Floor, Name, Glyphs, Legend);
 
-        /// <summary>콘솔·시험 패널용: 씨앗, 다시 굴림, 검사 결과, 글자 지도.</summary>
+        /// <summary>콘솔·시험 패널용: 씨앗, 다시 굴림, 검사 결과, 글자 지도, 끝에 덧칠 한 줄(SpiceReport).</summary>
         public string Describe()
         {
             var sb = new StringBuilder();
@@ -63,6 +65,11 @@ namespace Demo6.Core.Dungeon
             sb.Append('\n');
             if (Report != null) sb.Append(Report).Append('\n');
             sb.Append(Glyphs);
+            if (Spice != null)
+            {
+                if (Glyphs.Length > 0 && Glyphs[Glyphs.Length - 1] != '\n') sb.Append('\n');
+                sb.Append(Spice);
+            }
             return sb.ToString();
         }
 
@@ -82,10 +89,14 @@ namespace Demo6.Core.Dungeon
                     if (f.Kind == FeatureKind.Group)
                     {
                         sb.Append("무리");
-                        if (f.Boars > 0) sb.Append(" 멧돼지").Append(f.Boars);
+                        if (f.Elite) sb.Append(" 정예");
+                        if (f.Boars > 0) sb.Append(" 돌충이").Append(f.Boars);
                         if (f.Archers > 0) sb.Append(" 궁수").Append(f.Archers);
                         if (f.Rats > 0) sb.Append(" 굴쥐").Append(f.Rats);
-                        sb.Append(f.State == GroupState.Sleep ? "(잠, " : f.State == GroupState.Eat ? "(먹음, " : "(순찰, ")
+                        // 순찰은 오갈 칸을 붙인다(1-2층 탐험 맛 1차 4-3: 이웃 칸 id, 빈 글이면 제 칸 안).
+                        sb.Append(f.State == GroupState.Sleep ? "(잠, "
+                                : f.State == GroupState.Eat ? "(먹음, "
+                                : "(순찰→" + (string.IsNullOrEmpty(f.PatrolCell) ? "제 칸" : f.PatrolCell) + ", ")
                             .Append(((int)f.FacingDeg).ToString(CultureInfo.InvariantCulture)).Append("°)");
                     }
                     else sb.Append(string.IsNullOrEmpty(f.Label) ? f.Kind.ToString() : f.Label);
@@ -141,6 +152,35 @@ namespace Demo6.Core.Dungeon
             fallback.Attempts = MaxAttempts;
             fallback.FellBack = true;
             return fallback;
+        }
+
+        /// <summary>
+        /// 보스 굴(OgreDen 손 지도 "P-X", 묶음 7)을 짓는다. 씨앗·밤 사건·감쇠를 받지 않는 고정 돌방이라 늘 같은 결과다(HandMap = true, 씨앗 0).
+        /// 검사는 FloorRules.CheckDen. 예외를 던지지 않는다(검사 중 오류는 실패 한 줄). floor는 굴이 딸린 층(2층).
+        /// </summary>
+        public static GeneratedFloor GenerateDen(int floor)
+        {
+            var g = new GeneratedFloor
+            {
+                Floor = floor,
+                Name = OgreDen.Name,
+                RequestedSeed = 0UL,
+                Seed = 0UL,
+                Attempts = 1,
+                HandMap = true,
+                Glyphs = OgreDen.Glyphs,
+                Legend = OgreDen.Legend(),
+            };
+            try
+            {
+                g.Report = FloorRules.CheckDen(g.Build());
+            }
+            catch (Exception e)
+            {
+                g.Report = new RuleReport();
+                g.Report.Fail("굴 검사 중 오류: " + e.Message);
+            }
+            return g;
         }
 
         /// <summary>지난 원정과 너무 닮은 지도를 피해 다시 굴리는 최대 횟수.</summary>
@@ -245,12 +285,17 @@ namespace Demo6.Core.Dungeon
             }
         }
 
-        /// <summary>씨앗 하나로 한 번 짓는다. 모양을 못 지으면 null(다음 씨앗으로). 예외도 실패로 친다.</summary>
+        /// <summary>
+        /// 씨앗 하나로 한 번 짓는다. 모양을 못 지으면 null(다음 씨앗으로). 예외도 실패로 친다.
+        /// 검사에 합격한 지도에만 생성 덧칠(1-2층 탐험 맛 1차 FloorSpice: 정예·순찰·함정·구석 보상)을 얹는다. 덧칠은 제 난수 흐름만 써서 지도·내용물은 그대로다.
+        /// </summary>
         static GeneratedFloor TryBuild(FloorRecipe recipe, GeneratorInput input, ulong seed)
         {
             try
             {
-                return new Builder(recipe, input, seed).Run();
+                var built = new Builder(recipe, input, seed).Run();
+                if (built != null && built.Report.Passed) built.Spice = FloorSpice.Apply(built, recipe, input);
+                return built;
             }
             catch (Exception)
             {
@@ -1522,8 +1567,10 @@ namespace Demo6.Core.Dungeon
                 }
 
                 // 숨은 방 단서: 판자벽 문 14유닛 안 등잔(불꽃이 판자 틈 쪽으로 기움).
+                // 층 첫 방문은 늘, 다시 연 층은 70%만(1-2층 탐험 맛 1차 4-8, 굴림은 따로 흐름 5). 못 두면 그 등잔은 아래에서 다른 칸에 놓인다.
                 int lampsLeft = _budget.Lamps - 2;
-                if (lampsLeft > 0 && plankSide >= 0)
+                bool clueRolled = FloorSpice.ClueLampRoll(_input, _seed);
+                if (lampsLeft > 0 && plankSide >= 0 && clueRolled)
                 {
                     var door = PieceSlots.DoorCenter((Side)plankSide);
                     var clue = RandomSlot(_plankNeighbor, SlotKind.Lamp, false, false, s => Distance(s.Local, door) <= 12.5f) ??
@@ -1604,10 +1651,18 @@ namespace Demo6.Core.Dungeon
                 }
                 for (; lampsLeft > 0; lampsLeft--)
                 {
+                    // 단서 등잔 굴림에 떨어진 다시 연 층은 남은 등잔도 숨은 방 이웃 칸을 비켜 간다(4-8·시험 8: 이웃 칸 등잔 60~80%).
+                    // 다른 칸에 못 두면 이웃 칸도 쓴다. 굴림에 붙은 층(첫 방문 포함)은 예전과 같은 후보·같은 난수 차례다.
                     var options = new List<Node>();
+                    var anywhere = new List<Node>();
                     foreach (var n in GenericNodes())
-                        if (!n.Has(FeatureKind.WallLamp)) options.Add(n);
-                    if (!PutInOne(options, SlotKind.Lamp, FeatureKind.WallLamp, "lamp", "벽 등잔")) return false;
+                        if (!n.Has(FeatureKind.WallLamp))
+                        {
+                            anywhere.Add(n);
+                            if (clueRolled || n != _plankNeighbor) options.Add(n);
+                        }
+                    if (!PutInOne(options, SlotKind.Lamp, FeatureKind.WallLamp, "lamp", "벽 등잔") &&
+                        (options.Count == anywhere.Count || !PutInOne(anywhere, SlotKind.Lamp, FeatureKind.WallLamp, "lamp", "벽 등잔"))) return false;
                 }
                 for (; woodLeft > 0; woodLeft--)
                     if (!PutChestAnywhere(FeatureKind.WoodChest, "wood", "나무 궤짝")) return false;
@@ -1720,6 +1775,8 @@ namespace Demo6.Core.Dungeon
                 feature.Rats = mix.Rats;
                 feature.State = state;
                 feature.FacingDeg = facing;
+                // 정예 무리(1-2층 탐험 맛 1차 4-1: 2층 계단 앞). 다시 연 층은 FloorSpice가 무리마다 다시 정한다.
+                feature.Elite = mix.Elite;
                 return true;
             }
 

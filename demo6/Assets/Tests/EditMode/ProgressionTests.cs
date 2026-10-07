@@ -110,7 +110,7 @@ namespace Demo6.Tests
             Assert.IsFalse(SkillTree.CanRankUp(0, 2, 0), "점수 없음");
             Assert.IsFalse(SkillTree.CanRankUp(4, 5, 3), "4랭크가 끝");
             Assert.IsTrue(SkillTree.CanRankUp(3, 2, 1));
-            Assert.AreEqual(4, SkillTree.All.Count);
+            Assert.AreEqual(5, SkillTree.All.Count, "끓는 피가 다섯째 랭크 칸");
             Assert.AreEqual(SkillTree.ToughBody, SkillTree.Find("skill.tough_body"));
         }
 

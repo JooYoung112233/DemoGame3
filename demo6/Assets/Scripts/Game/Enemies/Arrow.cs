@@ -1,10 +1,12 @@
+using Demo6.Core.Combat;
 using UnityEngine;
 
 namespace Demo6.Game
 {
     /// <summary>
     /// 궁수 화살. 콜라이더 없이 Update에서 이전 위치부터 지금 위치까지 CircleCast로 옮긴다(기획 11-6).
-    /// 플레이어가 무적(구르기)이면 그대로 지나간다.
+    /// 플레이어가 무적(구르기)이면 그대로 지나간다. 방패로 막거나 튕기면(PlayerController.LastHitResult) 꿰뚫는 화살도 멈춘다
+    /// (기획/세-무기-우클릭-소켓-1차.md 2-7).
     /// </summary>
     public sealed class Arrow : MonoBehaviour
     {
@@ -61,7 +63,20 @@ namespace Demo6.Game
             var player = PlayerController.Instance;
             if (!_hitPlayer && player && !player.IsDown && SegmentDistance(from, from + _dir * travel, player.Position) <= PlayerController.Radius + HitRadius)
             {
-                if (player.ReceiveHit(_attack, _percent, from, _pierce ? 0.8f : 0.4f))
+                // 방패 표 2-7: 보통 화살 Arrow, 꿰뚫는 화살 PierceArrow, 진행 방향 = 날아가는 쪽. 쏜 궁수는 넘기지 않는다(화살 패링은 적을 휘청하게 하지 않음).
+                bool landed = player.ReceiveHit(_attack, _percent, from, _pierce ? 0.8f : 0.4f, true, _pierce ? HitKind.PierceArrow : HitKind.Arrow, _dir);
+                var result = player.LastHitResult;
+                // 반환 약속(막음 true, 튕김 false)과 맞을 때만 본다: 이번 호출이 결과를 남기지 못한 옛 값에 화살이 멈추지 않게.
+                bool stopped = (result == HitResult.Blocked && landed) || (result == HitResult.Parried && !landed);
+                if (stopped)
+                {
+                    // 방패에 꽂힘(막음)·튕김(패링): 꿰뚫는 화살도 여기서 멈춘다(되쏘기 없음).
+                    // 예고 계측은 막음 = 맞음, 튕김 = 피함(2-7): ReceiveHit 반환값(막음 true, 튕김 false)을 그대로 보고한다.
+                    transform.position = from + _dir * travel;
+                    Finish(landed);
+                    return;
+                }
+                if (landed)
                 {
                     _hitPlayer = true;
                     if (!_pierce)

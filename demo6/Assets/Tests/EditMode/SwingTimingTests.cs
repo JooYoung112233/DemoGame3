@@ -6,7 +6,8 @@ namespace Demo6.Tests
 {
     /// <summary>
     /// 공격 속도를 콤보 타이밍에 넣는 규칙(장비 문서 3-3)과 M0a 손맛 보호.
-    /// 공격 속도 0이면 예전 PlayerController 식과 float 비트까지 같아야 하고, 0~400‰에서는 규칙 1~5가 세 무기 모든 단계에서 지켜져야 한다.
+    /// 공격 속도 0이면 예전 PlayerController 식과 float 비트까지 같아야 하고, 0~400‰에서는 규칙 1~5가 아홉 무기 모든 단계에서 지켜져야 한다
+    /// (새 무기 6종도 같은 규칙, 전투·보스·무기 다듬기 1차 2-1).
     /// </summary>
     public sealed class SwingTimingTests
     {
@@ -58,8 +59,8 @@ namespace Demo6.Tests
                     Assert.AreEqual(Bits(OldHitTime(d, step, step.hits - 1)), Bits(plan.LastHit), where + " 마지막 판정");
                 }
 
-            // 장검 3 + 대검 3 + 쌍검 (2 × 3 + 3) = 15 판정.
-            Assert.AreEqual(15, checkedHits);
+            // 한손검과 방패 3 + 대검 3 + 쌍검 (2 × 3 + 3) = 15 판정, 새 무기 쇠망치 3 + 창 3 + 큰 낫 3 + 도끼 3 + 단검 (2 × 2 + 1) + 사슬 철퇴 3 = 20 판정.
+            Assert.AreEqual(35, checkedHits);
             Assert.AreEqual(Bits(1f), Bits(SwingTiming.SpeedFactor(attackSpeedPermille)));
             Assert.AreEqual(Bits(1f), Bits(SwingTiming.PoiseScale(attackSpeedPermille)));
             Assert.AreEqual(Bits(35f), Bits(SwingTiming.AimTurnRate(attackSpeedPermille)));
@@ -93,7 +94,7 @@ namespace Demo6.Tests
                         Assert.That(plan.LastHit + SwingTiming.MinRecovery, Is.LessThanOrEqualTo(plan.Duration + Eps), where + " ① 회수");
                         // ② 첫 판정 ≥ 0.1.
                         Assert.That(plan.FirstHit, Is.GreaterThanOrEqualTo(0.1f), where + " ② 첫 판정");
-                        // 규칙 4 안전망은 0~400‰에서 걸리지 않는다(문서 3-3: 가장 짧은 회수 0.132초). 그래서 ③은 늘 확인된다.
+                        // 규칙 4 안전망은 0~400‰에서 걸리지 않는다(가장 짧은 회수 0.141초, 쌍검 ① 우측 베기). 그래서 ③은 늘 확인된다.
                         Assert.AreEqual(d / s, plan.Duration, 1e-6f, where + " 규칙 4가 걸림");
                         // ③ 한 동작 = 원래 ÷ s(±1ms).
                         Assert.AreEqual(step.duration / s, plan.Duration, 0.001f, where + " ③ 길이");
@@ -114,8 +115,8 @@ namespace Demo6.Tests
                     }
                 }
 
-            // 세 무기(3 + 3 + 4 단계) × 9 공속.
-            Assert.AreEqual(10 * 9, cases);
+            // 옛 세 무기(3 + 3 + 4 단계) + 새 여섯 무기(3단계씩 18) = 28단계 × 9 공속.
+            Assert.AreEqual(28 * 9, cases);
         }
 
         [Test]
@@ -146,17 +147,39 @@ namespace Demo6.Tests
                         which = weapon.displayName + " " + (i + 1) + "단계";
                     }
                 }
-            // 문서 3-3: 400‰에서도 가장 짧은 회수가 0.132초(쌍검 ③ 연타)라 규칙 4가 걸리지 않는다.
-            Assert.AreEqual(0.132f, shortest, 0.0006f, which);
-            Assert.AreEqual("쌍검 3단계", which);
+            // 세 무기 콤보(spec.json 2차 2026-10-05): 400‰에서도 가장 짧은 회수가 0.141초(쌍검 ① 우측 베기,
+            // 0.52 ÷ 1.4 − (0.156 ÷ 1.2 + 0.10))라 규칙 4(0.08초)가 걸리지 않는다.
+            Assert.AreEqual(0.141f, shortest, 0.0006f, which);
+            Assert.AreEqual("쌍검 1단계", which);
+
+            // 새 무기 가운데 가장 짧은 회수는 단검 ①② 두 번 긋기 0.159초(0.6 ÷ 1.4 − (0.18 ÷ 1.2 + 0.12)).
+            float newShortest = float.MaxValue;
+            string newWhich = null;
+            foreach (var weapon in WeaponPresets.New6)
+                for (int i = 0; i < weapon.combo.Length; i++)
+                {
+                    var plan = SwingTiming.Plan(weapon.combo[i], 400);
+                    if (plan.Recovery < newShortest)
+                    {
+                        newShortest = plan.Recovery;
+                        newWhich = weapon.displayName + " " + (i + 1) + "단계";
+                    }
+                }
+            Assert.AreEqual(0.159f, newShortest, 0.0006f, newWhich);
+            Assert.AreEqual("단검 1단계", newWhich);
+            Assert.AreEqual(newShortest, SwingTiming.Plan(WeaponPresets.Dagger.combo[1], 400).Recovery, 1e-7f, "단검 ②도 같음");
         }
 
-        /// <summary>문서 3-3 '상한 +30%에서 가장 빠듯한 동작' 표(초, 셋째 자리 반올림).</summary>
-        [TestCase("wpn_longsword", 0, 0.462f, 0.183f, 0.183f, 0.279f, 40)]
-        [TestCase("wpn_longsword", 2, 0.731f, 0.330f, 0.330f, 0.400f, 45)]
+        /// <summary>
+        /// 문서 3-3 '상한 +30%에서 가장 빠듯한 동작' 표(초, 셋째 자리 반올림). 세 무기 콤보는 기획/세-무기-우클릭-소켓-1차.md 2-3·3-4·4-4 값:
+        /// 한손검과 방패 ① 베기·③ 마무리 베기, 대검 ③ 내려 쪼개기, 쌍검 ① 우측 베기(34%)·③ 엇베기(37%)·④ 가위 가르기(37%). 찌르기 단계는 이제 창에만 있다.
+        /// </summary>
+        [TestCase("wpn_longsword", 0, 0.446f, 0.182f, 0.182f, 0.265f, 41)]
+        [TestCase("wpn_longsword", 2, 0.708f, 0.336f, 0.336f, 0.372f, 47)]
         [TestCase("wpn_greatsword", 2, 1.000f, 0.565f, 0.565f, 0.435f, 57)]
-        [TestCase("wpn_twinblades", 2, 0.385f, 0.130f, 0.230f, 0.154f, 34)]
-        [TestCase("wpn_twinblades", 3, 0.708f, 0.240f, 0.440f, 0.268f, 34)]
+        [TestCase("wpn_twinblades", 0, 0.400f, 0.1357f, 0.2357f, 0.1643f, 34)]
+        [TestCase("wpn_twinblades", 2, 0.4462f, 0.1664f, 0.2264f, 0.2197f, 37)]
+        [TestCase("wpn_twinblades", 3, 0.7154f, 0.2669f, 0.3669f, 0.3485f, 37)]
         public void PlusThirtyPercentTable(string weaponId, int stepIndex, float duration, float firstHit, float lastHit, float recovery, int hitRatioPercent)
         {
             var weapon = Rule(weaponId);
@@ -168,7 +191,7 @@ namespace Demo6.Tests
             Assert.AreEqual(lastHit, plan.LastHit, Tol, "마지막 판정");
             Assert.AreEqual(recovery, plan.Recovery, Tol, "회수");
             Assert.AreEqual(hitRatioPercent, (int)Math.Round(plan.FirstHit / plan.Duration * 100f), "판정 비율");
-            if (IsThrust(step)) Assert.AreEqual(0.470f, plan.FirstHit + ThrustHold, Tol, "찌르기 멈춤");
+            if (IsThrust(step)) Assert.AreEqual(0.476f, plan.FirstHit + ThrustHold, Tol, "찌르기 멈춤");
             if (IsSlam(step)) Assert.AreEqual(0.805f, plan.FirstHit + SlamImpact, Tol, "내려찍기 충격");
         }
 
@@ -177,8 +200,9 @@ namespace Demo6.Tests
         {
             var step = WeaponPresets.Longsword.combo[0];
             var full = SwingTiming.Plan(step, 1000);
-            Assert.AreEqual(0.3f, full.Duration, 1e-6f);
-            Assert.AreEqual(0.21f / 1.5f, full.FirstHit, 1e-6f);
+            // 한손검과 방패 ① 베기 0.58초, 판정 0.2088초: 1000‰이면 길이 0.29, 첫 판정 0.2088 ÷ 1.5 = 0.1392.
+            Assert.AreEqual(0.29f, full.Duration, 1e-6f);
+            Assert.AreEqual(0.2088f / 1.5f, full.FirstHit, 1e-6f);
             Assert.AreEqual(2f, SwingTiming.SpeedFactor(1000));
 
             var over = SwingTiming.Plan(step, 5000);

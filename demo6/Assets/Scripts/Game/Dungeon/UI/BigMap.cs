@@ -68,6 +68,7 @@ namespace Demo6.Game
 
         void Update()
         {
+            if (!ApprovedUiV5.MapsEnabled) return;
             var root = DungeonRoot.Instance;
             if (!root) return;
             var kb = Keyboard.current;
@@ -99,7 +100,14 @@ namespace Demo6.Game
         }
 
         /// <summary>지도에 보이는 길인가: 판자벽은 일반 벽과 똑같이 보여(2-5) 부순 뒤에만 보인다.</summary>
-        bool EdgeVisible(DungeonEdge e) => RevealAll || e.Kind != EdgeKind.Plank || e.Opened;
+        public static bool RouteKnown(DungeonEdge e) => e != null && (e.Kind != EdgeKind.Plank || e.Opened);
+        bool EdgeVisible(DungeonEdge e) => RevealAll || RouteKnown(e);
+        public static bool KnownFrontier(DungeonCell c)
+        {
+            if(c==null||c.Visited)return false;
+            foreach(var edge in c.Edges)if(RouteKnown(edge)&&edge.Other(c).Visited)return true;
+            return false;
+        }
 
         /// <summary>안 간 출구: 가 본 칸에서 보이는 길로 이어진 안 간 칸.</summary>
         bool IsFrontier(DungeonCell c)
@@ -110,22 +118,16 @@ namespace Demo6.Game
             return false;
         }
 
-        /// <summary>층의 벽 등잔을 모두 켰는가(숨은 방 흐린 '?', 2-5).</summary>
+        /// <summary>숨은 방 흐린 '?'(2-5): 켠 벽 등잔 3개(층 등잔이 셋보다 적으면 모두, 묶음 5-6 DownRules.CluesShown).</summary>
         static bool AllLampsLit(DungeonState state)
         {
-            int lamps = 0;
-            foreach (var e in state.OneTime.Values)
-            {
-                if (e.Kind != DiscoveryKind.WallLamp) continue;
-                lamps++;
-                if (!e.Done) return false;
-            }
-            return lamps > 0;
+            WallLamp.CountLamps(state, out int lit, out int total);
+            return DownRules.CluesShown(lit, total);
         }
 
         void OnGUI()
         {
-            if (!IsOpen) return;
+            if (!ApprovedUiV5.MapsEnabled || !IsOpen) return;
             var root = DungeonRoot.Instance;
             if (!root || root.World == null || root.Map == null || root.State == null) return;
             DungeonUi.Begin();

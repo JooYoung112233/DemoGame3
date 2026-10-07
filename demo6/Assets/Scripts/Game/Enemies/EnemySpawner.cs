@@ -17,6 +17,15 @@ namespace Demo6.Game
         public EliteAffix Affixes;
         /// <summary>잠든 채로 놓고 플레이어를 반대편에 세운다(기습 연습).</summary>
         public bool Sleeping;
+        /// <summary>
+        /// 갱도 오우거 한 마리(전투·보스·무기 다듬기 1차 3장, 시험장 '보스' 프리셋). 오우거는 Center ?? (7, 0)에서 오른쪽 벽을 보고 먹는 중이고,
+        /// 플레이어는 PlayerStart ?? (−9, 0)에 선다. 층은 BossRules.SpawnFloor(시험장이 1층이어도 2층 값). 다른 무리 수와 함께 써도 된다.
+        /// </summary>
+        public bool Boss;
+        /// <summary>무리 가운데 자리(없으면 지금처럼 플레이어에게서 가장 먼 후보, 잠든 무리는 (7, 0)). '기둥 옆 멧돼지' 같은 프리셋이 쓴다.</summary>
+        public Vector2? Center;
+        /// <summary>플레이어를 세울 자리(없으면 그대로, 잠든 무리는 (−9, 0)).</summary>
+        public Vector2? PlayerStart;
     }
 
     /// <summary>
@@ -63,6 +72,9 @@ namespace Demo6.Game
             new Vector2(-8f, 1.5f), new Vector2(-6.8f, 1.5f), new Vector2(-5.6f, 1.5f), new Vector2(-4.4f, 1.5f),
             new Vector2(-8f, -1.5f), new Vector2(-6.8f, -1.5f), new Vector2(-5.6f, -1.5f), new Vector2(-4.4f, -1.5f),
         };
+
+        /// <summary>지금 소환기의 방 안쪽(없으면 null). 오우거 낙석 자리·쥐 구멍이 쓴다.</summary>
+        public static Rect? ActiveInner => _instance ? _instance.Inner : (Rect?)null;
 
         public int Target(MonsterKind kind) => (int)kind < KindCount ? _target[(int)kind] : 0;
         public int Alive(MonsterKind kind) => (int)kind < KindCount ? _alive[(int)kind] : 0;
@@ -216,18 +228,31 @@ namespace Demo6.Game
             var player = PlayerController.Instance;
             EncounterGroup = ++_groupCounter;
             Vector2 center;
-            if (spec.Sleeping)
+            if (spec.Boss)
+            {
+                // 보스방(3-6): 오우거는 오른쪽 벽을 보고 먹는 중(OgreBrain.OnSpawned), 플레이어는 왼쪽 문 쪽에서 시작한다.
+                center = spec.Center ?? new Vector2(BossRules.StartX, 0f);
+                if (player) player.Teleport(spec.PlayerStart ?? new Vector2(BossRules.PlayerStartX, 0f));
+            }
+            else if (spec.Sleeping)
             {
                 // 기습 연습: 무리는 오른쪽에서 등을 돌리고 자고, 플레이어는 왼쪽에서 시작한다.
-                center = new Vector2(7f, 0f);
-                if (player) player.Teleport(new Vector2(-9f, 0f));
+                center = spec.Center ?? new Vector2(7f, 0f);
+                if (player) player.Teleport(spec.PlayerStart ?? new Vector2(-9f, 0f));
             }
             else
             {
-                center = FarthestPoint(player ? player.Position : Vector2.zero);
+                if (player && spec.PlayerStart.HasValue) player.Teleport(spec.PlayerStart.Value);
+                center = spec.Center ?? FarthestPoint(player ? player.Position : Vector2.zero);
             }
 
             var members = new List<Enemy>();
+            if (spec.Boss)
+            {
+                members.Add(Create(MonsterKind.Ogre, BossRules.SpawnFloor(Floor), center));
+                // 다른 무리를 함께 놓으면 오우거 앞쪽(플레이어 쪽)으로 비켜 놓는다.
+                center += Vector2.left * 3f;
+            }
             if (spec.Nest)
             {
                 members.Add(Create(MonsterKind.Nest, Floor, center));
@@ -260,7 +285,8 @@ namespace Demo6.Game
             foreach (var e in members)
             {
                 e.GroupId = EncounterGroup;
-                if (spec.Sleeping) e.Sleep(Vector2.right);
+                // 오우거는 스폰 때 이미 먹는 중이다(잠으로 바꾸지 않는다).
+                if (spec.Sleeping && !e.IsBoss) e.Sleep(Vector2.right);
                 _group.Add(e);
             }
             CombatEvents.RaiseEncounterSpawned(EncounterGroup, spec.EliteBoar);
@@ -342,6 +368,8 @@ namespace Demo6.Game
                 case MonsterKind.Rat: return Enemy.Spawn<RatBrain>(kind, floor, pos, ShapeSprites.Circle, Palette.Rat, false);
                 case MonsterKind.Boar: return Enemy.Spawn<BoarBrain>(kind, floor, pos, ShapeSprites.Square, Palette.Boar, true);
                 case MonsterKind.Nest: return Enemy.Spawn<NestBrain>(kind, floor, pos, ShapeSprites.Circle, Palette.Nest, false);
+                // 갱도 오우거: 도형 원(젖은 돌·석탄 회색). 머리·몽둥이·팔은 OgreLook이 붙인다(TopDownEnemyRig는 고치지 않음).
+                case MonsterKind.Ogre: return Enemy.Spawn<OgreBrain>(kind, floor, pos, ShapeSprites.Circle, GoreColors.OgreSkin, false);
                 default: return Enemy.Spawn<ArcherBrain>(kind, floor, pos, ShapeSprites.Triangle, Palette.Archer, true);
             }
         }

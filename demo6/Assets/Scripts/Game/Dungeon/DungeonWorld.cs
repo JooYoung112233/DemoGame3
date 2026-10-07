@@ -43,7 +43,13 @@ namespace Demo6.Game
         public MapEdge Map;
         public DungeonCell A;
         public DungeonCell B;
+        /// <summary>문틈 가운데(벽 두께 가운데). 비틀기(Shift)를 이미 넣은 자리다(시야와 문 1차 2-5).</summary>
         public Vector2 DoorCenter;
+        /// <summary>
+        /// 문 자리 비틀기(시야와 문 1차 2-1, 정수 유닛): 칸 변 가운데에서 벽을 따라 옮긴 만큼. 오른쪽 길(세로 벽)은 위(+y),
+        /// 위쪽 길(가로 벽)은 오른쪽(+x)이 양수다. 돌방·판자벽·자물쇠 문(DoorLayout.Pinned)과 손잡이를 끈 판은 0.
+        /// </summary>
+        public float Shift;
         /// <summary>문틈 크기(벽 방향 두께 × 폭 4).</summary>
         public Vector2 DoorSize;
         public GameObject Blocker;
@@ -66,7 +72,8 @@ namespace Demo6.Game
 
     /// <summary>
     /// 글자 지도에서 칸 바닥·벽·문·조각 안쪽 벽을 만든다(3차 초안 2-1). 칸 (x, y)의 가운데는 (28x, 16y).
-    /// 벽 두께 1, 문은 칸 네 변 가운데 폭 4. 벽과 기둥은 등잔 빛에 그림자를 드리운다.
+    /// 벽 두께 1, 문은 폭 4로 칸 변 가운데에서 조금 비튼 자리(시야와 문 1차 2장: 공터·계단 앞 옆벽 ±3·위아래 ±5, 통로·막다른 방·숨은 방 ±1,
+    /// 돌방·판자벽·자물쇠 문은 가운데). 벽과 기둥은 등잔 빛에 그림자를 드리운다.
     /// 그림(기획/다크판타지-분위기-1차.md '땅·벽'): 바닥은 거친 흙·돌, 벽은 돌 블록·모르타르, 채운 바위는 거친 바위, 기둥은 나무 버팀목. 칸 구조·충돌·문은 그대로다.
     /// 매판 새 탐험 1차 2-2 '남는 곳은 눈으로 구분된다': 원정마다 남는 돌 칸(승강장·랜드마크, MapAnchors.IsFixed)의 경계 벽·안쪽 바위·막는 돌벽은
     /// 같은 그림을 차갑게 칠한 돌(ColdStone, 색만 바꿈)로 그린다. 이웃 칸이 세운 공유 벽도 고정 칸에 닿으면 같은 색이다.
@@ -90,15 +97,26 @@ namespace Demo6.Game
         /// <summary>원정마다 남는 돌 칸(승강장·랜드마크)의 '차갑게 칠한 돌' 색(벽 그림에 곱함, 2-2).</summary>
         public static readonly Color ColdStone = new Color(0.78f, 0.84f, 0.92f);
 
+        /// <summary>
+        /// 문 자리 비틀기 손잡이(시야와 문 1차 13장, 기본 켬). 끄면 모든 문이 칸 변 가운데(비틀기 0)다.
+        /// 지을 때만 읽으므로 시험 패널 '다시 짓기' 뒤에 바뀐다. 플레이 시작 때 켬으로 되돌린다(도메인 다시 불러오기 꺼짐).
+        /// </summary>
+        public static bool DoorShiftOn = true;
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        static void ResetStatics() => DoorShiftOn = true;
+
         public FloorMap Map { get; private set; }
         public Rect Bounds { get; private set; }
         public IReadOnlyList<DungeonCell> Cells => _cells;
         public IReadOnlyList<DungeonEdge> Edges => _edges;
+        /// <summary>벽·바위·기둥·문 막이 사각형(바닥 구석 그늘, 칸 살핌의 걸을 수 있는 바닥 계산용 — 시야와 문 1차 5-3).</summary>
+        public IReadOnlyList<Rect> WallRects => _wallRects;
 
         readonly List<DungeonCell> _cells = new List<DungeonCell>();
         readonly List<DungeonEdge> _edges = new List<DungeonEdge>();
         readonly Dictionary<MapCell, DungeonCell> _byMap = new Dictionary<MapCell, DungeonCell>();
-        /// <summary>벽·바위·기둥·문 막이 사각형(바닥 구석 그늘용).</summary>
+        /// <summary>벽·바위·기둥·문 막이 사각형(바닥 구석 그늘·칸 살핌용). 막이를 연 뒤에도 그 문틈 사각형은 남는다.</summary>
         readonly List<Rect> _wallRects = new List<Rect>();
         DungeonCell[,] _grid;
         Transform _root;
@@ -124,19 +142,28 @@ namespace Demo6.Game
                 w._byMap[mc] = c;
                 w._grid[mc.X, mc.Y] = c;
             }
-            foreach (var me in map.Edges)
+            // 시야와 문 1차 2-3·10-3: 문 자리 비틀기. 다 지은 지도(생성기 덧칠까지 마친 자리 표시)와 씨앗만 보고 정하므로
+            // 생성기 난수 흐름은 그대로이고, 덫·궤짝 같은 자리 표시를 비켜 간다(2-4). 막는 물체·_wallRects·경계 벽 문틈이
+            // 옮긴 자리를 쓰도록 BuildGeometry 전에 정한다. 손잡이를 끄면 모두 0(칸 변 가운데).
+            float[] shifts = DoorShiftOn ? DoorLayout.ShiftAll(map, w._mapSeed) : null;
+            var mapEdges = map.Edges;
+            for (int i = 0; i < mapEdges.Count; i++)
             {
+                var me = mapEdges[i];
                 var a = w._byMap[me.A];
                 var b = w._byMap[me.B];
                 var e = new DungeonEdge { Map = me, A = a, B = b, Opened = me.Kind == EdgeKind.Open };
+                e.Shift = shifts != null && i < shifts.Length ? shifts[i] : 0f;
                 if (me.SideFromA == Side.Right)
                 {
-                    e.DoorCenter = new Vector2(a.Bounds.xMax, a.Center.y);
+                    // 오른쪽 길(세로 벽): 위(+y)가 양수.
+                    e.DoorCenter = new Vector2(a.Bounds.xMax, a.Center.y + e.Shift);
                     e.DoorSize = new Vector2(WallThickness, DoorWidth);
                 }
                 else
                 {
-                    e.DoorCenter = new Vector2(a.Center.x, a.Bounds.yMax);
+                    // 위쪽 길(가로 벽): 오른쪽(+x)이 양수.
+                    e.DoorCenter = new Vector2(a.Center.x + e.Shift, a.Bounds.yMax);
                     e.DoorSize = new Vector2(DoorWidth, WallThickness);
                 }
                 a.Edges.Add(e);
@@ -146,6 +173,7 @@ namespace Demo6.Game
             var min = new Vector2(-CellWidth * 0.5f, -CellHeight * 0.5f);
             w.Bounds = new Rect(min, new Vector2(map.Width * CellWidth, map.Height * CellHeight));
             w.BuildGeometry();
+            DungeonPassageFramesV063.Attach(w, w._root);
             return w;
         }
 
@@ -211,6 +239,8 @@ namespace Demo6.Game
             Vector2 native = sprite.bounds.size;
             floor.transform.localScale = new Vector3(CellWidth / Mathf.Max(0.01f, native.x), CellHeight / Mathf.Max(0.01f, native.y), 1f);
             RuntimeAssetOwner.Own(floor, sprite);
+            TextureStudyV7.Attach(c, cellRoot, fs, Map.Floor);
+            PainterlyMineArtV10.ApplyFloor(c, fs, Map.Floor);
         }
 
         /// <summary>
@@ -247,10 +277,14 @@ namespace Demo6.Game
             return _grid[x, y];
         }
 
-        /// <summary>칸의 한 변 벽. 이웃과 길로 이어져 있으면 가운데 폭 4를 비운다(막는 물체는 따로). cold면 차갑게 칠한 돌.</summary>
+        /// <summary>
+        /// 칸의 한 변 벽. 이웃과 길로 이어져 있으면 그 길의 문 가운데(DoorCenter, 비튼 자리 — 시야와 문 1차 2-5) 폭 4를 비운다
+        /// (막는 물체는 따로). cold면 차갑게 칠한 돌.
+        /// </summary>
         void BuildBoundary(DungeonCell c, Side side, Transform parent, bool cold)
         {
-            bool door = c.EdgeOn(side) != null;
+            var edge = c.EdgeOn(side);
+            bool door = edge != null;
             float t = WallThickness;
             Color? tint = cold ? ColdStone : (Color?)null;
             if (side == Side.Right || side == Side.Left)
@@ -261,8 +295,8 @@ namespace Demo6.Game
                 if (!door) Wall(parent, "Wall " + side, new Vector2(x, c.Center.y), new Vector2(t, y1 - y0), Palette.Wall, false, tint);
                 else
                 {
-                    float gap0 = c.Center.y - DoorWidth * 0.5f;
-                    float gap1 = c.Center.y + DoorWidth * 0.5f;
+                    float gap0 = edge.DoorCenter.y - DoorWidth * 0.5f;
+                    float gap1 = edge.DoorCenter.y + DoorWidth * 0.5f;
                     Wall(parent, "Wall " + side + " a", new Vector2(x, (y0 + gap0) * 0.5f), new Vector2(t, gap0 - y0), Palette.Wall, false, tint);
                     Wall(parent, "Wall " + side + " b", new Vector2(x, (gap1 + y1) * 0.5f), new Vector2(t, y1 - gap1), Palette.Wall, false, tint);
                 }
@@ -275,15 +309,18 @@ namespace Demo6.Game
                 if (!door) Wall(parent, "Wall " + side, new Vector2(c.Center.x, y), new Vector2(x1 - x0, t), Palette.Wall, false, tint);
                 else
                 {
-                    float gap0 = c.Center.x - DoorWidth * 0.5f;
-                    float gap1 = c.Center.x + DoorWidth * 0.5f;
+                    float gap0 = edge.DoorCenter.x - DoorWidth * 0.5f;
+                    float gap1 = edge.DoorCenter.x + DoorWidth * 0.5f;
                     Wall(parent, "Wall " + side + " a", new Vector2((x0 + gap0) * 0.5f, y), new Vector2(gap0 - x0, t), Palette.Wall, false, tint);
                     Wall(parent, "Wall " + side + " b", new Vector2((gap1 + x1) * 0.5f, y), new Vector2(x1 - gap1, t), Palette.Wall, false, tint);
                 }
             }
         }
 
-        /// <summary>조각 안쪽 벽. 공터는 기둥, 통로는 문과 가운데를 잇는 폭 6 길만 남기고, 막다른 방은 문 없는 쪽을 좁힌다. cold면 바위를 차갑게 칠한 돌로.</summary>
+        /// <summary>
+        /// 조각 안쪽 벽. 공터는 기둥, 통로는 문과 가운데를 잇는 폭 6 길만 남기고, 막다른 방은 문 없는 쪽을 좁힌다. cold면 바위를 차갑게 칠한 돌로.
+        /// 오우거 굴: 보스방은 돌 기둥 4개(OgreDen.Pillars), 쉼터는 막다른 방처럼 좁힌 돌방(OgreDen.FrontHalfWidth·FrontHalfHeight).
+        /// </summary>
         void BuildPiece(DungeonCell c, Transform parent, bool cold)
         {
             var inner = c.Inner;
@@ -331,6 +368,15 @@ namespace Demo6.Game
                     // 계단 앞은 갈래 갱의 트인 방. 구석 버팀목 기둥 두 개만.
                     Wall(parent, "Pillar", c.Center + new Vector2(-10f, -5f), new Vector2(1.2f, 1.2f), Palette.Pillar, true);
                     Wall(parent, "Pillar", c.Center + new Vector2(10f, 5f), new Vector2(1.2f, 1.2f), Palette.Pillar, true);
+                    break;
+                case PieceKind.BossRoom:
+                    // 오우거 굴 보스방(전투·보스 문서 3-6): 트인 26×14에 돌진을 박는 굵은 돌 기둥 4개(1.6, 부서지지 않음). 돌로 쌓은 고정 칸이라 차가운 돌.
+                    foreach (var p in OgreDen.Pillars)
+                        Wall(parent, "Pillar", c.Center + new Vector2(p.X, p.Y), new Vector2(OgreDen.PillarSize, OgreDen.PillarSize), Palette.Wall, true, tint);
+                    break;
+                case PieceKind.BossFront:
+                    // 보스방 앞 쉼터(3-8): 막다른 방 크기의 돌방, 보스방 쪽 문은 폭 6 길로 트임.
+                    RoomMargins(c, parent, OgreDen.FrontHalfWidth, OgreDen.FrontHalfHeight, tint);
                     break;
             }
         }
@@ -418,7 +464,7 @@ namespace Demo6.Game
             if (color == Palette.Wall)
             {
                 var rect = new Rect(position - size * 0.5f, size);
-                owned = name == "Rock" ? ShapeSprites.RoughRock(rect) : ShapeSprites.StoneWall(rect);
+                owned = PainterlyMineArtV10.Rock(rect) ?? (name == "Rock" ? ShapeSprites.RoughRock(rect) : ShapeSprites.StoneWall(rect));
                 sr.sprite = owned;
                 sr.color = tint ?? Color.white;
                 // 픽셀 반올림이 있어도 그림이 충돌 상자 크기에 꼭 맞게.

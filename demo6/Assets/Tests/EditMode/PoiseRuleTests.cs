@@ -82,8 +82,8 @@ namespace Demo6.Tests
         }
 
         /// <summary>
-        /// 마무리가 한 단계 중 버팀을 가장 많이 깎는다. 대검은 첫 바퀴 마무리에서 멧돼지(90)를 무너뜨리고,
-        /// 장검·쌍검은 한 바퀴로는 못 무너뜨린다(무기마다 무너뜨리는 박자가 다르게).
+        /// 마무리가 한 단계 중 버팀을 가장 많이 깎는다. 대검(96)·쇠망치(122)는 첫 바퀴 마무리에서 멧돼지(90)를 무너뜨리고,
+        /// 나머지 일곱은 한 바퀴로는 못 무너뜨린다(무기마다 무너뜨리는 박자가 다르게, 전투·보스·무기 다듬기 1차 2-4).
         /// </summary>
         [Test]
         public void FinisherCarriesMostPoiseAndGreatswordBreaksBoarInOneCycle()
@@ -103,8 +103,9 @@ namespace Demo6.Tests
                     else other = System.Math.Max(other, step);
                 }
                 Assert.Greater(finisher, other, w.displayName);
-                if (w == WeaponPresets.Greatsword) Assert.GreaterOrEqual(cycle, boarPoise, w.displayName);
+                if (w == WeaponPresets.Greatsword || w == WeaponPresets.Maul) Assert.GreaterOrEqual(cycle, boarPoise, w.displayName);
                 else Assert.Less(cycle, boarPoise, w.displayName);
+                if (w == WeaponPresets.Maul) Assert.AreEqual(122, cycle, 1e-9, "쇠망치 한 바퀴 버팀");
             }
         }
     }

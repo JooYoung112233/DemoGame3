@@ -155,6 +155,9 @@ namespace Demo6.Game
                     return new[] { "밤새 갱도가 울렸다.", "아래서 긁는 소리가 그치지 않았다." };
                 case NightEvent.Upheaval:
                     return new[] { "밤새 갱도가 울렸다.", "크게 울린 밤이다. 묻혔던 것이 올라왔을지 모른다." };
+                // 거센 울림(1-2층 탐험 맛 1차 4-9): 글은 마을 카드와 같은 TownNight.RumbleLine 한 곳에서.
+                case NightEvent.Rumble:
+                    return new[] { "밤새 갱도가 울렸다.", Demo6.Core.Town.TownNight.RumbleLine };
                 default:
                     return new[] { "바구니가 덜컹이며 올라간다." };
             }
@@ -233,7 +236,7 @@ namespace Demo6.Game
 
         /// <summary>
         /// 승강장 고르기(창 "landing", 검은 화면 위 판, 2-3 단계 3). 줄마다 층·이름·권장 레벨·측량 장 수·명패·(줄 끝)·(처음).
-        /// 기본 줄(defaultFloor, 없으면 줄 끝)을 테두리로 강조하고, 숫자 키·Enter(기본)·단추로 고른다. 고르면 창을 닫은 뒤 onPick(층).
+        /// 기본 줄(defaultFloor, 없으면 줄 끝)을 테두리로 강조하고, 숫자 키·Enter(기본)·단추로 고른다. 고르면 창을 닫은 뒤 onPick(층, '보스방 앞' 줄은 OgreDen.PickCode).
         /// 목록이 비어 있으면 경고를 남기고 다음 프레임에 기본 층으로 고른다.
         /// </summary>
         public void ShowLandingPicker(IReadOnlyList<LandingOption> options, int defaultFloor, Action<int> onPick)
@@ -264,18 +267,25 @@ namespace Demo6.Game
             if (_mode == Mode.Landing && index >= 0 && index < _options.Count) _clickedRow = index;
         }
 
-        static int DefaultIndex(List<LandingOption> options, int defaultFloor)
+        /// <summary>기본 줄: 기본 층(줄 끝) 줄, 없으면 줄 끝 표시 줄, 그것도 없으면 마지막 층 줄. '보스방 앞' 줄은 기본이 되지 않는다.</summary>
+        public static int DefaultIndex(IReadOnlyList<LandingOption> options, int defaultFloor)
         {
             for (int i = 0; i < options.Count; i++)
-                if (options[i].Floor == defaultFloor) return i;
+                if (!options[i].Den && options[i].Floor == defaultFloor) return i;
             for (int i = 0; i < options.Count; i++)
-                if (options[i].RopeEnd) return i;
+                if (!options[i].Den && options[i].RopeEnd) return i;
+            for (int i = options.Count - 1; i >= 0; i--)
+                if (!options[i].Den) return i;
             return options.Count - 1;
         }
 
-        /// <summary>"[n] 제{층}층 — {이름} · 권장 레벨 {lv} · 측량 {s}/3" + 명패 찾음/못 찾음(명패 없는 층은 생략) + (줄 끝) + (처음).</summary>
-        static string RowText(int n, LandingOption o)
+        /// <summary>
+        /// "[n] 제{층}층 — {이름} · 권장 레벨 {lv} · 측량 {s}/3" + 명패 찾음/못 찾음(명패 없는 층은 생략) + (줄 끝) + (처음).
+        /// '보스방 앞' 줄은 "[n] 제2층 바닥 — 보스방 앞 · 권장 레벨 3"(측량·명패 없음).
+        /// </summary>
+        public static string RowText(int n, LandingOption o)
         {
+            if (o.Den) return $"[{n}] 제{o.Floor}층 바닥 — {o.Name} · 권장 레벨 {o.RecommendedLevel}";
             string text = $"[{n}] 제{o.Floor}층 — {o.Name} · 권장 레벨 {o.RecommendedLevel} · 측량 {o.SurveySheets}/3";
             if (o.NameplateFound.HasValue) text += o.NameplateFound.Value ? " · 명패 찾음" : " · 명패 못 찾음";
             if (o.RopeEnd) text += " (줄 끝)";
@@ -414,7 +424,8 @@ namespace Demo6.Game
                 }
                 if (pick < 0) return;
             }
-            int floor = pick >= 0 && pick < _options.Count ? _options[pick].Floor : _defaultFloor;
+            // '보스방 앞' 줄은 층 번호 대신 OgreDen.PickCode를 넘긴다.
+            int floor = pick >= 0 && pick < _options.Count ? ProfileCarry.PickValue(_options[pick]) : _defaultFloor;
             var callback = _onPick;
             Abandon();
             callback?.Invoke(floor);

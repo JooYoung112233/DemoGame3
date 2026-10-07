@@ -91,6 +91,8 @@ namespace Demo6.Game
     [Serializable]
     public sealed class TopDownPlayerArt
     {
+        [Tooltip("시각 전용 짧은 망토. +x가 전방, 어깨 피벗을 몸 중심에 맞춘 분리 원본. 장비·능력치와 무관.")]
+        public Sprite cape;
         [Tooltip("기본 몸(모든 갑옷 id의 기본값): 위에서 본 어깨·망토, 맨머리까지(투구는 따로 덮음)(얼굴 쪽 +x). 피벗 = 몸 중심(충돌 원 중심). 어깨 폭 약 0.8~0.9유닛.")]
         public Sprite body;
         [Tooltip("선택: 기본 몸의 맞은 동안(0.2초) 그림. 몸 칸이 있을 때만 쓴다. 비우면 몸 그림(젖힘·번쩍임은 코드).")]
@@ -283,8 +285,10 @@ namespace Demo6.Game
     }
 
     /// <summary>
-    /// 정수리 시점 무기 세 자루. 손잡이까지만 그리고 주먹은 그리지 않는다(주먹은 장갑 부품: TopDownPlayerArt.gloves, 장비 문서 9-2 ②).
+    /// 정수리 시점 무기 아홉 종류(기존 3 + 기획/전투-보스-무기-다듬기-1차.md 2-7의 새 무기 6). 손잡이까지만 그리고 주먹은 그리지 않는다(주먹은 장갑 부품: TopDownPlayerArt.gloves, 장비 문서 9-2 ②).
     /// 코드가 쥔 주먹을 손잡이 위(무기 + 1 순서)에 덮는다. 휘두르기는 코드(TopDownSwing)가 한다.
+    /// 새 무기 공통 규격(2-7): 위에서 곧게 본 모습, +x(오른쪽)가 끝, 피벗 = 오른 주먹 가운데(손잡이 쥔 점), PPU 256, 테두리 #0B0A0D 2px,
+    /// 쇠 #8F949C·#54575E·#E6E8ED, 손잡이 가죽 #332114. 원본은 512px/유닛 PNG와 실제 레이어 PSD로 따로 보관한다. 칸이 비면 코드 임시 그림(TopDownSprites).
     /// </summary>
     [Serializable]
     public sealed class TopDownWeaponArt
@@ -295,19 +299,41 @@ namespace Demo6.Game
         public Sprite greatsword;
         [Tooltip("쌍검 한 자루(주먹 제외, 주먹은 장갑 부품). 왼손 칼은 코드가 위아래로 뒤집는다. 피벗 = 주먹 자리, 칼끝 +x 0.62유닛.")]
         public Sprite twinblade;
+        [Tooltip("쇠망치(주먹 제외, 코드가 0과 −0.12유닛에 쥔 주먹을 놓음). 피벗 = 오른 주먹 자리, 자루 끝 −0.15 ~ 머리 끝 +x 1.20유닛, 머리 0.90~1.20·반폭 0.17(한쪽 뭉툭·한쪽 쐐기). 게임 368×96 / 피벗 (46, 48), 원본 736×192 이상(내려칠 때 1.5배로 커짐).")]
+        public Sprite maul;
+        [Tooltip("창(주먹 제외, 코드가 0과 −0.35유닛에 쥔 주먹을 놓음). 피벗 = 오른 주먹 자리, 물미 −0.55 ~ 창끝 +x 1.75유닛, 창날 1.40~1.75·반폭 0.07. 게임 608×64 / 피벗 (149, 32), 원본 1216×128 이상.")]
+        public Sprite spear;
+        [Tooltip("큰 낫(주먹 제외, 코드가 0과 −0.30유닛에 쥔 주먹을 놓음). 피벗 = 오른 주먹 자리, 자루 −0.30 ~ +x 1.35유닛, 날은 자루 끝에서 −y로 약 0.75 휜다. 반대로 쓸 때 코드가 위아래로 뒤집는다. 게임 448×232 / 피벗 (85, 약 200), 원본 896×464 이상.")]
+        public Sprite scythe;
+        [Tooltip("도끼(주먹 제외, 한 손). 피벗 = 오른 주먹 자리, 자루 끝 −0.15 ~ +x 약 1.05유닛, 머리는 자루 끝에서 −y로 치우친 비대칭(날 끝 약 −0.33).")]
+        public Sprite axe;
+        [Tooltip("단검(주먹 제외, 한 손). 피벗 = 오른 주먹 자리, 칼끝 +x 0.43유닛. 게임 144×40 / 피벗 (28, 20).")]
+        public Sprite dagger;
+        [Tooltip("사슬 철퇴 손잡이(주먹 제외, 한 손, 사슬은 코드 선). 피벗 = 오른 주먹 자리, 손잡이 끝 고리 +x 0.355유닛(사슬이 매달리는 자리).")]
+        public Sprite flail;
+        [Tooltip("사슬 철퇴 쇠공(피벗 = 공 가운데, 사슬 고리 쪽 −x, 지름 약 0.3유닛 가시 포함). 코드가 사슬 방향으로 돌려 놓는다.")]
+        public Sprite flailBall;
+        [Tooltip("한손검과 방패의 방패(위에서 본 둥근 앞면, 왼손 부품 ShieldPart). 피벗 = 가운데, 지름 0.56유닛, +x = 방패 바깥면이 보는 쪽(코드가 방패 깊이만큼 x로 납작하게 함). 쇠테 폭 0.03·가운데 돌기 지름 0.12·세로 판자 4장. 원본은 지름 576px 이상(캔버스 1024 권장) PNG와 레이어 PSD(판자·쇠테·돌기·긁힘·그늘).")]
+        public Sprite shield;
 
-        /// <summary>무기 id의 그림(없으면 null). 모르는 id는 장검(TopDownWeaponLook.Of와 같은 규칙).</summary>
+        /// <summary>무기 id의 그림(없으면 null). 모르는 id는 장검(TopDownWeaponLook.Of와 같은 규칙). 새 무기 칸이 비면 null(→ 그 무기의 임시 그림, 장검 그림을 빌리지 않음).</summary>
         public Sprite For(string weaponId)
         {
             switch (weaponId)
             {
                 case "wpn_greatsword": return greatsword;
                 case "wpn_twinblades": return twinblade;
+                case "wpn_maul": return maul;
+                case "wpn_spear": return spear;
+                case "wpn_scythe": return scythe;
+                case "wpn_axe": return axe;
+                case "wpn_dagger": return dagger;
+                case "wpn_flail": return flail;
                 default: return longsword;
             }
         }
 
-        public bool HasAny => longsword || greatsword || twinblade;
+        public bool HasAny => longsword || greatsword || twinblade || maul || spear || scythe || axe || dagger || flail || flailBall;
     }
 
     /// <summary>정수리 시점 적·물체 몸 한 장. 처치되면 이 그림(또는 처치 그림)을 GoreSystem이 복사해 어둡게 시체로 남긴다.</summary>
@@ -328,6 +354,8 @@ namespace Demo6.Game
     [Serializable]
     public class TopDownCreatureArt : TopDownBodyArt
     {
+        [Tooltip("몸 그림에 발이 이미 포함되어 있으면 켠다. 별도 발 그림·임시 발 점을 숨기며 몸의 간단한 이동·공격·피격 반응은 유지한다.")]
+        public bool feetInBody;
         [Tooltip("선택: 발 하나(발끝 +x, 피벗 가운데, 유닛 크기). 비우면 코드 점. 오른쪽 발로 그리고 왼쪽 발은 코드가 위아래로 뒤집는다.")]
         public Sprite foot;
 
@@ -400,7 +428,7 @@ namespace Demo6.Game
     [Serializable]
     public sealed class WeaponArt
     {
-        [Tooltip("wpn_longsword / wpn_greatsword / wpn_twinblades")]
+        [Tooltip("wpn_longsword / wpn_greatsword / wpn_twinblades / wpn_maul / wpn_spear / wpn_scythe / wpn_axe / wpn_dagger / wpn_flail")]
         public string weaponId;
         [Tooltip("콤보 단계 순서대로.")]
         public StepArt[] steps = Array.Empty<StepArt>();
@@ -446,12 +474,20 @@ namespace Demo6.Game
     [Serializable]
     public sealed class EffectArt
     {
+        [Tooltip("장검·대검·쌍검의 +x 방향 칼끝 호. 빈 칸은 코드 궤적을 사용한다.")]
+        public Sprite arcLong, arcHeavy, arcTwin;
+        [Tooltip("중심 피벗의 찌르기, 회전 칼날, +x로 움직이는 검기.")]
+        public Sprite thrust, whirl, wave;
+        [Tooltip("중심이 투명한 지면 먼지. 보상 발밑에도 재사용한다.")]
+        public Sprite impactDust;
+        [Tooltip("아래 중앙 피벗의 좁은 보상 빛줄기.")]
+        public Sprite rewardBeam;
         [Tooltip("타격 파편 조각(여러 장이면 무작위).")]
         public Sprite[] sparks = Array.Empty<Sprite>();
         [Tooltip("베인 자국(가로로 긴 줄, 오른쪽 방향).")]
         public Sprite slashMark;
 
-        public bool HasAny => (sparks != null && sparks.Length > 0) || slashMark;
+        public bool HasAny => (sparks != null && sparks.Length > 0) || slashMark || arcLong || arcHeavy || arcTwin || thrust || whirl || wave || impactDust || rewardBeam;
     }
 
     [Serializable]

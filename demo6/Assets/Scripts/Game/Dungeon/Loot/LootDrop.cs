@@ -6,8 +6,8 @@ namespace Demo6.Game
     /// <summary>
     /// 바닥에 떨어진 장비 하나(7부위 공통, 2차 7-6 드랍 연출, 3차 초안 7-2 '빛기둥·등급색'). 포물선으로 튀어나와 내려앉는 순간 등급 연출을 시작한다.
     /// 몸통은 부위별 바닥 도형(LootVisuals.BuildGear), 빛기둥 규칙은 부위와 무관하게 등급만 본다.
-    /// 일반: 빛기둥 없이 작은 회색 반짝임. 고급: 초록 높이 2·폭 0.25, 1.5초 뒤 바닥 고리로 줄어듦. 희귀: 파랑 높이 4·폭 0.4.
-    /// 영웅: 보라 화면 위 끝까지·폭 0.6·위로 흐르는 입자. 전설: 주황 화면 위 끝까지·폭 1.0 + 착지 충격파 고리 + 0.25초 시간 0.3배 + 약한 흔들림.
+    /// 빛기둥은 고급1.1·희귀1.6·영웅2.2·전설2.8유닛으로 제한한다. 전투 장면과 예고를 가리지 않는 작은 광륜을 쓴다.
+    /// 등급색·착지 소리·고등급 입자와 전설의 짧은 착지 연출은 유지한다.
     /// 싸움 중(깨어 있는 적이 가까이 있음)에는 착지가 끝난 빛기둥을 35%로 낮춘다. F = 가방에 넣기, G = 바로 끼기(Inventory가 처리).
     /// </summary>
     public sealed class LootDrop : Interactable
@@ -17,10 +17,10 @@ namespace Demo6.Game
         const float LandingFullBright = 0.6f;
         const float CombatDim = 0.35f;
         const float ShockDuration = 0.5f;
-        const float ShockMaxDiameter = 5f;
+        const float ShockMaxDiameter = 1.8f;
         const float LegendarySlowSeconds = 0.25f;
         const float LegendarySlowScale = 0.3f;
-        const int MoteCount = 5;
+        const int MoteCount = 3;
 
         /// <summary>바닥 장비(7부위 공통). Inventory 카드·G·F, 이름표가 이것을 읽는다.</summary>
         public GearItem Gear { get; private set; }
@@ -69,7 +69,7 @@ namespace Demo6.Game
         void Setup(GearItem item, Vector2 from, Vector2 to, float delay)
         {
             Gear = item ?? GearItem.Starting(GearSlot.Weapon);
-            _color = LootVisuals.GradeColor(Gear.Grade);
+            _color = LootVisuals.AtmosphereColor(Gear.Grade);
             _arc = new LootArc(from, to, delay);
             // 부위별 바닥 모양(무기 3종 + 갑옷·투구·장갑·장화·반지·목걸이 6종).
             _body = LootVisuals.BuildGear(transform, Gear);
@@ -151,19 +151,19 @@ namespace Demo6.Game
                     _glintSprites = _glint.GetComponentsInChildren<SpriteRenderer>(true);
                     break;
                 case Grade.Uncommon:
-                    MakeBeam(0.25f, 2f, false, 0.55f);
+                    MakeBeam(0.16f, 1.1f, false, 0.42f);
                     break;
                 case Grade.Rare:
-                    MakeBeam(0.4f, 4f, false, 0.65f);
+                    MakeBeam(0.20f, 1.6f, false, 0.48f);
                     break;
                 case Grade.Epic:
-                    MakeBeam(0.6f, TopOfScreenHeight(), true, 0.7f);
+                    MakeBeam(0.24f, 2.2f, false, 0.56f);
                     MakeMotes();
                     break;
                 default:
-                    MakeBeam(1.0f, TopOfScreenHeight(), true, 0.8f);
+                    MakeBeam(0.29f, 2.8f, false, 0.65f);
                     MakeMotes();
-                    _shock = LootVisuals.Unlit(transform, "Shockwave", ShapeSprites.Ring, _color, LootVisuals.RingOrder, Vector2.zero, Vector2.one * 0.4f);
+                    _shock = LootVisuals.Unlit(transform, "Shockwave", LootVisuals.DustRing, _color, LootVisuals.RingOrder, Vector2.zero, Vector2.one * 0.4f);
                     TimeScaleService.SlowMotion(LegendarySlowSeconds, LegendarySlowScale);
                     ScreenShake.Add(0.06f, 0.2f);
                     break;
@@ -178,11 +178,13 @@ namespace Demo6.Game
             _beamAlpha = alpha;
             var c = _color;
             c.a = alpha;
-            _beam = LootVisuals.Unlit(transform, "Beam", LootVisuals.Beam, c, LootVisuals.BeamOrder, Vector2.zero, Vector2.one);
+            // v059: in the zenith camera the reward light is viewed down its axis.
+            // Keep its grade colour, duration, combat dimming, and existing sorting orders.
+            _beam = LootVisuals.Unlit(transform, "Reward light seen from above", ShapeSprites.Glow, c, LootVisuals.BeamOrder, Vector2.zero, Vector2.one);
             // 바닥 자리 표시(작은 원). 고급은 1.5초 뒤 이것이 고리로 남는다.
             var foot = _color;
             foot.a = 0.5f;
-            _ring = LootVisuals.Unlit(transform, "Foot", ShapeSprites.Ring, foot, LootVisuals.RingOrder, Vector2.zero, new Vector2(width * 2.2f, width * 1.1f));
+            _ring = LootVisuals.Unlit(transform, "Foot", LootVisuals.DustRing, foot, LootVisuals.RingOrder, Vector2.zero, Vector2.one * (width * 2.2f));
             ApplyBeamScale();
         }
 
@@ -192,21 +194,26 @@ namespace Demo6.Game
             _motePhase = new float[MoteCount];
             for (int i = 0; i < MoteCount; i++)
             {
-                var c = Color.Lerp(_color, Color.white, 0.4f);
-                _motes[i] = LootVisuals.Unlit(transform, "Mote", ShapeSprites.Square, c, LootVisuals.BeamOrder + 1, Vector2.zero, Vector2.one * 0.07f, 45f);
+                var c = Color.Lerp(_color, new Color(.86f,.8f,.66f), 0.18f);
+                var art = ArtRuntime.Active;
+                var chip = art && art.effects.sparks != null && art.effects.sparks.Length > 0 ? art.effects.sparks[0] : null;
+                var sprite = chip ? chip : ShapeSprites.Square;
+                float scale = .075f / Mathf.Max(.001f, sprite.bounds.size.x);
+                _motes[i] = LootVisuals.Unlit(transform, "Mote", sprite, c, LootVisuals.BeamOrder + 1, Vector2.zero, Vector2.one * scale, 90f);
                 _motePhase[i] = i / (float)MoteCount;
             }
         }
 
-        /// <summary>기둥 크기: 착지 뒤 0.2초 동안 솟는다.</summary>
+        /// <summary>정수리에서 본 보상 발광: 기존 등급별 세기·착지 0.2초 출현을 유지한다.</summary>
         void ApplyBeamScale()
         {
             if (!_beam) return;
             float rise = Mathf.Clamp01(_landedAge / RiseTime);
             var size = _beam.sprite ? (Vector2)_beam.sprite.bounds.size : Vector2.one;
-            float sx = _beamWidth / Mathf.Max(0.001f, size.x);
-            float sy = Mathf.Max(0.01f, _beamHeight * rise) / Mathf.Max(0.001f, size.y);
-            _beam.transform.localScale = new Vector3(sx, sy, 1f);
+            // Width/height remain the existing grade envelope, now controlling a circular footprint.
+            // No world-Y displacement is used to impersonate physical height.
+            float diameter = Mathf.Max(0.01f, (_beamWidth * 2.2f + _beamHeight * 0.30f) * rise);
+            _beam.transform.localScale = new Vector3(diameter / Mathf.Max(0.001f, size.x), diameter / Mathf.Max(0.001f, size.y), 1f);
         }
 
         void AnimateGrade(float dt)
@@ -230,7 +237,7 @@ namespace Demo6.Game
                 {
                     // 고급: 1.5초 뒤 기둥이 줄어들어 바닥 고리로 남는다.
                     float shrink = Mathf.Clamp01((_landedAge - UncommonRingDelay) / 0.4f);
-                    _beamHeight = Mathf.Lerp(2f, 0f, shrink);
+                    _beamHeight = Mathf.Lerp(1.1f, 0f, shrink);
                     if (shrink >= 1f)
                     {
                         Destroy(_beam.gameObject);
@@ -251,24 +258,25 @@ namespace Demo6.Game
                 bool ringOnly = !_beam && Gear.Grade == Grade.Uncommon;
                 float baseSize = _beamWidth * 2.2f;
                 float size = ringOnly ? 0.9f + 0.08f * Mathf.Sin(Time.time * 3f) : baseSize;
-                _ring.transform.localScale = new Vector3(size, size * 0.5f, 1f);
+                _ring.transform.localScale = new Vector3(size, size, 1f);
                 var c = _ring.color;
-                c.a = (ringOnly ? 0.75f : 0.5f) * _dim;
+                c.a = (ringOnly ? 0.65f : 0.38f) * _dim;
                 _ring.color = c;
             }
 
             if (_motes != null && _beam)
             {
-                float height = Mathf.Min(_beamHeight, 6f);
+                float radius = (_beamWidth * 2.2f + Mathf.Min(_beamHeight, 6f) * 0.30f) * 0.5f;
                 for (int i = 0; i < _motes.Length; i++)
                 {
                     if (!_motes[i]) continue;
                     _motePhase[i] = Mathf.Repeat(_motePhase[i] + dt * 0.45f, 1f);
                     float p = _motePhase[i];
-                    float x = Mathf.Sin((p * 3f + i) * 2.1f) * _beamWidth * 0.3f;
-                    _motes[i].transform.localPosition = new Vector3(x, p * height, 0f);
+                    float angle = i * Mathf.PI * 2f / _motes.Length + Mathf.Sin(p * Mathf.PI * 2f) * 0.12f;
+                    float spread = Mathf.Lerp(_beamWidth * 0.3f, radius * 0.85f, p);
+                    _motes[i].transform.localPosition = new Vector3(Mathf.Cos(angle) * spread, Mathf.Sin(angle) * spread, 0f);
                     var c = _motes[i].color;
-                    c.a = Mathf.Sin(p * Mathf.PI) * 0.9f * _dim;
+                    c.a = Mathf.Sin(p * Mathf.PI) * 0.55f * _dim;
                     _motes[i].color = c;
                 }
             }
@@ -277,9 +285,9 @@ namespace Demo6.Game
             {
                 float k = Mathf.Clamp01(_landedAge / ShockDuration);
                 float d = Mathf.Lerp(0.4f, ShockMaxDiameter, 1f - (1f - k) * (1f - k));
-                _shock.transform.localScale = new Vector3(d, d * 0.55f, 1f);
+                _shock.transform.localScale = new Vector3(d, d, 1f);
                 var c = _shock.color;
-                c.a = 1f - k;
+                c.a = 0.5f * (1f - k) * (1f - k);
                 _shock.color = c;
                 if (k >= 1f)
                 {

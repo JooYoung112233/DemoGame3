@@ -15,26 +15,80 @@ MonoBehaviour:
   flashMaterial: {fileID: 2100000, guid: 60dbc2753a5456243a4132d2e014cf7a, type: 2}
   topDown:
     player:
-      body: {fileID: 0}
+      cape: {fileID: 21300000, guid: 8c560d2a1e6809d48ab1144e50e12c1c, type: 3}
+      body: {fileID: 21300000, guid: a5eb963ae23ce0845854174ac8e8a5bd, type: 3}
       bodyHurt: {fileID: 0}
       bodyDown: {fileID: 0}
-      boot: {fileID: 0}
-      sleeve: {fileID: 0}
-      fist: {fileID: 0}
+      boot: {fileID: 21300000, guid: 747b80b71dd85524fa5436cd5ea3ff7e, type: 3}
+      sleeve: {fileID: 21300000, guid: 4b30859fcb91a7e438ee446e50bd80a6, type: 3}
+      fist: {fileID: 21300000, guid: 2c383acbac1df7943b190ac976e83a12, type: 3}
+      downHeadOffset: {x: 0, y: 0}
       scale: 1
+      armors:
+      - armorId: arm_leather
+        body: {fileID: 21300000, guid: a5eb963ae23ce0845854174ac8e8a5bd, type: 3}
+        bodyHurt: {fileID: 0}
+        bodyDown: {fileID: 0}
+        sleeve: {fileID: 21300000, guid: 4b30859fcb91a7e438ee446e50bd80a6, type: 3}
+        downHeadOffset: {x: 0, y: 0}
+      - armorId: arm_chain
+        body: {fileID: 21300000, guid: 05a80a21cef118e45b4aefefd2745841, type: 3}
+        bodyHurt: {fileID: 0}
+        bodyDown: {fileID: 0}
+        sleeve: {fileID: 21300000, guid: b6ddea75b8561a74baf842c3aaa70993, type: 3}
+        downHeadOffset: {x: 0, y: 0}
+      - armorId: arm_plate
+        body: {fileID: 21300000, guid: 944f4074ae9a6bc4d91db58d543c2a4e, type: 3}
+        bodyHurt: {fileID: 0}
+        bodyDown: {fileID: 0}
+        sleeve: {fileID: 21300000, guid: 40fdbbcb285a9b643bffdaaa86de919a, type: 3}
+        downHeadOffset: {x: 0, y: 0}
+      helms:
+      - helmId: hlm_leather
+        sprite: {fileID: 21300000, guid: 0c4f40037dc684d40aea550c0ef3a0ee, type: 3}
+      - helmId: hlm_chain
+        sprite: {fileID: 21300000, guid: 302388043e0e4af4a81d17fbd0e7feba, type: 3}
+      - helmId: hlm_plate
+        sprite: {fileID: 21300000, guid: adbaea310bc68074c9b0b4356f966fbc, type: 3}
+      gloves:
+      - glovesId: glv_leather
+        fistClosed: {fileID: 21300000, guid: 2c383acbac1df7943b190ac976e83a12, type: 3}
+        fistOpen: {fileID: 21300000, guid: 512c865e9a9140646936b23a7b552f24, type: 3}
+      - glovesId: glv_chain
+        fistClosed: {fileID: 21300000, guid: d7adc7e746f7e2545887fd541a83e062, type: 3}
+        fistOpen: {fileID: 21300000, guid: 4589c53d7637e264bb2ac3a455e45d75, type: 3}
+      - glovesId: glv_plate
+        fistClosed: {fileID: 21300000, guid: c18911ab9f8e05a46983d55dd0c98bd3, type: 3}
+        fistOpen: {fileID: 21300000, guid: b00c42918cb6147458a16eeb94970e2c, type: 3}
+      boots:
+      - bootsId: bts_leather
+        boot: {fileID: 21300000, guid: 747b80b71dd85524fa5436cd5ea3ff7e, type: 3}
+      - bootsId: bts_chain
+        boot: {fileID: 21300000, guid: cfc51e3625a3ceb419d85d62cbd59a37, type: 3}
+      - bootsId: bts_plate
+        boot: {fileID: 21300000, guid: 91b12ff9816651046934e92cd7ba037a, type: 3}
     weapons:
-      longsword: {fileID: 0}
-      greatsword: {fileID: 0}
-      twinblade: {fileID: 0}
+      longsword: {fileID: 21300000, guid: aec2e62ace350e5499189ffa44ea18e7, type: 3}
+      greatsword: {fileID: 21300000, guid: 5c35b19380e900e41bc30fbcc4050dbb, type: 3}
+      twinblade: {fileID: 21300000, guid: b3be2e5d2e788d2419ef79688426dcb9, type: 3}
+      maul: {fileID: 0}
+      spear: {fileID: 0}
+      scythe: {fileID: 0}
+      axe: {fileID: 0}
+      dagger: {fileID: 0}
+      flail: {fileID: 0}
+      flailBall: {fileID: 0}
     rat:
-      body: {fileID: 21300000, guid: 24ee2bb2ae6643644a810b4e25e31edc, type: 3}
-      dead: {fileID: 21300000, guid: c33098c1e2b5dd44fa4d35092453f776, type: 3}
+      body: {fileID: 21300000, guid: 230db33028889a4f59333aafd6c7251e, type: 3}
+      dead: {fileID: 21300000, guid: 230db33028889a4f59333aafd6c7251e, type: 3}
       scale: 1
-      foot: {fileID: 21300000, guid: e721754846fae904e9e2c55eb4d96933, type: 3}
+      feetInBody: 1
+      foot: {fileID: 0}
     boar:
-      body: {fileID: 0}
+      body: {fileID: 21300000, guid: ff7d8d0a3821273478d102b7d4588808, type: 3}
       dead: {fileID: 0}
       scale: 1
+      feetInBody: 1
       foot: {fileID: 0}
     archer:
       body: {fileID: 0}
@@ -301,8 +355,17 @@ MonoBehaviour:
       fps: 12
       keyFrameNumber: 0
   effects:
-    sparks: []
-    slashMark: {fileID: 0}
+    arcLong: {fileID: 21300000, guid: fd9e5cee4f596374f97f1df5418fa2d0, type: 3}
+    arcHeavy: {fileID: 21300000, guid: 19a93cf1cd1c9784f81a03624569d5ee, type: 3}
+    arcTwin: {fileID: 21300000, guid: e316ced1bde98324daaf405409bb8399, type: 3}
+    thrust: {fileID: 21300000, guid: 6ab7e25978133a0468f41a35ecf2d389, type: 3}
+    whirl: {fileID: 21300000, guid: 8da39d332c608cc45b01bb20af718a9e, type: 3}
+    wave: {fileID: 21300000, guid: 644d7d001d5258d4c8f1cfe6ee6cc711, type: 3}
+    impactDust: {fileID: 21300000, guid: de1f74a333e01b8449555a950df06629, type: 3}
+    rewardBeam: {fileID: 21300000, guid: 9723612074293ae43a5aa15190b0649a, type: 3}
+    sparks:
+    - {fileID: 21300000, guid: 8b879084fcef81d4abb4d3af9e11ed34, type: 3}
+    slashMark: {fileID: 21300000, guid: c559b5be2d1511a4cb0f03bbea841544, type: 3}
   sounds:
     swing: {fileID: 0}
     hit: {fileID: 0}

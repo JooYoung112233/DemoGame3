@@ -14,7 +14,7 @@ namespace Demo6.Tests
         public void NameIsGradePlusKind()
         {
             Assert.AreEqual("희귀 핏빛 반지", new GearItem(GearBaseTable.BloodRing, Grade.Rare, 3, 1000).DisplayName);
-            Assert.AreEqual("일반 장검", GearItem.Starting(GearSlot.Weapon).DisplayName);
+            Assert.AreEqual("일반 한손검과 방패", GearItem.Starting(GearSlot.Weapon).DisplayName);
             Assert.AreEqual("일반 가죽 장갑", GearItem.Starting(GearSlot.Gloves).DisplayName);
             Assert.AreEqual("영웅 판금 장갑", new GearItem(GearBaseTable.PlateGloves, Grade.Epic, 9, 1000).DisplayName);
             Assert.AreEqual("고급 검은 호박 목걸이", new GearItem(GearBaseTable.AmberAmulet, Grade.Uncommon, 2, 950).DisplayName);
@@ -36,12 +36,14 @@ namespace Demo6.Tests
             Assert.AreEqual("희귀 대검", new GearItem(GearBaseTable.Greatsword, Grade.Rare, 1, 1000).DisplayName);
         }
 
-        /// <summary>21종 × 5등급 모두 '등급 + 기본 이름'. 옵션·전설·강화·굴림은 이름을 바꾸지 않는다(꾸밈말 없음).</summary>
+        /// <summary>27종 × 5등급 모두 '등급 + 기본 이름'(새 무기 '희귀 쇠망치', '전설 사슬 철퇴'). 옵션·전설·강화·굴림은 이름을 바꾸지 않는다(꾸밈말 없음).</summary>
         [Test]
         public void OptionsAndLegendaryDoNotChangeTheName()
         {
             var rng = new Pcg32Random(321);
-            Assert.AreEqual(21, GearBaseTable.All.Count);
+            Assert.AreEqual(27, GearBaseTable.All.Count);
+            Assert.AreEqual("희귀 쇠망치", new GearItem(GearBaseTable.Maul, Grade.Rare, 2, 1000).DisplayName);
+            Assert.AreEqual("전설 사슬 철퇴", GearNaming.DisplayName(Grade.Legendary, GearBaseTable.Flail));
             foreach (var b in GearBaseTable.All)
                 for (int g = 0; g < GradeRules.Count; g++)
                 {
@@ -67,7 +69,7 @@ namespace Demo6.Tests
             var lines = GearNaming.CardLines(item);
             Assert.AreEqual(2, lines.Count);
             Assert.AreEqual("★ 연쇄 번개", lines[0]);
-            Assert.AreEqual("+9% 공격력", lines[1]);
+            Assert.AreEqual("+7.2% 공격력", lines[1], "원값 60‰ × 전설 1.5 × 옵션 세기 0.8 = 72‰");
 
             Assert.AreEqual("★ 불꽃 발자국", GearNaming.LegendaryLine(new GearItem(GearBaseTable.LeatherBoots, Grade.Legendary, 5, 1000, 0, null, LegendaryTable.FlameStepsId, 0)));
             Assert.AreEqual("★ 연쇄 폭발", GearNaming.LegendaryLine(new GearItem(GearBaseTable.FangAmulet, Grade.Legendary, 5, 1000, 0, null, LegendaryTable.ChainBlastId, 0)));

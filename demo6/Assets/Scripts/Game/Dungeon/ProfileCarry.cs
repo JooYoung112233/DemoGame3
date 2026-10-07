@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Demo6.Core.Dungeon;
+using Demo6.Core.Town;
 using UnityEngine;
 
 namespace Demo6.Game
@@ -33,6 +34,16 @@ namespace Demo6.Game
         public string[] NightLines = Array.Empty<string>();
         /// <summary>새 장면에서 승강장 고르기를 띄운다(밤을 지난 바구니 원정만).</summary>
         public bool PickLanding;
+        /// <summary>
+        /// '제2층 바닥 — 오우거 굴' 장면(전투·보스 문서 3-8, 손 지도 "P-X"). Floor는 OgreDen.Floor 그대로 두고 이 쪽지로만 생성 2층과 가른다.
+        /// 2층 계단·계단 앞 말뚝(아래층이 시험판에 없을 때)·승강장 고르기 '보스방 앞'·F1 시험 단추가 켠다.
+        /// </summary>
+        public bool Den;
+        /// <summary>
+        /// 바로 가기 시험 메뉴 '굴 안 바로 싸움'(TestLaunchSession만 켠다): Den과 함께 쓰고, 플레이어를 굴 앞 말뚝 대신 보스방 문 안쪽에 세운다
+        /// (말뚝 기록은 굴 앞 말뚝 그대로라 쓰러지면 쉼터에서 다시 선다). 정식 흐름은 켜지 않는다.
+        /// </summary>
+        public bool DenFight;
         /// <summary>옛 장면이 장면 불러오기를 부른 실제 시각(Time.realtimeSinceStartup). 새 장면이 다시 불러오는 시간을 잰다(6장 위험 6).</summary>
         public float RequestedRealtime;
 
@@ -75,8 +86,15 @@ namespace Demo6.Game
         public readonly bool RopeEnd;
         /// <summary>아직 밟지 않은 층(고른 지도로 처음 내려감).</summary>
         public readonly bool FirstVisit;
+        /// <summary>'보스방 앞'(오우거 굴 쉼터) 줄. 고르면 층 번호 대신 OgreDen.PickCode를 넘긴다(ProfileCarry.PickValue).</summary>
+        public readonly bool Den;
 
         public LandingOption(int floor, string name, int recommendedLevel, bool? nameplateFound, int surveySheets, bool ropeEnd, bool firstVisit)
+            : this(floor, name, recommendedLevel, nameplateFound, surveySheets, ropeEnd, firstVisit, false)
+        {
+        }
+
+        public LandingOption(int floor, string name, int recommendedLevel, bool? nameplateFound, int surveySheets, bool ropeEnd, bool firstVisit, bool den)
         {
             Floor = floor;
             Name = name;
@@ -85,6 +103,7 @@ namespace Demo6.Game
             SurveySheets = surveySheets;
             RopeEnd = ropeEnd;
             FirstVisit = firstVisit;
+            Den = den;
         }
     }
 
@@ -116,6 +135,13 @@ namespace Demo6.Game
 
         /// <summary>장면을 다시 불러오기 직전에 다음 장면이 할 일을 둔다.</summary>
         public static void SetTrip(TripPlan trip) => Trip = trip;
+
+        /// <summary>바로 가기 시험 메뉴(TestLaunchSession)만: 미리 만든 꾸러미(TestStartBuilder, 정식 저장 형식)로 바꾸고 쪽지를 비운다. 정식 흐름은 부르지 않는다.</summary>
+        public static void Install(CarryData data)
+        {
+            Data = data;
+            Trip = null;
+        }
 
         /// <summary>
         /// 담기: 지금 장면의 프로필 몫(과 keepLeg면 원정 몫)을 Data에 적는다. 바구니로 올라가기·계단·시험 패널 다시 짓기가 장면을 다시 불러오기 직전에 부른다.
@@ -161,6 +187,7 @@ namespace Demo6.Game
         /// 차례는 Progress(레벨·질긴 몸) → Inventory(장착 8자리·가방, RecomputeStats로 최대 체력 확정) → RestoreVitals(체력을 이음)다.
         /// 상태 몫(ApplyState)은 자리 표시 Spawn 전에 이미 한 번 넣었고 여기서 다시 넣어도 같다.
         /// 계단(과 시험 패널 다시 짓기)으로 왔으면 원정 몫의 체력·물약을 잇는다. 바구니로 왔으면 가득 찬 채 시작한다.
+        /// 물약 칸 수(허리 병걸이면 4, 재화 쓸 곳 1차 6-3)는 Inventory 뒤·RestoreVitals 앞에 넣는다(잇는 물약 수를 그 칸으로 자르게).
         /// </summary>
         public static void Apply(DungeonRoot root)
         {
@@ -169,6 +196,7 @@ namespace Demo6.Game
             ApplyState(root);
             if (root.Progress) root.Progress.ImportFrom(data);
             if (root.Inventory) root.Inventory.ImportFrom(data);
+            if (root.Player) root.Player.SetPotionCapacity(ForgeShop.PotionCapacity(data));
             bool sameExpedition = root.Arrival == ArrivalKind.Stairs || root.Arrival == ArrivalKind.Rebuild;
             if (sameExpedition && data.Leg != null && root.Player) root.Player.RestoreVitals(data.Leg.Hp, data.Leg.Potions);
         }
@@ -190,7 +218,12 @@ namespace Demo6.Game
             state.Expedition = Math.Max(1, data.Expedition);
             state.RunSalt = data.ProfileSalt;
             foreach (var id in data.OnceDone) state.ProfileDone.Add(id);
-            if (data.LitLandings.Contains(root.Floor) && !string.IsNullOrEmpty(root.LandingStakeId)) state.ProfileDone.Add(root.LandingStakeId);
+            // 오우거 굴은 2층 승강장 기록(LitLandings)을 보지 않는다: 굴 앞 말뚝을 켠 적이 있으면(BossLedger, 영구) 그 말뚝만 끝낸 것으로 적는다.
+            if (root.IsDen)
+            {
+                if (BossLedger.StakeLit(data, OgreDen.FrontStakeId)) state.ProfileDone.Add(OgreDen.FrontStakeId);
+            }
+            else if (data.LitLandings.Contains(root.Floor) && !string.IsNullOrEmpty(root.LandingStakeId)) state.ProfileDone.Add(root.LandingStakeId);
             foreach (var e in state.OneTime.Values)
                 if (state.ProfileDone.Contains(e.Id)) e.Done = true;
         }
@@ -205,6 +238,7 @@ namespace Demo6.Game
         /// <summary>
         /// 승강장 고르기 판 목록(2-3 단계 3): 1층부터 줄 끝까지(시험판 상한 FloorRecipe.MaxTestFloor). 층 이름, 권장 레벨,
         /// 명패 찾음(그 층에 명패가 없으면 null), 측량 장 수, 줄 끝(기본 선택), 아직 밟지 않은 층.
+        /// 굴 앞 말뚝을 켰고 첫 처치 전이면(BossLedger.FrontLandingOpen) 층 줄들 뒤에 '보스방 앞' 줄을 하나 더한다(전투·보스 문서 3-8, 기본 줄이 아님).
         /// </summary>
         public static List<LandingOption> LandingOptions()
         {
@@ -215,21 +249,18 @@ namespace Demo6.Game
             {
                 var recipe = FloorRecipe.For(floor);
                 string name = recipe != null && !string.IsNullOrEmpty(recipe.Name) ? recipe.Name : floor + "층";
-                string nameplate = NameplateId(recipe);
+                string nameplate = FloorRecipe.NameplateIdForFloor(floor);
                 bool? found = nameplate != null ? data.OnceDone.Contains(nameplate) : (bool?)null;
                 data.SurveySheets.TryGetValue(floor, out int sheets);
                 list.Add(new LandingOption(floor, name, DungeonHud.RecommendedLevel(floor), found, sheets, floor == ropeEnd, !data.VisitedFloors.Contains(floor)));
             }
+            if (BossLedger.FrontLandingOpen(data))
+                list.Add(new LandingOption(OgreDen.Floor, OgreDen.LandingName, DungeonHud.RecommendedLevel(OgreDen.Floor), null, 0, false, false, true));
             return list;
         }
 
-        /// <summary>그 층 명패의 '한 번 받는 것' id(1층 f1.T.nameplate). 없으면 null.</summary>
-        static string NameplateId(FloorRecipe recipe)
-        {
-            if (recipe == null) return null;
-            foreach (var o in recipe.OnceItems)
-                if (o.Kind == FeatureKind.Nameplate) return o.Id;
-            return null;
-        }
+        /// <summary>승강장 고르기 콜백(onPick(int))에 넘길 값: '보스방 앞' 줄은 OgreDen.PickCode, 그 밖은 층 번호.</summary>
+        public static int PickValue(LandingOption o) => o.Den ? OgreDen.PickCode : o.Floor;
+
     }
 }

@@ -114,8 +114,8 @@ namespace Demo6.Game
         {
             if (Event.current.type != EventType.Repaint) return;
             if (!Current || DungeonUi.ModalOpen) return;
-            // 바닥 무기 카드는 F/G 안내를 함께 표시하므로 같은 안내를 겹쳐 그리지 않는다.
-            if (Current is LootDrop && Inventory.Instance && Inventory.Instance.NearestDrop(Inventory.EquipRange) == Current) return;
+            // 바닥 장비의 F 대상은 작은 이름표에 함께 표시한다. 겹치는 별도 안내판을 만들지 않는다.
+            if (Current is LootDrop && LootLabels.Instance) return;
             DungeonUi.Begin();
             var gui = DungeonUi.WorldToGui(Current.Position + Vector2.up * 1.1f);
             if (gui == null) return;

@@ -6,8 +6,8 @@ using NUnit.Framework;
 namespace Demo6.Tests
 {
     /// <summary>
-    /// 옵션 굴림(장비 문서 5-1·5-2·5-3·5-4): 범위 × 등급 옵션 배율 × (고정값이면 iLv 배율), ‰ 정수 저장, 반올림 한 번, 단계 1/4 경계,
-    /// 전설 최대 = 위끝 × 1.5, 등급별 줄 수, 가중치 뽑기.
+    /// 옵션 굴림(장비 문서 5-1·5-2·5-3·5-4): 범위 × 등급 옵션 배율 × 옵션 세기 0.8(12장 밸런스 결정) × (고정값이면 iLv 배율),
+    /// ‰ 정수 저장, 반올림 한 번, 단계 1/4 경계, 전설 최대 = 위끝 × 1.5 × 0.8, 등급별 줄 수, 가중치 뽑기.
     /// </summary>
     public sealed class OptionRollTests
     {
@@ -41,17 +41,20 @@ namespace Demo6.Tests
 
         static readonly Grade[] OptionGrades = { Grade.Uncommon, Grade.Rare, Grade.Epic, Grade.Legendary };
 
-        /// <summary>5-3 표 '전설 최대 (iLv1)' 열(32줄, 표 차례).</summary>
+        /// <summary>5-3 표 '전설 최대 (iLv1)' 열 × 옵션 세기 0.8(32줄, 표 차례. 흡수 9.6 → 10, 4.8 → 5, 재생 14.4 → 14).</summary>
         static readonly int[] LegendaryMaxAtItemLevelOne =
         {
-            60, 120, 60, 300, 120, 180, 12, 60,
-            180, 120, 90, 30,
-            90, 60, 90, 30,
-            90, 60, 30, 6,
-            120, 90, 45, 18,
-            30, 45, 30, 150,
-            300, 90, 90, 150,
+            48, 96, 48, 240, 96, 144, 10, 48,
+            144, 96, 72, 24,
+            72, 48, 72, 24,
+            72, 48, 24, 5,
+            96, 72, 36, 14,
+            24, 36, 24, 120,
+            240, 72, 72, 120,
         };
+
+        /// <summary>옵션 세기(12장 밸런스 결정: 모든 옵션 ×0.8).</summary>
+        static readonly decimal Strength = OptionTable.ScalePermille / 1000m;
 
         /// <summary>0.5 올림(소수는 decimal로 정확히 셈).</summary>
         static int Round(decimal v) => (int)System.Math.Floor(v + 0.5m);
@@ -88,9 +91,10 @@ namespace Demo6.Tests
                 Assert.AreEqual(count[g], OptionTable.CountFor((Grade)g));
                 Assert.AreEqual(value[g], OptionTable.ValuePermilleFor((Grade)g));
             }
+            Assert.AreEqual(800, OptionTable.ScalePermille, "12장 밸런스 결정: 모든 옵션 ×0.8");
         }
 
-        /// <summary>5-3 '전설 최대 = 위끝 × 1.5'(iLv1). % 옵션은 iLv와 무관하다.</summary>
+        /// <summary>5-3 '전설 최대 = 위끝 × 1.5'(iLv1) × 옵션 세기 0.8. % 옵션은 iLv와 무관하다.</summary>
         [Test]
         public void LegendaryTopIsUpperBoundTimesOneAndHalf()
         {
@@ -100,7 +104,7 @@ namespace Demo6.Tests
                 var rule = OptionTable.All[i];
                 var o = OptionTable.Roll(rule, Grade.Legendary, 1, top);
                 Assert.AreEqual(LegendaryMaxAtItemLevelOne[i], o.Value, rule.Part + " " + rule.Kind);
-                Assert.AreEqual(Round(rule.Max * 1.5m), o.Value);
+                Assert.AreEqual(Round(rule.Max * 1.5m * Strength), o.Value);
                 Assert.AreEqual(4, o.Tier);
                 Assert.AreEqual(o.Value, OptionTable.MaxValue(rule, Grade.Legendary, 1));
                 if (!rule.ScalesWithItemLevel)
@@ -108,7 +112,7 @@ namespace Demo6.Tests
             }
         }
 
-        /// <summary>범위 × 등급 × iLv: 양 끝 값이 공식 그대로이고, 무작위 값은 그 사이에 든다.</summary>
+        /// <summary>범위 × 등급 × 옵션 세기 × iLv: 양 끝 값이 공식 그대로이고, 무작위 값은 그 사이에 든다.</summary>
         [Test]
         public void RolledValuesStayInsideRangeTimesGradeTimesItemLevel()
         {
@@ -120,7 +124,7 @@ namespace Demo6.Tests
             foreach (var grade in OptionGrades)
             foreach (int ilv in itemLevels)
             {
-                decimal scale = OptionTable.ValuePermilleFor(grade) / 1000m;
+                decimal scale = OptionTable.ValuePermilleFor(grade) / 1000m * Strength;
                 if (rule.ScalesWithItemLevel) scale *= GearMath.ItemLevelPermille(ilv) / 1000m;
                 int lo = Round(rule.Min * scale);
                 int hi = Round(rule.Max * scale);
@@ -139,17 +143,24 @@ namespace Demo6.Tests
             }
         }
 
-        /// <summary>5-2 '반올림은 마지막에 한 번': 장화 재생 6 × 영웅 1.30 × iLv4 1.45 = 11.31 → 11(중간에 반올림하면 12).</summary>
+        /// <summary>
+        /// 5-2 '반올림은 마지막에 한 번': 장화 재생 위끝 12 × 영웅 1.30 × 옵션 세기 0.8 = 12.48 → 12(어느 순서로든 중간에 반올림하면 13),
+        /// 아래끝 6 × 고급 × 0.8 × iLv6 1.75 = 8.4 → 8(중간에 반올림하면 9).
+        /// </summary>
         [Test]
         public void RoundingHappensOnceAtTheEnd()
         {
             OptionTable.TryGetRule(GearPart.Boots, OptionKind.HpRegen, out var regen);
-            Assert.AreEqual(11, OptionTable.Roll(regen, Grade.Epic, 4, new EdgeRandom(EdgeRandom.Mode.Low)).Value);
+            Assert.AreEqual(12, OptionTable.Roll(regen, Grade.Epic, 1, new EdgeRandom(EdgeRandom.Mode.High)).Value);
+            Assert.AreEqual(8, OptionTable.Roll(regen, Grade.Uncommon, 6, new EdgeRandom(EdgeRandom.Mode.Low)).Value);
             OptionTable.TryGetRule(GearPart.Boots, OptionKind.DefenseFlat, out var def);
-            Assert.AreEqual(23, OptionTable.Roll(def, Grade.Legendary, 1, new EdgeRandom(EdgeRandom.Mode.Low)).Value, "22.5는 올림");
-            // 카드 예(5-4): 희귀 대검 iLv8 공격력% 원값 54.0‰ × 1.15 = 62.1 → 62(+6.2%).
+            Assert.AreEqual(32, OptionTable.Roll(def, Grade.Legendary, 6, new EdgeRandom(EdgeRandom.Mode.Low)).Value, "15 × 1.5 × 0.8 × 1.75 = 31.5는 올림");
+            // 카드 예(5-4): 희귀 대검 iLv8 공격력% 원값 55.0‰ × 1.15 × 0.8 = 50.6 → 51(+5.1%, 단계 Ⅱ).
             OptionTable.TryGetRule(GearPart.Weapon, OptionKind.AttackPercent, out var atkPct);
-            Assert.AreEqual(62, OptionTable.Roll(atkPct, Grade.Rare, 8, new EdgeRandom(EdgeRandom.Mode.Value, 54000)).Value);
+            var card = OptionTable.Roll(atkPct, Grade.Rare, 8, new EdgeRandom(EdgeRandom.Mode.Value, 55000));
+            Assert.AreEqual(51, card.Value);
+            Assert.AreEqual(2, card.Tier);
+            Assert.AreEqual("+5.1% 공격력", OptionKinds.Format(card.Kind, card.Value));
         }
 
         /// <summary>5-2 저장: % 옵션은 ‰ 정수, 고정값은 10배 단위 정수. 화면 글은 ‰를 소수 한 자리 %로 보인다.</summary>
@@ -158,14 +169,14 @@ namespace Demo6.Tests
         {
             OptionTable.TryGetRule(GearPart.Weapon, OptionKind.CritChance, out var crit);
             var o = OptionTable.Roll(crit, Grade.Uncommon, 1, new EdgeRandom(EdgeRandom.Mode.High));
-            Assert.AreEqual(40, o.Value, "치명 4% = 40‰");
-            Assert.AreEqual("+4% 치명타 확률", OptionKinds.Format(o.Kind, o.Value));
+            Assert.AreEqual(32, o.Value, "치명 4% × 0.8 = 3.2% = 32‰");
+            Assert.AreEqual("+3.2% 치명타 확률", OptionKinds.Format(o.Kind, o.Value));
             Assert.AreEqual("+6.2% 공격력", OptionKinds.Format(OptionKind.AttackPercent, 62));
             Assert.AreEqual("+0.4% 체력 흡수", OptionKinds.Format(OptionKind.LifeSteal, 4));
             OptionTable.TryGetRule(GearPart.Weapon, OptionKind.AttackFlat, out var atk);
             var flat = OptionTable.Roll(atk, Grade.Uncommon, 8, new EdgeRandom(EdgeRandom.Mode.High));
-            Assert.AreEqual(82, flat.Value, "공격력+ 40 × iLv8 2.05");
-            Assert.AreEqual("+82 공격력", OptionKinds.Format(flat.Kind, flat.Value));
+            Assert.AreEqual(66, flat.Value, "공격력+ 40 × 0.8 × iLv8 2.05 = 65.6");
+            Assert.AreEqual("+66 공격력", OptionKinds.Format(flat.Kind, flat.Value));
             Assert.IsTrue(OptionKinds.IsPercent(OptionKind.MoveSpeed));
             Assert.IsFalse(OptionKinds.IsPercent(OptionKind.HpRegen));
         }

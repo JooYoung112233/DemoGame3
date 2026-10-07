@@ -35,6 +35,8 @@ namespace Demo6.Game
         public static readonly List<Enemy> All = new List<Enemy>();
 
         const float KnockDuration = 0.1f;
+        /// <summary>벽 박기 판정이 이번 물리 단계 이동에 더해 보는 여유(벽에 붙어 있는 적도 잡음).</summary>
+        const float WallSlamProbe = 0.05f;
         const float StaggerDuration = 0.15f;
         const float BreakDuration = 2.0f;
         const float GroupWakeDelay = 0.8f;
@@ -46,6 +48,11 @@ namespace Demo6.Game
         const float SeeFront = 6f;
         const float SeeBehind = 3f;
         const float EliteScale = 1.35f;
+        /// <summary>
+        /// 정예 공격 배율. 3차 초안 3-4의 ×1.2를 ×1.18로 조금 낮췄다(2026-10-06, 1-2층 탐험 맛 1차 4-1): ×1.2면 2층 정예 돌충이 돌진 한 방이
+        /// 그 층 기준 체력의 20.1%라 일반·정예 상한 20%를 넘었다(TelegraphRule). ×1.18이면 1~10층 모두 19.8% 이하다(2층 585 → 19.8%, 돌진 예고 0.7 + 정예 0.1 = 0.8초).
+        /// </summary>
+        const float EliteAttackScale = 1.18f;
         /// <summary>3차 초안 2-6 놓아주기: 플레이어가 칸 경계 밖에 4초 있으면 제자리로 돌아간다.</summary>
         public const float LeashDelay = 4f;
         /// <summary>3차 초안 2-6: 돌아가는 동안 버팀은 가득, 체력은 초당 최대치의 5%를 되찾는다.</summary>
@@ -65,11 +72,12 @@ namespace Demo6.Game
         public float Radius { get; private set; }
         public int AttackPower { get; private set; }
         /// <summary>
-        /// 지금 이동 속도(초당 유닛) = 종류 속도 × 느려짐 배율(ApplySlow). 두뇌의 걷기·쫓기·물러나기·돌아가기가 모두 이 값을 써서 함께 느려진다
-        /// (굴쥐 쫓기, 멧돼지 걷기, 궁수 거리 두기·물러나기). 멧돼지 돌진(초당 12)과 궁수 뒤로 뛰기(0.25초에 3.0)는 예고 거리를 지키려고 이 값을 쓰지 않는다.
+        /// 지금 이동 속도(초당 유닛) = 종류 속도 × 느려짐 배율(ApplySlow) × 적 걸음 배율(Tuning.EnemyMoveScale, 전투·보스·무기 다듬기 1차 1-2 B = 0.93).
+        /// 두뇌의 걷기·쫓기·물러나기·돌아가기가 모두 이 값을 써서 함께 느려진다
+        /// (굴쥐 쫓기, 멧돼지 걷기, 궁수 거리 두기·물러나기). 멧돼지 돌진(초당 12)과 궁수 뒤로 뛰기(0.25초에 3.0), 오우거 돌진(11)은 예고 거리를 지키려고 이 값을 쓰지 않는다.
         /// </summary>
-        public float MoveSpeed => _baseMoveSpeed * SlowFactor;
-        /// <summary>느려짐을 뺀 종류 이동 속도.</summary>
+        public float MoveSpeed => _baseMoveSpeed * SlowFactor * Tuning.EnemyMoveScale;
+        /// <summary>느려짐·적 걸음 배율을 뺀 종류 이동 속도.</summary>
         public float BaseMoveSpeed => _baseMoveSpeed;
         /// <summary>지금 이동 배율(1 = 보통, 0.7 = 불꽃 발자국 불 위). 느려짐이 끝났으면 1.</summary>
         public float SlowFactor => Time.time < _slowUntil ? _slowFactor : 1f;
@@ -128,6 +136,11 @@ namespace Demo6.Game
         public bool IsGuarding => _guarding;
         /// <summary>먹는 중(3차 초안 2-6 '먹는 중'). 잠과 같은 감지 규칙이고 겉모습만 다르다.</summary>
         public bool IsEating { get; private set; }
+        /// <summary>
+        /// 순찰 무리(1-2층 탐험 맛 1차 4-3, CellEncounters가 놓을 때 정함). 쉬는(잠) 동안 PatrolWalker가 천천히 걷게 하고 'z z'를 띄우지 않는다.
+        /// 감지·기습은 잠과 같고 걷는 쪽이 앞이다. 깨어도 그대로 둔다(엿듣기 '오가는 발소리'가 무리 종류로 읽음).
+        /// </summary>
+        public bool IsPatrolling { get; set; }
         /// <summary>쉬는 중이지만 곧 깬다('!' 알아채기 0.5초 또는 무리 반응 0.8초를 기다리는 중).</summary>
         public bool WakePending => !Aware && _wakeAt > 0f;
         /// <summary>제자리에 닿으면 자지 않고 사라진다(둥지가 부른 굴쥐는 굴로 돌아간다).</summary>
@@ -145,9 +158,21 @@ namespace Demo6.Game
         protected Vector2 DesiredVelocity;
         protected Vector2 Facing = Vector2.down;
         protected float BaseKnockbackResist;
-        protected bool Busy => _knockTime > 0f || _staggerTime > 0f;
+        protected bool Busy => _knockTime > 0f || _staggerTime > 0f || Time.time < _holdStaggerUntil;
         /// <summary>정예는 큰 공격 예고 +0.1초.</summary>
         protected float TelegraphBonus => IsElite ? 0.1f : 0f;
+
+        /// <summary>
+        /// 3차 예고 규칙(TelegraphRule, 검토 1차 Q6): 바탕 예고(정예 +0.1초를 더해 넘김)와 '이 적의 공격력(층·정예 배율 포함) × percent% 한 방이
+        /// 그 층 기준 플레이어 체력에서 차지하는 몫'의 최소 예고 가운데 긴 쪽. 보스(BossRules.Telegraph)와 같은 셈이다.
+        /// 정예 바탕값에 최소 예고를 맞대는 까닭: 문서 3-3 표의 정예 멧돼지 돌진 0.8초(17.9%)가 바로 '바탕 0.7 + 정예 0.1'이 규칙을 채우는 값이다.
+        /// M0a 값으로 세운 적(전투 시험장 비교 기준)은 바탕값 그대로.
+        /// </summary>
+        protected float RuleTelegraph(float baseSeconds, float percent) =>
+            IsV3 ? TelegraphRule.Seconds(baseSeconds, AttackPower, percent, Floor) : baseSeconds;
+
+        /// <summary>이 공격(percent%)이 그 층 기준 체력의 10%를 넘어 예고 시작 소리가 있어야 하는가(3차 규칙 '소리 필수'). M0a는 false.</summary>
+        protected bool TelegraphNeedsCue(float percent) => IsV3 && TelegraphRule.NeedsSound(AttackPower, percent, Floor);
         /// <summary>브레인이 앞발 긁기 같은 떨림을 직접 넣는 값.</summary>
         protected Vector2 ExtraJitter;
         protected static PlayerController Player => PlayerController.Instance;
@@ -189,10 +214,29 @@ namespace Demo6.Game
         Vector2 _guardFacing = Vector2.down;
         /// <summary>쉬는 모습이 '먹는 중'인가(돌아가 다시 쉴 때 되살린다).</summary>
         bool _restEating;
+        /// <summary>쉬는 동안 걷는 속도(순찰, WalkWhileResting). 깨거나 곧 깨거나 다시 쉬면 0.</summary>
+        Vector2 _restWalk;
         int _hpBeforeHit;
         float _baseMoveSpeed;
         float _slowFactor = 1f;
         float _slowUntil = -1f;
+        /// <summary>창 끊어 찌르기가 이 적을 마지막으로 끊은 시각(같은 적 1.5초에 한 번).</summary>
+        float _lastStaggerInterrupt = -999f;
+        /// <summary>지금 넉백에 실린 정보와 저항·배율을 곱한 거리(벽 박기 판정 한 곳이 읽는다, 꾸러미 ⑧).</summary>
+        KnockInfo _knockInfo;
+        float _knockPush;
+        /// <summary>이번 넉백에서 이미 벽 박기를 냈는가(넉백 한 번에 한 번).</summary>
+        bool _knockSlammed;
+        /// <summary>마지막 벽 박기 시각(같은 적은 WallSlamRule.Cooldown 0.5초에 한 번).</summary>
+        float _lastWallSlam = -999f;
+        /// <summary>
+        /// 휘청(Stagger, 방패 패링 2-6)이 끝나는 시각. 이 시각 전에는 멈추고 생각도 멈춘다(넉백·경직 0.15초와 따로, ThinkWhileBusy 적도 멈춤).
+        /// 한 번도 휘청하지 않은 적은 늘 지난 값이라 예전과 같다.
+        /// </summary>
+        float _holdStaggerUntil = -1f;
+        /// <summary>휘청 시작 때 몸 흔들림(그림만, 판정과 무관).</summary>
+        const float StaggerShakeSeconds = 0.25f;
+        const float StaggerShakeAmplitude = 0.06f;
 
         public static void ResetStatics() => All.Clear();
 
@@ -204,6 +248,8 @@ namespace Demo6.Game
                 if (Dead) return EnemyPose.Dead;
                 if (Broken) return EnemyPose.Hit;
                 if (!Aware) return EnemyPose.Idle;
+                // 휘청(패링)은 끊긴 준비 자세에 멈춰 보이지 않게 늘 맞음 자세로 그린다.
+                if (Time.time < _holdStaggerUntil) return EnemyPose.Hit;
                 if (Busy && _pose != EnemyPose.Windup && _pose != EnemyPose.Attack) return EnemyPose.Hit;
                 return _pose;
             }
@@ -302,7 +348,7 @@ namespace Demo6.Game
         }
 
         /// <summary>
-        /// 정예(3차 초안 3-4): 체력 ×3, 공격 ×1.2, 크기 ×1.35, 버팀 ×1.5, 넉백 저항 +50%, 큰 공격 예고 +0.1초, 흰 테두리 맥동.
+        /// 정예(3차 초안 3-4): 체력 ×3, 공격 ×1.18(EliteAttackScale, 처음 ×1.2), 크기 ×1.35, 버팀 ×1.5, 넉백 저항 +50%, 큰 공격 예고 +0.1초, 흰 테두리 맥동.
         /// </summary>
         public void MakeElite(EliteAffix affixes)
         {
@@ -310,7 +356,7 @@ namespace Demo6.Game
             Affixes = affixes;
             Weight = EnemyWeight.Heavy;
             Health.Init(Health.Max * 3, Health.Defense);
-            AttackPower = Mathf.RoundToInt(AttackPower * 1.2f);
+            AttackPower = Mathf.RoundToInt(AttackPower * EliteAttackScale);
             BaseKnockbackResist = Mathf.Min(1f, BaseKnockbackResist + 0.5f);
             _sizeScale = EliteScale;
             Radius *= EliteScale;
@@ -365,6 +411,7 @@ namespace Demo6.Game
             _outsideTime = 0f;
             _wasOutsideArea = false;
             DesiredVelocity = Vector2.zero;
+            _restWalk = Vector2.zero;
             if (facing.sqrMagnitude > 0.0001f) FaceTowards(facing);
         }
 
@@ -377,6 +424,7 @@ namespace Demo6.Game
             _wakeAt = -1f;
             _noticing = false;
             _outsideTime = 0f;
+            _restWalk = Vector2.zero;
             if (!Dead) CombatEvents.RaiseWoke(this);
             if (alertGroup) AlertGroup();
         }
@@ -426,6 +474,7 @@ namespace Demo6.Game
             ResetBehaviour();
             _knockTime = 0f;
             _staggerTime = 0f;
+            _holdStaggerUntil = -1f;
             _breakUntil = 0f;
             _wasBroken = false;
             _shakeUntil = 0f;
@@ -511,7 +560,11 @@ namespace Demo6.Game
         /// <param name="poiseMultiplier">회피 반격 ×2 등.</param>
         /// <param name="broke">이 타격으로 무너졌는가.</param>
         /// <param name="wasBroken">맞기 전에 이미 무너져 있었는가.</param>
-        public int TakeHit(int amount, bool crit, DamageSource source, float poiseDamage, bool finisher, float poiseMultiplier, out bool broke, out bool wasBroken)
+        public int TakeHit(int amount, bool crit, DamageSource source, float poiseDamage, bool finisher, float poiseMultiplier, out bool broke, out bool wasBroken) =>
+            TakeHit(amount, crit, source, poiseDamage, finisher, poiseMultiplier, false, out broke, out wasBroken);
+
+        /// <param name="followUp">이미 들어간 한 방의 뒷부분(처형, Execute). 칸 밖 공격 회피를 건너뛴다(TerritoryEvadeRule, 검토 1차 Q5).</param>
+        int TakeHit(int amount, bool crit, DamageSource source, float poiseDamage, bool finisher, float poiseMultiplier, bool followUp, out bool broke, out bool wasBroken)
         {
             broke = false;
             wasBroken = Broken;
@@ -524,7 +577,10 @@ namespace Demo6.Game
             }
             // 3차 초안 2-6 '치고 빠지기 꼼수는 막음': 깨어 있는 칸 무리는 경계 밖(문 너머)에서 오는 공격을 피하고 제자리로 돌아간다.
             // 쉬는 무리를 밖에서 먼저 치는 기습은 그대로 들어간다. 싸우려면 칸 안으로 들어와야 한다.
-            if (Aware && Territory.HasValue && Player && !Territory.Value.Contains(Player.Position))
+            // 출혈 틱(도끼)과 처형(기습 처형·무너짐 처형)은 이미 들어간 타의 뒤끝이라 피하지 않는다(문 밖으로 한 걸음 나가도 피해만 넣음, 귀환은 '경계 밖 4초' 규칙 몫).
+            // 기습 처형은 첫 타가 적을 깨운 바로 뒤 같은 판정에서 이어지므로, 이 예외가 없으면 칸 밖 긴 무기 기습이 '회피'로 빠지고 무리를 깨웠다(검토 1차 Q5).
+            bool attackerOutside = Territory.HasValue && Player && !Territory.Value.Contains(Player.Position);
+            if (TerritoryEvadeRule.Evades(Aware, Territory.HasValue, attackerOutside, followUp || source == DamageSource.Bleed))
             {
                 if (Time.unscaledTime - _lastEvadeText > 0.6f)
                 {
@@ -543,7 +599,9 @@ namespace Demo6.Game
             int applied = Health.ApplyDamage(amount, crit);
             if (applied <= 0) return 0;
             if (!Dead) Flash.Flash(Color.white, 0.06f);
-            WorldOverlay.Number(Position + Vector2.up * Radius, applied, crit ? NumberKind.Crit : NumberKind.Normal);
+            // 시야와 문 1차 4-3: 직접 친 타(기본 공격·회오리·검풍)의 숫자는 늘, 출혈·전설·환경 피해 숫자는 보이는 적에게만(어둠 속 숫자가 자리를 알리지 않게).
+            bool direct = source == DamageSource.Basic || source == DamageSource.Whirlwind || source == DamageSource.SwordWave;
+            if (direct || VisionInSight) WorldOverlay.Number(Position + Vector2.up * Radius, applied, crit ? NumberKind.Crit : NumberKind.Normal);
             CombatEvents.RaiseDealt(new DamageDealt(this, applied, source, crit, Dead));
 
             if (!Dead && IsV3)
@@ -560,9 +618,9 @@ namespace Demo6.Game
                         broke = true;
                     }
                 }
-                if (!broke && Weight == EnemyWeight.Heavy)
+                if (!broke && Weight == EnemyWeight.Heavy && source != DamageSource.Bleed)
                 {
-                    // 무거운 적: 마무리·검풍에는 0.15초 움찔, 일반 타격은 몸만 흔들림(준비는 안 끊김).
+                    // 무거운 적: 마무리·검풍에는 0.15초 움찔, 일반 타격은 몸만 흔들림(준비는 안 끊김). 출혈 틱은 흔들지 않는다.
                     bool flinch = finisher || source == DamageSource.SwordWave;
                     Shake(flinch ? 0.15f : 0.08f, flinch ? 0.09f : 0.05f);
                 }
@@ -589,6 +647,196 @@ namespace Demo6.Game
             CombatEvents.RaiseBroken(this);
         }
 
+        // ── 전투·보스·무기 다듬기 1차 계약 훅(기획/전투-보스-무기-다듬기-1차.md). Enemy.cs는 꾸러미 ⑧이 소유하고, 다른 꾸러미는 아래 공개 훅만 쓴다 ──
+
+        /// <summary>규칙 함수(WallSlamRule·FearRule·ExecutionRule)가 읽는 분류.</summary>
+        public TargetClass Class => new TargetClass(Kind, (WeightClass)(int)Weight, IsElite, false, IsBoss, IsDummy);
+
+        /// <summary>
+        /// 버팀과 관계없이 바로 무너뜨린다(벽 박기 Break, 기습 처형한 멧돼지). 이미 무너졌거나 쓰러졌으면 false.
+        /// 무너짐은 3차 규칙이라 M0a 값으로 세운 적과 허수아비(버팀·무너짐 없음)도 false다(멧돼지 자기 돌진 박기와 같은 규칙).
+        /// 쓰는 곳: WallSlam(③), PlayerController 기습 처형(⑤).
+        /// </summary>
+        public bool BreakNow()
+        {
+            if (Dead || Broken || !IsV3) return false;
+            ForceBreak();
+            return true;
+        }
+
+        /// <summary>
+        /// 처형: 남은 체력을 모두 깎아 쓰러뜨린다(받는 피해 배율을 거꾸로 셈해 넘치게). 허수아비(무한 체력)·이미 쓰러짐이면 0.
+        /// 피해는 TakeHit 한 입구로 넣는다(피해 숫자·계측·처치 사건 그대로). 쓰는 곳: PlayerController 무너짐 처형·기습 처형(⑤).
+        /// 처형은 같은 한 방의 뒷부분이라 칸 밖 공격 회피를 건너뛴다(followUp, 검토 1차 Q5): 칸 밖에서 긴 무기로 친 기습의 첫 타가 적을 깨워도
+        /// 처형 피해가 '회피'로 빠져 무리를 깨우지 않는다. 칸 밖에서 깨어 있는 무리를 일반 공격으로 치는 회피는 그대로다.
+        /// </summary>
+        public int Execute(DamageSource source)
+        {
+            if (Dead || Health == null || Health.Infinite) return 0;
+            float m = Mathf.Max(0.01f, Health.DamageTakenMultiplier);
+            int amount = Mathf.CeilToInt(Health.Current / m) + 1;
+            return TakeHit(amount, false, source, 0f, true, 1f, true, out _, out _);
+        }
+
+        /// <summary>
+        /// 창 끊어 찌르기 제한: 마지막으로 끊긴 뒤 cooldown(1.5초)이 지났으면 지금 시각을 적고 true. 쓰는 곳: PlayerController(⑤)가
+        /// staggers 단계 타를 마무리처럼 넣을지 정할 때(TakeHit의 finisher 인자).
+        /// 보통 무게(궁수)는 지금 끊을 준비 동작이 있을 때만(StaggerWindupOpen) 끊고 시각을 적는다. 걷거나 물러나는 궁수를 찔러 제한만 써 버리지 않게 한다(마무리 검토 ③).
+        /// </summary>
+        public bool TryStaggerInterrupt(float cooldown)
+        {
+            if (Dead || Time.time - _lastStaggerInterrupt < cooldown) return false;
+            if (Weight == EnemyWeight.Medium && !StaggerWindupOpen) return false;
+            _lastStaggerInterrupt = Time.time;
+            if (Weight == EnemyWeight.Medium) OnStaggerInterrupted();
+            return true;
+        }
+
+        /// <summary>창 끊어 찌르기로 끊을 준비 동작이 지금 있는가(보통 무게만 봄). 기본은 없음.</summary>
+        protected virtual bool StaggerWindupOpen => false;
+
+        /// <summary>창 끊어 찌르기가 준비를 끊기로 정했을 때(끊기는 곧 TakeHit의 OnInterrupted로 일어난다). 궁수는 다음 한 발을 끊기지 않게 표시한다.</summary>
+        protected virtual void OnStaggerInterrupted() { }
+
+        /// <summary>
+        /// 피해 없이 버팀만 깎는다(벽 박기 멧돼지 '최대치 35% + 0.15초 움찔', WallSlam ③). 3차 규칙이고 버팀이 있고 무너지지 않았을 때만.
+        /// 0이 되면 무너진다(true). 무너지지 않았으면 flinchSeconds만큼 몸이 움찔한다(준비는 끊지 않음).
+        /// </summary>
+        public bool ApplyPoiseHit(double amount, float flinchSeconds)
+        {
+            if (Dead || !IsV3 || Poise == null || Broken || amount <= 0) return false;
+            if (Poise.Apply(amount, Time.time))
+            {
+                Break();
+                return true;
+            }
+            if (flinchSeconds > 0f) Shake(flinchSeconds, 0.09f);
+            return false;
+        }
+
+        // ── 세 무기·오른쪽 클릭 계약(기획/세-무기-우클릭-소켓-1차.md 2-6). 부르는 곳: PlayerController.ReceiveHit(꾸러미 ③). 채우는 곳: 꾸러미 ④ 적 ──
+
+        /// <summary>
+        /// 플레이어 방패가 이 적의 공격(kind)을 튕겨 냈다(패링). 기본값은 무게별(상수는 Core ShieldRule):
+        /// 가벼움(굴쥐) = 준비 끊김(OnInterrupted, 굴쥐는 여기서 공격 기회 AttackTokens도 반납) + 휘청 1.2초 + 플레이어 반대쪽으로 0.8 밀림,
+        /// 보통(궁수) = 준비 끊김 + 휘청 0.6초 + 버팀(ParryPoise), 무거움(멧돼지 머리치기·뒷발, 정예) = 버팀(ParryPoise: 일반 50%, 정예 35%) + 0.5초 흔들림(준비는 안 끊김).
+        /// 패링 피해(공격력 30%)는 PlayerController가 다음 프레임에 넣는다(이 함수는 적 두뇌의 공격 판정 안에서 불리므로 여기서 죽이지 않음).
+        /// 멧돼지(돌진 = 벽 박기와 같은 결과)·오우거(휩쓸기만 버팀 6%)는 덮어쓴다. 부르는 곳: PlayerController.ReceiveHit(튕김일 때 source.Parried).
+        /// 판정·피해 규칙은 바꾸지 않고 이 적의 반응만 정한다. 쓰러진 적은 무시한다.
+        /// </summary>
+        public virtual void Parried(HitKind kind)
+        {
+            if (Dead) return;
+            switch (Weight)
+            {
+                case EnemyWeight.Light:
+                {
+                    OnInterrupted();
+                    Stagger(ShieldRule.LightStaggerSeconds);
+                    var player = Player;
+                    Vector2 away = player ? Position - player.Position : -Facing;
+                    if (away.sqrMagnitude < 0.0001f) away = -Facing;
+                    // 밀림은 플레이어 몫 넉백이 아니다(KnockInfo 기본값): 벽 박기 판정(WallSlam)을 내지 않는다.
+                    ApplyKnockback(away, ShieldRule.LightParryPush);
+                    break;
+                }
+                case EnemyWeight.Medium:
+                    OnInterrupted();
+                    Stagger(ShieldRule.MediumStaggerSeconds);
+                    // 패링 보상(2026-10-05): 그로기(버팀) 게이지도 깎는다(궁수 30 → 15). 휘청이 흔들림을 맡아 흔들림은 더하지 않는다.
+                    if (Poise != null) ApplyPoiseHit(ParryPoiseAmount(false), 0f);
+                    break;
+                default:
+                    ParriedHeavy();
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// 이 적의 공격(kind)을 튕겨 냈을 때 플레이어 반격 창(1.0초, 반격 베기)을 여는가(기획/세-무기-우클릭-소켓-1차.md 0-3의 23).
+        /// 기본값은 살아 있으면 연다(굴쥐 휘청, 궁수 끊김, 멧돼지 돌진 무너짐·머리치기 회수 0.5초 + 흔들림). 오우거는 휩쓸기 마지막 타만(1타 뒤 0.5초에 2타가 옴).
+        /// Parried보다 먼저 묻는다(적 반응이 상태를 바꾸기 전). 화살·덫처럼 때린 적이 없으면 PlayerController가 창을 열지 않는다.
+        /// </summary>
+        public virtual bool ParryOpensRiposte(HitKind kind) => !Dead;
+
+        /// <summary>
+        /// 무거움 패링 기본값: 버팀(그로기 게이지)을 ShieldRule.ParryPoise만큼(일반 50%, 정예 35%, 시험 손잡이 Tuning.ParryPoiseFraction·ParryElitePoiseFraction)
+        /// 깎고 0.5초 흔들린다. 준비 동작은 끊지 않는다. 버팀이 없거나(M0a·허수아비) 이미 무너졌으면 흔들림만. 버팀이 0이 되면 무너진다(Enemy.ApplyPoiseHit 그대로).
+        /// </summary>
+        protected void ParriedHeavy()
+        {
+            if (Dead) return;
+            double amount = ParryPoiseAmount(false);
+            if (amount > 0.0 && ApplyPoiseHit(amount, ShieldRule.HeavyShakeSeconds)) return;
+            if (!Broken) Shake(ShieldRule.HeavyShakeSeconds, 0.09f);
+        }
+
+        /// <summary>패링으로 깎을 버팀 양(ShieldRule.ParryPoise, 시험 손잡이 몫). bossSweep = 오우거 휩쓸기(6%).</summary>
+        public double ParryPoiseAmount(bool bossSweep) =>
+            Poise != null ? ShieldRule.ParryPoise(Class, Poise.Max, Tuning.ParryPoiseFraction, Tuning.ParryElitePoiseFraction, bossSweep) : 0.0;
+
+        /// <summary>
+        /// 휘청: seconds초 동안 멈추고 생각도 멈춘다(넉백 뒤 경직 0.15초와 따로 세고, 생각하며 맞는 적(ThinkWhileBusy)도 멈춘다).
+        /// 그동안 맞음 자세로 그린다. 겹치면 더 늦게 끝나는 쪽. 준비 동작 끊김은 부르는 쪽이 정한다(Parried 기본값은 끊고 부름).
+        /// 넉백은 그대로 돈다(휘청 중 밀림 가능). 쓰러진 적·0 이하 시간은 무시한다.
+        /// </summary>
+        public void Stagger(float seconds)
+        {
+            if (Dead || seconds <= 0f) return;
+            if (!Busy) _hitStart = Time.time;
+            _holdStaggerUntil = Mathf.Max(_holdStaggerUntil, Time.time + seconds);
+            DesiredVelocity = Vector2.zero;
+            Shake(Mathf.Min(seconds, StaggerShakeSeconds), StaggerShakeAmplitude);
+        }
+
+        /// <summary>휘청(Stagger) 중인가(시험 패널·브레인 확인용).</summary>
+        public bool Staggered => !Dead && Time.time < _holdStaggerUntil;
+
+        /// <summary>휘청 남은 시간(초).</summary>
+        public float StaggerRemaining => Staggered ? _holdStaggerUntil - Time.time : 0f;
+
+        /// <summary>잠든 무리 '뒤척임': 쉬는 중이고 아직 알아채지 않았으면 몸만 돌린다(깨우지 않음). 쓰는 곳: SleeperFidget(⑤).</summary>
+        public void TurnWhileResting(Vector2 facing)
+        {
+            if (Dead || Aware || WakePending) return;
+            FaceTowards(facing);
+        }
+
+        /// <summary>
+        /// 1-2층 탐험 맛 1차 4-3 순찰: 쉬는(잠든) 채로 이 속도(초당 유닛)로 걷는다(깨우지 않음). 방향이 있으면 그쪽을 본다(걷는 쪽이 감지의 앞).
+        /// 쓰러졌거나 깨었거나 곧 깨면('!'·무리 반응) 멈춘다. 깨면(Wake)·다시 쉬면(Rest) 걸음이 지워진다. 쓰는 곳: PatrolWalker(쉬는 동안 매 프레임).
+        /// </summary>
+        public void WalkWhileResting(Vector2 velocity)
+        {
+            if (Dead || Aware || WakePending)
+            {
+                _restWalk = Vector2.zero;
+                return;
+            }
+            _restWalk = velocity;
+            if (velocity.sqrMagnitude > 0.0001f) FaceTowards(velocity);
+        }
+
+        /// <summary>지금 넉백 중인가와 그 넉백 정보(벽 박기 판정·연출용, 읽기 전용).</summary>
+        public bool Knocked => _knockTime > 0f;
+        public KnockInfo CurrentKnock => _knockInfo;
+        public float CurrentKnockPush => _knockPush;
+
+        /// <summary>보스 설정(OgreBrain.OnSpawned, 꾸러미 ②): 보스 모드 버팀(4초 뒤 초당 10%), 무너짐 길이, 몸 질량, 무거움.</summary>
+        protected void SetupBoss(double poiseMax, float breakSeconds, float bodyMass)
+        {
+            Poise = new PoiseMeter(Math.Max(1, poiseMax), boss: true);
+            _breakLength = Mathf.Max(0.1f, breakSeconds);
+            if (_body) _body.mass = Mathf.Max(0.1f, bodyMass);
+            Weight = EnemyWeight.Heavy;
+        }
+
+        /// <summary>공격력을 바꾼다(보스 식 BossRules.Attack).</summary>
+        protected void SetAttackPower(int value) => AttackPower = Mathf.Max(0, value);
+
+        /// <summary>종류 걷기 속도를 바꾼다(보스 2단계 × 1.2). 적 걸음 배율·느려짐은 MoveSpeed가 곱한다.</summary>
+        protected void SetBaseMoveSpeed(float speed) => _baseMoveSpeed = Mathf.Max(0f, speed);
+
         /// <summary>벽·기둥 박기처럼 버팀과 관계없이 바로 무너뜨린다(3차 멧돼지).</summary>
         protected void ForceBreak()
         {
@@ -604,7 +852,13 @@ namespace Demo6.Game
             _shakeUntil = Mathf.Max(_shakeUntil, Time.time + seconds);
         }
 
-        public void ApplyKnockback(Vector2 direction, float distance)
+        public void ApplyKnockback(Vector2 direction, float distance) => ApplyKnockback(direction, distance, default);
+
+        /// <summary>
+        /// 넉백(정보 포함). info.MaxDistance가 있으면 저항·배율을 곱한 뒤 거리를 그 값으로 자른다(큰 낫 끌어당김).
+        /// info는 넉백이 끝날 때까지 들고 있다가 벽 박기 판정(꾸러미 ⑧)이 CombatEvents.EnemyWallSlam에 싣는다. 기본값이면 예전 넉백과 같다.
+        /// </summary>
+        public void ApplyKnockback(Vector2 direction, float distance, KnockInfo info)
         {
             if (distance <= 0f || direction.sqrMagnitude < 0.0001f) return;
             float raw = distance;
@@ -620,6 +874,7 @@ namespace Demo6.Game
                 float push = Tuning.KillFling
                     ? Mathf.Min(5f * heavy, (1.2f + 2.2f * raw) * (1f - deathResist) * Tuning.KillFlingScale * heavy)
                     : raw * (1f - deathResist) * Tuning.KnockbackScale;
+                if (info.MaxDistance > 0f) push = Mathf.Min(push, info.MaxDistance);
                 if (push <= 0.001f) return;
                 var wall = Physics2D.CircleCast(Position, 0.2f, dir, push, Layers.WallMask);
                 if (wall.collider) push = Mathf.Max(0f, wall.distance - 0.05f);
@@ -629,7 +884,11 @@ namespace Demo6.Game
             float resist = CurrentKnockbackResist;
             if (resist >= 1f) return;
             distance *= (1f - resist) * Tuning.KnockbackScale;
+            if (info.MaxDistance > 0f) distance = Mathf.Min(distance, info.MaxDistance);
             if (distance <= 0.001f) return;
+            _knockInfo = info;
+            _knockPush = distance;
+            _knockSlammed = false;
             _knockVelocity = direction.normalized * (distance / KnockDuration);
             if (!Busy) _hitStart = Time.time;
             _knockTime = KnockDuration;
@@ -663,7 +922,9 @@ namespace Demo6.Game
 
             if (!Aware)
             {
-                DesiredVelocity = Vector2.zero;
+                // 1-2층 탐험 맛 1차 4-3: 순찰은 쉬는 동안에도 걷는다(PatrolWalker → WalkWhileResting). 곧 깨는 중('!'·무리 반응 0.8초)이면 멈춘다.
+                if (WakePending) _restWalk = Vector2.zero;
+                DesiredVelocity = _restWalk;
                 if (_wakeAt > 0f && Time.time >= _wakeAt) Wake(_noticing);
                 // 칸에 묶인 적은 경계(칸 안쪽 + 문 1유닛) 안의 플레이어만 알아챈다(3차 초안 2-6).
                 else if (_wakeAt < 0f && Player && !Player.IsDown && PlayerInTerritory(Player) && DetectsPlayer(Player))
@@ -671,6 +932,8 @@ namespace Demo6.Game
                     // 알아챘다: 0.5초 뒤 깨어나 무리를 깨운다. 그 전에 먼저 치면 기습이다.
                     _noticing = true;
                     _wakeAt = Time.time + NoticeDelay;
+                    _restWalk = Vector2.zero;
+                    DesiredVelocity = Vector2.zero;
                     if (VisionInSight) WorldOverlay.Text(Position + Vector2.up * (Radius + 0.5f), "!", Palette.NumberCrit);
                 }
                 return;
@@ -690,21 +953,29 @@ namespace Demo6.Game
             }
             Poise?.Tick(Time.time, dt);
 
-            bool busy = _knockTime > 0f || _staggerTime > 0f;
+            // 휘청(패링)은 넉백·경직과 따로 센다. 한 번도 휘청하지 않았으면 held는 늘 false라 예전과 같다.
+            bool held = Time.time < _holdStaggerUntil;
+            bool busy = _knockTime > 0f || _staggerTime > 0f || held;
             if (_knockTime <= 0f && _staggerTime > 0f) _staggerTime -= dt;
             // 칸 규칙(돌아가기·입구 지키기·칸 밖에서 돌아오기)이 이번 프레임을 맡으면 브레인은 쉰다. 칸이 없으면 늘 false.
             if (UpdateTerritory(dt, busy)) return;
             if (busy)
             {
-                if (ThinkWhileBusy)
+                // 휘청 중에는 생각하며 맞는 적(멧돼지·오우거)도 생각을 멈춘다.
+                if (ThinkWhileBusy && !held)
                 {
-                    Think(dt);
+                    // 시야와 문 1차 4-5: 생각하는 동안 만든 예고는 이 적이 주인(예외가 나도 다른 예고에 주인이 남지 않게 finally로 비움).
+                    Telegraph.CreatingOwner = this;
+                    try { Think(dt); }
+                    finally { Telegraph.CreatingOwner = null; }
                     KeepInsideTerritory();
                 }
                 else DesiredVelocity = Vector2.zero;
                 return;
             }
-            Think(dt);
+            Telegraph.CreatingOwner = this;
+            try { Think(dt); }
+            finally { Telegraph.CreatingOwner = null; }
             KeepInsideTerritory();
         }
 
@@ -912,14 +1183,21 @@ namespace Demo6.Game
             if (!(_visual && _visual.ArtShown)) Sprite.transform.localPosition = VisualJitter;
         }
 
-        /// <summary>잠든 적이 플레이어를 알아채는가. 기본: 앞 반경 6(±60°), 등 뒤 3, 벽 너머 못 봄(3차 초안 2-6).</summary>
+        /// <summary>
+        /// 잠든 적이 플레이어를 알아채는가. 기본: 앞 반경 6(±60°), 등 뒤 3, 벽 너머 못 봄(3차 초안 2-6).
+        /// 등 뒤 감지는 듣기라 웅크리면 소음 배율(PlayerController.NoiseScale, 웅크림 0.3)을 몸 사이 거리에 곱한다(CrouchRules.HearCenterDistance):
+        /// 굴쥐 1.36, 궁수 1.39, 멧돼지 1.57, 오우거 2.02(중심 거리). 중심 거리에 곱하면 0.9라 몸이 닿아도(멧돼지 0.95·오우거 1.6) 깨지 않아
+        /// '덜 깸'이 아니라 '절대 안 깸'이 됐다(마무리 검토 ②). 서 있으면(배율 1) 예전과 같다. 앞 감지는 그대로.
+        /// 웅크린 채 시작한 기본공격의 첫 판정 전(PlayerController.SneakStriking)에는 등 뒤에서 듣지 않는다: 쇠망치·도끼 내딛기처럼 공격 동작이 몸을 붙여도
+        /// 그 타가 '들킴'이 되지 않게 한다(통합에서 고친 SneakWindup과 같은 뜻).
+        /// </summary>
         protected virtual bool DetectsPlayer(PlayerController p)
         {
             Vector2 to = p.Position - Position;
             float d = to.magnitude;
             if (d > SeeFront) return false;
             bool front = Vector2.Angle(Facing, to) <= 60f;
-            if (!front && d > SeeBehind) return false;
+            if (!front && (p.SneakStriking || d > Demo6.Core.Dungeon.CrouchRules.HearCenterDistance(SeeBehind, Radius + PlayerController.Radius, p.NoiseScale))) return false;
             return HasLineOfSight(Position, p.Position);
         }
 
@@ -933,11 +1211,36 @@ namespace Demo6.Game
             if (_knockTime > 0f)
             {
                 _body.linearVelocity = _knockVelocity;
+                CheckWallSlam();
                 _knockTime -= Time.fixedDeltaTime;
                 if (_knockTime <= 0f) _staggerTime = StaggerDuration;
                 return;
             }
-            _body.linearVelocity = _staggerTime > 0f || Broken || !Aware ? Vector2.zero : DesiredVelocity;
+            // 쉬는 동안은 순찰 걸음(_restWalk, 순찰이 아니면 0)만 탄다(1-2층 탐험 맛 1차 4-3).
+            _body.linearVelocity = _staggerTime > 0f || Time.time < _holdStaggerUntil || Broken ? Vector2.zero : !Aware ? _restWalk : DesiredVelocity;
+        }
+
+        /// <summary>
+        /// 벽·기둥 박기 판정 한 곳(기획/전투-보스-무기-다듬기-1차.md 4-2 [1]). 살아 있는 적의 넉백 창(0.1초) 동안 물리 단계마다 본다.
+        /// 플레이어 몫 넉백(KnockInfo.FromPlayer)이고 저항·배율을 곱한 거리가 WallSlamRule.MinPush(0.5) 이상일 때만,
+        /// 이번 물리 단계에 갈 거리(속도 × 고정 간격 + 여유)를 몸 반지름 × 0.9 원으로 벽 층(기둥 포함)에 쏴서 닿으면 CombatEvents.EnemyWallSlam을 낸다.
+        /// 넉백 한 번에 한 번, 같은 적은 WallSlamRule.Cooldown(0.5초)에 한 번. 쌍검 회전베기(0.45)처럼 짧은 넉백은 빠진다.
+        /// 결과(굴쥐 피해 추가·무너짐·버팀 깎기)와 연출은 WallSlam(꾸러미 ③)이 사건을 듣고 정한다. 이 자리는 판정과 사건만 맡는다.
+        /// 쓰러진 적의 날림(_deathPush)은 이 길을 지나지 않는다. Tuning.WallSlamOn을 끄면 사건도 내지 않는다.
+        /// </summary>
+        void CheckWallSlam()
+        {
+            if (_knockSlammed || !Tuning.WallSlamOn) return;
+            if (!_knockInfo.FromPlayer || !WallSlamRule.PushedEnough(_knockPush)) return;
+            if (!WallSlamRule.Ready(_lastWallSlam, Time.time)) return;
+            float speed = _knockVelocity.magnitude;
+            if (speed < 0.0001f) return;
+            Vector2 dir = _knockVelocity / speed;
+            var hit = Physics2D.CircleCast(_body.position, Radius * 0.9f, dir, speed * Time.fixedDeltaTime + WallSlamProbe, Layers.WallMask);
+            if (!hit.collider) return;
+            _knockSlammed = true;
+            _lastWallSlam = Time.time;
+            CombatEvents.RaiseEnemyWallSlam(this, new WallSlamHit(hit.point, hit.normal, _knockInfo, _knockPush));
         }
 
         void OnDied()

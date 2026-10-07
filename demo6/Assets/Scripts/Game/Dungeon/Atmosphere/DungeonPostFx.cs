@@ -1,3 +1,4 @@
+using Demo6.Core.Dungeon;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -14,16 +15,21 @@ namespace Demo6.Game
     ///    빛 밖이 차갑고 횃불 안이 따뜻한 대비는 주로 빛 색(DungeonLighting)이 만든다.
     /// ③ 빨간 예고·등급색은 그대로 또렷하게(공정 규칙·2차 색 규칙): 색 곡선 Hue vs Sat로 빨강 계열 채도는 전체 −30을 되돌리고,
     ///    Lum vs Sat로 밝게 빛나는 것(빛 무시 예고·빛기둥·횃불)의 채도를 거의 되돌린다. 어두운 흙·돌만 채도가 빠진다.
-    /// ④ 비네트 0.36, 옅은 필름 잡티, 블룸(문턱 0.9: 빛 무시로 그린 횃불 불꽃·불티·빛기둥 심이 번진다. 빛을 받는 물체는 등잔 가운데 밝기 1.0에서도 0.8 안팎이라 거의 번지지 않는다).
+    /// ④ 비네트·옅은 필름 잡티, 블룸(문턱 0.9: 빛 무시로 그린 횃불 불꽃·불티·빛기둥 심이 번진다. 빛을 받는 물체는 등잔 가운데 밝기 1.0에서도 0.8 안팎이라 거의 번지지 않는다).
+    ///    비네트·잡티는 늘 0.42 / 0.20(전투·보스·무기 다듬기 1차 1-3, 2026-10-04 사용자 결정으로 바뀜): 싸움 섞기로 0.36 / 0.16과 오가던 것을
+    ///    등잔 섞기와 함께 없앴다(깬 적 판정이 바뀔 때마다 화면 가장자리가 출렁였다). 어두운 쪽 값으로 고정해 분위기는 어둡게 둔다.
+    ///    채도·대비·노출은 그대로 둔다(어둡게 하는 일은 빛 밖 밝기·덮개·비네트로만 한다).
     /// </summary>
     public sealed class DungeonPostFx : MonoBehaviour
     {
         public const float Saturation = -30f;
         public const float Contrast = 15f;
         public const float Exposure = -0.1f;
-        public const float VignetteIntensity = 0.36f;
+        /// <summary>비네트 세기: 늘 0.42(싸움 섞기 없음). 값은 ExplorePace가 정한다.</summary>
+        public const float VignetteIntensity = ExplorePace.VignetteIntensity;
         public const float VignetteSmoothness = 0.42f;
-        public const float GrainIntensity = 0.16f;
+        /// <summary>필름 잡티 세기: 늘 0.20(싸움 섞기 없음).</summary>
+        public const float GrainIntensity = ExplorePace.GrainIntensity;
         public const float BloomThreshold = 0.9f;
         public const float BloomIntensity = 0.6f;
         public const float BloomScatter = 0.62f;
@@ -99,6 +105,7 @@ namespace Demo6.Game
             curves.hueVsSat.Override(_hueVsSat);
             curves.lumVsSat.Override(_lumVsSat);
 
+            // 비네트·잡티는 고정값(싸움 섞기 없음).
             var vignette = _profile.Add<Vignette>(false);
             vignette.color.Override(Color.black);
             vignette.center.Override(new Vector2(0.5f, 0.5f));

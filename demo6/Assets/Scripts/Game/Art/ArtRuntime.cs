@@ -29,6 +29,8 @@ namespace Demo6.Game
                     case ArtMode.Project:
                         var dungeon = DungeonRoot.Instance;
                         if (dungeon) return dungeon.ProjectArt;
+                        var town = TownRoot.Instance;
+                        if (town) return town.ProjectArt;
                         var root = CombatTestRoot.Instance;
                         return root ? root.ProjectArt : null;
                     case ArtMode.Placeholder:

@@ -4,11 +4,13 @@ using C=Demo6.Game.TopDownCanvas;
 namespace Demo6.Game {
  /// <summary>인벤토리 전용 자체 아이콘. 현재 그림 원본은 UI-정리-v2의 1254px PNG/Aseprite, 게임 PNG는 512px. 등급은 슬롯·이름이 표시한다. Build는 자산 누락 시 v1 대체 그림만 만든다.</summary>
  public static class ItemIconArt {
-  public static readonly string[] Ids={"wpn_longsword","wpn_greatsword","wpn_twinblades","potion","stone","gold","pickaxe","key","figure"};
+  public static readonly string[] Ids={"wpn_longsword","wpn_greatsword","wpn_twinblades","arm_leather","arm_chain","arm_plate","hlm_leather","hlm_chain","hlm_plate","glv_leather","glv_chain","glv_plate","bts_leather","bts_chain","bts_plate","rng_iron","rng_blood","rng_fang","amu_fang","amu_charm","amu_amber","potion","stone","gold","pickaxe","key","figure"};
   static readonly Dictionary<string,Texture2D> Cache=new Dictionary<string,Texture2D>();
   static readonly Color Ink=new Color32(12,13,16,255),Steel=new Color32(132,140,150,255),Light=new Color32(213,211,197,255),Dark=new Color32(66,72,83,255),Leather=new Color32(99,70,43,255),Brass=new Color32(144,114,66,255);
   public static Texture2D Get(string id){if(Cache.TryGetValue(id,out var tex)&&tex)return tex;tex=Resources.Load<Texture2D>("UI/Items/"+id);if(!tex)tex=Build(id,256).texture;Cache[id]=tex;return tex;}
+  public static void Draw(Rect r,string id,Demo6.Core.Loot.Grade grade){if(EquipmentVisualV049.DrawIcon(r,id,grade))return;Draw(r,id);}
   public static void Draw(Rect r,string id){var color=GUI.color;GUI.color=Color.white;GUI.DrawTexture(r,Get(id),ScaleMode.ScaleToFit,true);GUI.color=color;}
+  public static void DrawEmpty(Rect r,Demo6.Core.Loot.GearPart part){var color=GUI.color;GUI.color=new Color(.9f,.85f,.72f,.62f);GUI.DrawTexture(r,Get("empty_"+part.ToString().ToLowerInvariant()),ScaleMode.ScaleToFit,true);GUI.color=color;}
   public static Sprite Build(string id,float ppu=256,int layer=-1){var c=new C(-1,1,-1,1,ppu);bool main=layer!=1,detail=layer!=0;
    if(id.StartsWith("wpn_")){bool heavy=id=="wpn_greatsword",twin=id=="wpn_twinblades";int count=twin?2:1;for(int i=0;i<count;i++){
     float shift=twin?(i==0?-.29f:.29f):0f,scale=twin?.78f:1f;float width=heavy?.17f:.10f;

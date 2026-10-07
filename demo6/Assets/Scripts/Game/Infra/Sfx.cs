@@ -47,6 +47,16 @@ namespace Demo6.Game
         Footstep,
         /// <summary>가벼운 치명(장비 문서 3-4, 한 방 무게 100% 미만: 쌍검 연타 등): 치명 소리를 짧고 조금 작게(0.07초). 첫 6ms 딸깍은 치명과 같다.</summary>
         CritLight,
+        /// <summary>방패로 막음 '퉁'(기획/세-무기-우클릭-소켓-1차.md 2-5): 낮은 나무 판 + 쇠테, 0.10초.</summary>
+        Block,
+        /// <summary>패링 '쨍'(2-6): 높은 쇠 맞부딪힘 + 0.25초 울림.</summary>
+        Parry,
+        /// <summary>막기 깨짐(2-5): 방패 판이 바깥으로 젖혀지며 갈라지는 나무 소리 + 쇠테 덜컹 + 낮은 쿵.</summary>
+        GuardBreak,
+        /// <summary>대검 기 모으기 단계(3-6): 짧은 쇠 울림. 음높이는 부르는 쪽이 GreatswordCharge.LevelPitch로 곱한다.</summary>
+        ChargeRing,
+        /// <summary>버팀 룬으로 버팀(3-8): 짧고 깊은 '쿵' + 옅은 쇠 울림.</summary>
+        ArmorHold,
     }
 
     /// <summary>
@@ -130,6 +140,11 @@ namespace Demo6.Game
             Set(SfxKind.PlayerDeath, Build("playerdeath", 1.6f, PlayerDeath));
             Set(SfxKind.Footstep, Build("step0", 0.14f, Footstep, 0), Build("step1", 0.14f, Footstep, 1), Build("step2", 0.14f, Footstep, 2));
             Set(SfxKind.CritLight, Build("critlight", 0.07f, Crit));
+            Set(SfxKind.Block, Build("block", 0.10f, Block));
+            Set(SfxKind.Parry, Build("parry", 0.30f, Parry));
+            Set(SfxKind.GuardBreak, Build("guardbreak", 0.24f, GuardBreak));
+            Set(SfxKind.ChargeRing, Build("chargering", 0.34f, ChargeRing));
+            Set(SfxKind.ArmorHold, Build("armorhold", 0.18f, ArmorHold));
             // 합성을 빠뜨린 종류가 있으면 타격음으로 채운다(새 종류를 더해도 소리는 난다).
             var hit = _clips[(int)SfxKind.Hit];
             for (int i = 0; i < KindCount; i++)
@@ -255,6 +270,11 @@ namespace Demo6.Game
                 case SfxKind.BodyFall: return 0.9f;
                 case SfxKind.PlayerDeath: return 0.85f;
                 case SfxKind.Footstep: return 0.33f;
+                case SfxKind.Block: return 0.8f;
+                case SfxKind.Parry: return 0.85f;
+                case SfxKind.GuardBreak: return 0.85f;
+                case SfxKind.ChargeRing: return 0.5f;
+                case SfxKind.ArmorHold: return 0.8f;
                 default: return 0.75f;
             }
         }
@@ -267,7 +287,10 @@ namespace Demo6.Game
                 case SfxKind.Footstep: return 0.07f;
                 case SfxKind.LevelUp:
                 case SfxKind.Loot:
-                case SfxKind.PlayerDeath: return 0.02f;
+                case SfxKind.PlayerDeath:
+                // 기 모으기 울림은 단계 음높이(0.8 → 0.95 → 1.1)가 들리게 좁게.
+                case SfxKind.ChargeRing: return 0.02f;
+                case SfxKind.Parry: return 0.03f;
                 default: return 0.05f;
             }
         }
@@ -658,6 +681,61 @@ namespace Demo6.Game
             if (t2 > 0f)
                 grit = BandPass(ref v.Low, ref v.Band, Noise(r), 1900f * tone, 0.6f) * Mathf.Exp(-t2 * 55f) * 0.6f;
             return heel * 0.6f + soil + grit;
+        }
+
+        // ── 세 무기·오른쪽 클릭(기획/세-무기-우클릭-소켓-1차.md 2-5·2-6·3-6·3-8). 기존 소리는 건드리지 않고 새 종류만 더했다 ──
+
+        /// <summary>막음 '퉁'(0.10초): 낮게 떨어지는 나무 판 몸통(150 → 82Hz) + 판자 공명(380Hz) + 쇠테의 짧은 비조화 쇳소리 + 두드림.</summary>
+        static float Block(float t, float len, ref SynthState v, System.Random r)
+        {
+            float x = t / len;
+            float body = Osc(ref v.Phase, Mathf.Lerp(150f, 82f, x)) * Mathf.Exp(-t * 36f);
+            float board = BandPass(ref v.Low, ref v.Band, Noise(r) * Mathf.Exp(-t * 80f), 380f, 0.16f) * 1.1f;
+            float rim = (Tone(t, 1320f) + Tone(t, 1975f) * 0.5f) * Mathf.Exp(-t * 55f) * 0.14f;
+            float knock = OnePole(ref v.Lp, Noise(r), 0.22f) * Mathf.Exp(-t * 95f) * 0.7f;
+            return body * 0.7f + board + rim + knock + Click(t, 0.004f, r) * 0.45f;
+        }
+
+        /// <summary>패링 '쨍'(0.30초): 밝은 쇠 맞부딪힘(3.6kHz 잡음 터짐) + 높은 비조화 배음이 0.25초 남짓 울리며 살짝 맥놀이 + 짧은 몸통.</summary>
+        static float Parry(float t, float len, ref SynthState v, System.Random r)
+        {
+            float clash = BandPass(ref v.Low, ref v.Band, Noise(r), 3600f, 0.5f) * Mathf.Exp(-t * 55f) * 0.85f;
+            float ring = (Tone(t, 1760f) + 0.7f * Tone(t, 2587f) + 0.45f * Tone(t, 3711f) * Mathf.Exp(-t * 6f)) * Mathf.Exp(-t * 10f) * 0.2f;
+            float shimmer = 1f + 0.18f * Mathf.Sin(t * TwoPi * 9f);
+            float body = Osc(ref v.Phase, Mathf.Lerp(320f, 210f, t / len)) * Mathf.Exp(-t * 40f) * 0.35f;
+            return clash + ring * shimmer + body + Click(t, 0.003f, r) * 0.45f;
+        }
+
+        /// <summary>막기 깨짐(0.24초): 판자가 갈라지는 잡음(1.4 → 0.6kHz) + 낮은 쿵(110 → 55Hz) + 쇠테 덜컹 + 나무 둔탁음.</summary>
+        static float GuardBreak(float t, float len, ref SynthState v, System.Random r)
+        {
+            float x = t / len;
+            float crackle = Noise(r) * Mathf.Exp(-t * 14f) * (0.5f + 0.5f * Mathf.Sin(t * TwoPi * 37f));
+            float crack = BandPass(ref v.Low, ref v.Band, crackle, Mathf.Lerp(1400f, 600f, x), 0.45f);
+            float thump = Osc(ref v.Phase, Mathf.Lerp(110f, 55f, x)) * Mathf.Exp(-t * 16f) * 0.6f;
+            float rattle = (Tone(t, 1180f) + 0.6f * Tone(t, 1730f)) * Mathf.Exp(-t * 20f) * (0.6f + 0.4f * Mathf.Sin(t * TwoPi * 28f)) * 0.14f;
+            float wood = OnePole(ref v.Lp, Noise(r), 0.12f) * Mathf.Exp(-t * 30f) * 0.9f;
+            return crack + thump + rattle + wood + Click(t, 0.004f, r) * 0.4f;
+        }
+
+        /// <summary>기 모으기 단계(0.34초): 칼날이 우는 짧은 쇠 울림(880Hz 기음 + 비조화 배음) + 낮은 웅 + 처음 긁힘. 음높이는 단계마다 부르는 쪽이 곱한다.</summary>
+        static float ChargeRing(float t, float len, ref SynthState v, System.Random r)
+        {
+            float env = Mathf.Clamp01(t / 0.012f) * Mathf.Exp(-t * 9f);
+            float ring = (Tone(t, 880f) + 0.55f * Tone(t, 1323f) + 0.3f * Tone(t, 2213f) * Mathf.Exp(-t * 8f)) * 0.48f;
+            float hum = Osc(ref v.Phase, 220f) * 0.34f;
+            float scrape = BandPass(ref v.Low, ref v.Band, Noise(r), 2600f, 0.6f) * Mathf.Exp(-t * 60f) * 0.25f;
+            return (ring + hum) * env + scrape;
+        }
+
+        /// <summary>버팀 '쿵'(0.18초): 깊게 떨어지는 몸통(82 → 46Hz) + 무거운 둔탁음 + 옅은 쇠 울림.</summary>
+        static float ArmorHold(float t, float len, ref SynthState v, System.Random r)
+        {
+            float x = t / len;
+            float boom = Osc(ref v.Phase, Mathf.Lerp(82f, 46f, x)) * Mathf.Exp(-t * 18f);
+            float mass = OnePole(ref v.Lp, Noise(r), 0.06f) * Mathf.Exp(-t * 30f) * 1.4f;
+            float hum = (Tone(t, 440f) + 0.5f * Tone(t, 660f)) * Mathf.Exp(-t * 22f) * 0.08f;
+            return boom * 0.8f + mass + hum + Click(t, 0.004f, r) * 0.4f;
         }
     }
 }

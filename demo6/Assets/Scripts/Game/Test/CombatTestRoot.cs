@@ -7,7 +7,7 @@ namespace Demo6.Game
 {
     /// <summary>
     /// 전투 손맛 시험장. 씬에는 카메라·조명과 이 컴포넌트만 두고, 방·플레이어·소환기·화면은 실행할 때 만든다.
-    /// 방은 기획 4-6 큰 전투방(벽 포함 26×14, 안쪽 25×13)에 기둥 3개. 카메라는 고정이고 화면비로 크기를 계산한다.
+    /// 방은 기획 4-6 큰 전투방(벽 포함 26×14, 안쪽 25×13)에 기둥 3개('보스' 프리셋은 보스방 돌 기둥 4개로 바꿔 지음). 카메라는 고정이고 화면비로 크기를 계산한다.
     /// 플레이어 능력치(장비 문서 2-3·3-4): '시험 장착'(시작 장비 + 고른 무기 종류)에 손잡이(StatOverrides: 층 기준 공격·체력·방어,
     /// 무기 고유 켜기·끄기, 공격 속도·치명 확률·치명 피해, 전설 3종)를 얹어 StatCalc → PlayerController.ApplyStats로 넣는다.
     /// 층·무기·손잡이가 바뀔 때마다 다시 넣는다(손잡이 값은 Tuning에 있어 ResetToDefaults로 되돌아간다).
@@ -21,6 +21,28 @@ namespace Demo6.Game
         public static readonly Rect Inner = new Rect(-12.5f, -6.5f, 25f, 13f);
         const float CameraOffsetY = -0.6f;
         static readonly Vector2[] Pillars = { new Vector2(-6f, 2.5f), new Vector2(6.5f, -2.5f), new Vector2(1f, 4f) };
+        const float PillarSize = 1.2f;
+        const float BossPillarSize = 1.6f;
+        /// <summary>
+        /// 보스방 기둥과 위아래 벽 사이 틈. 문서 3-6은 안쪽 26×14 방에서 기둥 y ±3.5로 이 틈이 2.7이다. 이 방은 안쪽 25×13이라 y ±3.5면 틈이 2.2로
+        /// 오우거 지름 2.4보다 좁아 몸이 낀다(마무리 검토 ⑦). 그래서 틈을 문서와 같은 2.7로 두는 y(±3.0)에 짓는다.
+        /// </summary>
+        const float BossPillarWallGap = 2.7f;
+        static readonly float BossPillarY = Inner.yMax - BossPillarWallGap - BossPillarSize * 0.5f;
+        /// <summary>
+        /// 보스방 돌 기둥 4개(기획/전투-보스-무기-다듬기-1차.md 3-6): (−4, ±3.0), (4.5, ±3.0), 1.6 × 1.6. 돌진을 확실히 박게 일반 기둥(1.2)보다 굵고,
+        /// 기둥 사이 가운데 거리 가로 8.5·세로 6, 벽과 틈 2.7이라 지름 2.4인 몸이 끼지 않는다. '보스' 프리셋일 때만 기둥 3개 대신 짓는다.
+        /// </summary>
+        static readonly Vector2[] BossPillars = { new Vector2(-4f, BossPillarY), new Vector2(-4f, -BossPillarY), new Vector2(4.5f, BossPillarY), new Vector2(4.5f, -BossPillarY) };
+        /// <summary>보스방 플레이어 시작 자리(왼쪽 문 쪽, 3-6). 오우거는 (7, 0)에서 오른쪽 벽을 보고 먹는 중이다(EnemySpawner, 꾸러미 ②).</summary>
+        static readonly Vector2 BossPlayerStart = new Vector2(-9f, 0f);
+        /// <summary>
+        /// '기둥 옆 멧돼지'(3-1 묶음 3, 벽 박기 판정용): 기둥 (6.5, −2.5) 왼쪽 면에 붙은 멧돼지 1마리와 그 왼쪽(반대쪽)의 플레이어.
+        /// EnemySpawner는 멧돼지를 무리 가운데에서 플레이어 쪽으로 1.2, 둘레로 0.9 옮겨 놓으므로 가운데를 기둥 오른쪽에 두면 멧돼지가 약 (5.1, −2.5)에 선다
+        /// (몸 오른끝과 기둥 사이 약 0.25). 플레이어와 약 2.5 떨어져 있어 돌진(3~7)보다 머리치기·걷기로 시작한다.
+        /// </summary>
+        static readonly Vector2 PillarBoarCenter = new Vector2(7.16f, -2.17f);
+        static readonly Vector2 PillarBoarPlayerStart = new Vector2(2.6f, -2.5f);
 
         public enum Preset
         {
@@ -38,9 +60,14 @@ namespace Demo6.Game
             Nest,
             /// <summary>3차 마주침: 잠든 멧돼지 1 + 궁수 1 + 굴쥐 2(기습 연습).</summary>
             Sleeping,
+            /// <summary>갱도 오우거 1마리(전투·보스·무기 다듬기 1차 3장, 결정 ④ 시험장 먼저). 기둥 4개(1.6)로 바꿔 짓고, 쓰러졌다 일어나면 처음부터 다시 놓는다.</summary>
+            Boss,
+            /// <summary>기둥 바로 옆 멧돼지 1마리(4-2 [1] 벽·기둥 박기 판정용, 묶음 3).</summary>
+            PillarBoar,
         }
 
-        public static bool IsEncounterPreset(Preset p) => p == Preset.FrontBack || p == Preset.Elite || p == Preset.Nest || p == Preset.Sleeping;
+        public static bool IsEncounterPreset(Preset p) =>
+            p == Preset.FrontBack || p == Preset.Elite || p == Preset.Nest || p == Preset.Sleeping || p == Preset.Boss || p == Preset.PillarBoar;
 
         public static CombatTestRoot Instance { get; private set; }
 
@@ -62,8 +89,19 @@ namespace Demo6.Game
         /// <summary>고른 무기 종류 id(장검·대검·쌍검). 시험 장착 = 시작 장비(가죽 한 벌) + 이 무기 종류.</summary>
         public string TestWeaponId { get; private set; } = GearBaseTable.Longsword;
 
+        /// <summary>지금 보스방 기둥 4개(1.6)로 지어져 있는가(아니면 일반 기둥 3개).</summary>
+        public bool BossPillarsBuilt => _bossPillars;
+        /// <summary>'보스' 프리셋에서 쓰러졌다 일어나 오우거를 처음부터 다시 놓은 수(재도전).</summary>
+        public int BossRetries { get; private set; }
+
         Camera _cam;
         ScreenShake _shake;
+        Transform _room;
+        Transform _pillarRoot;
+        bool _bossPillars;
+        // 보스 재도전: 쓰러짐 → 일어남을 보고, 쓰러지기 직전 물약 수를 기억한다('남은 물약 그대로').
+        bool _wasDown;
+        int _potionsBeforeDown = -1;
         // 마지막으로 능력치를 넣을 때의 무기·층·손잡이(바뀌면 Update에서 다시 넣는다).
         string _appliedWeapon;
         int _appliedFloor = -1;
@@ -154,6 +192,32 @@ namespace Demo6.Game
                 RecomputeStats();
                 if (CurrentPreset == Preset.Dummies) Stats.ResetDummyWindow();
             }
+            WatchBossRetry();
+        }
+
+        /// <summary>
+        /// 보스 재도전(3-8 시험판): '보스' 프리셋에서 플레이어가 쓰러졌다 일어나면 새 오우거를 놓아 다시 먹는 중으로 만들고 플레이어를 문 쪽 시작 자리에 세운다
+        /// (Spawner.RestartEncounter, 기습 기회는 매번 있음). 물약은 Tuning.BossRetryFullPotions면 체력·물약 가득(Refill), 아니면 쓰러지기 직전 수로 되돌린다
+        /// (자연 부활은 물약을 채우므로 기억한 수를 다시 넣는다).
+        /// </summary>
+        void WatchBossRetry()
+        {
+            if (!Player) return;
+            bool down = Player.IsDown;
+            if (CurrentPreset == Preset.Boss)
+            {
+                if (_wasDown && !down) RetryBoss();
+                if (!down) _potionsBeforeDown = Player.Potions;
+            }
+            _wasDown = down;
+        }
+
+        void RetryBoss()
+        {
+            if (Tuning.BossRetryFullPotions) Player.Refill();
+            else if (_potionsBeforeDown >= 0) Player.RestoreVitals(-1, _potionsBeforeDown);
+            BossRetries++;
+            Spawner.RestartEncounter();
         }
 
         /// <summary>시험 장착: 시작 장비(장검 + 가죽 한 벌, 반지·목걸이 빔)의 무기만 고른 종류로 바꾼다(등급·iLv·굴림 그대로).</summary>
@@ -241,11 +305,7 @@ namespace Demo6.Game
 
         public void SetFloor(int floor)
         {
-            Floor = FloorScaling.Clamp(floor);
-            // 층 기준 공격·체력·방어를 능력치로 넣고(한 입구), 체력·물약을 채운다.
-            RecomputeStats();
-            Player.ApplyBaseline(Floor);
-            Spawner.Floor = Floor;
+            ApplyFloorStats(floor);
             // 층이 바뀌면 지금 있는 적도 새 배율로 다시 세운다.
             if (CurrentPreset == Preset.Dummies)
             {
@@ -254,6 +314,15 @@ namespace Demo6.Game
             }
             else if (IsEncounterPreset(CurrentPreset)) Spawner.RestartEncounter();
             else Spawner.ClearAll();
+        }
+
+        /// <summary>층만 바꾼다: 층 기준 공격·체력·방어를 능력치로 넣고(한 입구), 체력·물약을 채우고, 소환기 층을 맞춘다. 적은 다시 세우지 않는다(부르는 쪽 몫).</summary>
+        void ApplyFloorStats(int floor)
+        {
+            Floor = FloorScaling.Clamp(floor);
+            RecomputeStats();
+            Player.ApplyBaseline(Floor);
+            Spawner.Floor = Floor;
         }
 
         /// <summary>M0a 값 / 3차 값. 적 체력·패턴·공격 기회가 바뀌므로 지금 구성을 다시 세운다.</summary>
@@ -276,13 +345,22 @@ namespace Demo6.Game
                     var affixes = (EliteHardened ? EliteAffix.Hardened : EliteAffix.None) | (ElitePack ? EliteAffix.Pack : EliteAffix.None);
                     return new EncounterSpec { Name = "정예", EliteBoar = true, Affixes = affixes, Archers = ElitePack ? 0 : 1 };
                 case Preset.Nest: return new EncounterSpec { Name = "둥지", Nest = true };
+                case Preset.Boss: return new EncounterSpec { Name = "보스", Boss = true, PlayerStart = BossPlayerStart };
+                case Preset.PillarBoar: return new EncounterSpec { Name = "기둥 옆 돌충이", Boars = 1, Center = PillarBoarCenter, PlayerStart = PillarBoarPlayerStart };
                 default: return new EncounterSpec { Name = "잠든 적", Boars = 1, Archers = 1, Rats = 2, Sleeping = true };
             }
         }
 
         public void ApplyPreset(Preset preset)
         {
+            bool enteringBoss = preset == Preset.Boss && CurrentPreset != Preset.Boss;
             CurrentPreset = preset;
+            // 기둥은 무리를 놓기 전에 바꿔 짓는다(놓을 자리 고르기가 벽·기둥을 피한다).
+            BuildPillars(preset == Preset.Boss);
+            // '보스'로 들어올 때는 판정 기준(3-10 '2층 장비', 처치 45~65초)대로 2층 장비로 맞춘다. 그 뒤 층 단추로 5·10층을 보는 것은 그대로 둔다.
+            if (enteringBoss && Floor != BossRules.TrialFloor) ApplyFloorStats(BossRules.TrialFloor);
+            _wasDown = Player && Player.IsDown;
+            _potionsBeforeDown = Player ? Player.Potions : -1;
             Spawner.RespawnDelay = preset == Preset.RatSwarm ? 0.25f : 1.0f;
             Spawner.PackSpawn = preset == Preset.RatSwarm;
             if (IsEncounterPreset(preset))
@@ -336,6 +414,7 @@ namespace Demo6.Game
         void BuildRoom()
         {
             var room = new GameObject("Room").transform;
+            _room = room;
 
             var floor = new GameObject("Floor");
             floor.transform.SetParent(room, false);
@@ -349,8 +428,29 @@ namespace Demo6.Game
             Block(room, "Wall S", new Vector2(0f, -halfH), new Vector2(RoomWidth, WallThickness), Palette.Wall);
             Block(room, "Wall W", new Vector2(-halfW, 0f), new Vector2(WallThickness, RoomHeight), Palette.Wall);
             Block(room, "Wall E", new Vector2(halfW, 0f), new Vector2(WallThickness, RoomHeight), Palette.Wall);
-            for (int i = 0; i < Pillars.Length; i++)
-                Block(room, "Pillar " + (i + 1), Pillars[i], new Vector2(1.2f, 1.2f), Palette.Pillar, true);
+            BuildPillars(false);
+        }
+
+        /// <summary>
+        /// 기둥만 다시 짓는다: 보스방이면 돌 기둥 4개(1.6), 아니면 일반 기둥 3개(1.2). 이미 그 모양이면 그대로 둔다.
+        /// 옛 기둥은 바로 꺼서(충돌체가 이번 프레임 안에 빠짐) 새 무리 자리 고르기·벽 박기 판정에 남지 않게 한다.
+        /// </summary>
+        void BuildPillars(bool boss)
+        {
+            if (!_room) return;
+            if (_pillarRoot && _bossPillars == boss) return;
+            if (_pillarRoot)
+            {
+                _pillarRoot.gameObject.SetActive(false);
+                Destroy(_pillarRoot.gameObject);
+            }
+            _bossPillars = boss;
+            _pillarRoot = new GameObject(boss ? "Pillars (보스방)" : "Pillars").transform;
+            _pillarRoot.SetParent(_room, false);
+            var spots = boss ? BossPillars : Pillars;
+            float size = boss ? BossPillarSize : PillarSize;
+            for (int i = 0; i < spots.Length; i++)
+                Block(_pillarRoot, "Pillar " + (i + 1), spots[i], new Vector2(size, size), Palette.Pillar, true);
         }
 
         static void Block(Transform parent, string name, Vector2 position, Vector2 size, Color color, bool sortByY = false)

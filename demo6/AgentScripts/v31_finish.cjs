@@ -1,0 +1,20 @@
+const fs=require('fs'),crypto=require('crypto');const ev='검증/돌갑충-예고-v031',art='아트/돌갑충-예고-v031';
+const sha=p=>crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');
+const baseline=JSON.parse(fs.readFileSync(ev+'/before.json'));const changed=baseline.filter(x=>fs.existsSync(x.path)&&sha(x.path)!==x.sha256).map(x=>x.path),deleted=baseline.filter(x=>!fs.existsSync(x.path)).map(x=>x.path);
+function walk(d){return fs.readdirSync(d,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(d+'/'+e.name):[d+'/'+e.name]);}const prior=new Set(baseline.map(x=>x.path));const added=['Assets','Packages','ProjectSettings'].flatMap(walk).filter(p=>!prior.has(p));
+let brain=fs.readFileSync('Assets/Scripts/Game/Enemies/BoarBrain.cs','utf8').split('\n').filter(s=>!s.includes('// v031')).join('\n');brain=brain.replace('if (_state == State.Charging && collision.gameObject.layer == Layers.Wall)\n            {\n                EndCharge(true);\n            }','if (_state == State.Charging && collision.gameObject.layer == Layers.Wall) EndCharge(true);');
+const brainUnchanged=brain===fs.readFileSync(ev+'/backup/BoarBrain.cs','utf8');
+const beforeTele=fs.readFileSync(ev+'/backup/Telegraph.cs','utf8'),afterTele=fs.readFileSync('Assets/Scripts/Game/Combat/Telegraph.cs','utf8');
+function block(s,name){let i=s.indexOf(name),start=s.indexOf('{',i),n=0;for(let j=start;j<s.length;j++){if(s[j]==='{')n++;else if(s[j]==='}')if(--n===0)return s.slice(i,j+1);}throw Error(name);}
+const methods=['public bool Contains(','public void Drive(','public void SetRect(','public void SetCenter(','void Update()'];
+const telegraphRulesUnchanged=methods.every(n=>block(beforeTele,n)===block(afterTele,n));
+const parser=fs.readFileSync('AgentScripts/v29_finish.cjs','utf8');const gif=new Function('fs','function gif'+parser.split('function gif')[1].split('const gifs=')[0]+';return gif;')(fs);
+const gifs=['charge-toes','wall-contact','walk','telegraph-circle','telegraph-half','telegraph-rect'].map(n=>gif(art+'/'+n+'-normal-10f.gif'));
+const review=JSON.parse(fs.readFileSync(ev+'/review-result.json'));const native=JSON.parse(fs.readFileSync(art+'/native-validation.json'));const lifecycle=JSON.parse(fs.readFileSync(ev+'/lifecycle.json'));
+const clips=review.clips.map(c=>{const trace=JSON.parse(fs.readFileSync(ev+'/frames/'+c.clip+'/trace.json'));const selected=trace.filter((f,i)=>f.saved>(i?trace[i-1].saved:0));return{clip:c.clip,frames:selected.map(f=>f.frame),consecutive:selected.length===10&&selected.every((f,i)=>!i||f.frame===selected[i-1].frame+1)};});
+const expected=['Assets/Scripts/Game/Art/TopDown/TopDownEnemyRig.cs','Assets/Scripts/Game/Enemies/BoarBrain.cs','Assets/Scripts/Game/Combat/Telegraph.cs'];
+const protectedUnchanged=baseline.filter(x=>/Assets\/(Art|Resources\/(OgreApproved|OgreVfxV30|CuteV15|TopDownPilotV9))\//.test(x.path)).every(x=>sha(x.path)===x.sha256);
+const result={changed,added,deleted,concurrentChanges:changed.filter(p=>!expected.includes(p)),boarGameplayUnchangedAfterCosmeticHooks:brainUnchanged,telegraphHitGeometryAndTimingMethodsUnchanged:telegraphRulesUnchanged,protectedOriginalPNGsUnchanged:protectedUnchanged,native,gifs,clips,review,lifecycle,gameView:JSON.parse(fs.readFileSync(ev+'/game-view.json'))};
+fs.writeFileSync(ev+'/final-audit.json',JSON.stringify(result,null,2));
+if(deleted.length||!brainUnchanged||!telegraphRulesUnchanged||!protectedUnchanged||native.some(x=>x.pixelDifferences)||gifs.some(x=>x.frames!==10||x.totalMs!==250)||clips.some(x=>!x.consecutive)||!review.success||!lifecycle.success||!lifecycle.allEffectsExpiredNaturally)throw Error('Verification failed');
+console.log(JSON.stringify({changed,added:added.length,concurrent:result.concurrentChanges,brainUnchanged,telegraphRulesUnchanged,protectedUnchanged,gifs:gifs.map(g=>({file:g.file,frames:g.frames,totalMs:g.totalMs})),reviewClips:review.clips.length,normalUpdateLifecycle:lifecycle.success},null,2));

@@ -1,0 +1,44 @@
+using System;using System.IO;using System.Linq;using System.Reflection;using System.Collections.Generic;using UnityEngine;using UnityEditor;using Demo6.Game;using Demo6.Core.Loot;using C=Demo6.Game.TopDownCanvas;
+public static class HeroV3Build {
+ const string Root="아트/정수리/검사-v3", Game="Assets/Art/TopDown/PlayerV3";
+ static readonly string[] Names={"leather","chain","plate"},WeightNames={"가죽","사슬","판금"};
+ static readonly Color Outline=new Color32(16,15,14,255),Bone=new Color32(169,153,122,255),Iron=new Color32(101,105,104,255);
+ static readonly List<object> Manifest=new List<object>();
+ static int Index(ArmorWeight w)=>w==ArmorWeight.Heavy?2:w==ArmorWeight.Medium?1:0;
+ static Color WeightColor(ArmorWeight w)=>Index(w)==2?new Color32(105,110,112,255):Index(w)==1?new Color32(79,84,88,255):new Color32(104,75,49,255);
+ static float Foot(Vector2 p)=>C.Capsule(p,new Vector2(-.038f,0),new Vector2(.034f,0),.04f,.047f);
+ sealed class Painter {
+  public readonly int W,H;readonly float factor;readonly string id;readonly C all;C layer;string layerName;readonly List<string> layers=new List<string>();
+  public Painter(int w,int h,float f,string name){W=w;H=h;factor=f;id=name;all=Canvas();Layer("01-material");}
+  C Canvas()=>new C(-W/1024f,W/1024f,-H/1024f,H/1024f,512);
+  public void Layer(string name){if(layer!=null&&draws>0){Save(layer,Root+"/layers/"+id+"/"+layerName+".png");layers.Add(layerName);}layerName=name;layer=Canvas();draws=0;}
+  int draws;
+  public void Draw(C.Shape shape,C.Paint paint,float outline=0,Color color=default){C.Shape s=p=>shape(p/factor)*factor;C.Paint t=(p,d)=>paint(p/factor,d/factor);all.Draw(s,t,outline*factor,color);layer.Draw(s,t,outline*factor,color);draws++;}
+  public void Draw(C.Shape shape,Color paint,float outline=0,Color color=default)=>Draw(shape,(p,d)=>paint,outline,color);
+  public Sprite ToSprite(string name,Vector2 pivot){Layer("finished");Save(all,Root+"/PNG/"+id+".png");SaveHalf(all,Game+"/"+id+".png");Manifest.Add(new{id,width=W,height=H,masterPPU=512,runtimePPU=256,pivot=new[]{.5f,.5f},layers=layers.ToArray()});return null;}
+ }
+ static Texture2D Texture(C canvas){var px=(Color[])typeof(C).GetField("_px",BindingFlags.Instance|BindingFlags.NonPublic).GetValue(canvas);var t=new Texture2D(canvas.Width,canvas.Height,TextureFormat.RGBA32,false);t.SetPixels(px);t.Apply();return t;}
+ static void Save(C c,string path){Directory.CreateDirectory(Path.GetDirectoryName(path));var t=Texture(c);File.WriteAllBytes(path,t.EncodeToPNG());UnityEngine.Object.DestroyImmediate(t);}
+ static void SaveHalf(C c,string path){Directory.CreateDirectory(Path.GetDirectoryName(path));var t=Texture(c);int w=t.width/2,h=t.height/2;var a=t.GetPixels();var b=new Color[w*h];for(int y=0;y<h;y++)for(int x=0;x<w;x++){Color sum=Color.clear;float alpha=0;for(int j=0;j<2;j++)for(int i=0;i<2;i++){var p=a[(2*y+j)*t.width+2*x+i];sum.r+=p.r*p.a;sum.g+=p.g*p.a;sum.b+=p.b*p.a;alpha+=p.a;}b[y*w+x]=alpha>0?new Color(sum.r/alpha,sum.g/alpha,sum.b/alpha,alpha/4):Color.clear;}var o=new Texture2D(w,h,TextureFormat.RGBA32,false);o.SetPixels(b);o.Apply();File.WriteAllBytes(path,o.EncodeToPNG());UnityEngine.Object.DestroyImmediate(t);UnityEngine.Object.DestroyImmediate(o);}
+ static void CloakDetail(Painter cv){
+  for(int s=-1;s<=1;s+=2){float side=s;cv.Draw(p=>C.Curve(p,new Vector2(-.39f,.19f*side),new Vector2(-.28f,.33f*side),new Vector2(-.13f,.39f*side),.0045f,.004f),new Color32(94,86,70,255));
+   for(int i=0;i<5;i++){float x=-.39f+i*.047f,y=(.18f+i*.041f)*side;cv.Draw(p=>C.Capsule(p,new Vector2(x,y),new Vector2(x+.011f,y-.009f*side),.0025f),new Color32(128,112,88,255));}
+   cv.Draw(p=>C.Curve(p,new Vector2(-.12f,.08f*side),new Vector2(-.24f,.18f*side),new Vector2(-.43f,.14f*side),.007f,.003f),new Color32(24,24,23,255));
+  }
+ }
+ static void ArmorDetail(Painter cv,int kind,Color armor){
+  // A restrained right shoulder steel fitting preserves the original swordsman's identity.
+  if(kind==0){cv.Draw(p=>C.Box(p,new Vector2(.012f,-.302f),.077f,.047f,.02f,-12),(p,d)=>C.Shade(Iron,C.Dome(d,.042f)*C.Rim(d,.008f,.35f)),.008f,Outline);
+   for(int i=0;i<4;i++){float y=.26f+i*.025f;cv.Draw(p=>C.Capsule(p,new Vector2(-.044f,y),new Vector2(-.025f,y+.003f),.0028f),Bone);}}
+  for(int side=-1;side<=1;side+=2){float sy=kind==2?.355f:kind==1?.33f:.3f;var at=new Vector2(.01f,sy*side);cv.Draw(p=>C.Capsule(p,at+new Vector2(-.04f,.012f),at+new Vector2(-.006f,.023f),.0027f),new Color32(151,145,125,255));}
+ }
+ static void HelmDetail(Painter cv,int kind){
+  if(kind==0){for(int i=0;i<10;i++){float x=-.245f+i*.038f;cv.Draw(p=>C.Capsule(p,new Vector2(x,-.008f),new Vector2(x+.008f,.008f),.0025f),Bone);}}
+  else {cv.Draw(p=>C.Capsule(p,new Vector2(-.08f,-.1f),new Vector2(-.04f,-.08f),.0026f),new Color32(158,159,149,255));cv.Draw(p=>C.Capsule(p,new Vector2(.04f,.11f),new Vector2(.07f,.085f),.0026f),new Color32(151,155,151,255));}
+ }
+ static void BuildSleeve(ArmorWeight w){int kind=Index(w);var cv=new Painter(224,64,1,"sleeve_"+Names[kind]);var tone=WeightColor(w);cv.Draw(p=>C.Box(p,Vector2.zero,.24f,.041f,.018f),(p,d)=>C.Shade(tone,C.Dome(d,.035f)*Surface(p,kind,107)),.005f,Outline);cv.Layer("02-seams");for(int i=-2;i<=2;i++){float x=i*.067f;cv.Draw(p=>C.Box(p,new Vector2(x,0),.003f,.032f,.001f),C.Shade(tone,.58f));}cv.ToSprite("sleeve",Vector2.zero);}
+ public static object Build(){if(EditorApplication.isPlaying)throw new Exception("Stop Play before importing art");Manifest.Clear();foreach(var w in new[]{ArmorWeight.Light,ArmorWeight.Medium,ArmorWeight.Heavy}){BuildPlayer(WeightColor(w),w);BuildHelm(WeightColor(w),w);BuildFist(WeightColor(w),w,true);BuildFist(WeightColor(w),w,false);BuildBoot(WeightColor(w),w);BuildSleeve(w);}Directory.CreateDirectory(Root);File.WriteAllText(Root+"/manifest.json",Newtonsoft.Json.JsonConvert.SerializeObject(Manifest,Newtonsoft.Json.Formatting.Indented));AssetDatabase.Refresh();foreach(string path in Directory.GetFiles(Game,"*.png")){var t=(TextureImporter)AssetImporter.GetAtPath(path);t.textureType=TextureImporterType.Sprite;t.spriteImportMode=SpriteImportMode.Single;t.spritePixelsPerUnit=256;t.spritePivot=new Vector2(.5f,.5f);var settings=new TextureImporterSettings();t.ReadTextureSettings(settings);settings.spriteAlignment=(int)SpriteAlignment.Center;settings.spriteMeshType=SpriteMeshType.FullRect;t.SetTextureSettings(settings);t.alphaIsTransparency=true;t.mipmapEnabled=true;t.filterMode=FilterMode.Trilinear;t.wrapMode=TextureWrapMode.Clamp;t.textureCompression=TextureImporterCompression.Uncompressed;t.maxTextureSize=1024;t.SaveAndReimport();}
+  var art=AssetDatabase.LoadAssetAtPath<CombatArtSet>("Assets/Data/Combat/CombatArtSet.asset");var p=art.topDown.player;Sprite S(string id)=>AssetDatabase.LoadAssetAtPath<Sprite>(Game+"/"+id+".png");p.scale=1;p.body=S("body_leather");p.boot=S("boot_leather");p.sleeve=S("sleeve_leather");p.fist=S("fist_leather_closed");p.armors=Names.Select(n=>new TopDownArmorArt{armorId="arm_"+n,body=S("body_"+n),sleeve=S("sleeve_"+n)}).ToArray();p.helms=Names.Select(n=>new TopDownHelmArt{helmId="hlm_"+n,sprite=S("helm_"+n)}).ToArray();p.gloves=Names.Select(n=>new TopDownGlovesArt{glovesId="glv_"+n,fistClosed=S("fist_"+n+"_closed"),fistOpen=S("fist_"+n+"_open")}).ToArray();p.boots=Names.Select(n=>new TopDownBootsArt{bootsId="bts_"+n,boot=S("boot_"+n)}).ToArray();EditorUtility.SetDirty(art);AssetDatabase.SaveAssetIfDirty(art);return new{parts=Manifest.Count,source=Root,game=Game};
+ }
+ // GENERATED_METHODS
+}

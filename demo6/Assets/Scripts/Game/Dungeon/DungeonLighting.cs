@@ -1,11 +1,16 @@
 using System.Collections.Generic;
+using Demo6.Core.Dungeon;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
 namespace Demo6.Game
 {
     /// <summary>
-    /// 시야(3차 초안 2-4): 빛 밖 밝기 0.08(벽 윤곽만), 갱도지기 등잔 밝은 4.5 / 흐린 7.5, 싸울 때 반경 +1.5.
+    /// 시야(3차 초안 2-4, 전투·보스·무기 다듬기 1차 1-3): 빛 밖 밝기 0.06(벽 윤곽만), 갱도지기 등잔은 늘 밝은 6.0 / 흐린 9.0.
+    /// 2026-10-04 사용자 결정("주변 등 2번째처럼 유지가 안된다 깜빡거린다")으로 탐험 4.0 / 6.5 ↔ 싸움 6.0 / 9.0 섞기를 없앴다.
+    /// 깬 적 판정이 바뀔 때마다 등잔이 커졌다 줄어 깜빡임으로 보였기 때문이다. 심지 단계(WickLevel 0~2)가 밝은 +1.0/+2.0·흐린 +1.5/+3.0을 더한다.
+    /// 싸움 판정(InCombat·CombatBlend)은 빛을 바꾸지 않고 바닥 장비 이름표·빛기둥과 탐험 기록이 읽는다.
+    /// 숫자는 Core ExplorePace가 정하고 ExplorePaceTests(공정 확인 ①~⑧)가 지킨다.
     /// 벽 등잔은 밝은 5 / 흐린 8이고 켜면 영구. 등잔은 밝은 원(세기 0.55)과 흐린 테두리(세기 0.45) 두 겹으로 그리고, 벽은 그림자를 드리운다.
     /// 다크 판타지(기획/다크판타지-분위기-1차.md '빛'): 빛 밖 전역 빛은 차가운 푸른 회색, 등잔·벽 등잔은 주황 횃불빛
     /// (채도 0.4, 전설 주황보다 낮음)이고 세기 ±7%·반경 ±2.5%가 노이즈로 일렁인다.
@@ -14,13 +19,13 @@ namespace Demo6.Game
     public sealed class DungeonLighting : MonoBehaviour
     {
         /// <summary>
-        /// 빛 밖 전역 빛 0.08(3차 초안 2-4, 벽 윤곽만). 선형 색 공간이라 밝은 몸 색은 이 밝기에서도 드러나므로
-        /// 적은 VisionSystem이 빛 밖에서 숨기고(눈 두 점만), 안 가 본 곳은 기억 안개가 가린다.
+        /// 빛 밖 전역 빛 0.06(1-3, 예전 0.08, 벽 윤곽만). 선형 색 공간이라 밝은 몸 색은 이 밝기에서도 드러나므로
+        /// 적은 VisionSystem이 빛 밖에서 숨기고(눈 두 점만), 안 가 본 곳은 기억 안개가 가린다. 색 띠가 보이면 ExplorePace에서 0.07로 올린다.
         /// </summary>
-        public const float AmbientDark = 0.08f;
-        public const float LampBright = 4.5f;
-        public const float LampDim = 7.5f;
-        public const float CombatBonus = 1.5f;
+        public const float AmbientDark = ExplorePace.AmbientDark;
+        /// <summary>등잔 밝은 / 흐린 반경(늘 7.5 / 11.0 — ExplorePace.LampBright·LampDim). 등잔을 아직 붙이지 않았을 때의 폴백(DungeonAir·VisionSystem)도 이 값이다.</summary>
+        public const float LampBright = ExplorePace.LampBright;
+        public const float LampDim = ExplorePace.LampDim;
         public const float WallLampBright = 5f;
         public const float WallLampDim = 8f;
         /// <summary>횃불 일렁임 세기 폭(계약서 A: 6~8%).</summary>
@@ -40,13 +45,25 @@ namespace Demo6.Game
 
         /// <summary>시험 패널: 어둠 끄기(밝기 1).</summary>
         public bool DarknessOn { get; set; } = true;
-        /// <summary>심지 단계 등으로 늘어나는 반경(M0b는 0).</summary>
+        /// <summary>심지 단계(0~2, 1-3): 밝은 +1.0/+2.0, 흐린 +1.5/+3.0(ExplorePace.WickBright·WickDim). M0b는 0.</summary>
+        public int WickLevel
+        {
+            get => _wick;
+            set => _wick = Mathf.Clamp(value, 0, ExplorePace.WickLevels - 1);
+        }
+        /// <summary>밝은·흐린 반경에 똑같이 더하는 반경(예전 손잡이, 호환용). 심지 단계는 WickLevel을 쓴다.</summary>
         public float RadiusBonus { get; set; }
-        /// <summary>등잔 밝은 반경(일렁임을 뺀 값, 싸울 때 +1.5 포함).</summary>
+        /// <summary>등잔 밝은 반경(일렁임을 뺀 값, 심지 포함).</summary>
         public float BrightRadius => _bright ? _brightNominal : LampBright;
-        /// <summary>등잔 흐린 반경(일렁임을 뺀 값, 싸울 때 +1.5 포함). 시야 판정 '빛 안'의 기준.</summary>
+        /// <summary>등잔 흐린 반경(일렁임을 뺀 값, 심지 포함). 시야 판정 '빛 안'의 기준.</summary>
         public float DimRadius => _dim ? _dimNominal : LampDim;
+        /// <summary>
+        /// 싸우는 중인가: 벽에 가리지 않은 깬 적이 12유닛 안에 들어오면 켜고(ExploreWalk.AwakeEnemyInSight),
+        /// 14유닛 안에 보이는 깬 적이 없어진 뒤 3초가 지나면 끈다(ExplorePace.CombatExitRange·CombatHoldSeconds). 빛 반경은 바꾸지 않는다.
+        /// </summary>
         public bool InCombat { get; private set; }
+        /// <summary>싸움 섞기(0 = 탐험, 1 = 싸움). 켜질 때 0.25초, 꺼질 때 약 1.4초. 바닥 장비 이름표를 옅게 하는 데 쓴다(등잔·후처리는 섞지 않음).</summary>
+        public float CombatBlend => _combatBlend;
 
         /// <summary>일렁이는 벽 등잔 빛 하나. WallLamp가 매 프레임 세기를 다시 쓰므로 그 값 위에 곱한다.</summary>
         sealed class Flame
@@ -65,6 +82,9 @@ namespace Demo6.Game
         Light2D _bright;
         Light2D _dim;
         float _combatBlend;
+        /// <summary>이 시각(unscaled)까지는 보이는 깬 적이 없어도 싸움으로 둔다.</summary>
+        float _combatHoldUntil = -1f;
+        int _wick;
         float _brightNominal = LampBright;
         float _dimNominal = LampDim;
         const float LampSeed = 3.7f;
@@ -147,23 +167,14 @@ namespace Demo6.Game
         {
             if (_global) _global.intensity = DarknessOn ? AmbientDark : 1f;
             var player = PlayerController.Instance;
-            InCombat = false;
-            if (player)
-            {
-                foreach (var e in Enemy.All)
-                {
-                    if (!e || e.Dead || !e.Aware || e.IsReturning) continue;
-                    if ((e.Position - player.Position).sqrMagnitude <= 12f * 12f)
-                    {
-                        InCombat = true;
-                        break;
-                    }
-                }
-            }
-            _combatBlend = Mathf.MoveTowards(_combatBlend, InCombat ? 1f : 0f, Time.unscaledDeltaTime * 2f);
-            float bonus = RadiusBonus + CombatBonus * _combatBlend;
-            _brightNominal = LampBright + bonus;
-            _dimNominal = LampDim + bonus;
+            // 싸움 판정: 켜는 거리 12 / 끄는 거리 14, 벽에 가린 적은 세지 않고, 마지막으로 본 뒤 3초 켜 둔다(멈춘 화면·느린 화면과 무관하게 unscaled).
+            float now = Time.unscaledTime;
+            bool near = player && ExploreWalk.AwakeEnemyInSight(player.Position, ExplorePace.CombatRange(InCombat));
+            InCombat = ExplorePace.StepCombatHold(near, now, ref _combatHoldUntil);
+            _combatBlend = ExplorePace.StepCombatBlend(_combatBlend, InCombat, Time.unscaledDeltaTime);
+            // 등잔은 싸움 여부와 상관없이 늘 같은 반경(심지·호환 보너스만 더함).
+            _brightNominal = ExplorePace.BrightRadius(_wick) + RadiusBonus;
+            _dimNominal = ExplorePace.DimRadius(_wick) + RadiusBonus;
 
             // 횃불 일렁임: 반경은 빛 그림에만, 시야 판정은 위 이름 반경을 쓴다.
             float t = Time.unscaledTime;

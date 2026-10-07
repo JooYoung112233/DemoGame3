@@ -18,6 +18,8 @@ namespace Demo6.Game
     /// 경험치 연출(한 마리 RPG 요소): 처치·둥지 정리 경험치는 그 자리(시체 위)에 "+n 경험치"를 크게(호박색) 띄우고(정예·둥지 정리는 더 크게),
     /// HUD 경험치 막대가 0.4초 밝게 번쩍이며 새로 찬 몫을 보이게 기록을 남긴다(GainFlashStart·GainFromFraction·GainFromKill).
     /// 탐험 경험치는 지금처럼 플레이어 위 작은 '+n'. 경험치 양은 바꾸지 않는다(4-3 값 그대로).
+    /// 새 칸 경험치는 살핌에서(시야와 문 1차 5-3): 들어설 때는 칸 이름만 뜨고, 그 칸 바닥의 75%를 눈으로 훑으면(DungeonEvents.CellSwept)
+    /// 같은 발견 주머니 규칙으로 1U와 머리 위 '살폈다'를 준다. 보스방, 시야·살핌 손잡이를 끈 때는 들어설 때 그대로 준다.
     /// </summary>
     public sealed class PlayerProgress : MonoBehaviour
     {
@@ -81,7 +83,8 @@ namespace Demo6.Game
             public float Lift;
         }
 
-        readonly int[] _ranks = new int[SkillTree.Count];
+        /// <summary>랭크·배운 칸(기획/스킬-자원-트리-1차.md). 레벨·점수는 이 컴포넌트 값을 판정 때 넣는다(SyncSkills).</summary>
+        readonly SkillState _skills = new SkillState();
         readonly Popup[] _popups = new Popup[MaxPopups];
         int _popupNext;
         /// <summary>마지막 처치 글자가 사라지는 실제 시각(그 뒤로는 OnGUI가 바로 돌아간다).</summary>
@@ -106,6 +109,7 @@ namespace Demo6.Game
         {
             Instance = this;
             DungeonEvents.Discovered += OnDiscovered;
+            DungeonEvents.CellSwept += OnCellSwept;
             DungeonEvents.GroupCleared += OnGroupCleared;
             DungeonEvents.PlayerRespawned += ApplyToPlayer;
             DungeonEvents.ExpeditionRestarted += ApplyToPlayer;
@@ -117,6 +121,7 @@ namespace Demo6.Game
         void OnDestroy()
         {
             DungeonEvents.Discovered -= OnDiscovered;
+            DungeonEvents.CellSwept -= OnCellSwept;
             DungeonEvents.GroupCleared -= OnGroupCleared;
             DungeonEvents.PlayerRespawned -= ApplyToPlayer;
             DungeonEvents.ExpeditionRestarted -= ApplyToPlayer;
@@ -139,7 +144,9 @@ namespace Demo6.Game
             data.Level = Level;
             data.TotalXp = TotalXp;
             data.SkillPoints = SkillPoints;
-            data.SkillRanks = (int[])_ranks.Clone();
+            data.SkillRanks = (int[])_skills.Ranks.Clone();
+            data.SkillNodes.Clear();
+            data.SkillNodes.UnionWith(_skills.Nodes);
             int floor = Floor;
             int given = GivenBase(data, floor) + _pouchGivenHere;
             if (given > 0 || data.DiscoveryXpGiven.ContainsKey(floor)) data.DiscoveryXpGiven[floor] = given;
@@ -153,8 +160,7 @@ namespace Demo6.Game
             TotalXp = Mathf.Max(0, data.TotalXp);
             Level = Mathf.Clamp(Mathf.Max(data.Level, LevelTable.LevelFor(TotalXp)), 1, LevelTable.MaxLevel);
             SkillPoints = Mathf.Max(0, data.SkillPoints);
-            var ranks = data.SkillRanks ?? System.Array.Empty<int>();
-            for (int i = 0; i < _ranks.Length; i++) _ranks[i] = i < ranks.Length ? SkillDef.ClampRank(ranks[i]) : 0;
+            _skills.Load(Level, SkillPoints, data.SkillRanks, data.SkillNodes);
             data.DiscoveryXpGiven.TryGetValue(Floor, out _pouchGivenBase);
             _pouchGivenHere = 0;
             _eventXpHere = false;
@@ -227,10 +233,55 @@ namespace Demo6.Game
         }
 
         /// <summary>스킬 랭크(0~4).</summary>
-        public int Rank(SkillId id)
+        public int Rank(SkillId id) => _skills.Rank(id);
+
+        /// <summary>트리 칸의 랭크(배우기·갈림 칸은 배웠으면 1).</summary>
+        public int Rank(SkillNodeId id) => _skills.RankOf(id);
+
+        /// <summary>그 기술(칸)을 배웠는가.</summary>
+        public bool Knows(SkillNodeId id) => _skills.Has(id);
+
+        /// <summary>판정용 묶음(레벨·점수를 지금 값으로 맞춰 내준다). 고치지 말고 읽기만 한다.</summary>
+        public SkillState Skills
         {
-            int i = (int)id;
-            return i >= 0 && i < _ranks.Length ? _ranks[i] : 0;
+            get
+            {
+                SyncSkills();
+                return _skills;
+            }
+        }
+
+        void SyncSkills()
+        {
+            _skills.Level = Level;
+            _skills.Points = SkillPoints;
+        }
+
+        /// <summary>칸에 점수를 쓸 수 있는가(atTrainer = 마을 무진 앞).</summary>
+        public SkillCheck Check(SkillNodeId id, bool atTrainer) => SkillTree.Check(Skills, id, atTrainer);
+
+        /// <summary>무진에게 지금 배울 수 있는 칸이 있는가.</summary>
+        public bool AnyTrainerNode => SkillTree.AnyTrainerNode(Skills);
+
+        /// <summary>
+        /// 칸에 점수 1점을 쓰고 플레이어에 바로 넣는다(질긴 몸은 지난 레벨 체력도 다시 계산). 배우기·갈림 칸은 atTrainer일 때만.
+        /// </summary>
+        public bool TryTake(SkillNodeId id, bool atTrainer)
+        {
+            SyncSkills();
+            if (!SkillTree.Take(_skills, id, atTrainer)) return false;
+            SkillPoints = _skills.Points;
+            ApplyToPlayer();
+            var node = SkillTree.Node(id);
+            Sfx.Play(SfxKind.Pickup);
+            if (node.RankSkill.HasValue)
+            {
+                var def = SkillTree.Get(node.RankSkill.Value);
+                int rank = Rank(node.RankSkill.Value);
+                DungeonEvents.Say($"{def.Name} {rank}/{SkillDef.MaxRank} — {def.EffectText(rank)}");
+            }
+            else DungeonEvents.Say(node.Kind == SkillNodeKind.Learn ? $"새 기술 — {node.Name} · {node.Desc}" : $"{node.Name} — {node.Desc}");
+            return true;
         }
 
         /// <summary>문자열 id(예: 'skill.tough_body')로 랭크를 읽는다. 없는 id면 0.</summary>
@@ -240,21 +291,18 @@ namespace Demo6.Game
             return def != null ? Rank(def.Id) : 0;
         }
 
-        /// <summary>[+]를 누를 수 있는가: 점수 1점 이상, Lv 2 이상, 4랭크 미만.</summary>
-        public bool CanRankUp(SkillId id) => SkillTree.CanRankUp(Rank(id), Level, SkillPoints);
+        /// <summary>랭크 칸에 점수를 쓸 수 있는가(트리 조건 그대로: 먼저 배운 기술이 있어야 한다).</summary>
+        public bool CanRankUp(SkillId id)
+        {
+            var node = SkillTree.NodeOf(id);
+            return node != null && Check(node.Id, false).Ok;
+        }
 
-        /// <summary>점수 1점으로 랭크를 올리고 플레이어에 바로 넣는다(질긴 몸은 지난 레벨 체력도 다시 계산).</summary>
+        /// <summary>점수 1점으로 랭크를 올린다(TryTake의 랭크 칸 몫).</summary>
         public bool TryRankUp(SkillId id)
         {
-            if (!CanRankUp(id)) return false;
-            _ranks[(int)id]++;
-            SkillPoints--;
-            ApplyToPlayer();
-            var def = SkillTree.Get(id);
-            int rank = Rank(id);
-            Sfx.Play(SfxKind.Pickup);
-            DungeonEvents.Say($"{def.Name} {rank}/{SkillDef.MaxRank} — {def.EffectText(rank)}");
-            return true;
+            var node = SkillTree.NodeOf(id);
+            return node != null && TryTake(node.Id, false);
         }
 
         /// <summary>시험 패널용: 경험치를 바로 더한다(기획 값이 아닌 시험 조작).</summary>
@@ -267,6 +315,15 @@ namespace Demo6.Game
             _player.WhirlRadiusBonus = (float)SkillTree.WhirlRadiusBonus(Rank(SkillId.WideWhirl));
             _player.WavePercentBonus = (float)SkillTree.WavePercentBonus(Rank(SkillId.SharpWind));
             _player.FinisherDamageBonus = (float)SkillTree.FinisherDamageBonus(Rank(SkillId.Finisher));
+            // 배운 기술·갈림·투지 칸(기획/스킬-자원-트리-1차.md). 진행이 없는 장면(전투 시험장)은 플레이어 기본값(둘 다 앎) 그대로.
+            _player.WhirlKnown = Knows(SkillNodeId.LearnWhirl);
+            _player.WaveKnown = Knows(SkillNodeId.LearnWave);
+            _player.PullWhirl = Knows(SkillNodeId.PullWhirl);
+            _player.BloodWhirl = Knows(SkillNodeId.BloodWhirl);
+            _player.ThreeWave = Knows(SkillNodeId.ThreeWave);
+            _player.WallBurst = Knows(SkillNodeId.WallBurst);
+            _player.FinisherSpirit = Rank(SkillId.Finisher) > 0;
+            _player.BoilingRank = Rank(SkillId.BoilingBlood);
             ApplyMaxHp();
         }
 
@@ -290,8 +347,33 @@ namespace Demo6.Game
 
         void OnDiscovered(DiscoveryKind kind, Vector2 pos, string label)
         {
+            // 시야와 문 1차 5-3: 미루는 칸의 새 칸 경험치는 살핌(OnCellSwept)에서 준다. 칸 이름 알림은 DungeonHud가 그대로 띄우고 측량 확인도 그대로 한다.
+            if (kind == DiscoveryKind.NewCell && DefersNewCellXp(pos))
+            {
+                _checkComplete = true;
+                return;
+            }
             AddXp(CapDiscovery(kind, XpRules.ForDiscovery(kind, Floor)), false);
             if (kind != DiscoveryKind.FloorComplete) _checkComplete = true;
+        }
+
+        /// <summary>그 자리 칸의 새 칸 경험치를 살핌으로 미루는가(VisionSystem.DefersCellXp: 시야·살핌 손잡이 켬, 보스방 아님). 시야가 없으면 미루지 않는다.</summary>
+        static bool DefersNewCellXp(Vector2 pos)
+        {
+            var vision = VisionSystem.Instance;
+            var root = DungeonRoot.Instance;
+            if (!vision || !root || root.World == null) return false;
+            return vision.DefersCellXp(root.World.CellAt(pos));
+        }
+
+        /// <summary>
+        /// 칸을 살폈다(시야와 문 1차 5-3): 미뤄 둔 새 칸 경험치를 같은 발견 주머니 규칙(CapDiscovery)으로 주고, 플레이어 머리 위 왼쪽에 작은 '살폈다'
+        /// ('+n'과 같은 바랜 색 GainColor, 0.85배)를 띄운다. 오른쪽의 '+n'은 지금처럼 LateUpdate가 묶어 띄운다.
+        /// </summary>
+        void OnCellSwept(DungeonCell cell)
+        {
+            AddXp(CapDiscovery(DiscoveryKind.NewCell, XpRules.ForDiscovery(DiscoveryKind.NewCell, Floor)), false);
+            if (_player) WorldOverlay.Text(_player.Position + new Vector2(-0.9f, 0.45f), SightRules.SweptWord, GainColor, 0.85f);
         }
 
         void OnEnemyKilled(Enemy e)
@@ -389,7 +471,7 @@ namespace Demo6.Game
                 WorldOverlay.Text(_player.Position + Vector2.up * 1.1f, $"레벨 {Level}", LevelColor);
             }
             for (int level = before + 1; level <= Level; level++) DungeonEvents.RaiseLevelUp(level);
-            DungeonEvents.Say($"몸에 힘이 차오른다 — 레벨 {Level} · 스킬 점수 +{gained} [K]");
+            DungeonEvents.Say(SkillTree.LevelUpLine(Level, gained, AnyTrainerNode, Demo6.Core.Town.SpeakerIdentity.TeachAt(ProfileCarry.Data)));
         }
 
         void LateUpdate()
@@ -501,7 +583,19 @@ namespace Demo6.Game
             var carry = ProfileCarry.Data;
             int sheets = 0;
             if (carry != null) carry.SurveySheets.TryGetValue(floor, out sheets);
-            if (sheets >= SurveyMaxSheets) return;
+            if (sheets >= SurveyMaxSheets)
+            {
+                // 1-2층 탐험 맛 1차 4-7 ③ 측량 넘침: 3장을 다 채운 층은 강화석 1을 발밑에 떨군다(바닥 떨굼·줍기 길, 꾸러미가 있을 때만).
+                // FloorCompleted가 장면에 한 번만 여기로 오게 한다(같은 원정에 다시 지은 장면은 MarkSurveyed로 막힌다).
+                var p = _player ? _player : PlayerController.Instance;
+                if (carry != null && p)
+                {
+                    var bundle = new Demo6.Core.Loot.LootBundle { Stones = Demo6.Core.Loot.CornerLoot.SurveyOverflowStones };
+                    LootSpawner.Spawn(bundle, p.Position, Vector2.down, 0f);
+                    DungeonEvents.Say(ExploreText.SurveyOverflow);
+                }
+                return;
+            }
             if (carry != null) carry.SurveySheets[floor] = sheets + 1;
             AddXp(XpRules.Amount(SurveyUnits, floor), false);
             DungeonEvents.Say($"측량 1장 — {floor}층 도면을 새로 그렸다");

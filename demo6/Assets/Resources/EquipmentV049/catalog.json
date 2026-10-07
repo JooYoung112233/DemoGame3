@@ -1,0 +1,579 @@
+{
+  "version": "v049",
+  "status": "source-textures-imported-adapter-pending",
+  "notes": [
+    "Approved art source import only; main adapter owns runtime sprite creation, calibrated pivots/PPU, variant selection and Unity checks.",
+    "No base IDs, gameplay stats, stances or current bindings changed.",
+    "Source ZIPs contain PNG parts, not layered Aseprite masters.",
+    "v047 candidate alpha bounds differ from legacy; do not directly substitute cropped frame sprites."
+  ],
+  "items": [
+    {
+      "designKey": "greatsword-01-worn-iron",
+      "baseId": "wpn_greatsword",
+      "sprite": {
+        "sourcePath": "E:\\personalProject\\Demo3\\demo6\\아트\\승인장비-v049-v047-적용준비-20261006\\local-sources\\Demo6-v049-01-Weapon-Sprites\\equipment-variants-v049\\sprites\\greatsword-01-worn-iron.png",
+        "assetPath": "Assets/Resources/EquipmentV049/Weapons/greatsword-01-worn-iron.png",
+        "resourcePath": "EquipmentV049/Weapons/greatsword-01-worn-iron",
+        "guid": "8f33027166e946a8b49126c13e8836e9",
+        "sha256": "533822a30d0202048fc5f7e048e2fabf2a3daaa6c1c653a70ae17c3f71d9a020",
+        "canvas": [
+          2172,
+          724
+        ],
+        "alphaBBoxTopLeft": [
+          70,
+          39,
+          2076,
+          676
+        ],
+        "opaqueBBoxTopLeft": [
+          76,
+          63,
+          2017,
+          661
+        ],
+        "sourceBytesPreserved": true,
+        "textureType": "Texture2D",
+        "socketValidated": false,
+        "pivot": null,
+        "ppu": null
+      },
+      "icon": {
+        "sourcePath": "E:\\personalProject\\Demo3\\demo6\\아트\\승인장비-v049-v047-적용준비-20261006\\local-sources\\Demo6-v049-02-Inventory-Icons\\equipment-variants-v049\\icons-padded\\greatsword-01-worn-iron.png",
+        "assetPath": "Assets/Resources/EquipmentV049/Icons/greatsword-01-worn-iron.png",
+        "resourcePath": "EquipmentV049/Icons/greatsword-01-worn-iron",
+        "guid": "8463a13f67a04fb0bc8cc8ae1f10c6b0",
+        "sha256": "ecf677d832b0e42da586e6e76c4955c85ea789960f7bb292f5e2c1608b622883",
+        "canvas": [
+          1536,
+          1536
+        ],
+        "alphaBBoxTopLeft": [
+          158,
+          194,
+          1336,
+          1371
+        ],
+        "opaqueBBoxTopLeft": [
+          205,
+          237,
+          1333,
+          1323
+        ],
+        "sourceBytesPreserved": true,
+        "textureType": "Texture2D",
+        "socketValidated": false,
+        "pivot": null,
+        "ppu": null
+      },
+      "handCount": 1,
+      "sameTextureBothHands": false,
+      "knownIconDifference": null
+    },
+    {
+      "designKey": "greatsword-02-mining-reinforced",
+      "baseId": "wpn_greatsword",
+      "sprite": {
+        "sourcePath": "E:\\personalProject\\Demo3\\demo6\\아트\\승인장비-v049-v047-적용준비-20261006\\local-sources\\Demo6-v049-01-Weapon-Sprites\\equipment-variants-v049\\sprites\\greatsword-02-mining-reinforced.png",
+        "assetPath": "Assets/Resources/EquipmentV049/Weapons/greatsword-02-mining-reinforced.png",
+        "resourcePath": "EquipmentV049/Weapons/greatsword-02-mining-reinforced",
+        "guid": "3cc305d128204990bc7e4e96979fb682",
+        "sha256": "5d904bb77ecc6b45e6de5731ec58846f37a44905844d10af276743d0b5c466e9",
+        "canvas": [
+          1981,
+          793
+        ],
+        "alphaBBoxTopLeft": [
+          45,
+          72,
+          1900,
+          767
+        ],
+        "opaqueBBoxTopLeft": [
+          48,
+          114,
+          1897,
+          685
+        ],
+        "sourceBytesPreserved": true,
+        "textureType": "Texture2D",
+        "socketValidated": false,
+        "pivot": null,
+        "ppu": null
+      },
+      "icon": {
+        "sourcePath": "E:\\personalProject\\Demo3\\demo6\\아트\\승인장비-v049-v047-적용준비-20261006\\local-sources\\Demo6-v049-02-Inventory-Icons\\equipment-variants-v049\\icons-padded\\greatsword-02-mining-reinforced.png",
+        "assetPath": "Assets/Resources/EquipmentV049/Icons/greatsword-02-mining-reinforced.png",
+        "resourcePath": "EquipmentV049/Icons/greatsword-02-mining-reinforced",
+        "guid": "34af2e49a49a4f188449b2e4cd15ae2d",
+        "sha256": "70e737aa6b8c26fd8d01126c520dae9f70adc743e93e414e3eaecd4562b0e163",
+        "canvas": [
+          1536,
+          1536
+        ],
+        "alphaBBoxTopLeft": [
+          225,
+          194,
+          1332,
+          1314
+        ],
+        "opaqueBBoxTopLeft": [
+          229,
+          251,
+          1329,
+          1311
+        ],
+        "sourceBytesPreserved": true,
+        "textureType": "Texture2D",
+        "socketValidated": false,
+        "pivot": null,
+        "ppu": null
+      },
+      "handCount": 1,
+      "sameTextureBothHands": false,
+      "knownIconDifference": "Approximately8% more elongated whole-length/blade-width ratio than source; review candidate, not exact geometric transform."
+    },
+    {
+      "designKey": "greatsword-03-old-knight",
+      "baseId": "wpn_greatsword",
+      "sprite": {
+        "sourcePath": "E:\\personalProject\\Demo3\\demo6\\아트\\승인장비-v049-v047-적용준비-20261006\\local-sources\\Demo6-v049-01-Weapon-Sprites\\equipment-variants-v049\\sprites\\greatsword-03-old-knight.png",
+        "assetPath": "Assets/Resources/EquipmentV049/Weapons/greatsword-03-old-knight.png",
+        "resourcePath": "EquipmentV049/Weapons/greatsword-03-old-knight",
+        "guid": "9ae02ea6595b41d7b885a19c4001bf01",
+        "sha256": "9d4e173c4b8f0fbac2c7f905592c7f7d60df116f1a9c4f5a2041a7105cae5fae",
+        "canvas": [
+          2169,
+          725
+        ],
+        "alphaBBoxTopLeft": [
+          83,
+          41,
+          1950,
+          691
+        ],
+        "opaqueBBoxTopLeft": [
+          190,
+          55,
+          1947,
+          672
+        ],
+        "sourceBytesPreserved": true,
+        "textureType": "Texture2D",
+        "socketValidated": false,
+        "pivot": null,
+        "ppu": null
+      },
+      "icon": {
+        "sourcePath": "E:\\personalProject\\Demo3\\demo6\\아트\\승인장비-v049-v047-적용준비-20261006\\local-sources\\Demo6-v049-02-Inventory-Icons\\equipment-variants-v049\\icons-padded\\greatsword-03-old-knight.png",
+        "assetPath": "Assets/Resources/EquipmentV049/Icons/greatsword-03-old-knight.png",
+        "resourcePath": "EquipmentV049/Icons/greatsword-03-old-knight",
+        "guid": "a8a1ce3e36564ddb82b36f57b8b0bc8f",
+        "sha256": "fefe5e5a101df6c5e89151d2e3d22230cc3afb29c527521f890c58184027567e",
+        "canvas": [
+          1536,
+          1536
+        ],
+        "alphaBBoxTopLeft": [
+          174,
+          194,
+          1345,
+          1329
+        ],
+        "opaqueBBoxTopLeft": [
+          204,
+          221,
+          1341,
+          1325
+        ],
+        "sourceBytesPreserved": true,
+        "textureType": "Texture2D",
+        "socketValidated": false,
+        "pivot": null,
+        "ppu": null
+      },
+      "handCount": 1,
+      "sameTextureBothHands": false,
+      "knownIconDifference": null
+    },
+    {
+      "designKey": "onehand-01-worn-iron",
+      "baseId": "wpn_longsword",
+      "sprite": {
+        "sourcePath": "E:\\personalProject\\Demo3\\demo6\\아트\\승인장비-v049-v047-적용준비-20261006\\local-sources\\Demo6-v049-01-Weapon-Sprites\\equipment-variants-v049\\sprites\\onehand-01-worn-iron.png",
+        "assetPath": "Assets/Resources/EquipmentV049/Weapons/onehand-01-worn-iron.png",
+        "resourcePath": "EquipmentV049/Weapons/onehand-01-worn-iron",
+        "guid": "ab19cbb3807c4aed97a6f3417a1eb9e3",
+        "sha256": "fea35958ec59db2c91368391b435926c76bc9b9d6dafbe0c3a42d3e6cb35dc5b",
+        "canvas": [
+          2169,
+          725
+        ],
+        "alphaBBoxTopLeft": [
+          0,
+          104,
+          2158,
+          611
+        ],
+        "opaqueBBoxTopLeft": [
+          13,
+          121,
+          2156,
+          603
+        ],
+        "sourceBytesPreserved": true,
+        "textureType": "Texture2D",
+        "socketValidated": false,
+        "pivot": null,
+        "ppu": null
+      },
+      "icon": {
+        "sourcePath": "E:\\personalProject\\Demo3\\demo6\\아트\\승인장비-v049-v047-적용준비-20261006\\local-sources\\Demo6-v049-02-Inventory-Icons\\equipment-variants-v049\\icons-padded\\onehand-01-worn-iron.png",
+        "assetPath": "Assets/Resources/EquipmentV049/Icons/onehand-01-worn-iron.png",
+        "resourcePath": "EquipmentV049/Icons/onehand-01-worn-iron",
+        "guid": "5ea53614382f4760bf6864127290ce35",
+        "sha256": "982834a1e9ca616350ed372740e5ebfe5de74481e497f20f9621b9db02e692bc",
+        "canvas": [
+          1536,
+          1536
+        ],
+        "alphaBBoxTopLeft": [
+          200,
+          188,
+          1357,
+          1335
+        ],
+        "opaqueBBoxTopLeft": [
+          204,
+          191,
+          1352,
+          1331
+        ],
+        "sourceBytesPreserved": true,
+        "textureType": "Texture2D",
+        "socketValidated": false,
+        "pivot": null,
+        "ppu": null
+      },
+      "handCount": 1,
+      "sameTextureBothHands": false,
+      "knownIconDifference": null
+    },
+    {
+      "designKey": "onehand-02-mining-reinforced",
+      "baseId": "wpn_longsword",
+      "sprite": {
+        "sourcePath": "E:\\personalProject\\Demo3\\demo6\\아트\\승인장비-v049-v047-적용준비-20261006\\local-sources\\Demo6-v049-01-Weapon-Sprites\\equipment-variants-v049\\sprites\\onehand-02-mining-reinforced.png",
+        "assetPath": "Assets/Resources/EquipmentV049/Weapons/onehand-02-mining-reinforced.png",
+        "resourcePath": "EquipmentV049/Weapons/onehand-02-mining-reinforced",
+        "guid": "e6ea7a5dbfbf486b94e8695902313704",
+        "sha256": "9d82077bffa7613b7ac6cce202f7ea3c784a4bda4630252eb86b67620c2a898a",
+        "canvas": [
+          2169,
+          725
+        ],
+        "alphaBBoxTopLeft": [
+          20,
+          17,
+          2155,
+          699
+        ],
+        "opaqueBBoxTopLeft": [
+          23,
+          122,
+          2152,
+          603
+        ],
+        "sourceBytesPreserved": true,
+        "textureType": "Texture2D",
+        "socketValidated": false,
+        "pivot": null,
+        "ppu": null
+      },
+      "icon": {
+        "sourcePath": "E:\\personalProject\\Demo3\\demo6\\아트\\승인장비-v049-v047-적용준비-20261006\\local-sources\\Demo6-v049-02-Inventory-Icons\\equipment-variants-v049\\icons-padded\\onehand-02-mining-reinforced.png",
+        "assetPath": "Assets/Resources/EquipmentV049/Icons/onehand-02-mining-reinforced.png",
+        "resourcePath": "EquipmentV049/Icons/onehand-02-mining-reinforced",
+        "guid": "e99f75436b6548f8b25a252e8e9c1f91",
+        "sha256": "af4edd754a1d9266eab811575882eebd3a6421bf71e3c9009cd060296582035c",
+        "canvas": [
+          1536,
+          1536
+        ],
+        "alphaBBoxTopLeft": [
+          195,
+          176,
+          1363,
+          1341
+        ],
+        "opaqueBBoxTopLeft": [
+          200,
+          222,
+          1360,
+          1336
+        ],
+        "sourceBytesPreserved": true,
+        "textureType": "Texture2D",
+        "socketValidated": false,
+        "pivot": null,
+        "ppu": null
+      },
+      "handCount": 1,
+      "sameTextureBothHands": false,
+      "knownIconDifference": null
+    },
+    {
+      "designKey": "onehand-03-old-knight",
+      "baseId": "wpn_longsword",
+      "sprite": {
+        "sourcePath": "E:\\personalProject\\Demo3\\demo6\\아트\\승인장비-v049-v047-적용준비-20261006\\local-sources\\Demo6-v049-01-Weapon-Sprites\\equipment-variants-v049\\sprites\\onehand-03-old-knight.png",
+        "assetPath": "Assets/Resources/EquipmentV049/Weapons/onehand-03-old-knight.png",
+        "resourcePath": "EquipmentV049/Weapons/onehand-03-old-knight",
+        "guid": "201c67f4e50e426fa67ae0ece36a0f14",
+        "sha256": "2b622ab8829dbeb6cb6c983c0922cabbe7f98e8ba45961586ecf18b5293abfbe",
+        "canvas": [
+          2170,
+          725
+        ],
+        "alphaBBoxTopLeft": [
+          0,
+          77,
+          2157,
+          692
+        ],
+        "opaqueBBoxTopLeft": [
+          15,
+          91,
+          2154,
+          620
+        ],
+        "sourceBytesPreserved": true,
+        "textureType": "Texture2D",
+        "socketValidated": false,
+        "pivot": null,
+        "ppu": null
+      },
+      "icon": {
+        "sourcePath": "E:\\personalProject\\Demo3\\demo6\\아트\\승인장비-v049-v047-적용준비-20261006\\local-sources\\Demo6-v049-02-Inventory-Icons\\equipment-variants-v049\\icons-padded\\onehand-03-old-knight.png",
+        "assetPath": "Assets/Resources/EquipmentV049/Icons/onehand-03-old-knight.png",
+        "resourcePath": "EquipmentV049/Icons/onehand-03-old-knight",
+        "guid": "5013db9a466545738339488f6a08eaeb",
+        "sha256": "700ca896f0ef2ce9ed14583a0245d9a9ddb87c7752aa4d70585eb6a54d4baafd",
+        "canvas": [
+          1536,
+          1536
+        ],
+        "alphaBBoxTopLeft": [
+          191,
+          176,
+          1361,
+          1357
+        ],
+        "opaqueBBoxTopLeft": [
+          196,
+          179,
+          1358,
+          1353
+        ],
+        "sourceBytesPreserved": true,
+        "textureType": "Texture2D",
+        "socketValidated": false,
+        "pivot": null,
+        "ppu": null
+      },
+      "handCount": 1,
+      "sameTextureBothHands": false,
+      "knownIconDifference": null
+    },
+    {
+      "designKey": "twin-01-worn-iron",
+      "baseId": "wpn_twinblades",
+      "sprite": {
+        "sourcePath": "E:\\personalProject\\Demo3\\demo6\\아트\\승인장비-v049-v047-적용준비-20261006\\local-sources\\Demo6-v049-01-Weapon-Sprites\\equipment-variants-v049\\sprites\\twin-01-worn-iron.png",
+        "assetPath": "Assets/Resources/EquipmentV049/Weapons/twin-01-worn-iron.png",
+        "resourcePath": "EquipmentV049/Weapons/twin-01-worn-iron",
+        "guid": "7cd6d8d02b804e0caf1267af5872e159",
+        "sha256": "1dd001148b9a837ba41eff669777f68897a62ed62a34bab2e6fc8062dadba47b",
+        "canvas": [
+          1774,
+          887
+        ],
+        "alphaBBoxTopLeft": [
+          22,
+          82,
+          1752,
+          798
+        ],
+        "opaqueBBoxTopLeft": [
+          26,
+          161,
+          1748,
+          720
+        ],
+        "sourceBytesPreserved": true,
+        "textureType": "Texture2D",
+        "socketValidated": false,
+        "pivot": null,
+        "ppu": null
+      },
+      "icon": {
+        "sourcePath": "E:\\personalProject\\Demo3\\demo6\\아트\\승인장비-v049-v047-적용준비-20261006\\local-sources\\Demo6-v049-02-Inventory-Icons\\equipment-variants-v049\\icons-padded\\twin-01-worn-iron.png",
+        "assetPath": "Assets/Resources/EquipmentV049/Icons/twin-01-worn-iron.png",
+        "resourcePath": "EquipmentV049/Icons/twin-01-worn-iron",
+        "guid": "07e1a8bfb4aa4f21aadce3264f1c8f7f",
+        "sha256": "eb7255510bac8c4d5dd8be83a2ade3e4699367423c66fee5f003b26bcbd5d23b",
+        "canvas": [
+          1536,
+          1536
+        ],
+        "alphaBBoxTopLeft": [
+          179,
+          158,
+          1345,
+          1323
+        ],
+        "opaqueBBoxTopLeft": [
+          182,
+          222,
+          1341,
+          1288
+        ],
+        "sourceBytesPreserved": true,
+        "textureType": "Texture2D",
+        "socketValidated": false,
+        "pivot": null,
+        "ppu": null
+      },
+      "handCount": 2,
+      "sameTextureBothHands": true,
+      "knownIconDifference": null
+    },
+    {
+      "designKey": "twin-02-mining-reinforced",
+      "baseId": "wpn_twinblades",
+      "sprite": {
+        "sourcePath": "E:\\personalProject\\Demo3\\demo6\\아트\\승인장비-v049-v047-적용준비-20261006\\local-sources\\Demo6-v049-01-Weapon-Sprites\\equipment-variants-v049\\sprites\\twin-02-mining-reinforced.png",
+        "assetPath": "Assets/Resources/EquipmentV049/Weapons/twin-02-mining-reinforced.png",
+        "resourcePath": "EquipmentV049/Weapons/twin-02-mining-reinforced",
+        "guid": "f473597088554f5fbc1f5a07aca2754c",
+        "sha256": "3e5780fc8a0a88421a2b4ff0c0a2866b6448b2eb5f19a06ec81058001b223187",
+        "canvas": [
+          1774,
+          887
+        ],
+        "alphaBBoxTopLeft": [
+          19,
+          20,
+          1755,
+          861
+        ],
+        "opaqueBBoxTopLeft": [
+          44,
+          174,
+          1752,
+          736
+        ],
+        "sourceBytesPreserved": true,
+        "textureType": "Texture2D",
+        "socketValidated": false,
+        "pivot": null,
+        "ppu": null
+      },
+      "icon": {
+        "sourcePath": "E:\\personalProject\\Demo3\\demo6\\아트\\승인장비-v049-v047-적용준비-20261006\\local-sources\\Demo6-v049-02-Inventory-Icons\\equipment-variants-v049\\icons-padded\\twin-02-mining-reinforced.png",
+        "assetPath": "Assets/Resources/EquipmentV049/Icons/twin-02-mining-reinforced.png",
+        "resourcePath": "EquipmentV049/Icons/twin-02-mining-reinforced",
+        "guid": "e766b2b2b0794aafa55e3f0a8ab8b3b2",
+        "sha256": "13039ec8ae03b3e8b20a3baa6aaac699ddd41b4754c5de72ac3215c92fdc7b6d",
+        "canvas": [
+          1536,
+          1536
+        ],
+        "alphaBBoxTopLeft": [
+          176,
+          194,
+          1379,
+          1395
+        ],
+        "opaqueBBoxTopLeft": [
+          181,
+          253,
+          1376,
+          1388
+        ],
+        "sourceBytesPreserved": true,
+        "textureType": "Texture2D",
+        "socketValidated": false,
+        "pivot": null,
+        "ppu": null
+      },
+      "handCount": 2,
+      "sameTextureBothHands": true,
+      "knownIconDifference": null
+    },
+    {
+      "designKey": "twin-03-old-knight",
+      "baseId": "wpn_twinblades",
+      "sprite": {
+        "sourcePath": "E:\\personalProject\\Demo3\\demo6\\아트\\승인장비-v049-v047-적용준비-20261006\\local-sources\\Demo6-v049-01-Weapon-Sprites\\equipment-variants-v049\\sprites\\twin-03-old-knight.png",
+        "assetPath": "Assets/Resources/EquipmentV049/Weapons/twin-03-old-knight.png",
+        "resourcePath": "EquipmentV049/Weapons/twin-03-old-knight",
+        "guid": "506d644713424d2aa02cd6fcf0bfaa29",
+        "sha256": "f555724bfc1cecdc2362231ba3fdc359e7ae0d9fe9bd4ce823446448762e0579",
+        "canvas": [
+          1843,
+          853
+        ],
+        "alphaBBoxTopLeft": [
+          25,
+          77,
+          1803,
+          810
+        ],
+        "opaqueBBoxTopLeft": [
+          29,
+          86,
+          1798,
+          807
+        ],
+        "sourceBytesPreserved": true,
+        "textureType": "Texture2D",
+        "socketValidated": false,
+        "pivot": null,
+        "ppu": null
+      },
+      "icon": {
+        "sourcePath": "E:\\personalProject\\Demo3\\demo6\\아트\\승인장비-v049-v047-적용준비-20261006\\local-sources\\Demo6-v049-02-Inventory-Icons\\equipment-variants-v049\\icons-padded\\twin-03-old-knight.png",
+        "assetPath": "Assets/Resources/EquipmentV049/Icons/twin-03-old-knight.png",
+        "resourcePath": "EquipmentV049/Icons/twin-03-old-knight",
+        "guid": "e38389ef419f46ac8002be3bc2e32b1e",
+        "sha256": "1d6519795fdbe0ebe73759ac82ce0efb23769e580ff9ab623e2c10e27347f323",
+        "canvas": [
+          1536,
+          1536
+        ],
+        "alphaBBoxTopLeft": [
+          141,
+          223,
+          1378,
+          1371
+        ],
+        "opaqueBBoxTopLeft": [
+          188,
+          226,
+          1376,
+          1315
+        ],
+        "sourceBytesPreserved": true,
+        "textureType": "Texture2D",
+        "socketValidated": false,
+        "pivot": null,
+        "ppu": null
+      },
+      "handCount": 2,
+      "sameTextureBothHands": true,
+      "knownIconDifference": null
+    }
+  ]
+}

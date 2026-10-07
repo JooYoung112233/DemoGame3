@@ -1,0 +1,33 @@
+local root='E:/personalProject/Demo3/demo6/검증/v056-fx/live/'
+local s=Sprite(1920,1080,ColorMode.RGB)
+s:newCel(s.layers[1],1,Image{fromFile=root..'frame-00.png'},Point(0,0))
+s.frames[1].duration=0.07
+s:newEmptyFrame()
+s:newCel(s.layers[1],2,Image{fromFile=root..'frame-01.png'},Point(0,0))
+s.frames[2].duration=0.07
+s:newEmptyFrame()
+s:newCel(s.layers[1],3,Image{fromFile=root..'frame-02.png'},Point(0,0))
+s.frames[3].duration=0.07
+s:newEmptyFrame()
+s:newCel(s.layers[1],4,Image{fromFile=root..'frame-03.png'},Point(0,0))
+s.frames[4].duration=0.07
+s:newEmptyFrame()
+s:newCel(s.layers[1],5,Image{fromFile=root..'frame-04.png'},Point(0,0))
+s.frames[5].duration=0.07
+s:newEmptyFrame()
+s:newCel(s.layers[1],6,Image{fromFile=root..'frame-05.png'},Point(0,0))
+s.frames[6].duration=0.07
+s:newEmptyFrame()
+s:newCel(s.layers[1],7,Image{fromFile=root..'frame-06.png'},Point(0,0))
+s.frames[7].duration=0.07
+s:newEmptyFrame()
+s:newCel(s.layers[1],8,Image{fromFile=root..'frame-07.png'},Point(0,0))
+s.frames[8].duration=0.07
+s:newEmptyFrame()
+s:newCel(s.layers[1],9,Image{fromFile=root..'frame-08.png'},Point(0,0))
+s.frames[9].duration=0.07
+s:newEmptyFrame()
+s:newCel(s.layers[1],10,Image{fromFile=root..'frame-09.png'},Point(0,0))
+s.frames[10].duration=0.07
+s:saveAs(root..'wall-fx-10frames.gif')
+s:close()

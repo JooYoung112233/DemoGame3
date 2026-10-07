@@ -36,9 +36,41 @@ namespace Demo6.Game
     }
 
     /// <summary>
+    /// 무기마다 다른 휘두르기 겉모습(TopDownWeaponLook.Style, 기획/전투-보스-무기-다듬기-1차.md 2-2·2-7). 판정 순간·동작 길이·판정 범위는 바꾸지 않는다.
+    /// 기본값(Default)이면 기존 3종 자세와 비트까지 같다.
+    /// </summary>
+    public struct TopDownSwingStyle
+    {
+        /// <summary>찌르기 뻗음 기본값(장검·대검·쌍검·단검, 예전 값 그대로).</summary>
+        public const float DefaultReach = 0.55f;
+        /// <summary>찌르기(직선 단계) 판정 순간에 손이 앞으로 나가는 거리. 창만 길다(0 이하면 기본값).</summary>
+        public float ThrustReach;
+        /// <summary>오른쪽 → 왼쪽으로 쓰는 모습이 기본인 그림을 왼쪽 → 오른쪽으로 쓸 때 위아래로 뒤집는가(큰 낫 되거두기 등).</summary>
+        public bool FlipOnReverse;
+        /// <summary>앞쪽 원 내려치기의 준비 동안 몸을 뒤로 싣는 양(쇠망치·도끼, 유닛). 0이면 없음. 대검은 예전 식(모든 단계 0.065)을 그대로 쓴다.</summary>
+        public float SlamWindupLean;
+        /// <summary>사슬 철퇴: 내 주변 원 단계에서 몸은 회오리처럼 돌지 않고, 손이 어깨 앞에서 작게 돌며 쇠공이 몸 둘레를 돈다.</summary>
+        public bool Flail;
+        /// <summary>사슬 철퇴 관성(PlayerController.InertiaActive)이 붙은 동작: 쇠공이 손보다 더 늦게 따라오고 조금 더 멀리 돈다(그림만).</summary>
+        public bool Inertia;
+
+        public static TopDownSwingStyle Default => new TopDownSwingStyle { ThrustReach = DefaultReach };
+    }
+
+    /// <summary>휘두르기 부가 결과: 그림 위아래 뒤집기(큰 낫)와 사슬 철퇴 쇠공 자리(몸 틀, 유닛).</summary>
+    public struct TopDownSwingExtra
+    {
+        /// <summary>그림 위아래 뒤집기 정도: 0 = 그대로, 1 = 뒤집힘, 사이 = 손잡이 축으로 돌려 쥐는 중(위아래 배율 1 − 2 × Flip).</summary>
+        public float Flip;
+        /// <summary>쇠공 자리를 휘두르기 계산이 정했는가(사슬 철퇴 내 주변 원). 아니면 리그가 손잡이 끝에서 사슬을 이어 놓는다.</summary>
+        public bool HasBall;
+        public Vector2 Ball;
+    }
+
+    /// <summary>
     /// 정수리 시점 무기 휘두르기 계산(순수 함수). 콤보 단계 모양·시간(ComboStep)과 PlayerController의 자세 시간만 보고 손 자세를 낸다.
     /// 판정 순간(PoseHitTime)에 칼날이 휘두르는 방향 한가운데(각도 0)를 지나거나(부채꼴), 가장 멀리 뻗거나(찌르기), 앞으로 내리찍히거나(앞쪽 원),
-    /// 앞을 지나게(내 주변 원·회오리) 맞춘다. 손맛 수치는 읽기만 한다.
+    /// 앞을 지나게(내 주변 원·회오리, 사슬 철퇴는 쇠공이 앞을 지남) 맞춘다. 손맛 수치는 읽기만 한다.
     /// </summary>
     public static class TopDownSwing
     {
@@ -46,10 +78,22 @@ namespace Demo6.Game
         /// 콤보 단계 하나의 무기 자세(몸 비틀기·몸 위치·몸 크기 포함). 모양별: 부채꼴 = 쓸기(단계·타마다 쓰는 방향이 번갈아),
         /// 직선 = 찌르기, 앞쪽 원 = 머리 위에서 내리찍기, 내 주변 원 = 몸을 축으로 한 바퀴 이상. 쌍검 부채꼴 여러 타는 두 손이 번갈아
         /// (홀수 '단계 + 타'는 오른손이 오른쪽 → 왼쪽, 짝수는 왼손이 왼쪽 → 오른쪽). hit·duration은 PlayerController.PoseHitTime·PoseDuration(초).
+        /// 기존 3종 자세(기본 모양)다. 무기 겉모습 차이는 style을 받는 겹쳐 받기를 쓴다.
         /// </summary>
         public static void Attack(WeaponAttackRule weapon, int comboIndex, float t, float duration, float hit, TopDownHand restRight, TopDownHand restLeft, bool twin,
-            ref TopDownHand right, ref TopDownHand left, ref float twist, ref Vector2 offset, ref Vector2 scale)
+            ref TopDownHand right, ref TopDownHand left, ref float twist, ref Vector2 offset, ref Vector2 scale) =>
+            Attack(weapon, comboIndex, t, duration, hit, restRight, restLeft, twin, TopDownSwingStyle.Default,
+                ref right, ref left, ref twist, ref offset, ref scale, out _);
+
+        /// <summary>
+        /// 무기 겉모습(style)을 더한 휘두르기. 창 찌르기는 ThrustReach만큼 뻗고, 큰 낫은 왼쪽 → 오른쪽 쓸기에서 그림을 뒤집으며(extra.Flip),
+        /// 쇠망치·도끼 내려치기는 준비 동작에 몸을 뒤로 싣고, 사슬 철퇴 내 주변 원은 쇠공이 몸 둘레를 돌아 판정 순간에 앞을 지난다(extra.Ball).
+        /// 판정 순간·시간·도달 범위는 기본 모양과 같다.
+        /// </summary>
+        public static void Attack(WeaponAttackRule weapon, int comboIndex, float t, float duration, float hit, TopDownHand restRight, TopDownHand restLeft, bool twin,
+            TopDownSwingStyle style, ref TopDownHand right, ref TopDownHand left, ref float twist, ref Vector2 offset, ref Vector2 scale, out TopDownSwingExtra extra)
         {
+            extra = default;
             int index = Mathf.Clamp(comboIndex, 0, weapon.combo.Length - 1);
             var step = weapon.combo[index];
             int stepNumber = index + 1;
@@ -60,7 +104,8 @@ namespace Demo6.Game
             {
                 case ComboShape.Line:
                 {
-                    right = Thrust(restRight, t, hit, duration, 0.55f, out twist, out float lean);
+                    float reach = style.ThrustReach > 0f ? style.ThrustReach : TopDownSwingStyle.DefaultReach;
+                    right = Thrust(restRight, t, hit, duration, reach, out twist, out float lean);
                     offset = new Vector2(lean, 0f);
                     break;
                 }
@@ -72,6 +117,19 @@ namespace Demo6.Game
                     offset = new Vector2(lean, 0f);
                     scale = new Vector2(1f + 0.04f * squash, 1f - 0.05f * squash);
                     twist = 0f;
+                    // 쇠망치·도끼: 들어 올리는 동안 몸을 뒤로 싣는다(대검과 같은 모양, 판정 순간에는 0).
+                    if (style.SlamWindupLean > 0f && t < hit && hit > 0f)
+                        offset.x -= style.SlamWindupLean * Mathf.Sin(Mathf.PI * Mathf.Clamp01(t / hit));
+                    break;
+                }
+
+                case ComboShape.Circle when style.Flail:
+                {
+                    float dir = stepNumber % 2 == 1 ? 1f : -1f;
+                    right = FlailSwing(restRight, t, hit, duration, dir, style.Inertia, out extra.Ball, out twist, out float env);
+                    extra.HasBall = true;
+                    // 왼손은 균형을 잡으려 옆으로 조금 벌린다(회오리처럼 두 팔을 다 뻗지 않음).
+                    left = TopDownHand.Follow(restLeft, TopDownHand.At(new Vector2(0.1f, 0.37f), 50f), env);
                     break;
                 }
 
@@ -95,6 +153,9 @@ namespace Demo6.Game
                         int k = NearestHit(t, hit, hits, step.hitInterval);
                         float dir = (stepNumber + k) % 2 == 1 ? 1f : -1f;
                         right = Arc(restRight, t, hit + k * step.hitInterval, duration, dir, half, -1f, out twist);
+                        // 큰 낫: 그림은 오른쪽 → 왼쪽 쓸기(dir +1)에 맞춰 날이 −y로 늘어지므로 반대로 쓸 때 위아래를 뒤집는다.
+                        // 한 프레임에 튀지 않게 들어 올리는 동안 손잡이 축으로 돌려 쥐고(판정 순간에는 다 뒤집힘), 제자리로 돌아오는 동안 되돌린다.
+                        if (style.FlipOnReverse && dir < 0f) extra.Flip = TurnOver(t, hit + k * step.hitInterval, duration);
                         break;
                     }
                     int rk = HandHit(t, hit, hits, step.hitInterval, stepNumber, true);
@@ -107,6 +168,22 @@ namespace Demo6.Game
                     break;
                 }
             }
+            // 대검은 준비 동작에서 뒤로 무게를 싣는다. 판정 순간·시간·도달 범위는 원래 값 그대로다.
+            if (weapon.id == "wpn_greatsword" && t < hit && hit > 0f)
+                offset.x -= .065f * Mathf.Sin(Mathf.PI * Mathf.Clamp01(t / hit));
+        }
+
+        /// <summary>
+        /// 큰 낫 날 뒤집기 정도(0 → 1 → 0). Arc와 같은 구간 경계를 쓴다: 들어 올림 끝(t1)까지 다 뒤집고, 따라 흐름 끝(t3) 뒤 제자리로 돌아오며 되돌린다.
+        /// </summary>
+        static float TurnOver(float t, float hit, float duration)
+        {
+            float s = Mathf.Min(Mathf.Clamp(hit * 0.45f, 0.045f, 0.11f), hit * 0.9f);
+            float t1 = hit - s;
+            float t2 = hit + s;
+            float t3 = Mathf.Min(Mathf.Max(duration, t2), t2 + Mathf.Max(0.06f, (duration - t2) * 0.35f));
+            if (t < t3) return Smooth(t / Mathf.Max(1e-4f, t1));
+            return 1f - Smooth((t - t3) / Mathf.Max(1e-4f, duration - t3));
         }
 
         static int NearestHit(float t, float hit, int hits, float interval)
@@ -310,6 +387,72 @@ namespace Demo6.Game
             float a = 90f + 360f * Mathf.Max(0f, Mathf.Round((natural - 90f) / 360f));
             float u = Mathf.Max(0f, t) / lead;
             return a * u * u;
+        }
+
+        // ───────────── 사슬 철퇴(기획/전투-보스-무기-다듬기-1차.md 2-2 '0줄 + 사슬 선', 2-7) ─────────────
+
+        /// <summary>쉬는 자세에서 손잡이 끝 고리부터 쇠공까지 늘어진 사슬 길이(유닛).</summary>
+        public const float FlailChainRest = 0.2f;
+        /// <summary>휘두를 때(내리꽂기·회오리·검풍) 팽팽해진 사슬 길이. 내리꽂기 판정 순간 쇠공이 앞 약 1.39(판정 원 중심 1.4)에 닿는다.</summary>
+        public const float FlailChainSwing = 0.62f;
+        /// <summary>돌려 치기 동안 쇠공이 도는 반지름(몸 중심에서, 판정 원 반지름 2.1 안). 관성이면 조금 더 멀리 끌려 돈다.</summary>
+        public const float FlailOrbit = 1.45f;
+        public const float FlailOrbitInertia = 1.55f;
+        /// <summary>판정 뒤 쇠공이 감속하며 더 도는 각(도).</summary>
+        const float FlailFollow = 150f;
+
+        /// <summary>손잡이 끝에서 사슬을 손잡이 방향으로 곧게 이은 쇠공 자리(몸 틀). 길이 배율·크기(내리꽂기 투영)를 같이 받는다.</summary>
+        public static Vector2 FlailTaut(TopDownHand hand, float tip, float chain)
+        {
+            float rad = hand.Angle * Mathf.Deg2Rad;
+            return hand.Pos + new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)) * ((tip + chain) * hand.Length * hand.Size);
+        }
+
+        /// <summary>
+        /// 돌려 치기·되돌려 치기(사슬 철퇴 내 주변 원). 쇠공 각 θ(몸 틀, 0 = 앞)는 쉬는 자리(오른쪽 앞에 늘어진 쇠공)에서 출발해 한 바퀴 가까이 가속하며 돌고,
+        /// 판정 순간에 정확히 앞(0°, 반지름 FlailOrbit)을 지난 뒤 감속해 150° 더 돌고, 남은 시간에 쉬는 자리로 늘어진다.
+        /// 손은 어깨 앞에서 작은 원(반지름 0.13)을 그리며 쇠공보다 앞서 돌고(관성이면 더 앞서고 쇠공이 더 멀리 끌려 옴), 몸은 쇠공 쪽으로 조금만 비튼다.
+        /// 회오리(몸이 세 바퀴 돌고 두 팔을 뻗음)와 겉보기가 겹치지 않게 몸은 돌지 않는다. dir +1 = 반시계(오른쪽 → 앞 → 왼쪽), −1 = 시계.
+        /// env는 휘두르는 정도(0 쉼 → 1). ball은 쇠공 자리(몸 틀, 유닛).
+        /// </summary>
+        public static TopDownHand FlailSwing(TopDownHand rest, float t, float hit, float duration, float dir, bool inertia, out Vector2 ball, out float twist, out float env)
+        {
+            hit = Mathf.Max(1e-3f, hit);
+            Vector2 restBall = FlailTaut(rest, TopDownSprites.FlailHandleTip, FlailChainRest);
+            float restAngle = Mathf.Atan2(restBall.y, restBall.x) * Mathf.Rad2Deg;
+            float start = dir > 0f ? restAngle - 360f : restAngle;
+            float atHit = dir > 0f ? 0f : -360f;
+            float sweep = Mathf.Max(1f, Mathf.Abs(atHit - start));
+            float span = Mathf.Min(FlailFollow * hit / sweep, Mathf.Max(0.02f, duration - hit));
+            float orbit = inertia ? FlailOrbitInertia : FlailOrbit;
+            float theta, radius, back = 0f;
+            if (t < hit)
+            {
+                // 가속하며 돌아(EaseIn) 판정 순간에 가장 빠르게 앞을 지난다. 사슬은 처음 0.6 동안 다 펴진다.
+                float u = Mathf.Max(0f, t) / hit;
+                theta = start + (atHit - start) * EaseIn(u);
+                radius = Mathf.Lerp(restBall.magnitude, orbit, Smooth(u / 0.6f));
+                env = Smooth(u / 0.35f);
+            }
+            else
+            {
+                // 판정 순간의 빠르기를 이어 받아 감속(EaseOut)하고, 남은 시간에 쉬는 자리로 늘어진다.
+                theta = atHit + dir * FlailFollow * EaseOut((t - hit) / span);
+                radius = orbit;
+                back = Smooth(Mathf.Clamp01((t - hit - span) / Mathf.Max(1e-4f, duration - hit - span)));
+                env = 1f - back;
+            }
+            float rad = theta * Mathf.Deg2Rad;
+            Vector2 orbitBall = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad)) * radius;
+            ball = Vector2.Lerp(orbitBall, restBall, back);
+            float lead = inertia ? 55f : 35f;
+            float handRad = (theta + dir * lead) * Mathf.Deg2Rad;
+            Vector2 handPos = new Vector2(0.14f, -0.16f) + new Vector2(Mathf.Cos(handRad), Mathf.Sin(handRad)) * 0.13f;
+            Vector2 toBall = orbitBall - handPos;
+            // 손잡이 각은 θ에 이어 붙여(±180° 넘김 없이) 쇠공 쪽보다 조금 앞을 가리킨다.
+            float handle = theta + Mathf.DeltaAngle(theta, Mathf.Atan2(toBall.y, toBall.x) * Mathf.Rad2Deg) + dir * 12f;
+            twist = 16f * Mathf.Sin(rad) * env;
+            return TopDownHand.Follow(rest, TopDownHand.At(handPos, handle), env);
         }
 
         /// <summary>팔을 뻗은 채 몸과 함께 도는 손(side −1 오른손, +1 왼손). 칼날은 바깥을 향한다.</summary>

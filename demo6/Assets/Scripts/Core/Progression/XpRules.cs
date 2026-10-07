@@ -25,6 +25,8 @@ namespace Demo6.Core.Progression
         public const double BoarUnits = 3.0;
         public const double EliteUnits = 10.0;
         public const double NestClearUnits = 4.0;
+        /// <summary>갱도 오우거(기획/전투-보스-무기-다듬기-1차.md 3-8): 시험판 첫 처치 20U. 다시 잡을 때는 감쇠 규칙대로(KillFactor).</summary>
+        public const double OgreUnits = 20.0;
 
         /// <summary>층 1~10 권장 레벨(4-3). 10층보다 깊으면 마지막 값을 쓴다.</summary>
         static readonly int[] RecommendedLevels = { 1, 3, 5, 7, 8, 10, 12, 13, 15, 16 };
@@ -70,7 +72,7 @@ namespace Demo6.Core.Progression
         }
 
         /// <summary>
-        /// 처치 경험치(4-3, U 배수). 보상 없음(둥지·무리 거느린 정예가 부른 굴쥐)이면 0, 정예면 종류와 관계없이 10.
+        /// 처치 경험치(4-3, U 배수). 보상 없음(둥지·무리 거느린 정예가 부른 굴쥐, 전투 시험장 보스)이면 0, 정예면 종류와 관계없이 10, 갱도 오우거 20.
         /// 둥지 자체를 쓰러뜨린 것은 0이다(둥지 정리 4U를 GroupCleared에서 따로 준다).
         /// </summary>
         public static double KillUnits(MonsterKind kind, bool elite, bool noReward)
@@ -82,6 +84,7 @@ namespace Demo6.Core.Progression
                 case MonsterKind.Rat: return RatUnits;
                 case MonsterKind.Archer: return ArcherUnits;
                 case MonsterKind.Boar: return BoarUnits;
+                case MonsterKind.Ogre: return OgreUnits;
                 default: return 0.0;
             }
         }

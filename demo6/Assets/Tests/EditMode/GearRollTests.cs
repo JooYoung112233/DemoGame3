@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace Demo6.Tests
 {
     /// <summary>
-    /// 장비 굴림 LootRules.RollGear(장비 문서 8-1 순서·8-2 부위 보정·빈 자리 채우기, 4-3 종류 1/3, 5-1 등급별 줄 수).
+    /// 장비 굴림 LootRules.RollGear(장비 문서 8-1 순서·8-2 부위 보정·빈 자리 채우기, 4-3 종류(그 층에 풀린 것끼리 같은 확률), 5-1 등급별 줄 수).
     /// 비율 시험은 5σ 안팎의 여유를 둔다.
     /// </summary>
     public sealed class GearRollTests
@@ -41,15 +41,20 @@ namespace Demo6.Tests
         }
 
         /// <summary>
-        /// 4-3 표 21종: 부위마다 3종, 시작 장비 id 5개(장검 + 가죽 한 벌)의 합 = 시작 수치(방어 120, 체력 400, 이동 +60‰, 공격 100).
+        /// 4-3 표 27종: 무기 9종(1층에 풀린 것은 3종), 다른 부위 3종. 시작 장비 id 5개(장검 + 가죽 한 벌)의 합 = 시작 수치(방어 120, 체력 400, 이동 +60‰, 공격 100).
         /// </summary>
         [Test]
         public void BaseTableMatchesDesignFourThree()
         {
-            Assert.AreEqual(21, GearBaseTable.All.Count);
+            Assert.AreEqual(27, GearBaseTable.All.Count);
             var ids = new HashSet<string>();
             foreach (var b in GearBaseTable.All) Assert.IsTrue(ids.Add(b.Id), b.Id);
-            foreach (var part in GearSlots.Parts) Assert.AreEqual(3, GearBaseTable.ForPart(part).Count, part.ToString());
+            foreach (var part in GearSlots.Parts)
+            {
+                Assert.AreEqual(part == GearPart.Weapon ? 9 : 3, GearBaseTable.ForPart(part).Count, part.ToString());
+                Assert.AreEqual(3, GearBaseTable.ForPart(part, 1).Count, part + " 1층");
+            }
+            foreach (var b in GearBaseTable.ForPart(GearPart.Weapon)) Assert.AreEqual(100, b.Attack, b.Id + " 무기 공격 100");
             CollectionAssert.AreEqual(
                 new[] { GearBaseTable.Longsword, GearBaseTable.LeatherArmor, GearBaseTable.LeatherHelm, GearBaseTable.LeatherGloves, GearBaseTable.LeatherBoots },
                 GearBaseTable.StartingIds);
@@ -120,29 +125,34 @@ namespace Demo6.Tests
             Assert.AreEqual(move, m);
         }
 
-        /// <summary>부위 안 종류는 1/3씩(부위마다 3만 회, ± 1.5%p).</summary>
+        /// <summary>
+        /// 1층 부위 안 종류는 1/3씩(부위마다 3만 회, ± 1.5%p, UnlockFloor 기준). 3층 무기는 새 6종까지 1/9씩(± 1.5%p), 다른 부위는 여전히 1/3.
+        /// </summary>
         [Test]
         public void KindIsOneThirdInsideEachPart()
         {
             const int N = 30000;
+            foreach (int floor in new[] { 1, 3 })
             foreach (var part in GearSlots.Parts)
             {
                 var ctx = new GearRollContext { OnlyParts = new[] { part } };
-                var rng = new Pcg32Random(1000UL + (ulong)part);
+                var rng = new Pcg32Random((ulong)(1000 + 100 * (floor - 1)) + (ulong)part);
                 var counts = new Dictionary<string, int>();
                 for (int i = 0; i < N; i++)
                 {
-                    var g = LootRules.RollGear(3, rng, Grade.Common, ctx);
+                    var g = LootRules.RollGear(floor, rng, Grade.Common, ctx);
                     Assert.AreEqual(part, g.Part);
                     counts.TryGetValue(g.BaseId, out int c);
                     counts[g.BaseId] = c + 1;
                 }
-                var kinds = GearBaseTable.ForPart(part);
-                Assert.AreEqual(3, kinds.Count, part.ToString());
+                var kinds = GearBaseTable.ForPart(part, floor);
+                int expectedKinds = part == GearPart.Weapon && floor >= GearBaseTable.NewWeaponUnlockFloor ? 9 : 3;
+                Assert.AreEqual(expectedKinds, kinds.Count, part + " " + floor + "층");
+                Assert.AreEqual(expectedKinds, counts.Count, part + " " + floor + "층 나온 종류 수");
                 foreach (var b in kinds)
                 {
                     counts.TryGetValue(b.Id, out int c);
-                    Assert.That(c / (double)N, Is.InRange(1 / 3.0 - 0.015, 1 / 3.0 + 0.015), b.Id);
+                    Assert.That(c / (double)N, Is.InRange(1.0 / expectedKinds - 0.015, 1.0 / expectedKinds + 0.015), b.Id + " " + floor + "층");
                 }
             }
         }
@@ -373,7 +383,8 @@ namespace Demo6.Tests
             };
             var legendary = new GearItem(GearBaseTable.Longsword, Grade.Legendary, 10, 1000, 0, options, LegendaryTable.ChainLightningId, 700);
             double expected = 100 * 2.35 * 2.30 + (10 + 10) + (10 + 0) + (10 + 5) + 50;
-            Assert.AreEqual(expected, GearMath.ItemScore(legendary), 0.05);
+            // 공격력+ 원값 30 × 2.82(전설 × 옵션 세기 0.8 × iLv10) = 84.6 → 85를 되짚으면 품질 0.507이라 0.1까지 어긋난다.
+            Assert.AreEqual(expected, GearMath.ItemScore(legendary), 0.1);
         }
     }
 }

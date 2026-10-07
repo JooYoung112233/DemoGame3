@@ -1,0 +1,23 @@
+using System;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using UnityEngine;
+using UnityEditor;
+using Demo6.Game;
+using Demo6.Core.Combat;
+using Newtonsoft.Json;
+public static class V049FinalReview {
+ const BindingFlags F=BindingFlags.Instance|BindingFlags.Public|BindingFlags.NonPublic;
+ const string Out="검증/v049-final";
+ static void Save(string name,object data){Directory.CreateDirectory(Out);File.WriteAllText(Out+"/"+name,JsonConvert.SerializeObject(data,Formatting.Indented));}
+ public static object Inspect(){var p=PlayerController.Instance;var a=TopDownView.PlayerRig?.FirstAttackArt;var result=new{playing=Application.isPlaying,paused=EditorApplication.isPaused,scene=UnityEngine.SceneManagement.SceneManager.GetActiveScene().path,weapon=p?.Weapon?.id,pose=p?.Pose.ToString(),phase=p?.ActPhase.ToString(),active=a?.Active,clip=a?.ClipId,frame=a?.FrameIndex,right=a?.AuthoredRight,shield=a?.ShieldSurface?.transform.localPosition.ToString(),devices=UnityEngine.InputSystem.InputSystem.devices.Select(x=>new{x.name,x.layout,x.native,x.enabled}).ToArray(),parts=p?p.GetComponentsInChildren<SpriteRenderer>().Where(x=>x.enabled&&x.name.StartsWith("FirstAttack")).Select(x=>new{x.name,sprite=x.sprite?.name,pos=x.transform.localPosition.ToString(),rot=x.transform.localEulerAngles.ToString()}).ToArray():null};Save("live-inspect.json",result);return result;}
+ static void Set(PlayerController p,string n,object v){var f=typeof(PlayerController).GetField(n,F);if(f.FieldType.IsEnum&&v is string)v=Enum.Parse(f.FieldType,(string)v);f.SetValue(p,v);}
+ static void Capture(Camera c,string path){var old=c.targetTexture;var active=RenderTexture.active;var rt=RenderTexture.GetTemporary(960,720,24);Texture2D tex=null;try{c.targetTexture=rt;c.Render();RenderTexture.active=rt;tex=new Texture2D(960,720,TextureFormat.RGBA32,false);tex.ReadPixels(new Rect(0,0,960,720),0,0);tex.Apply();File.WriteAllBytes(path,tex.EncodeToPNG());}finally{c.targetTexture=old;RenderTexture.active=active;RenderTexture.ReleaseTemporary(rt);if(tex)UnityEngine.Object.DestroyImmediate(tex);}}
+ public static object ReloadVisuals(){AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);var p=PlayerController.Instance;var rig=TopDownView.PlayerRig;rig.FirstAttackArt.Stop();foreach(var t in p.GetComponentsInChildren<Transform>(true).Where(t=>t.name.StartsWith("FirstAttackV042_")||t.name.StartsWith("FirstAttackV044_")||t.name.StartsWith("FirstAttackV045_")||t.name.StartsWith("EquipmentV049_Thickness_")).ToArray())if(t)UnityEngine.Object.DestroyImmediate(t.gameObject);typeof(TopDownPlayerRig).GetField("_firstArt",F).SetValue(rig,null);rig.Drive(0,TopDownView.CurrentArt());return Inspect();}
+ public static object Poses(string tag){var p=PlayerController.Instance;var rig=TopDownView.PlayerRig;if(!p||rig==null)throw new Exception("Live original player required");Directory.CreateDirectory(Out);var fields=typeof(PlayerController).GetFields(F).Where(x=>!x.IsInitOnly&&!x.IsLiteral).ToDictionary(x=>x,x=>x.GetValue(p));var cam=Camera.main;var pos=cam.transform.position;var size=cam.orthographicSize;var angle=typeof(TopDownPlayerRig).GetField("_angle",F);var savedAngle=angle.GetValue(rig);bool paused=EditorApplication.isPaused;var checks=new System.Collections.Generic.List<object>();
+ try{EditorApplication.isPaused=true;Set(p,"<Weapon>k__BackingField",WeaponPresets.Longsword);Set(p,"_hurtTime",-999f);Set(p,"_execPoseAction",-999);Set(p,"_riposteActive",false);angle.SetValue(rig,0f);cam.transform.position=new Vector3(p.transform.position.x+.2f,p.transform.position.y,pos.z);cam.orthographicSize=1.35f;
+ foreach(var phase in new[]{"Idle","Raise","Hold","Lower"}){Set(p,"_state",phase=="Idle"?"Free":"WeaponAct");if(phase!="Idle")Set(p,"_actPhase",phase);Set(p,"_stateTime",0f);Set(p,"_actPhaseTime",phase=="Raise"?.12f:phase=="Lower"?.119f:0f);rig.FirstAttackArt.Stop();rig.Drive(0,TopDownView.CurrentArt());var a=rig.FirstAttackArt;Capture(cam,Out+"/"+tag+"-"+phase+".png");checks.Add(new{phase,clip=a.ClipId,frame=a.FrameIndex,right=a.AuthoredRight,shield=a.ShieldSurface?new[]{a.ShieldSurface.transform.localPosition.x,a.ShieldSurface.transform.localPosition.y}:null});}
+ }finally{foreach(var x in fields)x.Key.SetValue(p,x.Value);angle.SetValue(rig,savedAngle);rig.FirstAttackArt.Stop();rig.Drive(0,TopDownView.CurrentArt());cam.transform.position=pos;cam.orthographicSize=size;EditorApplication.isPaused=paused;}
+ var result=new{method="Actual Unity camera render with temporary synthetic pose state; player fields, camera and pause restored; not physical input",checks};Save(tag+"-poses.json",result);return result;}
+}

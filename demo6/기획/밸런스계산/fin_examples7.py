@@ -6,6 +6,7 @@
  4) 8-4 8자리 평균 강화석 (+5 / +8 / +10 / +12), 2차 3칸·배율 없음과 비교
  5) 시작 상태 S0: 7칸 vs 2차 fin_progress.S0
 숫자 규칙·표는 fin_progress7.py 의 것을 그대로 불러 쓴다(같은 정의). 2차 값은 fin_progress.py 의 표를 불러 쓴다.
+옵션 값에는 fin_progress7.OPT_MULT(기본 0.8, 12장 밸런스 결정 ①)를 곱한다. OPT_MULT=1 이면 결정 전 표다.
 실행: python fin_examples7.py [강화 반복=200000]   (결과: fin7_examples_out.txt)"""
 import sys, io, os, math, random, statistics, itertools
 REPS = int(sys.argv[1]) if len(sys.argv) > 1 else 200000
@@ -19,7 +20,7 @@ SK, IX, NS = F7.SK, F7.IX, F7.NS
 
 
 def it7(part, kind, g, ilv, opts=(), lv=0, roll=1.0):
-    it = F7.Item(part, kind, g, ilv, roll, [(k, v, 4) for k, v in opts]); it.lv = lv
+    it = F7.Item(part, kind, g, ilv, roll, [(k, v, 4, 1.0) for k, v in opts]); it.lv = lv
     return it
 
 
@@ -39,7 +40,7 @@ def mark(v, th): return "▲" if v >= th else ("▼" if v <= -th else "=")
 # ---------------------------------------------------------------- 1) 8-5 비교 표시 예
 print("## 1) 8-5 비교 표시 예 (10층 기준 공격 1,462·체력 7,076·방어 1,600)")
 print("기준 빌드 (가): 문서 어림과 같은 단순 기준 — 장검, 치명 7%/160%, 공속·이동·스킬·재사용 0, 바꾸는 칸 말고는 그대로")
-print("기준 빌드 (나): 7칸 ×1.0 시뮬레이션의 10층 첫 진입 중앙 — 치명 15.1%/196%, 공속 +8.6%, 재사용 9.7%, 스킬 피해 13.5%, 보스 피해 5.0%, 이동 +5.5% (fin7_progress_x10.txt [7칸] 줄)")
+print("기준 빌드 (나): 7칸 드랍 ×1.0·옵션 ×0.8 시뮬레이션의 10층 첫 진입 중앙 — 치명 13.8%/191%, 공속 +7.5%, 재사용 8.2%, 스킬 피해 10.7%, 보스 피해 5.0%, 이동 +4.2% (fin7_progress_x10.txt [7칸] 줄)")
 print("옛 가죽 장갑(고급 iLv6)의 옵션 1줄은 '치명 +3.0%'로 가정(새 장갑의 치명 줄과 같아 치명은 그대로, 바뀌는 것은 공속뿐). 굴림 100%.\n")
 def base_T(kind):
     T = [0.0] * NS
@@ -47,7 +48,7 @@ def base_T(kind):
     if kind == "가":
         T[IX["crit"]] = .02; T[IX["critdmg"]] = .10
     else:
-        T[IX["crit"]] = .101; T[IX["critdmg"]] = .46; T[IX["aspd"]] = .086; T[IX["cdr"]] = .097; T[IX["skill"]] = .135; T[IX["boss"]] = .05; T[IX["move"]] = .055
+        T[IX["crit"]] = .088; T[IX["critdmg"]] = .41; T[IX["aspd"]] = .075; T[IX["cdr"]] = .082; T[IX["skill"]] = .107; T[IX["boss"]] = .05; T[IX["move"]] = .042
     return T
 def swap(T, old, new):
     c0 = F7.contrib(old, old.lv); c1 = F7.contrib(new, new.lv)
@@ -66,13 +67,13 @@ for name, old, new, doc, th in EX:
         print(f"| {name} | {dd} | ({kind}) | {(b['A'] / a['A'] - 1) * 100:+.1f}% | {(b['S'] / a['S'] - 1) * 100:+.1f}% | {v * 100:+.1f}% | {mark(v, th)} | {mark(v, 0.03)} | {doc} |")
 
 # ---------------------------------------------------------------- 2) 7장 상한 표
-print("\n## 2) 7장 상한 점검 (모든 자리 iLv11 전설 +15, 굴림 100%, 옵션 = 전설 최대(위끝 × 1.5, 고정값은 × iLv11 배율 2.5))")
+print(f"\n## 2) 7장 상한 점검 (모든 자리 iLv11 전설 +15, 굴림 100%, 옵션 = 전설 최대(위끝 × 1.5 × 옵션 세기 {F7.OPT_MULT:g}, 고정값은 × iLv11 배율 2.5))")
 LV = 15; G = 4; IL = 11
 MULT = F7.ilv_mult(IL) * F7.GMULT[G] * (1 + F7.CUM[LV] / 100)
 def opt_max(part, k):
     best = 0.0
     for kk, lo, hi, flat, w in F7.POOL[part]:
-        if kk == k or (k == "def_" and kk == "def"): best = max(best, hi * F7.OPTM[G] * (F7.ilv_mult(IL) if flat else 1))
+        if kk == k or (k == "def_" and kk == "def"): best = max(best, hi * F7.OPTM[G] * F7.OPT_MULT * (F7.ilv_mult(IL) if flat else 1))   # 옵션 세기 ×0.8(12장 밸런스 결정 ①)
     return best
 def uniq_max(part, k, kinds=None):
     return max((F7.KINDS[part][kd][1].get(k, 0.0) for kd in (kinds or F7.KIND_LIST[part])), default=0.0)
@@ -102,20 +103,20 @@ for wk in F7.KIND_LIST[0]:
     atk7[wk] = flat * 10
 crit_ring_flat = (10 + rh(100 * MULT) / 10 + 2 * rh(20 * MULT) / 10 + stat_max7("atk")) * (1 + stat_max7("atk_pct")) * 10
 rows = [
-    ("치명 확률", f"{(.05 + stat_max7('crit')) * 100:.0f}% (장검 {(.05 + stat_max7('crit', '장검')) * 100:.0f}, 대검 {(.05 + stat_max7('crit', '대검')) * 100:.0f})", "50%",
+    ("치명 확률", f"{(.05 + stat_max7('crit')) * 100:.1f}% (장검 {(.05 + stat_max7('crit', '장검')) * 100:.1f}, 대검 {(.05 + stat_max7('crit', '대검')) * 100:.1f})", "50%",
      f"{(.05 + stat_max2('crit')) * 100:.0f}%", .05 + stat_max7("crit") <= .5),
     ("치명 피해", f"{(1.5 + stat_max7('critdmg')) * 100:.0f}% (장검 {(1.5 + stat_max7('critdmg', '장검')) * 100:.0f}, 쌍검 {(1.5 + stat_max7('critdmg', '쌍검')) * 100:.0f})", "300%",
      f"{(1.5 + stat_max2('critdmg')) * 100:.0f}%", 1.5 + stat_max7("critdmg") <= 3.0 + 1e-9),
-    ("공격 속도", f"+{stat_max7('aspd') * 100:.0f}% (초당 장검 {1.40 * (1 + stat_max7('aspd')):.2f} · 대검 {0.97 * (1 + stat_max7('aspd')):.2f} · 쌍검 {1.54 * (1 + stat_max7('aspd')):.2f}회)", "+30%",
+    ("공격 속도", f"+{stat_max7('aspd') * 100:.1f}% (초당 장검 {1.40 * (1 + stat_max7('aspd')):.2f} · 대검 {0.97 * (1 + stat_max7('aspd')):.2f} · 쌍검 {1.54 * (1 + stat_max7('aspd')):.2f}회)", "+30%",
      f"+{stat_max2('aspd') * 100:.0f}%", stat_max7("aspd") <= .3),
-    ("이동 속도", f"+{stat_max7('move') * 100:.0f}% (판금 한 벌이면 {-.03 * 2 * 100:.0f}%)", "+30%", f"+{stat_max2('move') * 100:.0f}%", stat_max7("move") <= .3),
-    ("스킬 재사용 감소", f"{stat_max7('cdr') * 100:.0f}%", "40%", f"{stat_max2('cdr') * 100:.0f}%", stat_max7("cdr") <= .4),
+    ("이동 속도", f"+{stat_max7('move') * 100:.1f}% (판금 한 벌이면 {-.03 * 2 * 100:.0f}%)", "+30%", f"+{stat_max2('move') * 100:.0f}%", stat_max7("move") <= .3),
+    ("스킬 재사용 감소", f"{stat_max7('cdr') * 100:.1f}%", "40%", f"{stat_max2('cdr') * 100:.0f}%", stat_max7("cdr") <= .4),
     ("체력 흡수", f"{stat_max7('leech') * 100:.1f}%", "3%", f"{stat_max2('leech') * 100:.1f}%", stat_max7("leech") <= .03),
     ("방어", f"판금 한 벌 {plate_def} + 방어+ 옵션 {def_opt:.0f} = {plate_def + def_opt:.0f}", "4,000", f"{rh(240 * MULT) + stat_max2('def') * 10:.0f}", plate_def + def_opt <= 4000),
-    ("스킬 피해", f"{stat_max7('skill') * 100:.0f}%", "없음", f"{stat_max2('skill') * 100:.0f}%", True),
-    ("보스 피해", f"{stat_max7('boss') * 100:.0f}%", "없음", f"{stat_max2('boss') * 100:.0f}%", True),
+    ("스킬 피해", f"{stat_max7('skill') * 100:.1f}%", "없음", f"{stat_max2('skill') * 100:.0f}%", True),
+    ("보스 피해", f"{stat_max7('boss') * 100:.1f}%", "없음", f"{stat_max2('boss') * 100:.0f}%", True),
     ("공격력%", f"{stat_max7('atk_pct') * 100:.1f}%", "없음", f"{stat_max2('atk_pct') * 100:.1f}%", True),
-    ("체력%", f"{stat_max7('hp_pct') * 100:.0f}%", "없음", f"{stat_max2('hp_pct') * 100:.0f}%", True),
+    ("체력%", f"{stat_max7('hp_pct') * 100:.1f}%", "없음", f"{stat_max2('hp_pct') * 100:.0f}%", True),
     ("공격력+ 옵션", f"{stat_max7('atk') * 10:.0f}", "없음", f"{stat_max2('atk') * 10:.0f}", True),
     ("체력+ 옵션", f"{stat_max7('hp') * 10:.0f}", "없음", f"{stat_max2('hp') * 10:.0f}", True),
     ("초당 재생 / 처치 시 회복", f"{stat_max7('regen') * 10:.0f} / {stat_max7('onkill') * 10:.0f}", "없음", f"{stat_max2('regen') * 10:.0f} / {stat_max2('onkill') * 10:.0f}", True),
@@ -125,7 +126,7 @@ print("| 능력치 | 7칸 최대 | 상한 | 2차 최대 (fin_progress 표로 계
 print("|---|---|---|---|---|")
 for nm, v7, cap, v2, ok in rows:
     print(f"| {nm} | {v7} | {cap} | {v2} | {'통과' if ok else '**넘음**'} |")
-print(f"(문서 7장 어림: 치명 31% / 치명 피해 300% / 공속 +24% / 이동 +22% / 재사용 23% / 흡수 1.8% / 방어 3,774 / 스킬 28% / 보스 23% / 공격력% 21% / 체력% 12% / 공격력+ 375 / 체력+ 2,025 / 45·300 / 공격력 3,174)")
+print(f"(문서 7장 옵션 ×0.8 뒤: 치명 27.4% / 치명 피해 288% / 공속 +19.8% / 이동 +19.6% / 재사용 20% / 흡수 1.5%(코드는 줄마다 반올림, 여기는 1.44%) / 방어 3,705 / 스킬 24.4% / 보스 19.4% / 공격력% 16.8% / 체력% 9.6% / 공격력+ 300 / 체력+ 1,620 / 36·240 / 공격력 2,976. ×0.8 전 어림: 치명 31% / 치명 피해 300% / 공속 +24% / 이동 +22% / 재사용 23% / 흡수 1.8% / 방어 3,774 / 스킬 28% / 보스 23% / 공격력% 21% / 체력% 12% / 공격력+ 375 / 체력+ 2,025 / 45·300 / 공격력 3,174)")
 
 # 끝 빌드 공격 지수 A: 자리마다 종류·옵션 3줄을 A가 가장 커지게 고름(좌표 오르기). 2차도 같은 방식.
 def endA7(weapon):
@@ -138,7 +139,7 @@ def endA7(weapon):
             for k, x in base.items(): T[IX[k]] += rh(x * MULT) / 10
             for k, x in uniq.items(): T[IX[k]] += x
             for oi in oc:
-                kk, lo, hi, flat, w = F7.POOL[p][oi]; T[IX[kk]] += hi * F7.OPTM[G] * (F7.ilv_mult(IL) if flat else 1)
+                kk, lo, hi, flat, w = F7.POOL[p][oi]; T[IX[kk]] += hi * F7.OPTM[G] * F7.OPT_MULT * (F7.ilv_mult(IL) if flat else 1)
         return T
     for p, slots in enumerate(F7.PART_SLOTS):
         for si in range(len(slots)): choice[(p, si)] = ((weapon if p == 0 else F7.KIND_LIST[p][0]), opts_of(p)[0])

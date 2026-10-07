@@ -85,6 +85,86 @@ namespace Demo6.Tests
         }
 
         [Test]
+        public void NoRubbleAgainstTheHiddenRoom()
+        {
+            // 시스템·컨텐츠 다듬기 검토 1차 Q4: 지난번 열린 길(또는 금 간 벽)이던 자리가 이번에 숨은 방(글자 'H')의 막힌 벽이 되면
+            // 벽 양쪽 어디에도 흙더미를 두지 않는다(흔적이 숨은 방을 들키게 하면 안 됨, 매판 새 탐험 1차 2-2).
+            Assert.IsEmpty(MapDiff.Compare("A-B\n", "A.H\n"));
+            Assert.IsEmpty(MapDiff.Compare("A-B\n", "H.B\n"));
+            Assert.IsEmpty(MapDiff.Compare("A\n#\nB\n", "H\n.\nB\n"));
+            // 숨은 방과 맞닿지 않은 막힌 길은 그대로 양쪽에 흙더미가 남는다.
+            CollectionAssert.AreEqual(
+                Sorted(new[] { new TraceSpot(0, 0, Side.Right, TraceKind.Rubble), new TraceSpot(1, 0, Side.Left, TraceKind.Rubble) }),
+                Sorted(MapDiff.Compare("A-B-C\n", "A.B.H\n")));
+        }
+
+        /// <summary>
+        /// Q4 여러 씨앗: 1·2층 연이은 원정(GenerateUnlike, 프로필 10 × 원정 30)에서 숨은 방과 맞닿은 흔적은 0개다
+        /// (흔적이 숨은 방 칸 안에 있거나, 흔적이 본 변 건너편이 숨은 방이면 맞닿음). 숨은 방은 범례 조각(PieceKind.Hidden)으로 찾는다.
+        /// 지난 원정의 문 자리가 이번 숨은 방의 막힌 벽이 된 경우가 실제로 생기는지도 센다(시험이 그 경우를 지나가는지).
+        /// </summary>
+        [TestCase(1)]
+        [TestCase(2)]
+        public void NoTraceTouchesTheHiddenRoomOverManySeeds(int floor)
+        {
+            var recipe = FloorRecipe.For(floor);
+            int pairs = 0, oldDoorsOnHiddenWalls = 0;
+            for (int profile = 1; profile <= 10; profile++)
+            {
+                ulong salt = ExpeditionSeeds.Mix((ulong)profile * 104729UL);
+                var first = FloorGenerator.Generate(new GeneratorInput { Floor = floor, Seed = recipe.ChosenSeed, FirstVisit = true, DeepestFloor = floor });
+                string prev = first.Glyphs;
+                var prevMap = first.Build();
+                for (int expedition = 2; expedition <= 31; expedition++)
+                {
+                    var input = new GeneratorInput
+                    {
+                        Floor = floor, Seed = ExpeditionSeeds.ForExpedition(salt, floor, expedition), FirstVisit = false, DeepestFloor = 2,
+                        HasPickaxe = profile % 2 == 0, Night = ExpeditionSeeds.NightBefore(salt, expedition),
+                    };
+                    var g = FloorGenerator.GenerateUnlike(input, prev);
+                    var map = g.Build();
+                    var hidden = MapAnchors.FindHidden(map);
+                    Assert.IsNotNull(hidden, g.Describe());
+                    for (int i = 0; i < 4; i++)
+                    {
+                        var side = (Side)i;
+                        var (nx, ny) = Step(hidden.X, hidden.Y, side);
+                        var a = prevMap.At(hidden.X, hidden.Y);
+                        var b = prevMap.At(nx, ny);
+                        var old = a != null && b != null ? a.EdgeTo(b) : null;
+                        bool wallNow = hidden.EdgeTo(map.At(nx, ny)) == null;
+                        if (wallNow && old != null && (old.Kind == EdgeKind.Open || old.Kind == EdgeKind.Cracked)) oldDoorsOnHiddenWalls++;
+                    }
+                    foreach (var s in MapDiff.Compare(prev, g.Glyphs))
+                    {
+                        var (nx, ny) = Step(s.X, s.Y, s.Side);
+                        bool inside = s.X == hidden.X && s.Y == hidden.Y;
+                        bool across = nx == hidden.X && ny == hidden.Y;
+                        Assert.IsFalse(inside || across, $"원정 {expedition}: 숨은 방 ({hidden.X},{hidden.Y})과 맞닿은 흔적 {s}\n{prev}\n{g.Glyphs}");
+                    }
+                    pairs++;
+                    prev = g.Glyphs;
+                    prevMap = map;
+                }
+            }
+            Assert.AreEqual(300, pairs);
+            Assert.Greater(oldDoorsOnHiddenWalls, 0, "지난 원정 문 자리가 이번 숨은 방의 막힌 벽이 된 경우가 한 번은 있어야 시험이 그 경우를 본다");
+        }
+
+        /// <summary>칸 (x, y)에서 side 쪽 이웃 칸 자리.</summary>
+        static (int x, int y) Step(int x, int y, Side side)
+        {
+            switch (side)
+            {
+                case Side.Right: return (x + 1, y);
+                case Side.Up: return (x, y + 1);
+                case Side.Left: return (x - 1, y);
+                default: return (x, y - 1);
+            }
+        }
+
+        [Test]
         public void ShapeStairsAndDifference()
         {
             // 칸 글자만 다르면 같은 모양, 길 하나라도 다르면 다른 모양. 끝 빈 줄·빈칸은 보지 않는다.

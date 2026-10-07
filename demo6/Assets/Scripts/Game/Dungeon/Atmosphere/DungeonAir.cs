@@ -415,6 +415,9 @@ namespace Demo6.Game
                     }
                     size = s.Size;
                 }
+                // v059: once a ceiling speck has landed it belongs to the floor, below actors.
+                // Airborne/cloud projection is left for a separate height-versus-ground review.
+                s.Sprite.sortingOrder = s.Landed ? WorldProps.FloorDecalOrder + 1 : FallOrder;
                 s.T.position = new Vector3(s.Pos.x, s.Pos.y, 0f);
                 s.T.localScale = new Vector3(size, size, 1f);
                 s.Sprite.color = new Color(dustColor.r, dustColor.g, dustColor.b, alpha);

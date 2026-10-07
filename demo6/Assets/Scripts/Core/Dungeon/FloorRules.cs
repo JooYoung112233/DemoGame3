@@ -144,6 +144,77 @@ namespace Demo6.Core.Dungeon
         /// <summary>승강장 말뚝 id(켠 승강장 영구 기록의 열쇠).</summary>
         public static string LandingStakeId(int floor) => "f" + floor + ".E.stake";
 
+        /// <summary>
+        /// 보스 굴 손 지도(OgreDen "P-X") 합격 조건(전투·보스 문서 3-6·3-8, 묶음 7):
+        /// ① 보스방 1칸·쉼터 1칸, 둘 다 원정마다 남는 돌 칸(MapAnchors.IsFixed) ② 쉼터에 굴 앞 말뚝, id는 OgreDen.FrontStakeId(BossLedger 열쇠)
+        /// ③ 쉼터와 보스방이 열린 길로 이웃하고 보스방 쪽 문은 OgreDen.DoorSide ④ 보스방에 보스 자리 하나, 말뚝·계단·궤짝·무리·둥지 없음
+        /// (줄 끝 말뚝·쥐 구멍·보상은 BossArena가 런타임에 만든다) ⑤ 쉼터에서 열린 길만으로 모든 칸 도달(굴까지 도달) ⑥ 자리 id 겹침 없음.
+        /// 순수 함수(예외 없음, map이 null이면 실패 한 줄).
+        /// </summary>
+        public static RuleReport CheckDen(FloorMap map)
+        {
+            var report = new RuleReport();
+            if (map == null)
+            {
+                report.Fail("굴 지도 없음");
+                return report;
+            }
+            int rooms = 0, fronts = 0;
+            foreach (var c in map.Cells)
+            {
+                if (c.Piece == PieceKind.BossRoom) rooms++;
+                else if (c.Piece == PieceKind.BossFront) fronts++;
+            }
+            if (rooms != 1) report.Fail($"보스방 {rooms}칸: 1칸이어야 함");
+            if (fronts != 1) report.Fail($"보스방 앞 쉼터 {fronts}칸: 1칸이어야 함");
+            var room = MapAnchors.FindBossRoom(map);
+            var front = MapAnchors.FindBossFront(map);
+            if (room != null && !MapAnchors.IsFixed(room)) report.Fail($"보스방 {room.Id}: 고정 돌 칸이 아님");
+            if (front != null)
+            {
+                if (!MapAnchors.IsFixed(front)) report.Fail($"쉼터 {front.Id}: 고정 돌 칸이 아님");
+                var stake = MapAnchors.StakeIn(front);
+                if (stake == null) report.Fail($"쉼터 {front.Id}: 굴 앞 말뚝 없음");
+                else if (stake.Id != OgreDen.FrontStakeId) report.Fail($"쉼터 {front.Id}: 굴 앞 말뚝 id {stake.Id} — {OgreDen.FrontStakeId}여야 함");
+            }
+            if (room != null && front != null)
+            {
+                var edge = room.EdgeTo(front);
+                if (edge == null || edge.Kind != EdgeKind.Open) report.Fail($"쉼터 {front.Id}와 보스방 {room.Id}: 열린 길로 이웃해야 함");
+                else if (edge.SideFrom(room) != OgreDen.DoorSide) report.Fail($"보스방 {room.Id} 문이 {edge.SideFrom(room)} 쪽 — {OgreDen.DoorSide} 쪽이어야 함");
+            }
+            if (room != null)
+            {
+                int bosses = 0;
+                foreach (var f in room.Features)
+                {
+                    if (f.Kind == FeatureKind.Boss) bosses++;
+                    else if (NotInBossRoom(f.Kind)) report.Fail($"보스방 {room.Id}: {f.Kind} {f.Id} — 보스방에는 말뚝·계단·궤짝·무리·둥지를 두지 않음");
+                }
+                if (bosses != 1) report.Fail($"보스방 {room.Id}: 보스 자리 {bosses}개 — 1개여야 함");
+            }
+            var start = front ?? room;
+            if (start != null)
+            {
+                var reach = map.Reachable(start, FloorMap.OpenOnly);
+                report.StartReachable = reach.Count;
+                if (reach.Count != map.Cells.Count) report.Fail($"쉼터에서 열린 길로 {reach.Count}/{map.Cells.Count}칸만 닿음");
+            }
+            var seen = new HashSet<string>();
+            foreach (var c in map.Cells)
+                foreach (var f in c.Features)
+                {
+                    if (string.IsNullOrEmpty(f.Id)) report.Fail($"칸 {c.Id}: {f.Kind} 자리 id 비어 있음");
+                    else if (!seen.Add(f.Id)) report.Fail($"자리 id {f.Id}: 겹침");
+                }
+            return report;
+        }
+
+        /// <summary>보스방 자리 표시로 두지 않는 것(말뚝·계단·궤짝·무리·둥지). 줄 끝 말뚝과 보상은 처치 뒤 BossArena가 만든다.</summary>
+        static bool NotInBossRoom(FeatureKind kind) =>
+            kind == FeatureKind.Stake || kind == FeatureKind.Stairs || kind == FeatureKind.WoodChest || kind == FeatureKind.IronChest ||
+            IsEncounter(kind);
+
         // ① 승강장 말뚝이 있고, 열린 길 + 판자벽만으로 계단 칸에 닿는다.
         static void CheckReach(FloorMap map, RuleReport report, MapCell landing, MapCell stairs, HashSet<MapCell> start)
         {

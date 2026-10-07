@@ -1,0 +1,6 @@
+using System;using System.IO;using UnityEditor;using UnityEditor.SceneManagement;using UnityEngine.SceneManagement;
+public static class TextureV7Scene {
+ const string FilePath="검증/텍스처-시범-v7/review-editor-setup.json";
+ public static object Open(){if(EditorApplication.isPlaying)throw new Exception("Play is owned by another current operation");for(int i=0;i<SceneManager.sceneCount;i++)if(SceneManager.GetSceneAt(i).isDirty)throw new Exception("Unsaved scene preserved");if(!File.Exists(FilePath))File.WriteAllText(FilePath,Newtonsoft.Json.JsonConvert.SerializeObject(EditorSceneManager.GetSceneManagerSetup(),Newtonsoft.Json.Formatting.Indented));EditorSceneManager.OpenScene("Assets/Scenes/DungeonTest.unity");return "DungeonTest temporarily opened";}
+ public static object Restore(){if(EditorApplication.isPlaying)throw new Exception("Stop review Play first");var scene=SceneManager.GetActiveScene();if(scene.isDirty)throw new Exception("Unsaved scene preserved");if(scene.path=="Assets/Scenes/DungeonTest.unity")EditorSceneManager.RestoreSceneManagerSetup(Newtonsoft.Json.JsonConvert.DeserializeObject<SceneSetup[]>(File.ReadAllText(FilePath)));return new{scene=SceneManager.GetActiveScene().name,dirty=SceneManager.GetActiveScene().isDirty};}
+}

@@ -1,27 +1,22 @@
 using System.Collections.Generic;
+using Demo6.Core.Combat;
 using Demo6.Core.Dungeon;
 using UnityEngine;
 
 namespace Demo6.Game
 {
     /// <summary>
-    /// 던전 화면(IMGUI). 왼쪽 아래: 디아블로식 생명 구슬(짙은 피색, 체력) + 검은 쇠 판(무기·공격력, 레벨, 물약 병, 회오리·검풍·구르기 재사용,
-    /// 경험치, 강화석·골드·지금 칸, 스킬 점수, 키 안내). 화면 아래 가운데 알림(DungeonEvents.Message·Discovered, 4줄까지, 3초 뒤 흐려짐),
-    /// 층에 처음 들어갈 때 크고 느린 층 이름 카드("제1층 — 입구 갱도" + 음울한 한 줄 + 권장 레벨, 3차 초안 2-2), 레벨업 무거운 띠(4-3),
-    /// 탐험 걸음 표시(2-8), 쓰러지면 붉게 어두워지는 화면과 큰 글자. 경험치를 얻으면 막대가 0.4초 밝게 번쩍이며 새로 찬 몫을 보인다(한 마리 RPG 요소).
-    /// 다크 판타지 1차(기획/다크판타지-분위기-1차.md '글'·'화면 연출'): 짧고 음울한 말투, 검은 쇠·뼈색 틀, 바탕체 제목.
-    /// 정식 화면은 Unity 개발 단계(uGUI)에서 다시 만든다. 여기서는 판정에 필요한 정보만 둔다. 글은 값이 바뀔 때만 다시 만든다(매 프레임 할당 없음).
-    /// 매판 새 탐험 1차 2-2: 층 이름 카드 아랫줄은 1층 첫 원정 "광업소 도면 그대로다", 다시 연 층 "밤사이 무너지고 다시 파였다".
-    /// 카드는 장면 시작에 띄우고, 밤 카드·승강장 고르기 뒤 화면이 밝아질 때(DungeonEvents.FloorEntered) 처음부터 다시 띄운다.
-    /// 같은 때 도착 글: 아래층 승강장에 처음 불을 켰으면 "n층 승강장에 불을 켰다…", 바구니로 다시 연 층이면 "승강장은 돌로 쌓아 그대로다…"(프로필에서 처음 3번).
+    /// 던전 전투 HUD: 하단 중앙 생명 막대와 실제 행동 5칸(기본공격·회오리(E)·검풍·구르기·물약), 그 왼쪽에 보기만 하는 무기 행동 칸(우클릭).
+    /// 아이콘·키·재사용 오버레이·남은 초·현재 동작 강조를 표시한다. 수치 상세는 가방/강화 창에 둔다.
+    /// 층 도착·레벨업·쓰러짐 연출과 최대 두 줄의 짧은 알림은 유지한다.
     /// </summary>
-    public sealed class DungeonHud : MonoBehaviour
+    public sealed partial class DungeonHud : MonoBehaviour
     {
-        const float PanelWidth = 620f;
-        const float PanelHeight = 184f;
-        const float Margin = 20f;
+        const float PanelWidth = 544f;
+        const float PanelHeight = 112f;
+        const float Margin = 16f;
         const float OrbSize = 144f;
-        const int ToastMax = 4;
+        const int ToastMax = 2;
         const float ToastLife = 3f;
         const float ToastFade = 0.6f;
         /// <summary>층 이름 카드: 약 3.5초, 천천히 떠올라 천천히 사라진다(기준 문서 '화면 연출').</summary>
@@ -33,11 +28,11 @@ namespace Demo6.Game
         const float BannerFadeOut = 0.9f;
         /// <summary>쓰러진 뒤 화면이 붉게 다 어두워지기까지.</summary>
         const float DownDarken = 1.2f;
-        const string KeyHint = "WASD 이동 · 클릭 공격 · F 상호작용 · G 끼기 · M 지도 · K 스킬 · I 가방 · F1 기록";
         const string DownTitle = "쓰러졌다";
         const string DownLine = "마지막 말뚝 곁에서 다시 눈을 뜬다";
         const string BannerLine = "최대 체력이 오르고, 스킬 점수 1점이 생겼다  [K]";
-        const string ExploreBadge = "탐험 걸음";
+        /// <summary>아는 길 걸음일 때 한 줄(전투·보스·무기 다듬기 1차 1-2, 예전 '탐험 걸음'). 웅크리면 CrouchRules.HudLabel '웅크림' 한 줄.</summary>
+        const string ExploreBadge = "아는 길";
 
         /// <summary>층별 권장 레벨(3차 초안 4-3): 1, 3, 5, 7, 8, 10, 12, 13, 15, 16.</summary>
         static readonly int[] RecommendedLevels = { 1, 3, 5, 7, 8, 10, 12, 13, 15, 16 };
@@ -61,11 +56,15 @@ namespace Demo6.Game
         /// 알림 상한(ToastMax)에 밀려 도착 글이 사라지지 않게, 그 알림들 뒤에 띄운다.
         /// </summary>
         const float ArrivalLineDelay = 0.6f;
+        /// <summary>무기 행동 칸 자리(ActionRect 차례 −1 = 가운데에서 −228, 기본 공격 칸 왼쪽).</summary>
+        public const int WeaponActSlot = -1;
+        /// <summary>행동이 없는 무기의 무기 행동 칸 글 색(회색 '없음').</summary>
+        static readonly Color ActNoneColor = new Color(0.5f, 0.5f, 0.5f, 1f);
 
         static readonly Color MessageColor = new Color(0.86f, 0.8f, 0.68f, 1f);
         static readonly Color QuietColor = new Color(0.66f, 0.61f, 0.53f, 1f);
         static readonly Color FindColor = new Color(0.93f, 0.79f, 0.52f, 1f);
-        static readonly Color XpColor = new Color(0.5f, 0.42f, 0.24f, 1f);
+        static readonly Color XpColor = new Color32(0xD6, 0xB4, 0x48, 0xFF);
         /// <summary>경험치를 얻은 순간 새로 찬 몫·둘레 번짐(밝은 호박색).</summary>
         static readonly Color XpFlash = new Color(1f, 0.84f, 0.48f, 1f);
         static readonly Color SlotFill = new Color(0.07f, 0.062f, 0.056f, 1f);
@@ -120,6 +119,8 @@ namespace Demo6.Game
         GUIStyle _hudLabel;
         GUIStyle _hudRight;
         GUIStyle _smallRight;
+        GUIStyle _hudSmall;
+        GUIStyle _healthLabel;
         GUIStyle _orbText;
         GUIStyle _orbCaption;
         GUIStyle _cardRec;
@@ -137,6 +138,12 @@ namespace Demo6.Game
         readonly TextCache _infoText = new TextCache();
         readonly TextCache _pointText = new TextCache();
         readonly TextCache[] _cooldownText = { new TextCache(), new TextCache(), new TextCache() };
+        readonly TextCache _actTip = new TextCache();
+        readonly GUIContent _actTipContent = new GUIContent();
+        readonly TextCache _actState = new TextCache();
+        readonly TextCache _actCooldown = new TextCache();
+        /// <summary>NoWeaponActPressed를 듣고 있는 플레이어. 바뀌거나 사라지면 풀고 다시 건다(도메인 다시 불러오기가 꺼져 있어 남은 구독이 없게).</summary>
+        PlayerController _hookedPlayer;
 
         public static int RecommendedLevel(int floor) => RecommendedLevels[Mathf.Clamp(floor, 1, RecommendedLevels.Length) - 1];
 
@@ -156,6 +163,7 @@ namespace Demo6.Game
         void Awake()
         {
             Instance = this;
+            if(!GetComponent<DungeonMiniMap>())gameObject.AddComponent<DungeonMiniMap>();
             DungeonEvents.Message += OnMessage;
             DungeonEvents.Discovered += OnDiscovered;
             DungeonEvents.LevelUp += OnLevelUp;
@@ -170,7 +178,33 @@ namespace Demo6.Game
             DungeonEvents.LevelUp -= OnLevelUp;
             DungeonEvents.LandingLit -= OnLandingLit;
             DungeonEvents.FloorEntered -= OnFloorEntered;
+            HookPlayer(null);
             if (Instance == this) Instance = null;
+        }
+
+        /// <summary>
+        /// 행동 없는 무기 오른쪽 클릭 알림(5-8·5-9)을 들을 플레이어를 맞춘다. 같은 플레이어면 아무것도 안 한다.
+        /// 사라진 플레이어(Unity null)도 C# 사건은 남아 있으므로 참조로 비교해 풀고, 새 플레이어에 다시 건다.
+        /// </summary>
+        void HookPlayer(PlayerController player)
+        {
+            if (!player) player = null;
+            if (ReferenceEquals(_hookedPlayer, player)) return;
+            if (!ReferenceEquals(_hookedPlayer, null)) _hookedPlayer.NoWeaponActPressed -= OnNoWeaponActPressed;
+            _hookedPlayer = player;
+            if (!ReferenceEquals(player, null)) player.NoWeaponActPressed += OnNoWeaponActPressed;
+        }
+
+        /// <summary>
+        /// 행동이 없는 무기(나머지 6종)로 오른쪽 클릭: 프로필에서 처음 NoActHintTimes(2)번만 한 줄 알림(꾸러미 세기 rmb_none).
+        /// 세기는 띄울 때만 올려 횟수가 끝없이 늘지 않는다. 프로필이 없으면(시험 장면) 띄우지 않는다.
+        /// </summary>
+        void OnNoWeaponActPressed()
+        {
+            var data = ProfileCarry.Data;
+            if (data == null || data.Count(WeaponActCommon.NoActHintKey) >= WeaponActCommon.NoActHintTimes) return;
+            if (data.Bump(WeaponActCommon.NoActHintKey) <= WeaponActCommon.NoActHintTimes)
+                Push(WeaponActCommon.NoActHintText, false, MessageColor);
         }
 
         /// <summary>이 장면에서 처음 불을 켠 승강장 층(DungeonRoot가 FloorEntered 바로 앞에 알림). 없으면 0.</summary>
@@ -189,12 +223,16 @@ namespace Demo6.Game
             _cardTitle = null;
             _cardAge = 0f;
             _arrivalLine = null;
-            if (_litFloor == floor && floor > 1)
+            // 오우거 굴에는 승강장이 없어 도착 글을 띄우지 않는다(굴 앞 말뚝 글은 말뚝이 띄움).
+            var root = DungeonRoot.Instance;
+            bool den = root && root.IsDen;
+            if (!den && _litFloor == floor && floor > 1)
                 _arrivalLine = floor + "층 승강장에 불을 켰다. 다음엔 여기서 시작한다.";
-            else if (arrival == ArrivalKind.Basket && !firstVisit && ProfileCarry.Data?.Bump(LandingLineKey) <= LandingLineTimes)
+            else if (!den && arrival == ArrivalKind.Basket && !firstVisit && ProfileCarry.Data?.Bump(LandingLineKey) <= LandingLineTimes)
                 _arrivalLine = LandingLine;
             _litFloor = 0;
             _arrivalDelay = ArrivalLineDelay;
+            // 옛 '회오리는 이제 E' 알림은 지웠다(키 배치 1차 0장 7). 옛 꾸러미에 남은 whirl_e 세기는 이제 아무도 보지 않는다.
         }
 
         void Update()
@@ -220,6 +258,7 @@ namespace Demo6.Game
             }
             var root = DungeonRoot.Instance;
             var player = root ? root.Player : null;
+            HookPlayer(player);
             if (player && player.IsDown) _downAge += dt;
             else _downAge = 0f;
         }
@@ -314,7 +353,10 @@ namespace Demo6.Game
             SetWhite(_hudLabel);
             _hudRight = new GUIStyle(DungeonUi.Bold) { wordWrap = false, alignment = TextAnchor.UpperRight };
             SetWhite(_hudRight);
-            _smallRight = new GUIStyle(DungeonUi.Small) { wordWrap = false, alignment = TextAnchor.UpperRight };
+            _smallRight = new GUIStyle(DungeonUi.Small) { wordWrap = false, clipping = TextClipping.Overflow, alignment = TextAnchor.UpperRight };
+            _hudSmall = new GUIStyle(DungeonUi.Small) { wordWrap = false, clipping = TextClipping.Overflow };
+            SetWhite(_hudSmall);
+            _healthLabel = new GUIStyle(_hudSmall) { alignment = TextAnchor.MiddleCenter };
             SetWhite(_smallRight);
             _orbText = new GUIStyle(DungeonUi.Bold) { fontSize = 20, wordWrap = false, alignment = TextAnchor.MiddleCenter };
             SetWhite(_orbText);
@@ -334,8 +376,7 @@ namespace Demo6.Game
 
         void OnGUI()
         {
-            // 이 화면에는 누르는 것이 없다. 그리기 사건에서만 그린다(배치 사건 반복을 줄인다).
-            if (Event.current.type != EventType.Repaint) return;
+            // Painted action and utility buttons receive mouse events as well as repaint.
             var root = DungeonRoot.Instance;
             if (!root || root.State == null) return;
             DungeonUi.Begin();
@@ -344,100 +385,177 @@ namespace Demo6.Game
             var player = root.Player;
             if (player && player.IsDown) DrawDown();
             if (player) DrawPanel(root, player);
+            if (player && !player.IsDown) DrawWalkState(player);
             DrawToasts();
             DrawFloorCard(root);
             DrawLevelBanner();
             if (player && player.IsDown) DrawDownText();
         }
 
+        public static Rect CombatRect => UiV45.CombatRect;
+
+        /// <summary>걸음 상태 한 줄씩: 웅크림(CrouchRules.HudLabel), 아는 길(ExploreWalk.Active). 기능만 둔다(배치는 Unity UI 단계에서).</summary>
+        void DrawWalkState(PlayerController p)
+        {
+            var r = CombatRect;
+            float y = r.y - 34f;
+            if (p.Crouching)
+            {
+                DungeonUi.ShadowLabel(new Rect(r.x + 14f, y, 186f, 22f), CrouchRules.HudLabel, DungeonUi.Small, DungeonUi.Bone);
+                y -= 22f;
+            }
+            var walk = ExploreWalk.Instance;
+            if (walk && walk.Active) DungeonUi.ShadowLabel(new Rect(r.x + 14f, y, 186f, 22f), ExploreBadge, DungeonUi.Small, DungeonUi.BoneDim);
+        }
+
+
+        public static Rect ActionRect(int index) => UiV45.ActionRect(index);
+        public static Rect UtilityRect(int index) => UiV45.UtilityRect(index);
+        public static Rect ExperienceRect => new Rect(16f, DungeonUi.Height - 12f, DungeonUi.Width - 32f, 7f);
+        public static bool PointerOverHud
+        {
+            get
+            {
+                if (LootLabels.BlocksWorldPointer) return true;
+                if (!Instance || UnityEngine.InputSystem.Mouse.current == null) return false;
+                var p = UnityEngine.InputSystem.Mouse.current.position.ReadValue();
+                p = new Vector2(p.x, Screen.height - p.y) / DungeonUi.Scale;
+                // 무기 행동 칸(WeaponActSlot = −1)도 센다: 클릭은 받지 않지만 그 위 클릭이 공격으로 새지 않게.
+                for (int i = WeaponActSlot; i < 5; i++) if (ApprovedUiV5.HudHitRect(ActionRect(i)).Contains(p)) return true;
+                for (int i = 0; i < 2; i++) if (ApprovedUiV5.HudHitRect(UtilityRect(i)).Contains(p)) return true;
+                if(UiV45.OrbRect.Contains(p))return true;
+                if(PlayerController.Instance && PlayerController.Instance.GuardGaugeAlpha>0.001f && UiV45.GuardHitRect.Contains(p))return true;
+                return DungeonMiniMap.Visible && DungeonMiniMap.PanelRect.Contains(p);
+            }
+        }
+
         void DrawPanel(DungeonRoot root, PlayerController p)
         {
             var progress = PlayerProgress.Instance;
-
-            // ── 생명 구슬(체력) ──
-            var orb = new Rect(Margin + 10f, DungeonUi.Height - Margin - 10f - OrbSize, OrbSize, OrbSize);
             var hp = p.Health;
-            float frac = hp ? hp.Fraction : 0f;
-            float bright = 1f;
-            if (hp && frac > 0f && frac < 0.25f) bright = 0.82f + 0.22f * (0.5f + 0.5f * Mathf.Sin(Time.unscaledTime * 4.2f));
-            DungeonUi.Orb(orb, frac, bright);
-            if (hp)
-            {
-                if (_hpText.Stale(hp.Current, hp.Max)) _hpText.Text = hp.Current + " / " + hp.Max;
-                DungeonUi.ShadowLabel(new Rect(orb.x, orb.center.y - 22f, orb.width, 18f), "체력", _orbCaption, DungeonUi.BoneDim);
-                DungeonUi.ShadowLabel(new Rect(orb.x, orb.center.y - 6f, orb.width, 24f), _hpText.Text, _orbText, DungeonUi.Bone);
-            }
+            UiV45.DrawBelt();
+            UiV45.DrawOrb(p,progress?progress.Level:1);
+            DrawAction(p,0,"attack","좌클릭","기본 공격 · 좌클릭",0,0,!p.IsDown,p.Pose==PlayerPose.Attack,0);
+            // 회오리는 E(오른쪽 클릭은 무기 행동, 기획/세-무기-우클릭-소켓-1차.md 5-9). 칸 클릭(비트 2)은 그대로.
+            // 배우지 않았거나 투지가 모자라면 회색(기획/스킬-자원-트리-1차.md). 말풍선에 까닭을 붙인다.
+            DrawAction(p,1,"whirl",WeaponActCommon.WhirlKeyLabel,SkillTip("회오리 · "+WeaponActCommon.WhirlKeyLabel,p.WhirlKnown,Demo6.Core.Progression.SpiritRules.WhirlCost),p.WhirlCooldown,p.WhirlCooldownMax,!p.IsDown&&p.WhirlAffordable,p.Pose==PlayerPose.Whirl,0);
+            DrawAction(p,2,"wave","Q",SkillTip("검풍 · Q",p.WaveKnown,Demo6.Core.Progression.SpiritRules.WaveCost),p.WaveCooldown,p.WaveCooldownMax,!p.IsDown&&p.WaveAffordable,p.Pose==PlayerPose.WaveCast,0);
+            DrawAction(p,3,"dodge","Space","구르기 · Space",p.DodgeCooldown,p.DodgeCooldownMax,!p.IsDown,p.Pose==PlayerPose.Dodge,0);
+            // 식은 주먹밥(묶음 5-7): 물약이 떨어지면 R로 먹는다. 칸 수 옆에 '+밥'.
+            int rice=p.RiceBalls;
+            DrawAction(p,4,"potion","R",rice>0?"물약 · R · 식은 주먹밥 "+rice+"(물약이 없을 때 R)":"물약 · R",p.PotionCooldown,p.PotionCooldownMax,!p.IsDown&&(p.Potions>0||rice>0),false,p.Potions);
+            if(rice>0){var pr=ActionRect(4);DungeonUi.ShadowLabel(new Rect(pr.x+2,pr.y+2,30,18),"+밥",ApprovedUiV5.Style(11,TextAnchor.UpperLeft,true),ApprovedUiV5.Gold);}
+            DrawWeaponAct(p);
+            DrawUtility(0,"bag","I","가방",Inventory.BagWindow,false);
+            DrawBagCount(); // 가방 칸 'n/칸'(재화 쓸 곳 1차 5-4, DungeonHud.Bag.cs)
 
-            // 전투 정보는 왼쪽 하단, 조작 안내는 오른쪽 하단. 가운데는 플레이 공간이다.
-            float x = orb.xMax + 20f;
-            float y = DungeonUi.Height - PanelHeight - Margin;
-            DungeonUi.Box(new Rect(x, y, PanelWidth, PanelHeight), 0.94f);
-            float ix = x + 18f, iy = y + 12f, inner = PanelWidth - 36f;
-            // 무기 줄 = 대표 능력치 줄(장비 문서 12장 단계 2): '일반 장검 · 공격 200 · 치명 7%'.
-            var inv = Inventory.Instance;
-            object weaponKey = inv && inv.Equipped != null ? (object)inv.Equipped : p.Weapon;
-            int critPermille = Mathf.RoundToInt(p.CritChance * 1000f);
-            if (_weaponText.Stale(p.Attack, critPermille, weaponKey))
+            DrawUtility(1,"skills","K","스킬 트리",SkillPanel.ModalName,progress&&progress.SkillPoints>0);
+            // 기름 병(묶음 5-6): 칸 띠 오른쪽 끝에 '기름 n'. 없으면 흐리게.
+            if(root.Leg!=null)
             {
-                string weapon = inv && inv.Equipped != null ? inv.Equipped.DisplayName : p.Weapon != null ? p.Weapon.displayName : "맨손";
-                string crit = (critPermille / 10) + (critPermille % 10 != 0 ? "." + (critPermille % 10) : "") + "%";
-                _weaponText.Text = weapon + " · 공격 " + p.Attack + " · 치명 " + crit;
+                var u=UtilityRect(1);var oilRect=new Rect(u.xMax+10,u.y+6,74,u.height-12);
+                int oil=root.Leg.Oil;
+                DungeonUi.ShadowLabel(oilRect,"기름 "+oil,ApprovedUiV5.Style(14,TextAnchor.MiddleLeft,true),oil>0?ApprovedUiV5.Gold:ApprovedUiV5.Muted);
+                GUI.Label(oilRect,new GUIContent("","기름 병 "+oil+" — 벽 등잔 하나에 1병 · 궤짝·도시락통·막다른 곳에서 나온다"),GUIStyle.none);
             }
-            DungeonUi.ShadowLabel(new Rect(ix, iy, inner - 100f, 28f), DungeonUi.FitLine(_weaponText.Text,_hudLabel,inner-100f), _hudLabel, DungeonUi.Bone);
-            int level = progress ? progress.Level : 1;
-            if (_levelText.Stale(level, 0)) _levelText.Text = "Lv " + level;
-            DungeonUi.ShadowLabel(new Rect(ix + inner - 100f, iy, 100f, 26f), _levelText.Text, _hudRight, DungeonUi.Ember);
-            iy += 32f;
-            for (int i = 0; i < 3; i++) {
-                var bottle = new Rect(ix + i * 22f, iy-2f, 24f, 28f);
-                if (i < p.Potions) ItemIconArt.Draw(bottle, "potion"); else DungeonUi.Flask(bottle, false);
-            }
-            int potionTenths = p.PotionCooldown > 0f ? Mathf.CeilToInt(p.PotionCooldown * 10f) : 0;
-            if (_potionText.Stale(p.Potions, potionTenths))
-                _potionText.Text = potionTenths > 0 ? "물약 " + p.Potions + "/3  (" + (potionTenths / 10f).ToString("0.0") + ")" : "물약 " + p.Potions + "/3  [R]";
-            DungeonUi.ShadowLabel(new Rect(ix + 68f, iy, 210f, 26f), _potionText.Text, DungeonUi.Label, potionTenths > 0 ? DungeonUi.BoneDim : DungeonUi.Bone);
-            var state = root.State;
-            var cell = root.CurrentCell;
-            if (_infoText.Stale(state.Stones, state.Gold, cell)) _infoText.Text = "강화석 " + state.Stones + "  ·  골드 " + state.Gold;
-            DungeonUi.ShadowLabel(new Rect(ix + 285f, iy, inner - 285f, 26f), _infoText.Text, _smallRight, DungeonUi.BoneDim);
-            iy += 32f;
-            float cw = (inner - 16f) / 3f;
-            Cooldown(0, new Rect(ix, iy, cw, 60f), "회오리 [우클릭]", p.WhirlCooldown, p.WhirlCooldownMax);
-            Cooldown(1, new Rect(ix + cw + 8f, iy, cw, 60f), "검풍 [Q]", p.WaveCooldown, p.WaveCooldownMax);
-            Cooldown(2, new Rect(ix + (cw + 8f) * 2f, iy, cw, 60f), "구르기 [Space]", p.DodgeCooldown, p.DodgeCooldownMax);
-            iy += 72f;
-            float xpFrac = progress && progress.XpToNext > 0 ? (float)progress.Xp / progress.XpToNext : 0f;
-            float flash = DrawXpBar(new Rect(ix, iy + 7f, 300f, 10f), xpFrac, progress);
-            int xp = progress ? progress.Xp : -1, toNext = progress ? progress.XpToNext : -1;
-            if (_xpText.Stale(xp, toNext)) _xpText.Text = progress ? "경험치 " + xp + " / " + toNext : "경험치 -";
-            DungeonUi.ShadowLabel(new Rect(ix + 312f, iy, inner - 312f, 26f), _xpText.Text, _smallRight, flash > 0f ? DungeonUi.Ember : DungeonUi.BoneDim);
-
-            var place = new Rect(Margin, Margin, 340f, 38f);
-            DungeonUi.Box(place, 0.82f);
-            DungeonUi.ShadowLabel(new Rect(place.x + 12f, place.y + 7f, place.width - 24f, 26f), "제" + root.Floor + "층  ·  " + (cell != null ? cell.Name : "-"), _hudLabel, DungeonUi.Bone);
-            float reserved = ExplorationLog.Instance ? ExplorationLog.Instance.PanelReservedWidth : 0f;
-            float helpX = DungeonUi.Width - reserved - 390f - Margin;
-            var help = new Rect(helpX, DungeonUi.Height - 142f - Margin, 390f, 142f);
-            // 개발 패널이 열려 있을 때에도 상태판과 안내가 겹치지 않게 위로 올린다.
-            if (help.x < x + PanelWidth + 20f) help.y = y - help.height - 12f;
-            DungeonUi.Box(help, 0.9f);
-            DungeonUi.ShadowLabel(new Rect(help.x + 16f, help.y + 12f, help.width - 32f, 26f), "[M] 지도    [K] 스킬    [I] 가방", _hudLabel, DungeonUi.Bone);
-            GUI.Label(new Rect(help.x + 16f, help.y + 44f, help.width - 32f, 54f), "WASD 이동 · 클릭 공격\n[F] 상호작용 · [G] 바로 끼기", DungeonUi.Small);
-            DungeonUi.ShadowLabel(new Rect(help.x + 16f, help.y + 104f, help.width - 32f, 24f), "[F1] 개발 기록", DungeonUi.Small, DungeonUi.BoneDim);
-            int points = progress ? progress.SkillPoints : 0;
-            if (points > 0) {
-                if (_pointText.Stale(points, 0)) _pointText.Text = "[K] 스킬 점수 " + points;
-                DungeonUi.ShadowLabel(new Rect(x + PanelWidth - 200f, y - 34f, 200f, 26f), _pointText.Text, _smallRight, DungeonUi.Ember);
-            }
-
-            // 탐험 걸음(2-8).
-            var walk = ExploreWalk.Instance;
-            if (walk && walk.Active)
+            float fraction = progress && progress.XpToNext>0 ? (float)progress.Xp/progress.XpToNext : 0;
+            ApprovedUiV5.Image(new Rect(10,DungeonUi.Height-17,DungeonUi.Width-20,13),"xp-cradle");
+            DrawXpBar(ExperienceRect,fraction,progress);
+            var cell=root.CurrentCell;
+            DungeonUi.ShadowLabel(new Rect(Margin,Margin,390,26),"제"+root.Floor+"층 · "+(cell!=null?cell.Name:"-"),DungeonUi.Small,DungeonUi.BoneDim);
+            if (!DungeonUi.ModalOpen && Event.current.type==EventType.Repaint && !string.IsNullOrEmpty(GUI.tooltip))
             {
-                var badge = new Rect(x, y - 34f, 124f, 26f);
-                DungeonUi.Box(badge, 0.82f);
-                DungeonUi.ShadowLabel(badge, ExploreBadge, DungeonUi.Center, DungeonUi.Ember);
+                var tip=new Rect(DungeonUi.Width*.5f-210,DungeonUi.Height-176,420,31);
+                DungeonUi.Box(tip,.94f);DungeonUi.ShadowLabel(tip,GUI.tooltip,DungeonUi.SmallCenter,DungeonUi.Bone);
             }
+        }
+
+        static string SkillTip(string label,bool known,float cost)=>known?label+" · 투지 "+cost:label+" · 아직 모름(마을에서 배움)";
+
+        void DrawAction(PlayerController player,int index,string icon,string key,string label,float remaining,float maximum,bool usable,bool active,int charges)
+        {
+            var r=ActionRect(index);bool cooling=remaining>0;bool previous=GUI.enabled;
+            GUI.enabled=previous&&usable&&!cooling&&!DungeonUi.ModalOpen&&!TimeScaleService.Paused;
+            bool click=GUI.Button(r,new GUIContent("",label+" · 클릭으로도 사용"),GUIStyle.none);
+            GUI.enabled=previous;
+            string actualIcon=icon=="attack"?(Inventory.Instance?.Equipment.Weapon?.Base.IconId??"wpn_longsword"):icon;
+            ApprovedUiV5.Icon(new Rect(r.x+7,r.y+7,r.width-14,r.height-14),actualIcon,usable?Color.white:new Color(.48f,.48f,.48f,1),Inventory.Instance?.Equipment.Weapon?.Grade??Demo6.Core.Loot.Grade.Common);
+            if (active) UiSkinArt.Selection(r);
+            else if (!DungeonUi.ModalOpen&&r.Contains(Event.current.mousePosition)&&usable&&!cooling)
+                DungeonUi.Outline(new Rect(r.x+3,r.y+3,r.width-6,r.height-6),DungeonUi.Ember);
+            if(cooling)
+            {
+                float fraction=maximum>0?Mathf.Clamp01(remaining/maximum):1;
+                DungeonUi.Fill(new Rect(r.x+4,r.y+4,r.width-8,(r.height-8)*fraction),new Color(0,0,0,.76f));
+                ApprovedUiV5.Cooldown(new Rect(r.x,r.y+15,r.width,24),remaining>=10?Mathf.CeilToInt(remaining).ToString():remaining.ToString("0.0"));
+            }
+            if(index==4)DungeonUi.ShadowLabel(new Rect(r.xMax-24,r.y+3,20,22),charges.ToString(),DungeonUi.SmallCenter,DungeonUi.Bone);
+            var keyRect=new Rect(r.x-2,r.yMax+1,r.width+4,17);
+            ApprovedUiV5.Key(keyRect,key);
+            if(click)player.GetComponent<PlayerInputReader>()?.QueueHudAction(index);
+        }
+
+        /// <summary>
+        /// 무기 행동 칸(가운데 −228, 기획/세-무기-우클릭-소켓-1차.md 5-9, IMGUI 기능만): 행동 이름(막기·기 모으기·난사)과 키 '우클릭'.
+        /// 누르는 행동이라 클릭은 받지 않는다(QueueHudAction 없음, 말풍선만). 난사는 재사용을 덮고, 행동 중이면 강조하며
+        /// 기 모으기 단계·난사 판정 수·끊김을 둘째 줄에 보인다. 행동이 없는 무기(나머지 6종)는 회색 '없음'.
+        /// </summary>
+        void DrawWeaponAct(PlayerController p)
+        {
+            var r = ActionRect(WeaponActSlot);
+            var kind = p.ActKind;
+            bool has = kind != WeaponActKind.None;
+            bool usable = has && !p.IsDown;
+            float remaining = kind == WeaponActKind.Flurry ? p.ActCooldown : 0f;
+            float maximum = p.ActCooldownMax;
+            bool cooling = remaining > 0f;
+            if (_actTip.Stale((int)kind, 0))
+                _actTip.Text = has
+                    ? WeaponActRules.Name(kind) + " · " + WeaponActCommon.ActKeyLabel
+                    : "무기 행동 없음 · 회오리는 " + WeaponActCommon.WhirlKeyLabel;
+            // 클릭을 받지 않는 글 칸(말풍선만). 칸 위 클릭은 PointerOverHud가 공격으로 새지 않게 막는다.
+            _actTipContent.tooltip = _actTip.Text;
+            GUI.Label(r, _actTipContent, GUIStyle.none);
+            if (p.InWeaponAct) UiSkinArt.Selection(r);
+            DungeonUi.ShadowLabel(new Rect(r.x+2, r.y + 4f, r.width-4, 20f), WeaponActRules.Name(kind), ApprovedUiV5.Style(11,TextAnchor.MiddleCenter,true), usable ? DungeonUi.Bone : ActNoneColor);
+            if (cooling)
+            {
+                float fraction = maximum > 0f ? Mathf.Clamp01(remaining / maximum) : 1f;
+                DungeonUi.Fill(new Rect(r.x + 4f, r.y + 4f, r.width - 8f, (r.height - 8f) * fraction), new Color(0f, 0f, 0f, 0.76f));
+                int tenths = Mathf.CeilToInt(remaining * 10f);
+                if (_actCooldown.Stale(tenths, 0)) _actCooldown.Text = remaining >= 10f ? Mathf.CeilToInt(remaining).ToString() : (tenths / 10f).ToString("0.0");
+                DungeonUi.ShadowLabel(new Rect(r.x+2, r.y + 23f, r.width-4, 18f), _actCooldown.Text, ApprovedUiV5.Style(11,TextAnchor.MiddleCenter), DungeonUi.Bone);
+            }
+            else
+            {
+                // 둘째 줄: 끊김 경직 > 기 모으기 단계 > 놓아 베기 단계 > 난사 판정 수(행동 중에만).
+                int a = -1;
+                int b = 0;
+                if (p.Flinching) a = 0;
+                else if (p.InWeaponAct && kind == WeaponActKind.Charge) { a = p.ActPhase == WeaponActPhase.Release ? 2 : 1; b = a == 2 ? p.ReleaseLevel : p.ChargeLevel; }
+                else if (p.InWeaponAct && kind == WeaponActKind.Flurry) { a = 3; b = p.ActHitsDone; }
+                if (a >= 0)
+                {
+                    if (_actState.Stale(a, b))
+                        _actState.Text = a == 0 ? WeaponActCommon.InterruptedWord
+                            : a == 1 ? b + "단계"
+                            : a == 2 ? "베기 " + b
+                            : b + "/" + TwinFlurry.HitCount;
+                    DungeonUi.ShadowLabel(new Rect(r.x+2, r.y + 23f, r.width-4, 18f), _actState.Text, ApprovedUiV5.Style(11,TextAnchor.MiddleCenter), a == 0 ? DungeonUi.BoneDim : DungeonUi.Ember);
+                }
+            }
+            var keyRect = new Rect(r.x-2,r.yMax+1,r.width+4,17);
+            ApprovedUiV5.Key(keyRect,WeaponActCommon.ActKeyLabel);
+        }
+
+        static void DrawUtility(int index,string icon,string key,string label,string modal,bool notify)
+        {
+            var r=UtilityRect(index);bool previous=GUI.enabled;GUI.enabled=previous&&!DungeonUi.ModalOpen;
+            bool click=GUI.Button(r,new GUIContent("",label+" · "+key),GUIStyle.none);GUI.enabled=previous;
+            ApprovedUiV5.Icon(new Rect(r.x+5,r.y+5,r.width-10,r.height-10),icon,Color.white);
+            ApprovedUiV5.Key(new Rect(r.x,r.yMax+1,r.width,17),key);
+            if(notify){DungeonUi.Fill(new Rect(r.xMax-9,r.y+3,6,6),DungeonUi.Ember);}
+            if(click)DungeonUi.TryOpen(modal);
         }
 
         /// <summary>
@@ -497,7 +615,7 @@ namespace Demo6.Game
             int tenths = cooling ? Mathf.CeilToInt(remaining * 10f) : 0;
             var cache = _cooldownText[slot];
             if (cache.Stale(tenths, 0)) cache.Text = tenths > 0 ? (tenths / 10f).ToString("0.0") + "초" : "준비";
-            DungeonUi.ShadowLabel(new Rect(rect.x + 6f, rect.y + 30f, rect.width - 8f, 28f), cache.Text, _hudLabel, cooling ? DungeonUi.BoneDim : DungeonUi.Bone);
+            DungeonUi.ShadowLabel(new Rect(rect.x + 6f, rect.y + 25f, rect.width - 8f, 24f), cache.Text, _hudLabel, cooling ? DungeonUi.BoneDim : DungeonUi.Bone);
         }
 
         /// <summary>화면 아래 가운데, 판 위에 새 알림이 아래로 쌓인다. 양 끝이 흐려지는 검은 띠 위 바탕체 글.</summary>
@@ -506,7 +624,7 @@ namespace Demo6.Game
             if (_toasts.Count == 0) return;
             float reserved = ExplorationLog.Instance ? ExplorationLog.Instance.PanelReservedWidth : 0f;
             float cx = (DungeonUi.Width - reserved) * 0.5f;
-            float y = DungeonUi.Height - PanelHeight - Margin - 52f;
+            float y = DungeonUi.Height - PanelHeight - Margin - 16f;
             for (int i = _toasts.Count - 1; i >= 0; i--)
             {
                 var t = _toasts[i];
@@ -536,8 +654,9 @@ namespace Demo6.Game
             if (_cardTitle == null)
             {
                 string name = root.Map != null ? root.Map.Name : "";
-                _cardTitle = "제" + root.Floor + "층 — " + name;
-                _cardLine = CardLine(root.Floor, _cardFirstVisit ?? root.FirstVisit);
+                // 오우거 굴(전투·보스 문서 3-8): "제2층 바닥 — 오우거 굴" / "안쪽에서 돌 씹는 소리가 난다". 권장 레벨은 층 그대로.
+                _cardTitle = root.IsDen ? OgreDen.CardTitle : "제" + root.Floor + "층 — " + name;
+                _cardLine = root.IsDen ? OgreDen.CardLine : CardLine(root.Floor, _cardFirstVisit ?? root.FirstVisit);
                 _cardRecText = "권장 레벨 " + RecommendedLevel(root.Floor);
             }
             float a = Mathf.Clamp01(_cardAge / CardFadeIn) * Mathf.Clamp01((CardTime - _cardAge) / CardFadeOut);

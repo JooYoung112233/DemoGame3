@@ -42,6 +42,7 @@ namespace Demo6.Game
         /// <summary>판자 이음매 3줄, 쇠띠 2줄, 가운데 자물쇠(놋쇠 몸 + 고리). 빛을 받는 그림.</summary>
         void DrawDoor()
         {
+            if (TryDrawPngDoor()) return;
             var e = _edge;
             int order = WorldProps.WallDetailOrder;
             for (int i = -1; i <= 1; i++)
@@ -51,9 +52,50 @@ namespace Demo6.Game
             }
             WorldProps.Stroke(transform, "Band", WorldProps.DoorLocal(e, -1.95f, 0.28f), WorldProps.DoorLocal(e, 1.95f, 0.28f), 0.1f, Iron, order + 1, false);
             WorldProps.Stroke(transform, "Band", WorldProps.DoorLocal(e, -1.95f, -0.28f), WorldProps.DoorLocal(e, 1.95f, -0.28f), 0.1f, Iron, order + 1, false);
-            WorldProps.Shape(transform, "Lock", WorldProps.DoorLocal(e, 0.5f, 0f), new Vector2(0.34f, 0.34f), ShapeSprites.Square, Brass, order + 2, false);
-            WorldProps.Shape(transform, "Shackle", WorldProps.DoorLocal(e, 0.5f, 0f) + Vector2.up * 0.2f, new Vector2(0.28f, 0.28f), ShapeSprites.Ring, Brass, order + 2, false);
-            WorldProps.Shape(transform, "Keyhole", WorldProps.DoorLocal(e, 0.5f, 0f), new Vector2(0.07f, 0.12f), ShapeSprites.Square, Seam, order + 3, false);
+            // Lock hardware is seen on its narrow top plane and follows the door's own axes.
+            Vector2 along = WorldProps.DoorAxis(e);
+            float lockAngle = Mathf.Atan2(along.y, along.x) * Mathf.Rad2Deg;
+            WorldProps.Shape(transform, "Lock", WorldProps.DoorLocal(e, 0.5f, 0f), new Vector2(0.34f, 0.14f), ShapeSprites.Square, Brass, order + 2, false, lockAngle);
+            WorldProps.Shape(transform, "Shackle", WorldProps.DoorLocal(e, 0.5f, 0.10f), new Vector2(0.24f, 0.12f), ShapeSprites.Ring, Brass, order + 2, false, lockAngle);
+            WorldProps.Shape(transform, "Keyhole", WorldProps.DoorLocal(e, 0.5f, 0f), new Vector2(0.07f, 0.04f), ShapeSprites.Square, Seam, order + 3, false, lockAngle);
+        }
+
+        bool TryDrawPngDoor()
+        {
+            var oldVisual = transform.Find("Visual");
+            var oldRenderer = oldVisual ? oldVisual.GetComponent<SpriteRenderer>() : null;
+            if (!oldRenderer || !PropsV062Art.TryLoad(new[] {"door-leaf", "door-jamb", "door-lock", "door-threshold"}, out var sprites)) return false;
+            float width = Mathf.Max(_edge.DoorSize.x, _edge.DoorSize.y);
+            float thickness = Mathf.Min(_edge.DoorSize.x, _edge.DoorSize.y);
+            int leafOrder = PropsV062Art.SolidOrder(transform.position.y);
+            PropsV062Art.DoorPart(transform, "Door leaf PNG", sprites[0], _edge, Vector2.zero,
+                new Vector2(width, thickness), leafOrder);
+            var lockView = PropsV062Art.DoorPart(transform, "Door lock PNG", sprites[2], _edge, new Vector2(.5f, .045f),
+                new Vector2(.34f, .23f), leafOrder + 3);
+            bool timberFrame = DungeonPassageFramesV063.TryBuildLockedFrame(_edge, transform.parent);
+            // Keep the lock readable beside the overhead beam; the legacy frame retains its previous pose.
+            if (timberFrame) lockView.Carrier.localPosition = WorldProps.DoorLocal(_edge, .5f, -.32f);
+            if (!timberFrame)
+            {
+                // Edge.Open destroys only the blocker. Frame and ground threshold remain in the same dungeon scene.
+                var frame = new GameObject("Locked door frame PNG").transform;
+                frame.SetParent(transform.parent, false);
+                frame.position = transform.position;
+                const float jambWidth = .6f;
+                foreach (float side in new[] {-1f, 1f})
+                {
+                    var at = new Vector2(side * (width + jambWidth) * .5f, 0f);
+                    float groundY = frame.TransformPoint(WorldProps.DoorLocal(_edge, at.x, at.y)).y;
+                    PropsV062Art.DoorPart(frame, side < 0f ? "Jamb A" : "Jamb B", sprites[1], _edge,
+                        at, new Vector2(jambWidth, jambWidth), PropsV062Art.SolidOrder(groundY));
+                }
+                PropsV062Art.DoorPart(frame, "Ground threshold", sprites[3], _edge, Vector2.zero,
+                    new Vector2(width, thickness), WorldProps.FloorDecalOrder);
+                DungeonPassageFramesV063.RegisterLegacyFrame(_edge, frame);
+            }
+            // Keep the original collider, wall layer and ShadowCaster2D. Replace only its visible placeholder.
+            oldRenderer.enabled = false;
+            return true;
         }
 
         void Unlock()

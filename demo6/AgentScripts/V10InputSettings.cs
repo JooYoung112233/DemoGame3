@@ -1,0 +1,5 @@
+using System;using System.Collections.Generic;using UnityEditor;using UnityEngine;
+public static class V10InputSettings{
+ public static object Inspect(){var objs=AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/ProjectSettings.asset");var rows=new List<string>();foreach(var o in objs){var so=new SerializedObject(o);var p=so.GetIterator();while(p.Next(true))if(p.propertyPath.IndexOf("input",StringComparison.OrdinalIgnoreCase)>=0)rows.Add(p.propertyPath+"="+(p.propertyType==SerializedPropertyType.Integer?p.intValue.ToString():p.propertyType.ToString()));}return rows;}
+ public static object Apply(){if(!Application.dataPath.Contains("topdown-v10-review-isolated")||EditorApplication.isPlaying)throw new Exception("Owned isolated Edit only");var obj=AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/ProjectSettings.asset")[0];var so=new SerializedObject(obj);var p=so.FindProperty("activeInputHandler");if(p==null)throw new Exception("Input property not found");int before=p.intValue;p.intValue=2;so.ApplyModifiedPropertiesWithoutUndo();AssetDatabase.SaveAssets();return new{before,after=p.intValue};}
+}

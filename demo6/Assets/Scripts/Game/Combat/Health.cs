@@ -11,6 +11,10 @@ namespace Demo6.Game
         Enemy,
         /// <summary>전설 고유 효과(연쇄 번개·불꽃 발자국·연쇄 폭발, 장비 문서 6장). 체력 흡수·연쇄 번개 재발동을 받지 않는다.</summary>
         Legend,
+        /// <summary>출혈(도끼, BleedRule). 치명·히트스톱·체력 흡수·연쇄 번개 없음. 플레이어 몫 피해로 센다.</summary>
+        Bleed,
+        /// <summary>환경(벽 박기 추가 피해, 나중에 화약 쥐 폭발). 체력 흡수·연쇄 번개·연쇄 폭발을 받지 않는다. 플레이어 몫 피해로 센다.</summary>
+        Environment,
     }
 
     public sealed class Health : MonoBehaviour
@@ -181,10 +185,34 @@ namespace Demo6.Game
         /// <summary>전설 효과가 적에게 피해를 넣었다(효과, 들어간 피해). PlayerDealtDamage(출처 Legend) 바로 뒤에 온다. 출처별 몫의 '전설' 줄을 효과별로 나눌 때 쓴다.</summary>
         public static event Action<Demo6.Core.Loot.LegendaryEffect, DamageDealt> LegendDealt;
 
+        // ── 전투·보스·무기 다듬기 1차 계약 사건(기획/전투-보스-무기-다듬기-1차.md). 내는 쪽·듣는 쪽은 각 사건 주석대로 ──
+
+        /// <summary>
+        /// 살아 있는 적이 넉백으로 벽·기둥에 박혔다(4-2 [1]). 내는 곳 한 곳: Enemy 넉백 자리(꾸러미 ⑧, WallSlamRule.MinPush·Cooldown을 지킴).
+        /// 듣는 곳: WallSlam(꾸러미 ③, 결과 적용·연출).
+        /// </summary>
+        public static event Action<Enemy, WallSlamHit> EnemyWallSlam;
+        /// <summary>처형했다(적, 기습 처형인가). 내는 곳: PlayerController(꾸러미 ⑤). 듣는 곳: PackFear(③, 2.5초 공포), 계측.</summary>
+        public static event Action<Enemy, bool> EnemyExecuted;
+        /// <summary>회피 반격 창이 열렸다(예고 공격을 구르기 무적으로 받아 냄). 내는 곳: PlayerController(⑤). 듣는 곳: CounterFx(⑤), 계측(⑧).</summary>
+        public static event Action CounterOpened;
+        /// <summary>회피 반격 첫 타가 들어갔다. 내는 곳: PlayerController(⑤). 듣는 곳: 계측(⑧).</summary>
+        public static event Action<Enemy> CounterLanded;
+        /// <summary>보스 단계가 바뀌었다(보스, 새 단계 1·2). 내는 곳: OgreBrain(꾸러미 ②). 듣는 곳: 이름표·계측.</summary>
+        public static event Action<Enemy, int> BossPhaseChanged;
+        /// <summary>적이 겁먹었다(적, 초). 내는 곳: PackFear(③). 듣는 곳: 계측·소리(④ LurkSounds 찍찍).</summary>
+        public static event Action<Enemy, float> EnemyFrightened;
+
         public static void ResetStatics()
         {
             LegendTriggered = null;
             LegendDealt = null;
+            EnemyWallSlam = null;
+            EnemyExecuted = null;
+            CounterOpened = null;
+            CounterLanded = null;
+            BossPhaseChanged = null;
+            EnemyFrightened = null;
             PlayerBasicHit = null;
             PlayerCritShown = null;
             PlayerDealtDamage = null;
@@ -217,5 +245,11 @@ namespace Demo6.Game
         public static void RaiseWaveHitWall(Vector2 point, Vector2 dir) => WaveHitWall?.Invoke(point, dir);
         public static void RaiseLegendTriggered(Demo6.Core.Loot.LegendaryEffect effect, int size) => LegendTriggered?.Invoke(effect, size);
         public static void RaiseLegendDealt(Demo6.Core.Loot.LegendaryEffect effect, in DamageDealt d) => LegendDealt?.Invoke(effect, d);
+        public static void RaiseEnemyWallSlam(Enemy e, in WallSlamHit hit) => EnemyWallSlam?.Invoke(e, hit);
+        public static void RaiseEnemyExecuted(Enemy e, bool ambush) => EnemyExecuted?.Invoke(e, ambush);
+        public static void RaiseCounterOpened() => CounterOpened?.Invoke();
+        public static void RaiseCounterLanded(Enemy e) => CounterLanded?.Invoke(e);
+        public static void RaiseBossPhaseChanged(Enemy boss, int phase) => BossPhaseChanged?.Invoke(boss, phase);
+        public static void RaiseEnemyFrightened(Enemy e, float seconds) => EnemyFrightened?.Invoke(e, seconds);
     }
 }

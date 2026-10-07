@@ -42,6 +42,8 @@ namespace Demo6.Game
         public static GUIStyle Title { get; private set; }
         public static GUIStyle Label { get; private set; }
         public static GUIStyle Small { get; private set; }
+        public static GUIStyle SmallCenter { get; private set; }
+        public static GUIStyle KeyLabel { get; private set; }
         public static GUIStyle Bold { get; private set; }
         public static GUIStyle Center { get; private set; }
         public static GUIStyle BigCenter { get; private set; }
@@ -100,8 +102,8 @@ namespace Demo6.Game
             DestroyCached(ref _btnHover);
             DestroyCached(ref _btnActive);
             DestroyCached(ref _skin);
-            DestroyCached(ref _serif);
-            DestroyCached(ref _bodyFont);
+            _serif = null; // Imported project font: never destroy its asset.
+            _bodyFont = null;
             _ready = false;
             _serifTried = false;
         }
@@ -121,7 +123,7 @@ namespace Demo6.Game
             _serifTried = false;
         }
 
-        /// <summary>바탕체 계열 OS 글꼴. 설치된 것이 없으면 null(기본 글꼴).</summary>
+        /// <summary>Approved project-local Hahmlet Bold, with bundled Pretendard fallback.</summary>
         public static Font Serif
         {
             get
@@ -136,30 +138,7 @@ namespace Demo6.Game
 
         static Font LoadSerif()
         {
-            string[] installed;
-            try
-            {
-                installed = Font.GetOSInstalledFontNames();
-            }
-            catch
-            {
-                return null;
-            }
-            if (installed == null || installed.Length == 0) return null;
-            var found = new List<string>();
-            foreach (var want in SerifNames)
-            {
-                foreach (var have in installed)
-                {
-                    if (!string.Equals(want, have, System.StringComparison.OrdinalIgnoreCase)) continue;
-                    if (!found.Contains(have)) found.Add(have);
-                    break;
-                }
-            }
-            if (found.Count == 0) return null;
-            var font = Font.CreateDynamicFontFromOSFont(found.ToArray(), 32);
-            if (font) font.hideFlags = HideFlags.DontSave;
-            return font;
+            return UiFontsA.Title;
         }
 
         /// <summary>OnGUI 맨 앞에서 부른다. 던전 스킨을 씌우고 글꼴 크기·배율을 맞춘다.</summary>
@@ -184,40 +163,44 @@ namespace Demo6.Game
             EnsureTextures();
             var serif = Serif;
             if (!_bodyFont) {
-                _bodyFont = Font.CreateDynamicFontFromOSFont(new[] { "Malgun Gothic", "맑은 고딕", "Noto Sans KR", "Arial" }, 20);
-                if (_bodyFont) _bodyFont.hideFlags = HideFlags.DontSave;
+                _bodyFont = UiFontsA.Body;
             }
             if (_bodyFont) _skin.font = _bodyFont;
             var label = _skin.label;
+            if (_bodyFont) label.font = _bodyFont;
 
-            Title = new GUIStyle(label) { fontSize = 25, fontStyle = FontStyle.Bold, wordWrap = true, font = serif };
+            Title = new GUIStyle(label) { fontSize = 25, fontStyle = FontStyle.Normal, wordWrap = true, font = serif };
             SetTextColor(Title, TitleColor);
             Label = new GUIStyle(label) { fontSize = 18, wordWrap = true };
             Small = new GUIStyle(label) { fontSize = 16, wordWrap = true };
-            Bold = new GUIStyle(label) { fontSize = 18, fontStyle = FontStyle.Bold, wordWrap = true };
+            SmallCenter = new GUIStyle(Small) { alignment=TextAnchor.MiddleCenter, wordWrap=false, clipping=TextClipping.Overflow, fontSize=14 };
+            KeyLabel = new GUIStyle(SmallCenter) { fontSize=13 };
+            Bold = new GUIStyle(label) { fontSize = 18, fontStyle = FontStyle.Normal, wordWrap = true, font = UiFontsA.Emphasis };
             Center = new GUIStyle(label) { fontSize = 18, alignment = TextAnchor.MiddleCenter, wordWrap = true };
             _closeGlyph = new GUIStyle(label) { fontSize = 26, alignment = TextAnchor.MiddleCenter, fontStyle = FontStyle.Normal, padding = new RectOffset(), contentOffset = new Vector2(0,-1), wordWrap = false };
             SetTextColor(_closeGlyph, Bone);
-            BigCenter = new GUIStyle(label) { fontSize = 30, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter, font = serif };
+            BigCenter = new GUIStyle(label) { fontSize = 30, fontStyle = FontStyle.Normal, alignment = TextAnchor.MiddleCenter, font = serif };
             SetTextColor(BigCenter, Color.white);
-            Display = new GUIStyle(label) { fontSize = 56, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter, wordWrap = false, clipping = TextClipping.Overflow, font = serif };
+            Display = new GUIStyle(label) { fontSize = 56, fontStyle = FontStyle.Normal, alignment = TextAnchor.MiddleCenter, wordWrap = false, clipping = TextClipping.Overflow, font = serif };
             SetTextColor(Display, Color.white);
-            Banner = new GUIStyle(label) { fontSize = 40, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter, wordWrap = false, clipping = TextClipping.Overflow, font = serif };
+            Banner = new GUIStyle(label) { fontSize = 40, fontStyle = FontStyle.Normal, alignment = TextAnchor.MiddleCenter, wordWrap = false, clipping = TextClipping.Overflow, font = serif };
             SetTextColor(Banner, Color.white);
-            Subtitle = new GUIStyle(label) { fontSize = 20, fontStyle = FontStyle.Italic, alignment = TextAnchor.MiddleCenter, wordWrap = false, clipping = TextClipping.Overflow, font = serif };
+            Subtitle = new GUIStyle(label) { fontSize = 20, fontStyle = FontStyle.Normal, alignment = TextAnchor.MiddleCenter, wordWrap = false, clipping = TextClipping.Overflow, font = UiFontsA.Body };
             SetTextColor(Subtitle, Color.white);
-            Toast = new GUIStyle(label) { fontSize = 18, alignment = TextAnchor.MiddleCenter, wordWrap = false, clipping = TextClipping.Overflow, font = serif };
+            Toast = new GUIStyle(label) { fontSize = 18, alignment = TextAnchor.MiddleCenter, wordWrap = false, clipping = TextClipping.Overflow, font = UiFontsA.Body };
             SetTextColor(Toast, Color.white);
-            ToastQuiet = new GUIStyle(label) { fontSize = 18, fontStyle = FontStyle.Italic, alignment = TextAnchor.MiddleCenter, wordWrap = false, clipping = TextClipping.Overflow, font = serif };
+            ToastQuiet = new GUIStyle(label) { fontSize = 18, fontStyle = FontStyle.Normal, alignment = TextAnchor.MiddleCenter, wordWrap = false, clipping = TextClipping.Overflow, font = UiFontsA.Body };
             SetTextColor(ToastQuiet, Color.white);
 
             // 단추: 어두운 쇠판 + 뼈색 글. 말뚝·사건·쪽지·가방·스킬 창 단추가 모두 이 모양을 쓴다.
             var b = _skin.button;
+            b.font = UiFontsA.Emphasis;
+            b.fontStyle = FontStyle.Normal;
             b.fontSize = 18;
             b.padding = new RectOffset(12, 12, 6, 6);
             b.wordWrap = true;
             b.clipping = TextClipping.Clip;
-            b.border = new RectOffset(16, 16, 16, 16);
+            b.border = new RectOffset(8, 8, 8, 8);
             b.normal.background = _btnNormal;
             b.normal.textColor = Bone;
             b.hover.background = _btnHover;
@@ -247,6 +230,7 @@ namespace Demo6.Game
         /// <summary>창을 연다. 다른 창이 열려 있으면 false. 여는 동안 시간을 멈춘다.</summary>
         public static bool TryOpen(string name)
         {
+            if (!ApprovedUiV5.MapsEnabled && name == BigMap.MapModal) return false;
             if (Modal != null && Modal != name) return false;
             if (Modal == name) return true;
             Modal = name;
@@ -391,12 +375,14 @@ namespace Demo6.Game
         /// <summary>검은 그림자를 깐 글. 글자색은 color(스타일 글자색은 흰색이라 GUI.color가 그대로 보인다).</summary>
         public static void ShadowLabel(Rect r, string text, GUIStyle style, Color color, float shadow = 0.85f)
         {
-            if (string.IsNullOrEmpty(text) || color.a <= 0.002f) return;
+            if (Event.current.type != EventType.Repaint || string.IsNullOrEmpty(text) || color.a <= 0.002f) return;
             var prev = GUI.color;
+            var content = new GUIContent(text);
+            style = UiFontsA.ResolveTitleFallback(style, text);
             GUI.color = new Color(0f, 0f, 0f, color.a * shadow);
-            GUI.Label(new Rect(r.x + 2f, r.y + 2f, r.width, r.height), text, style);
+            style.Draw(new Rect(r.x + 2f, r.y + 2f, r.width, r.height), content, false, false, false, false);
             GUI.color = color;
-            GUI.Label(r, text, style);
+            style.Draw(r, content, false, false, false, false);
             GUI.color = prev;
         }
 

@@ -7,8 +7,8 @@ namespace Demo6.Tests
 {
     /// <summary>
     /// 2차 11-11 #39를 7칸으로 다시 함(장비 문서 7장): 모든 자리가 iLv11 전설 +15, 굴림 100%, 옵션 최대일 때의 합이 StatCaps 안에 든다.
-    /// 각 칸의 종류 고유는 그 능력치에 가장 유리한 종류 하나, 옵션은 그 부위 풀에 있을 때만 위끝 × 1.5(× 고정값이면 iLv11 2.5)로 센다.
-    /// 7장 표: 치명 31%, 치명 피해 300%(대검), 공격 속도 +24%, 이동 +22%, 재사용 23%, 흡수 1.8%, 방어 3,774(어림, 장비마다 반올림하면 3,773).
+    /// 각 칸의 종류 고유는 그 능력치에 가장 유리한 종류 하나, 옵션은 그 부위 풀에 있을 때만 위끝 × 1.5 × 옵션 세기 0.8(× 고정값이면 iLv11 2.5)로 센다.
+    /// 7장 표(옵션 ×0.8 뒤, 12장 밸런스 결정): 치명 27.4%, 치명 피해 288%(대검), 공격 속도 +19.8%, 이동 +19.6%, 재사용 20%, 흡수 1.5%, 방어 3,705.
     /// </summary>
     public sealed class CapTests
     {
@@ -49,24 +49,24 @@ namespace Demo6.Tests
         }
 
         [Test]
-        public void CritChanceMaxIsThirtyOnePercent()
+        public void CritChanceMaxStaysUnderCap()
         {
             int max = MaxSum(OptionKind.CritChance, StatBase.CritChancePermille);
-            Assert.AreEqual(310, max, "5 + 쌍검 4 + 무기 6 + 장갑 6 + 반지 3×2 + 핏빛 2×2");
+            Assert.AreEqual(274, max, "5 + 쌍검 4 + 무기 4.8 + 장갑 4.8 + 반지 2.4×2 + 핏빛 2×2");
             Assert.LessOrEqual(max, StatCaps.CritChancePermille);
         }
 
         [Test]
-        public void CritDamageMaxReachesCapOnlyWithGreatsword()
+        public void CritDamageMaxStaysUnderCapEvenWithGreatsword()
         {
             int max = MaxSum(OptionKind.CritDamage, StatBase.CritDamagePermille);
-            Assert.AreEqual(3000, max, "150 + 대검 50 + 무기 30 + 목걸이 30 + 송곳 15×2 + 판금 장갑 10");
+            Assert.AreEqual(2880, max, "150 + 대검 50 + 무기 24 + 목걸이 24 + 송곳 15×2 + 판금 장갑 10");
             Assert.LessOrEqual(max, StatCaps.CritDamagePermille);
-            // 장검 260%, 쌍검 230%(무기 고유만 바꿈).
+            // 장검 248%, 쌍검 218%(무기 고유만 바꿈).
             int longsword = max - 500 + GearBaseTable.Get(GearBaseTable.Longsword).IntrinsicOf(OptionKind.CritDamage);
             int twin = max - 500 + GearBaseTable.Get(GearBaseTable.Twinblades).IntrinsicOf(OptionKind.CritDamage);
-            Assert.AreEqual(2600, longsword);
-            Assert.AreEqual(2300, twin);
+            Assert.AreEqual(2480, longsword);
+            Assert.AreEqual(2180, twin);
             // 아래끝: 쌍검 −20%만 붙어도 맨몸 150% → 130%로, 치명 피해 아래 상한 100% 위다.
             int min = StatBase.CritDamagePermille;
             foreach (var part in SlotParts) min += System.Math.Min(0, MinIntrinsic(part, OptionKind.CritDamage));
@@ -75,18 +75,18 @@ namespace Demo6.Tests
         }
 
         [Test]
-        public void AttackSpeedMaxIsTwentyFourPercent()
+        public void AttackSpeedMaxStaysUnderCap()
         {
             int max = MaxSum(OptionKind.AttackSpeed, 0);
-            Assert.AreEqual(240, max, "무기 12 + 장갑 9 + 사슬 장갑 3");
+            Assert.AreEqual(198, max, "무기 9.6 + 장갑 7.2 + 사슬 장갑 3");
             Assert.LessOrEqual(max, StatCaps.AttackSpeedPermille);
         }
 
         [Test]
-        public void MoveSpeedMaxIsTwentyTwoPercent()
+        public void MoveSpeedMaxStaysUnderCap()
         {
             int max = MaxSum(OptionKind.MoveSpeed, 0);
-            Assert.AreEqual(220, max, "가죽 갑옷 3 + 가죽 장화 3 + 장화 옵션 12 + 부적 목걸이 4");
+            Assert.AreEqual(196, max, "가죽 갑옷 3 + 가죽 장화 3 + 장화 옵션 9.6 + 부적 목걸이 4");
             Assert.LessOrEqual(max, StatCaps.MoveSpeedPermille);
             int min = 0;
             foreach (var part in SlotParts) min += System.Math.Min(0, MinIntrinsic(part, OptionKind.MoveSpeed));
@@ -95,22 +95,22 @@ namespace Demo6.Tests
         }
 
         [Test]
-        public void CooldownReductionMaxIsTwentyThreePercent()
+        public void CooldownReductionMaxStaysUnderCap()
         {
             int max = MaxSum(OptionKind.CooldownReduction, 0);
-            Assert.AreEqual(230, max, "사슬 두건 3 + 투구 6 + 이빨 목걸이 5 + 목걸이 9");
+            Assert.AreEqual(200, max, "사슬 두건 3 + 투구 4.8 + 이빨 목걸이 5 + 목걸이 7.2");
             Assert.LessOrEqual(max, StatCaps.CooldownReductionPermille);
         }
 
         [Test]
-        public void LifeStealMaxIsOnePointEightPercent()
+        public void LifeStealMaxStaysUnderCap()
         {
             int max = MaxSum(OptionKind.LifeSteal, 0);
-            Assert.AreEqual(18, max, "무기 1.2 + 장갑 0.6");
+            Assert.AreEqual(15, max, "무기 0.96 → 1.0 + 장갑 0.48 → 0.5");
             Assert.LessOrEqual(max, StatCaps.LifeStealPermille);
         }
 
-        /// <summary>판금 한 벌 iLv11 전설 +15 굴림 100% + 방어+ 옵션(갑옷 90 + 장화 45) × 2.5 ≈ 3,774 &lt; 4,000.</summary>
+        /// <summary>판금 한 벌 iLv11 전설 +15 굴림 100%(3,435) + 방어+ 옵션(갑옷 72 + 장화 36) × 2.5 = 3,705 &lt; 4,000.</summary>
         [Test]
         public void DefenseMaxStaysUnderCap()
         {
@@ -128,8 +128,8 @@ namespace Demo6.Tests
             }
             int total = loadout.OptionTotal(OptionKind.DefenseFlat);
             foreach (var item in loadout.Items) total += item.Defense;
-            Assert.AreEqual(225 + 113, loadout.OptionTotal(OptionKind.DefenseFlat), "갑옷 60 × 1.5 × 2.5, 장화 30 × 1.5 × 2.5");
-            Assert.That(total, Is.InRange(3774 - 3, 3774 + 3));
+            Assert.AreEqual(180 + 90, loadout.OptionTotal(OptionKind.DefenseFlat), "갑옷 60 × 1.5 × 0.8 × 2.5, 장화 30 × 1.5 × 0.8 × 2.5");
+            Assert.That(total, Is.InRange(3705 - 3, 3705 + 3));
             Assert.LessOrEqual(total, StatCaps.Defense);
             // 방어+ 옵션은 갑옷·장화에만 있다(5-3).
             foreach (var part in GearSlots.Parts)

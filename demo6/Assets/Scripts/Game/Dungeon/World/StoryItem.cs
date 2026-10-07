@@ -104,6 +104,9 @@ namespace Demo6.Game
             if (state != null) state.Complete(_id, DiscoveryKind.Story, pos, _label);
             WorldOverlay.Text(pos + Vector2.up * 1.1f, "광부 명패", Color.white);
             DungeonEvents.Say("녹슨 광부 명패 — 마을에 돌려주면, 기다리던 등불 하나가 꺼진다");
+            // 새겨진 이름(묶음 3 나-8, 이야기 문서 3장 글귀 "명패에 '…'이라 새겨져 있다.").
+            string carved = Demo6.Core.Town.TownScript.NameplateInscription(FloorRecipe.NameplateName(_id));
+            if (carved != null) DungeonEvents.Say(carved);
             Destroy(gameObject);
         }
 

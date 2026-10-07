@@ -10,7 +10,7 @@ namespace Demo6.Core.Loot
     /// </summary>
     public static class GearMath
     {
-        /// <summary>무기 공격력 1단계 값(2차 6-3, 10배 단위). 세 무기 모두 같다.</summary>
+        /// <summary>무기 공격력 1단계 값(2차 6-3, 10배 단위). 아홉 무기 모두 같다(무기 차이는 리듬·모양·치명·고유 규칙으로만).</summary>
         public const int WeaponBaseAttack = 100;
         /// <summary>맨몸 공격력(2차 6-1·계약서 '낀 무기'): 플레이어 공격력 = 100 + 무기 공격력.</summary>
         public const int BareHandAttack = 100;
@@ -131,11 +131,18 @@ namespace Demo6.Core.Loot
     /// </summary>
     public sealed class WeaponItem
     {
-        public const string LongswordId = "wpn_longsword";
-        public const string GreatswordId = "wpn_greatsword";
-        public const string TwinbladesId = "wpn_twinblades";
+        public const string LongswordId = GearBaseTable.Longsword;
+        public const string GreatswordId = GearBaseTable.Greatsword;
+        public const string TwinbladesId = GearBaseTable.Twinblades;
+        // 새 무기 6종(전투·보스·무기 다듬기 1차 2장). 옛 굴림(LootRules.RollWeapon)에서는 나오지 않지만 GearItem.ToWeapon 다리로는 지나간다.
+        public const string MaulId = GearBaseTable.Maul;
+        public const string SpearId = GearBaseTable.Spear;
+        public const string ScytheId = GearBaseTable.Scythe;
+        public const string AxeId = GearBaseTable.Axe;
+        public const string DaggerId = GearBaseTable.Dagger;
+        public const string FlailId = GearBaseTable.Flail;
 
-        /// <summary>WeaponPresets id(wpn_longsword / wpn_greatsword / wpn_twinblades).</summary>
+        /// <summary>WeaponPresets id(WeaponPresets.All 9종 가운데 하나, 모르면 장검).</summary>
         public string WeaponId { get; }
         public Grade Grade { get; }
         public int ItemLevel { get; }
@@ -159,7 +166,7 @@ namespace Demo6.Core.Loot
         /// <summary>무기 종류 공격 규칙(WeaponPresets). 모르는 id면 장검.</summary>
         public WeaponAttackRule Rule => RuleOf(WeaponId);
 
-        /// <summary>종류 이름(장검·대검·쌍검).</summary>
+        /// <summary>종류 이름(장검·대검·쌍검·쇠망치·창·큰 낫·도끼·단검·사슬 철퇴). GearBase.Name과 같다.</summary>
         public string WeaponName => Rule.displayName;
 
         /// <summary>화면 이름 예: "희귀 대검".</summary>
@@ -168,6 +175,7 @@ namespace Demo6.Core.Loot
         /// <summary>시작 무기: 1층 일반 장검 굴림 1000‰ = 공격 100(플레이어 공격력 200, 2차 5-3).</summary>
         public static WeaponItem Starting() => new WeaponItem(LongswordId, Grade.Common, 1, 1000);
 
+        /// <summary>id의 공격 규칙(WeaponPresets.All 9종을 돈다, 장비 표 GearBase.WeaponRule·StatSheet.WeaponRule도 이것을 씀). 모르는 id면 장검.</summary>
         public static WeaponAttackRule RuleOf(string weaponId)
         {
             foreach (var w in WeaponPresets.All)

@@ -1,0 +1,22 @@
+const fs=require('fs'),path=require('path');
+const old='아트/캐릭터-준비연결-v049',root='아트/캐릭터-가드준비-수정-v050';
+if(fs.existsSync(root))throw Error('Already prepared');
+for(const dir of ['scripts','source','native','layers','preview','masters'])fs.mkdirSync(root+'/'+dir,{recursive:true});
+for(const dir of ['scripts','source'])for(const name of fs.readdirSync(old+'/'+dir))if(fs.statSync(old+'/'+dir+'/'+name).isFile())fs.copyFileSync(old+'/'+dir+'/'+name,root+'/'+dir+'/'+name);
+let s=fs.readFileSync(root+'/scripts/build-motion.cjs','utf8');
+s=s.replace('rests[0].right=[.36,-.50,1.40,-10,15,0];','rests[0].right=[.16,-.58,1.40,-10,15,0];');
+s=s.replace('const guard=()=>at(0,0,R(.36,-.50,1.40,-8,55),R(.58,.34,1.60,90,86),5,-.015);','const guard=()=>at(0,0,R(.16,-.58,1.40,-8,55),R(.60,.08,1.60,0,75),5,-.015);');
+s=s.replace('R(.50,.48,1.61,96,86)','R(.54,.12,1.61,6,75)').replace('R(.44,.55,1.62,104,86)','R(.50,.16,1.62,14,75)').replace('R(.68,.32,1.64,84,86)','R(.66,.06,1.64,-6,75)');
+s=s.replace('yaw([0,.09,0],delta)','yaw([0,.09,0],left[3]-90)');
+s=s.replace('// Latest user correction: carry the sword forward and raised, without spreading the arm.','// 2026-10-06: tuck ready grip beside the body; shield face normal follows the front in guard.');
+fs.writeFileSync(root+'/scripts/build-motion.cjs',s);
+let helper=fs.readFileSync(root+'/scripts/render-helpers.lua','utf8').replace(/local root='[^']+'/,'local root='+JSON.stringify(path.resolve(root).replaceAll('\\','/')));
+let body=fs.readFileSync(root+'/scripts/render-body.lua','utf8').replace("if app.params['only'] then","if stage=='sword-final' then take=clip.kind=='shield' end\n if app.params['only'] then");
+fs.writeFileSync(root+'/scripts/render-final.lua',helper+'\n'+body);
+const backup='검증/v049-final/backup';fs.mkdirSync(backup,{recursive:true});
+const check=old+'/scripts/MotionRuntimeV045.cs';fs.copyFileSync(check,backup+'/MotionRuntimeV045.cs');
+s=fs.readFileSync(check,'utf8').replaceAll('id.Contains("first-slash")','(id.Contains("first-slash")||id=="twin-first-right-return")').replace('c.id.EndsWith("return")','(c.id.EndsWith("-wave-return")||c.id.EndsWith("-whirl-return"))');
+// The c.id expression needs its own qualifier; keep the zero-combo twin in swing checks.
+s=s.replace('c.(id.Contains("first-slash")||id=="twin-first-right-return")','(c.id.Contains("first-slash")||c.id=="twin-first-right-return")');
+fs.writeFileSync(check,s);
+console.log(root);

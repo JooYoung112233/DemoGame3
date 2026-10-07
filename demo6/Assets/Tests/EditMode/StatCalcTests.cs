@@ -137,7 +137,7 @@ namespace Demo6.Tests
             // 체력: (2,000 + 레벨 체력 (120 + 15 × 2) × 2 + 고급 가죽 갑옷 250 + 두건 80 + 장갑 60 + 장화 60) × (1 + 46‰) = 2,750 × 1.046 = 2,876.5 → 2,877.
             var armor = Item(GearBaseTable.LeatherArmor, Grade.Uncommon, options: new[] { Opt(OptionKind.HpPercent, 46) });
             Assert.AreEqual(250, armor.Hp);
-            // 공격력: (100 + 고급 장검 125 + 고급 쇠 반지 31) × (1 + 60‰ + 30‰) = 256 × 1.09 = 279.04 → 279.
+            // 공격력: (100 + 고급 한손검과 방패 125 + 고급 쇠 반지 31) × (1 + 60‰ + 30‰) = 256 × 1.09 = 279.04 → 279.
             var sword = Item(GearBaseTable.Longsword, Grade.Uncommon, options: new[] { Opt(OptionKind.AttackPercent, 60) });
             var ring = Item(GearBaseTable.IronRing, Grade.Uncommon, options: new[] { Opt(OptionKind.AttackPercent, 30) });
             Assert.AreEqual(125, sword.Attack);
@@ -417,7 +417,7 @@ namespace Demo6.Tests
         [Test]
         public void SwingsPerSecondAndExpectedCritMultiplier()
         {
-            Assert.AreEqual(1.40, StatCalc.SwingsPerSecond(WeaponPresets.Longsword, 0), 0.005);
+            Assert.AreEqual(1.42, StatCalc.SwingsPerSecond(WeaponPresets.Longsword, 0), 0.005);
             Assert.AreEqual(WeaponPresets.Twinblades.SwingsPerSecond * 1.3, StatCalc.SwingsPerSecond(WeaponPresets.Twinblades, 300), 1e-5);
             Assert.AreEqual(StatCalc.SwingsPerSecond(WeaponPresets.Longsword, 0), StatCalc.SwingsPerSecond(StatCalc.Starting()), 1e-12);
             Assert.AreEqual(0.0, StatCalc.SwingsPerSecond(null, 0));

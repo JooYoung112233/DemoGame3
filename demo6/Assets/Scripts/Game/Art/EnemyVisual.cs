@@ -49,7 +49,8 @@ namespace Demo6.Game
                 return;
             }
             var set = ArtRuntime.Active;
-            bool wood = (_enemy is DummyBrain dummy && dummy.IsWood) || _enemy.Kind == MonsterKind.Nest;
+            // 갱도 오우거는 그림 칸이 아직 없다(CombatArtSet.Enemy의 기본값이 궁수 그림이라 막는다). 몸은 OgreLook 도형 임시판이 그린다.
+            bool wood = (_enemy is DummyBrain dummy && dummy.IsWood) || _enemy.Kind == MonsterKind.Nest || _enemy.Kind == MonsterKind.Ogre;
             var art = set && !wood ? set.Enemy(_enemy.Kind) : null;
             if (art == null || !art.HasAny)
             {

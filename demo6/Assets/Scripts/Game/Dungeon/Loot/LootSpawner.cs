@@ -23,14 +23,14 @@ namespace Demo6.Game
         const int MaxStonePickups = 4;
 
         /// <summary>
-        /// 묶음 하나를 origin에서 direction 쪽으로 흩뿌린다(장비 → 강화석 → 골드 순서로 튀어나옴).
+        /// 묶음 하나를 origin에서 direction 쪽으로 흩뿌린다(장비 → 룬 → 강화석 → 골드 순서로 튀어나옴, 룬은 기획/세-무기-우클릭-소켓-1차.md 6-4).
         /// direction이 0이면 무작위 방향.
         /// </summary>
         public static void Spawn(LootBundle bundle, Vector2 origin, Vector2 direction, float delay)
         {
             if (bundle == null || bundle.Empty) return;
             int stonePickups = Mathf.Min(MaxStonePickups, Mathf.Max(0, bundle.Stones));
-            int total = bundle.Gear.Count + stonePickups + bundle.GoldPiles.Count;
+            int total = bundle.Gear.Count + bundle.Runes.Count + stonePickups + bundle.GoldPiles.Count;
             if (direction.sqrMagnitude < 0.0001f) direction = UnityEngine.Random.insideUnitCircle.normalized;
             if (direction.sqrMagnitude < 0.0001f) direction = Vector2.down;
             direction.Normalize();
@@ -39,6 +39,11 @@ namespace Demo6.Game
             foreach (var item in bundle.Gear)
             {
                 LootDrop.Spawn(item, origin, Landing(origin, direction, index, total), delay + Interval * index);
+                index++;
+            }
+            foreach (var rune in bundle.Runes)
+            {
+                LootPickup.SpawnRune(rune, origin, Landing(origin, direction, index, total), delay + Interval * index);
                 index++;
             }
             for (int i = 0; i < stonePickups; i++)

@@ -1,0 +1,15 @@
+using System;using System.IO;using System.Linq;using System.Collections.Generic;using System.Reflection;using System.Threading.Tasks;using UnityEngine;using UnityEditor;using UnityEngine.InputSystem;using UnityEngine.InputSystem.LowLevel;using Demo6.Game;
+public static class ObserveNativeInput {
+ public static async Task<object> Run(){
+  if(Application.dataPath.Replace("\\","/")!="E:/personalProject/Demo3/demo6/Assets")throw new Exception("Original only");
+  const BindingFlags F=BindingFlags.Public|BindingFlags.NonPublic|BindingFlags.Instance|BindingFlags.Static;
+  var manager=typeof(InputSystem).GetField("s_Manager",F).GetValue(null);var callbacks=manager.GetType().GetField("m_BeforeUpdateListeners",F).GetValue(manager);var ct=callbacks.GetType();int n=(int)ct.GetProperty("length",F).GetValue(callbacks);var callbackNames=new List<string>();var removed=new List<string>();
+  for(int i=0;i<n;i++){var d=ct.GetProperty("Item",F).GetValue(callbacks,new object[]{i}) as Delegate;if(d==null)continue;string name=d.Method.DeclaringType?.FullName+"."+d.Method.Name;callbackNames.Add(name);if(d is Action action&&d.Method.Name=="Feed"&&name.Contains("InputScope")&&(name.StartsWith("V10")||name.StartsWith("V11"))){InputSystem.onBeforeUpdate-=action;removed.Add(name);}}
+  int keyboardEvents=0,mouseEvents=0;Action<InputEventPtr,InputDevice> listener=(e,d)=>{if(d==null||!d.native)return;if(d is Keyboard)keyboardEvents++;if(d is Mouse)mouseEvents++;};
+  InputSystem.onEvent+=listener;try{await Task.Delay(12000);}finally{InputSystem.onEvent-=listener;}
+  var p=PlayerController.Instance;var reader=p?p.GetComponent<PlayerInputReader>():null;var map=reader?(InputActionMap)typeof(PlayerInputReader).GetField("_map",F).GetValue(reader):null;
+  var logType=typeof(Editor).Assembly.GetType("UnityEditor.LogEntries");object[] countArgs={0,0,0};logType?.GetMethod("GetCountsByType",F)?.Invoke(null,countArgs);
+  var result=new{callbacksObserved=callbackNames,staleFeedCallbacksRemoved=removed,keyboardNativeEvents=keyboardEvents,mouseNativeEvents=mouseEvents,syntheticEventsSent=0,keyboard=Keyboard.current?.name,keyboardNative=Keyboard.current?.native,keyboardEnabled=Keyboard.current?.enabled,mouse=Mouse.current?.name,mouseNative=Mouse.current?.native,mouseEnabled=Mouse.current?.enabled,inputEditorBehavior=InputSystem.settings.editorInputBehaviorInPlayMode.ToString(),InputSystem.settings.updateMode,EditorApplication.isPlaying,EditorApplication.isPaused,Time.timeScale,PlayerInputReader.Blocked,playerPresent=(bool)p,mapEnabled=map?.enabled,mapDeviceRestriction=map?.devices?.Select(d=>d.name).ToArray(),consoleErrorCount=countArgs[0],consoleWarningCount=countArgs[1],note="Passive native device event observation; no keys, clicks or synthetic input were injected."};
+  var path="E:/personalProject/Demo3/demo6/검증/입력복구-20261004";Directory.CreateDirectory(path);File.WriteAllText(path+"/native-input-observation.json",Newtonsoft.Json.JsonConvert.SerializeObject(result,Newtonsoft.Json.Formatting.Indented));return result;
+ }
+}

@@ -1,0 +1,3 @@
+const fs=require('fs');const p=__dirname+'/V10OriginalUiChecks.cs';let s=fs.readFileSync(p,'utf8');if(!s.includes('Task<object> FontCheck()'))s=s.trimEnd().slice(0,-1)+`
+ public static async Task<object> FontCheck(){Guard();int rebuilds=0;Action<Font> rebuilt=f=>rebuilds++;Font.textureRebuilt+=rebuilt;try{using(var input=new InputScope())using(var size=new SizeScope(1920,1080)){await Task.Delay(1500);await Capture("text-settled-1",1080);await Task.Delay(1500);await Capture("text-settled-2",1080);return new{rebuilds,style=DungeonUi.SmallCenter.normal.textColor.ToString(),small=DungeonUi.Small.normal.textColor.ToString(),offset=DungeonUi.SmallCenter.contentOffset.ToString()};}}finally{Font.textureRebuilt-=rebuilt;}}
+}\n`;fs.writeFileSync(p,s);

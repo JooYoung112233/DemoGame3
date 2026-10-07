@@ -9,6 +9,8 @@ namespace Demo6.Game
     /// 전투 시험 계측. 기획 10장 훈련장 숫자(30초 초당 피해, 기본공격 가동률, 출처별 몫, 치명 비율)와
     /// 12장 합격 기준(피할 수 있었던 예고 공격에 맞은 비율)을 시험장에서 바로 본다.
     /// 장비 문서 6장: 출처별 몫에 '전설' 줄(Shares 전설판)과 효과별 발동 수·맞힌 수·피해·처치·가장 큰 발동(LegendProcs 등, LegendShares)을 더한다.
+    /// 전투·보스·무기 다듬기 1차: 출혈·환경 몫(Shares 여섯 몫 판), 벽 박기·겁먹음·처형(기습·무너짐)·회피 반격(열림·적중)·보스 단계 계수,
+    /// 처형으로 끝난 무거운 적 비율(HeavyExecutedFraction), 보스·연습 마주침을 따로 센다.
     /// </summary>
     public sealed class CombatStats : MonoBehaviour
     {
@@ -64,15 +66,21 @@ namespace Demo6.Game
         readonly int[] _legendKills = new int[LegendaryTable.Count];
         readonly int[] _legendLargest = new int[LegendaryTable.Count];
         readonly Queue<(float time, float dt, bool swinging)> _uptime = new Queue<(float, float, bool)>();
-        readonly int[] _kills = new int[4];
+        /// <summary>종류별 처치 수(MonsterKind 차례). 오우거가 더해져 종류 수로 잡는다.</summary>
+        readonly int[] _kills = new int[System.Enum.GetValues(typeof(MonsterKind)).Length];
         readonly Dictionary<string, float> _weaponRecords = new Dictionary<string, float>();
 
-        /// <summary>마주침 종류. 7-3 기준은 보통 마주침(시간·체력 소모·첫 5초 무너짐)과 정예전(무너뜨림)을 따로 본다.</summary>
+        /// <summary>
+        /// 마주침 종류. 7-3 기준은 보통 마주침(시간·체력 소모·첫 5초 무너짐)과 정예전(무너뜨림)을 따로 본다.
+        /// 보스(갱도 오우거, 3-10 처치 시간 45~65초)와 연습(기둥 옆 멧돼지)은 보통 기록에 섞이지 않게 따로 센다.
+        /// </summary>
         public enum EncounterKind
         {
             Normal,
             Elite,
             Nest,
+            Boss,
+            Practice,
         }
 
         /// <summary>3차 초안 7-3 판정 기록: 마주침 한 번의 시간·체력 소모·무너짐.</summary>
@@ -101,13 +109,59 @@ namespace Demo6.Game
         public int AvoidableTelegraphsHit { get; private set; }
         public int AllTelegraphs { get; private set; }
         public int AllTelegraphsHit { get; private set; }
+
+        // ── 전투·보스·무기 다듬기 1차 사건 계수(기획/전투-보스-무기-다듬기-1차.md 3-10·4-4 확인 지표). '통계 초기화'까지 쌓는다 ──
+
+        /// <summary>벽·기둥 박기 수(CombatEvents.EnemyWallSlam).</summary>
+        public int WallSlams { get; private set; }
+        /// <summary>겁먹음 수(CombatEvents.EnemyFrightened, 무리 공포).</summary>
+        public int Frightened { get; private set; }
+        /// <summary>기습 처형 수(잠든 적 등 뒤 첫 타)와 무너짐 처형 수(CombatEvents.EnemyExecuted).</summary>
+        public int AmbushExecutions { get; private set; }
+        public int BreakExecutions { get; private set; }
+        /// <summary>회피 반격 창이 열린 수와 첫 타가 들어간 수(4-4 기준 1분에 1~3번).</summary>
+        public int CountersOpened { get; private set; }
+        public int CountersLanded { get; private set; }
+        /// <summary>마지막으로 알려진 보스 단계(0 = 아직 없음, 1·2)와 2단계로 넘어간 수(CombatEvents.BossPhaseChanged).</summary>
+        public int BossPhase { get; private set; }
+        public int BossPhase2Entries { get; private set; }
+        /// <summary>쓰러뜨린 무거운 적(멧돼지·정예, 보스·허수아비 빼고)과 그 가운데 처형으로 끝난 수.</summary>
+        public int HeavyKills { get; private set; }
+        public int HeavyExecuted { get; private set; }
+        /// <summary>무거운 적이 처형으로 끝나는 비율(4-4 기준 50~70%). 무거운 적을 아직 못 쓰러뜨렸으면 0.</summary>
+        public float HeavyExecutedFraction => HeavyKills > 0 ? Mathf.Clamp01((float)HeavyExecuted / HeavyKills) : 0f;
         public int Kills(MonsterKind kind) => _kills[(int)kind];
         public IReadOnlyDictionary<string, float> WeaponRecords => _weaponRecords;
 
         void Awake()
         {
             CombatEvents.PlayerDealtDamage += OnDealt;
-            CombatEvents.EnemyKilled += e => _kills[(int)e.Kind]++;
+            CombatEvents.EnemyKilled += e =>
+            {
+                int k = (int)e.Kind;
+                if (k >= 0 && k < _kills.Length) _kills[k]++;
+                if (CountsAsHeavy(e)) HeavyKills++;
+            };
+            // 규칙이 듣지 않는 대상(보스·둥지·허수아비)의 닿음은 벽 박기로 세지 않는다(WallSlamRule.Resolve = 없음).
+            CombatEvents.EnemyWallSlam += (e, hit) =>
+            {
+                if (e && !e.Class.Immune) WallSlams++;
+            };
+            CombatEvents.EnemyFrightened += (e, seconds) => Frightened++;
+            CombatEvents.EnemyExecuted += (e, ambush) =>
+            {
+                if (ambush) AmbushExecutions++;
+                else BreakExecutions++;
+                // 무거운 적의 끝: 무너짐 처형은 늘 끝이고, 기습 처형은 멧돼지를 무너뜨리기만 하므로 쓰러졌을 때만 센다.
+                if (CountsAsHeavy(e) && (!ambush || e.Dead)) HeavyExecuted++;
+            };
+            CombatEvents.CounterOpened += () => CountersOpened++;
+            CombatEvents.CounterLanded += e => CountersLanded++;
+            CombatEvents.BossPhaseChanged += (boss, phase) =>
+            {
+                if (phase >= 2 && BossPhase < 2) BossPhase2Entries++;
+                BossPhase = phase;
+            };
             CombatEvents.PlayerDamaged += amount =>
             {
                 DamageTaken += amount;
@@ -123,9 +177,14 @@ namespace Demo6.Game
                 // 시험장에는 마주침이 한 번에 하나다. 정리되지 않고 다시 세운 마주침은 기록하지 않는다.
                 _activeEncounters.Clear();
                 var root = CombatTestRoot.Instance;
+                var preset = root ? root.CurrentPreset : CombatTestRoot.Preset.FrontBack;
                 var kind = elite ? EncounterKind.Elite
-                    : root && root.CurrentPreset == CombatTestRoot.Preset.Nest ? EncounterKind.Nest
+                    : preset == CombatTestRoot.Preset.Nest ? EncounterKind.Nest
+                    : preset == CombatTestRoot.Preset.Boss ? EncounterKind.Boss
+                    : preset == CombatTestRoot.Preset.PillarBoar ? EncounterKind.Practice
                     : EncounterKind.Normal;
+                // 새로 놓인 오우거는 1단계에서 시작한다(재도전 포함).
+                if (kind == EncounterKind.Boss) BossPhase = 1;
                 _activeEncounters[group] = new EncounterRecord { Kind = kind, V3 = Tuning.Ruleset == CombatRuleset.V3 };
             };
             CombatEvents.EnemyBroken += e =>
@@ -158,6 +217,9 @@ namespace Demo6.Game
             CombatEvents.LegendTriggered += OnLegendTriggered;
             CombatEvents.LegendDealt += OnLegendDealt;
         }
+
+        /// <summary>'처형으로 끝난 무거운 적 비율'에 넣는 적: 무거운 적(멧돼지·정예)이고 보스·허수아비가 아님.</summary>
+        static bool CountsAsHeavy(Enemy e) => e && e.Weight == EnemyWeight.Heavy && !e.IsBoss && !e.IsDummy;
 
         void OnLegendTriggered(LegendaryEffect effect, int size)
         {
@@ -229,6 +291,15 @@ namespace Demo6.Game
             AvoidableTelegraphsHit = 0;
             AllTelegraphs = 0;
             AllTelegraphsHit = 0;
+            WallSlams = 0;
+            Frightened = 0;
+            AmbushExecutions = 0;
+            BreakExecutions = 0;
+            CountersOpened = 0;
+            CountersLanded = 0;
+            BossPhase2Entries = 0;
+            HeavyKills = 0;
+            HeavyExecuted = 0;
             _woodFirstHit = -1f;
             _woodLockedDps = -1f;
             _encounters.Clear();
@@ -381,31 +452,55 @@ namespace Demo6.Game
         /// </summary>
         public void Shares(out float basic, out float whirl, out float wave, out float legend, out float critRate, bool woodOnly, bool withLegend = true)
         {
-            float from = Time.time - DummyWindow;
-            long b = 0, w = 0, s = 0, l = 0;
-            int count = 0, crits = 0;
-            for (int i = _hits.Count - 1; i >= 0 && _hits[i].Time >= from; i--)
-            {
-                var h = _hits[i];
-                if (woodOnly ? !h.Wood : h.Dummy) continue;
-                if (!withLegend && h.Source == DamageSource.Legend) continue;
-                count++;
-                if (h.Crit) crits++;
-                switch (h.Source)
-                {
-                    case DamageSource.Basic: b += h.Amount; break;
-                    case DamageSource.Whirlwind: w += h.Amount; break;
-                    case DamageSource.SwordWave: s += h.Amount; break;
-                    case DamageSource.Legend: l += h.Amount; break;
-                }
-            }
-            if (!withLegend) l = 0;
+            Tally(woodOnly, withLegend, out long b, out long w, out long s, out long l, out _, out _, out int count, out int crits);
             float total = Mathf.Max(1, b + w + s + l);
             basic = b / total;
             whirl = w / total;
             wave = s / total;
             legend = l / total;
             critRate = count > 0 ? (float)crits / count : 0f;
+        }
+
+        /// <summary>
+        /// 최근 30초 출처별 몫에 출혈(도끼)·환경(벽 박기 추가 피해 등) 줄을 더한 판(전투·보스·무기 다듬기 1차). 여섯 몫의 합 = 1.
+        /// 출혈·환경은 치명이 없어 치명 비율의 분모에 넣지 않는다(위 판과 같은 치명 비율).
+        /// </summary>
+        public void Shares(out float basic, out float whirl, out float wave, out float legend, out float bleed, out float environment, out float critRate, bool woodOnly)
+        {
+            Tally(woodOnly, true, out long b, out long w, out long s, out long l, out long bl, out long env, out int count, out int crits);
+            float total = Mathf.Max(1, b + w + s + l + bl + env);
+            basic = b / total;
+            whirl = w / total;
+            wave = s / total;
+            legend = l / total;
+            bleed = bl / total;
+            environment = env / total;
+            critRate = count > 0 ? (float)crits / count : 0f;
+        }
+
+        /// <summary>최근 30초 출처별 피해 합. 치명 비율 분모(count)는 기본·회오리·검풍(·전설)만 센다(출혈·환경은 치명이 없음).</summary>
+        void Tally(bool woodOnly, bool withLegend, out long b, out long w, out long s, out long l, out long bleed, out long env, out int count, out int crits)
+        {
+            float from = Time.time - DummyWindow;
+            b = w = s = l = bleed = env = 0;
+            count = crits = 0;
+            for (int i = _hits.Count - 1; i >= 0 && _hits[i].Time >= from; i--)
+            {
+                var h = _hits[i];
+                if (woodOnly ? !h.Wood : h.Dummy) continue;
+                if (!withLegend && h.Source == DamageSource.Legend) continue;
+                switch (h.Source)
+                {
+                    case DamageSource.Bleed: bleed += h.Amount; continue;
+                    case DamageSource.Environment: env += h.Amount; continue;
+                    case DamageSource.Basic: b += h.Amount; break;
+                    case DamageSource.Whirlwind: w += h.Amount; break;
+                    case DamageSource.SwordWave: s += h.Amount; break;
+                    case DamageSource.Legend: l += h.Amount; break;
+                }
+                count++;
+                if (h.Crit) crits++;
+            }
         }
     }
 }

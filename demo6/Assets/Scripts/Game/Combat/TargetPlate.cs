@@ -7,9 +7,12 @@ namespace Demo6.Game
     /// <summary>
     /// 디아블로식 대상 이름표(한 마리 RPG 요소): 커서 아래 적(커서 월드 위치에서 적 반지름 + 0.4 안)을 먼저, 없으면 2.5초 안에 플레이어가 때린 적을
     /// 화면 위 가운데(전투 시험장 오른쪽 패널·던전 F1 패널을 뺀 왼쪽 영역 기준)에 보인다. 두 시험장에 붙는다.
-    /// 보이는 것: 이름(정예는 "정예 " + 접두사 + 이름, 밝은 뼈색 + 테두리, 등급색 금지), 레벨(일반 = 층, 정예 = 층 + 1), 체력 막대(숫자 + 깎인 몫이 잠깐 남는 꼬리),
-    /// 버팀이 있으면 얇은 버팀 막대(무너짐이면 '무너짐!'), 특성 한 줄(무게, 잠듦/먹는 중/깨어남).
+    /// 보이는 것: 이름(정예는 접두사 + "정예 " + 이름, 밝은 뼈색 + 테두리, 등급색 금지), 레벨(일반 = 층, 정예 = 층 + 1), 체력 막대(숫자 + 깎인 몫이 잠깐 남는 꼬리),
+    /// 버팀이 있으면 얇은 버팀 막대(무너짐이면 '무너짐!'), 특성 한 줄(무게, 잠듦/먹는 중/순찰 중/깨어남).
     /// 시야 밖 적(VisionHidden이고 VisionInSight가 아님)과 허수아비는 고르지 않는다. 대상이 사라지면 0.35초에 걸쳐 흐려진다.
+    /// 보스(기획/전투-보스-무기-다듬기-1차.md 3-7): 깨어 있는 보스는 커서·최근 대상보다 먼저 고정해 보인다. 이름 줄 '갱도 오우거  Lv 3'(BossRules.PlateLevel),
+    /// 체력 막대 50% 자리 흰 눈금, 버팀 막대는 늘, '무너짐!'과 3.0초 줄어드는 막대, 특성 줄 '보스 · 넉백 없음'(2단계 '· 성남').
+    /// 판마다 처음 깰 때 이름이 1.5초 크게 떴다 흐려지고 체력 막대가 0.8초에 걸쳐 0에서 100%로 찬다. 배치는 Unity 개발 단계에서 다시 잡는다.
     /// 수치·판정은 읽기만 한다. 글은 대상이나 값이 바뀔 때만 다시 만든다(매 프레임 할당 없음). 정식 화면은 Unity 개발 단계(uGUI)에서 다시 만든다.
     /// </summary>
     public sealed class TargetPlate : MonoBehaviour
@@ -28,6 +31,10 @@ namespace Demo6.Game
         /// <summary>전투 시험장의 연속 처치 글자(CombatHud, 기준 y 60~120)가 떠 있으면 그 아래로 비킨다.</summary>
         const float BelowStreakTop = 126f;
         const int GuiDepth = 4;
+        /// <summary>보스 첫 깸 연출: 큰 이름 1.5초(마지막 0.5초에 흐려짐), 체력 막대 0.8초에 0 → 100%.</summary>
+        const float BossIntroName = 1.5f;
+        const float BossIntroNameFade = 0.5f;
+        const float BossIntroFill = 0.8f;
 
         static readonly Color NameColor = DungeonUi.Bone;
         /// <summary>정예 이름: 밝은 뼈색(세상 속 정예 흰 테두리와 같은 뜻, 등급색이 아님).</summary>
@@ -43,6 +50,7 @@ namespace Demo6.Game
         static readonly Color BarShine = new Color(1f, 0.55f, 0.45f, 0.22f);
         static readonly Color PoiseBack = new Color(0f, 0f, 0f, 0.6f);
         static readonly Color BrokenColor = new Color(1f, 0.89f, 0.36f, 1f);
+        static readonly Color HalfTick = new Color(1f, 1f, 1f, 0.9f);
 
         public static TargetPlate Instance { get; private set; }
 
@@ -62,7 +70,10 @@ namespace Demo6.Game
         // 대상이 바뀔 때만 만드는 글.
         string _nameText;
         string _levelText;
+        /// <summary>보스 첫 깸 큰 이름(레벨 없이).</summary>
+        string _bossTitle;
         bool _elite;
+        bool _boss;
         bool _hasPoise;
         // 값이 바뀔 때만 만드는 글.
         string _hpText;
@@ -81,12 +92,18 @@ namespace Demo6.Game
 
         float _topOffset;
 
+        // 보스 첫 깸 연출(판 번호가 바뀔 때마다 다시).
+        Enemy _introBoss;
+        int _introFight = -1;
+        float _introStart = -999f;
+
         bool _stylesReady;
         GUIStyle _nameStyle;
         GUIStyle _levelStyle;
         GUIStyle _numberStyle;
         GUIStyle _traitStyle;
         GUIStyle _poiseStyle;
+        GUIStyle _bossTitleStyle;
 
         void Awake()
         {
@@ -116,9 +133,23 @@ namespace Demo6.Game
             return !(e.VisionHidden && !e.VisionInSight);
         }
 
+        /// <summary>깨어 있는 살아 있는 보스(이름표에 고정). 없으면 null. 시야에 가려도 보스 싸움 중에는 보인다.</summary>
+        static Enemy PinnedBoss()
+        {
+            var all = Enemy.All;
+            for (int i = 0; i < all.Count; i++)
+            {
+                var e = all[i];
+                if (e && e.IsBoss && e.Aware && !e.Dead && e.Health != null) return e;
+            }
+            return null;
+        }
+
         void Update()
         {
-            var pick = PickHovered();
+            var pick = PinnedBoss();
+            if (pick) NoteBossIntro(pick);
+            if (!pick) pick = PickHovered();
             if (!pick && _lastHit && Time.time - _lastHitTime <= RecentHitSeconds && Eligible(_lastHit)) pick = _lastHit;
 
             float now = Time.unscaledTime;
@@ -146,6 +177,16 @@ namespace Demo6.Game
 
             if (_hasPlate) ReadValues(now);
             UpdateTopOffset();
+        }
+
+        /// <summary>판마다 처음 깰 때 연출을 시작한다(오우거는 깰 때마다 판 번호가 오른다. 다른 보스는 처음 고정될 때 한 번).</summary>
+        void NoteBossIntro(Enemy boss)
+        {
+            int fight = boss is OgreBrain og ? og.FightId : 0;
+            if (boss == _introBoss && fight == _introFight) return;
+            _introBoss = boss;
+            _introFight = fight;
+            _introStart = Time.unscaledTime;
         }
 
         /// <summary>커서 아래(반지름 + 0.4 안) 적 중 가장 가까운 것. 시험 패널 위에 커서가 있으면 없음.</summary>
@@ -182,9 +223,18 @@ namespace Demo6.Game
             _hasPlate = true;
             var rule = MonsterRule.Of(e.Kind, Tuning.Ruleset, Tuning.SoftBoar);
             _elite = e.IsElite;
-            _nameText = _elite ? "정예 " + AffixPrefix(e.Affixes) + rule.DisplayName : rule.DisplayName;
+            _boss = e.IsBoss;
+            // 접두사 + '정예' + 이름(1-2층 탐험 맛 1차 4-1 '단단한 정예 돌충이', ExploreText.PackElite와 같은 차례).
+            _nameText = _elite ? AffixPrefix(e.Affixes) + "정예 " + rule.DisplayName : rule.DisplayName;
             int floor = e.Floor > 0 ? e.Floor : RootFloor();
             _levelText = "Lv " + (_elite ? floor + 1 : floor);
+            if (_boss)
+            {
+                // 보스: 이름 줄에 레벨을 붙인다(Lv = 층 + 1, 정예와 같음).
+                _nameText = rule.DisplayName + "  Lv " + BossRules.PlateLevel(floor);
+                _bossTitle = rule.DisplayName;
+                _levelText = "";
+            }
             _hpCur = int.MinValue;
             _hpMax = int.MinValue;
             _traitKey = -1;
@@ -248,7 +298,20 @@ namespace Demo6.Game
                 }
                 return;
             }
-            int state = e.Aware ? 2 : e.IsEating ? 1 : 0;
+            if (_boss)
+            {
+                // 보스: 무게·잠 대신 '보스 · 넉백 없음', 2단계면 '· 성남'.
+                int phase = e is OgreBrain og ? og.Phase : 1;
+                int bossKey = 2000 + phase;
+                if (bossKey != _traitKey)
+                {
+                    _traitKey = bossKey;
+                    _traitText = phase >= 2 ? "보스 · 넉백 없음 · 성남" : "보스 · 넉백 없음";
+                }
+                return;
+            }
+            // 순찰(1-2층 탐험 맛 1차 4-3)은 잠과 따로 보인다('z z'를 지운 것과 같은 뜻). 열쇠 셈 Weight * 4 + state는 0~3을 그대로 담는다.
+            int state = e.Aware ? 2 : e.IsEating ? 1 : e.IsPatrolling ? 3 : 0;
             int key = (int)e.Weight * 4 + state;
             if (key != _traitKey)
             {
@@ -273,6 +336,7 @@ namespace Demo6.Game
             {
                 case 0: return "잠듦";
                 case 1: return "먹는 중";
+                case 3: return "순찰 중";
                 default: return "깨어남";
             }
         }
@@ -300,11 +364,13 @@ namespace Demo6.Game
             _numberStyle = new GUIStyle(label) { fontSize = 12, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter, wordWrap = false, clipping = TextClipping.Overflow };
             _traitStyle = new GUIStyle(label) { fontSize = 13, alignment = TextAnchor.MiddleCenter, wordWrap = false, clipping = TextClipping.Overflow };
             _poiseStyle = new GUIStyle(label) { fontSize = 12, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleLeft, wordWrap = false, clipping = TextClipping.Overflow };
+            _bossTitleStyle = new GUIStyle(label) { fontSize = 34, fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter, wordWrap = false, clipping = TextClipping.Overflow, font = serif };
             White(_nameStyle);
             White(_levelStyle);
             White(_numberStyle);
             White(_traitStyle);
             White(_poiseStyle);
+            White(_bossTitleStyle);
         }
 
         static void White(GUIStyle s)
@@ -366,20 +432,26 @@ namespace Demo6.Game
             var nameRect = new Rect(x, y, w, 26f);
             if (_elite) OutlinedLabel(nameRect, _nameText, _nameStyle, Fade(EliteNameColor, a), Fade(TextEdge, a));
             else DungeonUi.ShadowLabel(nameRect, _nameText, _nameStyle, Fade(NameColor, a));
-            DungeonUi.ShadowLabel(new Rect(x, y, 70f, 26f), _levelText, _levelStyle, Fade(LevelColor, a));
+            if (!string.IsNullOrEmpty(_levelText)) DungeonUi.ShadowLabel(new Rect(x, y, 70f, 26f), _levelText, _levelStyle, Fade(LevelColor, a));
             y += 30f;
+
+            // 보스 첫 깸: 체력 막대가 0.8초에 걸쳐 0에서 차오른다(실제 시간).
+            float introAge = _boss && _target == _introBoss ? Time.unscaledTime - _introStart : 999f;
+            float shownFrac = introAge < BossIntroFill ? Mathf.Min(_frac, Mathf.Clamp01(introAge / BossIntroFill)) : _frac;
 
             // 체력 막대: 검은 홈 → 깎인 꼬리 → 짙은 피색 → 윗면 광 → 쇠 테 → 숫자.
             var bar = new Rect(x, y, w, 17f);
             DungeonUi.Fill(new Rect(bar.x - 1f, bar.y - 1f, bar.width + 2f, bar.height + 2f), Fade(BarBack, a));
-            if (_lagFrac > _frac) DungeonUi.Fill(new Rect(bar.x, bar.y, bar.width * _lagFrac, bar.height), Fade(BarLag, a));
-            if (_frac > 0f)
+            if (_lagFrac > _frac && shownFrac >= _frac) DungeonUi.Fill(new Rect(bar.x, bar.y, bar.width * _lagFrac, bar.height), Fade(BarLag, a));
+            if (shownFrac > 0f)
             {
-                var fill = new Rect(bar.x, bar.y, bar.width * _frac, bar.height);
+                var fill = new Rect(bar.x, bar.y, bar.width * shownFrac, bar.height);
                 DungeonUi.Fill(fill, Fade(BarFill, a));
                 DungeonUi.Fill(new Rect(fill.x, fill.y, fill.width, Mathf.Max(1f, fill.height * 0.35f)), Fade(BarShine, a));
             }
             DungeonUi.Outline(bar, Fade(DungeonUi.IronEdge, a), 1f);
+            // 보스: 50% 자리 흰 눈금(2단계 문턱).
+            if (_boss) DungeonUi.Fill(new Rect(bar.x + bar.width * BossRules.PhaseThreshold - 1f, bar.y - 2f, 2f, bar.height + 4f), Fade(HalfTick, a));
             DungeonUi.ShadowLabel(bar, _hpText, _numberStyle, Fade(NumberColor, a), 1f);
             y += 21f;
 
@@ -399,6 +471,14 @@ namespace Demo6.Game
 
             // 특성 한 줄.
             DungeonUi.ShadowLabel(new Rect(x, y, w, 20f), _traitText, _traitStyle, Fade(TraitColor, a));
+
+            // 보스 첫 깸: 이름이 판 아래에 1.5초 크게 떴다가 흐려진다.
+            if (introAge < BossIntroName)
+            {
+                float fade = introAge <= BossIntroName - BossIntroNameFade ? 1f : 1f - (introAge - (BossIntroName - BossIntroNameFade)) / BossIntroNameFade;
+                var titleRect = new Rect(plate.x - 120f, plate.yMax + 8f, PlateWidth + 240f, 48f);
+                OutlinedLabel(titleRect, _bossTitle, _bossTitleStyle, Fade(EliteNameColor, a * fade), Fade(TextEdge, a * fade));
+            }
         }
 
         static Color Fade(Color c, float a)

@@ -1,0 +1,4 @@
+using System;using System.IO;using System.Linq;using UnityEngine;using UnityEditor;using UnityEngine.SceneManagement;using UnityEngine.InputSystem;using Demo6.Game;
+public static class OgreArmView {
+ public static object Read(){var result=new{EditorApplication.isPlaying,EditorApplication.isPaused,scene=SceneManager.GetActiveScene().path,dirty=SceneManager.GetActiveScene().isDirty,cameras=UnityEngine.Object.FindObjectsByType<Camera>().Select(c=>new{c.name,c.orthographicSize,c.pixelWidth,c.pixelHeight,ppu=c.pixelHeight/(2*c.orthographicSize)}).ToArray(), devices=InputSystem.devices.Select(d=>new{d.deviceId,d.native,d.enabled}).ToArray()};File.WriteAllText("E:/personalProject/Demo3/demo6/검증/오우거-팔교정-v029/view-state.json",Newtonsoft.Json.JsonConvert.SerializeObject(result,Newtonsoft.Json.Formatting.Indented));return result;}
+}

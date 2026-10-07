@@ -15,6 +15,8 @@ namespace Demo6.Core.Dungeon
         RatBurrow,
         /// <summary>드러남: 쇠 궤짝 +1.</summary>
         Upheaval,
+        /// <summary>거센 울림: 다음 원정 다시 연 1·2층 정예 1 확정, 값 조정 없음(1-2층 탐험 맛 1차 4-9).</summary>
+        Rumble,
     }
 
     /// <summary>
@@ -49,18 +51,20 @@ namespace Demo6.Core.Dungeon
         }
 
         /// <summary>
-        /// 이 원정 앞의 밤. 원정 1은 밤이 없고(None), 원정 2는 첫 귀환의 밤(FirstNight), 그 뒤는 무너짐·새 쥐굴·드러남 가운데 하나.
+        /// 이 원정 앞의 밤. 원정 1은 밤이 없고(None), 원정 2는 첫 귀환의 밤(FirstNight), 그 뒤는 무너짐·새 쥐굴·드러남·거센 울림 가운데 하나가 고르게.
+        /// 1-2층 탐험 맛 1차 4-9: 밤 사건을 셋에서 넷으로 늘렸다(% 3 → % 4). 같은 소금이라도 지금 프로필의 원정 3부터 밤 차례가 바뀐다.
         /// </summary>
         public static NightEvent NightBefore(ulong profileSalt, int expedition)
         {
             if (expedition <= 1) return NightEvent.None;
             if (expedition == 2) return NightEvent.FirstNight;
             ulong r = Mix(profileSalt ^ 0x9E3779B97F4A7C15UL ^ unchecked((ulong)(uint)expedition * 0xD1B54A32D192ED03UL));
-            switch ((int)(r % 3UL))
+            switch ((int)(r % 4UL))
             {
                 case 0: return NightEvent.Collapse;
                 case 1: return NightEvent.RatBurrow;
-                default: return NightEvent.Upheaval;
+                case 2: return NightEvent.Upheaval;
+                default: return NightEvent.Rumble;
             }
         }
 

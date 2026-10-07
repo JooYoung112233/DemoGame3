@@ -11,6 +11,8 @@ namespace Demo6.Core.Dungeon
         StairsFront,
         /// <summary>가운데 말뚝(5~10층). 이번 원정에만 켜짐. 5·10층은 보스 앞 쉼터라 영구(첫 시험판에는 없음).</summary>
         Middle,
+        /// <summary>보스방 앞 쉼터 말뚝(오우거 굴 P, 전투·보스 문서 3-8). 처음 닿으면 켜지고 영구(꾸러미 BossStakes, BossLedger.LightStake).</summary>
+        BossFront,
     }
 
     /// <summary>
@@ -37,6 +39,12 @@ namespace Demo6.Core.Dungeon
         /// <summary>숨은 방 칸(판자벽 뒤). 없으면 null.</summary>
         public static MapCell FindHidden(FloorMap map) => FirstOf(map, PieceKind.Hidden);
 
+        /// <summary>보스방 칸(오우거 굴 X). 없으면 null.</summary>
+        public static MapCell FindBossRoom(FloorMap map) => FirstOf(map, PieceKind.BossRoom);
+
+        /// <summary>보스방 앞 쉼터 칸(오우거 굴 P, 굴 앞 말뚝). 없으면 null.</summary>
+        public static MapCell FindBossFront(FloorMap map) => FirstOf(map, PieceKind.BossFront);
+
         /// <summary>승강장 말뚝 자리 표시. 없으면 null.</summary>
         public static CellFeature LandingStake(FloorMap map) => StakeIn(FindLanding(map));
 
@@ -58,14 +66,16 @@ namespace Demo6.Core.Dungeon
             {
                 case PieceKind.Entrance: return StakeRole.Landing;
                 case PieceKind.StairsRoom: return StakeRole.StairsFront;
+                case PieceKind.BossFront: return StakeRole.BossFront;
                 default: return StakeRole.Middle;
             }
         }
 
-        /// <summary>원정마다 바뀌지 않는 돌 칸인가(승강장·랜드마크. 5·10층 보스방은 그 층을 만들 때 더한다).</summary>
+        /// <summary>원정마다 바뀌지 않는 돌 칸인가(승강장·랜드마크·보스방·보스방 앞 쉼터).</summary>
         public static bool IsFixed(MapCell cell) => cell != null && IsFixed(cell.Piece);
 
-        public static bool IsFixed(PieceKind piece) => piece == PieceKind.Entrance || piece == PieceKind.Office;
+        public static bool IsFixed(PieceKind piece) =>
+            piece == PieceKind.Entrance || piece == PieceKind.Office || piece == PieceKind.BossRoom || piece == PieceKind.BossFront;
 
         static MapCell FirstOf(FloorMap map, PieceKind piece)
         {

@@ -60,6 +60,8 @@ namespace Demo6.Game
         bool _partsHidden;
         /// <summary>살아 있던 마지막 프레임에 몸 그림 칸을 썼는가(처치 그림은 같은 크기 단위일 때만 바꿔 끼운다).</summary>
         bool _artBody;
+        bool _feetInBody;
+        BeetlePatternVfx _beetle; // v031 approved toe layers and cosmetic effects
 
         public bool Applied { get; private set; }
         public Enemy Enemy => _enemy;
@@ -176,6 +178,7 @@ namespace Demo6.Game
         {
             if (!Applied) return;
             Applied = false;
+            if (_beetle) _beetle.Hide(); // v031 presentation
             if (_rig) ShowParts(false);
             if (!_enemy || !_body) return;
             _body.sprite = _shapeSprite;
@@ -266,6 +269,7 @@ namespace Demo6.Game
             var slot = Slot(art);
             if (_enemy.Dead)
             {
+                if (_beetle) _beetle.Hide(); // v031 full approved sprite for death/corpse
                 // 처치 연출(날림·시체)은 몸 스프라이트만 쓴다: 부품을 숨기고 몸 크기·회전은 손대지 않는다.
                 if (!_partsHidden) ShowParts(false);
                 // 처치 그림 칸: 살아 있을 때 몸 그림 칸을 썼으면(같은 유닛 크기) 날아가는 동안과 시체에 그 그림을 쓴다.
@@ -378,7 +382,14 @@ namespace Demo6.Game
             }
             Sprite foot = slot is TopDownCreatureArt creature && creature.foot ? creature.foot : null;
             if (!foot && _enemy.Kind == MonsterKind.Rat && !_enemy.IsDummy) foot = RatMineArt.Foot;
-            PlaceLegs(foot, order, alpha);
+            bool feetInBody = _artBody && slot is TopDownCreatureArt bodyWithFeet && bodyWithFeet.feetInBody;
+            PlaceLegs(foot, order, alpha, feetInBody);
+            if (_enemy is BoarBrain beetle && _artBody && bodyArt.name == "td_stone_beetle_v028")
+            {
+                if (!_beetle) _beetle = BeetlePatternVfx.Attach(beetle, _body, bodyArt);
+                if (_beetle) _beetle.Pose(_phase, _stepAmp, dt);
+            }
+            else if (_beetle) _beetle.Hide();
             if (_archer) PlaceBow(draw, stringBuzz, t, arrow, order, alpha, _artBody ? slot as TopDownArcherArt : null);
         }
 
@@ -386,9 +397,14 @@ namespace Demo6.Game
         /// 다리 점(또는 발 그림): 대각선 짝(앞왼·뒤오른 / 앞오른·뒤왼)이 함께 앞뒤로 엇갈린다. 자리는 몸 단위(틀이 지름만큼 커져 있음)이고,
         /// 발 그림은 유닛 그림이라 틀 배율을 지워(1 ÷ 기본 지름) 제 크기로 놓는다(정예는 틀을 따라 함께 커진다).
         /// </summary>
-        void PlaceLegs(Sprite footArt, int order, float alpha)
+        void PlaceLegs(Sprite footArt, int order, float alpha, bool feetInBody)
         {
             if (_legs.Length == 0) return;
+            // 통합 그림에만 적용한다. 다른 적의 발 가시성(시야 등)은 기존 흐름을 유지한다.
+            if (feetInBody || _feetInBody)
+                for (int i = 0; i < _legs.Length; i++) _legs[i].enabled = !feetInBody;
+            _feetInBody = feetInBody;
+            if (feetInBody) return;
             Sprite legSprite = footArt ? footArt : ShapeSprites.Circle;
             bool swap = _legs[0].sprite != legSprite;
             var legScale = footArt ? new Vector3(1f / _baseDiameter, 1f / _baseDiameter, 1f) : new Vector3(_legSize.x, _legSize.y, 1f);

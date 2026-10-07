@@ -63,6 +63,20 @@ namespace Demo6.Game
                     state.Register(f.Id, DiscoveryKind.Safe, cell, pos, f.Label);
                     Safe.Create(cell, f, pos);
                     break;
+                // 오우거 굴(묶음 7): 보스 자리 → 보스방 런타임(등잔·보스·문 봉인), 쉼터 바닥 긁은 글. 한 번 받는 것이 아니라 등록하지 않는다.
+                case FeatureKind.Boss:
+                    BossArena.Create(root, cell, f, pos);
+                    break;
+                case FeatureKind.Scrawl:
+                    FloorScrawl.Create(cell, f, pos);
+                    break;
+                // 1-2층 탐험 맛 1차 4-5·4-6: 낙석·가시 덫은 숨은 위험이라 등록하지 않는다(경험치·큰 지도·조사율 밖).
+                case FeatureKind.RockfallTrap:
+                    RockfallTrap.Create(cell, f, pos);
+                    break;
+                case FeatureKind.FloorSpikes:
+                    FloorSpikes.Create(cell, f, pos);
+                    break;
             }
         }
 

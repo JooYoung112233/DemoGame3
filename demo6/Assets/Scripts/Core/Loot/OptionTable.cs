@@ -141,8 +141,8 @@ namespace Demo6.Core.Loot
 
     /// <summary>
     /// 부위별 옵션 풀 32줄과 등급별 옵션 수·배율(장비 문서 5-1·5-2·5-3).
-    /// 표 값은 문서 5-3 그대로다(고급·iLv1 기준 범위, 전설 최대 = 위끝 × 1.5). 부위 전용 옵션(이동은 장화만, 공격 속도는 무기·장갑만,
-    /// 치명 확률은 무기·장갑·반지만, 치명 피해는 무기·목걸이만, 재사용 감소는 투구·목걸이만, 체력%는 갑옷만)으로 상한을 지킨다(7장).
+    /// 표 값은 문서 5-3 그대로다(고급·iLv1 기준 범위, 전설 최대 = 위끝 × 1.5). 굴린 값에는 옵션 세기 ScalePermille(×0.8)을 함께 곱한다.
+    /// 부위 전용 옵션(이동은 장화만, 공격 속도는 무기·장갑만, 치명 확률은 무기·장갑·반지만, 치명 피해는 무기·목걸이만, 재사용 감소는 투구·목걸이만, 체력%는 갑옷만)으로 상한을 지킨다(7장).
     /// </summary>
     public static class OptionTable
     {
@@ -150,6 +150,12 @@ namespace Demo6.Core.Loot
         static readonly int[] CountByGrade = { 0, 1, 2, 3, 3 };
         /// <summary>등급별 옵션 수치 배율(‰): 고급 ×1.00, 희귀 ×1.15, 영웅 ×1.30, 전설 ×1.50.</summary>
         static readonly int[] ValueByGrade = { 0, 1000, 1150, 1300, 1500 };
+
+        /// <summary>
+        /// 옵션 세기(‰): 모든 옵션 값 × 0.8(장비 문서 12장 '밸런스 결정' ①, 2026-10-04 사용자). 줄 수·종류·범위 표·등급 배율·단계는 그대로이고
+        /// 굴린 값에만 한 번 곱한다(반올림은 여전히 마지막 한 번). 종류 고유(GearBaseTable)와 전설 효과 수치에는 곱하지 않는다.
+        /// </summary>
+        public const int ScalePermille = 800;
 
         static readonly OptionRule[] Rules =
         {
@@ -229,7 +235,7 @@ namespace Demo6.Core.Loot
 
         /// <summary>
         /// 옵션 한 줄을 굴린다(5-2, 난수 1번): 원값 = rng.NextInt(Min × 1000, Max × 1000 + 1)(천분 단위),
-        /// 값 = 원값 × 등급 옵션 배율‰(× 고정값 옵션이면 iLv 배율‰)을 마지막에 한 번 반올림(0.5 올림). 단계는 원값의 1/4 구간(값을 제한하지 않음).
+        /// 값 = 원값 × 등급 옵션 배율‰ × 옵션 세기‰(× 고정값 옵션이면 iLv 배율‰)을 마지막에 한 번 반올림(0.5 올림). 단계는 원값의 1/4 구간(값을 제한하지 않음).
         /// 일반 등급은 옵션이 없지만 직접 부르면 ×1.00으로 굴린다.
         /// </summary>
         public static GearOption Roll(OptionRule rule, Grade grade, int itemLevel, IRandom rng)
@@ -245,12 +251,12 @@ namespace Demo6.Core.Loot
             new GearOption(rule.Kind, ScaleRaw(rule, grade, itemLevel, raw), TierOf(rule, raw));
 
         /// <summary>
-        /// 원값(천분 단위) × 등급 옵션 배율‰ × (고정값이면 iLv 배율‰) ÷ 10⁹(고정값) 또는 ÷ 10⁶(%)을 한 번만 반올림(0.5 올림).
+        /// 원값(천분 단위) × 등급 옵션 배율‰ × 옵션 세기‰ × (고정값이면 iLv 배율‰) ÷ 10¹²(고정값) 또는 ÷ 10⁹(%)을 한 번만 반올림(0.5 올림).
         /// </summary>
         public static int ScaleRaw(OptionRule rule, Grade grade, int itemLevel, int raw)
         {
-            long numerator = (long)raw * GradePermille(grade);
-            long denominator = (long)RawScale * 1000L;
+            long numerator = (long)raw * GradePermille(grade) * ScalePermille;
+            long denominator = (long)RawScale * 1000L * 1000L;
             if (rule.ScalesWithItemLevel)
             {
                 numerator *= GearMath.ItemLevelPermille(itemLevel);
@@ -276,7 +282,7 @@ namespace Demo6.Core.Loot
         /// <summary>그 등급·iLv에서 나올 수 있는 가장 작은 값(원값 아래끝).</summary>
         public static int MinValue(OptionRule rule, Grade grade, int itemLevel) => ScaleRaw(rule, grade, itemLevel, RawMin(rule));
 
-        /// <summary>그 등급·iLv에서 나올 수 있는 가장 큰 값(원값 위끝). 전설 iLv1이면 위끝 × 1.5(5-3 '전설 최대').</summary>
+        /// <summary>그 등급·iLv에서 나올 수 있는 가장 큰 값(원값 위끝). 전설 iLv1이면 위끝 × 1.5(5-3 '전설 최대') × 옵션 세기 0.8.</summary>
         public static int MaxValue(OptionRule rule, Grade grade, int itemLevel) => ScaleRaw(rule, grade, itemLevel, RawMax(rule));
 
         /// <summary>
@@ -286,7 +292,7 @@ namespace Demo6.Core.Loot
         public static double QualityOf(GearPart part, GearOption option, Grade grade, int itemLevel)
         {
             if (!TryGetRule(part, option.Kind, out var rule) || rule.Max <= rule.Min) return (option.Tier - 1) / 3.0;
-            double scale = GradePermille(grade) / 1000.0;
+            double scale = GradePermille(grade) / 1000.0 * (ScalePermille / 1000.0);
             if (rule.ScalesWithItemLevel) scale *= GearMath.ItemLevelPermille(itemLevel) / 1000.0;
             double raw = option.Value / scale;
             double q = (raw - rule.Min) / (rule.Max - rule.Min);

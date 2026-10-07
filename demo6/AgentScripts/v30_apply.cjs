@@ -1,0 +1,11 @@
+const fs=require('fs'),crypto=require('crypto'),ev='검증/오우거-패턴-v030';
+const hash=p=>crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex');
+const base=JSON.parse(fs.readFileSync(ev+'/candidate-base.json'));
+if(hash('Assets/Scripts/Game/Enemies/OgreBrain.cs')!==base.brainSha256||hash('Assets/Scripts/Game/Art/TopDown/OgreArtRig.cs')!==base.rigSha256)throw Error('Concurrent source change; prepare again without overwriting it.');
+fs.mkdirSync('Assets/Resources/OgreVfxV30',{recursive:true});
+for(const n of ['slam','dust','sweep','roar','rock'])fs.copyFileSync('아트/오우거-패턴-v030/'+n+'.png','Assets/Resources/OgreVfxV30/'+n+'.png');
+for(const n of ['lower_body','torso_clean','torso_underlap'])fs.copyFileSync('아트/오우거-패턴-v030/'+n+'_styled.png','Assets/Resources/OgreApproved/'+n+'_styled.png');
+fs.copyFileSync(ev+'/candidate/OgreArtRig.cs','Assets/Scripts/Game/Art/TopDown/OgreArtRig.cs');
+fs.copyFileSync(ev+'/candidate/OgrePatternVfx.cs','Assets/Scripts/Game/Art/TopDown/OgrePatternVfx.cs');
+fs.copyFileSync(ev+'/candidate/OgreBrain.cs','Assets/Scripts/Game/Enemies/OgreBrain.cs');
+console.log('Applied 8 new PNGs, one new VFX component, rig weight transfer, and 10 cosmetic cues.');

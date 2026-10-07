@@ -33,6 +33,7 @@ namespace Demo6.Game
             Instance = this;
             // 그림을 장면을 여는 동안 미리 만든다(처음 보는 적이 나올 때 전투 중에 멈칫하지 않게).
             TopDownSprites.Prewarm();
+            ApprovedWorldArtV043.Ensure(gameObject);
         }
 
         void OnDestroy()

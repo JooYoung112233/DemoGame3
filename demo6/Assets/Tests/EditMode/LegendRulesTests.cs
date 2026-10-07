@@ -310,6 +310,21 @@ namespace Demo6.Tests
         }
 
         [Test]
+        public void BlastJuiceWaitsForAKillThatShowsIt()
+        {
+            // 첫 폭발 2마리(연출 문턱 3 미만이라 아무 연출이 없음) → 다음 폭발 5마리가 연출을 받는다. 그 뒤는 다시 없음.
+            Assert.AreEqual(3, LegendRules.MultiKillJuiceMin);
+            var chain = new BlastChain();
+            Assert.IsFalse(chain.TakeJuice(0), "처치 없음");
+            Assert.IsFalse(chain.TakeJuice(1));
+            Assert.IsFalse(chain.TakeJuice(2), "2마리는 연출이 없어 기회를 남김");
+            Assert.IsTrue(chain.TakeJuice(5), "5마리 폭발이 연출을 받음");
+            Assert.IsFalse(chain.TakeJuice(6), "연쇄 하나에 처음 한 번");
+            Assert.IsFalse(chain.TakeJuice(3));
+            Assert.IsTrue(new BlastChain().TakeJuice(3), "문턱 3마리부터");
+        }
+
+        [Test]
         public void LongRowOfEnemiesStopsAtTwelveBlasts()
         {
             // 굴쥐 30마리가 2유닛 간격으로 한 줄: 폭발마다 옆 한 마리가 죽어 다시 터진다. 연쇄는 12번에서 멈춘다.

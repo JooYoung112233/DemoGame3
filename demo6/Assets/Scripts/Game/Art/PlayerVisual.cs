@@ -1,4 +1,5 @@
 using Demo6.Core.Combat;
+using Demo6.Core.Dungeon;
 using UnityEngine;
 
 namespace Demo6.Game
@@ -6,6 +7,8 @@ namespace Demo6.Game
     /// <summary>
     /// 검사 그림 재생. 몸은 좌우 2방향(오른쪽 그림을 왼쪽은 뒤집음). 공격은 콤보 단계 그림을 동작 길이에 맞추고,
     /// 타격 프레임이 판정 순간에 시작한다. 그림 칸이 비어 있으면 도형(원 + 방향 삼각형)을 그대로 쓴다.
+    /// 새 무기 6종(기획/전투-보스-무기-다듬기-1차.md 2-7)은 무기 그림 칸(weapons[].steps[].body)이 있으면 그것을, 없으면 도형을 쓴다(정수리 시점은 TopDownPlayerRig).
+    /// 웅크림(결정 ③): 그림 모드에서도 CrouchRules.BlendSeconds에 걸쳐 크기 × BodyScale, 번쩍임 셰이더가 있으면 밝기 × BodyBrightness.
     /// </summary>
     public sealed class PlayerVisual : MonoBehaviour
     {
@@ -17,6 +20,8 @@ namespace Demo6.Game
         Material _shapeMaterial;
         bool _artShown;
         float _facingSign = 1f;
+        float _crouch;
+        bool _crouchTinted;
 
         /// <summary>시험 패널 표시용: 지금 몸 프레임, 전체 프레임, 타격 프레임, 클립 이름.</summary>
         public int DebugFrame { get; private set; } = -1;
@@ -122,7 +127,15 @@ namespace Demo6.Game
                 : once ? ClipTiming.OnceFrame(t, clip.fps, count) : ClipTiming.LoopFrame(Time.time, clip.fps, count);
             _body.sprite = ArtRuntime.Frame(clip, frame);
             _body.flipX = _facingSign < 0f;
-            _body.transform.localScale = Vector3.one * art.scale;
+            // 웅크림: 크기는 늘, 밝기는 번쩍임 셰이더가 있을 때만(셰이더가 없으면 색이 번쩍임 색이라 건드리지 않음). 서면 밝기를 1로 한 번 되돌린다.
+            _crouch = Mathf.MoveTowards(_crouch, _player.Crouching ? 1f : 0f, Time.deltaTime / CrouchRules.BlendSeconds);
+            _body.transform.localScale = Vector3.one * (art.scale * Mathf.Lerp(1f, CrouchRules.BodyScale, _crouch));
+            if (_flash && _flash.useShader && (_crouch > 0f || _crouchTinted))
+            {
+                float light = Mathf.Lerp(1f, CrouchRules.BodyBrightness, _crouch);
+                _body.color = new Color(light, light, light, _body.color.a);
+                _crouchTinted = _crouch > 0f;
+            }
             _body.transform.localPosition = art.offset;
             _body.transform.localRotation = Quaternion.identity;
             if (!_artShown)
@@ -143,6 +156,13 @@ namespace Demo6.Game
             DebugFrameCount = 0;
             DebugKeyFrame = -1;
             DebugClip = "";
+            if (_crouchTinted)
+            {
+                // 웅크린 채 그림 모드를 떠나면 낮춘 밝기를 한 번 되돌린다.
+                _crouchTinted = false;
+                _crouch = 0f;
+                _body.color = new Color(1f, 1f, 1f, _body.color.a);
+            }
             if (!_artShown) return;
             _artShown = false;
             _body.sprite = _shapeSprite;

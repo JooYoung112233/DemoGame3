@@ -48,7 +48,7 @@ namespace Demo6.Core.Dungeon
             {
                 // 첫 마주침: 멧돼지 1 + 굴쥐 3. 입구 쪽(왼쪽)에 등을 돌리고 자서 첫 기습을 배운다.
                 Glyph = '1', Id = "c1", Name = "첫 공터", Piece = PieceKind.Clearing, Pillars = 0,
-                Features = new[] { Group("c1.group", 3f, 0.5f, 1, 0, 3, GroupState.Sleep, 0f, "멧돼지와 굴쥐") },
+                Features = new[] { Group("c1.group", 3f, 0.5f, 1, 0, 3, GroupState.Sleep, 0f, "돌충이와 굴쥐") },
             },
             new CellDef
             {
@@ -69,7 +69,7 @@ namespace Demo6.Core.Dungeon
                 Glyph = 'V', Id = "V", Name = "광맥 공터", Piece = PieceKind.Clearing, Pillars = 2,
                 Features = new[]
                 {
-                    Group("V.group", 1f, 2f, 1, 0, 2, GroupState.Eat, 270f, "멧돼지와 굴쥐"),
+                    Group("V.group", 1f, 2f, 1, 0, 2, GroupState.Eat, 270f, "돌충이와 굴쥐"),
                     F(FeatureKind.WoodChest, "V.wood", 10f, 5f, "나무 궤짝"),
                     F(FeatureKind.Ore, "V.ore", 9f, -5f, "광맥"),
                 },
@@ -112,7 +112,7 @@ namespace Demo6.Core.Dungeon
                 Glyph = 'T', Id = "T", Name = "막다른 공터", Piece = PieceKind.Clearing, Pillars = 4,
                 Features = new[]
                 {
-                    Group("T.group", 0f, -1f, 1, 0, 2, GroupState.Sleep, 270f, "멧돼지와 굴쥐"),
+                    Group("T.group", 0f, -1f, 1, 0, 2, GroupState.Sleep, 270f, "돌충이와 굴쥐"),
                     F(FeatureKind.Nameplate, "T.nameplate", -9f, -4f, "광부 명패"),
                     F(FeatureKind.WoodChest, "T.wood", 9f, -4f, "나무 궤짝"),
                 },

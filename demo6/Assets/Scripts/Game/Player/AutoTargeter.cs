@@ -53,6 +53,38 @@ namespace Demo6.Game
             return best;
         }
 
+        /// <summary>
+        /// 대검 놓아 베기 조준(기획/세-무기-우클릭-소켓-1차.md 3-7): 사거리(range) 안이고 바라보는 쪽(facing) ±halfConeDeg 안인 적만 본다. 다가가기는 없어 찾는 범위를 넓히지 않는다.
+        /// 고르는 차례는 Pick과 같다: 커서 1.5 안 적 중 커서에 가장 가까운 적 → 플레이어에게 가장 가까운 적 → 없음. 몸이 닿아 있는 적은 각도와 상관없이 본다.
+        /// </summary>
+        public static Enemy PickInCone(Vector2 player, Vector2 cursor, float range, Vector2 facing, float halfConeDeg)
+        {
+            Enemy byCursor = null;
+            float bestCursor = float.MaxValue;
+            Enemy nearest = null;
+            float bestDist = float.MaxValue;
+            foreach (var e in Enemy.All)
+            {
+                if (!Valid(e, player, range)) continue;
+                Vector2 to = e.Position - player;
+                float dist = to.magnitude;
+                if (dist > e.Radius + PlayerController.Radius && facing.sqrMagnitude > 0.0001f && Vector2.Angle(facing, to) > halfConeDeg) continue;
+                float dc = (e.Position - cursor).magnitude - e.Radius;
+                if (dc <= CursorRadius && dc < bestCursor)
+                {
+                    bestCursor = dc;
+                    byCursor = e;
+                }
+                float d = dist - e.Radius;
+                if (d < bestDist)
+                {
+                    bestDist = d;
+                    nearest = e;
+                }
+            }
+            return byCursor ? byCursor : nearest;
+        }
+
         static bool Valid(Enemy e, Vector2 player, float search)
         {
             if (!e || e.Dead) return false;

@@ -20,6 +20,7 @@ namespace Demo6.Game
         public bool useShader;
         Color _flashColor;
         float _flashLeft;
+        float _flashDuration;
         float _blinkLeft;
         float _blinkClock;
         /// <summary>몸과 같이 칠할 덧그림(보통 0~1개). 지워진 렌더러는 칠할 때 뺀다.</summary>
@@ -29,6 +30,7 @@ namespace Demo6.Game
         {
             _flashColor = color;
             _flashLeft = Mathf.Max(_flashLeft, seconds);
+            _flashDuration = _flashLeft;
             Apply();
         }
 
@@ -104,15 +106,18 @@ namespace Demo6.Game
             {
                 _block ??= new MaterialPropertyBlock();
                 sr.GetPropertyBlock(_block);
-                _block.SetFloat(FlashAmountId, flashing ? 1f : 0f);
+                _block.SetFloat(FlashAmountId, flashing ? FlashStrength() : 0f);
                 _block.SetColor(FlashColorId, flashing ? _flashColor : Color.white);
                 sr.SetPropertyBlock(_block);
                 sr.color = new Color(1f, 1f, 1f, dim ? 0.35f : 1f);
                 return;
             }
-            var c = flashing ? _flashColor : baseColor;
+            var c = flashing ? Color.Lerp(baseColor, _flashColor, FlashStrength()) : baseColor;
             if (dim) c.a *= 0.35f;
             sr.color = c;
         }
+
+        // 피격·무적 시간은 유지하고 밝기만 첫 순간 뒤로 부드럽게 사라지게 한다.
+        float FlashStrength() => Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(_flashLeft / Mathf.Max(.001f, _flashDuration) * 1.6f));
     }
 }

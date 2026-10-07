@@ -31,14 +31,24 @@ namespace Demo6.Game
         public static CombatRuleset Ruleset = CombatRuleset.V3;
         /// <summary>3차 값이 너무 질길 때 먼저 내리는 값: 멧돼지 체력 1,600, 버팀 70.</summary>
         public static bool SoftBoar;
-        /// <summary>회피 반격: 예고 공격을 구르기로 피하고 1.0초 안 첫 타의 버팀 피해 ×2(3차 초안 선택 규칙).</summary>
-        public static bool DodgeCounter;
         /// <summary>
-        /// 걷기 속도 배율(2026-10-03 사용자 "이속이좀 빠른편이긴하네 둔직한맛이 조금 부족해"). 장비 걸음 5.3 → 약 4.56, 탐험 걸음 6.5 → 약 5.59.
+        /// 회피 반격: 예고 공격을 구르기로 피하고 1.0초 안 첫 타의 버팀 피해 ×2(3차 초안 선택 규칙).
+        /// 기본값은 CounterRule.DefaultOn(전투·보스·무기 다듬기 1차 결정 8-1 #5 '켜기'를 꾸러미 ⑤가 넣는다).
+        /// </summary>
+        public static bool DodgeCounter = CounterRule.DefaultOn;
+        /// <summary>
+        /// 걷기 속도 배율(2026-10-03 사용자 "이속이좀 빠른편이긴하네 둔직한맛이 조금 부족해" → 0.86, 2026-10-04 결정 ① B → 0.80).
+        /// B에서 장비 걸음 5.3 → 4.24, 아는 길 6.5 → 5.20. 시험 패널 걸음 단추(ExplorePace.Options)가 이 값과 EnemyMoveScale을 함께 바꾼다.
         /// 휘두르기·회오리·검풍 중 걷기는 이 값에 비례해 함께 줄고, 구르기·내딛기·넉백 거리는 그대로다.
         /// </summary>
         public static float MoveSpeedScale = DefaultMoveSpeedScale;
-        public const float DefaultMoveSpeedScale = 0.86f;
+        /// <summary>걷기 배율 기본값(전투·보스·무기 다듬기 1차 1-2, 결정 ① = B 0.80). 값은 ExplorePace가 정한다.</summary>
+        public const float DefaultMoveSpeedScale = Demo6.Core.Dungeon.ExplorePace.DefaultPlayerScale;
+        /// <summary>
+        /// 적 걷기 배율(1-2 B = 0.93 = 0.80 ÷ 0.86, 나와 굴쥐의 속도 차 1.085를 지킴). Enemy.MoveSpeed가 곱한다. 돌진·뒤로 뛰기·화살·검풍은 받지 않는다.
+        /// </summary>
+        public static float EnemyMoveScale = DefaultEnemyMoveScale;
+        public const float DefaultEnemyMoveScale = Demo6.Core.Dungeon.ExplorePace.DefaultEnemyScale;
         /// <summary>걷기 가감속(묵직함): 멈춘 데서 다 빨라지기까지 0.16초, 서기까지 0.10초. 구르기·내딛기·넉백·경직은 지금처럼 바로.</summary>
         public static bool MoveInertia = true;
 
@@ -57,8 +67,97 @@ namespace Demo6.Game
         public const int DefaultLegendRoll = 500;
         public const int TestAttackSpeedMax = 300;
 
+        // ── 전투·보스·무기 다듬기 1차 손잡이(기획/전투-보스-무기-다듬기-1차.md). 숫자는 가안이고 기본값은 각 규칙(Core)이 정한다 ──
+        // 계약: 이 파일은 꾸러미 ⑧이 소유한다. 다른 꾸러미는 값을 읽고 시험 패널에서 바꾸기만 하고, 새 손잡이가 필요하면 자기 파일의 정적 값으로 둔다.
+
+        /// <summary>웅크리기(결정 ③): 걸음 × 0.55, 발소리·소음 반경 × 0.3, 시야 반각 40°·반경 10·몸 둘레 2.0.</summary>
+        public static float CrouchMoveScale = Demo6.Core.Dungeon.CrouchRules.MoveScale;
+        public static float CrouchNoiseScale = Demo6.Core.Dungeon.CrouchRules.NoiseScale;
+        public static float CrouchConeHalfAngle = Demo6.Core.Dungeon.CrouchRules.ConeHalfAngle;
+        public static float CrouchViewRadius = Demo6.Core.Dungeon.CrouchRules.ViewRadius;
+        public static float CrouchNearRadius = Demo6.Core.Dungeon.CrouchRules.NearRadius;
+
+        /// <summary>무너짐 공급원은 하나씩 켠다(4-3): 벽 박기, 무리 공포, 무너짐 처형, 기습 처형. 처형 회복(3%)은 기본 끔.</summary>
+        public static bool WallSlamOn = WallSlamRule.DefaultOn;
+        public static bool FearOn = FearRule.DefaultOn;
+        public static bool ExecutionOn = ExecutionRule.DefaultOn;
+        public static bool AmbushExecutionOn = ExecutionRule.AmbushDefaultOn;
+        public static bool ExecutionHealOn = ExecutionRule.HealDefaultOn;
+        /// <summary>무너짐 처형 문턱(보통 30%·무거움 20%·정예 12%).</summary>
+        public static float ExecuteThresholdMedium = ExecutionRule.ThresholdMedium;
+        public static float ExecuteThresholdHeavy = ExecutionRule.ThresholdHeavy;
+        public static float ExecuteThresholdElite = ExecutionRule.ThresholdElite;
+        /// <summary>잠든 무리 '뒤척임' 확률(2~4초마다, 기본 0).</summary>
+        public static float SleeperTurnChance = ExecutionRule.SleeperTurnDefault;
+
+        /// <summary>보스 시험(3-10 시험 패널): 2단계 켜기, 패턴 강제(-1 = 없음, BossPattern 차례), 재도전 때 물약 가득.</summary>
+        public static bool BossPhase2On = true;
+        public static int BossForcePattern = -1;
+        public static bool BossRetryFullPotions = true;
+
+        /// <summary>
+        /// 백어택·헤드어택(PositionalHitRule, 2026-10-04 사용자 요청): 등 뒤 ±60°에서 맞히면 피해 +‰·치명 +‰(상한 밖, 단검 등 찌르기와는 큰 쪽 하나),
+        /// 정면 ±45° 치명이면 버팀 × 배율. 전투 시험장 F1에서 켜고 끄고 바꾼다. 둥지·허수아비는 듣지 않는다.
+        /// </summary>
+        public static bool BackAttackOn = PositionalHitRule.BackDefaultOn;
+        public static bool HeadAttackOn = PositionalHitRule.HeadDefaultOn;
+        public static int BackAttackDamagePermille = PositionalHitRule.BackDamageBonusPermille;
+        public static int BackAttackCritPermille = PositionalHitRule.BackCritBonusPermille;
+        public static float HeadAttackPoiseScale = PositionalHitRule.HeadPoiseScale;
+        /// <summary>'백어택'·'헤드어택' 글자(피해 숫자 위). 끄면 규칙만 돈다.</summary>
+        public static bool PositionalHitText = true;
+
+        // ── 세 무기·오른쪽 클릭·소켓 1차 손잡이(기획/세-무기-우클릭-소켓-1차.md 5-5·5-9·6-7). 기본값은 Core 규칙이 정한다 ──
+        // 계약: 읽는 곳 PlayerController(꾸러미 ③), 바꾸는 곳 전투 시험 패널 CombatHud(꾸러미 ⑤). 모두 ResetToDefaults에 있다.
+
+        /// <summary>방패 막기 켜기(끄면 한손검과 방패 오른쪽 클릭이 아무 일도 하지 않음).</summary>
+        public static bool GuardEnabled = true;
+        /// <summary>패링 창(초, 0.10~0.30, 기본 ShieldRule.ParryWindow 0.18).</summary>
+        public static float ParryWindow = ShieldRule.ParryWindow;
+        /// <summary>막은 일반 타(근접·멧돼지 돌진·꿰뚫는 화살) 피해 배율(0.0~0.5, 기본 0.25).</summary>
+        public static float GuardDamageScale = DefaultGuardDamageScale;
+        public const float DefaultGuardDamageScale = 0.25f;
+        /// <summary>시험: 낀 무기에 버팀 룬이 있는 것처럼(대검 기 모으기·놓아 베기가 안 끊김).</summary>
+        public static bool TestSuperArmorRune;
+        /// <summary>시험: 버팀 룬을 세 행동(막기·기 모으기·난사) 모두에 적용(기본 꺼짐).</summary>
+        public static bool SuperArmorAllActs;
+        /// <summary>끊김 최소 피해(최대 체력 대비 ‰, 기본 0 = 문턱 없음). 답답하면 30(3%)을 켠다(8-1 #7).</summary>
+        public static int WeaponActInterruptMinPermille;
+        /// <summary>방어 게이지 최대치(50~200, 기본 ShieldRule.GuardMax 100). 깎는 양은 그대로라 200이면 굴쥐 물기 8번에 깨진다(0-3의 28).</summary>
+        public static float GuardMeterMax = ShieldRule.GuardMax;
+        /// <summary>방어 게이지 회복 빠르기 배율(0.25~3, 기본 1 = 쉴 때 초당 50·막는 중 초당 10). 쉬는 시간 0.5·1.0초는 그대로.</summary>
+        public static float GuardRegenScale = 1f;
+        /// <summary>패링 성공 때 돌려받는 방어 게이지(0~50, 기본 ShieldRule.ParryRefund 20).</summary>
+        public static float GuardParryRefund = ShieldRule.ParryRefund;
+        /// <summary>패링 피해(공격력 %, 0~100, 기본 ShieldRule.ParryDamagePercent 30). 0이면 피해 없음.</summary>
+        public static float ParryDamagePercent = ShieldRule.ParryDamagePercent;
+        /// <summary>패링 그로기(버팀) 깎기: 일반 적 몫(0~1, 기본 ShieldRule.ParryPoiseFraction 0.5)과 정예 몫(기본 ShieldRule.ParryElitePoiseFraction 0.35). 보스 휩쓸기 6%는 그대로.</summary>
+        public static float ParryPoiseFraction = ShieldRule.ParryPoiseFraction;
+        public static float ParryElitePoiseFraction = ShieldRule.ParryElitePoiseFraction;
+
+        // ── 재화 쓸 곳 1차 손잡이(기획/재화-쓸-곳-1차.md 5-2·14장). 기본값은 Core BagRules가 정한다. 읽는 곳 Inventory, 바꾸는 곳 던전 F1 ──
+
+        /// <summary>㉡ 저절로 분해(일반): 끼어도 나아지지 않는 일반 +0 장비는 저절로 줍기·떠날 때 거두기에서 그 자리에서 강화석으로 분해한다(기본 켬).</summary>
+        public static bool AutoSalvageCommon = Demo6.Core.Loot.BagRules.AutoSalvageCommonDefault;
+        /// <summary>㉠ 저절로 줍기 여유 칸(0 또는 BagRules.AutoReserveSlots = 3): 가방이 칸 − 이 수에 닿으면 저절로 줍기를 멈춘다. F 줍기는 그대로(기본 0).</summary>
+        public static int AutoPickupReserve = 0;
+
         public static void ResetToDefaults()
         {
+            AutoSalvageCommon = Demo6.Core.Loot.BagRules.AutoSalvageCommonDefault;
+            AutoPickupReserve = 0;
+            GuardEnabled = true;
+            ParryWindow = ShieldRule.ParryWindow;
+            GuardDamageScale = DefaultGuardDamageScale;
+            GuardMeterMax = ShieldRule.GuardMax;
+            GuardRegenScale = 1f;
+            GuardParryRefund = ShieldRule.ParryRefund;
+            ParryDamagePercent = ShieldRule.ParryDamagePercent;
+            ParryPoiseFraction = ShieldRule.ParryPoiseFraction;
+            ParryElitePoiseFraction = ShieldRule.ParryElitePoiseFraction;
+            TestSuperArmorRune = false;
+            SuperArmorAllActs = false;
+            WeaponActInterruptMinPermille = 0;
             HitStopEnabled = true;
             HitStopScale = 1f;
             KnockbackScale = 1f;
@@ -74,7 +173,34 @@ namespace Demo6.Game
             MultiKillJuice = true;
             KillStreakText = true;
             MoveSpeedScale = DefaultMoveSpeedScale;
+            EnemyMoveScale = DefaultEnemyMoveScale;
+            // 걸음 비교안 '지금'이 켜는 '빠른 걸음 모든 칸'도 함께 되돌린다(던전 F1 '손맛 기본값으로'와 같음).
+            ExploreWalk.FastEverywhere = false;
             MoveInertia = true;
+            DodgeCounter = CounterRule.DefaultOn;
+            CrouchMoveScale = Demo6.Core.Dungeon.CrouchRules.MoveScale;
+            CrouchNoiseScale = Demo6.Core.Dungeon.CrouchRules.NoiseScale;
+            CrouchConeHalfAngle = Demo6.Core.Dungeon.CrouchRules.ConeHalfAngle;
+            CrouchViewRadius = Demo6.Core.Dungeon.CrouchRules.ViewRadius;
+            CrouchNearRadius = Demo6.Core.Dungeon.CrouchRules.NearRadius;
+            WallSlamOn = WallSlamRule.DefaultOn;
+            FearOn = FearRule.DefaultOn;
+            ExecutionOn = ExecutionRule.DefaultOn;
+            AmbushExecutionOn = ExecutionRule.AmbushDefaultOn;
+            ExecutionHealOn = ExecutionRule.HealDefaultOn;
+            ExecuteThresholdMedium = ExecutionRule.ThresholdMedium;
+            ExecuteThresholdHeavy = ExecutionRule.ThresholdHeavy;
+            ExecuteThresholdElite = ExecutionRule.ThresholdElite;
+            SleeperTurnChance = ExecutionRule.SleeperTurnDefault;
+            BossPhase2On = true;
+            BossForcePattern = -1;
+            BossRetryFullPotions = true;
+            BackAttackOn = PositionalHitRule.BackDefaultOn;
+            HeadAttackOn = PositionalHitRule.HeadDefaultOn;
+            BackAttackDamagePermille = PositionalHitRule.BackDamageBonusPermille;
+            BackAttackCritPermille = PositionalHitRule.BackCritBonusPermille;
+            HeadAttackPoiseScale = PositionalHitRule.HeadPoiseScale;
+            PositionalHitText = true;
             TestWeaponIntrinsic = true;
             TestAttackSpeedPermille = 0;
             TestCritChancePermille = -1;

@@ -1,0 +1,15 @@
+using System;using System.IO;using System.Linq;using System.Collections;using System.Collections.Generic;using UnityEngine;using UnityEngine.InputSystem;using UnityEngine.InputSystem.LowLevel;using Demo6.Game;using Newtonsoft.Json;
+public static class V053NativeObserve {
+ public static object Start(){if(!Application.isPlaying||!PlayerController.Instance)throw new Exception("Original live dungeon required");if(GameObject.Find("V053 passive observation"))throw new Exception("Already active");new GameObject("V053 passive observation").AddComponent<V053NativeObserver>();return "90 seconds of passive native keyboard/mouse observation; no injected input or altered devices";}
+}
+public sealed class V053NativeObserver:MonoBehaviour {
+ readonly List<object> samples=new List<object>();float until,next;int mouseEvents,keyEvents,captured;bool recording;string last;const string Out="검증/v053-shield";
+ void Awake(){until=Time.realtimeSinceStartup+90;InputSystem.onEvent+=Observe;}
+ void Observe(InputEventPtr ev,InputDevice device){if(!device.native||(!ev.IsA<StateEvent>()&&!ev.IsA<DeltaStateEvent>()))return;if(device is Mouse)mouseEvents++;if(device is Keyboard)keyEvents++;}
+ void LateUpdate(){var p=PlayerController.Instance;var art=TopDownView.PlayerRig?.FirstAttackArt;var keyboard=Keyboard.current;var mouse=Mouse.current;bool move=keyboard!=null&&(keyboard.wKey.isPressed||keyboard.aKey.isPressed||keyboard.sKey.isPressed||keyboard.dKey.isPressed);bool space=keyboard!=null&&keyboard.spaceKey.isPressed;bool right=mouse!=null&&mouse.rightButton.isPressed;bool left=mouse!=null&&mouse.leftButton.isPressed;string key=p?p.Pose+"/"+p.ActPhase+"/"+move+"/"+space+"/"+right+"/"+left:"absent";
+ if(key!=last||Time.realtimeSinceStartup>=next){samples.Add(new{time=Time.realtimeSinceStartup,frame=Time.frameCount,nativeKeyboard=keyboard?.native,nativeMouse=mouse?.native,move,space,right,left,pose=p?p.Pose.ToString():null,phase=p?p.ActPhase.ToString():null,moving=p&&p.IsMoving,position=p?p.Position.ToString():null,dodgeCooldown=p?p.DodgeCooldown:0,clip=art?.ClipId,cel=art?.FrameIndex,lootClaim=LootLabels.BlocksWorldPointer,attack=p&&p.GetComponent<PlayerInputReader>().AttackHeld});last=key;next=Time.realtimeSinceStartup+.1f;}
+ if(!recording&&p&&right&&p.GuardActive&&mouse.native&&mouseEvents>0){recording=true;StartCoroutine(CaptureTen());}if(Time.realtimeSinceStartup>=until)Finish();}
+ IEnumerator CaptureTen(){for(int i=0;i<10;i++){yield return new WaitForEndOfFrame();var tex=ScreenCapture.CaptureScreenshotAsTexture();File.WriteAllBytes(Out+"/native-latest-"+i.ToString("00")+".png",tex.EncodeToPNG());Destroy(tex);captured++;}}
+ void Finish(){File.WriteAllText(Out+"/native-latest-observation.json",JsonConvert.SerializeObject(new{method="Passive observation only, no device/event/state injection",mouseEvents,keyEvents,captured,samples,devices=InputSystem.devices.Select(d=>new{d.name,d.native,d.enabled}).ToArray()},Formatting.Indented));Destroy(gameObject);}
+ void OnDestroy(){InputSystem.onEvent-=Observe;}
+}

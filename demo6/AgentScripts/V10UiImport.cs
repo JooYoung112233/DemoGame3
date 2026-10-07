@@ -1,0 +1,5 @@
+using System;using System.IO;using UnityEngine;using UnityEditor;
+public static class V10UiImport {
+ public static object Run(){if(!Application.dataPath.Contains("topdown-v10-review-isolated")||EditorApplication.isPlaying)throw new Exception("Owned isolated Edit only");Directory.CreateDirectory("Assets/Resources/UI/V10");foreach(string source in Directory.GetFiles("E:/personalProject/Demo3/demo6/아트/정수리-질감수정-v10/runtime-UI","*.png")){string file="Assets/Resources/UI/V10/"+Path.GetFileName(source);File.Copy(source,file,true);AssetDatabase.ImportAsset(file,ImportAssetOptions.ForceSynchronousImport);var i=(TextureImporter)AssetImporter.GetAtPath(file);i.textureType=TextureImporterType.Default;i.isReadable=Path.GetFileNameWithoutExtension(file)=="frame" || Path.GetFileNameWithoutExtension(file)=="button";i.mipmapEnabled=true;i.filterMode=FilterMode.Trilinear;i.textureCompression=TextureImporterCompression.Uncompressed;i.maxTextureSize=1024;i.SaveAndReimport();}return "Nine native UI tiles imported"; }
+}
+

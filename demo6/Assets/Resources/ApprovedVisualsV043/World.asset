@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db07cf1c2a2b804d23a90d101380bc2e, type: 3}
+  m_Name: World
+  m_EditorClassIdentifier: 
+  entries:
+  - id: floor
+    sprite: {fileID: 21300000, guid: 444989f662b8f0b478d3aba644b366fa, type: 3}
+    material: {fileID: 2100000, guid: b728647b5e4ce3b4398fa6c1e80958ef, type: 2}
+  - id: pillar_a
+    sprite: {fileID: 21300000, guid: d37c57a656ebcb94fa9ded843201c42d, type: 3}
+    material: {fileID: 2100000, guid: 2a43edd29fe700f45a871c543abfad2c, type: 2}
+  - id: pillar_b
+    sprite: {fileID: 21300000, guid: 7b592d100f32b04498889b51a21ab387, type: 3}
+    material: {fileID: 2100000, guid: 7f1ecc756e1c1564bbef67f7b57452a7, type: 2}
+  - id: wall_h29
+    sprite: {fileID: 21300000, guid: 5912a06d50ff6294995b4c24a740a031, type: 3}
+    material: {fileID: 2100000, guid: 6891176e139d5db4895c139982b68a61, type: 2}
+  - id: wall_v17
+    sprite: {fileID: 21300000, guid: 16309ff009d0ca34ab16dfd9dffe28e8, type: 3}
+    material: {fileID: 2100000, guid: 3806057c38bd42e4aad2e59aee2c2cfb, type: 2}
+  - id: winch
+    sprite: {fileID: 21300000, guid: 5a2f123e338590e438db111ff97657f5, type: 3}
+    material: {fileID: 0}
+  - id: broken_timber
+    sprite: {fileID: 21300000, guid: 10687bca437bc0f4a81abf2b334c8444, type: 3}
+    material: {fileID: 0}
+  - id: chain
+    sprite: {fileID: 21300000, guid: ea17f874cb4b0d9489a3650e9184328b, type: 3}
+    material: {fileID: 0}
+  - id: rubble
+    sprite: {fileID: 21300000, guid: 16424203024999b4eb1c175c12b0ca3d, type: 3}
+    material: {fileID: 0}

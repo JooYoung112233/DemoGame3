@@ -33,6 +33,11 @@ namespace Demo6.Core.Loot
         public readonly List<int> GoldPiles = new List<int>();
         /// <summary>나무 궤짝 10% '쥐 궤짝'(굴쥐 3). 보상은 그대로 준다.</summary>
         public bool RatChest;
+        /// <summary>
+        /// 룬 id(기획/세-무기-우클릭-소켓-1차.md 6-3). 장비·강화석·골드와 따로 흐르는 난수로 굴려 RuneRules.AddTo가 붙인다
+        /// (LootRules의 굴림 함수는 넣지 않는다 — 기존 난수 차례 그대로). 바닥에서 주우면 주머니로 간다(가방 칸 안 씀).
+        /// </summary>
+        public readonly List<string> Runes = new List<string>();
 
         public int Gold
         {
@@ -44,7 +49,7 @@ namespace Demo6.Core.Loot
             }
         }
 
-        public bool Empty => Gear.Count == 0 && Stones <= 0 && GoldPiles.Count == 0;
+        public bool Empty => Gear.Count == 0 && Stones <= 0 && GoldPiles.Count == 0 && Runes.Count == 0;
     }
 
     /// <summary>
@@ -67,7 +72,8 @@ namespace Demo6.Core.Loot
     }
 
     /// <summary>
-    /// 궤짝·처치 보상 규칙(3차 초안 2-5 찾을 거리 표, 4-6 처치 보상 표). 장비는 7부위(장비 문서 8-1: 부위 ‰ 340/105/75/75/75/180/150, 종류는 1/3씩).
+    /// 궤짝·처치 보상 규칙(3차 초안 2-5 찾을 거리 표, 4-6 처치 보상 표). 장비는 7부위(장비 문서 8-1: 부위 ‰ 340/105/75/75/75/180/150,
+    /// 종류는 그 층에 풀린 것끼리 같은 확률: 1층 무기 1/3, 새 무기 6종이 풀리는 2층부터 1/9, 다른 부위 1/3).
     /// 장비 개수·강화석·골드·나무 궤짝 규칙은 M0b 그대로다(결정 1: 총량 그대로). 배율 = 1 + 0.15 × (층 − 1)은 ‰ 정수(1000 + 150 × (층 − 1))로 계산한다.
     /// </summary>
     public static class LootRules
@@ -144,14 +150,15 @@ namespace Demo6.Core.Loot
         public static int IronStones(int floor) => Math.Max(1, FloorScaling.Clamp(floor) - 2);
 
         /// <summary>
-        /// 옛 무기 하나(M0b): 등급(층 표, min 이상) → 종류(1/3씩) → 굴림(900~1100‰) 순서로 난수 3번.
+        /// 옛 무기 하나(M0b): 등급(층 표, min 이상) → 종류(M0a 3종 1/3씩, 새 무기는 나오지 않음) → 굴림(900~1100‰) 순서로 난수 3번.
         /// 보상은 이제 RollGear를 쓴다. 이 함수는 옛 시험과 꾸러미 v1 읽기용으로 남긴다.
         /// </summary>
         public static WeaponItem RollWeapon(int floor, IRandom rng, Grade min = Grade.Common)
         {
             int f = FloorScaling.Clamp(floor);
             var grade = GradeRules.RollAtLeast(f, min, rng);
-            var presets = WeaponPresets.All;
+            // 옛 씨앗 결과를 지키려고 M0a 3종 고정 목록을 쓴다(WeaponPresets.All은 새 무기가 붙으며 길어진다).
+            var presets = WeaponPresets.Legacy3;
             string id = presets[rng.NextInt(0, presets.Length)].id;
             int roll = rng.NextInt(GearMath.RollMinPermille, GearMath.RollMaxPermille + 1);
             return new WeaponItem(id, grade, f, roll);
@@ -163,7 +170,8 @@ namespace Demo6.Core.Loot
         /// ② 부위: 전설이면 6장(효과 1/3 → 그 효과의 부위 묶음 안 비율, 난수 2번). OnlyParts가 있으면 그 부위에 나올 수 있는 효과 k개 가운데 1/k,
         ///    부위는 묶음 가운데 OnlyParts 안의 부위만. 전설이 아니면 GearSlots.PartDropPermille 7칸으로 고른다(난수 1번):
         ///    희귀 이상이면 BoostedParts 가중치 ×3, OnlyParts가 있으면 그 안에서만.
-        /// ③ 종류 1/3(난수 1번) → ④ 굴림 900~1100‰(난수 1번) → ⑤ 옵션 OptionTable.RollAll(등급 줄 수, 줄마다 난수 2번)
+        /// ③ 종류: 그 층에 풀린 종류(GearBaseTable.ForPart(부위, 층)) 가운데 같은 확률, 1층 무기 1/3·2층부터 1/9·다른 부위 1/3(난수 1번)
+        /// → ④ 굴림 900~1100‰(난수 1번) → ⑤ 옵션 OptionTable.RollAll(등급 줄 수, 줄마다 난수 2번)
         /// → ⑥ 전설이면 세기 LegendaryTable.RollStrength(OwnedLegendaries에 있으면 위쪽 절반, 난수 1번). 아이템 레벨 = 층.
         /// </summary>
         public static GearItem RollGear(int floor, IRandom rng, Grade min = Grade.Common, GearRollContext context = null)
@@ -187,7 +195,8 @@ namespace Demo6.Core.Loot
                 part = RollPart(rng, only, boosted);
             }
 
-            var kinds = GearBaseTable.ForPart(part);
+            // 종류는 이 층에 풀린 것끼리 같은 확률(1층 무기 1/3, 2층부터 1/9). 1층은 목록이 예전과 같아 같은 씨앗이면 같은 장비다.
+            var kinds = GearBaseTable.ForPart(part, f);
             var kind = kinds[rng.NextInt(0, kinds.Count)];
             int roll = rng.NextInt(GearMath.RollMinPermille, GearMath.RollMaxPermille + 1);
             var options = OptionTable.RollAll(part, grade, f, rng);

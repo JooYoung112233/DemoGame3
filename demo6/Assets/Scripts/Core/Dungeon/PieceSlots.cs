@@ -63,6 +63,8 @@ namespace Demo6.Core.Dungeon
     /// 기둥 5벌은 지금 손 지도 공터 c1·A·V·B·T의 기둥이다(DungeonWorld.PillarsFor가 칸 id 표 대신 이 번호를 쓴다).
     /// 칸은 28×16(안쪽 x ±13.5, y ±7.5), 문은 네 변 가운데 폭 4(가운데 (±14, 0), (0, ±8)). 손 지도 자리 표시 좌표를 출발점으로 적었다.
     /// 공터 자리는 다섯 벌 모두에 같은 후보를 적고, 그 벌의 기둥(반경 1.5, 무리·둥지 가운데는 2.5) 안에 드는 자리는 뺀다.
+    /// 오우거 굴의 보스방·보스방 앞 쉼터(전투·보스 문서 3-6·3-8, 묶음 7)는 생성기가 쓰지 않는 손 지도 칸이라 자리 슬롯이 없고,
+    /// 보스방 기둥은 굴 표(OgreDen.Pillars, 1.6 × 1.6 돌 기둥 4개)를 따른다.
     /// </summary>
     public static class PieceSlots
     {
@@ -97,7 +99,7 @@ namespace Demo6.Core.Dungeon
         public static IReadOnlyList<Offset> PillarSet(int set) =>
             set >= 0 && set < PillarSets.Length ? PillarSets[set] : DefaultPillars;
 
-        /// <summary>조각 안 기둥(공터는 모양 번호, 입구·계단 앞은 구석 두 개, 그 밖은 없음).</summary>
+        /// <summary>조각 안 기둥(공터는 모양 번호, 입구·계단 앞은 구석 두 개, 보스방은 굴 표의 돌 기둥 4개, 그 밖은 없음).</summary>
         public static IReadOnlyList<Offset> PillarsIn(PieceKind piece, int pillarSet)
         {
             switch (piece)
@@ -105,6 +107,7 @@ namespace Demo6.Core.Dungeon
                 case PieceKind.Clearing: return PillarSet(pillarSet);
                 case PieceKind.Entrance:
                 case PieceKind.StairsRoom: return CornerPillars;
+                case PieceKind.BossRoom: return OgreDen.Pillars;
                 default: return Array.Empty<Offset>();
             }
         }
@@ -147,6 +150,9 @@ namespace Demo6.Core.Dungeon
                 case PieceKind.Hidden: return Hidden;
                 case PieceKind.Entrance: return Entrance;
                 case PieceKind.StairsRoom: return StairsRoom;
+                // 굴 칸은 손 지도 고정 자리(OgreDen 표)만 쓰고 생성기는 이 조각을 쓰지 않는다.
+                case PieceKind.BossRoom:
+                case PieceKind.BossFront: return Array.Empty<PieceSlot>();
                 default: return Array.Empty<PieceSlot>();
             }
         }

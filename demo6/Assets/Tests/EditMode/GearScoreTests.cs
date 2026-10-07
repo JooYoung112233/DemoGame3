@@ -22,10 +22,10 @@ namespace Demo6.Tests
         {
             var g = GearScore.Of(StatCalc.Starting());
             double coef = WeaponPresets.Longsword.SingleTargetCoefficient;
-            // A = 200 × 1.042 × [0.65 × 1.488 ÷ 1.49 + 0.35 × 1 ÷ 1] × 1.
+            // A = 200 × 1.042 × [0.65 × 1.472 ÷ 1.49 + 0.35 × 1 ÷ 1] × 1(시작 무기 한손검과 방패, 기획/세-무기-우클릭-소켓-1차.md 2-3).
             double a = 200 * (1 + 0.07 * (1.6 - 1)) * (0.65 * coef / 1.49 + 0.35);
             Assert.AreEqual(a, g.A, 1e-9);
-            Assert.AreEqual(208.25, g.A, 0.01);
+            Assert.AreEqual(206.74, g.A, 0.01);
             // S = 2,400 × (1 + 120 ÷ 1000), M = 1 + 0.06.
             Assert.AreEqual(2688.0, g.S, 1e-9);
             Assert.AreEqual(1.06, g.M, 1e-12);

@@ -82,7 +82,7 @@ namespace Demo6.Game
             bool isKey = f == key;
             float sign = reverse ? -1f : 1f;
             bool twin = weapon.id == WeaponPresets.Twinblades.id;
-            float length = weapon.id == WeaponPresets.Greatsword.id ? 1.25f : twin ? 0.8f : 1.05f;
+            float length = BladeLength(weapon.id);
             if (s.shape == ComboShape.Line)
             {
                 float reach = f < key ? Mathf.Lerp(0.5f, 0.35f, f / (float)Mathf.Max(1, key)) : f == key ? 1.45f : Mathf.Lerp(1.3f, 0.8f, (f - key) / (float)Mathf.Max(1, frames - key - 1));
@@ -99,6 +99,26 @@ namespace Demo6.Game
             else angle = Mathf.Lerp(-55f, -80f, (f - key) / (float)Mathf.Max(1, frames - key - 1)) * sign;
             if (s.shape == ComboShape.Circle) angle = f < key ? 90f : f == key ? 0f : -10f;
             return Frame(angle, length, isKey, 0f, null, twin);
+        }
+
+        /// <summary>
+        /// 옆모습 시험 그림의 무기 막대 길이(유닛). 기존 3종은 예전 값 그대로(대검 1.25, 쌍검 0.8, 장검 1.05)이고,
+        /// 새 무기 6종은 정수리 그림 길이(기획/전투-보스-무기-다듬기-1차.md 2-7)에 비례해 정한다: 창이 가장 길고 단검이 가장 짧다.
+        /// </summary>
+        static float BladeLength(string weaponId)
+        {
+            switch (weaponId)
+            {
+                case "wpn_greatsword": return 1.25f;
+                case "wpn_twinblades": return 0.8f;
+                case "wpn_maul": return 1.2f;
+                case "wpn_spear": return 1.6f;
+                case "wpn_scythe": return 1.35f;
+                case "wpn_axe": return 1.0f;
+                case "wpn_dagger": return 0.55f;
+                case "wpn_flail": return 1.1f;
+                default: return 1.05f;
+            }
         }
 
         static Sprite Frame(float bladeAngle, float bladeLength, bool key, float bob, Color? bodyTint = null, bool twin = false)

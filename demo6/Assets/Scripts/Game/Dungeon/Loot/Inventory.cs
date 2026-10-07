@@ -15,17 +15,21 @@ namespace Demo6.Game
     /// 능력치 한 입구(2-3): RecomputeStats = StatCalc.Compute(장착, 레벨, 질긴 몸) → player.ApplyStats → player.SetLook(겉모습 4개).
     /// 던전에서 ApplyStats를 부르는 곳은 이것 하나다(레벨·질긴 몸이 바뀌면 PlayerProgress가 이것을 부른다).
     /// G = 바닥 장비 바로 끼기(반지는 빈 자리부터 반지 1 → 반지 2, 둘 다 차면 종합 변화가 큰 자리), Shift+G = 반지를 다른 쪽에(8-6).
-    /// 벗은 장비는 가방으로 간다(가득 차도 넘쳐 들어감, 2차 7-7). 반지·목걸이만 벗어 비울 수 있다(4-1).
+    /// 벗은 장비는 가방으로 간다(가득 차도 넘침 6칸까지, 넘침 끝이면 바닥에서 바꿔 낀 장비는 발밑에 — 재화 쓸 곳 1차 5-1). 반지·목걸이만 벗어 비울 수 있다(4-1).
     /// 처치 보상(3차 초안 4-6): CombatEvents.EnemyKilled(둥지·허수아비·NoReward 굴쥐 제외), 둥지 정리는 DungeonEvents.GroupCleared(nest).
     /// 굴림 조건(8-2): 부위 점수가 가장 낮은 2부위 보정, 가진 전설 효과.
-    /// 가방은 20칸(M0b 축소판). I로 가방 창("bag", IMGUI 기능만: 장착 8자리·능력치 표 13줄·가방·상세)을 열고 Esc·I로 닫는다.
-    /// 강화석·골드는 DungeonState에 더한다(쓸 곳은 M0b에 없음).
+    /// 가방은 20칸, 대장간 물건으로 25·30칸(재화 쓸 곳 1차 5-1, 넘침 6칸). I로 가방 창("bag", IMGUI 기능만: 장착 8자리·능력치 표 13줄·가방·상세)을 열고 Esc·I로 닫는다.
+    /// 칸·줍기 판정(BagRules.Decide)·분해·내려놓기·저절로 분해는 Inventory.Salvage.cs(재화 쓸 곳 1차 3장·4-2~4-4·5장).
+    /// 층을 떠날 때(올라가기·계단·다시 짓기) 바닥에 남은 장비는 SweepFloor가 가방으로 거둔다(검토 1차 Q3, 2차 7-7: 희귀·영웅은 넘침 6칸까지, 전설은 늘, Core BagSweep).
+    /// 강화석·골드는 DungeonState에 더한다. 분해 강화석은 Wallet.AddSalvageStones 한 곳으로(재화 쓸 곳 1차 4-1, 마을이면 꾸러미).
     /// 매판 새 탐험 1차: 장착 8자리·가방은 꾸러미(ExportTo/ImportFrom)로 장면을 다시 불러와도 남는다.
+    /// 룬 주머니·룬 홈 끼우기·빼기는 Inventory.Runes.cs(기획/세-무기-우클릭-소켓-1차.md 6장). 무기 행동 중에는 장착·룬 단추가 회색이고 G를 무시한다.
     /// </summary>
-    public sealed class Inventory : MonoBehaviour
+    public sealed partial class Inventory : MonoBehaviour
     {
         public const string BagWindow = "bag";
-        public const int BagCapacity = 20;
+        /// <summary>지금 가방 칸 수(= Capacity, 20·25·30). 승인된 가방 창(Inventory.ApprovedV5.cs)이 칸 줄·빈 칸을 이 값으로 그린다(재화 쓸 곳 1차 5-4).</summary>
+        public int BagCapacity => Capacity;
         /// <summary>G로 바로 끼는 거리(F 상호작용 거리와 같음).</summary>
         public const float EquipRange = 1.8f;
         const ulong KillStream = 23;
@@ -64,6 +68,7 @@ namespace Demo6.Game
         GearItem _selected;
         GUIStyle _detailTitle;
         GUIStyle _statValue;
+        GUIStyle _statChange;
         GUIStyle _slotCaption;
         GUIStyle _iconCaption;
         Card _card;
@@ -78,6 +83,8 @@ namespace Demo6.Game
 
         void OnDestroy()
         {
+            CancelInventoryPointer();
+            _v5Portrait.Dispose();
             if (_player) _player.WeaponChanged -= OnPlayerWeaponChanged;
             CombatEvents.EnemyKilled -= OnEnemyKilled;
             DungeonEvents.GroupCleared -= OnGroupCleared;
@@ -94,11 +101,13 @@ namespace Demo6.Game
             _bag.Clear();
             Equipment = Loadout.Starting();
             _selected = null;
+            ResetBagState(null);
+            ClearRunePouch();
             RecomputeStats();
             if (_player) _player.WeaponChanged += OnPlayerWeaponChanged;
         }
 
-        /// <summary>꾸러미에 담기(매판 새 탐험 1차 3-3): 장착 8자리와 가방. 장비는 바뀌지 않는 값이라 그대로 넘긴다.</summary>
+        /// <summary>꾸러미에 담기(매판 새 탐험 1차 3-3): 장착 8자리와 가방, 룬 주머니. 장비는 바뀌지 않는 값이라 그대로 넘긴다(끼운 룬도 장비에 들어 있음).</summary>
         public void ExportTo(CarryData data)
         {
             if (data == null) return;
@@ -106,6 +115,7 @@ namespace Demo6.Game
             data.Bag.Clear();
             foreach (var item in _bag)
                 if (item != null) data.Bag.Add(item);
+            ExportRunes(data);
         }
 
         /// <summary>
@@ -125,7 +135,9 @@ namespace Demo6.Game
             _bag.Clear();
             foreach (var item in data.Bag)
                 if (item != null) _bag.Add(item);
+            ImportRunes(data);
             _selected = null;
+            ResetBagState(data);
             RecomputeStats();
         }
 
@@ -142,6 +154,8 @@ namespace Demo6.Game
             {
                 _player.ApplyStats(Sheet);
                 _player.SetLook(Equipment.Look);
+                // 룬 효과는 낀 무기(장착 자리)의 룬만 센다(6-5). 장착이 바뀌는 모든 길(꾸러미 풀기 포함)이 여기를 지난다.
+                _player.SetWeaponRunes(Equipped != null ? Equipped.Runes : null);
             }
             return Sheet;
         }
@@ -155,6 +169,7 @@ namespace Demo6.Game
         {
             var health = _player ? _player.Health : null;
             int current = health ? health.Current : -1;
+            // RecomputeStats가 _player.SetWeaponRunes(Equipped?.Runes)까지 부른다(낀 무기의 룬만 효과).
             RecomputeStats();
             if (health && !health.Dead && current > 0) health.SetCurrent(Mathf.Min(current, health.Max));
         }
@@ -208,12 +223,13 @@ namespace Demo6.Game
         public GearSlot OtherSlotFor(GearItem item) => GearSlots.OtherRing(EquipSlotFor(item));
 
         /// <summary>
-        /// 가방이나 바닥의 장비를 낀다(slot이 없으면 G 자리). 가방에 있던 것이면 벗은 장비가 그 칸으로, 아니면 가방 끝으로 간다(가득 차도 넘쳐 들어감).
+        /// 가방이나 바닥의 장비를 낀다(slot이 없으면 G 자리). 가방에 있던 것이면 벗은 장비가 그 칸으로, 아니면 가방 끝으로 간다(넘침 칸까지).
+        /// 바닥에서 바꿔 껴 넘침 끝에 닿으면 벗은 장비는 발밑에 내려놓는다(재화 쓸 곳 1차 5-1, StoreSwapped).
         /// 낀 반지를 다른 반지 자리로 옮기면 두 반지를 맞바꾼다. 낀 자리를 돌려준다(부위가 맞지 않거나 이미 그 자리면 null).
         /// </summary>
         public GearSlot? Equip(GearItem item, GearSlot? slot = null)
         {
-            if (item == null) return null;
+            if (item == null || WeaponActLocked) return null;
             var target = slot ?? EquipSlotFor(item);
             if (!Loadout.CanEquip(target, item)) return null;
             var from = Equipment.SlotOf(item);
@@ -225,20 +241,27 @@ namespace Demo6.Game
                 if (removed != null) _bag[index] = removed;
                 else _bag.RemoveAt(index);
             }
-            else if (removed != null) _bag.Add(removed);
+            else if (removed != null) StoreSwapped(removed);
             RecomputeAfterGearChange();
             Sfx.Play(SfxKind.Pickup);
             string where = item.Part == GearPart.Ring ? " → " + GearSlots.SlotName(target) : "";
             DungeonEvents.RaiseGearEquipped(item.DisplayName + where + " (" + BaseStatText(item) + ")");
+            ExpeditionLedger.NoteSwapped();
             if (_player)
                 WorldOverlay.Text(_player.Position + Vector2.up * 1.2f, item.DisplayName + " " + BaseStatText(item), LootVisuals.GradeColor(item.Grade));
+            // 룬은 옛 무기에 남는다(6-5): 한 줄로 알린다.
+            if (removed != null && removed.IsWeapon && removed.Runes.Count > 0) DungeonEvents.Say(OldWeaponRunesNotice);
             return target;
         }
 
-        /// <summary>반지·목걸이를 벗어 가방에 넣는다(가득 차도 넘쳐 들어감). 무기·갑옷·투구·장갑·장화는 바꾸기만 한다(4-1).</summary>
+        /// <summary>
+        /// 반지·목걸이를 벗어 가방에 넣는다(가득 차도 넘침 칸으로). 넘침 끝이면 벗지 않고 알린다(재화 쓸 곳 1차 5-1).
+        /// 무기·갑옷·투구·장갑·장화는 바꾸기만 한다(4-1). 무기 행동 중에는 하지 않는다.
+        /// </summary>
         public bool Unequip(GearSlot slot)
         {
-            if (!GearSlots.CanUnequip(slot)) return false;
+            if (!GearSlots.CanUnequip(slot) || WeaponActLocked) return false;
+            if (UnequipBlockedByOverflow(slot)) return false;
             var old = Equipment.Unequip(slot);
             if (old == null) return false;
             _bag.Add(old);
@@ -248,17 +271,25 @@ namespace Demo6.Game
             return true;
         }
 
-        /// <summary>F: 바닥 장비를 가방에 넣는다. 가방이 가득 차면 알리고 false.</summary>
+        /// <summary>
+        /// 바닥 장비를 가방에 넣는다(재화 쓸 곳 1차 5-3, 판정은 BagRules.Decide 한 곳 — DecidePickup).
+        /// F 대상이거나 이름표를 눌러 주운 것은 F 줍기: 가득이면 알리고 false. LootDrop의 15 밖 저절로 줍기는 거절을 알리지 않고(매 프레임 부를 수 있음),
+        /// ㉡ 대상(일반 +0, 끼어도 나아지지 않음)은 그 자리에서 분해한다. 내려놓은 장비는 저절로 줍지 않고, F로 주우면 기억에서 지운다(4-4).
+        /// </summary>
         public bool PickUp(LootDrop drop)
         {
             if (!drop || !drop.Available) return false;
-            if (BagFull)
+            var action = DecidePickup(drop, out bool manual);
+            if (action == PickupAction.Salvage && !manual) return AutoSalvage(drop);
+            if (action != PickupAction.Take && action != PickupAction.TakeOverflow)
             {
-                DungeonEvents.Say("더는 들 수 없다 — 가방이 가득 찼다 (" + BagCapacity + "칸)");
+                if (manual) DungeonEvents.Say(PickupBlockedText());
                 return false;
             }
             var item = drop.Gear;
             _bag.Add(item);
+            ExpeditionLedger.NotePicked(item); // 원정 '남은 것'(묶음 3 가-4)
+            ForgetDropped(item);
             drop.Take();
             Sfx.Play(SfxKind.Pickup);
             if (_player)
@@ -266,15 +297,86 @@ namespace Demo6.Game
             return true;
         }
 
-        /// <summary>G: 바닥 장비를 바로 낀다(벗은 장비는 가방으로). otherRing(Shift+G)이면 반지를 G 자리의 다른 쪽에 낀다.</summary>
+        // ── 떠날 때 바닥 장비 거두기(시스템·컨텐츠 다듬기 검토 1차 Q3, 2차 7-7) ──
+
+        /// <summary>
+        /// 떠날 때 거둘 바닥 장비: 내려앉은 것(아직 줍지 않음)과 아직 날아가는 것(보스 보상을 흩뿌리는 중 등). 줍거나 낀 것은 빠진다.
+        /// 날아가는 장비는 Available이 아직 false지만 줍는 길(F·G·저절로 줍기)이 모두 내려앉은 뒤라 줍힌 적이 없다.
+        /// </summary>
+        static List<LootDrop> FloorDrops()
+        {
+            var list = new List<LootDrop>();
+            foreach (var it in Interactable.All)
+            {
+                var drop = it as LootDrop;
+                if (drop && drop.Gear != null && (drop.Available || !drop.Landed)) list.Add(drop);
+            }
+            return list;
+        }
+
+        /// <summary>바닥 장비 목록(FloorDrops 차례 그대로)의 장비.</summary>
+        static List<GearItem> GearsOf(List<LootDrop> drops)
+        {
+            var gears = new List<GearItem>(drops.Count);
+            foreach (var d in drops) gears.Add(d.Gear);
+            return gears;
+        }
+
+        /// <summary>바닥 장비마다 '지금 끼면 ▲'(Improves, ㉡ 판정 재료).</summary>
+        List<bool> ImprovesOf(List<LootDrop> drops)
+        {
+            var improves = new List<bool>(drops.Count);
+            foreach (var d in drops) improves.Add(Improves(d.Gear));
+            return improves;
+        }
+
+        /// <summary>
+        /// 지금 떠나면 바닥 장비를 어떻게 거둘지(가방은 바꾸지 않음). 떠나기 전 확인(DungeonRoot)이 RareLeft를 본다.
+        /// 재화 쓸 곳 1차 5-3 '떠날 때 거두기' 줄(BagSweep 장비 목록판): 내려놓은 장비는 빼고, ㉡ 대상·가득일 때 일반·고급은 분해 몫.
+        /// </summary>
+        public BagSweepPlan PlanFloorSweep()
+        {
+            var drops = SweepDrops();
+            return BagSweep.Plan(_bag.Count, Capacity, GearsOf(drops), ImprovesOf(drops), Tuning.AutoSalvageCommon);
+        }
+
+        /// <summary>
+        /// 떠나는 암전 뒤(DungeonRoot 올라가기·계단·다시 짓기, 꾸러미 담기 전): BagSweep 계획대로 바닥 장비를 가방에 넣거나 분해하고 바닥에서 지운다.
+        /// 가방이 차도 희귀·영웅은 넘침 칸(6)까지, 전설은 늘 들어간다. 가득일 때 일반·고급과 ㉡ 대상은 분해해 강화석으로(Wallet.AddSalvageStones, 재화 쓸 곳 1차 5-3).
+        /// 내려놓은 장비는 거두지 않는다(4-4). 검은 화면 뒤라 소리·글 없이, 거둔 결과(도착 글 재료)를 돌려준다.
+        /// </summary>
+        public BagSweepPlan SweepFloor()
+        {
+            var drops = SweepDrops();
+            var plan = BagSweep.Plan(_bag.Count, Capacity, GearsOf(drops), ImprovesOf(drops), Tuning.AutoSalvageCommon);
+            foreach (int i in plan.Take)
+            {
+                var drop = drops[i];
+                _bag.Add(drop.Gear);
+                drop.Take();
+            }
+            foreach (int i in plan.Salvage) drops[i].Take();
+            Wallet.AddSalvageStones(plan.SalvageStones);
+            if (plan.Taken > 0 || plan.Left > 0 || plan.Salvaged > 0)
+                Debug.Log($"[떠날 때 거두기] 바닥 장비 {plan.Taken}개 → 가방 {_bag.Count}/{Capacity}(넘침 {BagSweep.OverflowSlots}) · 분해 {plan.Salvaged}개 강화석 +{plan.SalvageStones} · 두고 감 희귀 이상 {plan.RareLeft} · 일반·고급 {plan.LowLeft}");
+            return plan;
+        }
+
+        /// <summary>
+        /// G: 바닥 장비를 바로 낀다(벗은 장비는 가방으로, 넘침 끝이면 발밑에 — 재화 쓸 곳 1차 5-1). otherRing(Shift+G)이면 반지를 G 자리의 다른 쪽에 낀다.
+        /// 내려놓았던 장비를 직접 끼면 내려놓은 기억에서 지운다(4-4).
+        /// </summary>
         public void EquipFromFloor(LootDrop drop, bool otherRing = false)
         {
-            if (!drop || !drop.Available) return;
+            if (!drop || !drop.Available || WeaponActLocked) return;
             var item = drop.Gear;
             var slot = otherRing ? OtherSlotFor(item) : EquipSlotFor(item);
             if (!Loadout.CanEquip(slot, item)) return;
             drop.Take();
-            Equip(item, slot);
+            ForgetDropped(item);
+            _swapFromFloor = true;
+            try { Equip(item, slot); }
+            finally { _swapFromFloor = false; }
         }
 
         /// <summary>
@@ -342,16 +444,24 @@ namespace Demo6.Game
         void Update()
         {
             HandleWindowKeys();
+            if (DungeonUi.Modal != BagWindow) CancelInventoryPointer();
+            // 재화 쓸 곳 1차: 저절로 분해(0.25초마다)·알림 묶기(2초)·창을 닫으면 한 번 더 묻기 풀기.
+            UpdateBagUpkeep();
             if (!_player || _player.IsDown || DungeonUi.ModalOpen || TimeScaleService.Paused) return;
             if (!_input) _input = _player.GetComponent<PlayerInputReader>();
-            if (_input && _input.EquipPressed)
+            // 무기 행동 중에는 G 바로 끼기를 무시한다(쌓아 두지 않음, 5-3).
+            if (_input && _input.EquipPressed && !WeaponActLocked)
             {
                 var drop = NearestDrop(EquipRange);
                 if (drop) EquipFromFloor(drop, _input.EquipOtherPressed);
             }
         }
 
-        /// <summary>I: 가방 창 열기·닫기, Esc: 닫기. 시간이 멈춘 동안에도 들어야 하므로 키보드에서 직접 읽는다.</summary>
+        /// <summary>
+        /// I: 가방 창 열기·닫기, Esc: 닫기. 시간이 멈춘 동안에도 들어야 하므로 키보드에서 직접 읽는다.
+        /// 창 없이 입력이 막힌 동안(떠나는 암전·밤 카드 대기: DungeonRoot.HoldForLeaving·HoldForNight)에는 열지 않는다.
+        /// 꾸러미를 담은 뒤 바꾼 장비가 장면 다시 불러오기에서 버려지지 않게 하기 위해서다. 평소에는 Blocked가 ModalOpen과 같아 동작이 같다.
+        /// </summary>
         void HandleWindowKeys()
         {
             var kb = Keyboard.current;
@@ -359,7 +469,7 @@ namespace Demo6.Game
             if (kb.iKey.wasPressedThisFrame)
             {
                 if (DungeonUi.Modal == BagWindow) DungeonUi.Close(BagWindow);
-                else if (!DungeonUi.ModalOpen && _player && !_player.IsDown) DungeonUi.TryOpen(BagWindow);
+                else if (!DungeonUi.ModalOpen && !PlayerInputReader.Blocked && _player && !_player.IsDown) DungeonUi.TryOpen(BagWindow);
             }
             else if (kb.escapeKey.wasPressedThisFrame && DungeonUi.Modal == BagWindow)
                 DungeonUi.Close(BagWindow);
@@ -377,22 +487,24 @@ namespace Demo6.Game
         /// <summary>처치 보상(3차 초안 4-6, 장비 문서 8-1·8-2: 부위 보정·가진 전설). 둥지 자체는 GroupCleared(nest)가 맡고, 둥지가 부른 굴쥐(NoReward)는 0.</summary>
         void OnEnemyKilled(Enemy e)
         {
-            if (!e || e.IsDummy || e.NoReward || e.Kind == MonsterKind.Nest) return;
+            if (!e || e.IsDummy || e.NoReward || e.IsBoss || e.Kind == MonsterKind.Nest) return;
             KillSource source = e.IsElite ? KillSource.Elite
                 : e.Kind == MonsterKind.Boar ? KillSource.Boar
                 : e.Kind == MonsterKind.Archer ? KillSource.Archer
                 : KillSource.Rat;
             int floor = CurrentFloor;
             var bundle = LootRules.RollKill(source, floor, _rng, RollContext());
+            RollKillRune(bundle, source);
             Vector2 pos = e.Position;
             LootSpawner.Spawn(bundle, pos, AwayFromPlayer(pos), LootSpawner.KillDelay);
         }
 
-        /// <summary>둥지 정리(3차 초안 4-6): 장비 50%, 강화석 0.5 × 배율, 골드 무더기 3개.</summary>
+        /// <summary>둥지 정리(3차 초안 4-6): 장비 50%, 강화석 0.5 × 배율, 골드 무더기 3개. 룬 80‰(따로 흐르는 난수).</summary>
         void OnGroupCleared(int group, bool nest, Vector2 pos)
         {
             if (!nest) return;
             var bundle = LootRules.RollKill(KillSource.NestClear, CurrentFloor, _rng, RollContext());
+            RollKillRune(bundle, KillSource.NestClear);
             LootSpawner.Spawn(bundle, pos, AwayFromPlayer(pos), LootSpawner.KillDelay);
         }
 
@@ -405,47 +517,63 @@ namespace Demo6.Game
                 DrawBag();
                 return;
             }
-            if (DungeonUi.ModalOpen || !_player || _player.IsDown) return;
-            var drop = NearestDrop(EquipRange);
-            if (drop) DrawCard(drop);
+            // 바닥 상세는 LootLabels의 의도적인 가리키기에서만 그린다.
         }
 
         /// <summary>
         /// 가장 가까운 바닥 장비 카드(2차 7-7 획득 카드, 장비 문서 5-4 카드 글·8-5·8-6): 등급색 이름(등급 + 종류), 카드 줄(CardFor), 키 안내.
         /// 반지면 [Shift+G] 다른 쪽도 안내한다.
         /// </summary>
-        void DrawCard(LootDrop drop)
+        public Rect GroundCardRect { get; private set; }
+
+        public void DrawGroundHoverCard(LootDrop drop, Rect labelRect)
         {
+            if (!drop || !drop.Available || DungeonUi.ModalOpen || !_player || _player.IsDown) return;
             DungeonUi.Begin();
-            var gui = DungeonUi.WorldToGui(drop.Position + Vector2.down * 0.6f);
-            if (gui == null) return;
+            GUI.depth = -10;
             var item = drop.Gear;
             var card = CardFor(item);
             var gradeColor = LootVisuals.GradeColor(item.Grade);
-            float titleHeight = Mathf.Max(28f, DungeonUi.Bold.CalcHeight(new GUIContent(item.DisplayName), 292f));
+            const float width = 420f, padding = 14f, footerPadding = 24f, textX = 112f;
+            string keys = item.Part == GearPart.Ring
+                ? "[F] 가방 · [G] 바로 끼기\n[Shift+G] 다른 반지 칸에 끼기"
+                : "[F] 가방 · [G] 바로 끼기";
+            bool canPickup = InteractionSystem.Instance && InteractionSystem.Instance.Current == drop;
+            bool canEquip = NearestDrop(EquipRange) == drop;
+            if (!canPickup) keys = keys.Replace("[F] 가방 · ", "");
+            if (!canEquip) keys = canPickup ? "[F] 가방 · [I] 가방에서 상세 보기" : "가까이에서 선택 · [I] 가방에서 상세 보기";
+            float titleHeight = Mathf.Max(28f, DungeonUi.Bold.CalcHeight(new GUIContent(item.DisplayName), width-textX-padding));
             float bodyHeight = card.Lines.Count * CardLineHeight;
-            var r = DungeonUi.KeepOnScreen(new Rect(gui.Value.x - 210f, gui.Value.y + 12f, 420f, Mathf.Max(126f, titleHeight + bodyHeight + 48f)), 220f);
+            float contentHeight = Mathf.Max(88f, titleHeight + 8f + bodyHeight);
+            float footerHeight = Mathf.Max(28f, DungeonUi.Small.CalcHeight(new GUIContent(keys), width-footerPadding*2f));
+            float height = padding + contentHeight + 18f + footerHeight + 20f;
+            float x = labelRect.xMax + 12f;
+            if (x + width > DungeonUi.Width - 12f) x = labelRect.xMin - width - 12f;
+            var r = DungeonUi.KeepOnScreen(new Rect(x, labelRect.y, width, height), 104f);
+            GroundCardRect = r;
             DungeonUi.Box(r, 0.96f);
             DungeonUi.Fill(new Rect(r.x, r.y, 4f, r.height), gradeColor);
-            DrawIcon(new Rect(r.x+12f,r.y+16f,88f,88f),item);
+            DrawIcon(new Rect(r.x+padding,r.y+padding,88f,88f),item);
             var prev = GUI.color;
             GUI.color = gradeColor;
-            GUI.Label(new Rect(r.x + 112f, r.y + 8f, r.width - 124f, titleHeight), item.DisplayName, DungeonUi.Bold);
-            DrawLines(new Rect(r.x + 112f, r.y + titleHeight + 10f, r.width - 124f, bodyHeight), card.Lines);
+            GUI.Label(new Rect(r.x+textX,r.y+padding,r.width-textX-padding,titleHeight),item.DisplayName,DungeonUi.Bold);
+            DrawLines(new Rect(r.x+textX,r.y+padding+titleHeight+8f,r.width-textX-padding,bodyHeight),card.Lines,canEquip);
+            float footerY = r.yMax-20f-footerHeight;
+            DungeonUi.Strip(new Rect(r.x+padding,footerY-8f,r.width-padding*2f,1f),DungeonUi.IronEdge);
             GUI.color = HintColor;
-            string keys = item.Part == GearPart.Ring ? "[F] 가방 · [G] 바로 끼기 · [Shift+G] 다른 쪽" : "[F] 가방 · [G] 바로 끼기";
-            GUI.Label(new Rect(r.x + 112f, r.yMax - 32f, r.width - 124f, 22f), keys, DungeonUi.Small);
+            GUI.Label(new Rect(r.x+footerPadding,footerY,r.width-footerPadding*2f,footerHeight),keys,DungeonUi.Small);
             GUI.color = prev;
         }
 
         /// <summary>카드 줄을 위에서부터 한 줄씩(넘치면 말줄임, 전체 글은 툴팁).</summary>
-        static void DrawLines(Rect area, List<CardLine> lines)
+        static void DrawLines(Rect area, List<CardLine> lines, bool groundEquipKeys = true)
         {
             var prev = GUI.color;
             for (int i = 0; i < lines.Count; i++)
             {
                 GUI.color = lines[i].Color;
-                DungeonUi.CompactLabel(new Rect(area.x, area.y + i * CardLineHeight, area.width, CardLineHeight), lines[i].Text, DungeonUi.Small);
+                string text = groundEquipKeys ? lines[i].Text : lines[i].Text.Replace("G: ", "비교: ");
+                DungeonUi.CompactLabel(new Rect(area.x, area.y + i * CardLineHeight, area.width, CardLineHeight), text, DungeonUi.Small);
             }
             GUI.color = prev;
         }
@@ -530,6 +658,9 @@ namespace Demo6.Game
                 lines.Add(new CardLine("초당 휘두르기 " + StatCalc.SwingsPerSecond(rule, shown.AttackSpeedPermille).ToString("0.00") +
                                        " · 한 방 " + Mathf.RoundToInt((float)rule.AverageHitPercent) + "%", Color.white));
                 lines.Add(new CardLine("치명 " + Pct(shown.CritChancePermille) + " / " + Pct(shown.CritDamagePermille) + " · 무너뜨리기 " + rule.PoiseWord, Color.white));
+                // 오른쪽 클릭 무기 행동 줄(세 무기만, 2-1·3-1·4-1).
+                string act = WeaponActRules.CardLine(item.BaseId);
+                if (act != null) lines.Add(new CardLine(act, HintColor));
             }
             else
                 foreach (var b in item.Base.Intrinsic)
@@ -542,6 +673,8 @@ namespace Demo6.Game
                 lines.Add(new CardLine(GearNaming.LegendaryLine(item) + (off ? " · 겹침 — 작동 안 함" : ""), off ? SameColor : LootVisuals.GradeColor(Grade.Legendary)));
             }
             foreach (var o in item.Options) lines.Add(new CardLine(GearNaming.OptionLine(o), OptionColor));
+            // 룬 홈 줄(옵션 줄 뒤, 6-5)과 이 무기에서 효과 없는 룬의 회색 줄.
+            AddRuneCardLines(lines, item);
             if (card.EquippedSlot.HasValue)
                 lines.Add(new CardLine("장착 중 · " + GearSlots.SlotName(card.EquippedSlot.Value), SameColor));
             else
@@ -585,6 +718,8 @@ namespace Demo6.Game
             if (!g.RollOnly) head = MarkGlyph(g.Mark) + " " + head;
             if (styleDiff) head += " · 방식 다름";
             lines.Add(new CardLine(head, g.RollOnly ? Color.white : MarkColor(g.Mark)));
+            // 재화 쓸 곳 1차 3장: 벗게 될 장비의 강화는 옮겨지지 않는다(계승 없음). 숫자 변화는 이미 그 강화를 넣고 셈한 값이다.
+            if (g.Replaced != null && g.Replaced.Enhance >= 1) lines.Add(new CardLine(EnhanceLostText(g.Replaced), DownColor));
             if (card.Other != null)
             {
                 var o = card.Other;
@@ -725,107 +860,12 @@ namespace Demo6.Game
         /// </summary>
         void DrawBag()
         {
-            DungeonUi.Begin();
-            if (_detailTitle == null) { _detailTitle = new GUIStyle(DungeonUi.Bold) {fontSize=23}; _detailTitle.normal.textColor = Color.white; }
-            if (_statValue == null) _statValue = new GUIStyle(DungeonUi.Bold) { alignment=TextAnchor.UpperRight };
-            if (_slotCaption == null) _slotCaption = new GUIStyle(DungeonUi.Small) { alignment = TextAnchor.UpperCenter, wordWrap = false, fontSize = 14 };
-            const float w = 1200f, h = 760f, cell = 80f, gap = 10f, slotSize = 72f;
-            const int cols = 5;
-            var r = new Rect((DungeonUi.Width - w) * .5f, (DungeonUi.Height - h) * .5f, w, h);
-            DungeonUi.Fill(new Rect(0, 0, DungeonUi.Width, DungeonUi.Height), new Color(0,0,0,.55f));
-            DungeonUi.Box(r, .98f);
-            var previous = GUI.color;
-            GUI.Label(new Rect(r.x+32,r.y+18,520,36), "장비와 가방", DungeonUi.Title);
-            DungeonUi.Strip(new Rect(r.x+28,r.y+59,r.width-56,1),new Color(.61f,.53f,.39f,.55f));
-            GUI.color = Color.white;
-            float lx = r.x + 28f, mx = r.x + 576f, dx = r.x + 894f, dw = 290f;
-            DungeonUi.Fill(new Rect(r.x+562,r.y+64,1,h-142), DungeonUi.IronEdge);
-            DungeonUi.Fill(new Rect(r.x+880,r.y+64,1,h-142), DungeonUi.IronEdge);
-            if (_selected != null && !Equipment.IsEquipped(_selected) && !_bag.Contains(_selected)) _selected = null;
-            if (_selected == null) _selected = Equipped;
-
-            // ── 장착 8자리: 무기·갑옷·투구·장갑 / 장화·반지 1·반지 2·목걸이 ──
-            GUI.Label(new Rect(lx+4,r.y+66,200,28), "장착", DungeonUi.Bold);
-            GUI.color=new Color(.69f,.64f,.55f,.65f);
-            GUI.DrawTexture(new Rect(lx+166,r.y+70,206,206),ItemIconArt.Get("figure"),ScaleMode.ScaleToFit,true);
-            GUI.color=Color.white;
-            for (int i = 0; i < GearSlots.SlotCount; i++)
-            {
-                var slot = (GearSlot)i;
-                var at = new Rect(lx + 12f + (i % 4) * 130f, r.y + 100f + (i / 4) * 98f, slotSize, slotSize);
-                var worn = Equipment[slot];
-                if (DrawItemSlot(at, worn, worn != null && ReferenceEquals(_selected, worn))) SelectItem(worn);
-                GUI.color = worn != null ? LootVisuals.GradeColor(worn.Grade) : DungeonUi.BoneDim;
-                GUI.Label(new Rect(at.x - 28f, at.yMax + 2f, at.width + 56f, 20f), worn != null ? GearSlots.SlotName(slot) : GearSlots.SlotName(slot) + " (빔)", _slotCaption);
-                GUI.color = Color.white;
-            }
-            var state = DungeonRoot.Instance ? DungeonRoot.Instance.State : null;
-            if (state != null) {
-                ItemIconArt.Draw(new Rect(lx+300,r.y+66,28,28), "stone");
-                GUI.Label(new Rect(lx+332,r.y+68,100,26), "강화석 " + state.Stones, DungeonUi.Small);
-                ItemIconArt.Draw(new Rect(lx+420,r.y+66,28,28), "gold");
-                GUI.Label(new Rect(lx+452,r.y+68,80,26), "골드 " + state.Gold, DungeonUi.Small);
-            }
-
-            // ── 가방 ──
-            GUI.Label(new Rect(lx+4,r.y+300,300,28), "가방", DungeonUi.Bold);
-            GUI.color = _bag.Count > BagCapacity ? DownColor : DungeonUi.BoneDim;
-            GUI.Label(new Rect(lx+330,r.y+300,190,28), _bag.Count + " / " + BagCapacity + "칸", DungeonUi.Label);
-            GUI.color = Color.white;
-            var view = new Rect(lx+29,r.y+330,462,350);
-            int total = Mathf.Max(BagCapacity,_bag.Count);
-            var content = new Rect(0,0,440,Mathf.Ceil(total/(float)cols)*(cell+gap)-gap);
-            _scroll = GUI.BeginScrollView(view,_scroll,content,false,false);
-            for(int i=0;i<total;i++){
-                var at = new Rect((i%cols)*(cell+gap),(i/cols)*(cell+gap),cell,cell);
-                var item = i<_bag.Count?_bag[i]:null;
-                if(DrawItemSlot(at,item,item!=null&&ReferenceEquals(_selected,item)))SelectItem(item);
-            }
-            GUI.EndScrollView();
-
-            // ── 능력치 표(StatSheet 13줄, 2-1) ──
-            var card = _selected != null ? CardFor(_selected) : null;
-            var before = Sheet ?? Compute(Equipment);
-            var after = card != null && card.G != null ? card.G.After : null;
-            GUI.Label(new Rect(mx,r.y+66,290,28), "능력치", DungeonUi.Bold);
-            GUI.color = DungeonUi.BoneDim;
-            GUI.Label(new Rect(mx,r.y+94,290,22), after != null ? "고른 장비를 " + GearSlots.SlotName(card.G.Slot) + "에 끼면" : "지금 장비", DungeonUi.Small);
-            GUI.color = Color.white;
-            DrawStatTable(new Rect(mx, r.y + 124f, 290f, 26f * (StatSheet.KindCount + 1)), before, after);
-
-            // ── 고른 장비 상세 ──
-            GUI.Label(new Rect(dx,r.y+70,dw,30), "아이템 상세", DungeonUi.Title);
-            if(card!=null){
-                var item=card.Item;var color=LootVisuals.GradeColor(item.Grade);
-                var artRect=new Rect(dx+85,r.y+108,120,120);
-                DungeonUi.Slot(artRect);
-                DungeonUi.Fill(new Rect(artRect.x+9,artRect.y+9,artRect.width-18,artRect.height-18),new Color(color.r,color.g,color.b,.10f));
-                DungeonUi.Outline(new Rect(artRect.x+8,artRect.y+8,artRect.width-16,artRect.height-16),new Color(color.r,color.g,color.b,.68f),1f);
-                DrawIcon(new Rect(artRect.x+12,artRect.y+12,96,96),item);
-                float textWidth=dw-20f;
-                float nameHeight=Mathf.Max(34f,_detailTitle.CalcHeight(new GUIContent(item.DisplayName),textWidth));
-                float linesY=nameHeight+8f;
-                _detailScroll=GUI.BeginScrollView(new Rect(dx,r.y+240,dw,340f),_detailScroll,new Rect(0,0,textWidth,linesY+card.Lines.Count*CardLineHeight+8f),false,false);
-                GUI.color=color;GUI.Label(new Rect(0,0,textWidth,nameHeight),item.DisplayName,_detailTitle);GUI.color=Color.white;
-                DrawLines(new Rect(0,linesY,textWidth,card.Lines.Count*CardLineHeight),card.Lines);
-                GUI.EndScrollView();
-                DrawDetailButtons(new Rect(dx,r.y+592,dw,48), card);
-            }
-            GUI.color=DungeonUi.BoneDim;
-            GUI.Label(new Rect(r.x+30,r.yMax-62,860,34),"칸을 눌러 살피기 · 바닥에서 [G] 바로 끼기 · [Shift+G] 반지 다른 쪽 · [I] / [Esc] 닫기",DungeonUi.Small);
-            GUI.color=Color.white;
-            if(DungeonUi.CloseButton(r))DungeonUi.Close(BagWindow);
-            if(!string.IsNullOrEmpty(GUI.tooltip)){
-                float tipHeight=Mathf.Max(44f,DungeonUi.Bold.CalcHeight(new GUIContent(GUI.tooltip),296f)+18f);
-                var tip=DungeonUi.KeepOnScreen(new Rect(Event.current.mousePosition.x+18,Event.current.mousePosition.y+20,320,tipHeight));
-                DungeonUi.Box(tip,.98f);GUI.Label(new Rect(tip.x+12,tip.y+9,tip.width-24,tip.height-18),GUI.tooltip,DungeonUi.Bold);
-            }
-            GUI.color=previous;
+            DrawApprovedBagV5();
         }
 
         /// <summary>
-        /// 상세 단추(8-6): 가방 반지 '반지 1에 끼기 / 반지 2에 끼기', 그 밖의 가방 장비 '끼기'(G 자리),
-        /// 낀 반지 '벗기 / 반지 n으로 옮기기', 낀 목걸이 '벗기', 낀 무기·갑옷·투구·장갑·장화는 '장착 중'(바꾸기만 됨).
+        /// 상세 단추(8-6): 가방 반지 '반지 1에 끼기 / 반지 2에 끼기', 그 밖의 가방 장비 '끼기'(G 자리), 가방 장비는 같은 줄에 '분해 (+n석)'·'내려놓기'(마을 '버리기', 재화 쓸 곳 1차 4-2),
+        /// 낀 반지 '벗기 / 반지 n으로 옮기기', 낀 목걸이 '벗기', 낀 무기·갑옷·투구·장갑·장화는 '장착 중'(바꾸기만 됨). 낀 장비는 분해하지 않는다.
         /// </summary>
         void DrawDetailButtons(Rect btn, Card card)
         {
@@ -833,9 +873,20 @@ namespace Demo6.Game
             float half = (btn.width - 10f) * .5f;
             var left = new Rect(btn.x, btn.y, half, btn.height);
             var right = new Rect(btn.x + half + 10f, btn.y, half, btn.height);
+            if (WeaponActLocked)
+            {
+                // 무기 행동 중(5-3): 장착 단추는 회색.
+                bool was = GUI.enabled;
+                GUI.enabled = false;
+                GUI.Button(btn, WeaponActLockedText);
+                GUI.enabled = was;
+                return;
+            }
             if (card.EquippedSlot.HasValue)
             {
                 var slot = card.EquippedSlot.Value;
+                // 낀 장비: 줄 오른쪽에 회색 '분해'·'내려놓기'와 말풍선 '낀 장비는 벗은 뒤에'(재화 쓸 곳 1차 4-2, Inventory.Salvage.cs). 남은 칸에 벗기·옮기기·장착 중.
+                btn = DrawEquippedLockedButtons(btn, item, out left, out right);
                 if (item.Part == GearPart.Ring)
                 {
                     if (GUI.Button(left, "벗기")) Unequip(slot);
@@ -854,19 +905,14 @@ namespace Demo6.Game
                 }
                 return;
             }
-            if (item.Part == GearPart.Ring)
-            {
-                if (GUI.Button(left, "반지 1에 끼기")) Equip(item, GearSlot.Ring1);
-                if (GUI.Button(right, "반지 2에 끼기")) Equip(item, GearSlot.Ring2);
-                return;
-            }
-            if (GUI.Button(btn, "끼기")) Equip(item);
+            // 가방 장비: 받은 줄을 나눠 끼기(반지는 반지 1·2)와 분해·내려놓기(마을은 버리기)를 같은 줄에(재화 쓸 곳 1차 4-2·4-3, Inventory.Salvage.cs).
+            DrawBagItemButtons(btn, item);
         }
 
         /// <summary>능력치 표: 이름, 지금 값, (끼지 않은 장비를 골랐으면) 끼었을 때 바뀌는 값과 ▲▼. 마지막 줄은 초당 휘두르기(보이기만, 3-1).</summary>
         void DrawStatTable(Rect area, StatSheet before, StatSheet after)
         {
-            const float row = 26f;
+            const float row = 28f;
             var prev = GUI.color;
             for (int i = 0; i < StatSheet.KindCount; i++)
             {
@@ -896,20 +942,28 @@ namespace Demo6.Game
         void DrawStatRow(Rect row, string name, string value, string change, int direction)
         {
             GUI.color = DungeonUi.BoneDim;
-            GUI.Label(new Rect(row.x, row.y, 140f, row.height), name, DungeonUi.Small);
+            GUI.Label(new Rect(row.x, row.y, 132f, row.height), name, DungeonUi.Small);
             GUI.color = Color.white;
-            GUI.Label(new Rect(row.x + 128f, row.y, 84f, row.height), value, _statValue);
+            FitStat(_statValue,value,68f,18);
+            GUI.Label(new Rect(row.x + 136f, row.y, 68f, row.height), value, _statValue);
             if (change == null) return;
             GUI.color = direction > 0 ? UpColor : DownColor;
-            GUI.Label(new Rect(row.x + 218f, row.y, row.width - 218f, row.height), change, DungeonUi.Small);
+            FitStat(_statChange,change,row.width-212f,16);
+            GUI.Label(new Rect(row.x + 212f, row.y, row.width - 212f, row.height), change, _statChange);
             GUI.color = Color.white;
+        }
+
+        static void FitStat(GUIStyle style,string text,float width,int maximum)
+        {
+            style.fontSize=maximum;
+            var content=new GUIContent(text);
+            while(style.fontSize>13 && style.CalcSize(content).x>width)style.fontSize--;
         }
 
         void SelectItem(GearItem item) { if(!ReferenceEquals(_selected,item))_detailScroll=Vector2.zero;_selected=item; }
 
         /// <summary>
-        /// 장비 아이콘(ItemIconArt, id = 종류 id). 아직 그림이 없는 종류(새 18종, UI 그림 쪽이 더할 때까지 빈 그림)는
-        /// 그 위에 부위 이름 글자를 대신 쓴다(Art/UI는 고치지 않음).
+        /// 장비 21종 아이콘(ItemIconArt, id = 종류 id). 알려지지 않은 종류는 부위 이름으로 표시한다.
         /// </summary>
         void DrawIcon(Rect rect, GearItem item)
         {
@@ -938,6 +992,7 @@ namespace Demo6.Game
             // 색 이외의 등급 단서: 일반 한 점부터 전설 다섯 점. 상세 이름에도 등급을 적는다.
             int marks=(int)item.Grade+1;
             for(int i=0;i<marks;i++)DungeonUi.Fill(new Rect(rect.x+12+i*9,rect.yMax-13,5,3),DungeonUi.Bone);
+            DrawRuneMarks(rect, item);
             return clicked;
         }
     }

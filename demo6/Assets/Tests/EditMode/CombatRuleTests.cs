@@ -41,10 +41,19 @@ namespace Demo6.Tests
             }
         }
 
-        /// <summary>기획 3-2: 콤보 한 바퀴의 단일 대상 계수는 1.50 / 1.45 / 1.60 근처, 1.45~1.60 안.</summary>
-        [TestCase("wpn_longsword", 1.50)]
-        [TestCase("wpn_greatsword", 1.45)]
-        [TestCase("wpn_twinblades", 1.60)]
+        /// <summary>
+        /// 기획 3-2: 콤보 한 바퀴의 단일 대상 계수는 1.45~1.60 안. 세 무기(기획/세-무기-우클릭-소켓-1차.md 1장): 한손검과 방패 1.472, 대검 1.452, 쌍검 1.588.
+        /// 새 무기 6종(전투·보스·무기 다듬기 1차 2-4): 쇠망치 1.485, 창 1.518, 큰 낫 1.463, 도끼 1.526(출혈 50% 포함), 단검 1.540, 사슬 철퇴 1.458(관성 없이).
+        /// </summary>
+        [TestCase("wpn_longsword", 1.472)]
+        [TestCase("wpn_greatsword", 1.452)]
+        [TestCase("wpn_twinblades", 1.59)]
+        [TestCase("wpn_maul", 1.485)]
+        [TestCase("wpn_spear", 1.518)]
+        [TestCase("wpn_scythe", 1.463)]
+        [TestCase("wpn_axe", 1.526)]
+        [TestCase("wpn_dagger", 1.540)]
+        [TestCase("wpn_flail", 1.458)]
         public void WeaponSingleTargetCoefficients(string id, double expected)
         {
             foreach (var w in WeaponPresets.All)
@@ -85,7 +94,10 @@ namespace Demo6.Tests
             Assert.AreEqual(1143, FloorScaling.MonsterHp(MonsterKind.Boar, 2));
         }
 
-        /// <summary>기획 4-8: 기준 장비면 세 무기 모두 전 층에서 굴쥐를 한 번 휘둘러 잡는다(치명 없음, 가장 낮은 굴림).</summary>
+        /// <summary>
+        /// 기획 4-8: 기준 장비면 아홉 무기 모두 전 층에서 굴쥐를 한 번 휘둘러 잡는다(치명 없음, 가장 낮은 굴림, 출혈은 세지 않음).
+        /// 한손검과 방패 ② 방패 치기(둔탁한 타격)도 예외 없이 잡는다(90%, 기획/세-무기-우클릭-소켓-1차.md 0-3의 24).
+        /// </summary>
         [Test]
         public void BaselineGearOneShotsRatsOnEveryFloor()
         {

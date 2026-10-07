@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using Demo6.Core.Dungeon;
+using Demo6.Core.Town;
 using NUnit.Framework;
 
 namespace Demo6.Tests
@@ -12,7 +13,8 @@ namespace Demo6.Tests
     /// <summary>
     /// 층 생성기(매판 새 탐험 1차 2-5, 5장 단계 1·4): 1층 씨앗 0 = 손 지도, 같은 입력 같은 지도, 씨앗 500개 모두 합격·고른 지도로 대신 2% 미만·1회 50ms 미만,
     /// 받은 한 번짜리는 다시 안 나옴, 2층 첫 공터 궁수, 분필이 판자벽 문을 가리킴, 2층 고른 씨앗 합격, 어떤 입력에도 예외 없음, 조각 슬롯이 길 위에 있음,
-    /// 계단·승강장 출구·숨은 방이 한 자리에 몰리지 않음, 연이은 원정은 계단 칸이 옮겨 가고 흔적이 남음.
+    /// 계단·승강장 출구·숨은 방이 한 자리에 몰리지 않음, 연이은 원정은 계단 칸이 옮겨 가고 흔적이 남음, 2층 궁수 4마리(검토 1차 Q8).
+    /// 2층 계단 아래 오우거 굴(전투·보스 문서 묶음 7)은 따로 짓는 장면이라 생성 2층 지도는 그대로다.
     /// </summary>
     public sealed class FloorGeneratorTests
     {
@@ -198,6 +200,51 @@ namespace Demo6.Tests
                 var o = FloorGenerator.Generate(other);
                 Assert.AreEqual(g.Glyphs, o.Glyphs);
                 Assert.AreEqual(Signature(g.Legend), Signature(o.Legend));
+            }
+        }
+
+        /// <summary>
+        /// 시스템·컨텐츠 다듬기 검토 1차 Q8: 2층 궁수는 4마리(첫 공터 2 + 둘째 무리 1 + 셋째 무리 1)라 검풍 궁수 의뢰(목표 3)를 한 마리 놓쳐도 끝낼 수 있다.
+        /// 굴쥐 수(1 + 2 + 2)는 그대로다. 층 첫 방문(고른 지도·씨앗 500개)에는 늘 궁수 4마리가 놓인다.
+        /// </summary>
+        [Test]
+        public void FloorTwoHasOneSpareArcherForTheWindbladeQuest()
+        {
+            var recipe = FloorRecipe.For(2);
+            Assert.AreEqual(4, recipe.Groups.Sum(m => m.Archers), "2층 궁수 4마리");
+            Assert.AreEqual(5, recipe.Groups.Sum(m => m.Rats), "2층 굴쥐 수는 그대로");
+            var quest = QuestTable.Get(QuestTable.TrainerWindblade);
+            Assert.AreEqual(3, quest.Steps[0].Target, "의뢰 목표는 3 그대로");
+            Assert.Greater(recipe.Groups.Sum(m => m.Archers), quest.Steps[0].Target, "궁수가 목표보다 많아야 한 마리를 놓쳐도 끝낼 수 있다");
+
+            var chosen = FloorGenerator.Generate(new GeneratorInput { Floor = 2, Seed = recipe.ChosenSeed, FirstVisit = true, DeepestFloor = 2, HasPickaxe = true });
+            Assert.AreEqual(4, ArchersOn(chosen), "고른 2층 지도 궁수");
+            for (int seed = 1; seed <= SeedCount; seed++)
+            {
+                var input = Input(2, seed);
+                if (!input.FirstVisit) continue;
+                Assert.AreEqual(4, ArchersOn(FloorGenerator.Generate(input)), $"씨앗 {seed}");
+            }
+        }
+
+        static int ArchersOn(GeneratedFloor g) =>
+            g.Legend.SelectMany(d => d.Features).Where(f => f.Kind == FeatureKind.Group).Sum(f => f.Archers);
+
+        [Test]
+        public void FloorTwoMapKeepsItsShapeWithTheDenBelow()
+        {
+            // 오우거 굴(전투·보스 문서 3-8 '손 지도 2칸 P-X', 묶음 7)은 2층 계단 아래 따로 짓는 장면이라 생성 2층 지도에 끼우지 않는다.
+            Assert.IsTrue(FloorRecipe.HasDenBelow(2));
+            var recipe = FloorRecipe.For(2);
+            var chosen = FloorGenerator.Generate(new GeneratorInput { Floor = 2, Seed = recipe.ChosenSeed, FirstVisit = true, DeepestFloor = 2, HasPickaxe = true });
+            Assert.AreEqual(ChosenFloorTwo, chosen.Glyphs, "굴이 생겨도 고른 2층 지도는 글자 그대로");
+            for (int seed = 0; seed <= SeedCount; seed++)
+            {
+                var g = seed == 0 ? chosen : FloorGenerator.Generate(Input(2, seed));
+                Assert.IsFalse(g.Legend.Any(d => d.Piece == PieceKind.BossRoom || d.Piece == PieceKind.BossFront), $"씨앗 {g.Seed}: 2층 지도에 굴 칸");
+                Assert.IsFalse(g.Legend.SelectMany(d => d.Features).Any(f => f.Kind == FeatureKind.Boss || f.Kind == FeatureKind.Scrawl),
+                    $"씨앗 {g.Seed}: 2층 지도에 보스 자리·긁은 글");
+                Assert.IsNotNull(MapAnchors.FindStairsCell(g.Build()), $"씨앗 {g.Seed}: 굴로 내려가는 2층 계단");
             }
         }
 

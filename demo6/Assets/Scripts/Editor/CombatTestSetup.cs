@@ -97,12 +97,8 @@ namespace Demo6.EditorTools
             {
                 set = ScriptableObject.CreateInstance<CombatArtSet>();
                 set.flashMaterial = mat;
-                set.weapons = new[]
-                {
-                    NewWeaponArt(Demo6.Core.Combat.WeaponPresets.Longsword),
-                    NewWeaponArt(Demo6.Core.Combat.WeaponPresets.Greatsword),
-                    NewWeaponArt(Demo6.Core.Combat.WeaponPresets.Twinblades),
-                };
+                // 무기 칸은 WeaponPresets.All 차례(숫자키 차례)대로 만든다. 새 무기가 All에 붙으면 저절로 칸이 생긴다.
+                set.weapons = Demo6.Core.Combat.WeaponPresets.All.Select(NewWeaponArt).ToArray();
                 AssetDatabase.CreateAsset(set, ArtSetPath);
             }
             else if (set.flashMaterial == null)

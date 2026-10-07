@@ -39,6 +39,8 @@ namespace Demo6.Core.Dungeon
         public string Label = "";
         /// <summary>승강장 옆 첫 칸의 무리: 승강장 반대쪽을 보고 자서 첫 1분 기습을 배운다(2-5 차례 9). 2층은 궁수 첫 공터.</summary>
         public bool FirstClearing;
+        /// <summary>정예 무리(1-2층 탐험 맛 1차 4-1: 2층 계단 앞 '단단한 정예 돌충이'). 생성기가 무리 자리 표시(CellFeature.Elite)에 옮긴다.</summary>
+        public bool Elite;
     }
 
     /// <summary>
@@ -83,6 +85,11 @@ namespace Demo6.Core.Dungeon
         public int Stakes;
         /// <summary>사건 수(1~5층은 광부 도시락통).</summary>
         public int Events;
+        /// <summary>
+        /// 층 첫 방문에 놓는 가르치는 낙석 수(1-2층 탐험 맛 1차 4-5: 1층 0, 2층 1). 주 길 밖 칸에 먼저 둔다(FloorSpice).
+        /// 다시 연 층의 낙석 수는 TrapRules.RockfallCount가 정한다. 층 검사 개수(FloorBudget)에는 들지 않는다.
+        /// </summary>
+        public int FirstVisitRockfalls;
         /// <summary>한 바퀴 도는 길 최소 수(1~4층 1, 5층부터 2).</summary>
         public int MinLoops = 1;
         /// <summary>가진 능력의 문 수(2층부터 그중 하나는 주 길을 약 2칸 줄이는 지름길) + 아직 없는 능력의 맛보기 문 0~1.</summary>
@@ -92,22 +99,23 @@ namespace Demo6.Core.Dungeon
         public ulong ChosenSeed;
         /// <summary>프로필에 한 번 받는 물건(받은 것은 생성기가 빼고 놓는다).</summary>
         public OnceItem[] OnceItems = Array.Empty<OnceItem>();
+        /// <summary>
+        /// 이 층 계단 아래에 보스 굴(손 지도 2칸 P-X, OgreDen)이 있는가(전투·보스 문서 3-8, 묶음 7). 시험판은 2층 '오우거 굴'.
+        /// 아래층이 시험판에 없을 때 계단·계단 앞 말뚝 '내려가기'가 굴로 간다. 생성 지도 모양은 바꾸지 않는다(굴은 따로 지은 고정 돌방).
+        /// </summary>
+        public bool DenBelow;
 
         /// <summary>이 층의 예산. 없으면 null.</summary>
         public static FloorRecipe For(int floor) => floor >= 1 && floor <= Table.Length ? Table[floor - 1] : null;
+
+        /// <summary>이 층 계단 아래에 보스 굴이 있는가(시험판에 있는 층만).</summary>
+        public static bool HasDenBelow(int floor) => Exists(floor) && For(floor).DenBelow;
 
         /// <summary>첫 시험판에서 갈 수 있는 층인가.</summary>
         public static bool Exists(int floor) => floor >= 1 && floor <= MaxTestFloor && For(floor) != null;
 
         /// <summary>이 id가 프로필에 한 번 받는 물건인가(꾸러미에 담을 것).</summary>
-        public static bool IsOnceItem(string id)
-        {
-            if (string.IsNullOrEmpty(id)) return false;
-            foreach (var r in Table)
-                foreach (var o in r.OnceItems)
-                    if (o.Id == id) return true;
-            return false;
-        }
+        public static bool IsOnceItem(string id) => FindOnceItem(id) != null;
 
         static readonly FloorRecipe[] Table = { FloorOne(), FloorTwo() };
 
@@ -130,10 +138,10 @@ namespace Demo6.Core.Dungeon
                 LandmarkDoor = Side.Right,
                 Groups = new[]
                 {
-                    new GroupMix { Boars = 1, Rats = 3, State = GroupState.Sleep, Label = "멧돼지와 굴쥐", FirstClearing = true },
-                    new GroupMix { Boars = 1, Rats = 2, State = GroupState.Eat, Label = "멧돼지와 굴쥐" },
+                    new GroupMix { Boars = 1, Rats = 3, State = GroupState.Sleep, Label = "돌충이와 굴쥐", FirstClearing = true },
+                    new GroupMix { Boars = 1, Rats = 2, State = GroupState.Eat, Label = "돌충이와 굴쥐" },
                     new GroupMix { Rats = 4, State = GroupState.Eat, Label = "굴쥐 무리" },
-                    new GroupMix { Boars = 1, Rats = 2, State = GroupState.Sleep, Label = "멧돼지와 굴쥐" },
+                    new GroupMix { Boars = 1, Rats = 2, State = GroupState.Sleep, Label = "돌충이와 굴쥐" },
                 },
                 Nests = 1,
                 WoodChests = 3,
@@ -142,6 +150,8 @@ namespace Demo6.Core.Dungeon
                 Lamps = 4,
                 Stakes = 2,
                 Events = 1,
+                // 1층 첫 탐험(손 지도)은 덧칠하지 않는다(1-2층 탐험 맛 1차 2장 3).
+                FirstVisitRockfalls = 0,
                 MinLoops = 1,
                 AbilityDoorsMin = 1,
                 AbilityDoorsMax = 2,
@@ -161,6 +171,8 @@ namespace Demo6.Core.Dungeon
         /// <summary>
         /// 이야기 없는 2층 9칸(3차 초안 7-2·10-1 질문 1 B). 개수는 3차 2층(15칸) 예산을 9칸으로 줄인 가안이다.
         /// 처음 갈 수 있는 칸 8이라 주 길은 정확히 4칸(50%)이다. 씨앗 500개 시험에서 모두 합격해 개수는 그대로 두고 능력 문만 1~2로 넓혔다.
+        /// 궁수는 첫 공터 2 + 둘째 무리 2 = 4마리다(Q8, 검풍 궁수 의뢰 목표 3보다 하나 많게). 셋째 무리는 계단 앞 '단단한 정예 돌충이 + 굴쥐 2'(1-2층 탐험 맛 1차 4-1, 결정 D4).
+        /// 무리 구성은 지도 모양·굴림에 쓰이지 않아 고른 지도는 그대로다. 벽 등잔은 5개(4-8, 3차 기획 표).
         /// 고른 지도(씨앗 30, 글자 지도는 FloorGeneratorTests.ChosenFloorTwo):
         /// <code>
         /// ....A
@@ -182,47 +194,95 @@ namespace Demo6.Core.Dungeon
             Groups = new[]
             {
                 new GroupMix { Archers = 2, Rats = 1, State = GroupState.Sleep, Label = "궁수와 굴쥐", FirstClearing = true },
-                new GroupMix { Boars = 1, Archers = 1, Rats = 2, State = GroupState.Eat, Label = "멧돼지와 궁수" },
-                new GroupMix { Boars = 1, Rats = 2, State = GroupState.Sleep, Label = "멧돼지와 굴쥐" },
+                // 궁수 2: 시스템·컨텐츠 다듬기 검토 1차 Q8에서 셋째 무리에 더한 궁수 1을 결정 D4(셋째 무리 = 정예 + 굴쥐 2)에 맞춰 이 무리로 옮겼다
+                // (1-2층 탐험 맛 1차 4-1, 12장 질문 1 '나'). 2층 궁수 4·굴쥐 5는 그대로다. 정예 연습은 큰 놈 하나에, 주 길의 먹는 무리에서는 '궁수부터 끊기'.
+                new GroupMix { Boars = 1, Archers = 2, Rats = 2, State = GroupState.Eat, Label = "돌충이와 궁수" },
+                // 계단 앞 막다른 공터 G(고른 지도)의 '단단한 정예 돌충이 + 굴쥐 2'(잠). 주 길 밖이라 피해 갈 수 있는 연습 상대다(4-1).
+                new GroupMix { Boars = 1, Rats = 2, State = GroupState.Sleep, Label = "단단한 정예 돌충이", Elite = true },
             },
             Nests = 1,
             WoodChests = 2,
             IronChests = 2,
             Ores = 1,
-            Lamps = 3,
+            // 3 → 5(1-2층 탐험 맛 1차 4-8): 승강장 1 + 계단 앞 1을 빼고 남는 등잔이 늘 숨은 방 옆 단서 등잔이 되지 않게. 고른 씨앗 30은 그대로 첫 굴림에 합격한다.
+            Lamps = 5,
             Stakes = 2,
             Events = 1,
+            // 2층 첫 방문의 가르치는 낙석 1개(4-5, 주 길 밖 칸 먼저).
+            FirstVisitRockfalls = 1,
             MinLoops = 1,
             // 곁방 문 1 + 지름길 1(2층부터, 2-5 차례 7). 9칸이라 주 길(4칸)은 늘 가장 짧은 길이어서 지름길은 고리를 2칸 넘게 줄인다.
             AbilityDoorsMin = 1,
             AbilityDoorsMax = 2,
             // 씨앗 1~40 가운데 30(통합 검토 뒤 생성기를 고쳐 다시 고름, 글자 모양은 예전 고른 지도와 같다): 서→동 주 길(잠든 궁수 첫 공터 →
-            // 먹는 멧돼지·궁수)에 아래 고리(도시락통·둥지)가 붙고, 계단 앞에서 막다른 공터(잠든 멧돼지·나무 궤짝)로 금 간 벽 지름길,
+            // 먹는 돌충이·궁수)에 아래 고리(도시락통·둥지)가 붙고, 계단 앞에서 막다른 공터(잠든 정예 돌충이·나무 궤짝)로 금 간 벽 지름길,
             // 주 길에서 보이는 금 간 벽 곁방(쇠 궤짝), 구석 숨은 방(단서 등잔)이 다 들어 있다. 막다른 곳은 모두 보상이 있다.
+            // 첫 방문 덧칠(FloorSpice)은 가르치는 낙석 1을 주 길 밖 아래 고리 공터 D에 둔다(지도·내용물은 그대로).
             ChosenSeed = 30UL,
+            // 2층 명패는 생성 지도에 넣지 않는다(Floor2Nameplate — 9칸 2층에 '갈래 1칸'·'막다른 방' 자리를 요구하면 지도 고르기가 흔들린다).
             OnceItems = Array.Empty<OnceItem>(),
+            // 계단 아래 '오우거 굴'(제2층 바닥, OgreDen). 시험판 전용(전투·보스 문서 3-8·7장 #14).
+            DenBelow = true,
         };
 
         /// <summary>디버그·시험 패널용 한 줄 요약.</summary>
         public override string ToString() =>
             $"{Floor}층 {Name}: 칸 {Cells}({StartReachable}), 무리 {Groups.Length}+둥지 {Nests}, 나무 {WoodChests}, 쇠 {IronChests}, 광맥 {Ores}, 등잔 {Lamps}, 말뚝 {Stakes}, 사건 {Events}";
 
-        /// <summary>모든 층의 한 번 받는 물건.</summary>
+        /// <summary>
+        /// 오우거를 처음 쓰러뜨린 자리에 떨어지는 광부 명패(묶음 3 나-8, 이야기 문서 '보스를 처치한 자리에 명패'). 생성 지도에 놓지 않고 Game(BossReward)이 놓는다.
+        /// </summary>
+        public static readonly OnceItem DenNameplate = new OnceItem { Id = "den.nameplate", Kind = FeatureKind.Nameplate, Label = "광부 명패", Place = OncePlace.Landmark };
+
+        /// <summary>
+        /// 2층 광부 명패(묶음 3 나-8). 이야기 문서 3장 '계단방 옆'대로 Game(NameplateSpots)이 2층 계단 앞 칸에 놓는다. 생성 지도에 넣으면
+        /// 9칸 2층이 그 자리를 찾느라 다시 연 층 모양이 한쪽으로 몰려(계단 출구 오른쪽 74.6%) 지도 밖에서 놓는다.
+        /// </summary>
+        public static readonly OnceItem Floor2Nameplate = new OnceItem { Id = "f2.nameplate", Kind = FeatureKind.Nameplate, Label = "광부 명패", Place = OncePlace.Landmark };
+
+        /// <summary>층 표 밖의 한 번 받는 물건(보스 자리·계단방 명패).</summary>
+        static readonly OnceItem[] ExtraOnceItems = { Floor2Nameplate, DenNameplate };
+
+        /// <summary>그 층 명패 id(층 표의 명패, 없으면 층 표 밖 명패 — 2층). 없으면 null. 승강장 줄 '명패 찾음'이 쓴다.</summary>
+        public static string NameplateIdForFloor(int floor)
+        {
+            var recipe = For(floor);
+            if (recipe != null)
+                foreach (var o in recipe.OnceItems)
+                    if (o.Kind == FeatureKind.Nameplate) return o.Id;
+            return floor == 2 ? Floor2Nameplate.Id : null;
+        }
+
+        /// <summary>모든 층의 한 번 받는 물건(층 표 밖 물건 포함).</summary>
         public static IEnumerable<OnceItem> AllOnceItems()
         {
             foreach (var r in Table)
                 foreach (var o in r.OnceItems)
                     yield return o;
+            foreach (var o in ExtraOnceItems) yield return o;
         }
 
         /// <summary>이 id의 한 번 받는 물건(없으면 null).</summary>
         public static OnceItem FindOnceItem(string id)
         {
             if (string.IsNullOrEmpty(id)) return null;
-            foreach (var r in Table)
-                foreach (var o in r.OnceItems)
-                    if (o.Id == id) return o;
+            foreach (var o in AllOnceItems())
+                if (o.Id == id) return o;
             return null;
+        }
+
+        /// <summary>
+        /// 명패에 새겨진 이름(이야기 문서 3장: 1~4층·보스 자리는 이름만 있는 광부, 살아 있는 주민 이름은 쓰지 않는다). 모르는 id는 null.
+        /// </summary>
+        public static string NameplateName(string id)
+        {
+            switch (id)
+            {
+                case "f1.T.nameplate": return "갑돌";
+                case "f2.nameplate": return "막순";
+                case "den.nameplate": return "덕배";
+                default: return null;
+            }
         }
 
         /// <summary>능력 문(금 간 벽) 뒤에만 있는 칸 수 = 칸 − 처음 갈 수 있는 칸 − 랜드마크(자물쇠 뒤).</summary>
@@ -300,6 +360,7 @@ namespace Demo6.Core.Dungeon
                 case NightEvent.Upheaval:
                     b.IronChests += 1;
                     break;
+                // 거센 울림(NightEvent.Rumble)은 층 예산을 바꾸지 않는다: 무리 수 그대로 정예 1만 확정(1-2층 탐험 맛 1차 4-9, FloorSpice.ElitePermille).
             }
             return b;
         }

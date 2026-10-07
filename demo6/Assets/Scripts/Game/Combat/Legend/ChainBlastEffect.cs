@@ -149,8 +149,8 @@ namespace Demo6.Game
             Explosions++;
             if (p.Index > LongestChain) LongestChain = p.Index;
             CombatEvents.RaiseLegendTriggered(LegendaryEffect.ChainBlast, p.Index);
-            // 여러 마리 처치 연출은 연쇄 하나에 처음 한 번(처치가 난 첫 폭발). 연속 처치 수는 늘 올린다.
-            _hub.CountKills(kills, kills > 0 && p.Chain.TakeJuice());
+            // 여러 마리 처치 연출은 연쇄 하나에 처음 한 번: 연출이 실제로 나는 3마리 이상을 잡은 첫 폭발. 연속 처치 수는 늘 올린다.
+            _hub.CountKills(kills, p.Chain.TakeJuice(kills));
         }
     }
 }

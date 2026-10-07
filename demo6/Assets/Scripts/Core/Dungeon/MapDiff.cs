@@ -16,7 +16,7 @@ namespace Demo6.Core.Dungeon
 
     /// <summary>
     /// 흔적 하나: 칸 (X, Y)의 Side 변 문틈. 세계 쪽은 칸 가운데 (28X, 16Y)에서 그 변 가운데로 옮겨 놓는다.
-    /// 흙더미는 막힌 벽의 양쪽 가운데 지금 지도에 있는 칸마다 하나(그 칸에서 본 변), 갓 판 흙·깨진 돌은 문 하나에 하나(왼쪽·아래 칸에서 본 Right·Up).
+    /// 흙더미는 막힌 벽의 양쪽 가운데 지금 지도에 있는 칸마다 하나(그 칸에서 본 변, 숨은 방과 맞닿은 벽은 없음), 갓 판 흙·깨진 돌은 문 하나에 하나(왼쪽·아래 칸에서 본 Right·Up).
     /// </summary>
     public readonly struct TraceSpot
     {
@@ -42,11 +42,16 @@ namespace Demo6.Core.Dungeon
     /// y는 맨 아랫줄이 0이라 두 지도의 높이가 달라도 같은 자리끼리 비교된다.
     /// 문 자리 (x, y, Right|Up)마다:
     /// 지금 판자벽이면 건너뜀(흔적이 숨은 방을 들키게 하면 안 됨, 2-2), 옛 판자벽·옛/지금 자물쇠도 건너뜀(랜드마크 자물쇠는 그대로 남음).
-    /// 옛 열린 길·금 간 벽 → 지금 길 없음 = 흙더미(지금 지도에 있는 양쪽 칸마다 하나, 그 칸에서 본 변),
+    /// 옛 열린 길·금 간 벽 → 지금 길 없음 = 흙더미(지금 지도에 있는 양쪽 칸마다 하나, 그 칸에서 본 변).
+    /// 단, 벽 한쪽이 이번 지도의 숨은 방(글자 'H')이면 양쪽 모두 두지 않는다(지난번 문 자리가 숨은 방의 막힌 벽이 된 경우,
+    /// 시스템·컨텐츠 다듬기 검토 1차 Q4 — 벽 앞 흙더미가 '건너편에 방이 있다'는 단서가 되지 않게).
     /// 옛 없음 → 지금 열린 길 = 갓 판 흙, 옛 금 간 벽 → 지금 열린 길 = 깨진 돌(둘 다 왼쪽·아래 칸에서 본 Right·Up). 그 밖은 흔적 없음.
     /// </summary>
     public static class MapDiff
     {
+        /// <summary>숨은 방 칸 글자(손 지도 FloorOneMap·생성 지도 FloorGenerator 공통, 다른 칸은 이 글자를 쓰지 않는다).</summary>
+        public const char HiddenGlyph = 'H';
+
         /// <summary>문 자리 하나의 상태.</summary>
         enum Door
         {
@@ -66,8 +71,12 @@ namespace Demo6.Core.Dungeon
             public int Height;
             public readonly HashSet<(int x, int y)> Cells = new HashSet<(int, int)>();
             public readonly Dictionary<(int x, int y, Side side), Door> Doors = new Dictionary<(int, int, Side), Door>();
+            /// <summary>숨은 방 칸 자리(글자 HiddenGlyph).</summary>
+            public readonly HashSet<(int x, int y)> Hidden = new HashSet<(int, int)>();
 
             public bool HasCell(int x, int y) => Cells.Contains((x, y));
+
+            public bool IsHidden(int x, int y) => Hidden.Contains((x, y));
 
             public Door DoorAt(int x, int y, Side side) => Doors.TryGetValue((x, y, side), out var d) ? d : Door.None;
         }
@@ -159,6 +168,8 @@ namespace Demo6.Core.Dungeon
             {
                 int nx = side == Side.Right ? x + 1 : x;
                 int ny = side == Side.Up ? y + 1 : y;
+                // 숨은 방과 맞닿은 벽(Q4): 숨은 방 쪽도 바깥쪽도 흙더미를 두지 않는다.
+                if (cur.IsHidden(x, y) || cur.IsHidden(nx, ny)) return;
                 if (cur.HasCell(x, y)) spots.Add(new TraceSpot(x, y, side, TraceKind.Rubble));
                 if (cur.HasCell(nx, ny)) spots.Add(new TraceSpot(nx, ny, MapEdge.Opposite(side), TraceKind.Rubble));
             }
@@ -199,7 +210,11 @@ namespace Demo6.Core.Dungeon
                     {
                         char g = line[col];
                         if (IsEmpty(g)) continue;
-                        if (col % 2 == 0) layout.Cells.Add((col / 2, y));
+                        if (col % 2 == 0)
+                        {
+                            layout.Cells.Add((col / 2, y));
+                            if (g == HiddenGlyph) layout.Hidden.Add((col / 2, y));
+                        }
                         else layout.Doors[((col - 1) / 2, y, Side.Right)] = DoorOf(g);
                     }
                 }

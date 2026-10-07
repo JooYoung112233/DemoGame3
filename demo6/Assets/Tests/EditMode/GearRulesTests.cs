@@ -130,7 +130,7 @@ namespace Demo6.Tests
             Assert.AreEqual(100, w.Attack);
             Assert.AreEqual(200, w.PlayerAttack);
             Assert.AreSame(WeaponPresets.Longsword, w.Rule);
-            Assert.AreEqual("일반 장검", w.DisplayName);
+            Assert.AreEqual("일반 한손검과 방패", w.DisplayName);
         }
 
         [Test]

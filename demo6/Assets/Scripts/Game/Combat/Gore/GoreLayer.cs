@@ -7,6 +7,7 @@ namespace Demo6.Game
     /// 고정 크기 고리 버퍼: 상한(cap)을 넘으면 가장 오래된 것부터 흐려 사라지고, 여유 칸(spare)이 흐려지는 동안 새것을 받는다.
     /// 렌더러는 처음 그 칸을 쓸 때 한 번 만들고 계속 돌려 쓴다(매 프레임 할당 없음). 기본 스프라이트 재질이라 빛을 받는다.
     /// 시간은 게임 시간이라 히트스톱·멈춤 동안 번짐·내려앉음·흐려짐도 멈춘다.
+    /// 밟힘 묻기(Coverage·AnyNear)는 고리를 한 번 훑는다: 피 발자국·시체 밟기(기획/전투-보스-무기-다듬기-1차.md 묶음 4)가 쓴다.
     /// </summary>
     public sealed class GoreLayer
     {
@@ -163,7 +164,10 @@ namespace Demo6.Game
                     float e = p.EaseCubic ? 1f - (1f - k) * (1f - k) * (1f - k) : 1f - (1f - k) * (1f - k);
                     p.Color = Color.Lerp(p.FromColor, p.ToColor, e);
                     p.Angle = Mathf.LerpAngle(p.FromAngle, p.ToAngle, e);
-                    p.T.localScale = Vector3.LerpUnclamped(p.FromScale, p.ToScale, e);
+                    var scale = Vector3.LerpUnclamped(p.FromScale, p.ToScale, e);
+                    p.T.localScale = scale;
+                    // 번지는 웅덩이도 지금 크기로 밟힘(Coverage)을 잰다.
+                    p.Size = Mathf.Max(scale.x, scale.y);
                     p.T.rotation = Quaternion.Euler(0f, 0f, p.Angle);
                     colorDirty = true;
                     if (k >= 1f) p.Animating = false;
@@ -192,6 +196,73 @@ namespace Demo6.Game
                 if (_items[i].Active) Deactivate(ref _items[i]);
             _next = 0;
         }
+
+        /// <summary>
+        /// 바닥에 놓인(날지 않는) 조각이 반경 radius의 원(발)을 얼마나 덮는가: 조각마다 겹친 정도 × 크기 비율(발보다 작으면 넓이 비) × 지금 알파를 더해 1에서 자른다.
+        /// coverFactor = 그림 크기(Size) 대비 덮는 반지름(얼룩 0.22, 웅덩이 0.36). bloodOnly면 붉은 것(피)만 센다(흙·고름 빼고).
+        /// 고리 전체를 한 번 훑는다(할당 없음). 피 발자국(GoreFootprints)이 0.1초마다 부른다.
+        /// </summary>
+        public float Coverage(Vector2 at, float radius, float coverFactor, bool bloodOnly)
+        {
+            float now = Time.time;
+            float sum = 0f;
+            radius = Mathf.Max(0.01f, radius);
+            for (int i = 0; i < _items.Length; i++)
+            {
+                ref var p = ref _items[i];
+                if (!p.Active || p.Flying) continue;
+                if (bloodOnly && !IsBlood(p.Color)) continue;
+                float r = p.Size * coverFactor;
+                float reach = r + radius;
+                float dx = p.Pos.x - at.x;
+                float dy = p.Pos.y - at.y;
+                float sq = dx * dx + dy * dy;
+                if (sq >= reach * reach) continue;
+                float d = Mathf.Sqrt(sq);
+                // 닿기 시작하면 0, 작은 쪽 원이 큰 쪽 안에 다 들어가면 1.
+                float overlap = Mathf.Clamp01((reach - d) / Mathf.Max(0.01f, 2f * Mathf.Min(r, radius)));
+                float areaK = r >= radius ? 1f : r * r / (radius * radius);
+                float a = p.Color.a;
+                if (p.FadeStart >= 0f) a *= 1f - Mathf.Clamp01((now - p.FadeStart) / p.FadeTime);
+                sum += overlap * areaK * a;
+                if (sum >= 1f) return 1f;
+            }
+            return sum;
+        }
+
+        /// <summary>
+        /// 바닥에 놓인 조각 중 원(at, radius)에 닿는 것이 있는가(시체 밟기). byBounds면 그린 그림의 화면 상자(가운데, 짧은 쪽 반폭 × coverFactor)로 잰다
+        /// (시체는 몸 그림이라 크기가 Size와 다르다). 아니면 Coverage처럼 Size × coverFactor. 흐려지는 것은 뺀다.
+        /// </summary>
+        public bool AnyNear(Vector2 at, float radius, float coverFactor, bool byBounds)
+        {
+            for (int i = 0; i < _items.Length; i++)
+            {
+                ref var p = ref _items[i];
+                if (!p.Active || p.Flying || p.FadeStart >= 0f) continue;
+                float r;
+                Vector2 c;
+                if (byBounds && p.Sr)
+                {
+                    var b = p.Sr.bounds;
+                    c = b.center;
+                    r = Mathf.Min(b.extents.x, b.extents.y) * coverFactor;
+                }
+                else
+                {
+                    c = p.Pos;
+                    r = p.Size * coverFactor;
+                }
+                float reach = r + radius;
+                float dx = c.x - at.x;
+                float dy = c.y - at.y;
+                if (dx * dx + dy * dy < reach * reach) return true;
+            }
+            return false;
+        }
+
+        /// <summary>피 색인가(붉은 기가 초록의 2.5배 넘음): 피 얼룩·웅덩이는 맞고, 둥지 흙·고름은 아니다.</summary>
+        static bool IsBlood(Color c) => c.r > 0.12f && c.r > c.g * 2.5f;
 
         void Fly(ref Piece p, float dt)
         {
@@ -228,6 +299,7 @@ namespace Demo6.Game
             p.Color = p.ToColor;
             p.Angle = p.ToAngle;
             p.T.localScale = p.ToScale;
+            p.Size = Mathf.Max(p.ToScale.x, p.ToScale.y);
             p.T.rotation = Quaternion.Euler(0f, 0f, p.Angle);
             p.Sr.color = p.Color;
             p.Animating = false;

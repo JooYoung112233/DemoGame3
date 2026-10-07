@@ -65,6 +65,18 @@ namespace Demo6.Game
         /// <summary>M0a: 넉백이 조준을 끊는다. 3차: 일반 타격엔 멈췄다 이어지고, 마무리·스킬·무너짐에만 끊긴다.</summary>
         protected override bool Interruptible => !IsV3;
 
+        /// <summary>
+        /// 창 끊어 찌르기에 끊긴 뒤 아직 한 발도 쏘지 않았는가. 그동안의 조준은 찌르기로 다시 끊기지 않는다(쏘면 풀림).
+        /// 끊긴 뒤 쉬기 1.0초 + 조준 0.8초(꿰뚫는 화살 1.4초) = 1.8초 이상이라 1.5초 제한만으로는 계속 묶어 둘 수 있었다(마무리 검토 ③, 문서 2-3 '계속 묶어 두기' 막기).
+        /// 마무리(③)·스킬·무너짐은 예전처럼 제한 없이 끊는다.
+        /// </summary>
+        bool _staggerGuard;
+
+        /// <summary>창 끊어 찌르기로 끊을 것: 3차 규칙에서 조준 중이고, 찌르기에 끊긴 뒤 한 발을 쏜 다음이다.</summary>
+        protected override bool StaggerWindupOpen => IsV3 && _state == State.Aim && !_staggerGuard;
+
+        protected override void OnStaggerInterrupted() => _staggerGuard = true;
+
         protected override void Think(float dt)
         {
             var player = Player;
@@ -162,11 +174,15 @@ namespace Demo6.Game
             // 3차: 세 번째 사격마다 꿰뚫는 화살(굵은 조준선 1.4초).
             _pierce = IsV3 && (_shots + 1) % 3 == 0;
             float baseTime = (_pierce ? PierceAimTime : AimTime) + TelegraphBonus;
+            // 꿰뚫는 화살은 3차 예고 규칙(검토 1차 Q6, TelegraphRule)으로 최소 예고를 맞댄다. 1.4초가 늘 더 길어 시간은 그대로이고(2층 12.6% → 최소 0.6초),
+            // 한 방이 그 층 기준 체력 10%를 넘으면 조준 시작에 시위 소리를 낸다(1~6·8층, 정예는 1~10층).
+            if (_pierce) baseTime = RuleTelegraph(baseTime, PiercePercent);
             _aimTime = StrongAttackSchedule.Reserve(baseTime, out _reservedEnd);
             SetPose(EnemyPose.Windup, _aimTime, _aimTime);
             _telegraph = Telegraph.Rect(Position, _aimDir, Arrow.Range, _pierce ? PierceLineWidth : AimLineWidth, _aimTime);
             // 기획 12장: 예고가 시작될 때 범위 안(조준선이 플레이어를 향함)이고 구르기를 쓸 수 있었는가.
             _telegraph.Avoidable = player.DodgeReady;
+            if (_pierce && TelegraphNeedsCue(PiercePercent)) Telegraph.PlayStartCue(TelegraphCue.ArcherDraw);
             _triple = FloorScaling.ArcherTripleShot(Floor) && !_pierce;
             if (_triple)
             {
@@ -183,7 +199,7 @@ namespace Demo6.Game
             foreach (var dir in options)
             {
                 if (Physics2D.CircleCast(Position, Radius, dir, JumpDistance, Layers.WallMask)) continue;
-                SpikeTrap.Place(Position, AttackPower);
+                SpikeTrap.Place(Position, AttackPower, Floor);
                 _jumpDir = dir;
                 _state = State.Jump;
                 _timer = 0f;
@@ -214,6 +230,7 @@ namespace Demo6.Game
             bool triple = _triple;
             _lastShot = Time.time;
             _shots++;
+            _staggerGuard = false;
             Sfx.Play(SfxKind.ArcherShot);
             var volley = new ArrowVolley(_telegraph ? _telegraph.Avoidable : false, triple ? 3 : 1);
             Vector2 origin = Position + _aimDir * (Radius + 0.1f);

@@ -25,6 +25,14 @@ namespace Demo6.Game
         static Sprite _longsword;
         static Sprite _greatsword;
         static Sprite _twinblade;
+        static Sprite _maul;
+        static Sprite _spear;
+        static Sprite _scythe;
+        static Sprite _axe;
+        static Sprite _dagger;
+        static Sprite _flail;
+        static Sprite _flailBall;
+        static Sprite _flailLink;
         static Sprite _rat;
         static Sprite _ratDummy;
         static Sprite _boar;
@@ -41,6 +49,20 @@ namespace Demo6.Game
         public static Sprite Longsword => _longsword ? _longsword : _longsword = BuildLongsword();
         public static Sprite Greatsword => _greatsword ? _greatsword : _greatsword = BuildGreatsword();
         public static Sprite Twinblade => _twinblade ? _twinblade : _twinblade = BuildTwinblade();
+        // 새 무기 6종(기획/전투-보스-무기-다듬기-1차.md 2-7). PPU 256, 피벗 = 오른 주먹(쥔 점), +x가 끝, 주먹은 그리지 않는다.
+        public static Sprite Maul => _maul ? _maul : _maul = BuildMaul();
+        public static Sprite Spear => _spear ? _spear : _spear = BuildSpear();
+        public static Sprite Scythe => _scythe ? _scythe : _scythe = BuildScythe();
+        public static Sprite Axe => _axe ? _axe : _axe = BuildAxe();
+        public static Sprite Dagger => _dagger ? _dagger : _dagger = BuildDagger();
+        /// <summary>사슬 철퇴 손잡이(사슬·쇠공은 FlailChain이 따로 놓는다). 손잡이 끝 고리 = FlailHandleTip.</summary>
+        public static Sprite Flail => _flail ? _flail : _flail = BuildFlail();
+        /// <summary>사슬 철퇴 쇠공(피벗 가운데, 사슬 고리 쪽 −x). 사슬 방향으로 돌려 놓는다.</summary>
+        public static Sprite FlailBall => _flailBall ? _flailBall : _flailBall = BuildFlailBall();
+        /// <summary>사슬 고리 하나(피벗 가운데, 길이 방향 +x, 약 0.06×0.035). 고리마다 눕힘·세움을 번갈아 놓는다.</summary>
+        public static Sprite FlailLink => _flailLink ? _flailLink : _flailLink = BuildFlailLink();
+        /// <summary>사슬 철퇴 손잡이 끝 고리(사슬이 매달리는 자리, 유닛, 피벗 기준 +x).</summary>
+        public const float FlailHandleTip = 0.355f;
         public static Sprite Rat => _rat ? _rat : _rat = BuildRat(false);
         public static Sprite RatDummy => _ratDummy ? _ratDummy : _ratDummy = BuildRat(true);
         public static Sprite Boar => _boar ? _boar : _boar = BuildBoar();
@@ -65,6 +87,14 @@ namespace Demo6.Game
             _ = Longsword;
             _ = Greatsword;
             _ = Twinblade;
+            _ = Maul;
+            _ = Spear;
+            _ = Scythe;
+            _ = Axe;
+            _ = Dagger;
+            _ = Flail;
+            _ = FlailBall;
+            _ = FlailLink;
             _ = Rat;
             _ = RatDummy;
             _ = Boar;
@@ -468,6 +498,277 @@ namespace Demo6.Game
                 (p, d) => Blade(p, hw, 0.055f, 0.46f, 0.62f, 25), 0.006f, Outline);
             Guard(cv, 0.047f, 0.012f, 0.062f);
             return cv.ToSprite("정수리 쌍검 한 자루", Vector2.zero);
+        }
+
+        // ───────────────────────── 새 무기 6종 임시 그림(기획/전투-보스-무기-다듬기-1차.md 2-7) ─────────────────────────
+        // 게임 해상도(PPU 256) 코드 그림이다. 원본(512px/유닛 PNG + 레이어 PSD)은 원화 단계에서 따로 그린다(이 그림을 키워 원본으로 삼지 않는다).
+        // 색은 2-7 규격만 쓴다: 테두리 #0B0A0D 2px(Outline), 쇠 #8F949C·#54575E·#E6E8ED(SteelMid·SteelEdge·SteelBright), 손잡이 가죽 #332114(GripLeather).
+        // 자루 나무는 가죽보다 조금 밝은 어두운 갈색이다. 등급색·예고 빨강·밝은 금빛은 쓰지 않는다.
+
+        const float NewPpu = 256f;
+        /// <summary>테두리 2px(PPU 256).</summary>
+        const float NewOutline = 2f / NewPpu;
+        static readonly Color ShaftWood = new Color(0.27f, 0.2f, 0.14f);
+
+        /// <summary>볼록 다각형(꼭짓점을 한 방향으로 돌아가는 순서로). 안쪽 음수인 근사 거리(변까지 거리 중 가장 큰 값).</summary>
+        static float Convex(Vector2 p, Vector2[] pts)
+        {
+            Vector2 a0 = pts[1] - pts[0], b0 = pts[2] - pts[0];
+            float s = a0.x * b0.y - a0.y * b0.x < 0f ? -1f : 1f;
+            float best = float.MinValue;
+            for (int i = 0; i < pts.Length; i++)
+            {
+                Vector2 a = pts[i], e = pts[(i + 1) % pts.Length] - a;
+                float d = -s * (e.x * (p.y - a.y) - e.y * (p.x - a.x)) / Mathf.Max(1e-6f, e.magnitude);
+                if (d > best) best = d;
+            }
+            return best;
+        }
+
+        /// <summary>나무 자루(길이 방향 결, 가운데가 밝음). 굵기 r0 → r1.</summary>
+        static void Shaft(C cv, float x0, float x1, float r0, float r1, int seed)
+        {
+            cv.Draw(p => C.Capsule(p, new Vector2(x0, 0f), new Vector2(x1, 0f), r0, r1),
+                (p, d) =>
+                {
+                    float half = Mathf.Lerp(r0, r1, Mathf.InverseLerp(x0, x1, p.x));
+                    float across = Mathf.Clamp01(Mathf.Abs(p.y) / Mathf.Max(1e-4f, half));
+                    float grain = 0.84f + 0.26f * C.Noise(new Vector2(p.x * 0.12f, p.y * 3f), 0.012f, seed);
+                    return C.Shade(ShaftWood, grain * (1.08f - 0.32f * across * across));
+                }, NewOutline, Outline);
+        }
+
+        /// <summary>자루를 감은 쇠띠.</summary>
+        static void Band(C cv, float x, float halfLength, float halfWidth)
+        {
+            cv.Draw(p => C.Box(p, new Vector2(x, 0f), halfLength, halfWidth, halfLength * 0.4f),
+                (p, d) => C.Shade(DarkIron, C.Dome(d, halfLength) * 1.25f * C.Rim(d, 0.006f, 0.5f)), NewOutline, Outline);
+        }
+
+        /// <summary>쇠 덩이 칠(망치 머리·도끼 머리): 가장자리 어둡고 가운데 밝음, 닳은 결과 작게 팬 자국.</summary>
+        static Color Iron(Vector2 p, float d, float depth, int seed)
+        {
+            var c = Color.Lerp(SteelEdge, SteelMid, Mathf.Clamp01(-d / Mathf.Max(1e-4f, depth)));
+            float wear = 0.9f + 0.18f * C.Fbm(p, 0.03f, seed);
+            c = C.Shade(c, wear * C.Rim(d, 0.012f, 0.3f));
+            if (C.Noise(p, 0.007f, seed + 5) > 0.88f) c = C.Shade(c, 0.76f);
+            return c;
+        }
+
+        /// <summary>
+        /// 쇠망치(2-7): 길이 −0.15 ~ 1.20, 머리 0.90 ~ 1.20, 머리 반폭 0.17. 머리는 +y 쪽이 뭉툭한 때림면, −y 쪽이 쐐기(쪼개는 날).
+        /// 두 손(오른 주먹 0, 왼 주먹 −0.12)을 가죽 감개 위에 쥔다. 게임 캔버스 368×96 / 피벗 (46, 48).
+        /// </summary>
+        static Sprite BuildMaul()
+        {
+            var cv = new C(-46f / NewPpu, (368f - 46f) / NewPpu, -48f / NewPpu, 48f / NewPpu, NewPpu);
+            cv.Draw(p => C.Box(p, new Vector2(-0.132f, 0f), 0.018f, 0.034f, 0.01f), (p, d) => C.Shade(DarkIron, C.Dome(d, 0.02f) * 1.15f), NewOutline, Outline);
+            Shaft(cv, -0.12f, 0.95f, 0.03f, 0.027f, 101);
+            Grip(cv, -0.115f, 0.06f, 0.034f);
+            Band(cv, 0.84f, 0.022f, 0.036f);
+            var head = new[]
+            {
+                new Vector2(0.90f, 0.17f), new Vector2(0.90f, -0.02f), new Vector2(1.02f, -0.17f),
+                new Vector2(1.08f, -0.17f), new Vector2(1.20f, -0.02f), new Vector2(1.20f, 0.17f),
+            };
+            cv.Draw(p => Convex(p, head),
+                (p, d) =>
+                {
+                    var c = Iron(p, d, 0.07f, 102);
+                    // 때림면(+y 끝)은 닳아 밝고, 쐐기 날(−y 끝)은 벼린 줄이 밝다.
+                    if (p.y > 0.142f) c = Color.Lerp(c, SteelBright, 0.42f * Mathf.Clamp01((p.y - 0.142f) / 0.02f));
+                    if (p.y < -0.145f) c = Color.Lerp(c, SteelBright, 0.6f * Mathf.Clamp01((-0.145f - p.y) / 0.018f));
+                    // 머리 가운데를 가로지르는 쇠 테(자루 구멍 자리).
+                    if (Mathf.Abs(p.y) < 0.012f) c = C.Shade(c, 0.78f);
+                    return c;
+                }, NewOutline, Outline);
+            // 쐐기 경사면의 그늘(머리 아래 절반이 비스듬히 깎였다는 표시).
+            cv.Draw(p => Mathf.Max(Convex(p, head) + 0.01f, p.y + 0.03f), (p, d) => new Color(0f, 0f, 0f, 0.18f));
+            return cv.ToSprite("정수리 쇠망치", Vector2.zero);
+        }
+
+        /// <summary>
+        /// 창(2-7): 길이 −0.55 ~ 1.75, 창날 1.40 ~ 1.75(반폭 0.07, 버들잎 모양 + 가운데 등날). 두 손(오른 주먹 0, 왼 주먹 −0.35)은 가죽 감개 둘.
+        /// 게임 캔버스 608×64 / 피벗 (149, 32).
+        /// </summary>
+        static Sprite BuildSpear()
+        {
+            var cv = new C(-149f / NewPpu, (608f - 149f) / NewPpu, -32f / NewPpu, 32f / NewPpu, NewPpu);
+            // 물미(자루 끝 쇠 덮개).
+            cv.Draw(p => C.Capsule(p, new Vector2(-0.545f, 0f), new Vector2(-0.49f, 0f), 0.014f, 0.022f),
+                (p, d) => C.Shade(DarkIron, C.Dome(d, 0.015f) * 1.2f), NewOutline, Outline);
+            Shaft(cv, -0.5f, 1.37f, 0.02f, 0.018f, 111);
+            Grip(cv, -0.07f, 0.07f, 0.025f);
+            Grip(cv, -0.42f, -0.28f, 0.025f);
+            // 창날 소켓(자루에 끼우는 쇠 통).
+            cv.Draw(p => C.Capsule(p, new Vector2(1.3f, 0f), new Vector2(1.43f, 0f), 0.029f, 0.02f),
+                (p, d) => C.Shade(SteelEdge, C.Dome(d, 0.02f) * (0.95f + 0.1f * C.Noise(p, 0.01f, 112))), NewOutline, Outline);
+            Band(cv, 1.31f, 0.012f, 0.032f);
+            var head = new[]
+            {
+                new Vector2(1.4f, 0.024f), new Vector2(1.47f, 0.07f), new Vector2(1.54f, 0.064f), new Vector2(1.75f, 0f),
+                new Vector2(1.54f, -0.064f), new Vector2(1.47f, -0.07f), new Vector2(1.4f, -0.024f),
+            };
+            cv.Draw(p => Convex(p, head),
+                (p, d) =>
+                {
+                    // 가운데 등날이 밝고 양 날로 갈수록 어둡다가 벼린 가장자리가 다시 밝다.
+                    float rib = Mathf.Exp(-Mathf.Pow(p.y / 0.008f, 2f));
+                    var c = Color.Lerp(SteelMid, SteelEdge, Mathf.Clamp01(Mathf.Abs(p.y) / 0.07f) * 0.8f);
+                    c = Color.Lerp(c, SteelBright, rib * 0.6f + Mathf.Clamp01(1f + d / 0.009f) * 0.35f);
+                    float tip = Mathf.Clamp01((p.x - 1.6f) / 0.15f);
+                    c = Color.Lerp(c, SteelBright, tip * tip * 0.5f);
+                    return C.Shade(c, 0.93f + 0.14f * C.Noise(new Vector2(p.x * 0.3f, p.y * 2f), 0.015f, 113));
+                }, NewOutline, Outline);
+            return cv.ToSprite("정수리 창", Vector2.zero);
+        }
+
+        /// <summary>
+        /// 큰 낫(2-7): 자루 −0.30 ~ 1.35, 날은 자루 끝(1.29, 0)에서 −y 쪽으로 약 0.75 휘어 내려가 끝이 자루 쪽으로 돌아오는 갈고리(안쪽이 벼린 날).
+        /// 두 손(오른 주먹 0, 왼 주먹 −0.30). 게임 캔버스 448×232 / 피벗 (85, 200). 반대 방향으로 쓸 때는 코드가 위아래로 뒤집는다.
+        /// </summary>
+        static Sprite BuildScythe()
+        {
+            var cv = new C(-85f / NewPpu, (448f - 85f) / NewPpu, -200f / NewPpu, 32f / NewPpu, NewPpu);
+            Shaft(cv, -0.29f, 1.32f, 0.021f, 0.019f, 121);
+            Grip(cv, -0.3f, -0.2f, 0.026f);
+            Grip(cv, -0.07f, 0.07f, 0.026f);
+            // 날: 중심 O, 바깥 반지름 R(등)인 둥근 띠. 뿌리(40°)에서 끝(−96°)으로 갈수록 가늘어진다.
+            var o = new Vector2(0.94f, -0.29f);
+            const float r = 0.45f, from = 40f, tipAt = -96f;
+            cv.Draw(p =>
+                {
+                    Vector2 q = p - o;
+                    float len = q.magnitude;
+                    float a = Mathf.Atan2(q.y, q.x) * Mathf.Rad2Deg;
+                    float u = Mathf.Clamp01((a - tipAt) / (from - tipAt));
+                    float w = 0.004f + 0.09f * Mathf.Pow(u, 0.6f);
+                    float radial = Mathf.Max(len - r, r - w - len);
+                    float around = Mathf.Max(tipAt - a, a - from) * Mathf.Deg2Rad * len;
+                    return Mathf.Max(radial, around);
+                },
+                (p, d) =>
+                {
+                    Vector2 q = p - o;
+                    float a = Mathf.Atan2(q.y, q.x) * Mathf.Rad2Deg;
+                    float u = Mathf.Clamp01((a - tipAt) / (from - tipAt));
+                    float w = 0.004f + 0.09f * Mathf.Pow(u, 0.6f);
+                    // across: 등(바깥) 0 → 벼린 날(안쪽) 1.
+                    float across = Mathf.Clamp01((r - q.magnitude) / w);
+                    var c = Color.Lerp(SteelEdge, SteelMid, Mathf.Clamp01(across * 1.6f));
+                    c = Color.Lerp(c, SteelBright, Mathf.Clamp01((across - 0.72f) / 0.2f) * 0.7f);
+                    float wear = 0.9f + 0.18f * C.Noise(new Vector2(a * 0.02f, across * 3f), 0.12f, 122);
+                    if (C.Noise(p, 0.013f, 123) > 0.82f && across < 0.6f) wear *= 0.72f;
+                    return C.Shade(c, wear);
+                }, NewOutline, Outline);
+            // 날을 자루에 묶는 쇠고리.
+            cv.Draw(p => C.Box(p, new Vector2(1.29f, -0.008f), 0.05f, 0.033f, 0.01f),
+                (p, d) => C.Shade(DarkIron, C.Dome(d, 0.03f) * 1.2f * C.Rim(d, 0.008f, 0.5f)), NewOutline, Outline);
+            return cv.ToSprite("정수리 큰 낫", new Vector2(0f, 0f));
+        }
+
+        /// <summary>
+        /// 도끼(2-7 '머리가 한쪽으로 치우친 비대칭'): 자루 −0.15 ~ 0.99, 머리는 0.86~0.95의 자루 구멍에서 −y 쪽으로 벌어지는 수염 도끼날(0.69~1.05, 끝 −0.335)과
+        /// +y 쪽 작은 뒷머리. 한 손으로 쥔다. 캔버스 320×128 / 피벗 (44, 92).
+        /// </summary>
+        static Sprite BuildAxe()
+        {
+            var cv = new C(-44f / NewPpu, (320f - 44f) / NewPpu, -92f / NewPpu, 36f / NewPpu, NewPpu);
+            cv.Draw(p => C.Ellipse(p, new Vector2(-0.13f, 0f), 0.03f, 0.031f), (p, d) => C.Shade(ShaftWood, C.Dome(d, 0.02f) * 0.9f), NewOutline, Outline);
+            Shaft(cv, -0.12f, 0.99f, 0.024f, 0.021f, 131);
+            Grip(cv, -0.1f, 0.08f, 0.027f);
+            var bit = new[]
+            {
+                new Vector2(0.86f, -0.035f), new Vector2(0.95f, -0.035f), new Vector2(1.05f, -0.25f), new Vector2(1.03f, -0.31f),
+                new Vector2(0.9f, -0.335f), new Vector2(0.76f, -0.32f), new Vector2(0.69f, -0.29f),
+            };
+            // 자루 쪽으로 파인 곡선(수염): 날 끝 아래쪽이 자루 쪽으로 갈고리처럼 늘어진다.
+            var beard = new Vector2(0.7f, -0.14f);
+            cv.Draw(p => Mathf.Max(Convex(p, bit), -C.Circle(p, beard, 0.135f)),
+                (p, d) =>
+                {
+                    var c = Iron(p, d, 0.06f, 132);
+                    // 벼린 날: 머리 끝(−y) 가장자리를 따라 밝은 띠.
+                    float edge = p.y < -0.2f ? Mathf.Clamp01(1f + d / 0.02f) : 0f;
+                    c = Color.Lerp(c, SteelBright, edge * 0.65f);
+                    return c;
+                }, NewOutline, Outline);
+            // 자루 구멍 덩이(쇠)와 뒷머리.
+            cv.Draw(p => C.Box(p, new Vector2(0.905f, 0.012f), 0.05f, 0.054f, 0.012f), (p, d) => Iron(p, d, 0.035f, 133), NewOutline, Outline);
+            cv.Draw(p => C.Box(p, new Vector2(0.905f, 0.088f), 0.034f, 0.028f, 0.008f), (p, d) => C.Shade(Iron(p, d, 0.02f, 134), 0.92f), NewOutline, Outline);
+            // 자루 끝이 머리 위로 조금 보인다.
+            cv.Draw(p => C.Ellipse(p, new Vector2(0.905f, 0.012f), 0.016f, 0.02f), C.Shade(ShaftWood, 0.75f));
+            return cv.ToSprite("정수리 도끼", Vector2.zero);
+        }
+
+        /// <summary>단검(2-7 144×40): 자루 −0.10 ~ 0.43, 날 0.055 ~ 0.43(반폭 0.02). 한 손. 캔버스 144×40 / 피벗 (28, 20).</summary>
+        static Sprite BuildDagger()
+        {
+            var cv = new C(-28f / NewPpu, (144f - 28f) / NewPpu, -20f / NewPpu, 20f / NewPpu, NewPpu);
+            cv.Draw(p => C.Circle(p, new Vector2(-0.083f, 0f), 0.015f), (p, d) => C.Shade(DarkIron, C.Dome(d, 0.015f) * 1.2f), NewOutline, Outline);
+            Grip(cv, -0.075f, 0.036f, 0.016f);
+            var blade = new[]
+            {
+                new Vector2(0.05f, 0.02f), new Vector2(0.3f, 0.017f), new Vector2(0.43f, 0f), new Vector2(0.3f, -0.017f), new Vector2(0.05f, -0.02f),
+            };
+            cv.Draw(p => Convex(p, blade), (p, d) => Blade(p, 0.02f, 0.05f, 0.3f, 0.43f, 141), NewOutline, Outline);
+            Guard(cv, 0.045f, 0.01f, 0.05f);
+            return cv.ToSprite("정수리 단검", Vector2.zero);
+        }
+
+        /// <summary>
+        /// 사슬 철퇴 손잡이(2-7 '손잡이 + 쇠공, 사슬은 코드 선'): 자루 −0.14 ~ 0.33 + 끝 고리(사슬 매다는 자리 FlailHandleTip). 한 손.
+        /// 캔버스 144×32 / 피벗 (38, 16).
+        /// </summary>
+        static Sprite BuildFlail()
+        {
+            var cv = new C(-38f / NewPpu, (144f - 38f) / NewPpu, -16f / NewPpu, 16f / NewPpu, NewPpu);
+            cv.Draw(p => C.Circle(p, new Vector2(-0.12f, 0f), 0.02f), (p, d) => C.Shade(DarkIron, C.Dome(d, 0.02f) * 1.2f), NewOutline, Outline);
+            Shaft(cv, -0.1f, 0.31f, 0.021f, 0.024f, 151);
+            Grip(cv, -0.105f, 0.07f, 0.024f);
+            Band(cv, 0.15f, 0.01f, 0.027f);
+            Band(cv, 0.25f, 0.01f, 0.028f);
+            cv.Draw(p => C.Box(p, new Vector2(0.312f, 0f), 0.024f, 0.03f, 0.008f), (p, d) => Iron(p, d, 0.02f, 152), NewOutline, Outline);
+            // 끝 고리(링): 안쪽은 비어 있다.
+            cv.Draw(p => Mathf.Abs(C.Circle(p, new Vector2(FlailHandleTip - 0.008f, 0f), 0.016f)) - 0.0045f,
+                (p, d) => C.Shade(SteelEdge, 1.1f), NewOutline, Outline);
+            return cv.ToSprite("정수리 사슬 철퇴 손잡이", Vector2.zero);
+        }
+
+        /// <summary>사슬 철퇴 쇠공: 반지름 0.11 쇠공 + 가시 7개(사슬 고리 쪽 −x는 비움) + 고리. 피벗 가운데.</summary>
+        static Sprite BuildFlailBall()
+        {
+            var cv = new C(-0.2f, 0.2f, -0.2f, 0.2f, NewPpu);
+            const float ball = 0.11f;
+            for (int i = 0; i < 8; i++)
+            {
+                float a = i * 45f;
+                if (i == 4) continue;
+                Vector2 n = new Vector2(Mathf.Cos(a * Mathf.Deg2Rad), Mathf.Sin(a * Mathf.Deg2Rad));
+                Vector2 side = new Vector2(-n.y, n.x) * 0.026f;
+                Vector2 root = n * 0.09f, tip = n * 0.168f;
+                cv.Draw(p => C.Triangle(p, root + side, root - side, tip),
+                    (p, d) => Color.Lerp(SteelEdge, SteelBright, Mathf.Clamp01(Vector2.Dot(p - root, n) / 0.078f) * 0.6f), NewOutline, Outline);
+            }
+            cv.Draw(p => C.Circle(p, Vector2.zero, ball),
+                (p, d) =>
+                {
+                    var c = Iron(p, d, ball, 161);
+                    // 위에서 내리비추는 둥근 윤기.
+                    c = Color.Lerp(c, SteelBright, 0.35f * Mathf.Exp(-Mathf.Pow((p - new Vector2(0.02f, 0.025f)).magnitude / 0.035f, 2f)));
+                    return c;
+                }, NewOutline, Outline);
+            cv.Draw(p => Mathf.Abs(C.Circle(p, new Vector2(-0.122f, 0f), 0.017f)) - 0.005f, C.Shade(SteelEdge, 1.05f), NewOutline, Outline);
+            return cv.ToSprite("정수리 사슬 철퇴 쇠공", Vector2.zero);
+        }
+
+        /// <summary>사슬 고리 하나(길쭉한 쇠고리, 가운데 빔). 피벗 가운데.</summary>
+        static Sprite BuildFlailLink()
+        {
+            var cv = new C(-0.042f, 0.042f, -0.028f, 0.028f, NewPpu);
+            cv.Draw(p => Mathf.Max(C.Ellipse(p, Vector2.zero, 0.032f, 0.019f), -C.Ellipse(p, Vector2.zero, 0.017f, 0.006f)),
+                (p, d) => Color.Lerp(SteelEdge, SteelMid, Mathf.Clamp01(-d / 0.006f)), NewOutline * 0.75f, Outline);
+            return cv.ToSprite("정수리 사슬 고리", Vector2.zero);
         }
 
         // ───────────────────────── 굴쥐(허수아비는 짚 색) ─────────────────────────

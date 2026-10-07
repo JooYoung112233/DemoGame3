@@ -1,0 +1,13 @@
+using System;using System.IO;using System.Reflection;using UnityEngine;using UnityEditor;using Demo6.Game;using C=Demo6.Game.TopDownCanvas;
+public static class EmptySlotV3Build {
+ public static object Build(){string[] ids={"weapon","armor","helm","gloves","boots","ring","amulet"};foreach(var id in ids){var c=new C(-1,1,-1,1,256);Color ink=new Color32(185,179,162,255);void Stroke(C.Shape s)=>c.Draw(p=>Mathf.Abs(s(p))-.024f,ink);void Line(Vector2 a,Vector2 b,float r=.03f)=>c.Draw(p=>C.Capsule(p,a,b,r),ink);
+  if(id=="weapon"){Line(new Vector2(-.48f,-.63f),new Vector2(.5f,.65f));Line(new Vector2(-.47f,-.12f),new Vector2(-.05f,-.44f));}
+  else if(id=="armor"){Stroke(p=>C.Box(p,new Vector2(0,-.04f),.39f,.58f,.12f));Line(new Vector2(-.37f,.42f),new Vector2(-.65f,.2f),.09f);Line(new Vector2(.37f,.42f),new Vector2(.65f,.2f),.09f);Stroke(p=>C.Ellipse(p,new Vector2(0,.49f),.19f,.14f));}
+  else if(id=="helm"){Stroke(p=>C.Box(p,new Vector2(0,0),.49f,.51f,.3f));Line(new Vector2(-.4f,-.12f),new Vector2(.4f,-.12f));Line(new Vector2(0,.1f),new Vector2(0,-.53f));}
+  else if(id=="gloves"){Stroke(p=>C.Box(p,new Vector2(.04f,.09f),.31f,.42f,.16f));Stroke(p=>C.Box(p,new Vector2(0,-.43f),.36f,.11f,.03f));Line(new Vector2(-.29f,.16f),new Vector2(-.44f,-.02f),.08f);for(int i=0;i<3;i++){float x=-.12f+i*.15f;Line(new Vector2(x,.24f),new Vector2(x,.43f),.018f);}}
+  else if(id=="boots"){Stroke(p=>C.Box(p,new Vector2(-.19f,.13f),.22f,.44f,.04f));Stroke(p=>C.Box(p,new Vector2(.08f,-.35f),.48f,.16f,.1f));Line(new Vector2(-.36f,-.56f),new Vector2(.56f,-.56f));}
+  else if(id=="ring"){Stroke(p=>C.Circle(p,new Vector2(0,-.05f),.46f));Stroke(p=>C.Box(p,new Vector2(0,.4f),.18f,.18f,.01f,45));}
+  else{Stroke(p=>C.Ellipse(p,new Vector2(0,.16f),.43f,.42f));Stroke(p=>C.Box(p,new Vector2(0,-.43f),.23f,.23f,.025f,45));}
+  var px=(Color[])typeof(C).GetField("_px",BindingFlags.NonPublic|BindingFlags.Instance).GetValue(c);var t=new Texture2D(c.Width,c.Height,TextureFormat.RGBA32,false);t.SetPixels(px);t.Apply();string file="아트/장비-UI-v3/빈슬롯/empty_"+id+".png";Directory.CreateDirectory(Path.GetDirectoryName(file));File.WriteAllBytes(file,t.EncodeToPNG());File.WriteAllBytes("Assets/Resources/UI/Items/empty_"+id+".png",t.EncodeToPNG());UnityEngine.Object.DestroyImmediate(t);
+ }AssetDatabase.Refresh();foreach(var id in ids){var t=(TextureImporter)AssetImporter.GetAtPath("Assets/Resources/UI/Items/empty_"+id+".png");t.textureType=TextureImporterType.Default;t.alphaIsTransparency=true;t.mipmapEnabled=false;t.filterMode=FilterMode.Bilinear;t.wrapMode=TextureWrapMode.Clamp;t.textureCompression=TextureImporterCompression.Uncompressed;t.SaveAndReimport();}return new{count=ids.Length,source="아트/장비-UI-v3/빈슬롯"};}
+}

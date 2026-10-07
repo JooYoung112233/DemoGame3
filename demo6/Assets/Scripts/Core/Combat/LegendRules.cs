@@ -60,6 +60,11 @@ namespace Demo6.Core.Combat
         /// <summary>연쇄 안 폭발 사이 간격(초).</summary>
         public const double BlastInterval = 0.1;
         public const bool BlastCanCrit = false;
+        /// <summary>
+        /// 여러 마리 처치 연출(히트스톱 0.08, 5마리부터 느린 화면)이 실제로 나는 한 번의 처치 수. PlayerController.OnKills와 같은 문턱이다.
+        /// 연쇄 폭발은 이 수 이상을 잡은 첫 폭발에서만 '연쇄 하나에 한 번' 기회를 쓴다(1~2마리 폭발은 연출이 없어 기회를 남김).
+        /// </summary>
+        public const int MultiKillJuiceMin = 3;
 
         // ── 세기 보간 ──
 
@@ -280,5 +285,11 @@ namespace Demo6.Core.Combat
             _juiceUsed = true;
             return true;
         }
+
+        /// <summary>
+        /// 이 폭발의 처치 수로 여러 마리 처치 연출을 낼 차례인가. 연출이 실제로 나는 처치 수(LegendRules.MultiKillJuiceMin 이상)일 때만
+        /// 기회를 쓴다. 그래서 첫 폭발이 1~2마리를 잡고 다음 폭발이 5마리를 잡으면 다음 폭발이 연출을 받는다(장비 문서 6장 '연쇄 하나에 처음 한 번').
+        /// </summary>
+        public bool TakeJuice(int kills) => kills >= LegendRules.MultiKillJuiceMin && TakeJuice();
     }
 }

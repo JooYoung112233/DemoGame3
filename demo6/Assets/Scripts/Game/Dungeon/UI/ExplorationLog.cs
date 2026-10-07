@@ -1,7 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Demo6.Core.Combat;
 using Demo6.Core.Dungeon;
+using Demo6.Core.Loot;
+using Demo6.Core.TestStart;
+using Demo6.Core.Town;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -16,6 +20,14 @@ namespace Demo6.Game
     /// 층마다 장면을 다시 불러오므로 층 한 번 들른 기록(FloorRun: 원정·층·씨앗·시간·몫…)은 정적 목록에 남기고, 플레이를 새로 시작할 때 비운다.
     /// 계단을 쓰거나 바구니로 올라가면 장면이 바뀌므로 기록 창을 열지 않고 보고를 콘솔에 찍는다.
     /// 시험 패널 '갱도 씨앗': 지금 씨앗·지도 글자, '이 씨앗으로 다시'·'씨앗 +1'(DungeonRoot.RebuildWithSeed), '씨앗 10개 보기'(FloorGenerator).
+    /// F1 시험 패널은 Unity 편집기에서만 연다(키 배치 1차 0장 5, DevPanelGate). 만든 게임에서는 F1이 아무 일도 하지 않는다.
+    /// 판을 쉽게 바꾸는 손잡이·단추(어둠·무적·지도 전부 보기·시야·부채꼴·보는 칸 밖 가리기·적은 부채꼴 안만 보임(끌 때, 시야와 문 1차 13장)·
+    /// 곡괭이·올라가기·굴로·의뢰 단추·씨앗 다시 짓기·순간 이동·무기 종류(키 배치 1차 0장 3)·강화석 +50·가방 채우기(재화 쓸 곳 1차 14장))를 쓰면
+    /// 이번 판을 '시험 판'으로 적고(TestRunFlag), 판정 기록·층 기록·복사 글에 그 표시를 남긴다. 판정 때 견줘 보는 손잡이(걸음·웅크림 배율·기척·피 발자국·
+    /// 정수리 시점·저절로 분해(일반)·저절로 줍기 여유 칸·칸 살핌 경험치·등 뒤 기척 소리·문 자리 비틀기)와 기록 보기·복사·층 기록 창·기록 처음부터·
+    /// 씨앗 10개 보기는 적지 않는다.
+    /// 앞 플레이나 전투 시험장 패널에서 바꿔 남은 시험 값(무적·버팀 룬 시험·돌충이 약하게·처형 회복·처형 문턱 등)이 기본과 다르면 층 기록을 열 때·옮길 때
+    /// TestRunFlag.Marked가 '기본과 다른 시험 값'으로 적는다(반박 검토 Q7).
     /// </summary>
     public sealed class ExplorationLog : MonoBehaviour
     {
@@ -45,6 +57,10 @@ namespace Demo6.Game
         const float PanelWidth = 420f;
         const int RecentMax = 14;
         const int SeedPreviewCount = 10;
+        /// <summary>시험 패널 '강화석 +50'(재화 쓸 곳 1차 14장).</summary>
+        const int TestStones = 50;
+        /// <summary>'가방 채우기' 장비 굴림 흐름 번호(피해 7·처치 보상 23·치명 31·궤짝 41과 겹치지 않음).</summary>
+        const ulong FillBagStream = 67;
 
         static readonly string[] Questions =
         {
@@ -90,6 +106,8 @@ namespace Demo6.Game
             public int Floor;
             public ulong Seed;
             public bool FirstVisit;
+            /// <summary>오우거 굴 장면(고정 돌방, 씨앗 없음).</summary>
+            public bool Den;
             public ArrivalKind Arrival;
             /// <summary>바구니로 내려와 줄 끝(가장 깊은 켠 승강장)에서 시작했나.</summary>
             public bool FromRopeEnd;
@@ -104,6 +122,8 @@ namespace Demo6.Game
             public int DeadEndEmpty;
             public int Deaths;
             public int Encounters;
+            /// <summary>이 층을 도는 동안(또는 그 전에) 시험 도구를 썼나(TestRunFlag, 4장 Q7). 한 번 켜지면 끄지 않는다.</summary>
+            public bool Test;
             /// <summary>바구니 출발을 이미 셌나(같은 층에 층 시작 알림이 두 번 와도 한 번만).</summary>
             internal bool StartCounted;
 
@@ -254,7 +274,12 @@ namespace Demo6.Game
             var kb = Keyboard.current;
             if (kb != null)
             {
-                if (kb.f1Key.wasPressedThisFrame) PanelVisible = !PanelVisible;
+                // F1(키 배치 1차 0장 5): 닫기는 바로, 열기는 DevPanelGate(Unity 편집기에서만 연다. 만든 게임에서는 아무 일도 하지 않는다).
+                if (kb.f1Key.wasPressedThisFrame)
+                {
+                    if (PanelVisible) PanelVisible = false;
+                    else if (DevPanelGate.RequestOpen(() => PanelVisible = true)) PanelVisible = true;
+                }
                 if (kb.escapeKey.wasPressedThisFrame && DungeonUi.Modal == SummaryModal) DungeonUi.Close(SummaryModal);
             }
             if (_pendingAction != null)
@@ -383,7 +408,9 @@ namespace Demo6.Game
                 Floor = floor,
                 Seed = root ? root.Seed : 0UL,
                 FirstVisit = firstVisit,
+                Den = root && root.IsDen,
                 Arrival = arrival,
+                Test = TestRunFlag.Marked,
             };
             s_runs.Add(run);
             return run;
@@ -409,6 +436,7 @@ namespace Demo6.Game
             run.DeadEndEmpty = DeadEndEmpty;
             run.Deaths = Deaths;
             run.Encounters = EncounterCount;
+            if (TestRunFlag.Marked) run.Test = true;
         }
 
         /// <summary>층 끝(계단·올라가기): 층 시간을 적고 기록을 닫는다. 처음 한 번만.</summary>
@@ -484,6 +512,9 @@ namespace Demo6.Game
 
         void OnGearDropped(string text)
         {
+            // 가방에서 내려놓거나 넘침 끝에서 벗어 발밑에 둔 장비가 내려앉은 것은 새 장비가 아니다(반박 검토: 빈 구간·새 것 간격을 거짓으로 끊지 않게).
+            var inv = Inventory.Instance;
+            if (inv && inv.TakePutDownLanding(text)) return;
             CurrentEmptyGap = 0f;
             AddNewThing("장비: " + text);
         }
@@ -601,6 +632,11 @@ namespace Demo6.Game
             _lines.Clear();
             var root = DungeonRoot.Instance;
             if (_run != null && _run.End == FloorRunEnd.Live) Snapshot(_run);
+            // 4장 Q7: 시험 도구를 쓴 판이면 맨 위에 적는다(숫자는 그대로 재되 재미 판정에는 참고만).
+            if (TestRunFlag.Marked) _lines.Add(($"{TestRunFlag.Label} — 시험 도구를 쓴 판이라 판정은 참고만", Info));
+            // 가방 손잡이(㉠·㉡)는 시험 판으로 적지 않지만, 앞 플레이에서 바꿔 남았을 수 있어 기본과 다르면 걸음 줄처럼 적는다(반박 검토).
+            string bagKnobs = BagKnobsLine();
+            if (bagKnobs != null) _lines.Add((bagKnobs, Info));
 
             int floor = root ? root.Floor : 1;
             float target = TargetSecondsFor(floor);
@@ -690,11 +726,15 @@ namespace Demo6.Game
             {
                 string median = r.MedianNew < 0f ? "없음" : $"{r.MedianNew:0}초";
                 string start = ArrivalName(r.Arrival) + (r.FromRopeEnd ? "·줄 끝" : "");
-                _runLines.Add(($"원정 {r.Expedition} · {r.Floor}층 · 씨앗 {r.Seed} · {(r.FirstVisit ? "고른 지도" : "새 갱도")} · {start} — " +
+                string test = r.Test ? "[" + TestRunMark.Title + "] " : "";
+                _runLines.Add(($"{test}원정 {r.Expedition} · {r.Floor}층 · 씨앗 {r.Seed} · {MapKind(r.Den, r.FirstVisit)} · {start} — " +
                                $"{DungeonUi.Clock(r.Seconds)} {EndName(r.End)} · 처음 본 칸 {r.FreshShare * 100f:0}% · 새 것 간격 중앙 {median}({r.NewThings}번) · " +
                                $"가장 긴 빈 구간 {r.LongestGap:0}초 · 막다른 곳 빈손 {r.DeadEndEmpty} · 쓰러짐 {r.Deaths}", RunVerdict(r)));
             }
         }
+
+        /// <summary>층 기록·씨앗 절의 지도 종류: 오우거 굴 / 고른 지도(처음 밟는 원정) / 새 갱도.</summary>
+        static string MapKind(bool den, bool firstVisit) => den ? OgreDen.Name : firstVisit ? "고른 지도" : "새 갱도";
 
         static int RunVerdict(FloorRun r)
         {
@@ -719,7 +759,9 @@ namespace Demo6.Game
             var root = DungeonRoot.Instance;
             int floor = root ? root.Floor : 1;
             var sb = new StringBuilder();
-            sb.AppendLine($"[{floor}층 탐험 기록 (3차 초안 7-3 · 매판 새 탐험 1차 5장)]");
+            sb.AppendLine($"[{floor}층 탐험 기록 (3차 초안 7-3 · 매판 새 탐험 1차 5장){(TestRunFlag.Marked ? " · " + TestRunFlag.Label : "")}]");
+            // 걸음 비교(1-2 '지금'과 B를 한 판씩)를 기록끼리 견줄 수 있게 지금 걸음 안을 적는다.
+            sb.AppendLine($"걸음 {PaceName()} (나 {Tuning.MoveSpeedScale:0.00} · 적 {Tuning.EnemyMoveScale:0.00} · 빠른 걸음 {(ExploreWalk.FastEverywhere ? "모든 칸" : "아는 길만")})");
             foreach (var line in _lines) sb.Append("- [").Append(Mark(line.verdict)).Append("] ").AppendLine(line.text);
             sb.AppendLine("층 기록 (원정·씨앗별):");
             if (_runLines.Count == 0) sb.AppendLine("  아직 없음");
@@ -782,16 +824,114 @@ namespace Demo6.Game
             Debug.Log(_seedPreviewText);
         }
 
+        /// <summary>시험 패널 손잡이·단추를 썼다: 이번 판을 '시험 판'(F1 시험 패널)으로 적는다(4장 Q7). 장면을 바꾸는 단추는 바꾸기 전에 불러 지금 층 기록에도 남긴다.</summary>
+        static void NoteTestUse() => TestRunFlag.Note(TestRunReason.DevPanel);
+
         static void RebuildWithSeed(ulong seed)
         {
+            NoteTestUse();
             var root = DungeonRoot.Instance;
             if (root) root.RebuildWithSeed(seed);
         }
 
         static void AscendForTest()
         {
+            NoteTestUse();
             var root = DungeonRoot.Instance;
             if (root) root.Ascend();
+        }
+
+        /// <summary>시험 패널 '오우거 굴로(시험)': 지금 층에서 계단을 쓴 것처럼 같은 원정으로 굴 장면에 간다(DungeonRoot.GoToDenForTest).</summary>
+        static void GoToDenForTest()
+        {
+            NoteTestUse();
+            var root = DungeonRoot.Instance;
+            if (root) root.GoToDenForTest();
+        }
+
+        /// <summary>
+        /// 시험 패널 '오프닝 의뢰 받기'(마을과 의뢰 첫 판 1-6): 마을 오프닝을 건너뛴 것과 같다(이름 공개·의뢰 둘 받기·본 장면).
+        /// 이미 이 층에 들어섰으므로 층 들어섬을 한 번 더 넣어 첫 의뢰가 다음 단계(바구니로 올라오기)로 넘어가게 한다.
+        /// </summary>
+        static void AcceptOpeningForTest()
+        {
+            NoteTestUse();
+            var root = DungeonRoot.Instance;
+            var result = TalkDirector.Skip(TownScript.Opening, 0, ProfileCarry.Ensure(), TownRoot.QuestCtx);
+            DungeonEvents.Say(result.Accepted.Count > 0 ? "시험: 오프닝 의뢰를 받았다" : "시험: 받을 오프닝 의뢰가 없다");
+            if (root && root.Playing) QuestTracker.Feed(QuestEvent.FloorEntered(root.Floor));
+            QuestHud.Refresh();
+        }
+
+        /// <summary>시험 패널 '진행 중 의뢰 모두 달성'. 보상은 주지 않는다(마을에서 보고해 받음).</summary>
+        static void AchieveQuestsForTest()
+        {
+            NoteTestUse();
+            var updates = new QuestBook(ProfileCarry.Ensure()).AchieveAllActive();
+            if (updates.Count == 0) DungeonEvents.Say("시험: 진행 중인 의뢰가 없다");
+            foreach (var u in updates)
+                if (u.Notice != null) DungeonEvents.Say(u.Notice);
+            QuestHud.Refresh();
+        }
+
+        /// <summary>
+        /// 시험 패널 '무기 종류(시험)'(키 배치 1차 0장 3): 숫자키 대신 이 단추로 무기 종류를 바꾼다. 예전 숫자키와 같은 길(PlayerController.SetWeapon)이라
+        /// Inventory가 낀 무기를 WithBase로 바꿔 등급·굴림·강화·옵션·전설은 그대로 두고 종류만 바꾼다. 무기 행동 중이면 SetWeapon이 막아 그대로다.
+        /// 실제로 바뀌었을 때만 이번 판을 '시험 판'(F1 시험 패널)으로 적는다.
+        /// </summary>
+        static void SetWeaponForTest(WeaponAttackRule weapon)
+        {
+            var player = PlayerController.Instance;
+            if (!player || weapon == null) return;
+            var before = player.Weapon;
+            player.SetWeapon(weapon);
+            if (player.Weapon != before) NoteTestUse();
+        }
+
+        /// <summary>시험 패널 '강화석 +50'(재화 쓸 곳 1차 14장): 이번 장면 강화석에 더한다(떠날 때 꾸러미에 담김).</summary>
+        static void AddStonesForTest()
+        {
+            var root = DungeonRoot.Instance;
+            if (!root || root.State == null) return;
+            NoteTestUse();
+            root.State.Stones += TestStones;
+            DungeonEvents.Say("시험: 강화석 +" + TestStones);
+        }
+
+        /// <summary>
+        /// 시험 패널 '가방 채우기'(재화 쓸 곳 1차 14장): 가방이 칸에 찰 때까지 이 층의 일반 장비(강화 +0, 부위를 돌려 가며)를 넣는다.
+        /// Inventory에는 시험용으로 장비를 넣는 입구가 없어 꾸러미를 거친다(ExportTo → 가방 줄에 더함 → ImportFrom).
+        /// 꾸러미의 장착·가방 줄은 떠날 때 ProfileCarry.Capture가 어차피 다시 적으므로 미리 적어도 결과가 같다.
+        /// </summary>
+        static void FillBagForTest()
+        {
+            var root = DungeonRoot.Instance;
+            var inv = Inventory.Instance;
+            if (!root || !inv) return;
+            int add = inv.Capacity - inv.BagCount;
+            if (add <= 0)
+            {
+                DungeonEvents.Say($"시험: 가방이 이미 찼다 ({inv.BagCount}/{inv.Capacity})");
+                return;
+            }
+            NoteTestUse();
+            var data = ProfileCarry.Ensure();
+            inv.ExportTo(data);
+            int floor = FloorScaling.Clamp(root.Floor);
+            var rng = new Demo6.Core.Random.Pcg32Random((ulong)DateTime.UtcNow.Ticks, FillBagStream);
+            for (int i = 0; i < add; i++) data.Bag.Add(CommonGear((GearPart)(i % GearSlots.PartCount), floor, rng));
+            inv.ImportFrom(data);
+            DungeonEvents.Say($"시험: 가방을 일반 장비로 채웠다 ({inv.BagCount}/{inv.Capacity})");
+        }
+
+        /// <summary>그 부위의 일반 장비 하나(강화 +0): 이 층에 풀린 종류 가운데 하나, 굴림 900~1100‰, 일반 옵션 줄(LootRules.RollGear와 같은 재료).</summary>
+        static GearItem CommonGear(GearPart part, int floor, Demo6.Core.Random.IRandom rng)
+        {
+            var kinds = GearBaseTable.ForPart(part, floor);
+            if (kinds.Count == 0) kinds = GearBaseTable.ForPart(part);
+            var kind = kinds[rng.NextInt(0, kinds.Count)];
+            int roll = rng.NextInt(GearMath.RollMinPermille, GearMath.RollMaxPermille + 1);
+            return new GearItem(kind.Id, Grade.Common, floor, roll, 0, OptionTable.RollAll(part, Grade.Common, floor, rng));
         }
 
         // ── 화면 ─────────────────────────────────────────────
@@ -801,9 +941,10 @@ namespace Demo6.Game
             var root = DungeonRoot.Instance;
             if (!root || root.State == null || _hidden) return;
             DungeonUi.Begin();
-            if (_smallButton == null) _smallButton = new GUIStyle(GUI.skin.button) { fontSize = 15, wordWrap = false };
+            if (_smallButton == null) _smallButton = new GUIStyle(GUI.skin.button) { fontSize = 14, wordWrap = true, padding = new RectOffset(5,5,4,4), margin=new RectOffset(2,2,3,3) };
             GUI.depth = -5;
-            if (PanelVisible) DrawPanel(root);
+            // 멈춤 창이 열려 있으면 F1 패널만 그리지 않는다(층 기록 창은 그대로, 저장·처음 화면·멈춤 창 1차 5-1·8-1).
+            if (PanelVisible && !PauseMenu.IsOpen) DrawPanel(root);
             if (DungeonUi.Modal == SummaryModal) DrawSummary(root);
         }
 
@@ -819,7 +960,7 @@ namespace Demo6.Game
             foreach (var line in lines)
             {
                 GUI.color = VerdictColor(line.verdict);
-                GUILayout.Label(line.text, DungeonUi.Small);
+                GUILayout.Label(line.text, DungeonUi.Small, GUILayout.MaxWidth(Instance && Instance.PanelVisible ? PanelWidth - 64f : 780f));
             }
             GUI.color = prev;
         }
@@ -894,62 +1035,199 @@ namespace Demo6.Game
             if(DungeonUi.CloseButton(_panelRect,"닫기 · F1")){PanelVisible=false;return;}
             GUI.Label(new Rect(_panelRect.x+18f,_panelRect.y+16f,_panelRect.width-92f,36f),"개발 · 탐험 기록",DungeonUi.Title);
             GUILayout.BeginArea(new Rect(_panelRect.x + 16f, _panelRect.y + 60f, _panelRect.width - 32f, _panelRect.height - 76f));
-            _scroll = GUILayout.BeginScrollView(_scroll);
+            _scroll = GUILayout.BeginScrollView(_scroll, false, true, GUIStyle.none, GUI.skin.verticalScrollbar);
+            GUILayout.BeginVertical(GUILayout.Width(_panelRect.width - 64f));
 
             GUILayout.Label("[F1] 닫기",DungeonUi.Small);
-            GUILayout.Label("멈춘 시간(지도·창)은 빼고 잰다. 초록 = 기준 안, 주황 = 벗어남, 회색 = 아직 모자람.", DungeonUi.Small);
+            var back = DevPanelExtras.DrawBackToLauncher(_smallButton); if (back != null) _pendingAction = back;
+            GUILayout.Label("멈춘 시간(지도·창)은 빼고 잰다. 초록 = 기준 안, 주황 = 벗어남, 회색 = 아직 모자람.", DungeonUi.Small, GUILayout.MaxWidth(PanelWidth - 64f));
 
             Section("판정 기록 (7-3 · 매판 새 탐험 5장)");
             DrawMeasures();
 
             Section("시험 손잡이");
+            // 4장 Q7: 판을 쉽게 바꾸는 손잡이(어둠·무적·지도 전부·시야·부채꼴·곡괭이·올라가기·굴로)를 바꾸면 시험 판으로 적는다.
+            // 걸음·웅크림 배율·기척·피 발자국·정수리 시점은 판정 때 견줘 보는 손잡이라(걸음은 기록 글에 적힘) 적지 않는다.
             GUILayout.BeginHorizontal();
             var lighting = DungeonLighting.Instance;
             if (lighting)
             {
                 bool dark = GUILayout.Toggle(lighting.DarknessOn, "어둠");
-                if (dark != lighting.DarknessOn) lighting.DarknessOn = dark;
+                if (dark != lighting.DarknessOn)
+                {
+                    lighting.DarknessOn = dark;
+                    NoteTestUse();
+                }
             }
-            Tuning.Invincible = GUILayout.Toggle(Tuning.Invincible, "무적");
+            bool invincible = GUILayout.Toggle(Tuning.Invincible, "무적");
+            if (invincible != Tuning.Invincible)
+            {
+                Tuning.Invincible = invincible;
+                NoteTestUse();
+            }
+            // 투지(기획/스킬-자원-트리-1차.md): 쓰지 않기 손잡이와 가득 채우기.
+            GUILayout.BeginHorizontal();
+            bool spiritFree = GUILayout.Toggle(PlayerController.SpiritFree, "투지 쓰지 않기");
+            if (spiritFree != PlayerController.SpiritFree)
+            {
+                PlayerController.SpiritFree = spiritFree;
+                NoteTestUse();
+            }
+            if (PlayerController.Instance && GUILayout.Button("투지 가득", GUILayout.Width(90)))
+            {
+                PlayerController.Instance.FillSpirit();
+                NoteTestUse();
+            }
+            GUILayout.EndHorizontal();
+            // 쓰러짐 대가(시스템-컨텐츠-다듬기-검토-1차.md 묶음 5): 체력 60%·물약 그대로, 주머니 몫, 쉬기 다시 쓰기.
+            bool penalty = GUILayout.Toggle(DownTuning.Penalty, "쓰러지면 체력 " + Mathf.RoundToInt(DownTuning.HpFraction * 100f) + "% · 물약 그대로");
+            if (penalty != DownTuning.Penalty)
+            {
+                DownTuning.Penalty = penalty;
+                NoteTestUse();
+            }
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("주머니 " + Mathf.RoundToInt(DownTuning.PouchShare * 100f) + "%", GUILayout.Width(90));
+            float share = Mathf.Round(GUILayout.HorizontalSlider(DownTuning.PouchShare, 0f, 0.5f) * 20f) / 20f;
+            if (!Mathf.Approximately(share, DownTuning.PouchShare))
+            {
+                DownTuning.PouchShare = share;
+                NoteTestUse();
+            }
+            var downRoot = DungeonRoot.Instance;
+            if (downRoot && downRoot.Leg != null && downRoot.Leg.Rested && GUILayout.Button("쉬기 다시", GUILayout.Width(80)))
+            {
+                downRoot.Leg.Rested = false;
+                NoteTestUse();
+            }
+            if (downRoot && downRoot.Leg != null && GUILayout.Button("기름 +2", GUILayout.Width(70)))
+            {
+                downRoot.Leg.Oil = Demo6.Core.Dungeon.DownRules.AddOil(downRoot.Leg.Oil, 2);
+                NoteTestUse();
+            }
+            GUILayout.EndHorizontal();
             var map = BigMap.Instance;
-            if (map) map.RevealAll = GUILayout.Toggle(map.RevealAll, "지도 전부 보기");
+            if (map)
+            {
+                bool revealAll = GUILayout.Toggle(map.RevealAll, "지도 전부 보기");
+                if (revealAll != map.RevealAll)
+                {
+                    map.RevealAll = revealAll;
+                    NoteTestUse();
+                }
+            }
             GUILayout.EndHorizontal();
 
             var vision = VisionSystem.Instance;
             if (vision)
             {
-                GUILayout.BeginHorizontal();
-                vision.VisionOn = GUILayout.Toggle(vision.VisionOn, "시야(벽에 가림·기억 안개)");
+                bool visionOn = GUILayout.Toggle(vision.VisionOn, "시야(벽에 가림·기억 안개)");
+                if (visionOn != vision.VisionOn)
+                {
+                    vision.VisionOn = visionOn;
+                    NoteTestUse();
+                }
                 GUI.enabled = vision.VisionOn;
-                vision.ConeOn = GUILayout.Toggle(vision.ConeOn, "바라보는 쪽 부채꼴");
+                bool coneOn = GUILayout.Toggle(vision.ConeOn, "바라보는 쪽 부채꼴");
+                if (coneOn != vision.ConeOn)
+                {
+                    vision.ConeOn = coneOn;
+                    NoteTestUse();
+                }
+                // 시야와 문 1차 13장 손잡이(넘길 일 H1). 보는 칸 밖 가리기·적은 부채꼴 안만 보임을 끄면 판이 쉬워지므로 시험 판으로 적는다(Q7).
+                // 칸 살핌 경험치·등 뒤 기척 소리·문 자리 비틀기는 견줘 보는 손잡이라 적지 않는다. 바뀔 때만 넣는다(속성 setter가 미룬 경험치를 줄 수 있음).
+                bool roomClip = GUILayout.Toggle(vision.RoomClipOn, "보는 칸 밖 가리기");
+                if (roomClip != vision.RoomClipOn)
+                {
+                    vision.RoomClipOn = roomClip;
+                    if (!roomClip) NoteTestUse();
+                }
+                bool enemyCone = GUILayout.Toggle(vision.EnemyConeOn, "적은 부채꼴 안만 보임");
+                if (enemyCone != vision.EnemyConeOn)
+                {
+                    vision.EnemyConeOn = enemyCone;
+                    if (!enemyCone) NoteTestUse();
+                }
+                bool sweepXp = GUILayout.Toggle(vision.SweepXpOn, "칸 살핌 경험치");
+                if (sweepXp != vision.SweepXpOn) vision.SweepXpOn = sweepXp;
                 GUI.enabled = true;
-                GUILayout.EndHorizontal();
+                var viewCell = vision.ViewCell;
+                int sweptPercent = viewCell != null ? Mathf.FloorToInt(vision.SweepProgress(viewCell) * 100f + 0.001f) : 0;
+                GUILayout.Label($"보는 칸 {(viewCell != null ? viewCell.Name : "-")} · 살핌 {sweptPercent}%", DungeonUi.Small, GUILayout.MaxWidth(PanelWidth - 64f));
             }
+            GUILayout.BeginHorizontal();
+            BehindSounds.Enabled = GUILayout.Toggle(BehindSounds.Enabled, "등 뒤 기척 소리");
+            DungeonWorld.DoorShiftOn = GUILayout.Toggle(DungeonWorld.DoorShiftOn, "문 자리 비틀기(다시 짓기 뒤)");
+            GUILayout.EndHorizontal();
             // 정수리 시점 시험판(전투 시험장 '그림' 절과 같은 토글).
             TopDownView.Enabled = GUILayout.Toggle(TopDownView.Enabled, "정수리 시점(시험)");
 
-            // 걷기 무게(전투 시험장 '손맛 조절'과 같은 값). 0.01 단위라 기본값 0.86이 그대로 남는다.
+            // 걸음(전투·보스·무기 다듬기 1차 1-2, 전투 시험장 '손맛 조절'과 같은 값). 비교안 단추는 나·적 배율을 함께 넣는다.
+            // 0.01 단위라 기본값 B 0.80 / 0.93이 그대로 남는다. '지금'만 빠른 걸음을 처음 가는 칸에서도 켠다(예전 탐험 걸음).
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("걸음 비교안 · " + PaceName(), DungeonUi.Small, GUILayout.Width(150f));
+            foreach (var option in ExplorePace.Options)
+            {
+                if (!GUILayout.Button(option.Name, _smallButton)) continue;
+                Tuning.MoveSpeedScale = option.PlayerScale;
+                Tuning.EnemyMoveScale = option.EnemyScale;
+                ExploreWalk.FastEverywhere = option.FastEverywhere;
+            }
+            GUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();
             GUILayout.Label($"이동 속도 배율 {Tuning.MoveSpeedScale:0.00}", DungeonUi.Small, GUILayout.Width(150f));
-            float moveScale = GUILayout.HorizontalSlider(Tuning.MoveSpeedScale, 0.6f, 1.2f);
+            float moveScale = GUILayout.HorizontalSlider(Tuning.MoveSpeedScale, 0.5f, 1.2f);
             GUILayout.EndHorizontal();
             if (moveScale != Tuning.MoveSpeedScale) Tuning.MoveSpeedScale = Mathf.Round(moveScale * 100f) / 100f;
             GUILayout.BeginHorizontal();
-            Tuning.MoveInertia = GUILayout.Toggle(Tuning.MoveInertia, "가감속(묵직함)");
-            if (GUILayout.Button("손맛 기본값으로", _smallButton)) Tuning.ResetToDefaults();
+            GUILayout.Label($"적 걸음 배율 {Tuning.EnemyMoveScale:0.00}", DungeonUi.Small, GUILayout.Width(150f));
+            float enemyScale = GUILayout.HorizontalSlider(Tuning.EnemyMoveScale, 0.7f, 1.1f);
             GUILayout.EndHorizontal();
-            GUILayout.Label($"걸음 {PlayerController.EquippedWalkSpeed * Tuning.MoveSpeedScale:0.00} · 탐험 걸음 {ExploreWalk.ScaledSpeed:0.00} (배율 1이면 5.30 · 6.50, 굴쥐 4.2)", DungeonUi.Small);
+            if (enemyScale != Tuning.EnemyMoveScale) Tuning.EnemyMoveScale = Mathf.Round(enemyScale * 100f) / 100f;
+            GUILayout.BeginHorizontal();
+            Tuning.MoveInertia = GUILayout.Toggle(Tuning.MoveInertia, "가감속(묵직함)");
+            ExploreWalk.FastEverywhere = GUILayout.Toggle(ExploreWalk.FastEverywhere, "빠른 걸음 모든 칸(예전)");
+            // Tuning.ResetToDefaults는 걸음·웅크림만이 아니라 '가방·재화' 절의 두 손잡이(저절로 분해(일반)·저절로 줍기 여유 칸)와 무적 같은 Tuning 값도 모두 기본으로 되돌린다.
+            if (GUILayout.Button(ResetKnobsContent, _smallButton))
+            {
+                Tuning.ResetToDefaults();
+                ExploreWalk.FastEverywhere = false;
+            }
+            GUILayout.EndHorizontal();
+            // 걸음은 장비 이동 능력치를 넣은 값(PlayerController.WalkSpeed, 시작 장비 5.30)을 보인다. 굴쥐는 4.2 × 적 배율.
+            float walk = PlayerController.Instance ? PlayerController.Instance.WalkSpeed : PlayerController.EquippedWalkSpeed;
+            GUILayout.Label($"걸음 {walk * Tuning.MoveSpeedScale:0.00} / 아는 길 {ExploreWalk.ScaledSpeed:0.00} / 굴쥐 {ExplorePace.RatSpeed * Tuning.EnemyMoveScale:0.00} (배율 1이면 시작 장비 5.30 · 6.50 · 4.20)", DungeonUi.Small, GUILayout.MaxWidth(PanelWidth - 64f));
+            // 웅크리기(결정 ③, 키 C): 걸음·소음 배율. 시야 좁히기(40° / 10 / 2.0)는 Tuning 기본값 그대로.
+            GUILayout.BeginHorizontal();
+            GUILayout.Label($"웅크림 걸음 × {Tuning.CrouchMoveScale:0.00}", DungeonUi.Small, GUILayout.Width(150f));
+            float crouchMove = GUILayout.HorizontalSlider(Tuning.CrouchMoveScale, 0.3f, 1f);
+            GUILayout.EndHorizontal();
+            if (crouchMove != Tuning.CrouchMoveScale) Tuning.CrouchMoveScale = Mathf.Round(crouchMove * 100f) / 100f;
+            GUILayout.BeginHorizontal();
+            GUILayout.Label($"웅크림 소음 × {Tuning.CrouchNoiseScale:0.00}", DungeonUi.Small, GUILayout.Width(150f));
+            float crouchNoise = GUILayout.HorizontalSlider(Tuning.CrouchNoiseScale, 0.1f, 1f);
+            GUILayout.EndHorizontal();
+            if (crouchNoise != Tuning.CrouchNoiseScale) Tuning.CrouchNoiseScale = Mathf.Round(crouchNoise * 100f) / 100f;
+            // 소리와 피(4장, 판정 때 끄고 켜 본다).
+            GUILayout.BeginHorizontal();
+            LurkSounds.Enabled = GUILayout.Toggle(LurkSounds.Enabled, "기척");
+            GoreFootprints.Enabled = GUILayout.Toggle(GoreFootprints.Enabled, "피 발자국");
+            GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
             GUI.enabled = !state.HasPickaxe;
             if (GUILayout.Button(state.HasPickaxe ? "곡괭이 있음" : "곡괭이 받기"))
             {
                 state.HasPickaxe = true;
+                NoteTestUse();
                 DungeonEvents.Say("시험: 곡괭이를 받았다");
             }
             GUI.enabled = true;
             if (GUILayout.Button("바구니로 올라가기(시험)")) _pendingAction = AscendForTest;
             GUILayout.EndHorizontal();
+
+            // 오우거 굴(전투·보스 문서 3-8): 굴 장면으로 바로 가기와 꾸러미 보스 기록.
+            DrawDen(root);
 
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("기록 처음부터")) ResetMeasures();
@@ -957,11 +1235,21 @@ namespace Demo6.Game
             if (GUILayout.Button("층 기록 창")) _summaryPending = true;
             GUILayout.EndHorizontal();
 
+            Section("무기 종류(시험)");
+            DrawWeaponKinds();
+
+            Section("가방·재화 (재화 쓸 곳 1차 14장)");
+            DrawBagTools(root);
+            Section("시험 도구 (저장·처음 화면·멈춤 창 1차 8-2)"); var tool = DevPanelExtras.DrawDungeonTools(root, _smallButton, PanelWidth - 64f); if (tool != null) _pendingAction = tool;
+
+            Section("의뢰 (마을과 의뢰 첫 판)");
+            DrawQuests(root);
+
             Section("갱도 씨앗");
             DrawSeeds(root);
 
             Section("층 기록 (원정·씨앗별)");
-            if (_runLines.Count == 0) GUILayout.Label("아직 없음", DungeonUi.Small);
+            if (_runLines.Count == 0) GUILayout.Label("아직 없음", DungeonUi.Small, GUILayout.MaxWidth(PanelWidth - 64f));
             else DrawLines(_runLines);
 
             Section("칸으로 순간 이동");
@@ -978,28 +1266,150 @@ namespace Demo6.Game
                         col = 0;
                     }
                     string mark = cell.Visited ? "" : " ·";
-                    if (GUILayout.Button(cell.Id + " " + cell.Name + mark, _smallButton, GUILayout.Width(124f), GUILayout.Height(24f))) TeleportTo(root, cell);
+                    if (GUILayout.Button(cell.Id + " " + cell.Name + mark, _smallButton, GUILayout.Width((_panelRect.width - 64f) / 3f), GUILayout.Height(40f))) TeleportTo(root, cell);
                     col++;
                 }
                 GUILayout.EndHorizontal();
-                GUILayout.Label("· = 아직 안 간 칸. 순간 이동한 걸음은 되돌아간 걸음에 넣지 않는다.", DungeonUi.Small);
+                GUILayout.Label("· = 아직 안 간 칸. 순간 이동한 걸음은 되돌아간 걸음에 넣지 않는다.", DungeonUi.Small, GUILayout.MaxWidth(PanelWidth - 64f));
             }
 
             Section("최근 새 것");
-            if (_recent.Count == 0) GUILayout.Label("아직 없음", DungeonUi.Small);
-            for (int i = _recent.Count - 1; i >= 0; i--) GUILayout.Label(_recent[i], DungeonUi.Small);
+            if (_recent.Count == 0) GUILayout.Label("아직 없음", DungeonUi.Small, GUILayout.MaxWidth(PanelWidth - 64f));
+            for (int i = _recent.Count - 1; i >= 0; i--) GUILayout.Label(_recent[i], DungeonUi.Small, GUILayout.MaxWidth(PanelWidth - 64f));
 
+            GUILayout.EndVertical();
             GUILayout.EndScrollView();
             GUILayout.EndArea();
         }
 
-        /// <summary>'갱도 씨앗' 절: 지금 씨앗·지도 글자, 다시 짓기 단추 둘, 씨앗 10개 보기(글자 지도 + 복사).</summary>
+        /// <summary>'의뢰' 절: 의뢰마다 상태 줄, 받기 전 기록(2층 계단 앞 말뚝), 시험 단추 둘. 보상은 마을에서 보고할 때만 들어간다.</summary>
+        void DrawQuests(DungeonRoot root)
+        {
+            var carry = ProfileCarry.Ensure();
+            var book = new QuestBook(carry);
+            foreach (var q in QuestTable.All) GUILayout.Label(book.DebugLine(q.Id), DungeonUi.Small, GUILayout.MaxWidth(PanelWidth - 64f));
+            GUILayout.Label("받기 전 기록 2층 계단 앞 말뚝: " + (TownSave.HasMilestone(carry, TownSave.MilestoneStairsF2) ? "있음" : "없음"), DungeonUi.Small, GUILayout.MaxWidth(PanelWidth - 64f));
+            GUILayout.Label("올라가면: " + (root.AscendsToTown ? "마을(Town)" : "옛 흐름 — Town 장면을 찾지 못함"), DungeonUi.Small, GUILayout.MaxWidth(PanelWidth - 64f));
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("오프닝 의뢰 받기", _smallButton)) _pendingAction = AcceptOpeningForTest;
+            if (GUILayout.Button("진행 중 의뢰 모두 달성", _smallButton)) _pendingAction = AchieveQuestsForTest;
+            GUILayout.EndHorizontal();
+        }
+
+        /// <summary>
+        /// '무기 종류(시험)' 절(키 배치 1차 0장 3, 전투 시험장 패널 '무기' 단추와 같은 모양): WeaponPresets.All 9종을 한 줄에 셋, 지금 무기는 눌린 단추.
+        /// 누르면 다음 Update에서 SetWeaponForTest(종류만 바꿈·시험 판으로 적음). 숫자키로는 바꾸지 않는다(0장 2).
+        /// </summary>
+        void DrawWeaponKinds()
+        {
+            var player = PlayerController.Instance;
+            if (!player)
+            {
+                GUILayout.Label("플레이어 없음", DungeonUi.Small, GUILayout.MaxWidth(PanelWidth - 64f));
+                return;
+            }
+            var now = player.Weapon;
+            var equipped = Inventory.Instance ? Inventory.Instance.Equipped : null;
+            GUILayout.Label("지금 " + (now != null ? now.displayName : "-") + (equipped != null ? " · 낀 것 " + equipped.DisplayName : "") +
+                            (player.InWeaponAct ? " · 무기 행동 중에는 바뀌지 않는다" : ""), DungeonUi.Small, GUILayout.MaxWidth(PanelWidth - 64f));
+            var weapons = WeaponPresets.All;
+            float width = (_panelRect.width - 64f) / 3f;
+            for (int row = 0; row < weapons.Length; row += 3)
+            {
+                GUILayout.BeginHorizontal();
+                for (int i = row; i < row + 3 && i < weapons.Length; i++)
+                {
+                    var w = weapons[i];
+                    bool selected = now == w;
+                    if (GUILayout.Toggle(selected, w.displayName, _smallButton, GUILayout.Width(width)) && !selected)
+                        _pendingAction = () => SetWeaponForTest(w);
+                }
+                GUILayout.EndHorizontal();
+            }
+        }
+
+        /// <summary>
+        /// '가방·재화' 절(재화 쓸 곳 1차 14장 던전 F1): 가방 칸 줄, '저절로 분해(일반) 켬/끔'(㉡, Tuning.AutoSalvageCommon),
+        /// '저절로 줍기 여유 칸 0/3'(㉠, Tuning.AutoPickupReserve), '강화석 +50', '가방 채우기(일반 장비로)'.
+        /// 두 손잡이는 ㉠·㉡을 견줘 보는 값이라 시험 판으로 적지 않고, 강화석·가방 채우기는 판을 쉽게 바꾸므로 적는다(NoteTestUse).
+        /// 두 손잡이는 Tuning 정적 값이라 다음 플레이까지 남는다(도메인 다시 불러오기 꺼짐). 기본과 다르면 판정 기록·복사 글에 한 줄(BagKnobsLine)을 남기고,
+        /// '손맛 기본값으로'(Tuning.ResetToDefaults)를 누르면 걸음과 함께 기본(켬 · 0)으로 돌아간다.
+        /// </summary>
+        void DrawBagTools(DungeonRoot root)
+        {
+            var inv = Inventory.Instance;
+            if (inv)
+                GUILayout.Label($"가방 {inv.BagCount}/{inv.Capacity} · 넘침 끝 {inv.HardCap} · 강화석 {root.State.Stones}" + (inv.BagFull ? " · 가득" : inv.NearlyFull ? " · 거의 참" : ""),
+                    DungeonUi.Small, GUILayout.MaxWidth(PanelWidth - 64f));
+            GUILayout.BeginHorizontal();
+            Tuning.AutoSalvageCommon = GUILayout.Toggle(Tuning.AutoSalvageCommon, ForgeText.AutoSalvageToggle(Tuning.AutoSalvageCommon));
+            bool reserve = GUILayout.Toggle(Tuning.AutoPickupReserve > 0, ForgeText.AutoReserveToggle(Tuning.AutoPickupReserve));
+            Tuning.AutoPickupReserve = reserve ? BagRules.AutoReserveSlots : 0;
+            GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("강화석 +" + TestStones, _smallButton)) _pendingAction = AddStonesForTest;
+            GUI.enabled = inv != null;
+            if (GUILayout.Button("가방 채우기(일반 장비로, 칸까지)", _smallButton)) _pendingAction = FillBagForTest;
+            GUI.enabled = true;
+            GUILayout.EndHorizontal();
+        }
+
+        /// <summary>
+        /// 가방 손잡이 줄(재화 쓸 곳 1차 5-2·14장): 두 값이 기본(저절로 분해 켬 · 여유 칸 0, Tuning.ResetToDefaults)과 다르면
+        /// "가방 손잡이: 저절로 분해 끔 · 여유 칸 3 (기본 켬 · 0)", 기본이면 null. 판정 기록과 복사 글(BuildReport가 판정 줄을 옮김)에 들어간다.
+        /// </summary>
+        static string BagKnobsLine()
+        {
+            bool salvage = Tuning.AutoSalvageCommon;
+            int reserve = Tuning.AutoPickupReserve;
+            if (salvage == BagRules.AutoSalvageCommonDefault && reserve == 0) return null;
+            return $"가방 손잡이: 저절로 분해 {OnOff(salvage)} · 여유 칸 {reserve} (기본 {OnOff(BagRules.AutoSalvageCommonDefault)} · 0)";
+        }
+
+        static string OnOff(bool on) => on ? "켬" : "끔";
+
+        /// <summary>'손맛 기본값으로' 단추(말풍선: 가방 손잡이도 함께 돌아간다).</summary>
+        static readonly GUIContent ResetKnobsContent = new GUIContent("손맛 기본값으로",
+            "걸음·웅크림 배율과 함께 가방 손잡이(저절로 분해(일반)·저절로 줍기 여유 칸)도 기본으로 돌아간다");
+
+        /// <summary>지금 걸음 배율이 맞는 비교안 이름(1-2). 슬라이더로 바꿔 어느 안과도 맞지 않으면 '직접'.</summary>
+        static string PaceName()
+        {
+            foreach (var option in ExplorePace.Options)
+                if (Mathf.Approximately(Tuning.MoveSpeedScale, option.PlayerScale)
+                    && Mathf.Approximately(Tuning.EnemyMoveScale, option.EnemyScale)
+                    && ExploreWalk.FastEverywhere == option.FastEverywhere)
+                    return option.Name;
+            return "직접";
+        }
+
+        /// <summary>
+        /// 시험 패널 오우거 굴 줄: 꾸러미 보스 기록(처치·쓰러짐·굴 앞 말뚝·'보스방 앞' 보임)과 '오우거 굴로(시험)' 단추.
+        /// 굴 안이거나 던전에 굴이 없으면 단추를 막는다.
+        /// </summary>
+        void DrawDen(DungeonRoot root)
+        {
+            var carry = ProfileCarry.Ensure();
+            GUILayout.Label($"오우거 굴{(root.IsDen ? "(지금 여기)" : "")}: 처치 {BossLedger.Kills(carry, OgreDen.BossId)} · 쓰러짐 {BossLedger.Losses(carry, OgreDen.BossId)} · " +
+                            $"굴 앞 말뚝 {(BossLedger.StakeLit(carry, OgreDen.FrontStakeId) ? "켬" : "아직")} · '보스방 앞' {(BossLedger.FrontLandingOpen(carry) ? "보임" : "없음")}",
+                DungeonUi.Small, GUILayout.MaxWidth(PanelWidth - 64f));
+            GUI.enabled = !root.IsDen && OgreDen.InDungeon;
+            if (GUILayout.Button(OgreDen.InDungeon ? "오우거 굴로(시험)" : "오우거 굴 없음")) _pendingAction = GoToDenForTest;
+            GUI.enabled = true;
+        }
+
+        /// <summary>'갱도 씨앗' 절: 지금 씨앗·지도 글자, 다시 짓기 단추 둘, 씨앗 10개 보기(글자 지도 + 복사). 오우거 굴은 고정 지도라 다시 짓기를 막는다.</summary>
         void DrawSeeds(DungeonRoot root)
         {
             EnsureMono();
             int traces = root.Traces != null ? root.Traces.Count : 0;
-            GUILayout.Label($"씨앗 {root.Seed} · {(root.FirstVisit ? "고른 지도" : "새 갱도")} · {root.Floor}층 · 원정 {root.Expedition}번째 · 흔적 {traces}", DungeonUi.Small);
+            GUILayout.Label($"씨앗 {root.Seed} · {MapKind(root.IsDen, root.FirstVisit)} · {root.Floor}층 · 원정 {root.Expedition}번째 · 흔적 {traces}", DungeonUi.Small, GUILayout.MaxWidth(PanelWidth - 64f));
             if (!string.IsNullOrEmpty(root.Glyphs)) GUILayout.Label(root.Glyphs.TrimEnd('\n'), _monoStyle);
+            if (root.IsDen)
+            {
+                GUILayout.Label("굴은 고정 지도(돌로 쌓은 곳)라 씨앗으로 다시 짓지 않는다.", DungeonUi.Small, GUILayout.MaxWidth(PanelWidth - 64f));
+                return;
+            }
 
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("이 씨앗으로 다시", _smallButton))
@@ -1017,7 +1427,7 @@ namespace Demo6.Game
 
             if (_seedPreview.Count == 0) return;
             GUILayout.BeginHorizontal();
-            GUILayout.Label(_seedPreviewTitle, DungeonUi.Small);
+            GUILayout.Label(_seedPreviewTitle, DungeonUi.Small, GUILayout.MaxWidth(PanelWidth - 64f));
             if (GUILayout.Button("복사", _smallButton, GUILayout.Width(56f))) GUIUtility.systemCopyBuffer = _seedPreviewText;
             if (GUILayout.Button("접기", _smallButton, GUILayout.Width(56f))) _wantFoldPreview = true;
             GUILayout.EndHorizontal();
@@ -1028,6 +1438,7 @@ namespace Demo6.Game
         {
             var player = root.Player;
             if (!player || player.IsDown) return;
+            NoteTestUse();
             player.Teleport(cell.Center);
             if (root.CameraRig) root.CameraRig.Snap();
             _hasLastPos = false;
@@ -1063,3 +1474,4 @@ namespace Demo6.Game
         }
     }
 }
+

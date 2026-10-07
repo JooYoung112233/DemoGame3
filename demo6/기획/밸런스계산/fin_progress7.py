@@ -9,7 +9,7 @@
  - A = 공격력 × (1 + 치명 × (치명 피해 − 1)) × [0.65 × 콤보 계수 × (1 + 공격 속도) ÷ 1.49 + 0.35 × (1 + 스킬 피해) ÷ (1 − 재사용 감소)]
        × (1 + 0.2 × 보스 피해)   (2-2). 콤보 계수 장검 1.49, 대검 1.45, 쌍검 1.59. 무기 고유 치명 장검 +20‰/+100‰, 대검 0/+500‰, 쌍검 +40‰/−200‰.
    S·M·종합 변화율은 2차 그대로.
- - 옵션 풀 32줄(5-3, 부위 전용, 고정값 옵션은 × iLv 배율). 드랍 부위 = 부위 ‰ 340 / 105·75·75·75 / 180·150(8-1, 묶음 340/330/330).
+ - 옵션 풀 32줄(5-3, 부위 전용, 고정값 옵션은 × iLv 배율). 굴린 값 × 옵션 세기 0.8(12장 밸런스 결정 ①, 아래 OPT_MULT). 드랍 부위 = 부위 ‰ 340 / 105·75·75·75 / 180·150(8-1, 묶음 340/330/330).
    희귀 이상은 부위 점수(2차 6-6 장비 점수, 빈 자리 0, 반지는 두 자리 중 약한 쪽)가 가장 낮은 2부위만 가중치 ×3(8-2).
  - 전설은 효과 1/3 → 효과의 부위 묶음 비율(6장: 번개 무기 700·장갑 300, 발자국 장화 600·갑옷 400, 폭발 목걸이 500·투구 300·반지 200).
    10층 보스 첫 처치 보장 전설은 '아직 없는 효과'를 먼저 고르고 그 효과의 부위 가운데 점수가 가장 낮은 부위. 효과는 두 값 점수에 넣지 않는다.
@@ -36,7 +36,9 @@
    WPN_CRIT=장검,대검,쌍검 / WPN_CD=장검,대검,쌍검 (‰, 무기 종류 고유, 기본 20,0,40 / 100,500,-200).
  - METRICS_JSON=1: 마지막 줄에 비교용 지표 JSON(#METRICS7 …). fin_variants.py fin7 묶음이 읽는다.
  - THRESH_PM=무기,갑옷,투구,장갑,장화,반지,목걸이 (‰, 기본 30,20,10,10,10,10,10): 부위 문턱 후보 시험용.
- - 진단용(원인 나눠 보기, 기획 값 아님): THRESH_FLAT=0.03(모든 부위 문턱을 2차 +3%로), NO_FILL=1(빈 자리 채우기 끔), OPT_MULT=배율(모든 옵션 값).
+ - OPT_MULT=배율(모든 옵션 값, 기본 0.8): 12장 '밸런스 결정' ①(2026-10-04 사용자) = 코드 OptionTable.ScalePermille 800‰.
+   OPT_MULT=1 이면 결정 전 판(fin7_variants_opt10.txt 의 기준)이다.
+ - 진단용(원인 나눠 보기, 기획 값 아님): THRESH_FLAT=0.03(모든 부위 문턱을 2차 +3%로), NO_FILL=1(빈 자리 채우기 끔).
 실행: python fin_progress7.py [인원=1500] [체력성장=1.25] [정책 c|g] [10층 R50=1.05] [5층 R50=0.95] [공격성장=1.20]
   기획 값: python fin_progress7.py 2000 1.27 c 1.00 0.95 1.24          (드랍 ×1.0)
           DROP_MULT=1.2 python fin_progress7.py 2000 1.27 c 1.00 0.95 1.24   (드랍 ×1.2)
@@ -92,7 +94,7 @@ THRESH = (.03, .02, .01, .01, .01, .01, .01)             # 8-5 부위 문턱
 if os.environ.get("THRESH_PM"): THRESH = _permille_env("THRESH_PM", "30,20,10,10,10,10,10")   # 7칸 손잡이: 부위 문턱(‰, 부위 차례)
 if os.environ.get("THRESH_FLAT"): THRESH = (float(os.environ["THRESH_FLAT"]),) * 7   # 7칸 진단: 모든 부위 같은 문턱(2차 = 0.03)
 NO_FILL = os.environ.get("NO_FILL") == "1"               # 7칸 진단: 빈 자리 채우기 끔
-OPT_MULT = float(os.environ.get("OPT_MULT", "1"))        # 7칸 진단: 모든 옵션 값 배율
+OPT_MULT = float(os.environ.get("OPT_MULT", "0.8"))      # 7칸: 모든 옵션 값 배율(12장 밸런스 결정 ① ×0.8 = OptionTable.ScalePermille)
 _wc = _permille_env("WPN_CRIT", "20,0,40"); _wd = _permille_env("WPN_CD", "100,500,-200")
 WEAPON = {"장검": 1.49, "대검": 1.45, "쌍검": 1.59}       # 2-2 콤보 계수(치명 뺌)
 # 부위마다 {종류: (1단계 기본 능력치(10배 단위 정수), 종류 고유(10배 전 단위))}. 4-3 표.
@@ -266,7 +268,7 @@ def contrib(it, lv):
         v = [0.0] * NS; sc = base_scale(it, lv); base, uniq = KINDS[it.part][it.kind]
         for k, x in base.items(): v[IX[k]] += rh(x * sc) / 10
         for k, x in uniq.items(): v[IX[k]] += x
-        for k, x, _tier in it.opts: v[IX[k]] += x
+        for o in it.opts: v[IX[o[0]]] += o[1]
         c = it.cache[lv] = tuple(v)
     return c
 
@@ -288,13 +290,13 @@ def stats(eq, lvo=None):
     B = atk * cm * br * (1 + boss)   # 7칸: 보스전 초당 피해 지수(보스 피해를 다 받음)
     Sv = hp * (1 + min(df, 400) / 100) + min(.03, t[12]) * A * 10 + t[13] * 10 + t[14] * 5
     return dict(A=A, S=Sv, M=1 + move, atk=atk, hp=hp, def_=df, crit=crit, cd=cd, cm=cm, aspd=aspd, cdr=cdr, skill=skill, boss=boss, B=B,
-                move=move, kind=eq[0].kind)
+                move=move, kind=eq[0].kind, hpp=t[3])
 
 
 def composite(s0, s1): return 0.6 * (s1["A"] / s0["A"] - 1) + 0.3 * (s1["S"] / s0["S"] - 1) + 0.1 * (s1["M"] / s0["M"] - 1)
 
 
-def roll_opts(rng, part, g, ilv):   # 7칸: 부위 풀, 단계(굴린 값의 1/4 구간) 함께 저장
+def roll_opts(rng, part, g, ilv):   # 7칸: 부위 풀, 단계(굴린 값의 1/4 구간)와 품질(굴린 범위 안 위치 0~1 = OptionTable.QualityOf) 함께 저장
     out = []; pool = list(POOL[part])
     for _ in range(OPTN[g]):
         w = sum(p[4] for p in pool); r = rng.random() * w; acc = 0
@@ -304,7 +306,8 @@ def roll_opts(rng, part, g, ilv):   # 7칸: 부위 풀, 단계(굴린 값의 1/4
         k, lo, hi, flat, _w = pool.pop(i)
         raw = rng.uniform(lo, hi)
         tier = min(4, int((raw - lo) / (hi - lo) * 4) + 1) if hi > lo else 4
-        out.append((k, raw * OPTM[g] * (ilv_mult(ilv) if flat else 1) * OPT_MULT, tier))
+        q = (raw - lo) / (hi - lo) if hi > lo else 1.0
+        out.append((k, raw * OPTM[g] * (ilv_mult(ilv) if flat else 1) * OPT_MULT, tier, q))
     return out
 
 
@@ -320,9 +323,9 @@ def roll_grade(rng, w):
     return 0
 
 
-def item_score(it):   # 7칸: 2차 6-6 장비 점수(GearMath.ItemScore). 빈 자리 0
+def item_score(it):   # 7칸: 2차 6-6 장비 점수(GearMath.ItemScore). 빈 자리 0. 옵션 품질은 코드와 같이 연속 값(굴린 범위 안 위치 0~1, OptionTable.QualityOf)
     if it is None: return 0.0
-    return 100 * ilv_mult(it.ilv) * GMULT[it.g] * (1 + CUM[it.lv] / 100) + sum(10 + 10 * (o[2] - 1) / 3 for o in it.opts) + (50 if it.leg is not None else 0)
+    return 100 * ilv_mult(it.ilv) * GMULT[it.g] * (1 + CUM[it.lv] / 100) + sum(10 + 10 * o[3] for o in it.opts) + (50 if it.leg is not None else 0)
 
 
 def part_score(eq, p): return min(item_score(eq[s]) for s in PART_SLOTS[p])   # 7칸: 반지는 두 자리 중 약한 쪽
@@ -661,7 +664,7 @@ def play(rng, max_min=480, max_runs=45):
             if f not in entry:
                 entry[f] = dict(run=run, time=t, atk=st["atk"], hp=st["hp"], def_=st["def_"], R=ratio(st, f), kind=st["kind"],
                                 A=st["A"], S=st["S"], B=st["B"], cm=st["cm"], crit=st["crit"], cd=st["cd"], aspd=st["aspd"], move=st["move"],
-                                cdr=st["cdr"], skill=st["skill"], boss=st["boss"],
+                                cdr=st["cdr"], skill=st["skill"], boss=st["boss"], hpp=st["hpp"],
                                 eqg=[x.g if x is not None else -1 for x in eq], eqlv=[x.lv if x is not None else -1 for x in eq])   # 7칸
             SS["maxf"] = max(SS["maxf"], f)
             R = ratio(st, f); r_, b_, a_, e_ = FLOORS[f]
@@ -1005,8 +1008,9 @@ def main():
     med = statistics.median
     gtag = (f", 골드(의뢰 x{QGOLD:g}, 쓰기={GSPEND}, 새로고침 {REROLL}회, 창고 {STORE_STEPS[0][1]:g}/{STORE_STEPS[1][1]:g}, 가방 {BAG_STEPS[0][1]:g}/{BAG_STEPS[1][1]:g}, 되사기 칸 {BUYBACK_UP:g}"
             f"{', 상점 열림=' + SHOP_UNLOCK if SHOP_UNLOCK != 'maxf7' else ''}{', 팔기=' + SELL if SELL != '0' else ''}{', 골드 배율 ' + format(GSCALE, 'g') if GSCALE != 1 else ''})") if GOLD else ""
-    knobs = "".join(f", {k}={os.environ[k]}" for k in ("CRIT_GLV", "CRIT_RING", "WPN_CRIT", "WPN_CD", "SHOP_TH", "RNORM", "SEED", "THRESH_PM", "THRESH_FLAT", "NO_FILL", "OPT_MULT") if os.environ.get(k))
-    tag = f"7칸, 드랍 x{DROP_MULT:g}{knobs} | " + ("v3 " if GOLD else "v2 ") + "마을=" + ({"sched": "일정 6/5/5/4·재도전 3", "final": "최종 4/4/4/4.5·재도전 3"}.get(TOWN, f"{TOWN}분 고정")) + f", 의뢰={QUEST}, 반복 의뢰={BOUNTY}{f'(10층 전 최대 {BOUNTY_MAX}회)' if BOUNTY_MAX else ''}, 상점={'켬' if SHOP else '끔'}{gtag}{', 장비 보장' if GUAR else ''}"
+    knobs = "".join(f", {k}={os.environ[k]}" for k in ("CRIT_GLV", "CRIT_RING", "WPN_CRIT", "WPN_CD", "SHOP_TH", "RNORM", "SEED", "THRESH_PM", "THRESH_FLAT", "NO_FILL") if os.environ.get(k))
+    # 7칸: 옵션 세기는 늘 보인다(12장 밸런스 결정 ①). 주석은 줄 끝이 아니라 여기 둔다(식 가운데 #는 뒤를 모두 주석으로 만든다).
+    tag = f"7칸, 드랍 x{DROP_MULT:g}, 옵션 x{OPT_MULT:g}{knobs} | " + ("v3 " if GOLD else "v2 ") + "마을=" + ({"sched": "일정 6/5/5/4·재도전 3", "final": "최종 4/4/4/4.5·재도전 3"}.get(TOWN, f"{TOWN}분 고정")) + f", 의뢰={QUEST}, 반복 의뢰={BOUNTY}{f'(10층 전 최대 {BOUNTY_MAX}회)' if BOUNTY_MAX else ''}, 상점={'켬' if SHOP else '끔'}{gtag}{', 장비 보장' if GUAR else ''}"
     print(f"# 인원 {P}, 체력 성장 {HP_G}, 공격 성장 {ATK_G}, 정책 {'신중(R>=0.90, 보스 앞 0.95)' if POL == 'c' else '밀어붙임(R>=0.80)'}, 보스 R50 5층 {R50_5} / 10층 {R50_10} | {tag}")
     for key, name in (("first5", "5층 보스 첫 처치"), ("first10", "10층 보스 첫 처치"), ("firstepic", "첫 영웅(보라) 획득"), ("firstleg", "첫 전설 획득"), ("done", "전설 +15 여덟 자리")):
         xs = [r[0][key] for r in res if r[0][key] is not None]
@@ -1140,6 +1144,19 @@ def report7(res):
     print("[7칸] 층 첫 진입 R 중앙: " + ", ".join(f"{f}층 {Rm[f]:.3f}" for f in Rm))
     print("[7칸] 멧돼지 돌진 한 번에 잃는 체력(층 첫 진입 중앙 장비, fin_floor 식): " + ", ".join(
         f"{f}층 {BOAR_ATK(f) * 1000 / (1000 + df[f] * 10) / (hp[f] * 10) * 100:.1f}%" for f in hp))
+    # 3차 4-4 레벨 보정을 7칸 값으로 다시 냄(장비 문서 13장 위험 10·10-2). 몬스터 공격 × (1 + 레벨 체력 ÷ 장비 기준 체력).
+    # 7칸 StatCalc는 체력%를 레벨 체력에도 곱한다: 레벨 체력 = 120 × (권장 Lv − 1) × (1 + 체력%). 장비 기준 체력 = 층 첫 진입 중앙(체력% 포함).
+    # 사람마다 보정을 내고 중앙을 쓴다(괄호: 분모 = 체력 중앙, 체력% = 중앙으로 낸 값). 2차 분모 = 2차 4-8 기준 체력(3차 4-4 표).
+    rec_lv = (1, 3, 5, 7, 8, 10, 12, 13, 15, 16); v2_hp = (2400, 2400, 2770, 3288, 3796, 4298, 4802, 5340, 6137, 7076)
+    lv_rows = []
+    for f in range(1, 11):
+        es = [r[1][f] for r in res if f in r[1]]
+        if not es: continue
+        lv = rec_lv[f - 1] - 1
+        per = med(1 + 120 * lv * (1 + e["hpp"]) / (e["hp"] * 10) for e in es)
+        hpp = med(e["hpp"] for e in es)
+        lv_rows.append(f"{f}층 {per:.3f} (체력 {hp[f] * 10:.0f}, 체력% {hpp * 100:.1f}, 2차 분모 {1 + 120 * lv / v2_hp[f - 1]:.3f})")
+    print("[7칸] 3차 4-4 레벨 보정 다시 냄(권장 Lv, 레벨 체력 × (1 + 체력%), 분모 = 층 첫 진입 장비 체력, 사람별 중앙): " + ", ".join(lv_rows))
     e10 = [r[1][10] for r in res if 10 in r[1]]
     B10 = med(e["B"] for e in e10) if e10 else float("nan")
     if e10:
